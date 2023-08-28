@@ -42,7 +42,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-//Client Chat
 public class Clients extends Fragment implements AsyncTaskCompleteListener, ChatAdapter.EventListener {
     AlertDialog progress_dialog;
     RecyclerView rv_Clientrelationships;
@@ -58,6 +57,12 @@ public class Clients extends Fragment implements AsyncTaskCompleteListener, Chat
         return view;
     }
 
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
     private void callWebservice() {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postData = new JSONObject();
@@ -67,11 +72,6 @@ public class Clients extends Fragment implements AsyncTaskCompleteListener, Chat
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-
     }
 
     @Override

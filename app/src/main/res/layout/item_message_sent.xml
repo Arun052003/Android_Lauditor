@@ -26,8 +26,7 @@
             android:layout_marginRight="8dp"
             android:maxWidth="240dp"
             android:padding="8dp"
-            android:text="hello, hello!"
-            android:textColor="#ffffff" />
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/text_message_time"
@@ -37,7 +36,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="10sp" />
     </LinearLayout>
 
@@ -46,9 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:background="@drawable/rectangular_white_background"
         android:paddingTop="5dp"
         android:text="Testing Message jkhksdhiofh ijnkihdsiof okndsiksd"
-        android:background="@drawable/rectangular_white_background"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/ll_layout"
         app:layout_constraintEnd_toEndOf="@id/ll_layout"
         app:layout_constraintHorizontal_bias=".494"

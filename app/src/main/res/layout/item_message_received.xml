@@ -23,8 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="28dp"
-        android:text="John Doe"
+        android:layout_marginBottom="4dp"
         android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,6 +33,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/rectangular_white_background"
         android:orientation="vertical"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
@@ -47,8 +50,7 @@
 
             android:maxWidth="240dp"
             android:padding="8dp"
-            android:text="hi man, how are you?"
-            android:textColor="#ffffff" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/text_message_time"
@@ -60,7 +62,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/text_message_body"
             app:layout_constraintLeft_toRightOf="@+id/text_message_body" />
@@ -70,13 +72,10 @@
         android:id="@+id/id_dateTimeHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Testing Message"
-        app:layout_constraintBottom_toTopOf="@id/text_message_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".498"
         android:paddingTop="10dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:text="Testing Message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

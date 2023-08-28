@@ -43,7 +43,9 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.mam.MamManager;
 import org.jxmpp.jid.EntityBareJid;
+import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
 
@@ -166,11 +168,11 @@ public class ChatConnection implements ConnectionListener {
             Log.d(TAG, "Password : " + mPassword);
             Log.d(TAG, "Server : " + mServiceName);
 
-
             //Set up the ui thread broadcast message receiver.
             setupUiThreadBroadCastMessageReceiver();
 
             mConnection = new XMPPTCPConnection(conf);
+
         } catch (Exception e) {
             e.getMessage();
             Log.d(TAG, "Connecting to server " + e.getMessage());
@@ -459,7 +461,7 @@ public class ChatConnection implements ConnectionListener {
             intent.putExtra("CONTACT_NAME", notify_details[1]);
             body_notification = title_notification;
             title_notification = notify_details[1];
-            penint = PendingIntent.getActivity(mApplicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            penint = PendingIntent.getActivity(mApplicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         } else {
             Intent intent = new Intent(mApplicationContext, ConfirmationLogin.class);
             penint = PendingIntent.getActivity(mApplicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -467,13 +469,13 @@ public class ChatConnection implements ConnectionListener {
             Intent intentConfirm = new Intent(mApplicationContext, ConfirmationLogin.class);
             intentConfirm.setAction("CONFIRM");
             intentConfirm.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            pendingIntentConfirm = PendingIntent.getActivity(mApplicationContext, 0, intentConfirm, PendingIntent.FLAG_CANCEL_CURRENT);
+            pendingIntentConfirm = PendingIntent.getActivity(mApplicationContext, 0, intentConfirm, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Notification.Builder notification = new Notification.Builder(mApplicationContext.getApplicationContext(), "com.digisec.digicoffer")
                     .setContentTitle(title_notification)
                     .setContentText(body_notification)
-//                    .setSmallIcon(R.mipmap.digicofferlogo)
+                    .setSmallIcon(R.mipmap.trans_logo)
                     .setAutoCancel(true)
                     .setStyle(new Notification.BigTextStyle()
                             .bigText(body_notification))
@@ -532,10 +534,10 @@ public class ChatConnection implements ConnectionListener {
         NotificationCompat.Builder notification = new NotificationCompat.Builder(mApplicationContext)
                 .setContentTitle(title_notification)
                 .setContentText(body_notification)
+                .setSmallIcon(R.mipmap.trans_logo)
                 .setContentIntent(penint)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(body_notification));
-//                .setSmallIcon(R.mipmap.digicofferlogo);
 //        if (!(notification_type.equals("B") || notification_type.equals("C") || notification_type.equals("P")))
 //            notification.addAction(R.mipmap.delete, "Confirm", pendingIntentConfirm);
         if (Build.VERSION.SDK_INT >= 21) {

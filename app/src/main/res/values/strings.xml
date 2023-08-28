@@ -112,4 +112,6 @@
     <string name="msg">Message</string>
     <string name="client">Client</string>
     <string name="teams">Teams</string>
+    <string name="chat_cnt_lost">Chat Connection lost, Please try again later</string>
+    <string name="chat_loading">Chat Loading..,</string>
 </resources>

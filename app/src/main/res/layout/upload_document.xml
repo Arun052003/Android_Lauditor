@@ -38,7 +38,7 @@
                     android:layout_weight="1"
                     android:background="@color/green_count_color"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:src="@mipmap/upload_icon"
+                    android:src="@mipmap/upload_icon_black"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp"
