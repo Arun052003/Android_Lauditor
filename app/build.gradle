@@ -30,6 +30,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.digicoffer.lauditor'
 }
 ext {
     smackVersion = '4.4.6'

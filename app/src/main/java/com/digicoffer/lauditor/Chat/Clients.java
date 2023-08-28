@@ -42,7 +42,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-//Client Chat
 public class Clients extends Fragment implements AsyncTaskCompleteListener, ChatAdapter.EventListener {
     AlertDialog progress_dialog;
     RecyclerView rv_Clientrelationships;

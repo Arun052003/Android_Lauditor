@@ -308,7 +308,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void view_document() {
         siv_view_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.eye_icon_white));
-        siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.upload_icon_black));
+        siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.upload_icon));
         ll_view_docs.setVisibility(View.VISIBLE);
         ll_upload_docs.setVisibility(View.GONE);
         rv_documents.removeAllViews();
