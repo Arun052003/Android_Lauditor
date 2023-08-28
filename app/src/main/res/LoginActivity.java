@@ -49,12 +49,12 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
     TextInputEditText tet_email,tet_password;
-    AppCompatButton bt_submit;
+    AppCompatButton bt_login;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
     Dialog ad_dialog;
     private static ChatConnection mConnection;
-    private static ChatConnectionService chatConnectionService;
+   private static ChatConnectionService chatConnectionService;
     TextView tv_forgot_password;
     boolean isRecursionEnable = true;
     @Override
@@ -63,15 +63,15 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         setContentView(R.layout.activity_login);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-        tv_forgot_password = findViewById(R.id.textView);
-        bt_submit = findViewById(R.id.Submit);
+        tv_forgot_password = findViewById(R.id.tv_forgotPassword);
+       bt_login = findViewById(R.id.bt_login);
 //       mConnection = (ChatConnection) getCallingActivity()
 //       chatConnectionService = (ChatConnectionService) getApplicationContext();
         tet_email.setText(Constants.email);
         tet_password.setText(Constants.password);
 //        Login();
-        bt_submit.setPressed(true);
-        bt_submit.setOnClickListener(new View.OnClickListener() {
+       bt_login.setPressed(true);
+        bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             tet_email.setError("Email is required");
             return false;
         }
-        if (tet_password.getText().toString().trim().length()==0){
+         if (tet_password.getText().toString().trim().length()==0){
             tet_password.setError("Password is required");
             return false;
         }
@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         JSONObject probiz_data = new JSONObject(result.getString("data"));
                         if (!probiz_data.getString("plan").toLowerCase().equals("lauditor")) {
 //                            AndroidUtils.showToast("Account not found", this);
-                            AndroidUtils.showToast("Account not found",LoginActivity.this);
+                           AndroidUtils.showToast("Account not found",LoginActivity.this);
                             return;
                         }
                         String email = null;
@@ -256,7 +256,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                             JSONArray adminJsonArray = firms.getJSONArray("lauditor");
                             if (adminJsonArray.length() == 0) {
                                 String msg = "Account not found";
-                                AndroidUtils.showToast(msg,LoginActivity.this);
+                               AndroidUtils.showToast(msg,LoginActivity.this);
                             } else if (adminJsonArray.length() > 1) {
                                 for (int i = 0; i < adminJsonArray.length(); i++) {
                                     JSONObject obj = adminJsonArray.getJSONObject(i);
@@ -287,7 +287,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 }
 
             } catch (Exception e) {
-                AndroidUtils.showToast(e.getMessage(),LoginActivity.this);
+               AndroidUtils.showToast(e.getMessage(),LoginActivity.this);
             }
         } else {
             AndroidUtils.showToast(httpResult.getResponseContent(),LoginActivity.this);
