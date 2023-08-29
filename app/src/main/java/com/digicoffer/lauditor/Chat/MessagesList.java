@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Chat;
 
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 import android.app.AlertDialog;
@@ -295,29 +296,17 @@ public class MessagesList extends Fragment {
                     }
                 }
             } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-                AndroidUtils.reconnecXMPPServer(getActivity());
-                toast(getString(R.string.chat_cnt_lost));
+                updateChatConnection();
             } catch (XMPPException.XMPPErrorException e) {
-//                throw new RuntimeException(e);
-                AndroidUtils.reconnecXMPPServer(getActivity());
-                toast(getString(R.string.chat_cnt_lost));
+                updateChatConnection();
             } catch (SmackException.NotConnectedException e) {
-//                throw new RuntimeException(e);
-                AndroidUtils.reconnecXMPPServer(getActivity());
-                toast(getString(R.string.chat_cnt_lost));
+                updateChatConnection();
             } catch (XmppStringprepException e) {
-//                throw new RuntimeException(e);
-                AndroidUtils.reconnecXMPPServer(getActivity());
-                toast(getString(R.string.chat_cnt_lost));
+                updateChatConnection();
             } catch (SmackException.NoResponseException e) {
-//                throw new RuntimeException(e);
-                AndroidUtils.reconnecXMPPServer(getActivity());
-                toast(getString(R.string.chat_cnt_lost));
+                updateChatConnection();
             } catch (SmackException.NotLoggedInException e) {
-//                throw new RuntimeException(e);
-                AndroidUtils.reconnecXMPPServer(getActivity());
-                toast(getString(R.string.chat_cnt_lost));
+                updateChatConnection();
             }
 
             /*try {
@@ -372,6 +361,35 @@ public class MessagesList extends Fragment {
 
             }
         });
+    }
+
+    public void updateChatConnection(){
+        toast(getString(R.string.chat_cnt_lost));
+        SharedPreferences prefs = getDefaultSharedPreferences(getActivity());
+        String uid = Constants.UID;
+        if (!Constants.ROLE.equalsIgnoreCase("admin"))
+        {
+            uid = uid + "_" + Constants.USER_ID;
+        }
+
+//        String existing_xmpp_jid = AndroidUtils.getSharedPreferenceStringData("xmpp_jid", this);
+//        if (existing_xmpp_jid != null && !existing_xmpp_jid.equals(uid)) {
+//            Intent i1 = new Intent(getApplicationContext(), ChatConnectionService.class);
+//            stopService(i1);
+//        }
+        prefs.edit()
+                .putString("xmpp_jid", uid)
+                .putString("xmpp_password", Constants.TOKEN)
+                .putBoolean("xmpp_logged_in", true)
+                .apply();
+//
+        if (mConnection == null) {
+            mConnection = new ChatConnection(this.getActivity());
+        }
+        if (chatConnectionService == null) {
+            chatConnectionService = new ChatConnectionService();
+        }
+        new JsonTask().execute(Constants.base_URL + "user/create/");
     }
 
 
