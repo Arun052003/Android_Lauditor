@@ -349,7 +349,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
 //                holder.plus_icon.setImageResource(R.drawable.plus_icon);
 
-            } else {
+            }
+            else {
                 // If not expanded, add the sub-items and update the button icon
                 clientRelationshipsDo.setExpanded(true);
 //                holder.plus_icon.setImageResource(R.drawable.minus_icon);

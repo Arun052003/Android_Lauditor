@@ -151,20 +151,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 startActivity(new Intent(LoginActivity.this, LoginActivity.class));
             }
         });
-//        bt_cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
 
-        //reseting password---
-        /*  forget_psd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, reset_password.class));
-            }
-        });  */
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -305,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                             }
                         } else {
                             String error_msg = result.has("plan") && result.getString("plan").equals("lauditor") ? String.valueOf(result.get("msg")) : "Account not found";
-                            startActivity(new Intent(this, reset_password_file.class));
+//                            startActivity(new Intent(this, reset_password_file.class));
                             AndroidUtils.showToast(error_msg,LoginActivity.this);
 //                            ((TextView) findViewById(R.id.tv_response)).setText(error_msg);
 //                            AndroidUtils.showToast(error_msg, this);
@@ -313,10 +300,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     }
                 }
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
+
                 AndroidUtils.showToast(e.getMessage(),LoginActivity.this);
             }
-        } else {
+        }
+        else {
             AndroidUtils.showToast(httpResult.getResponseContent(),LoginActivity.this);
 //            ((TextView) findViewById(R.id.tv_response)).setText((httpResult.getResponseContent()));
         }
