@@ -92,11 +92,8 @@ public class AndroidUtils {
 
     public static void showToast(String message, Context context) {
 
-
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
-
 
     public static void storeSharedPreferenceString(String key, String value, Activity activity) {
         SharedPreferences sharedPref = activity.getSharedPreferences("mypref", Context.MODE_PRIVATE);

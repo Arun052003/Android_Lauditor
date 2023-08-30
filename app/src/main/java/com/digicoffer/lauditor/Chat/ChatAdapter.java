@@ -39,7 +39,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> implements Filterable, View.OnClickListener, AsyncTaskCompleteListener, ChildAdapter.EventListener {
     ArrayList<ClientRelationshipsDo> list_item = new ArrayList<ClientRelationshipsDo>();
@@ -71,15 +70,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void Message(ChildDO childDO) {
         context.Message(childDO);
-    }
-
-    @Override
-    public void view_users(String uid, String name) throws JSONException {
-        try {
-            context.view_users(uid, name);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public interface EventListener {
@@ -148,47 +138,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                     childDO1.setUid(uid);
                     child_list.add(childDO1);
                 }
-            loadChildList();
+
+
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(frag_context, LinearLayoutManager.VERTICAL, false);
+            new_holder.rv_users.setLayoutManager(layoutManager);
+            new_holder.rv_users.setHasFixedSize(true);
+            ChildAdapter childRecyclerViewAdapter = new ChildAdapter(child_list, new_holder.rv_users.getContext(), this,activity);
+            new_holder.rv_users.setAdapter(childRecyclerViewAdapter);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void loadChildList(){
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(frag_context, LinearLayoutManager.VERTICAL, false);
-        new_holder.rv_users.setLayoutManager(layoutManager);
-        new_holder.rv_users.setHasFixedSize(true);
-        ChildAdapter childRecyclerViewAdapter = new ChildAdapter(child_list, new_holder.rv_users.getContext(), this,activity);
-        new_holder.rv_users.setAdapter(childRecyclerViewAdapter);
-    }
-
-    private void getUserInTeam(String teamId){
-        for (int i = 0; i < Constants.teamResArray.length(); i++) {
-            ClientRelationshipsDo clientRelationshipsDo = new ClientRelationshipsDo();
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = Constants.teamResArray.getJSONObject(i);
-
-                if (teamId.equalsIgnoreCase(jsonObject.getString("id"))){
-                    JSONArray user = jsonObject.getJSONArray("users");
-                    child_list.clear();
-                    for (int j = 0; j < user.length(); j++) {
-                        ChildDO childDO1 = new ChildDO();
-                        JSONObject jsonuser = user.getJSONObject(j);
-                        childDO1.setGuid(jsonuser.getString("guid"));
-                        childDO1.setName(jsonuser.getString("name"));
-//                    childDO1.setId(jsonuser.getString("id"));
-//                    childDO1.setUid(uid);
-                        child_list.add(childDO1);
-                    }
-                }
-
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        loadChildList();
     }
 
     class ChatHistoryTask extends AsyncTask<String, String, String> {
@@ -317,7 +277,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 //                }
         new_holder = holder;
         holder.tv_name.setText(clientRelationshipsDo.getName());
-        Log.d("Client_Type",""+clientRelationshipsDo.getClientType().toString());
         if (clientRelationshipsDo.getClientType().equalsIgnoreCase("Consumer")) {
             holder.plus_icon.setVisibility(View.GONE);
         } else {
@@ -331,7 +290,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             holder.plus_icon.setImageResource(R.drawable.plus_icon);
         }
         holder.plus_icon.setOnClickListener(v -> {
-
+            child_list.clear();
 //            if (child_list.size() == 0) {
 //
 //                holder.ll_users.setVisibility(View.GONE);
@@ -344,24 +303,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             //            item_position = position;
             if (clientRelationshipsDo.isExpanded()) {
                 // If already expanded, remove the sub-items and update the button icon
-                child_list.clear();
                 clientRelationshipsDo.setExpanded(false);
 
 //                holder.plus_icon.setImageResource(R.drawable.plus_icon);
 
-            }
-            else {
+            } else {
                 // If not expanded, add the sub-items and update the button icon
                 clientRelationshipsDo.setExpanded(true);
 //                holder.plus_icon.setImageResource(R.drawable.minus_icon);
                 relationshipsDoRow = clientRelationshipsDo;
-                if (clientRelationshipsDo.getClientType().equalsIgnoreCase("Team")){
-                    child_list.clear();
-                    getUserInTeam(clientRelationshipsDo.getId());
-                }else{
-                    child_list.clear();
-                    callChatUsersListWebservice(clientRelationshipsDo.getId(), User_Name);
-                }
+                callChatUsersListWebservice(clientRelationshipsDo.getId(), User_Name);
 
             }
 //

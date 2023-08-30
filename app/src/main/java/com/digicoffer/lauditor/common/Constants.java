@@ -1,14 +1,5 @@
 package com.digicoffer.lauditor.common;
 
-import com.digicoffer.lauditor.Chat.Model.ChildDO;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Constants {
     public static String base_URL = "http://10.0.2.2:8011/consumer/";
     public static String TOKEN = "";
@@ -41,11 +32,4 @@ public class Constants {
 
     public static String email = "rajendra.sai@digicoffer.com";
     public static String password = "Test@123";
-
-    public static JSONArray teamResArray = new JSONArray();
-
-    public static Map<String, ArrayList<ChildDO>> teamMapChatList = new HashMap<String, ArrayList<ChildDO>>();
-
-    public static String chat_SENT = "SENT";
-    public static String chat_RECEIVE = "RECEIVE";
 }

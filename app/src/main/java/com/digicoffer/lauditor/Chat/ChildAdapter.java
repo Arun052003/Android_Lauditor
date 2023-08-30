@@ -23,7 +23,6 @@ import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -54,7 +53,6 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
     public interface EventListener {
         void Message(ChildDO childDO);
 //        void Copy(ChildDo childDo);
-        void view_users(String uid, String name) throws JSONException;
     }
     @NonNull
     @Override
@@ -72,11 +70,6 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
             public void onClick(View v) {
                 Log.d("Message",childDO.getName());
                 context.Message(childDO);
-                try {
-                    context.view_users(childDO.getGuid(), childDO.getName());
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
             }
         });
 
