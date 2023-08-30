@@ -95,9 +95,9 @@ public class MessagesList extends Fragment {
                 if (ChatConnectionService.getState().equals(ChatConnection.ConnectionState.CONNECTED)) {
                     Log.d(TAG, "The client is connected to the server,Sending Message - "+mChatView.getText());
                     //Send the message to the server
+
                     Intent intent = new Intent(ChatConnectionService.SEND_MESSAGE);
-                    intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_BODY,
-                            mChatView.getText().toString());
+                    intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_BODY, mChatView.getText().toString());
                     intent.putExtra(ChatConnectionService.BUNDLE_TO, contactJid);
                     String name = Constants.USER_ID.equals("admin") ? Constants.FIRM_NAME : Constants.NAME;
                     String subject = name + " ##" + currentJid + "## " + "#N#" + name + "#N#";
@@ -132,7 +132,11 @@ public class MessagesList extends Fragment {
         });
 
 //        adapter = new MessageListAdapter(this.getActivity(), message_list);
-
+        rv_messagesList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        adapter = new MessageListAdapter(getContext(), message_list);
+        rv_messagesList.setAdapter(adapter);
+        if (message_list.size() != 0)
+            rv_messagesList.smoothScrollToPosition(message_list.size() - 1);
         Bundle bundle = this.getArguments();
         contactJid = bundle.getString("EXTRA_CONTACT_JID");
         contact_name = bundle.getString("EXTRA_CONTACT_NAME");
