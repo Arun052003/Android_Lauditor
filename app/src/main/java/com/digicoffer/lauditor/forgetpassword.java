@@ -8,9 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.digicoffer.lauditor.LoginActivity.LoginActivity;
 
 public class forgetpassword extends AppCompatActivity {
     Button submitButton;
@@ -58,7 +61,25 @@ public class forgetpassword extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateToResetPasswordActivity();
+                if (isValidEmail(emailEditText.getText().toString())) {
+                    navigateToLoginActivity();
+                } else {
+                    showInvalidEmailMessage();
+                }
+                submitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isValidEmail(emailEditText.getText().toString())) {
+                            navigateToLoginActivity();
+                        } else {
+                            showInvalidEmailMessage();
+                        }
+
+                        // Temporary Toast for testing the click event
+                        Toast.makeText(forgetpassword.this, "Button Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
     }
@@ -67,17 +88,21 @@ public class forgetpassword extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Navigate to the parent activity (resetpassword)
-            navigateToResetPasswordActivity();
+            navigateToLoginActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    // Helper method to navigate to the resetpassword activity
-    private void navigateToResetPasswordActivity() {
-        Intent intent = new Intent(this, resetpassword.class);
+    // Helper method to navigate to the login activity
+    private void navigateToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    // Helper method to show an invalid email message as a pop-up toast
+    private void showInvalidEmailMessage() {
+        Toast.makeText(this, "Invalid email. Please check your email again.", Toast.LENGTH_SHORT).show();
     }
 
     // Helper method to validate an email
@@ -86,4 +111,3 @@ public class forgetpassword extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }
-

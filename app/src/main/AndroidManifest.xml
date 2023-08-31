@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions and features -->
+    <!-- Permissions and other configurations... -->
+
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,23 +22,27 @@
         tools:targetApi="33"
         tools:ignore="HardcodedDebugMode">
 
-        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
-            <!-- Parent activity information -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity.LoginActivity"
                 android:exported="false" />
         </activity>
 
-        <!-- Login Activity (with the intent to ForgetPassword) -->
         <activity
             android:name=".LoginActivity.LoginActivity"
             android:exported="true">
-            <!-- Intent-filter to define it as a launcher activity -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity.reset_password_file"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -50,27 +57,12 @@
             </intent-filter>
         </activity>
 
-        <!-- ForgetPassword Activity -->
+        <!-- Add the ForgetPasswordActivity -->
         <activity
             android:name=".forgetpassword"
-            android:label="Forget Password">
-            <!-- Parent activity information -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity.LoginActivity"
-                android:exported="false" />
-        </activity>
-
-        <!-- ResetPassword Activity -->
-        <activity
-            android:name=".resetpassword"
-            android:label="Reset Password">
-            <!-- Parent activity information -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".forgetpassword"
-                android:exported="false" />
+            android:exported="true">
         </activity>
 
     </application>
+
 </manifest>
