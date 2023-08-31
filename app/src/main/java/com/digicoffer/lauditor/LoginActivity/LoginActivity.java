@@ -30,6 +30,7 @@ import com.digicoffer.lauditor.chatservice.ChatConnectionService;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
+import com.digicoffer.lauditor.forgetpassword;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
+
     Dialog ad_dialog;
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
@@ -71,6 +73,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         tet_password.setText(Constants.password);
 //        Login();
         bt_submit.setPressed(true);
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ForgetPasswordActivity
+                Intent intent = new Intent(LoginActivity.this, forgetpassword.class);
+                startActivity(intent);
+            }
+        });
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

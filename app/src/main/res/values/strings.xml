@@ -113,4 +113,6 @@
     <string name="msg">Message</string>
     <string name="client">Client</string>
     <string name="teams">Teams</string>
+    <string name="note_text">Note: Contact Admin for Team Member
+                                   password reset</string>
 </resources>

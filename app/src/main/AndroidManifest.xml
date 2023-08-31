@@ -2,41 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
-    <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="replace"/>
-
-
+    <!-- Permissions and features -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="33"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-
-    <!-- If your app doesn't need to access media files that other apps created,
-         set the "maxSdkVersion" attribute to "28" instead. -->
-    <!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"-->
-    <!--        android:maxSdkVersion="32" />-->
-
-    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
-    <!--        android:maxSdkVersion="29" />-->
-    <!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
-    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
-    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
-    <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT" />
 
     <application
         android:allowBackup="true"
@@ -51,25 +18,51 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="33"
         tools:ignore="HardcodedDebugMode">
+
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
-
-
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".LoginActivity.LoginActivity"
-            android:exported="false" />
+            <!-- Parent activity information -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity.LoginActivity"
+                android:exported="false" />
         </activity>
+
+        <!-- Login Activity (with the intent to ForgetPassword) -->
         <activity
             android:name=".LoginActivity.LoginActivity"
             android:exported="true">
+            <!-- Intent-filter to define it as a launcher activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- ForgetPassword Activity -->
+        <activity
+            android:name=".forgetpassword"
+            android:label="Forget Password">
+            <!-- Parent activity information -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity.LoginActivity"
+                android:exported="false" />
+        </activity>
+
+        <!-- ResetPassword Activity -->
+        <activity
+            android:name=".resetpassword"
+            android:label="Reset Password">
+            <!-- Parent activity information -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".forgetpassword"
+                android:exported="false" />
+        </activity>
+
+    </application>
 </manifest>
