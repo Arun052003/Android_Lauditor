@@ -11,9 +11,9 @@
     <!-- CardView Container -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
-        android:layout_width="371dp"
+        android:layout_width="match_parent"
         android:layout_height="508dp"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:cardCornerRadius="30dp"
