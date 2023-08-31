@@ -14,7 +14,7 @@ public class reset_password_file extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reset_password);
+        setContentView(R.layout.reset_password_file);
 
         Button submit=findViewById(R.id.bt_submit_firm_login);
         Button cancel=findViewById(R.id.Cancel);

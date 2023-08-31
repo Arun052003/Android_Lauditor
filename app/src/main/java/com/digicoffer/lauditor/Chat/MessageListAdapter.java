@@ -1,7 +1,6 @@
 package com.digicoffer.lauditor.Chat;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Chat.Model.MessageDo;
 import com.digicoffer.lauditor.R;
-import com.digicoffer.lauditor.common.Constants;
-
 import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -39,7 +36,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemViewType(int position) {
         MessageDo message = (MessageDo) mMessageList.get(position);
 
-        if (message.getViewType().equals(Constants.chat_SENT)) {
+        if (message.getViewType().equals("SENT")) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -99,7 +96,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 id_dateTimeHeader.setText(list_item_date);
                 id_dateTimeHeader.setVisibility(View.VISIBLE);
             } else {*/
-//            Log.d("History of Message Sent:","From:"+message.getMessage());
             id_dateTimeHeader.setVisibility(View.GONE);
 //            }
             messageText.setText(message.getMessage());
@@ -132,7 +128,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 id_dateTimeHeader.setText(list_item_date);
                 id_dateTimeHeader.setVisibility(View.VISIBLE);
             } else {*/
-//            Log.d("History of Message Receive:","From:"+message.getMessage());
             id_dateTimeHeader.setVisibility(View.GONE);
 //            }
 
