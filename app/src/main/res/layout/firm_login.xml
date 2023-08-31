@@ -1,177 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:background="@color/Primary"
     tools:context=".LoginActivity.LoginActivity">
 
-
-    <View
-        android:id="@+id/topView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
-        android:background="@color/Primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="5:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ic_wave_new"
-        android:src="@drawable/ic_launcher_background"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="10:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topView"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:fontFamily="@font/gill_sans"
-        android:text="This email address is associated with multiple firms. Please select a firm to sign-in"
-        app:layout_constraintBottom_toBottomOf="@+id/topView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topView" />
-
+    <!--cardview for Layout Design-->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:background="@color/white"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="10:1"
+        app:cardElevation="30dp"
+        android:padding="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="59dp"
+        tools:ignore="MissingConstraints">
 
+        <!--Layout for card Design-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="24dp"
-            app:layout_constraintBottom_toBottomOf="@id/cardview"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/cardview"
-            app:layout_constraintStart_toStartOf="@id/cardview"
-            app:layout_constraintTop_toBottomOf="@id/cardview">
+            android:orientation="vertical">
 
-            <!--                <TextView-->
-            <!--                    android:id="@+id/login"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/gill_sans"-->
-            <!--                    android:text="Login"-->
-            <!--                    android:textAlignment="center"-->
-            <!--                    android:textColor="@color/Primary_new_one"-->
-            <!--                    android:textSize="@dimen/Login_header"-->
-            <!--                    android:textStyle="bold">-->
-
-            <!--                </TextView>-->
-
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/sp_firm"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/round_buttons_white"
-                android:drawablePadding="5dp"
-                android:fontFamily="sans-serif-condensed"
-                android:hint="Firm Name"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress"
-                android:singleLine="true"
-                android:text=""
-                android:textColorHint="@color/black"
-                tools:ignore="HardcodedText,RtlHardcoded,SpeakableTextPresentCheck" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <!--Logo for Lauditor-->
+            <include layout="@layout/logo_layout"/>
+            <!--Textview for message-->
+            <TextView
+                android:id="@+id/textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0"
-                android:tooltipText="Password"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/Primary">
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/gill_sans"
+                android:text="This email address is associated with multiple firms. Please select a firm to sign-in"
+                android:textAlignment="center"
+                android:textColor="@color/orange_color"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_login_password"
+            <!--cardview for Spinner Design-->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="275dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="7dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="8dp">
+
+
+                <!--spinner added text-->
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:drawableStart="@drawable/lock_password"
-                    android:drawablePadding="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="Select Firm Name"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    app:cardBackgroundColor="@color/white" />
 
-                    android:fontFamily="sans-serif-condensed"
-                    android:hint="Password"
-                    android:imeOptions="actionDone"
-                    android:text=""
-                    android:textColorHint="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/sp_firm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="25dp"
+                    android:drawablePadding="7dp"
+                    android:dropDownWidth="260dp"
+                    android:fontFamily="@font/gill_sans"
+                    android:spinnerMode="dropdown"
+                    android:text="" />
+            </androidx.cardview.widget.CardView>
 
-<!--            <TextView-->
-<!--                android:id="@+id/tv_forgotPassword"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="sans-serif-condensed"-->
-<!--                android:gravity="left"-->
-<!--                android:text="Forgot Password?"-->
+            <!--Card view for password field-->
+            <include layout="@layout/password_layout"/>
 
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="10sp"-->
-<!--                tools:ignore="RtlCompat" />-->
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bt_submit_firm_login"
-                android:layout_width="match_parent"
+            <!--Forget password button-->
+            <TextView
+                android:id="@+id/forgetpassword"
+                android:layout_width="254dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/round_buttons"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/white"
                 android:fontFamily="@font/gill_sans"
-                android:text="Login"
+                android:text="@string/underline"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/Fifteen_dp" />
-
+                android:textColor="@color/black" />
+            <!-- Buttons layout-->
+            <include
+                layout="@layout/submit_cancel"/>
+            <!--End of Buttons layout-->
         </LinearLayout>
-
+        <!--End of design-->
     </androidx.cardview.widget.CardView>
-
-
-
+    <!--End of card design-->
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--End of layout card design-->
+
+
