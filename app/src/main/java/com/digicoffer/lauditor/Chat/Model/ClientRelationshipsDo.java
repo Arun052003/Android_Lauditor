@@ -24,15 +24,6 @@ public class ClientRelationshipsDo {
     JSONArray matterList;
     String name;
     private List<String> subItems;
-    JSONArray Users;
-
-    public JSONArray getUsers() {
-        return Users;
-    }
-
-    public void setUsers(JSONArray users) {
-        Users = users;
-    }
 
     public int getRecyclerview_position() {
         return recyclerview_position;

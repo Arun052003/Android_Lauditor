@@ -42,13 +42,13 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.MyViewHolder
     EventListener context;
     String relationship_id;
     View view;
-//    Activity Mactivity;
+    Activity Mactivity;
 
     public ChildAdapter(ArrayList<ChildDO> child_list, Context context, EventListener mcontext, Activity activity) {
         this.filteredList = child_list;
-//        this.cContext = context;
+        this.cContext = context;
         this.context = mcontext;
-//        this.Mactivity = activity;
+        this.Mactivity = activity;
     }
     public interface EventListener {
         void Message(ChildDO childDO);
