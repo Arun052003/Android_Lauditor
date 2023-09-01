@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Chat;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -91,14 +92,15 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.MyViewHolder
 //        if (clientRelationshipsDo.getClientType().equalsIgnoreCase("Consumer")) {
 //            holder.plus_icon.setVisibility(View.GONE);
 //        } else {
+
         holder.plus_icon.setVisibility(View.VISIBLE);
 //        }
         holder.ll_users.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
         if (isExpandable) {
-            holder.plus_icon.setImageResource(R.drawable.minus_icon);
+            holder.plus_icon.setBackgroundResource(R.drawable.minus_icon_small_chat);
 
         } else {
-            holder.plus_icon.setImageResource(R.drawable.plus_icon);
+            holder.plus_icon.setBackgroundResource(R.drawable.plus_icon_xl_chat);
         }
         holder.plus_icon.setOnClickListener(v -> {
 
@@ -112,7 +114,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.MyViewHolder
             } else {
 
                 clientRelationshipsDo.setExpanded(true);
-                    context.Users(clientRelationshipsDo,holder);
+                context.Users(clientRelationshipsDo,holder);
 //                relationshipsDoRow = clientRelationshipsDo;
 //                if (clientRelationshipsDo.getClientType().equalsIgnoreCase("Team")) {
 //
@@ -134,7 +136,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.MyViewHolder
 //                }
 
             }
-                    notifyItemChanged(holder.getAdapterPosition());
+            notifyItemChanged(holder.getAdapterPosition());
         });
         try {
             child_list.clear();
@@ -152,17 +154,17 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.MyViewHolder
     }
 
     private void getUserInTeam(JSONArray users, String teamId, String name) {
-    try {
-        for (int j = 0; j < users.length(); j++) {
-            ChildDO childDO1 = new ChildDO();
-            JSONObject jsonuser = users.getJSONObject(j);
-            childDO1.setGuid(jsonuser.getString("guid"));
-            childDO1.setName(jsonuser.getString("name"));
-            child_list.add(childDO1);
+        try {
+            for (int j = 0; j < users.length(); j++) {
+                ChildDO childDO1 = new ChildDO();
+                JSONObject jsonuser = users.getJSONObject(j);
+                childDO1.setGuid(jsonuser.getString("guid"));
+                childDO1.setName(jsonuser.getString("name"));
+                child_list.add(childDO1);
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-    } catch (JSONException e) {
-        throw new RuntimeException(e);
-    }
         loadChildList();
 //        for (int i = 0; i < Constants.teamResArray.length(); i++) {
 //            ClientRelationshipsDo clientRelationshipsDo = new ClientRelationshipsDo();

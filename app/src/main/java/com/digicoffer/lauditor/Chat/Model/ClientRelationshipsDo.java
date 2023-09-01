@@ -23,8 +23,8 @@ public class ClientRelationshipsDo {
     boolean isEditable;
     JSONArray matterList;
     String name;
-    private List<String> subItems;
     JSONArray Users;
+    private List<String> subItems;
 
     public JSONArray getUsers() {
         return Users;

@@ -3,6 +3,7 @@ package com.digicoffer.lauditor.Chat;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> implements Filterable, View.OnClickListener, AsyncTaskCompleteListener, ChildAdapter.EventListener {
     ArrayList<ClientRelationshipsDo> list_item = new ArrayList<ClientRelationshipsDo>();
@@ -150,37 +157,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     private void loadChildList(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(frag_context, LinearLayoutManager.VERTICAL, false);
-
-        ChildAdapter childRecyclerViewAdapter = new ChildAdapter(child_list, new_holder.rv_users.getContext(), this,activity);
-        new_holder.rv_users.setAdapter(childRecyclerViewAdapter);
         new_holder.rv_users.setLayoutManager(layoutManager);
         new_holder.rv_users.setHasFixedSize(true);
+        ChildAdapter childRecyclerViewAdapter = new ChildAdapter(child_list, new_holder.rv_users.getContext(), this,activity);
+        new_holder.rv_users.setAdapter(childRecyclerViewAdapter);
     }
 
-    private void getUserInTeam(JSONArray users, String teamId, String name){
-////        JSONArray user = jsonObject.getJSONArray("users");
-//        child_list.clear();
-//        try{
-////            ChildDO childDO = new ChildDO();
-//////            JSONObject jsonuser = users.getJSONObject(j);
-////            childDO.setGuid(teamId);
-////            childDO.setName(name);
-//////                    childDO1.setId(jsonuser.getString("id"));
-//////                    childDO1.setUid(uid);
-////            childList.add(childDO);
-//            for (int j = 0; j < users.length(); j++) {
-//                ChildDO childDO1 = new ChildDO();
-//                JSONObject jsonuser = users.getJSONObject(j);
-//                childDO1.setGuid(jsonuser.getString("guid"));
-//                childDO1.setName(jsonuser.getString("name"));
-////                    childDO1.setId(jsonuser.getString("id"));
-////                    childDO1.setUid(uid);
-//                child_list.add(childDO1);
-//            }
-//            loadChildList();
-//        } catch (JSONException e) {
-//            throw new RuntimeException(e);
-//        }
+    private void getUserInTeam(String teamId){
         for (int i = 0; i < Constants.teamResArray.length(); i++) {
             ClientRelationshipsDo clientRelationshipsDo = new ClientRelationshipsDo();
             JSONObject jsonObject = null;
@@ -188,15 +171,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                 jsonObject = Constants.teamResArray.getJSONObject(i);
 
                 if (teamId.equalsIgnoreCase(jsonObject.getString("id"))){
-
                     JSONArray user = jsonObject.getJSONArray("users");
-//                    ChildDO childDO = new ChildDO();
-//                    childDO.setGuid(teamId);
-//                    childDO.setName(name+" "+"(Admin)");
-////                    childDO.setUid(teamId);
-//                    Log.d("Child_Position", String.valueOf(relationshipsDoRow.getGuid())+relationshipsDoRow.getName());
-//                    child_list.add(childDO);
-
+                    child_list.clear();
                     for (int j = 0; j < user.length(); j++) {
                         ChildDO childDO1 = new ChildDO();
                         JSONObject jsonuser = user.getJSONObject(j);
@@ -206,15 +182,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 //                    childDO1.setUid(uid);
                         child_list.add(childDO1);
                     }
-                    loadChildList();
                 }
 
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
         }
-
+        loadChildList();
     }
+
 
     @Override
     public Filter getFilter() {
@@ -279,14 +255,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
         holder.ll_users.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
         if (isExpandable) {
-            holder.plus_icon.setImageResource(R.drawable.minus_icon);
+            holder.plus_icon.setBackgroundResource(R.drawable.minus_icon_small_chat);
 
         } else {
-            holder.plus_icon.setImageResource(R.drawable.plus_icon);
+            holder.plus_icon.setBackgroundResource(R.drawable.plus_icon_xl_chat);
         }
         holder.plus_icon.setOnClickListener(v -> {
 
+//            if (child_list.size() == 0) {
+//
+//                holder.ll_users.setVisibility(View.GONE);
+//
+//
+//            } else {
+//                holder.ll_users.setVisibility(View.VISIBLE);
+//            }
 
+            //            item_position = position;
             if (clientRelationshipsDo.isExpanded()) {
                 // If already expanded, remove the sub-items and update the button icon
                 child_list.clear();
@@ -294,16 +279,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
 //                holder.plus_icon.setImageResource(R.drawable.plus_icon);
 
-            }
-            else {
+            } else {
                 // If not expanded, add the sub-items and update the button icon
                 clientRelationshipsDo.setExpanded(true);
 //                holder.plus_icon.setImageResource(R.drawable.minus_icon);
                 relationshipsDoRow = clientRelationshipsDo;
                 if (clientRelationshipsDo.getClientType().equalsIgnoreCase("Team")){
                     child_list.clear();
-//                    notifyItemChanged(holder.getAdapterPosition());
-                    getUserInTeam(clientRelationshipsDo.getUsers(),clientRelationshipsDo.getId(),clientRelationshipsDo.getName());
+                    getUserInTeam(clientRelationshipsDo.getId());
                 }else{
                     child_list.clear();
                     callChatUsersListWebservice(clientRelationshipsDo.getId(), User_Name);

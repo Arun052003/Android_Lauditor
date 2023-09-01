@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Chat.Model.ChildDO;
@@ -37,7 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsAdapter.EventListener,ChildAdapter.EventListener {
+public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsAdapter.EventListener {
     AlertDialog progress_dialog;
     RecyclerView rv_Clientrelationships;
     TextInputEditText et_Search;
@@ -106,7 +105,7 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsA
 //                clientRelationshipsDo.setGuid(jsonObject.getString("guid"));
 //                clientRelationshipsDo.setExpanded(false);
 //                if (clientRelationshipsDo.isAccepted()) {
-                    Clientlist.add(clientRelationshipsDo);
+                Clientlist.add(clientRelationshipsDo);
 //                }
 //                JSONArray user = jsonObject.getJSONArray("users");
 //                child_list.clear();
@@ -192,30 +191,9 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsA
 
     @Override
     public void Users(ClientRelationshipsDo clientRelationshipsDo, TeamsAdapter.MyViewHolder holder) {
-        try {
-            child_list.clear();
-            for (int i = 0; i < clientRelationshipsDo.getUsers().length(); i++) {
-                ChildDO childDO1 = new ChildDO();
-                JSONObject jsonuser = clientRelationshipsDo.getUsers().getJSONObject(i);
-                childDO1.setGuid(jsonuser.getString("guid"));
-                childDO1.setName(jsonuser.getString("name"));
-                child_list.add(childDO1);
-            }
-            loadChildList(holder);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    private void loadChildList(TeamsAdapter.MyViewHolder holder) {
 
-//        notifyItemChanged(new_holder.getAdapterPosition());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        ChildAdapter childRecyclerViewAdapter = new ChildAdapter(child_list, getContext(), this,getActivity());
-      holder.rv_users.setAdapter(childRecyclerViewAdapter);
-      holder.rv_users.setLayoutManager(layoutManager);
-        holder.rv_users.setHasFixedSize(true);
-//        childRecyclerViewAdapter.notifyDataSetChanged();
     }
+
     private void move_message_fragment(String tmid, String name, String jid) {
         try {
             String xmpp_jid = tmid.equals("") ? jid : (jid + "_" + tmid);
