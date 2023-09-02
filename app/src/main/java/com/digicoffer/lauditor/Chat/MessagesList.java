@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Chat;
 
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 import android.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +43,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smackx.mam.MamManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jxmpp.jid.Jid;
+import org.jxmpp.jid.impl.JidCreate;
+import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,11 +62,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class MessagesList extends Fragment {
     RecyclerView rv_messagesList;
+    ImageView ib_back_button;
+    MainActivity mainActivity;
     ArrayList<MessageDo> message_list = new ArrayList<>();
     Button bt_sendMessage, bt_receiveMessage;
     EditText mChatView;
@@ -81,49 +91,66 @@ public class MessagesList extends Fragment {
 //        fb_chat.hide();
         mChatView = (EditText) v.findViewById(R.id.edittext_chatbox);
         bt_sendMessage = (Button) v.findViewById(R.id.button_chatbox_send);
+        ib_back_button = (ImageView) v.findViewById(R.id.back_button);
+        ib_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadBackPressed();
+            }
+        });
         bt_sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mChatView.getText().toString().equals("") || mChatView.getText().toString().equals(null)) {
+                    AndroidUtils.showToast("Message field cannot be empty", getContext());
+                } else {
 
-                if (ChatConnectionService.getState().equals(ChatConnection.ConnectionState.CONNECTED)) {
-                    Log.d(TAG, "The client is connected to the server,Sending Message - "+mChatView.getText());
-                    //Send the message to the server
-                    Intent intent = new Intent(ChatConnectionService.SEND_MESSAGE);
-                    intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_BODY,
-                            mChatView.getText().toString());
-                    intent.putExtra(ChatConnectionService.BUNDLE_TO, contactJid);
-                    String name = Constants.USER_ID.equals("admin") ? Constants.FIRM_NAME : Constants.NAME;
-                    String subject = name + " ##" + currentJid + "## " + "#N#" + name + "#N#";
-                    intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_SUBJECT, subject);
-                    getActivity().sendBroadcast(intent);
-                    MessageDo chatMessage = new MessageDo();
-                    chatMessage.setMessage(mChatView.getText().toString());
-                    chatMessage.setViewType("SENT");
-                    final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:aaa, MMMdd", Locale.getDefault());
-                    sdf.setTimeZone(TimeZone.getDefault());
+                    if (ChatConnectionService.getState().equals(ChatConnection.ConnectionState.CONNECTED)) {
+                        Log.d(TAG, "The client is connected to the server,Sending Message - " + mChatView.getText());
+                        //Send the message to the server
 
-                    final String utcTime = sdf.format(new Date());
+                        Intent intent = new Intent(ChatConnectionService.SEND_MESSAGE);
+                        intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_BODY, mChatView.getText().toString());
+                        intent.putExtra(ChatConnectionService.BUNDLE_TO, contactJid);
+                        String name = Constants.USER_ID.equals("admin") ? Constants.FIRM_NAME : Constants.NAME;
+                        String subject = name + " ##" + currentJid + "## " + "#N#" + name + "#N#";
+                        intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_SUBJECT, subject);
+                        getActivity().sendBroadcast(intent);
+                        MessageDo chatMessage = new MessageDo();
+                        chatMessage.setMessage(mChatView.getText().toString());
+                        chatMessage.setViewType(Constants.chat_SENT);
+                        final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:aaa, MMMdd", Locale.getDefault());
+                        sdf.setTimeZone(TimeZone.getDefault());
+
+                        final String utcTime = sdf.format(new Date());
 
 //                    chatMessage.setCreatedAt(AndroidUtils.getDateToString(Calendar.getInstance().getTime(), "hh:mm:aaa, MMMdd"));
-                    chatMessage.setCreatedAt(utcTime);
-                    User user = new User();
-                    user.setNickname("");
-                    chatMessage.setSender(user);
-                    message_list.add(chatMessage);
-                    mChatView.setText("");
-//                    adapter.notifyDataSetChanged();
-                    rv_messagesList.smoothScrollToPosition(message_list.size() - 1);
-                    new ChatUnreadCountUpdateTask(currentJid, contactJid).execute("");
+                        chatMessage.setCreatedAt(utcTime);
+                        User user = new User();
+                        user.setNickname("");
+                        chatMessage.setSender(user);
+                        message_list.add(chatMessage);
+                        mChatView.setText("");
+                        adapter.notifyDataSetChanged();
+                        rv_messagesList.smoothScrollToPosition(message_list.size() - 1);
+//                    new ChatUnreadCountUpdateTask(currentJid, contactJid).execute("");
 //                    new ChatHistoryTask(currentJid + File.separator + contactJid).execute("");
-                } else {
-                    Toast.makeText(getActivity(),
-                            "Client not connected to server ,Message not sent! Please try after few seconds",
-                            Toast.LENGTH_LONG).show();
-                    AndroidUtils.reconnecXMPPServer(getActivity());
+                    } else {
+                        Toast.makeText(getActivity(),
+                                "Client not connected to server ,Message not sent! Please try after few seconds",
+                                Toast.LENGTH_LONG).show();
+                        AndroidUtils.reconnecXMPPServer(getActivity());
+                    }
                 }
             }
         });
 
+//        adapter = new MessageListAdapter(this.getActivity(), message_list);
+        rv_messagesList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        adapter = new MessageListAdapter(getContext(), message_list);
+        rv_messagesList.setAdapter(adapter);
+        if (message_list.size() != 0)
+            rv_messagesList.smoothScrollToPosition(message_list.size() - 1);
         Bundle bundle = this.getArguments();
         contactJid = bundle.getString("EXTRA_CONTACT_JID");
         contact_name = bundle.getString("EXTRA_CONTACT_NAME");
@@ -144,6 +171,15 @@ public class MessagesList extends Fragment {
         new ChatHistoryTask(currentJid + File.separator + contactJid).execute("");
 
         return v;
+    }
+
+    private void loadBackPressed() {
+        Chat frag = new Chat();
+        FragmentManager fragmentManager11 = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction11 = fragmentManager11.beginTransaction();
+        fragmentTransaction11.replace(R.id.id_framelayout, frag);
+        fragmentTransaction11.addToBackStack(null);
+        fragmentTransaction11.commit();
     }
 
     @Override
@@ -185,7 +221,7 @@ public class MessagesList extends Fragment {
                             MessageDo chatMessage = new MessageDo();
                             chatMessage.setMessage(body);
 
-                            chatMessage.setViewType("RECEIVE");
+                            chatMessage.setViewType(Constants.chat_RECEIVE);
                             chatMessage.setCreatedAt(AndroidUtils.getDateToString(Calendar.getInstance().getTime(), "hh:mm:a, MMMdd"));
                             User user = new User();
                             user.setNickname(contact_name);
@@ -209,42 +245,6 @@ public class MessagesList extends Fragment {
     }
 
     void load_chat_history(String resp) {
-        try {
-            JSONObject jsonObject = new JSONObject(resp);
-            JSONArray jsonArray = jsonObject.getJSONArray("data");
-            for (int i=0;i<jsonArray.length();i++){
-                JSONObject history = jsonArray.getJSONObject(i);
-                String message = history.getString("msg");
-                String timestamp = history.getString("timestamp");
-                Log.d("CHAT_HISTORY",message+"_"+timestamp);
-            }
-
-            MessageDo chatMessage;
-            User user;
-            message_list.clear();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject history = jsonArray.getJSONObject(i);
-                chatMessage = new MessageDo();
-                chatMessage.setMessage(history.getString("msg"));
-                chatMessage.setCreatedAt(history.getString("timestamp"));
-                if (history.getString("from").equals(currentJid)) {
-                    chatMessage.setViewType("SENT");
-                    user = new User();
-                    user.setNickname(Constants.FIRM_NAME);
-                    chatMessage.setSender(user);
-                } else {
-                    chatMessage.setViewType("RECEIVE");
-                    user = new User();
-                    user.setNickname(contact_name);
-                    chatMessage.setSender(user);
-                }
-
-                message_list.add(chatMessage);
-
-            }
-        } catch (Exception e) {
-            AndroidUtils.logMsg(e.getMessage());
-        }
         rv_messagesList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         adapter = new MessageListAdapter(getContext(), message_list);
         rv_messagesList.setAdapter(adapter);
@@ -254,7 +254,8 @@ public class MessagesList extends Fragment {
 
     class ChatHistoryTask extends AsyncTask<String, String, String> {
         String XMPP_DOMAIN = "https://" + Constants.XMPP_DOMAIN + "/history/";
-
+                //Constants.PROF_URL + "history/";
+//
         String url = "";
         ChatHistoryTask(String url) {
 
@@ -275,7 +276,67 @@ public class MessagesList extends Fragment {
         protected String doInBackground(String... strings) {
             String data = "";
             HttpURLConnection httpURLConnection = null;
+
+            int numberOfMessages = 50;
+            MamManager mamManager = MamManager.getInstanceFor(ChatConnection.mConnection);
             try {
+                toast(getString(R.string.chat_loading));
+               String contactID = contactJid + "@" + Constants.XMPP_DOMAIN;//"prof_akhilabsbizexponentialcom_64e316d6a1db720427dfa0e8@devchat.vitacape.com";//jid_str+"@"+Constants.XMPP_DOMAIN;
+                String currentID = currentJid + "@" + Constants.XMPP_DOMAIN;
+                Jid jid = JidCreate.entityBareFrom(contactID);
+                MamManager.MamQueryArgs mamQueryArgs = MamManager.MamQueryArgs.builder()
+                        .limitResultsToJid(jid)
+                        .setResultPageSizeTo(numberOfMessages)
+                        .queryLastPage()
+                        .build();
+                MamManager.MamQuery mamQuery = mamManager.queryArchive(mamQueryArgs);
+                if (mamQuery.getMessageCount() > 0){
+                    List<Message> totelMsg = mamQuery.getMessages();
+                    for (Message message : totelMsg) {
+
+                        String from = message.getFrom().toString();
+                        String[] fromAry = from.split("/");
+                        from = fromAry[0];
+                        String to = message.getTo().toString();
+
+                        if (from.equalsIgnoreCase(currentID) ){//|| to.equalsIgnoreCase(currentID)
+                            MessageDo chatMessage = new MessageDo();
+                            chatMessage.setMessage(message.getBody());
+                            chatMessage.setViewType(Constants.chat_SENT);
+                            chatMessage.setCreatedAt("");
+                            User user = new User();
+                            user.setNickname(Constants.NAME);
+                            chatMessage.setSender(user);
+                            message_list.add(chatMessage);
+                        }else{// if (from.equalsIgnoreCase(contactID) || to.equalsIgnoreCase(contactID))
+                            MessageDo chatMessage = new MessageDo();
+                            chatMessage.setMessage(message.getBody());
+                            chatMessage.setViewType(Constants.chat_RECEIVE);
+                            chatMessage.setCreatedAt("");
+                            User user = new User();
+                            user.setNickname(contact_name);
+                            chatMessage.setSender(user);
+
+                            message_list.add(chatMessage);
+                        }
+
+                    }
+                }
+            } catch (InterruptedException e) {
+                updateChatConnection();
+            } catch (XMPPException.XMPPErrorException e) {
+                updateChatConnection();
+            } catch (SmackException.NotConnectedException e) {
+                updateChatConnection();
+            } catch (XmppStringprepException e) {
+                updateChatConnection();
+            } catch (SmackException.NoResponseException e) {
+                updateChatConnection();
+            } catch (SmackException.NotLoggedInException e) {
+                updateChatConnection();
+            }
+
+            /*try {
                 httpURLConnection = (HttpURLConnection) new URL(XMPP_DOMAIN + url).openConnection();
                 Log.d("New_Data",XMPP_DOMAIN + url);
                 httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
@@ -304,7 +365,7 @@ public class MessagesList extends Fragment {
                 if (httpURLConnection != null) {
                     httpURLConnection.disconnect();
                 }
-            }
+            } */
             return data;
         }
 
@@ -313,9 +374,49 @@ public class MessagesList extends Fragment {
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
             Log.d("Response",response.toString());
-            load_chat_history(response);
+            load_chat_history("");
 
         }
+    }
+
+    public void toast(String msg){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), msg,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    public void updateChatConnection(){
+        toast(getString(R.string.chat_cnt_lost));
+        SharedPreferences prefs = getDefaultSharedPreferences(getActivity());
+        String uid = Constants.UID;
+        if (!Constants.ROLE.equalsIgnoreCase("admin"))
+        {
+            uid = uid + "_" + Constants.USER_ID;
+        }
+
+//        String existing_xmpp_jid = AndroidUtils.getSharedPreferenceStringData("xmpp_jid", this);
+//        if (existing_xmpp_jid != null && !existing_xmpp_jid.equals(uid)) {
+//            Intent i1 = new Intent(getApplicationContext(), ChatConnectionService.class);
+//            stopService(i1);
+//        }
+        prefs.edit()
+                .putString("xmpp_jid", uid)
+                .putString("xmpp_password", Constants.TOKEN)
+                .putBoolean("xmpp_logged_in", true)
+                .apply();
+//
+        if (mConnection == null) {
+            mConnection = new ChatConnection(this.getActivity());
+        }
+        if (chatConnectionService == null) {
+            chatConnectionService = new ChatConnectionService();
+        }
+        new JsonTask().execute(Constants.base_URL + "user/create/");
     }
 
 

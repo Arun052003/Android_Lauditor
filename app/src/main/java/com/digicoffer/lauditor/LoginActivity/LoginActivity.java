@@ -30,7 +30,6 @@ import com.digicoffer.lauditor.chatservice.ChatConnectionService;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
-import com.digicoffer.lauditor.forgetpassword;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -42,7 +41,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
@@ -53,7 +51,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
-
     Dialog ad_dialog;
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
@@ -73,14 +70,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         tet_password.setText(Constants.password);
 //        Login();
         bt_submit.setPressed(true);
-        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to ForgetPasswordActivity
-                Intent intent = new Intent(LoginActivity.this, forgetpassword.class);
-                startActivity(intent);
-            }
-        });
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     public void onClick(View view) {
 
     }
+
     private void firm_login(final ArrayList<FirmsDo> list) {
         MaterialAlertDialogBuilder builder = new  MaterialAlertDialogBuilder(LoginActivity.this,R.style.MaterialAlertDialog_Rounded);
         LayoutInflater inflater = getLayoutInflater();
@@ -139,16 +129,42 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         CommonSpinnerAdapter<FirmsDo> adapter = new CommonSpinnerAdapter<>(this, list);
         sp_firm.setAdapter(adapter);
         final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
+        et_firm_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button bt_submit2=(Button) dialogLayout.findViewById(R.id.bt_submit_firm_login2);
+                bt_submit2.setVisibility(View.VISIBLE);
+            }
+        });
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.bt_submit_firm_login);
+
+        //Reset password---
+        //TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);
+
+        Button bt_cancel=(Button) dialogLayout.findViewById(R.id.Cancel);
 //        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         ad_dialog = dialog;
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+            }
+        });
 //        bt_cancel.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                dialog.dismiss();
 //            }
 //        });
+
+        //reseting password---
+        /*  forget_psd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, reset_password.class));
+            }
+        });  */
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -289,6 +305,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                             }
                         } else {
                             String error_msg = result.has("plan") && result.getString("plan").equals("lauditor") ? String.valueOf(result.get("msg")) : "Account not found";
+                            startActivity(new Intent(this, reset_password_file.class));
                             AndroidUtils.showToast(error_msg,LoginActivity.this);
 //                            ((TextView) findViewById(R.id.tv_response)).setText(error_msg);
 //                            AndroidUtils.showToast(error_msg, this);
