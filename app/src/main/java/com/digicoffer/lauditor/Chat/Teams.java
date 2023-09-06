@@ -36,7 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Teams extends Fragment implements AsyncTaskCompleteListener, ChatAdapter.EventListener {
+public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsAdapter.EventListener {
     AlertDialog progress_dialog;
     RecyclerView rv_Clientrelationships;
     TextInputEditText et_Search;
@@ -101,22 +101,23 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, ChatAd
                 clientRelationshipsDo.setId(jsonObject.getString("id"));
                 clientRelationshipsDo.setName(jsonObject.getString("groupName"));
                 clientRelationshipsDo.setClientType("Team");
+                clientRelationshipsDo.setUsers(jsonObject.getJSONArray("users"));
 //                clientRelationshipsDo.setGuid(jsonObject.getString("guid"));
 //                clientRelationshipsDo.setExpanded(false);
 //                if (clientRelationshipsDo.isAccepted()) {
-                    Clientlist.add(clientRelationshipsDo);
+                Clientlist.add(clientRelationshipsDo);
 //                }
-                JSONArray user = jsonObject.getJSONArray("users");
-                child_list.clear();
-                for (int j = 0; j < user.length(); j++) {
-                    ChildDO childDO1 = new ChildDO();
-                    JSONObject jsonuser = user.getJSONObject(j);
-                    childDO1.setGuid(jsonuser.getString("guid"));
-                    childDO1.setName(jsonuser.getString("name"));
-//                    childDO1.setId(jsonuser.getString("id"));
-//                    childDO1.setUid(uid);
-                    child_list.add(childDO1);
-                }
+//                JSONArray user = jsonObject.getJSONArray("users");
+//                child_list.clear();
+//                for (int j = 0; j < user.length(); j++) {
+//                    ChildDO childDO1 = new ChildDO();
+//                    JSONObject jsonuser = user.getJSONObject(j);
+//                    childDO1.setGuid(jsonuser.getString("guid"));
+//                    childDO1.setName(jsonuser.getString("name"));
+////                    childDO1.setId(jsonuser.getString("id"));
+////                    childDO1.setUid(uid);
+//                    child_list.add(childDO1);
+//                }
 
                 Constants.teamMapChatList.put(clientRelationshipsDo.getId(), child_list);
             }
@@ -128,7 +129,7 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, ChatAd
 
     private void loadRecycleView() {
         rv_Clientrelationships.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        final ChatAdapter adapter = new ChatAdapter(Clientlist, this, getContext(), getActivity());
+        final TeamsAdapter adapter = new TeamsAdapter(Clientlist, this, getContext(), getActivity());
 
         Log.d("Client_list", String.valueOf(Clientlist.size()));
         rv_Clientrelationships.setAdapter(adapter);
@@ -186,6 +187,11 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, ChatAd
         fragmentTransaction11.addToBackStack(null);
         fragmentTransaction11.commit();
 //        ad_dialog.dismiss();
+    }
+
+    @Override
+    public void Users(ClientRelationshipsDo clientRelationshipsDo, TeamsAdapter.MyViewHolder holder) {
+
     }
 
     private void move_message_fragment(String tmid, String name, String jid) {

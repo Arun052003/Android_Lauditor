@@ -88,7 +88,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
-            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
+//            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
         }
 
         void bind(MessageDo message) {
@@ -100,7 +100,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 id_dateTimeHeader.setVisibility(View.VISIBLE);
             } else {*/
 //            Log.d("History of Message Sent:","From:"+message.getMessage());
-            id_dateTimeHeader.setVisibility(View.GONE);
+//            id_dateTimeHeader.setVisibility(View.GONE);
 //            }
             messageText.setText(message.getMessage());
 
@@ -118,9 +118,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
-            nameText = (TextView) itemView.findViewById(R.id.text_message_name);
-            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
-            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
+//            nameText = (TextView) itemView.findViewById(R.id.text_message_name);
+//            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
+//            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
         }
 
         void bind(MessageDo message) {
@@ -133,13 +133,13 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 id_dateTimeHeader.setVisibility(View.VISIBLE);
             } else {*/
 //            Log.d("History of Message Receive:","From:"+message.getMessage());
-            id_dateTimeHeader.setVisibility(View.GONE);
+//            id_dateTimeHeader.setVisibility(View.GONE);
 //            }
 
             // Format the stored timestamp into a readable String using method.
-            timeText.setText(message.getCreatedAt());
+//            timeText.setText(message.getCreatedAt());
 
-            nameText.setText(message.getSender().getNickname());
+//            nameText.setText(message.getSender().getNickname());
 
             // Insert the profile image from the URL into the ImageView.
 //            Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);

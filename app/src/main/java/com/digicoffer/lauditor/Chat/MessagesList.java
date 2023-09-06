@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,8 @@ import java.util.TimeZone;
 
 public class MessagesList extends Fragment {
     RecyclerView rv_messagesList;
+    ImageView ib_back_button;
+    MainActivity mainActivity;
     ArrayList<MessageDo> message_list = new ArrayList<>();
     Button bt_sendMessage, bt_receiveMessage;
     EditText mChatView;
@@ -88,45 +91,56 @@ public class MessagesList extends Fragment {
 //        fb_chat.hide();
         mChatView = (EditText) v.findViewById(R.id.edittext_chatbox);
         bt_sendMessage = (Button) v.findViewById(R.id.button_chatbox_send);
+        ib_back_button = (ImageView) v.findViewById(R.id.back_button);
+        ib_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadBackPressed();
+            }
+        });
         bt_sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mChatView.getText().toString().equals("") || mChatView.getText().toString().equals(null)) {
+                    AndroidUtils.showToast("Message field cannot be empty", getContext());
+                } else {
 
-                if (ChatConnectionService.getState().equals(ChatConnection.ConnectionState.CONNECTED)) {
-                    Log.d(TAG, "The client is connected to the server,Sending Message - "+mChatView.getText());
-                    //Send the message to the server
+                    if (ChatConnectionService.getState().equals(ChatConnection.ConnectionState.CONNECTED)) {
+                        Log.d(TAG, "The client is connected to the server,Sending Message - " + mChatView.getText());
+                        //Send the message to the server
 
-                    Intent intent = new Intent(ChatConnectionService.SEND_MESSAGE);
-                    intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_BODY, mChatView.getText().toString());
-                    intent.putExtra(ChatConnectionService.BUNDLE_TO, contactJid);
-                    String name = Constants.USER_ID.equals("admin") ? Constants.FIRM_NAME : Constants.NAME;
-                    String subject = name + " ##" + currentJid + "## " + "#N#" + name + "#N#";
-                    intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_SUBJECT, subject);
-                    getActivity().sendBroadcast(intent);
-                    MessageDo chatMessage = new MessageDo();
-                    chatMessage.setMessage(mChatView.getText().toString());
-                    chatMessage.setViewType(Constants.chat_SENT);
-                    final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:aaa, MMMdd", Locale.getDefault());
-                    sdf.setTimeZone(TimeZone.getDefault());
+                        Intent intent = new Intent(ChatConnectionService.SEND_MESSAGE);
+                        intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_BODY, mChatView.getText().toString());
+                        intent.putExtra(ChatConnectionService.BUNDLE_TO, contactJid);
+                        String name = Constants.USER_ID.equals("admin") ? Constants.FIRM_NAME : Constants.NAME;
+                        String subject = name + " ##" + currentJid + "## " + "#N#" + name + "#N#";
+                        intent.putExtra(ChatConnectionService.BUNDLE_MESSAGE_SUBJECT, subject);
+                        getActivity().sendBroadcast(intent);
+                        MessageDo chatMessage = new MessageDo();
+                        chatMessage.setMessage(mChatView.getText().toString());
+                        chatMessage.setViewType(Constants.chat_SENT);
+                        final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:aaa, MMMdd", Locale.getDefault());
+                        sdf.setTimeZone(TimeZone.getDefault());
 
-                    final String utcTime = sdf.format(new Date());
+                        final String utcTime = sdf.format(new Date());
 
 //                    chatMessage.setCreatedAt(AndroidUtils.getDateToString(Calendar.getInstance().getTime(), "hh:mm:aaa, MMMdd"));
-                    chatMessage.setCreatedAt(utcTime);
-                    User user = new User();
-                    user.setNickname("");
-                    chatMessage.setSender(user);
-                    message_list.add(chatMessage);
-                    mChatView.setText("");
-                    adapter.notifyDataSetChanged();
-                    rv_messagesList.smoothScrollToPosition(message_list.size() - 1);
+                        chatMessage.setCreatedAt(utcTime);
+                        User user = new User();
+                        user.setNickname("");
+                        chatMessage.setSender(user);
+                        message_list.add(chatMessage);
+                        mChatView.setText("");
+                        adapter.notifyDataSetChanged();
+                        rv_messagesList.smoothScrollToPosition(message_list.size() - 1);
 //                    new ChatUnreadCountUpdateTask(currentJid, contactJid).execute("");
 //                    new ChatHistoryTask(currentJid + File.separator + contactJid).execute("");
-                } else {
-                    Toast.makeText(getActivity(),
-                            "Client not connected to server ,Message not sent! Please try after few seconds",
-                            Toast.LENGTH_LONG).show();
-                    AndroidUtils.reconnecXMPPServer(getActivity());
+                    } else {
+                        Toast.makeText(getActivity(),
+                                "Client not connected to server ,Message not sent! Please try after few seconds",
+                                Toast.LENGTH_LONG).show();
+                        AndroidUtils.reconnecXMPPServer(getActivity());
+                    }
                 }
             }
         });
@@ -157,6 +171,15 @@ public class MessagesList extends Fragment {
         new ChatHistoryTask(currentJid + File.separator + contactJid).execute("");
 
         return v;
+    }
+
+    private void loadBackPressed() {
+        Chat frag = new Chat();
+        FragmentManager fragmentManager11 = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction11 = fragmentManager11.beginTransaction();
+        fragmentTransaction11.replace(R.id.id_framelayout, frag);
+        fragmentTransaction11.addToBackStack(null);
+        fragmentTransaction11.commit();
     }
 
     @Override

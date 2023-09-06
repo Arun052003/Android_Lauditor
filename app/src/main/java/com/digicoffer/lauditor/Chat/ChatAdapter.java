@@ -191,76 +191,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         loadChildList();
     }
 
-    class ChatHistoryTask extends AsyncTask<String, String, String> {
-        String XMPP_DOMAIN = "https://" + Constants.XMPP_DOMAIN + "/";
-        String url = "";
-        TextView tv_count;
-
-        ChatHistoryTask(String currentJID, String JID, TextView tv_count) {
-            super();
-
-            this.url = XMPP_DOMAIN + "unread/" + currentJID + File.separator + JID;
-            this.tv_count = tv_count;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-//            progress_dialog = AndroidUtils.get_progress(getActivity());
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String data = "";
-            data = requestUnreadCount(url);
-            return data;
-        }
-
-        protected void onPostExecute(String response) {
-//            AndroidUtils.showAlert(response, getContext());
-//            if (progress_dialog != null && progress_dialog.isShowing())
-//                AndroidUtils.dismiss_dialog(progress_dialog);
-            try {
-                JSONObject jsonResponse = new JSONObject(response);
-                if (!jsonResponse.getBoolean("error")) {
-                    tv_count.setText((jsonResponse.getJSONObject("data")).getString("count"));
-                }
-            } catch (Exception e) {
-                e.getMessage();
-            }
-
-        }
-    }
-
-    private String requestUnreadCount(String url) {
-        String data = "";
-        HttpURLConnection httpURLConnection = null;
-        try {
-            httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
-            httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
-            httpURLConnection.setRequestMethod("GET");
-            int status_code = httpURLConnection.getResponseCode();
-            if (status_code == 200) {
-                InputStream in = httpURLConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(in);
-                int inputStreamData = inputStreamReader.read();
-                while (inputStreamData != -1) {
-                    char current = (char) inputStreamData;
-                    inputStreamData = inputStreamReader.read();
-                    data += current;
-                }
-            } else {
-                AndroidUtils.showAlert("Err connection, Please try again", frag_context);
-            }
-        } catch (Exception e) {
-            AndroidUtils.logMsg(e.getMessage());
-        } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-        }
-        return data;
-    }
 
     @Override
     public Filter getFilter() {
@@ -325,10 +255,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
         holder.ll_users.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
         if (isExpandable) {
-            holder.plus_icon.setImageResource(R.drawable.minus_icon);
+            holder.plus_icon.setBackgroundResource(R.drawable.minus_icon_small_chat);
 
         } else {
-            holder.plus_icon.setImageResource(R.drawable.plus_icon);
+            holder.plus_icon.setBackgroundResource(R.drawable.plus_icon_xl_chat);
         }
         holder.plus_icon.setOnClickListener(v -> {
 

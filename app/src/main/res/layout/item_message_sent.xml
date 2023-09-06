@@ -9,49 +9,76 @@
 
     <LinearLayout
         android:id="@+id/ll_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangular_white_background"
-        android:orientation="vertical"
+
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/id_dateTimeHeader"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.888">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
 
+            android:layout_weight="0"
+            >
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                >
+
+                <!-- Circular Button -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circularButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="3dp"
+                    android:padding="3dp"
+                    android:layout_gravity="center"
+                     />
+            </FrameLayout>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/chat_sent_background"
+        >
         <TextView
             android:id="@+id/text_message_body"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
+            android:layout_gravity="right"
+            android:gravity="right"
             android:maxWidth="240dp"
             android:padding="8dp"
-            android:textColor="#000000" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/text_message_time"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:paddingLeft="10dp"
+            android:visibility="gone"
+            android:gravity="right"
+            android:layout_gravity="right"
             android:paddingRight="10dp"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="10sp" />
     </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/id_dateTimeHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangular_white_background"
-        android:paddingTop="5dp"
-        android:text="Testing Message jkhksdhiofh ijnkihdsiof okndsiksd"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/ll_layout"
-        app:layout_constraintEnd_toEndOf="@id/ll_layout"
-        app:layout_constraintHorizontal_bias=".494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

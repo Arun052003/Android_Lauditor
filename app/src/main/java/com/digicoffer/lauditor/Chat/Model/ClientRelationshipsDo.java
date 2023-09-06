@@ -23,7 +23,16 @@ public class ClientRelationshipsDo {
     boolean isEditable;
     JSONArray matterList;
     String name;
+    JSONArray Users;
     private List<String> subItems;
+
+    public JSONArray getUsers() {
+        return Users;
+    }
+
+    public void setUsers(JSONArray users) {
+        Users = users;
+    }
 
     public int getRecyclerview_position() {
         return recyclerview_position;
