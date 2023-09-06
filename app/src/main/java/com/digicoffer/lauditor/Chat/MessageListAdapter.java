@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.Chat;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Chat.Model.MessageDo;
 import com.digicoffer.lauditor.R;
+import com.digicoffer.lauditor.common.Constants;
+
 import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -36,7 +39,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemViewType(int position) {
         MessageDo message = (MessageDo) mMessageList.get(position);
 
-        if (message.getViewType().equals("SENT")) {
+        if (message.getViewType().equals(Constants.chat_SENT)) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -85,7 +88,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
-            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
+//            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
         }
 
         void bind(MessageDo message) {
@@ -96,7 +99,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 id_dateTimeHeader.setText(list_item_date);
                 id_dateTimeHeader.setVisibility(View.VISIBLE);
             } else {*/
-            id_dateTimeHeader.setVisibility(View.GONE);
+//            Log.d("History of Message Sent:","From:"+message.getMessage());
+//            id_dateTimeHeader.setVisibility(View.GONE);
 //            }
             messageText.setText(message.getMessage());
 
@@ -114,9 +118,9 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
-            nameText = (TextView) itemView.findViewById(R.id.text_message_name);
-            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
-            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
+//            nameText = (TextView) itemView.findViewById(R.id.text_message_name);
+//            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
+//            id_dateTimeHeader = (TextView) itemView.findViewById(R.id.id_dateTimeHeader);
         }
 
         void bind(MessageDo message) {
@@ -128,13 +132,14 @@ public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 id_dateTimeHeader.setText(list_item_date);
                 id_dateTimeHeader.setVisibility(View.VISIBLE);
             } else {*/
-            id_dateTimeHeader.setVisibility(View.GONE);
+//            Log.d("History of Message Receive:","From:"+message.getMessage());
+//            id_dateTimeHeader.setVisibility(View.GONE);
 //            }
 
             // Format the stored timestamp into a readable String using method.
-            timeText.setText(message.getCreatedAt());
+//            timeText.setText(message.getCreatedAt());
 
-            nameText.setText(message.getSender().getNickname());
+//            nameText.setText(message.getSender().getNickname());
 
             // Insert the profile image from the URL into the ImageView.
 //            Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);

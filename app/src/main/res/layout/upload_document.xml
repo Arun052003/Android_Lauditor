@@ -38,7 +38,7 @@
                     android:layout_weight="1"
                     android:background="@color/green_count_color"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:src="@drawable/upload_icon"
+                    android:src="@mipmap/upload_icon_black"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp"
@@ -203,8 +203,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/rectangle_grey_background"
                             android:textColorHint="@color/black"
-                            app:boxBackgroundMode="none"
-                            tools:ignore="ExtraText">
+                            app:boxBackgroundMode="none">
 
                             >
 
@@ -324,8 +323,7 @@
                                 android:padding="15dp"
                                 android:text="Select Groups"
                                 android:textColor="@color/Blue_text_color"
-                                android:textSize="15dp"
-                                tools:ignore="TextSizeCheck" />
+                                android:textSize="15dp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -446,8 +444,7 @@
                                     android:enabled="false"
                                     android:fontFamily="sans-serif-condensed-medium"
                                     android:textColor="@color/Blue_text_color"
-                                    android:textSize="15dp"
-                                    tools:ignore="TextSizeCheck" />
+                                    android:textSize="15dp" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
