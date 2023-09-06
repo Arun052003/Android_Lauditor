@@ -11,9 +11,9 @@
     <!-- CardView Container -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
-        android:layout_width="371dp"
+        android:layout_width="match_parent"
         android:layout_height="508dp"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:cardCornerRadius="30dp"
@@ -21,7 +21,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="59dp"
         tools:ignore="MissingConstraints">
 
         <!-- Main Content -->
@@ -87,7 +86,7 @@
                     app:boxCornerRadiusTopEnd="24dp"
                     app:boxCornerRadiusTopStart="24dp"
                     app:hintAnimationEnabled="false"
-                    app:passwordToggleEnabled="true"
+                    app:passwordToggleEnabled="false"
                     app:passwordToggleTint="@color/black"
                     tools:targetApi="o">
 
@@ -99,7 +98,6 @@
                         android:layout_gravity="center"
                         android:autoLink="none"
                         android:background="@android:color/transparent"
-                        android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="5dp"
                         android:fontFamily="@font/gill_sans"
 
@@ -115,6 +113,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+<!--                android:drawableLeft="@drawable/email_icon"-->
 
             </androidx.cardview.widget.CardView>
 
