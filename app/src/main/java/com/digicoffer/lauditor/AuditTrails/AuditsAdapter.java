@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHolder> implements Filterable {
     ArrayList<AuditsModel> filtered_list = new ArrayList<>();
     ArrayList<AuditsModel> itemList = new ArrayList<>();
+    int item_position = 0;
     public AuditsAdapter(ArrayList<AuditsModel> auditsList) {
         this.filtered_list = auditsList;
         this.itemList = auditsList;
@@ -37,6 +38,7 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull AuditsAdapter.MyViewHolder holder, int position) {
+//            item_position = position;
             AuditsModel auditsModel = filtered_list.get(position);
             if(auditsModel.getName().equals("AUTH")){
                 holder.tv_category_name.setText("AUTHENTICATION");
@@ -60,18 +62,30 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
                 holder.tv_category_name.setText("GENERAL MATTER");
                 loadHiddenData(holder,auditsModel);
             }
-
-
+//            else if(){
+//                removeItem(position);
+//            }
     }
 
     private void loadHiddenData(MyViewHolder holder, AuditsModel auditsModel) {
         holder.tv_audit_matter.setText(auditsModel.getMessage());
         holder.tv_timestamp.setText(auditsModel.getTimestamp());
+//        notifyItemChanged(item_position);
+//        notifyDataSetChanged();
     }
-
+    public void removeItem(int position) {
+        filtered_list.remove(position);
+        notifyItemRemoved(position);
+    }
+    public void setData(ArrayList<AuditsModel> newData) {
+        filtered_list = newData;
+        notifyDataSetChanged(); // Notify the adapter that the dataset has changed
+    }
     @Override
     public int getItemCount() {
         return filtered_list.size();
+//        notifyDataSetChanged();
+//        notifyItemChanged(item_position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
