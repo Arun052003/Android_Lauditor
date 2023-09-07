@@ -57,10 +57,10 @@
 
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".LoginActivity.LoginActivity"
-            android:exported="false" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity.LoginActivity"
+                android:exported="false" />
         </activity>
         <activity
             android:name=".LoginActivity.LoginActivity"
@@ -70,6 +70,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity.ForgetPassword">
+
+        </activity>
+
+
     </application>
 
 </manifest>
