@@ -47,8 +47,10 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
+
     TextInputEditText tet_email,tet_password;
     AppCompatButton bt_submit;
+
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
     Dialog ad_dialog;
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
@@ -69,7 +72,29 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         tet_email.setText(Constants.email);
         tet_password.setText(Constants.password);
 //        Login();
-        bt_submit.setPressed(true);
+
+
+
+
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ForgetPasswordActivity
+                Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(intent);
+         try {
+              isAllFieldsChecked = Validate();
+               if (isAllFieldsChecked){
+                  // Reset();
+                   //Login();
+                }
+          } catch (Exception e) {
+                e.printStackTrace();
+           }
+
+            }
+        });
+
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +102,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked){
                         Login();
+                       // Reset();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -102,6 +129,22 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
     }
+   // private void Reset() {
+      //  try {
+         //   Constants.PROBIZ_TYPE = "PROFESSIONAL";
+          //  Constants.base_URL = Constants.PROF_URL;
+           // JSONObject postData = new JSONObject();
+
+          //  progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
+           // postData.put("email", tet_email.getText().toString());
+            //postData.put("password", tet_password.getText().toString());
+           // WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.PUT, "reset-pwd", "RESET", postData.toString());
+      //  } catch (Exception e) {
+          //  if (progress_dialog != null && progress_dialog.isShowing())
+              //  AndroidUtils.dismiss_dialog(progress_dialog);
+       // }
+  //  }
+
 
     private boolean Validate(){
         if (tet_email.getText().toString().trim().length()==0){
