@@ -1,3 +1,4 @@
+
 package com.digicoffer.lauditor.LoginActivity;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     Dialog ad_dialog;
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
+    Button bt_submit;
     TextView tv_forgot_password;
     boolean isRecursionEnable = true;
     @Override
@@ -63,21 +65,44 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         setContentView(R.layout.activity_login);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-        tv_forgot_password = findViewById(R.id.forgetpassword);
-        bt_login = findViewById(R.id.Submit);
+        bt_submit = findViewById(R.id.Submit);
+
+        tv_forgot_password = findViewById(R.id.textView);
+
 //       mConnection = (ChatConnection) getCallingActivity()
 //       chatConnectionService = (ChatConnectionService) getApplicationContext();
         tet_email.setText(Constants.email);
         tet_password.setText(Constants.password);
 //        Login();
-        bt_login.setPressed(true);
-        bt_login.setOnClickListener(new View.OnClickListener() {
+
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ForgetPasswordActivity
+                Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(intent);
+                try {
+                    isAllFieldsChecked = Validate();
+                    if (isAllFieldsChecked){
+                        // Reset();
+                        //Login();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked){
                         Login();
+                        // Reset();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -103,6 +128,9 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
     }
+
+
+
 
     private boolean Validate(){
         if (tet_email.getText().toString().trim().length()==0){
@@ -254,6 +282,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
                         Intent in = new Intent();
 //                        in.putExtra("email", probiz_data.getString("email"));
+
                         Constants.TOKEN = result.getString("token");
                         Constants.NAME = probiz_data.getString("name");
                         Constants.USER_ID = probiz_data.getString("user_id");
@@ -267,14 +296,15 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             save_xmpp_preference();
                         }if(Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
-                            {
+                        {
                             AndroidUtils.showToast("Login Successful", this);
                             startActivity(new Intent(this, MainActivity.class));
                             if (ad_dialog != null && ad_dialog.isShowing())
                                 ad_dialog.dismiss();
                         }else {
-                                startActivity(new Intent(LoginActivity.this, reset_password_file.class));
+                            startActivity(new Intent(LoginActivity.this, reset_password_file.class));
                         }
+
                     } else {
                         if (result.has("firms")) {
                             ArrayList<FirmsDo> list = new ArrayList<>();
