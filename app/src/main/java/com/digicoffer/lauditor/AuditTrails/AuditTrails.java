@@ -2,6 +2,7 @@ package com.digicoffer.lauditor.AuditTrails;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -21,12 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,21 +54,34 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         ArrayList<SpinnerItemModal> categoryList = new ArrayList<>();
         TextView tv_name,tv_advanced_search;
+        HorizontalScrollView scrollView;
+    private Button previousPageButton;
+     AuditsAdapter audit_adapter;
+    ArrayList<AuditsModel> sorted_list = new ArrayList<>();
+    private ColorStateList greenButtonTint;
+    ArrayList<AuditsModel> pageItems = new ArrayList<>();
         Spinner sp_category;
+        LinearLayout ll_page_navigation;
+        CardView cv_list;
+    int maxPageButtons;
         RecyclerView rv_audits;
     private int currentPage = 1;
         ArrayList<AuditsModel> auditsList = new ArrayList<>();
 
     AlertDialog progress_dialog;
+    String Catergory_type;
         TextInputLayout et_search;
         TextInputEditText et_search_relationships;
     LinearLayout datePickersLayout;
     private int itemsPerPage = 10;
     LinearLayout pageNumberLayout;
+    private ColorStateList defaultButtonTint;
+    ImageView iv_forward_button,iv_backward_button;
     private boolean isDatePickerVisible = false;
     View view;
     @Nullable
@@ -78,13 +96,51 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
           et_search = view.findViewById(R.id.et_search);
           rv_audits = view.findViewById(R.id.rv_audits);
           et_search.setHint(R.string.search);
+          ll_page_navigation = view.findViewById(R.id.ll_page_navigaiton);
+          cv_list = view.findViewById(R.id.cv_list);
+          scrollView = view.findViewById(R.id.scrollView);
+          iv_forward_button = view.findViewById(R.id.iv_forward_button);
+          iv_backward_button = view.findViewById(R.id.iv_backward_button);
+          iv_forward_button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  if (maxPageButtons<5){
+//                      pageNumberLayout.removeAllViews();
+                      setupPagination();
+
+                  }
+                  else {
+                      maxPageButtons = maxPageButtons + 5;
+//                      pageNumberLayout.removeAllViews();
+                      setupPagination();
+//                  currentPage = pageNumber;
+                  }
+//                  loadPage(currentPage);
+              }
+          });
+          iv_backward_button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  if (maxPageButtons<5){
+//                      pageNumberLayout.removeAllViews();
+                      setupPagination();
+
+                  }
+                  else {
+                      maxPageButtons = maxPageButtons - 5;
+//                      pageNumberLayout.removeAllViews();
+                      setupPagination();
+//                  currentPage = pageNumber;
+                  }
+              }
+          });
           pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
           et_search_relationships = view.findViewById(R.id.et_search_relationships);
           loadSearchTextData();
           tv_name.setText("Category");
 
           loadSpinnerData();
-          callAuditWebservice();
+//          callAuditWebservice();
       } catch (Exception e) {
           throw new RuntimeException(e);
       }
@@ -129,7 +185,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
     }
     private void loadSpinnerData() {
 //        19731710
-        categoryList.add(new SpinnerItemModal("Authorizatoin"));
+        categoryList.add(new SpinnerItemModal("Authentication"));
         categoryList.add(new SpinnerItemModal("Groups"));
         categoryList.add(new SpinnerItemModal("Team Members"));
         categoryList.add(new SpinnerItemModal("Relationships"));
@@ -144,7 +200,47 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                if (categoryList.get(i).getName().equalsIgnoreCase("Authentication")) {
+                    Catergory_type = "AUTH";
+                }else if(categoryList.get(i).getName().equalsIgnoreCase("Groups")){
+                    Catergory_type = "GROUPS";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("Team Members")){
+                    Catergory_type = "TEAM MEMBER";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("Relationships")){
+                    Catergory_type = "RELATIONSHIP";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("Share")){
+                    Catergory_type = "SHARE";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("Documents")){
+                    Catergory_type = "DOCUMENT";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("Merge PDF")){
+                    Catergory_type = "MERGE PDF";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("Legal Matters")){
+                    Catergory_type = "LEGAL MATTER";
+                }
+                else if(categoryList.get(i).getName().equalsIgnoreCase("General Matters")){
+                    Catergory_type = "GENERAL MATTER";
+                }
+                Log.d("Category_type",Catergory_type);
+//                setupPagination();
+                if(auditsList.size()==0) {
+                    callAuditWebservice();
+                }else{
+                    if (audit_adapter!=null){
+                        audit_adapter.clearData();
+                    }
+                    sorted_list.clear();
+                    pageNumberLayout.removeAllViews();
+                    cv_list.setVisibility(View.VISIBLE);
+                    loadPage(currentPage);
+                    setupPagination();
+                }
+//                loadPage(currentPage);
 //                entity_id = entities_list.get(sp_entities.getSelectedItemPosition()).getId();
 //                callEntityClientWebservice(entity_id);
             }
@@ -194,77 +290,124 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
                 auditsModel.setName(jsonObject.getString("name"));
                 auditsModel.setTimestamp(jsonObject.getString("timestamp"));
                 if(!(auditsModel.getMessage().equals("PROFILE UPDATE"))||!(auditsModel.getMessage().equals("DOCS COLLABORATION"))){
+//                    if ()
                 auditsList.add(auditsModel);
                 }
             }
-            setupPagination();
-            loadPage(currentPage);
+
+        loadPage(currentPage);
+        setupPagination();
 //            LoadAuditsRecyclerview();
     }
 
 
     private void setupPagination() {
          // Maximum number of page buttons to display
+        pageNumberLayout.removeAllViews();
+        int totalPages = (int) Math.ceil((double) sorted_list.size() / itemsPerPage);
+        if (totalPages==0){
+            cv_list.setVisibility(View.GONE);
+        }
+        if(maxPageButtons<5) {
+            maxPageButtons = 5;
+        }
+        greenButtonTint = ColorStateList.valueOf(R.color.green_count_color);
 
-        int totalPages = (int) Math.ceil((double) auditsList.size() / itemsPerPage);
-        int maxPageButtons = 5;
-        int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        int buttonWidth = screenWidth / maxPageButtons;
+//        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+//        int buttonWidth = screenWidth / maxPageButtons;
         // Dynamically add page number buttons
         for (int i = 1; i <= totalPages; i++) {
             if (i >= maxPageButtons) {
                 // Display only maxPageButtons page numbers
                 break;
             }
-
-            Button pageButton = new Button(getContext());
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
+            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
             pageButton.setText(String.valueOf(i));
             final int pageNumber = i;
+            if (defaultButtonTint == null) {
+                defaultButtonTint = pageButton.getBackgroundTintList();
+            }
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    pageButton.setBackgroundColor(R.color.green_count_color);
+//                    currentPage = pageNumber;
+//                    loadPage(currentPage);
+                    if (previousPageButton != null) {
+                        previousPageButton.setBackgroundTintList(defaultButtonTint);
+                    }
+
+                    // Set the background tint color of the clicked button to green
+                    pageButton.setBackgroundTintList(greenButtonTint);
+
                     currentPage = pageNumber;
                     loadPage(currentPage);
+
+                    // Update the previousPageButton reference
+                    previousPageButton = pageButton;
                 }
             });
 
             // Set the width of the page number button
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    buttonWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
-            pageButton.setLayoutParams(params);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                    buttonWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            pageButton.setLayoutParams(params);
 
-            pageNumberLayout.addView(pageButton);
+            pageNumberLayout.addView(view_opponents);
+            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
 //        loadPage(currentPage);
     }
     private void loadPage(int page) {
-        int startIndex = (page - 1) * itemsPerPage;
-        int endIndex = Math.min(startIndex + itemsPerPage, auditsList.size());
-        ArrayList<AuditsModel> pageItems = new ArrayList<>(auditsList.subList(startIndex, endIndex));
+        try {
 
-        if (rv_audits.getAdapter() == null) {
-            // If the adapter is null, create a new one and set it to the RecyclerView
-            rv_audits.setLayoutManager(new GridLayoutManager(getContext(), 1));
-            final AuditsAdapter adapter = new AuditsAdapter(pageItems);
-            rv_audits.setAdapter(adapter);
 
-            et_search_relationships.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            sorted_list.clear();
+            rv_audits.removeAllViews();
+            for (int i = 0; i < auditsList.size(); i++) {
+//                AuditsModel auditsModel = auditsList.get(i);
+                if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))){
+                    AuditsModel auditsModel1 = new AuditsModel();
+                    auditsModel1.setName(auditsList.get(i).getName());
+                    auditsModel1.setTimestamp(auditsList.get(i).getTimestamp());
+                    auditsModel1.setMessage(auditsList.get(i).getMessage());
+                    sorted_list.add(auditsModel1);
                 }
+            }
+            Log.d("Sorted_list", String.valueOf(sorted_list.size()));
+            if (sorted_list.size() != 0) {
+                int startIndex = (page - 1) * itemsPerPage;
+                int endIndex = Math.min(startIndex + itemsPerPage, sorted_list.size());
+                pageItems = new ArrayList<>(sorted_list.subList(startIndex, endIndex));
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
+                if (rv_audits.getAdapter() == null) {
+                    // If the adapter is null, create a new one and set it to the RecyclerView
+                    rv_audits.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                 audit_adapter = new AuditsAdapter(pageItems);
+                    rv_audits.setAdapter(audit_adapter);
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    adapter.getFilter().filter(et_search_relationships.getText().toString());
+                    et_search_relationships.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            audit_adapter.getFilter().filter(et_search_relationships.getText().toString());
+                        }
+                    });
+                } else {
+                    // If the adapter already exists, notify it about the new data
+                    ((AuditsAdapter) rv_audits.getAdapter()).setData(pageItems);
                 }
-            });
-        } else {
-            // If the adapter already exists, notify it about the new data
-            ((AuditsAdapter) rv_audits.getAdapter()).setData(pageItems);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 //        adapter = new MyAdapter(pageItems);

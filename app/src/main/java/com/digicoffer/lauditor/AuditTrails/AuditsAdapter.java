@@ -61,7 +61,12 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
             }else  if(auditsModel.getName().equals("GENERAL MATTER")){
                 holder.tv_category_name.setText("GENERAL MATTER");
                 loadHiddenData(holder,auditsModel);
+            }else{
+                holder.tv_category_name.setText(auditsModel.getName());
+                loadHiddenData(holder,auditsModel);
             }
+//            holder.tv_category_name.setText(auditsModel.getName());
+//            loadHiddenData(holder,auditsModel);
 //            else if(){
 //                removeItem(position);
 //            }
@@ -76,6 +81,10 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
     public void removeItem(int position) {
         filtered_list.remove(position);
         notifyItemRemoved(position);
+    }
+    public void clearData() {
+        filtered_list.clear();
+        notifyDataSetChanged();
     }
     public void setData(ArrayList<AuditsModel> newData) {
         filtered_list = newData;
