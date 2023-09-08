@@ -33,7 +33,10 @@ public class Constants {
     public static boolean IS_ADMIN = true;
     public static String UID ="";
     public static String ROLE = "";
+    public static String PASSWORD_MODE="";
+    public static String OLD_PASSWORD="";
     public static String COUNT = "";
+    public static String PK="";
     public static String VERSION = ISPRODUCTION? "1.0.2" : "1.0.24";
     //    public static String XMPP_DOMAIN = "dev.chat.digisecitus.com";
     public static String XMPP_DOMAIN = ISPRODUCTION ? "chat.digicoffer.com" : "devchat.vitacape.com";
