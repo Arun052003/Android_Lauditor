@@ -75,8 +75,8 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
                     if (isAllFieldsChecked) {
                         resetPassword();
 
-                        navigateToLoginActivity();
-                        Toast.makeText(getApplicationContext(),"Please check your email for temporary password.",Toast.LENGTH_SHORT).show();
+                        //navigateToLoginActivity();
+                       // Toast.makeText(getApplicationContext(),"Please check your email for temporary password.",Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (Exception e) {
@@ -93,10 +93,8 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
 
     @Override
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
-        if (progressDialog != null && progressDialog.isShowing()) {
+        if (progressDialog != null && progressDialog.isShowing())
             AndroidUtils.dismiss_dialog(progressDialog);
-        }
-
         if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
             try {
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
@@ -106,10 +104,9 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
                     if (!result.getBoolean("error")) {
                         String message = result.getString("msg");
                         showPopupMessage(message);
-
-
-
-                    } else {
+                        navigateToLoginActivity();
+                    }
+                    else {
                         // Handle the case where the reset request was not successful
                         // You can display an error message to the user
                         AndroidUtils.showToast("Password reset failed", ForgetPassword.this);
