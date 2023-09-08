@@ -1,115 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Primary"
+    tools:context=".LoginActivity.LoginActivity">
+
+    <!--cardview for Layout Design-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/Primary"
-        tools:context=".LoginActivity.LoginActivity">
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="30dp"
+        android:padding="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="59dp"
+        tools:ignore="MissingConstraints">
 
-        <!--cardview for Layout Design-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardvieww"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="30dp"
-            android:padding="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteY="59dp"
-            tools:ignore="MissingConstraints">
+        <!--Layout for card Design-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:orientation="vertical">
 
-            <!--Layout for card Design-->
-            <LinearLayout
+            <!--Logo for Lauditor Design-->
+            <include layout="@layout/logo_layout"/>
+            <!--Textview for Layout Design-->
+            <TextView
+                android:id="@+id/textview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/gill_sans"
+                android:text="This email address is associated with multiple firms. Please select a firm to sign-in"
+                android:textAlignment="center"
+                android:textColor="@color/orange_color"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-                <!--Logo for Lauditor Design-->
-                <include layout="@layout/logo_layout"/>
-                <!--Textview for Layout Design-->
+            <!--cardview for Spinner Design-->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="8dp">
+
                 <TextView
-                    android:id="@+id/textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="4dp"
                     android:fontFamily="@font/gill_sans"
-                    android:text="This email address is associated with multiple firms. Please select a firm to sign-in"
-                    android:textAlignment="center"
-                    android:textColor="@color/orange_color"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <!--cardview for Spinner Design-->
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="275dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="6dp"
-                    app:cardElevation="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/gill_sans"
-                        android:text="Select Firm Name"
-                        android:textColor="@color/black"
-                        android:textSize="13dp"
-                        app:cardBackgroundColor="@color/white" />
+                    android:text="Select Firm Name"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    app:cardBackgroundColor="@color/white" />
 
 
-                    <!--spinner added text-->
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/sp_firm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="27dp"
-                        android:drawablePadding="7dp"
-                        android:dropDownWidth="260dp"
-                        android:fontFamily="@font/gill_sans"
-                        android:spinnerMode="dropdown"
-                        android:text="" />
-                </androidx.cardview.widget.CardView>
-
-                <!--Card view for password field-->
-                <include layout="@layout/password_layout"/>
-
-
-                <!--Forget password button-->
-                <TextView
-                    android:id="@+id/forgetpassword"
-                    android:layout_width="254dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:backgroundTint="@color/white"
+                <!--spinner added text-->
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/sp_firm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="25dp"
+                    android:drawablePadding="7dp"
+                    android:dropDownWidth="260dp"
                     android:fontFamily="@font/gill_sans"
-                    android:text="@string/forgot_password"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black" />
-                <!-- Button layout-->
-                <include
-                    layout="@layout/submit_cancel"/>
-                <!--End of Submitions button layout-->
-            </LinearLayout>
-            <!--End of design-->
-        </androidx.cardview.widget.CardView>
-        <!--End of card design-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:spinnerMode="dropdown"
+                    android:text="" />
+            </androidx.cardview.widget.CardView>
+
+            <!--Card view for password field-->
+            <include layout="@layout/password_layout"/>
+
+
+            <!--Forget password button-->
+            <TextView
+                android:id="@+id/forgetpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/gill_sans"
+                android:text="@string/underline"
+                android:textAllCaps="false"
+                android:clickable="true"
+                android:textColor="@color/black" />
+            <!-- Button layout-->
+            <include
+                layout="@layout/submit_cancel"/>
+            <!--End of Submitions button layout-->
+        </LinearLayout>
+        <!--End of design-->
+    </androidx.cardview.widget.CardView>
+    <!--End of card design-->
+</androidx.constraintlayout.widget.ConstraintLayout>
     <!--End of layout card design-->
-
-
