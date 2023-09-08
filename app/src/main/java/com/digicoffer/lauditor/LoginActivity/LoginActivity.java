@@ -63,21 +63,44 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         setContentView(R.layout.activity_login);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-        tv_forgot_password = findViewById(R.id.forgetpassword);
         bt_login = findViewById(R.id.Submit);
+
+        tv_forgot_password = findViewById(R.id.textView);
+        bt_submit = findViewById(R.id.Submit);
 //       mConnection = (ChatConnection) getCallingActivity()
 //       chatConnectionService = (ChatConnectionService) getApplicationContext();
         tet_email.setText(Constants.email);
         tet_password.setText(Constants.password);
 //        Login();
-        bt_login.setPressed(true);
-        bt_login.setOnClickListener(new View.OnClickListener() {
+
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ForgetPasswordActivity
+                Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(intent);
+         try {
+              isAllFieldsChecked = Validate();
+               if (isAllFieldsChecked){
+                  // Reset();
+                   //Login();
+                }
+          } catch (Exception e) {
+                e.printStackTrace();
+           }
+
+            }
+        });
+
+        bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked){
                         Login();
+                       // Reset();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -103,6 +126,9 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
     }
+
+
+
 
     private boolean Validate(){
         if (tet_email.getText().toString().trim().length()==0){
