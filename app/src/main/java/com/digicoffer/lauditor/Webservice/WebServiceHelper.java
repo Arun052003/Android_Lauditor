@@ -1,7 +1,6 @@
 package com.digicoffer.lauditor.Webservice;
 
 import android.content.Context;
-
 import java.io.File;
 
 public class WebServiceHelper  {

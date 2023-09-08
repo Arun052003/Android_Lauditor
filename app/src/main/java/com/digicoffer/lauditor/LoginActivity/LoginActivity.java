@@ -1,3 +1,4 @@
+
 package com.digicoffer.lauditor.LoginActivity;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,12 +50,13 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
     TextInputEditText tet_email,tet_password;
-    AppCompatButton bt_submit;
+    AppCompatButton bt_login;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
     Dialog ad_dialog;
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
+    Button bt_submit;
     TextView tv_forgot_password;
     boolean isRecursionEnable = true;
     @Override
@@ -62,14 +65,35 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         setContentView(R.layout.activity_login);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-        tv_forgot_password = findViewById(R.id.textView);
         bt_submit = findViewById(R.id.Submit);
+
+        tv_forgot_password = findViewById(R.id.textView);
+
 //       mConnection = (ChatConnection) getCallingActivity()
 //       chatConnectionService = (ChatConnectionService) getApplicationContext();
         tet_email.setText(Constants.email);
         tet_password.setText(Constants.password);
 //        Login();
-        bt_submit.setPressed(true);
+
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ForgetPasswordActivity
+                Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(intent);
+                try {
+                    isAllFieldsChecked = Validate();
+                    if (isAllFieldsChecked){
+                        // Reset();
+                        //Login();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +101,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked){
                         Login();
+                        // Reset();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -102,6 +128,9 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
     }
+
+
+
 
     private boolean Validate(){
         if (tet_email.getText().toString().trim().length()==0){
@@ -129,22 +158,16 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         CommonSpinnerAdapter<FirmsDo> adapter = new CommonSpinnerAdapter<>(this, list);
         sp_firm.setAdapter(adapter);
         final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
-        et_firm_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Button bt_submit2=(Button) dialogLayout.findViewById(R.id.bt_submit_firm_login2);
-                bt_submit2.setVisibility(View.VISIBLE);
-            }
-        });
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.bt_submit_firm_login);
 
         //Reset password---
-        //TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);
+        TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);
 
         Button bt_cancel=(Button) dialogLayout.findViewById(R.id.Cancel);
 //        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         ad_dialog = dialog;
+
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,12 +182,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        });
 
         //reseting password---
-        /*  forget_psd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, reset_password.class));
-            }
-        });  */
+        forget_psd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navigate to ForgetPasswordActivity
+                    Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                    startActivity(intent);
+                }
+            });
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -241,11 +266,11 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                             return;
                         }
                         String email = null;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             email = Objects.requireNonNull(tet_email.getText()).toString().trim();
                         }
                         String password = null;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             password = Objects.requireNonNull(tet_password.getText()).toString().trim();
                         }
                         SharedPreferences prefs = getDefaultSharedPreferences(getApplicationContext());
@@ -259,20 +284,28 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
                         Intent in = new Intent();
 //                        in.putExtra("email", probiz_data.getString("email"));
+
                         Constants.TOKEN = result.getString("token");
                         Constants.NAME = probiz_data.getString("name");
                         Constants.USER_ID = probiz_data.getString("user_id");
                         Constants.UID = probiz_data.getString("uid");
+                        Constants.OLD_PASSWORD=tet_password.getText().toString();
+                        Constants.PK = probiz_data.getString("pk");
+                        Constants.PASSWORD_MODE = probiz_data.getString("password_mode");
                         Constants.IS_ADMIN = probiz_data.getBoolean("admin");
                         Constants.FIRM_NAME = probiz_data.getString("firm_name");
                         Constants.ROLE = probiz_data.getString("role");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             save_xmpp_preference();
+                        }if(Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
+                        {
+                            AndroidUtils.showToast("Login Successful", this);
+                            startActivity(new Intent(this, MainActivity.class));
+                            if (ad_dialog != null && ad_dialog.isShowing())
+                                ad_dialog.dismiss();
+                        }else {
+                            startActivity(new Intent(LoginActivity.this, reset_password_file.class));
                         }
-                        AndroidUtils.showToast("Login Successful", this);
-                        startActivity(new Intent(this, MainActivity.class));
-                        if (ad_dialog != null && ad_dialog.isShowing())
-                            ad_dialog.dismiss();
 
                     } else {
                         if (result.has("firms")) {
@@ -305,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                             }
                         } else {
                             String error_msg = result.has("plan") && result.getString("plan").equals("lauditor") ? String.valueOf(result.get("msg")) : "Account not found";
-                            startActivity(new Intent(this, reset_password_file.class));
+//                            startActivity(new Intent(this, reset_password_file.class));
                             AndroidUtils.showToast(error_msg,LoginActivity.this);
 //                            ((TextView) findViewById(R.id.tv_response)).setText(error_msg);
 //                            AndroidUtils.showToast(error_msg, this);
