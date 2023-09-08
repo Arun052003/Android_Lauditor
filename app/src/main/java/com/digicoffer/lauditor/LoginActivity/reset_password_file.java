@@ -112,7 +112,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
             postData.put("password",Objects.requireNonNull(password1.getText().toString()));
             //showPopupMessage("valid");
             String urlpath = "password/"+Constants.PK+"/user/"+Constants.USER_ID+"/update";
-            WebServiceHelper.callHttpWebService(reset_password_file.this, reset_password_file.this, WebServiceHelper.RestMethodType.PUT, ""+urlpath, "UPDATE", postData.toString());
+            WebServiceHelper.callHttpWebService(reset_password_file.this, reset_password_file.this, WebServiceHelper.RestMethodType.PUT, urlpath, "UPDATE", postData.toString());
             Log.e("Reset password path",":"+urlpath);
         } catch (Exception e) {
             if (progressDialog != null && progressDialog.isShowing())

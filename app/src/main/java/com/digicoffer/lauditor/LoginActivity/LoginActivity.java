@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.bt_submit_firm_login);
 
         //Reset password---
-        //TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);
+        TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);
 
         Button bt_cancel=(Button) dialogLayout.findViewById(R.id.Cancel);
 //        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
@@ -182,12 +182,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        });
 
         //reseting password---
-        /*  forget_psd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, reset_password.class));
-            }
-        });  */
+        forget_psd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navigate to ForgetPasswordActivity
+                    Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                    startActivity(intent);
+                }
+            });
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
