@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.digicoffer.lauditor" >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission
-        android:name="android.permission.WAKE_LOCK"
-        tools:node="replace" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="replace"/>
+
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
@@ -13,21 +16,22 @@
         android:maxSdkVersion="33"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <!--
- If your app doesn't need to access media files that other apps created,
-         set the "maxSdkVersion" attribute to "28" instead.
-    -->
-    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" -->
-    <!-- android:maxSdkVersion="32" /> -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" -->
-    <!-- android:maxSdkVersion="29" /> -->
-    <!-- <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" /> -->
+
+    <!-- If your app doesn't need to access media files that other apps created,
+         set the "maxSdkVersion" attribute to "28" instead. -->
+    <!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"-->
+    <!--        android:maxSdkVersion="32" />-->
+
+    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
+    <!--        android:maxSdkVersion="29" />-->
+    <!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA"
-        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
     <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
     <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
@@ -37,22 +41,18 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:debuggable="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:debuggable="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="false"
-        tools:ignore="HardcodedDebugMode"
-        tools:targetApi="33" >
-        <activity
-            android:name=".LoginActivity.reset_password_file"
-            android:exported="true" />
+        android:theme="@style/Theme.MyApplication"
+        tools:targetApi="33"
+        tools:ignore="HardcodedDebugMode">
         <activity
             android:name=".MainActivity"
-
 
 
             android:windowSoftInputMode="adjustPan"
@@ -61,19 +61,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity.LoginActivity"
                 android:exported="false" />
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:exported="false"
-                android:value=".LoginActivity.LoginActivity" />
-
         </activity>
         <activity
             android:name=".LoginActivity.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
