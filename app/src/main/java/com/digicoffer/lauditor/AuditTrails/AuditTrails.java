@@ -1,11 +1,8 @@
 package com.digicoffer.lauditor.AuditTrails;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -15,7 +12,6 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +34,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.AuditTrails.Model.AuditsModel;
 import com.digicoffer.lauditor.AuditTrails.Model.SpinnerItemModal;
-import com.digicoffer.lauditor.Chat.ChatAdapter;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.DateUtils;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,97 +49,142 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import java.util.Locale;
 
 public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
-        ArrayList<SpinnerItemModal> categoryList = new ArrayList<>();
-        TextView tv_name,tv_advanced_search;
-        HorizontalScrollView scrollView;
+    ArrayList<SpinnerItemModal> categoryList = new ArrayList<>();
+    TextView tv_name, tv_advanced_search;
+    HorizontalScrollView scrollView;
     private Button previousPageButton;
-     AuditsAdapter audit_adapter;
+    AuditsAdapter audit_adapter;
     ArrayList<AuditsModel> sorted_list = new ArrayList<>();
-    private ColorStateList greenButtonTint;
+    private ColorStateList greenButtonTint,whiteButtonTint;
     ArrayList<AuditsModel> pageItems = new ArrayList<>();
-        Spinner sp_category;
-        LinearLayout ll_page_navigation;
-        CardView cv_list;
+    Spinner sp_category;
+    LinearLayout ll_page_navigation;
+    CardView cv_list;
     int maxPageButtons;
-        RecyclerView rv_audits;
+    RecyclerView rv_audits;
+    TextInputLayout tl_event_start_time;
+    TextInputEditText tv_event_start_time,tv_event_end_time;
     private int currentPage = 1;
-        ArrayList<AuditsModel> auditsList = new ArrayList<>();
+    ArrayList<AuditsModel> auditsList = new ArrayList<>();
 
     AlertDialog progress_dialog;
     String Catergory_type;
-        TextInputLayout et_search;
-        TextInputEditText et_search_relationships;
+    TextInputLayout et_search;
+    TextInputEditText et_search_relationships;
     LinearLayout datePickersLayout;
     private int itemsPerPage = 10;
     LinearLayout pageNumberLayout;
     private ColorStateList defaultButtonTint;
-    ImageView iv_forward_button,iv_backward_button;
+    ImageView iv_forward_button, iv_backward_button;
     private boolean isDatePickerVisible = false;
     View view;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-      try {
-         view  = inflater.inflate(R.layout.audit_trials, container, false);
-          sp_category = view.findViewById(R.id.sp_project);
-          tv_name = view.findViewById(R.id.tv_name);
-          datePickersLayout = view.findViewById(R.id.datePickersLayout);
-          tv_advanced_search = view.findViewById(R.id.tv_advancedSearch);
-          et_search = view.findViewById(R.id.et_search);
-          rv_audits = view.findViewById(R.id.rv_audits);
-          et_search.setHint(R.string.search);
-          ll_page_navigation = view.findViewById(R.id.ll_page_navigaiton);
-          cv_list = view.findViewById(R.id.cv_list);
-          scrollView = view.findViewById(R.id.scrollView);
-          iv_forward_button = view.findViewById(R.id.iv_forward_button);
-          iv_backward_button = view.findViewById(R.id.iv_backward_button);
-          iv_forward_button.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  if (maxPageButtons<5){
-//                      pageNumberLayout.removeAllViews();
-                      setupPagination();
+        try {
+            view = inflater.inflate(R.layout.audit_trials, container, false);
+            sp_category = view.findViewById(R.id.sp_project);
+            tv_name = view.findViewById(R.id.tv_name);
+            datePickersLayout = view.findViewById(R.id.datePickersLayout);
+            tv_advanced_search = view.findViewById(R.id.tv_advancedSearch);
+            et_search = view.findViewById(R.id.et_search);
+            rv_audits = view.findViewById(R.id.rv_audits);
+            et_search.setHint(R.string.search);
+            ll_page_navigation = view.findViewById(R.id.ll_page_navigaiton);
+            cv_list = view.findViewById(R.id.cv_list);
+            tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
+            tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
+            tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
+            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    tv_event_start_time.requestFocus();
+                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
+                }
+            });
+            tv_event_end_time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DateUtils.showDatePickerDialog(getContext(),tv_event_end_time,getContext());
+                    sorted_list.clear();
+                    rv_audits.removeAllViews();
+                    rv_audits.setAdapter(null);
+                    et_search_relationships.setText("");
+                    for (int i=0;i<auditsList.size();i++){
+                        String timestamp = auditsList.get(i).getTimestamp();
+                        Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp,"MMM dd,yyyy, hh:mm a");
+//                        String latest_timestamp = AndroidUtils.getDateToString(formatted_date,"MMM dd,yyyy hh:mm a");
+//                        Log.d("New_Date",latest_timestamp);
+//                        Log.d("Formatted_Date",formatted_date.toString());
+                        Date updated_date =  DateUtils.stringToDate(et_search_relationships.getText().toString());
+//                        Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(),"MMM dd,YYYY");
+                        if(formatted_date.after(updated_date)||formatted_date.equals(updated_date)) {
+                            if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                                AuditsModel auditsModel = new AuditsModel();
+                                auditsModel.setName(auditsList.get(i).getName());
+                                auditsModel.setTimestamp(auditsList.get(i).getTimestamp());
+                                auditsModel.setMessage(auditsList.get(i).getMessage());
+                                sorted_list.add(auditsModel);
+                            }
+                        }
 
-                  }
-                  else {
-                      maxPageButtons = maxPageButtons + 5;
+
+
+
+                    }
+                    loadRecyclerView(currentPage);
+
+                }
+            });
+            scrollView = view.findViewById(R.id.scrollView);
+            iv_forward_button = view.findViewById(R.id.iv_forward_button);
+            iv_backward_button = view.findViewById(R.id.iv_backward_button);
+            iv_forward_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (maxPageButtons < 5) {
 //                      pageNumberLayout.removeAllViews();
-                      setupPagination();
+                        setupPagination();
+
+                    } else {
+                        maxPageButtons = maxPageButtons + 5;
+//                      pageNumberLayout.removeAllViews();
+                        setupPagination();
 //                  currentPage = pageNumber;
-                  }
+                    }
 //                  loadPage(currentPage);
-              }
-          });
-          iv_backward_button.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  if (maxPageButtons<5){
+                }
+            });
+            iv_backward_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (maxPageButtons < 5) {
 //                      pageNumberLayout.removeAllViews();
-                      setupPagination();
+                        setupPagination();
 
-                  }
-                  else {
-                      maxPageButtons = maxPageButtons - 5;
+                    } else {
+                        maxPageButtons = maxPageButtons - 5;
 //                      pageNumberLayout.removeAllViews();
-                      setupPagination();
+                        setupPagination();
 //                  currentPage = pageNumber;
-                  }
-              }
-          });
-          pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
-          et_search_relationships = view.findViewById(R.id.et_search_relationships);
-          loadSearchTextData();
-          tv_name.setText("Category");
+                    }
+                }
+            });
+            pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
+            et_search_relationships = view.findViewById(R.id.et_search_relationships);
+            loadSearchTextData();
+            tv_name.setText("Category");
 
-          loadSpinnerData();
+            loadSpinnerData();
 //          callAuditWebservice();
-      } catch (Exception e) {
-          throw new RuntimeException(e);
-      }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return view;
     }
 
@@ -164,7 +205,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
             }
         };
 //        ss.setSpan(new StyleSpan(Typeface.BOLD),0,0,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        ss.setSpan(clickableSpan,0,15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan, 0, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         ss.setSpan(
                 new ForegroundColorSpan(Color.BLUE),
                 0, 15,
@@ -173,6 +214,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         tv_advanced_search.setText(ss);
         tv_advanced_search.setMovementMethod(LinkMovementMethod.getInstance());
     }
+
     private void callAuditWebservice() {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postData = new JSONObject();
@@ -183,6 +225,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
     }
+
     private void loadSpinnerData() {
 //        19731710
         categoryList.add(new SpinnerItemModal("Authentication"));
@@ -200,41 +243,35 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+              sorted_list.clear();
                 if (categoryList.get(i).getName().equalsIgnoreCase("Authentication")) {
                     Catergory_type = "AUTH";
-                }else if(categoryList.get(i).getName().equalsIgnoreCase("Groups")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Groups")) {
                     Catergory_type = "GROUPS";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("Team Members")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Team Members")) {
                     Catergory_type = "TEAM MEMBER";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("Relationships")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Relationships")) {
                     Catergory_type = "RELATIONSHIP";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("Share")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Share")) {
                     Catergory_type = "SHARE";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("Documents")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Documents")) {
                     Catergory_type = "DOCUMENT";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("Merge PDF")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Merge PDF")) {
                     Catergory_type = "MERGE PDF";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("Legal Matters")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("Legal Matters")) {
                     Catergory_type = "LEGAL MATTER";
-                }
-                else if(categoryList.get(i).getName().equalsIgnoreCase("General Matters")){
+                } else if (categoryList.get(i).getName().equalsIgnoreCase("General Matters")) {
                     Catergory_type = "GENERAL MATTER";
                 }
-                Log.d("Category_type",Catergory_type);
+                Log.d("Category_type", Catergory_type);
 //                setupPagination();
-                if(auditsList.size()==0) {
+                if (auditsList.size() == 0) {
                     callAuditWebservice();
-                }else{
-                    if (audit_adapter!=null){
+                } else {
+                    if (audit_adapter != null) {
                         audit_adapter.clearData();
                     }
-                    sorted_list.clear();
+//                    sorted_list.clear();
                     pageNumberLayout.removeAllViews();
                     cv_list.setVisibility(View.VISIBLE);
                     loadPage(currentPage);
@@ -265,13 +302,13 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
             try {
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
-                Log.d("Request_Type",httpResult.getRequestType().toString());
+                Log.d("Request_Type", httpResult.getRequestType().toString());
                 if (httpResult.getRequestType() == "Audit Logs") {
 //                    if (!result.getBoolean("error")) {
 //                        JSONObject jsonObject = result.getJSONObject("data");
-                        JSONArray jsonArray = result.getJSONArray("data");
-                        et_search_relationships.setText("");
-                        loadAuditsData(jsonArray);
+                    JSONArray jsonArray = result.getJSONArray("data");
+                    et_search_relationships.setText("");
+                    loadAuditsData(jsonArray);
 //                    } else {
 //                        AndroidUtils.showValidationALert("Alert", String.valueOf(result.get("msg")), getContext());
 //                    }
@@ -282,18 +319,18 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
-    private void loadAuditsData(JSONArray jsonArray) throws JSONException{
-            for (int i=0;i<jsonArray.length();i++){
-                AuditsModel auditsModel = new AuditsModel();
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                auditsModel.setMessage(jsonObject.getString("message"));
-                auditsModel.setName(jsonObject.getString("name"));
-                auditsModel.setTimestamp(jsonObject.getString("timestamp"));
-                if(!(auditsModel.getMessage().equals("PROFILE UPDATE"))||!(auditsModel.getMessage().equals("DOCS COLLABORATION"))){
+    private void loadAuditsData(JSONArray jsonArray) throws JSONException {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            AuditsModel auditsModel = new AuditsModel();
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            auditsModel.setMessage(jsonObject.getString("message"));
+            auditsModel.setName(jsonObject.getString("name"));
+            auditsModel.setTimestamp(jsonObject.getString("timestamp"));
+            if (!(auditsModel.getMessage().equals("PROFILE UPDATE")) || !(auditsModel.getMessage().equals("DOCS COLLABORATION"))) {
 //                    if ()
                 auditsList.add(auditsModel);
-                }
             }
+        }
 
         loadPage(currentPage);
         setupPagination();
@@ -302,17 +339,17 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
 
 
     private void setupPagination() {
-         // Maximum number of page buttons to display
+        // Maximum number of page buttons to display
         pageNumberLayout.removeAllViews();
         int totalPages = (int) Math.ceil((double) sorted_list.size() / itemsPerPage);
-        if (totalPages==0){
+        if (totalPages == 0) {
             cv_list.setVisibility(View.GONE);
         }
-        if(maxPageButtons<5) {
+        if (maxPageButtons < 5) {
             maxPageButtons = 5;
         }
-        greenButtonTint = ColorStateList.valueOf(R.color.green_count_color);
-
+        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
+        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.white));
 //        int screenWidth = getResources().getDisplayMetrics().widthPixels;
 //        int buttonWidth = screenWidth / maxPageButtons;
         // Dynamically add page number buttons
@@ -325,9 +362,9 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
             Button pageButton = view_opponents.findViewById(R.id.page_number_button);
             pageButton.setText(String.valueOf(i));
             final int pageNumber = i;
-            if (defaultButtonTint == null) {
-                defaultButtonTint = pageButton.getBackgroundTintList();
-            }
+//            if (defaultButtonTint == null) {
+//                defaultButtonTint = pageButton.getBackgroundTintList();
+//            }
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -335,7 +372,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
 //                    currentPage = pageNumber;
 //                    loadPage(currentPage);
                     if (previousPageButton != null) {
-                        previousPageButton.setBackgroundTintList(defaultButtonTint);
+                        previousPageButton.setBackgroundTintList(whiteButtonTint);
                     }
 
                     // Set the background tint color of the clicked button to green
@@ -359,15 +396,21 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         }
 //        loadPage(currentPage);
     }
+
     private void loadPage(int page) {
         try {
 
 
             sorted_list.clear();
             rv_audits.removeAllViews();
+            rv_audits.setAdapter(null);
+            et_search_relationships.setText("");
+//            if (audit_adapter!=null){
+//                audit_adapter.itemList.clear();
+//            }
             for (int i = 0; i < auditsList.size(); i++) {
 //                AuditsModel auditsModel = auditsList.get(i);
-                if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))){
+                if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
                     AuditsModel auditsModel1 = new AuditsModel();
                     auditsModel1.setName(auditsList.get(i).getName());
                     auditsModel1.setTimestamp(auditsList.get(i).getTimestamp());
@@ -376,38 +419,42 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
                 }
             }
             Log.d("Sorted_list", String.valueOf(sorted_list.size()));
-            if (sorted_list.size() != 0) {
-                int startIndex = (page - 1) * itemsPerPage;
-                int endIndex = Math.min(startIndex + itemsPerPage, sorted_list.size());
-                pageItems = new ArrayList<>(sorted_list.subList(startIndex, endIndex));
-
-                if (rv_audits.getAdapter() == null) {
-                    // If the adapter is null, create a new one and set it to the RecyclerView
-                    rv_audits.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                 audit_adapter = new AuditsAdapter(pageItems);
-                    rv_audits.setAdapter(audit_adapter);
-
-                    et_search_relationships.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            audit_adapter.getFilter().filter(et_search_relationships.getText().toString());
-                        }
-                    });
-                } else {
-                    // If the adapter already exists, notify it about the new data
-                    ((AuditsAdapter) rv_audits.getAdapter()).setData(pageItems);
-                }
-            }
+          loadRecyclerView(page);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void loadRecyclerView(int page) {
+        if (sorted_list.size() != 0) {
+            int startIndex = (page - 1) * itemsPerPage;
+            int endIndex = Math.min(startIndex + itemsPerPage, sorted_list.size());
+            pageItems = new ArrayList<>(sorted_list.subList(startIndex, endIndex));
+
+            if (rv_audits.getAdapter() == null) {
+                // If the adapter is null, create a new one and set it to the RecyclerView
+                rv_audits.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                audit_adapter = new AuditsAdapter(pageItems);
+                rv_audits.setAdapter(audit_adapter);
+
+                et_search_relationships.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        audit_adapter.getFilter().filter(et_search_relationships.getText().toString());
+                    }
+                });
+            } else {
+                // If the adapter already exists, notify it about the new data
+                ((AuditsAdapter) rv_audits.getAdapter()).setData(pageItems);
+            }
         }
     }
 //        adapter = new MyAdapter(pageItems);

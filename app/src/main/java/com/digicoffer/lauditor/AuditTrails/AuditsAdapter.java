@@ -11,9 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.AuditTrails.Model.AuditsModel;
+import com.digicoffer.lauditor.ClientRelationships.Model.RelationshipsModel;
 import com.digicoffer.lauditor.R;
+import com.digicoffer.lauditor.common.AndroidUtils;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHolder> implements Filterable {
     ArrayList<AuditsModel> filtered_list = new ArrayList<>();
@@ -24,10 +27,7 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
         this.itemList = auditsList;
     }
 
-    @Override
-    public Filter getFilter() {
-        return null;
-    }
+
 
     @NonNull
     @Override
@@ -82,6 +82,42 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
         filtered_list.remove(position);
         notifyItemRemoved(position);
     }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString().toLowerCase().trim(); // Convert to lowercase and trim
+                if (charString.isEmpty()) {
+                    filtered_list = itemList;
+                } else {
+                    ArrayList<AuditsModel> filteredList = new ArrayList<>();
+                    for (AuditsModel row : itemList) {
+                        // Use a Pattern with case-insensitive flag for matching
+                        Pattern pattern = Pattern.compile(Pattern.quote(charString), Pattern.CASE_INSENSITIVE);
+
+                        if (pattern.matcher(AndroidUtils.isNull(row.getMessage()).toLowerCase()).find()
+                                || pattern.matcher(AndroidUtils.isNull(row.getTimestamp()).toLowerCase()).find()
+                                || pattern.matcher(AndroidUtils.isNull(row.getName()).toLowerCase()).find()) {
+                            filteredList.add(row);
+                        }
+                    }
+                    filtered_list = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.count = filtered_list.size();
+                filterResults.values = filtered_list;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filtered_list = (ArrayList<AuditsModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     public void clearData() {
         filtered_list.clear();
         notifyDataSetChanged();

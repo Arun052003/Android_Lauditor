@@ -58,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:focusable="false"
                 android:background="@drawable/rectangle_grey_background"
                 android:drawableRight="@drawable/calendar_activity"
                 android:editable="false"
