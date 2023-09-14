@@ -27,7 +27,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.digicoffer.lauditor.AuditTrails.AuditTrails;
 import com.digicoffer.lauditor.Calendar.Meetings;
 import com.digicoffer.lauditor.Calendar.Models.Event_Details_DO;
 import com.digicoffer.lauditor.Calendar.MonthlyCalendar;
@@ -309,9 +308,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 }else if(itemId == R.id.chat){
                     ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Chat();
-                }else if(itemId == R.id.audit){
-                    ll_bottom_menu.setVisibility(View.VISIBLE);
-                    frag = new AuditTrails();
                 }
 //                else if (itemId == R.id.CredentialDocuments) {
 //                    frag = new Credential_Docs();
