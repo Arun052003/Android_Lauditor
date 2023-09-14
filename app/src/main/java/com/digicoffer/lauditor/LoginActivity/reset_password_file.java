@@ -71,6 +71,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
 
     }
 
+    //Getting response for the Update API..
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
         if (progressDialog != null && progressDialog.isShowing())
             AndroidUtils.dismiss_dialog(progressDialog);

@@ -89,7 +89,10 @@
             </androidx.cardview.widget.CardView>
 
             <!--Card view for password field-->
-            <include layout="@layout/password_layout"/>
+            <include layout="@layout/password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"/>
 
 
             <!--Forget password button-->
