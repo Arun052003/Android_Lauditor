@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.text.Editable;
@@ -61,6 +62,9 @@ import java.util.Locale;
 public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewGroupsAdpater.InterfaceListener {
     RecyclerView rv_select_team_members, rv_view_groups,rv_activity_log;
     TextInputEditText et_search;
+
+    //rename of title name
+    TextView description_name,category_id,team_member_id,from_id,to_id;
 
     AppCompatButton tv_from_date,tv_to_date;
     TextInputLayout tv_selected_members;
@@ -135,20 +139,39 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         rv_activity_log = v.findViewById(R.id.rv_view_activity_log);
         ll_edit_groups = v.findViewById(R.id.ll_edit_buttons);
         cv_groups = v.findViewById(R.id.cv_details);
+        //view_groups components...
+        from_id=v.findViewById(R.id.from_id);
+        from_id.setText("From");
+        to_id=v.findViewById(R.id.to_id);
+        to_id.setText("To");
+        //Changing sub_module name..
+        description_name=v.findViewById(R.id.description_name);
+        description_name.setText(R.string.description);
+        category_id=v.findViewById(R.id.category_id);
+        category_id.setText(R.string.category);
+        team_member_id=v.findViewById(R.id.team_member_id);
+        team_member_id.setText(R.string.team_members);
+
+
         tv_select_team_members = v.findViewById(R.id.filledTextField3);
         tv_search_message = v.findViewById(R.id.search_message);
         tv_from_date = v.findViewById(R.id.btn_from_date);
+        tv_from_date.setHint("From");
         tv_to_date = v.findViewById(R.id.btn_to_date);
+        tv_to_date.setHint("To");
         et_Search = v.findViewById(R.id.et_search_tm);
         group_head_name = (TextView) v.findViewById(R.id.group_head_name);
         cv_details = v.findViewById(R.id.cv_details_2);
         btn_cancel_gal = v.findViewById(R.id.btn_cancel_activity_log);
         btn_search_gal = v.findViewById(R.id.btn_update_activity_log);
+//        changing a name of submit button to search...
+        btn_search_gal.setText("Search");
         cv_activity_log = v.findViewById(R.id.cv_details_activity_log);
         tv_selected_members = v.findViewById(R.id.filledTextField3);
         ll_tm = v.findViewById(R.id.linearLayoutCompat1);
         btn_cancel_edit = v.findViewById(R.id.btn_cancel_edit);
         btn_update = v.findViewById(R.id.btn_update);
+        btn_update.setText(R.string.update);
         ll_select_all = v.findViewById(R.id.ll_select_all);
         ll_group_list = v.findViewById(R.id.linearLayoutCompat);
         ll_select_tm = v.findViewById(R.id.linearLayoutCompat2);
@@ -162,10 +185,13 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         btn_cancel = v.findViewById(R.id.btn_cancel);
         chk_select_all = v.findViewById(R.id.chk_select_all);
         btn_save =(AppCompatButton)  v.findViewById(R.id.btn_save);
-        String data = "Create Groups";
+        String data = "View Groups";
         setViewModelData(data);
-        tv_create_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-        tv_add_tm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        ViewGroupsData();
+        tv_view_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        //tv_add_tm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+
+        //Making a view group as a default view...
         tv_view_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +209,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 } else {
                     ll_select_all.setVisibility(View.GONE);
                     tv_add_tm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-                    tv_practice_head.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+                    tv_practice_head.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
                 }
             }
         });
@@ -196,6 +222,12 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 cv_groups.setVisibility(View.VISIBLE);
                 String data = "Create Groups";
                 setViewModelData(data);
+
+                //Changing a text color in create group module
+                tv_create_group.setTextColor(getContext().getResources().getColor(R.color.white));
+                tv_view_group.setTextColor(getContext().getResources().getColor(R.color.black));
+                tv_add_tm.setTextColor(getContext().getResources().getColor(R.color.white));
+                tv_practice_head.setTextColor(getContext().getResources().getColor(R.color.black));
 //                cv_details.setVisibility(View.VISIBLE);
 //                ll_buttons.setVisibility(View.VISIBLE);
 //                ll_tm.setVisibility(View.VISIBLE);
@@ -209,9 +241,14 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
 
             }
         });
+
         tv_add_tm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+//                Changing a text color in Add team member when clicking...
+                tv_add_tm.setTextColor(getContext().getResources().getColor(R.color.white));
+                tv_practice_head.setTextColor(getContext().getResources().getColor(R.color.black));
                 tv_practice_head.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                 tv_add_tm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                 ll_select_all.setVisibility(View.VISIBLE);
@@ -323,7 +360,8 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     }
 
     private void ViewGroupsData() {
-        tv_view_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        //Changing a text color in view group module
+        tv_view_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_view_group.setTextColor(getContext().getResources().getColor(R.color.white));
         tv_create_group.setTextColor(getContext().getResources().getColor(R.color.black));
         tv_create_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
@@ -442,7 +480,11 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         } else {
             chk_select_all.setVisibility(View.VISIBLE);
             tv_add_tm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-            tv_practice_head.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+            tv_practice_head.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+
+            //Changing a text color for the Add-group head and Add-team member module..
+            tv_add_tm.setTextColor(getContext().getResources().getColor(R.color.black));
+            tv_practice_head.setTextColor(getContext().getResources().getColor(R.color.white));
         }
 
         rv_select_team_members.removeAllViews();
@@ -589,6 +631,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 AndroidUtils.showToast("Description Required", getContext());
                 assignGroupsList.clear();
             } else {
+
                 loadRecylcerview(assignGroupsList, TM_TYPE);
             }
         } else {

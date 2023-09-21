@@ -27,7 +27,7 @@
             android:layout_height="40dp"
             android:alpha="0.9"
             android:layout_gravity="center_horizontal"
-            android:background="@color/grey_text_color"
+            android:background="@color/dark_grey"
             android:elevation="10dp"
             android:fontFamily="@font/gill_sans"
             android:text="Cancel"

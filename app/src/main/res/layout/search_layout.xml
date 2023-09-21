@@ -1,0 +1,11 @@
+<com.google.android.material.textfield.TextInputEditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/et_search_tm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+    android:visibility="visible"
+            android:background="@color/grey_text_color"
+            android:drawableRight="@drawable/search_groups"
+            android:gravity="start" />

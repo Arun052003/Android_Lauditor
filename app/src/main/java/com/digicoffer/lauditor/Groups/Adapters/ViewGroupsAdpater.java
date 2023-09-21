@@ -2,6 +2,7 @@ package com.digicoffer.lauditor.Groups.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,10 +131,15 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         ViewGroupModel viewGroupModel = itemsArrayList.get(position);
         itemsArrayList = list_item;
         if (mTag == "VG") {
+
             holder.tv_user_type.setText(viewGroupModel.getName());
             holder.tv_owner_name.setText(viewGroupModel.getOwner_name());
             holder.tv_date.setText(viewGroupModel.getCreated());
             holder.tv_description.setText(viewGroupModel.getDescription());
+            //Modifying a text and its color in a design
+            holder.created_id.setText("Created:");
+            holder.tv_owner_name.setTextColor(Color.BLACK);
+            holder.tv_date.setTextColor(Color.BLACK);
             actions_List.clear();
 
 //        actions_List.add(new ActionModel("Add|Remove"));
@@ -259,13 +265,14 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         notifyDataSetChanged();
     }
 
+
     @Override
     public int getItemCount() {
         return itemsArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name;
+        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name,created_id;
         private Spinner sp_action;
         private CheckBox cb_team_members;
         private RadioButton rb_group_head;
@@ -274,8 +281,11 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             super(itemView);
             tv_user_type = itemView.findViewById(R.id.tv_group_name);
             tv_owner_name = itemView.findViewById(R.id.tv_group_head);
+            //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
+            created_id=itemView.findViewById(R.id.created_id);
+            //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
             sp_action = itemView.findViewById(R.id.sp_action);
             rb_group_head = itemView.findViewById(R.id.rb_selected);

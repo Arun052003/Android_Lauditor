@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    >
+    android:layout_margin="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,8 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_group_name"
@@ -45,26 +42,17 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_description"
+            <include layout="@layout/group_layout"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="start"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:paddingStart="5dp"
-                android:text="Draft website terms of service...."
-                android:textColor="@color/Blue_text_color"
-                android:textSize="@dimen/Fifteen_dp" />
+                android:layout_marginLeft="8dp"
+                android:id="@+id/tv_description"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp"
-
-                >
+                android:padding="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,65 +64,32 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                       >
+                        android:orientation="horizontal">
 
-                        <TextView
+                        <include layout="@layout/owner_layout"/>
+                        <include layout="@layout/owner_layout"
+                            android:id="@+id/tv_group_head"/>
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="5dp"
-                            android:text="Owner:"
-                            android:textColor="@color/orange_color"
-                            android:textSize="@dimen/Twelve_dp" />
-
-                        <TextView
-                            android:id="@+id/tv_group_head"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="5dp"
-                            android:textColor="@color/black"
-                            android:text="Joe Carpenter"
-                            android:textSize="@dimen/Twelve_dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                       >
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/textView"
+                        <include layout="@layout/owner_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="5dp"
-                            android:text="Created:"
-                            android:textColor="@color/orange_color"
-                            android:textSize="@dimen/Twelve_dp" />
+                            android:id="@+id/created_id"/>
 
-                        <TextView
-                            android:id="@+id/tv_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="5dp"
-                            android:textColor="@color/black"
-                            android:text="Jan 02 2022"
-                            android:textSize="@dimen/Twelve_dp" />
+                        <include layout="@layout/owner_layout"
+                            android:id="@+id/tv_date"/>
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"

@@ -185,6 +185,8 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
         }
         notifyDataSetChanged();
     }
+    //checking for all team member is selected....
+
 //    public void selectOrDeselectAll(boolean isChecked) {
 //        for (int i = 0; i < list_item.size(); i++) {
 //
