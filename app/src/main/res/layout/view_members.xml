@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    >
+    android:layout_margin="20dp"
+  >
+
+    <!-- Include the searchteammember layout here -->
+
+    <!-- Add other views and elements here -->
+
+    <include
+        android:id="@+id/cv_details_2"
+        layout="@layout/searchteammember"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.043">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -25,8 +39,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_member_name"
@@ -36,22 +49,19 @@
                     android:layout_margin="5dp"
                     android:fontFamily="sans-serif-condensed"
                     android:text="TextView"
-
                     android:textColor="@color/Blue_text_color"
                     android:textSize="@dimen/thirty_dp" />
 
-
             </LinearLayout>
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_member_type"
@@ -82,8 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_currency_type"
@@ -107,15 +116,13 @@
                         android:text="200"
                         android:textSize="@dimen/twenty_dp" />
                 </LinearLayout>
-        </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp"
-
-                >
+                android:padding="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,54 +130,19 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:orientation="vertical">
-
-
-
-
-
-                        <TextView
-                            android:id="@+id/tv_email_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="5dp"
-                            android:textColor="@color/black"
-                            android:text="Joe Carpenter"
-                            android:textSize="@dimen/Twelve_dp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/save_button_background"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/tv_email_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-condensed-medium"
-                        android:gravity="center"
                         android:padding="5dp"
-                        android:text="Action"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
+                        android:text="Joe Carpenter"
                         android:textSize="@dimen/Twelve_dp" />
-
-                    <Spinner
-                        android:id="@+id/sp_action"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:backgroundTint="@color/white" />
                 </LinearLayout>
+
+                <include layout="@layout/action" />
 
             </LinearLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
