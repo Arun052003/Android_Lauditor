@@ -4,5 +4,4 @@
     <gradient android:angle="45" android:centerColor="@color/green_count_color" android:endColor="@color/green_count_color" android:startColor="@color/green_count_color" android:type="linear" />
     <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
-
 </shape>

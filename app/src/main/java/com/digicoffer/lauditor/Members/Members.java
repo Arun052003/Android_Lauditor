@@ -313,7 +313,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
     private void ViewMembersData() {
         ll_buttons.setVisibility(View.VISIBLE);
-        tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_create_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         cv_details.setVisibility(View.GONE);
         cv_members_details.setVisibility(View.GONE);

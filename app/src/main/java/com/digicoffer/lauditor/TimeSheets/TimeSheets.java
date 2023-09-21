@@ -185,7 +185,7 @@ public class TimeSheets extends Fragment {
 
     private void loadMyTimeSheets(String s, WeekDateInfo weekDateInfo) {
         tv_aggregated_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_my_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_my_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_ns_timesheet.setText("Not Submitted");
         tv_submitted.setText("Submitted");
         if (non_main_button_status.equals("NS")){
@@ -215,12 +215,12 @@ public class TimeSheets extends Fragment {
 
     private void loadMonth() {
         tv_week.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_month.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_month.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
 
     }
 
     private void loadSubmittedTimesheets(String s, WeekDateInfo weekDateInfo) {
-        tv_submitted.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_submitted.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_ns_timesheet.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         loadSubmittedFragment(s, weekDateInfo);
     }
