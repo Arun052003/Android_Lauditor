@@ -10,7 +10,7 @@
     android:fontFamily="sans-serif-condensed-medium"
     android:padding="10dp"
     android:text="@string/create_members"
-    android:textColor="@color/black"
+    android:textColor="@color/white"
     android:textSize="@dimen/Fifteen_dp">
 
 </TextView>

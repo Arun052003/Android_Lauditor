@@ -304,81 +304,12 @@
 
                     >
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_cancel_save"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/cancel_button_background"
-                        android:elevation="20dp"
-                        android:text="@string/cancel"
-                        android:textAllCaps="false">
+                   <include layout="@layout/cancelbutton"/>
 
-                    </androidx.appcompat.widget.AppCompatButton>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_create"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/save_button_background"
-                        android:backgroundTint="@color/Blue_text_color"
-                        android:elevation="@dimen/Fifteen_dp"
-                        android:gravity="center"
-                        android:text="@string/save"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white">
-
-                    </androidx.appcompat.widget.AppCompatButton>
+                 <include layout="@layout/submitbutton"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_edit_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-
-                    >
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_cancel_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/cancel_button_background"
-                        android:elevation="20dp"
-                        android:text="@string/cancel"
-                        android:textAllCaps="false">
-
-                    </androidx.appcompat.widget.AppCompatButton>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_update"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/save_button_background"
-                        android:backgroundTint="@color/Blue_text_color"
-                        android:elevation="@dimen/Fifteen_dp"
-                        android:gravity="center"
-                        android:text="@string/update"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white">
-
-                    </androidx.appcompat.widget.AppCompatButton>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+               <include layout="@layout/cancel_update"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
 
