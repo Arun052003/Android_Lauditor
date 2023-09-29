@@ -1,3 +1,4 @@
+
 package com.digicoffer.lauditor.Members;
 
 import android.annotation.SuppressLint;
@@ -92,7 +93,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.create_members, container, false);
-      return v;
+        return v;
     }
 
     @Override
@@ -145,12 +146,9 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         });
 
         rv_selected_member = v.findViewById(R.id.rv_selected_member);
-        tv_create_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-        tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
-        ll_confirm_email.setVisibility(View.VISIBLE);
-        ll_new_buttons.setVisibility(View.GONE);
-        String data = "Members";
+        String data = "View Members";
         setViewModelData(data);
+        ViewMembersData();
         tv_create_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -510,34 +508,34 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
 //        if (groupsList.size() != 0) {
         FLAG = "second_click";
-            rv_selected_member.setLayoutManager(new GridLayoutManager(getContext(), 1));
-            groupsAdapter = new GroupsAdapter(groupsList);
-            rv_selected_member.setAdapter(groupsAdapter);
-            rv_selected_member.setHasFixedSize(true);
-            et_search_members.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
+        rv_selected_member.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        groupsAdapter = new GroupsAdapter(groupsList);
+        rv_selected_member.setAdapter(groupsAdapter);
+        rv_selected_member.setHasFixedSize(true);
+        et_search_members.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+            }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    groupsAdapter.getFilter().filter(et_search_members.getText().toString());
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                groupsAdapter.getFilter().filter(et_search_members.getText().toString());
+            }
 
-            });
-            btn_cancel_members.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    et_search_members.setText("");
-                    groupsList.clear();
-                    callGroupsWebservice();
-                }
-            });
+        });
+        btn_cancel_members.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                et_search_members.setText("");
+                groupsList.clear();
+                callGroupsWebservice();
+            }
+        });
 
 //        }
 //        else {

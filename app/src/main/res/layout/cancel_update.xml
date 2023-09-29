@@ -1,41 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_edit_buttons"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="horizontal"
-    android:visibility="gone">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_cancel_edit"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_weight="1"
-        android:background="@drawable/cancel_button_background"
-        android:elevation="20dp"
-        android:text="@string/cancel"
-        android:textAllCaps="false">
-    </androidx.appcompat.widget.AppCompatButton>
 
-    <androidx.appcompat.widget.AppCompatButton
+
+    <androidx.appcompat.widget.AppCompatButton xmlns:android="http://schemas.android.com/apk/res/android"
+
         android:id="@+id/btn_update"
-        android:layout_width="140dp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_gravity="center"
+
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
         android:background="@drawable/save_button_background"
-        android:backgroundTint="@color/Blue_text_color"
+
         android:elevation="@dimen/Fifteen_dp"
         android:gravity="center"
         android:text="@string/update"
         android:textAllCaps="false"
         android:textColor="@color/white">
     </androidx.appcompat.widget.AppCompatButton>
-</androidx.appcompat.widget.LinearLayoutCompat>
