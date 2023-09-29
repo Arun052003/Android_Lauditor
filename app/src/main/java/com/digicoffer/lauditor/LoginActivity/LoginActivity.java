@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         CommonSpinnerAdapter<FirmsDo> adapter = new CommonSpinnerAdapter<>(this, list);
         sp_firm.setAdapter(adapter);
         final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
-        Button bt_submit = (Button) dialogLayout.findViewById(R.id.bt_submit_firm_login);
+        Button bt_submit = (Button) dialogLayout.findViewById(R.id.Submit);
 
         //Reset password---
         TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);

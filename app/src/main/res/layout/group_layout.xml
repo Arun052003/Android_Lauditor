@@ -5,6 +5,7 @@
             android:id="@+id/title_name"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@string/group_name"
+    android:layout_marginTop="10dp"
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/Fifteen_dp">
 </TextView>

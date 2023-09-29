@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -137,12 +138,12 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             holder.tv_date.setText(viewGroupModel.getCreated());
             holder.tv_description.setText(viewGroupModel.getDescription());
             //Modifying a text and its color in a design
-            holder.created_id.setText("Created:");
+            holder.created_id.setText("Created :");
             holder.tv_owner_name.setTextColor(Color.BLACK);
             holder.tv_date.setTextColor(Color.BLACK);
             actions_List.clear();
 
-//        actions_List.add(new ActionModel("Add|Remove"));
+////        actions_List.add(new ActionModel("Add|Remove"));
             actions_List.add(new ActionModel("Choose Actions"));
             actions_List.add(new ActionModel("Edit Group"));
             actions_List.add(new ActionModel("Delete"));
@@ -170,30 +171,38 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
 //                    }
 //                }
 //            });
+//            holder.sp_action.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View view, MotionEvent motionEvent) {
+//                    userinteract=true;
+//                    return false;
+//                }
+//            });
+
             holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-                    if (name == "Edit Group") {
-                        eventListener.EditGroup(viewGroupModel);
-                    } else if (name == "Delete") {
-                        eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
-                    } else if (name == "Change Group Head") {
-                        eventListener.CGH(viewGroupModel, itemsArrayList);
-                    } else if (name == "Update Group Members") {
-                        try {
-                            eventListener.UGM(viewGroupModel);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
+                        if (name == "Edit Group") {
+                            eventListener.EditGroup(viewGroupModel);
+                        } else if (name == "Delete") {
+                            eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
+                        } else if (name == "Change Group Head") {
+                            eventListener.CGH(viewGroupModel, itemsArrayList);
+                        } else if (name == "Update Group Members") {
+                            try {
+                                eventListener.UGM(viewGroupModel);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else if (name == "Group Activity Log") {
+                            try {
+                                eventListener.GAL(viewGroupModel);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } else if (name == "Group Activity Log") {
-                        try {
-                            eventListener.GAL(viewGroupModel);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
 
                 @Override

@@ -37,7 +37,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
         password2 = findViewById(R.id.et_login_password2);
 
 
-         submit = findViewById(R.id.bt_submit_firm_login);
+         submit = findViewById(R.id.Submit);
          cancel = findViewById(R.id.Cancel);
 
 
@@ -114,7 +114,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
             //showPopupMessage("valid");
             String urlpath = "password/"+Constants.PK+"/user/"+Constants.USER_ID+"/update";
             WebServiceHelper.callHttpWebService(reset_password_file.this, reset_password_file.this, WebServiceHelper.RestMethodType.PUT, urlpath, "UPDATE", postData.toString());
-            Log.e("Reset password path",":"+urlpath);
+            Log.e("Reset Password path Success",":"+urlpath);
         } catch (Exception e) {
             if (progressDialog != null && progressDialog.isShowing())
                 AndroidUtils.dismiss_dialog(progressDialog);
