@@ -6,6 +6,6 @@
     android:id="@+id/owner_id"
     android:fontFamily="sans-serif-condensed-medium"
     android:padding="5dp"
-    android:text="Owner:"
+    android:text="Group Head :"
     android:textColor="@color/orange_color"
     android:textSize="@dimen/Twelve_dp" />

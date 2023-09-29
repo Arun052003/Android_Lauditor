@@ -13,7 +13,7 @@
         android:id="@+id/cardview2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="30dp"
@@ -92,7 +92,7 @@
             <include layout="@layout/password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="10dp"/>
 
 
             <!--Forget password button-->
@@ -102,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:layout_marginBottom="10dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/gill_sans"
@@ -112,7 +111,7 @@
                 android:textColor="@color/black" />
             <!-- Button layout-->
             <include
-                layout="@layout/submit_cancel"/>
+                layout="@layout/layout_button"/>
             <!--End of Submitions button layout-->
         </LinearLayout>
         <!--End of design-->
