@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_buttons_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="horizontal"
+
+    >
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cancel_members"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+
+        android:background="@drawable/cancel_button_background"
+        android:elevation="20dp"
+        android:text="@string/cancel"
+        android:textAllCaps="false">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_save_members"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/save_button_background"
+
+        android:elevation="@dimen/Fifteen_dp"
+
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/white">
+
+    </androidx.appcompat.widget.AppCompatButton>
+</androidx.appcompat.widget.LinearLayoutCompat>
