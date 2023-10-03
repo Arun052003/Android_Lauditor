@@ -140,6 +140,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         rv_view_groups = v.findViewById(R.id.rv_view_group);
         et_search = v.findViewById(R.id.et_search);
         tv_group_name = v.findViewById(R.id.tv_group_name);
+        tv_group_name.setHint(R.string.group_name);
         tv_group_description = v.findViewById(R.id.tv_description);
         rv_activity_log = v.findViewById(R.id.rv_view_activity_log);
         ll_edit_groups = v.findViewById(R.id.ll_edit_buttons);
@@ -196,9 +197,13 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         ll_select_tm = v.findViewById(R.id.linearLayoutCompat2);
         ll_buttons = v.findViewById(R.id.ll_buttons);
         tv_create_group = v.findViewById(R.id.tv_create_group);
+        tv_create_group.setText(R.string.create_group);
         tv_view_group = v.findViewById(R.id.tv_view_group);
+        tv_view_group.setText(R.string.view_group);
         tv_add_tm = v.findViewById(R.id.add_tm);
+        tv_add_tm.setText(R.string.add_team_member);
         tv_practice_head = v.findViewById(R.id.add_phead);
+        tv_practice_head.setText(R.string.add_practice_head);
         sp_category = v.findViewById(R.id.sp_category);
         sp_team_member = v.findViewById(R.id.sp_team_member);
         btn_cancel = v.findViewById(R.id.btn_cancel);

@@ -89,36 +89,11 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/save_button_background"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Action"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/Twelve_dp" />
-
-                    <Spinner
-                        android:id="@+id/sp_action"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:backgroundTint="@color/white" />
-                </LinearLayout>
+                <include layout="@layout/action"
+                    android:layout_width="120dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
