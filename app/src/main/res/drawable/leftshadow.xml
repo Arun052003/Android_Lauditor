@@ -5,14 +5,14 @@
         <shape android:shape="rectangle">
             <gradient
                 android:endColor="@color/material_dynamic_neutral_variant0"
-                android:startColor="@color/material_dynamic_neutral_variant1"
+                android:startColor="@color/dark_brown"
                 android:angle="0"/>
         </shape>
     </item>
     <!-- Shadow-like effect on the right side -->
-    <item android:right="1dp">
+    <item android:left="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/white" />
+            <solid android:color="#00B3A7" />
         </shape>
     </item>
 </layer-list>

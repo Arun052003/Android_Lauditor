@@ -89,11 +89,11 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/action"
-                    android:layout_width="120dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_gravity="center"
-                    android:layout_height="wrap_content"/>
+             <include layout="@layout/action"
+                 android:layout_width="120dp"
+                 android:layout_marginRight="15dp"
+                 android:layout_gravity="center"
+                 android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
