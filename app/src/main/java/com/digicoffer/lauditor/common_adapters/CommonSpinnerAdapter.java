@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.digicoffer.lauditor.AuditTrails.Model.SpinnerItemModal;
 import com.digicoffer.lauditor.Calendar.Models.CalendarDo;
 import com.digicoffer.lauditor.Calendar.Models.MinutesDO;
 import com.digicoffer.lauditor.Calendar.Models.RelationshipsDO;
@@ -103,8 +102,6 @@ public class CommonSpinnerAdapter<Object> extends BaseAdapter {
             data = ((RelationshipsDO)listData).getName();
         }if (listData instanceof MinutesDO){
             data = ((MinutesDO)listData).getName();
-        }if (listData instanceof SpinnerItemModal){
-            data = ((SpinnerItemModal)listData).getName();
         }
         listTextView.setText(data);
 

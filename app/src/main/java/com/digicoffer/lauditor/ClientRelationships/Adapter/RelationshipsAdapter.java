@@ -332,7 +332,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                     case R.id.rb_shared_by_us:
                         try {
                             holder.rb_shared_with_us.setBackground(mcontext.getResources().getDrawable(R.drawable.button_left_background));
-                            holder.rb_shared_by_us.setBackground(mcontext.getResources().getDrawable(R.drawable.button_right_green_count));
+                            holder.rb_shared_by_us.setBackground(mcontext.getResources().getDrawable(R.drawable.button_right_green_background));
                             shared_tag = "byme";
 
                             unhideSharedDocumentsdata(holder, shared_tag, relationshipsModel);
@@ -357,7 +357,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                         break;
                     case R.id.rb_firm_document:
                         holder.rb_client_document.setBackground(mcontext.getResources().getDrawable(R.drawable.button_left_background));
-                        holder.rb_firm_document.setBackground(mcontext.getResources().getDrawable(R.drawable.button_right_green_count));
+                        holder.rb_firm_document.setBackground(mcontext.getResources().getDrawable(R.drawable.button_right_green_background));
                         shared_tag = "firm";
 
                         callDocumentTypeWebservice(relationshipsModel.getId(),shared_tag,holder,doc_nature);

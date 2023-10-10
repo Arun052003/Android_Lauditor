@@ -6,787 +6,496 @@
     android:layout_height="match_parent"
 
     tools:context=".MainActivity">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="50dp"
-        android:paddingTop="@dimen/twenty_dp"
-        android:paddingEnd="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.593"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.013">
-
-        <TextView
-            android:id="@+id/tv_create_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_left_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:text="@string/create_group"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tv_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_right_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:text="@string/view_group"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
-
-        </TextView>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_details"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="@dimen/Fifty_dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="50dp"
+            android:paddingTop="@dimen/twenty_dp"
+            android:paddingEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.593"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.013">
+
+            <include layout="@layout/createmember_layout"
+                android:id="@+id/tv_create_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"/>
+
+            <include layout="@layout/viewmember_layout"
+                android:id="@+id/tv_view_group"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:padding="10dp"
+            app:cardCornerRadius="10dp"
+            android:elevation="@dimen/Fifty_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
+            app:layout_constraintVertical_bias="0.0">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
-                <TextView
+                <!--include the group name -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/group_name"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <include layout="@layout/group_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <include layout="@layout/astrick_layout"/>
+                </LinearLayout>
 
-                </TextView>
+                <!--include the group name layout -->
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/asterisk_icon">
-
-                </ImageView>
-
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filledTextField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:boxBackgroundMode="none"
-                android:textColorHint="@color/black">
-
-                <!--this is the actual edit text which takes the input-->
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_group_name"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="start"
-                    android:gravity="start"
-                    android:imeOptions="actionDone"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
+                <!--include the group name Box -->
+                <include layout="@layout/group_name_layout"
+                    android:id="@+id/tv_group_name"/>
+                <!--include the group description layout -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/description"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                </TextView>
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/asterisk_icon">
-
-                </ImageView>
-
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filledTextField2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rectangle_grey_background"
-                app:boxBackgroundMode="none"
-                android:inputType="text|textMultiLine"
-                android:textColorHint="@color/black">
-
-                <!--this is the actual edit text which takes the input-->
-                <com.google.android.material.textfield.TextInputEditText
+                    <!--Adding a description name-->
+                    <include layout="@layout/group_layout"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/description_name"/>
+                    <include layout="@layout/astrick_layout"/>
+                </LinearLayout>
+                <!--include the group description box -->
+                <include layout="@layout/group_name_layout"
                     android:id="@+id/tv_description"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
+                    android:layout_height="150dp" />
+                <include layout="@layout/team_member_selection"
                     android:layout_height="match_parent"
-                    android:imeOptions="actionDone"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"/>
 
-                     />
 
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filledTextField3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rectangle_grey_background"
-                android:hint="@string/description"
-                app:hintAnimationEnabled="true"
-                android:padding="@dimen/Fifteen_dp"
-                android:textColorHint="@color/black">
-
-                <TextView
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_edit_buttons"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:textSize="@dimen/Fifteen_dp"
-                    android:textColor="@color/black"
-                    android:text="@string/select_team_member">
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
 
-                </TextView>
-            </com.google.android.material.textfield.TextInputLayout>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/ll_edit_buttons"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:visibility="gone"
-                android:orientation="horizontal"
+                    <!--include the submit and cancel layout -->
+                    <include layout="@layout/cancel_button"
+                        android:id="@+id/btn_cancel_edit"/>
+                    <include layout="@layout/submit_button"
+                        android:id="@+id/btn_update"/>
 
-                >
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:elevation="20dp"
-
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/cancel_button_background"
-                    android:textAllCaps="false"
-                    android:text="@string/cancel">
-
-                </androidx.appcompat.widget.AppCompatButton>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_update"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:elevation="@dimen/Fifteen_dp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:background="@drawable/save_button_background"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:backgroundTint="@color/Blue_text_color"
-                    android:text="@string/update">
-
-                </androidx.appcompat.widget.AppCompatButton>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:paddingStart="40dp"
-        android:paddingEnd="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cv_details"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/add_tm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_left_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:text="@string/add_team_member"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/add_phead"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_right_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:text="@string/add_practice_head"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
-
-        </TextView>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/ll_select_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:background="@drawable/checkbox_background"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat1"
-        app:layout_constraintVertical_bias="0.0">
-
-        <CheckBox
-            android:id="@+id/chk_select_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="20dp"
-            android:layout_margin="10dp"
-            android:text="@string/select_all"
-            android:buttonTint="@color/grey_color_dark"
-            android:background="@color/grey_text_color"
-            android:layout_gravity="center"
-
-            />
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_details_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="10dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_select_all"
-        app:layout_constraintVertical_bias="0.0">
+        </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat2"
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayoutCompat1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp"
-            android:paddingBottom="30dp">
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/search_tm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Search Team Members"
-
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="none"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
-                app:layout_constraintVertical_bias="0.0">
-
-                <!--this is the actual edit text which takes the input-->
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_search_tm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:drawableRight="@drawable/search_groups"
-                    android:gravity="start" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Select Head of the Practice"
-                android:textColor="@color/Blue_text_color"
-                android:textSize="@dimen/twenty_dp"
-                android:visibility="gone">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/group_head_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rectangle_grey_background"
-                android:drawableLeft="@drawable/person_image_email"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp"
-                android:visibility="gone">
-
-            </TextView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_selected_tm"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="10dp"
-                android:orientation="vertical" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/ll_buttons"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-
-                >
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-
-                    android:background="@drawable/cancel_button_background"
-                    android:elevation="20dp"
-                    android:text="@string/cancel"
-                    android:textAllCaps="false">
-
-                </androidx.appcompat.widget.AppCompatButton>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/save_button_background"
-
-                    android:elevation="@dimen/Fifteen_dp"
-                    android:text="@string/save"
-                    android:textAllCaps="false"
-
-                    android:textColor="@color/white">
-
-                </androidx.appcompat.widget.AppCompatButton>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Search Groups"
-
-        android:textColorHint="@color/black"
-        app:boxBackgroundMode="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
-        app:layout_constraintVertical_bias="0.0">
-
-        <!--this is the actual edit text which takes the input-->
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:visibility="gone"
-            android:background="@drawable/rectangle_grey_background"
-            android:drawableRight="@drawable/search_groups"
-            android:gravity="start" />
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_details"
+            app:layout_constraintVertical_bias="0.0">
 
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_view_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/cv_details_activity_log"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search"
-        app:layout_constraintVertical_bias="0.0" />
+            <include layout="@layout/createmember_layout"
+                android:id="@+id/add_tm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_details_activity_log"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        android:visibility="gone"
-        android:elevation="@dimen/Fifty_dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_view_group"
-        app:layout_constraintVertical_bias="0.0">
+            <include layout="@layout/viewmember_layout"
+                android:id="@+id/add_phead"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/checkbox_background"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.914"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat1"
+            app:layout_constraintVertical_bias="0.0">
+
+            <!--include the select all check box -->
+            <include layout="@layout/check_select_all"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_details_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/category"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/asterisk_icon">
-
-                </ImageView>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/spinnerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:gravity="center"
-                android:layout_alignParentTop="true"
-                android:layout_weight=".28"
-                android:background="@drawable/rectangle_grey_background"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/sp_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:spinnerMode="dropdown"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@drawable/down_arrow" />
-
-            </RelativeLayout>
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/team_members"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
-
-
-
-            </LinearLayout>
-            <RelativeLayout
-                android:id="@+id/spinnerLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:gravity="center"
-                android:layout_alignParentTop="true"
-                android:layout_weight=".28"
-                android:background="@drawable/rectangle_grey_background"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/sp_team_member"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:spinnerMode="dropdown"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@drawable/down_arrow" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="@string/from"
-                android:textColor="@color/Blue_text_color"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
-
-
-        </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_from_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-           android:drawableRight="@drawable/calendar_activity"
-            android:elevation="20dp"
-            android:hint="@string/from"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColorHint="@color/grey_text_color"
-
-            android:background="@drawable/rectangle_grey_background"
-            android:textAllCaps="false"
-            >
-
-        </androidx.appcompat.widget.AppCompatButton>
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="@string/to"
-                android:textColor="@color/Blue_text_color"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
-
-
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_to_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/calendar_activity"
-            android:elevation="20dp"
-            android:hint="@string/to"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColorHint="@color/grey_text_color"
-
-            android:background="@drawable/rectangle_grey_background"
-            android:textAllCaps="false"
-            >
-
-        </androidx.appcompat.widget.AppCompatButton> </LinearLayout>
-</LinearLayout>
+            android:padding="10dp"
+            app:cardCornerRadius="10dp"
+            android:elevation="10dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_select_all"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/ll_activity_buttons"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:visibility="visible"
-                android:orientation="horizontal"
-
-                >
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel_activity_log"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:elevation="20dp"
-
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/cancel_button_background"
-                    android:textAllCaps="false"
-                    android:text="@string/cancel">
-
-                </androidx.appcompat.widget.AppCompatButton>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_update_activity_log"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:elevation="@dimen/Fifteen_dp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:background="@drawable/save_button_background"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:backgroundTint="@color/Blue_text_color"
-                    android:text="Search">
-
-                </androidx.appcompat.widget.AppCompatButton>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/search_message"
+                android:id="@+id/linearLayoutCompat2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="none"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
-                app:layout_constraintVertical_bias="0.0">
-
-                <!--this is the actual edit text which takes the input-->
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_search_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:drawableRight="@drawable/search_groups"
-                    android:gravity="start" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_view_activity_log"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/cv_details_activity_log"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/search"
-                app:layout_constraintVertical_bias="0.0" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:padding="5dp"
+                android:paddingBottom="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/search_tm"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search Team Members"
+                    android:textColorHint="@color/black"
+                    android:background="@drawable/rectangle_light_grey_bg">
+                    <!--include the search box -->
+                    <include layout="@layout/search_layout"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Select Head of the Practice"
+                    android:textColor="@color/Blue_text_color"
+                    android:textSize="@dimen/twenty_dp"
+                    android:visibility="gone">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/group_head_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rectangle_grey_background"
+                    android:drawableLeft="@drawable/person_image_email"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Fifteen_dp"
+                    android:visibility="gone">
+
+                </TextView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_selected_tm"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <!--Submit and Cancel Button-->
+                    <include layout="@layout/cancel_button"/>
+                    <include layout="@layout/submit_button"/>
+                    <!--end-->
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/search"
+            android:visibility="gone"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColorHint="@color/black"
+            android:background="@drawable/rectangle_light_grey_bg"
+            android:hint="Search Groups"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
+            app:layout_constraintVertical_bias="0.0">
+
+            <!--this is the actual edit text which takes the input-->
+            <include layout="@layout/search_layout"
+                android:id="@+id/et_search"
+                android:visibility="gone"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_view_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/cv_details_activity_log"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_details_activity_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            app:cardCornerRadius="10dp"
+            android:visibility="gone"
+            android:elevation="@dimen/Fifty_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_view_group"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--Changing sub title name to category-->
+                    <include
+                        android:id="@+id/category_id"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        layout="@layout/group_layout" />
+
+                    <include layout="@layout/astrick_layout" />
+
+                </LinearLayout>
+
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/spinnerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight=".28"
+                    android:background="@drawable/rectangle_light_grey_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <!--Adding a spinner to choose a category-->
+                    <include layout="@layout/spinner_layout" />
+
+                    <include layout="@layout/spinner_drop_down" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Adding a Client name-->
+                    <include
+                        android:id="@+id/client_id_name"
+                        layout="@layout/group_layout" />
+                    <include layout="@layout/group_name_layout"
+                        android:id="@+id/tv_Client_name_id" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <!--Adding a team_member name-->
+                    <include
+                        android:id="@+id/team_member_id"
+                        layout="@layout/group_layout" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/spinnerLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight=".28"
+                    android:background="@drawable/rectangle_light_grey_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <!--Adding a spinner to choose Team member-->
+                    <include
+                        android:id="@+id/sp_team_member"
+                        layout="@layout/spinner_layout" />
+
+                    <include layout="@layout/spinner_drop_down" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/search_name"
+                        layout="@layout/group_layout" />
+                    <!--this is the actual edit text which takes the input-->
+                    <include layout="@layout/group_name_layout"
+                        android:id="@+id/tv_search_name"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/from_id"
+                            layout="@layout/group_layout" />
+                        <!--        Adding a F rom date calender button-->
+                        <include layout="@layout/button_calender" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/to_id"
+                            layout="@layout/group_layout"/>
+
+                        <!--        Adding a To date calender button-->
+                        <include
+                            android:id="@+id/btn_to_date"
+                            layout="@layout/button_calender" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_activity_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+                    <!--                 Adding a cancel and search button-->
+                    <include
+                        android:id="@+id/btn_cancel_activity_log"
+                        layout="@layout/cancel_button" />
+
+                    <include
+                        android:id="@+id/btn_update_activity_log"
+                        layout="@layout/submit_button" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+
+                    android:textColorHint="@color/black"
+                    app:boxBackgroundMode="none"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <!--this is the actual edit text which takes the input-->
+                    <include layout="@layout/search_layout"
+                        android:id="@+id/et_search_message"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_view_activity_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/cv_details_activity_log"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/search"
+                    app:layout_constraintVertical_bias="0.0" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
