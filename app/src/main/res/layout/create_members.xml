@@ -132,7 +132,6 @@
                         android:id="@+id/tv_designation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Designation"
 
                       />
 
@@ -171,7 +170,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
-
+                            android:layout_marginTop="3dp"
                             android:background="@drawable/rectangle_grey_background">
 
                             <Spinner
@@ -179,7 +178,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
 
-                                android:layout_marginBottom="7dp"
+                                android:layout_marginBottom="8dp"
                                 android:clickable="true"
                                 android:drawableRight="@drawable/spinner_drop_down"
                                 android:focusable="true"
@@ -409,7 +408,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:hint="Search Team Members"
+                    android:hint="Search Group"
 
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none"
@@ -461,10 +460,13 @@
 
                         android:id="@+id/btn_cancel_members"/>
 
-                    <include layout="@layout/add_button"
+                    <include layout="@layout/submit_button"
+
                         
                         android:id="@+id/btn_save_members"
                         />
+
+
 
 
 

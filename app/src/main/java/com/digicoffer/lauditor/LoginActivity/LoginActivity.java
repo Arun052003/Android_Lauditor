@@ -7,21 +7,23 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatSpinner;
-
 import com.digicoffer.lauditor.MainActivity;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -34,12 +36,10 @@ import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
-
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -49,31 +49,26 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
-    TextInputEditText tet_email,tet_password;
-    AppCompatButton bt_login;
+    TextInputEditText tet_email, tet_password;
+    AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
     Dialog ad_dialog;
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
-    Button bt_submit;
+    Button bt_login;
     TextView tv_forgot_password;
     boolean isRecursionEnable = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
         bt_submit = findViewById(R.id.Submit);
-
         tv_forgot_password = findViewById(R.id.textView);
-
-//       mConnection = (ChatConnection) getCallingActivity()
-//       chatConnectionService = (ChatConnectionService) getApplicationContext();
-        tet_email.setText(Constants.email);
-        tet_password.setText(Constants.password);
-//        Login();
 
         tv_forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +86,35 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     e.printStackTrace();
                 }
 
+
             }
         });
 
+        // Initialize the button state
+        bt_submit.setEnabled(false);
+       bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dullBlueColor)));// Initially disabled
+
+        // TextWatcher for email and password EditTexts
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkFieldsNotEmpty();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkFieldsNotEmpty();
+            }
+        };
+
+        tet_email.addTextChangedListener(textWatcher);
+        tet_password.addTextChangedListener(textWatcher);
+
+        // Set click listeners for the buttons
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,8 +122,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked){
                         Login();
+                        checkFieldsNotEmpty();
                         // Reset();
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -110,8 +131,41 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             }
         });
 
-//        getActionBar().hide();
+        // Rest of your code...
+        // Initialize your views and other functionality
     }
+
+    private void checkFieldsNotEmpty() {
+        String email = tet_email.getText().toString().trim();
+        String password = tet_password.getText().toString().trim();
+
+        // Check if both email and password are not empty
+        boolean bothFieldsNotEmpty = !email.isEmpty() && !password.isEmpty();
+
+        if (bothFieldsNotEmpty  && isValidPassword(password)) {
+            // Enable the submit button and set its color to the enabled state
+            bt_submit.setEnabled(true);
+            bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
+        } else {
+            // Disable the submit button and set its color to the disabled state
+            bt_submit.setEnabled(false);
+            bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dullBlueColor)));
+        }
+    }
+
+    // You can add validation functions for email and password
+   // private boolean isValidEmail(String email) {
+
+      //  return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+   // }
+
+    private boolean isValidPassword(String password) {
+
+        return password.length() >= 6;
+    }
+
+
+
 
     private void Login() {
         try {
@@ -183,13 +237,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         //reseting password---
         forget_psd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Navigate to ForgetPasswordActivity
-                    Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
-                    startActivity(intent);
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                // Navigate to ForgetPasswordActivity
+                Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(intent);
+            }
+        });
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -213,6 +267,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 }
             }
         });
+
 
         dialog.setView(dialogLayout);
         dialog.show();
