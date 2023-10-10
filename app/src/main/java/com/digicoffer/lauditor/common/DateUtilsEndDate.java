@@ -18,18 +18,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateUtils {
-    public interface OnDateSelectedListener {
-        void onDateSelected(String selectedDate, String FLAG);
+public class DateUtilsEndDate {
+    public interface OnDateSelectedListenerEndDate {
+        void onDateSelectedEndDate(String selectedDate, String FLAG);
     }
     private AuditTrails auditTrails;
-    private static OnDateSelectedListener dateSelectedListener;
+    private static DateUtilsEndDate.OnDateSelectedListenerEndDate dateSelectedListener;
 
-    public DateUtils(AuditTrails auditTrails) {
+    public DateUtilsEndDate(AuditTrails auditTrails) {
         this.auditTrails = auditTrails;
     }
 
-    public void setOnDateSelectedListener(OnDateSelectedListener listener) {
+    public void setOnDateSelectedListener(DateUtilsEndDate.OnDateSelectedListenerEndDate listener) {
         this.dateSelectedListener = listener;
     }
     public static void showDatePickerDialog(Context context, final TextView textView, Context context1, ArrayList<AuditsModel> sorted_list, RecyclerView rv_audits, ArrayList<AuditsModel> auditsList, String catergory_type, String FLAG) {
@@ -64,7 +64,7 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         textView.setText(sdf.format(calendar.getTime()));
         if (dateSelectedListener != null) {
-            dateSelectedListener.onDateSelected(textView.getText().toString(),FLAG);
+            dateSelectedListener.onDateSelectedEndDate(textView.getText().toString(),FLAG);
         }
 //        loadnewPage(textView.getText().toString());
     }
@@ -108,3 +108,4 @@ public class DateUtils {
     }
 }
 //}
+

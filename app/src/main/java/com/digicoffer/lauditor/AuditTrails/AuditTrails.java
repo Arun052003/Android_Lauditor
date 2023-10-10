@@ -40,6 +40,7 @@ import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.DateUtils;
+import com.digicoffer.lauditor.common.DateUtilsEndDate;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
+public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,DateUtils.OnDateSelectedListener, DateUtilsEndDate.OnDateSelectedListenerEndDate {
     ArrayList<SpinnerItemModal> categoryList = new ArrayList<>();
     TextView tv_name, tv_advanced_search;
     HorizontalScrollView scrollView;
@@ -97,50 +98,36 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
             et_search.setHint(R.string.search);
             ll_page_navigation = view.findViewById(R.id.ll_page_navigaiton);
             cv_list = view.findViewById(R.id.cv_list);
+            DateUtils dateUtils = new DateUtils(this);
+            DateUtilsEndDate dateUtilsEndDate = new DateUtilsEndDate(this);
+            dateUtilsEndDate.setOnDateSelectedListener(this);
+            dateUtils.setOnDateSelectedListener(this);
             tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
             tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
             tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
             tv_event_start_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    sorted_list.clear();
+                    String FLAG = "Start Time";
+                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(),sorted_list,rv_audits,auditsList,Catergory_type,FLAG);
+
 //                    tv_event_start_time.requestFocus();
-                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
+//                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
                 }
             });
             tv_event_end_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DateUtils.showDatePickerDialog(getContext(),tv_event_end_time,getContext());
                     sorted_list.clear();
-                    rv_audits.removeAllViews();
-                    rv_audits.setAdapter(null);
-                    et_search_relationships.setText("");
-                    for (int i=0;i<auditsList.size();i++){
-                        String timestamp = auditsList.get(i).getTimestamp();
-                        Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp,"MMM dd,yyyy, hh:mm a");
-//                        String latest_timestamp = AndroidUtils.getDateToString(formatted_date,"MMM dd,yyyy hh:mm a");
-//                        Log.d("New_Date",latest_timestamp);
-//                        Log.d("Formatted_Date",formatted_date.toString());
-                        Date updated_date =  DateUtils.stringToDate(et_search_relationships.getText().toString());
-//                        Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(),"MMM dd,YYYY");
-                        if(formatted_date.after(updated_date)||formatted_date.equals(updated_date)) {
-                            if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                                AuditsModel auditsModel = new AuditsModel();
-                                auditsModel.setName(auditsList.get(i).getName());
-                                auditsModel.setTimestamp(auditsList.get(i).getTimestamp());
-                                auditsModel.setMessage(auditsList.get(i).getMessage());
-                                sorted_list.add(auditsModel);
-                            }
-                        }
-
-
-
-
-                    }
-                    loadRecyclerView(currentPage);
+                    String FLAG = "End Time";
+                    DateUtilsEndDate.showDatePickerDialog(getContext(), tv_event_end_time, getContext(),sorted_list,rv_audits,auditsList,Catergory_type, FLAG);
 
                 }
-            });
+                    });
+//                    DateUtils.showDatePickerDialog(getContext(),tv_event_end_time,getContext());
+//
+//            });
             scrollView = view.findViewById(R.id.scrollView);
             iv_forward_button = view.findViewById(R.id.iv_forward_button);
             iv_backward_button = view.findViewById(R.id.iv_backward_button);
@@ -425,6 +412,32 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
+    //    private static void loadnewPage(String et_search_relationships) {
+//        if (!et_search_relationships.equals("")) {
+//
+//            // Perform your additional operation here after the date is selected
+//            sorted_list.clear();
+//            rv_audits.removeAllViews();
+//            rv_audits.setAdapter(null);
+//            et_search_relationships.setText("");
+//            for (int i = 0; i < auditsList.size(); i++) {
+//                String timestamp = auditsList.get(i).getTimestamp();
+//                Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
+//                Date updated_date = DateUtils.stringToDate(et_search_relationships.getText().toString());
+//                if (formatted_date.after(updated_date) || formatted_date.equals(updated_date)) {
+//                    if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+//                        AuditsModel auditsModel = new AuditsModel();
+//                        auditsModel.setName(auditsList.get(i).getName());
+//                        auditsModel.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModel.setMessage(auditsList.get(i).getMessage());
+//                        sorted_list.add(auditsModel);
+//                    }
+//                }
+//            }
+//            loadRecyclerView(currentPage);
+//        }
+//    }
+
     private void loadRecyclerView(int page) {
         if (sorted_list.size() != 0) {
             int startIndex = (page - 1) * itemsPerPage;
@@ -456,6 +469,60 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener {
                 ((AuditsAdapter) rv_audits.getAdapter()).setData(pageItems);
             }
         }
+    }
+
+    @Override
+    public void onDateSelected(String selectedDate, String FLAG) {
+            loadnewPage(selectedDate,FLAG);
+    }
+
+    private void loadnewPage(String selectedDate, String FLAG) {
+                    sorted_list.clear();
+                    rv_audits.removeAllViews();
+                    rv_audits.setAdapter(null);
+                    et_search_relationships.setText("");
+        Date selectedDateObj = DateUtils.stringToDate(selectedDate);
+                    for (int i=0;i<auditsList.size();i++){
+                        AuditsModel auditsModel = auditsList.get(i);
+                        String timestamp = auditsList.get(i).getTimestamp();
+                        Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp,"MMM dd,yyyy, hh:mm a");
+//                        String latest_timestamp = AndroidUtils.getDateToString(formatted_date,"MMM dd,yyyy hh:mm a");
+//                        Log.d("New_Date",latest_timestamp);
+//                        Log.d("Formatted_Date",formatted_date.toString());
+//                        Date updated_date =  DateUtils.stringToDate(selectedDate);
+//                        Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(),"MMM dd,YYYY");
+                        if(FLAG.equals("Start Time")) {
+                            if (formatted_date.after(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
+                                if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                                    AuditsModel auditsModelToAdd = new AuditsModel();
+                                    auditsModelToAdd.setName(auditsList.get(i).getName());
+                                    auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+                                    auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+                                    sorted_list.add(auditsModelToAdd);
+                                }
+                            }
+                        }else{
+                            if (formatted_date.before(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
+                                if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                                    AuditsModel auditsModelToAdd = new AuditsModel();
+                                    auditsModelToAdd.setName(auditsList.get(i).getName());
+                                    auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+                                    auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+                                    sorted_list.add(auditsModelToAdd);
+                                }
+                            }
+                        }
+
+                    }
+                    loadRecyclerView(currentPage);
+                    setupPagination();
+//        loadPage(currentPage);
+
+    }
+
+    @Override
+    public void onDateSelectedEndDate(String selectedDate, String FLAG) {
+        loadnewPage(selectedDate,FLAG);
     }
 //        adapter = new MyAdapter(pageItems);
 //        recyclerView.setAdapter(adapter);
