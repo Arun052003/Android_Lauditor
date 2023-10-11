@@ -10,25 +10,6 @@
     <style name="BlueDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:datePickerStyle">@style/BlueDatePickerStyle</item>
     </style>
-
-
-        <style name="DatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
-            <!-- Customize the colors here -->
-            <item name="colorAccent">@color/Blue_text_color</item>
-            <item name="android:buttonBarButtonStyle">@style/CustomButtonBarButtonStyle</item>
-            <item name="android:textColorPrimary">@color/Blue_text_color</item>
-            <item name="android:textColorSecondary">@color/Blue_text_color</item>
-            <item name="android:colorControlNormal">@color/Blue_text_color</item>
-            <item name="android:colorControlActivated">@color/Blue_text_color</item>
-            <item name="android:colorButtonNormal">@color/black</item>
-
-            <!-- Customize the dialog window background color -->
-            <item name="android:windowBackground">@color/light_grey</item>
-            <!-- Add more customizations as needed -->
-        </style>
-    <style name="CustomButtonBarButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/black</item>
-    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="BlueDatePickerStyle" parent="android:Widget.Material.Light.DatePicker">
         <item name="android:colorAccent">@color/Blue_text_color</item>

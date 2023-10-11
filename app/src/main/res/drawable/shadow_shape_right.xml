@@ -3,6 +3,5 @@
     <corners android:bottomLeftRadius="0dp" android:bottomRightRadius="10dp" android:radius="14dp" android:topLeftRadius="0dp" android:topRightRadius="10dp" />
     <gradient android:angle="45" android:centerColor="@color/green_count_color" android:endColor="@color/green_count_color" android:startColor="@color/green_count_color" android:type="linear" />
     <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
-    <stroke android:width="2dp" android:color="@color/Blue_text_color" />
 
 </shape>

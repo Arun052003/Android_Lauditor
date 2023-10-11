@@ -9,6 +9,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.Adapters.ViewGroupsAdpater;
@@ -127,6 +128,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox cb_team_members;
+        AppCompatButton bt_cancel;
         TextView tv_tm_name;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -135,3 +137,4 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         }
     }
 }
+

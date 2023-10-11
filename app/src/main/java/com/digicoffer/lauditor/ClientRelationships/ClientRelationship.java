@@ -280,7 +280,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         clearIndividualData();
 
                         rb_individual.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-                        rb_entity.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+                        rb_entity.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
                         rb_individual.setTextColor(getContext().getResources().getColor(R.color.black));
                         rb_entity.setTextColor(getContext().getResources().getColor(R.color.white));
                         break;
@@ -300,7 +300,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     case R.id.add_entity_relationship:
                         Relationship_Type = "business";
                         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_background));
-                        rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+                        rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
 
                         viewRelationshipsData();
                         break;
@@ -318,7 +318,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         rg_individual_entity.setVisibility(View.GONE);
         rg_relationship.setVisibility(View.VISIBLE);
         rb_add_relationship.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        rb_view_relationships.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        rb_view_relationships.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.black));
         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.white));
         ll_relationships.setVisibility(View.VISIBLE);
