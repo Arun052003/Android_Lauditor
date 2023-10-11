@@ -4,6 +4,7 @@ package com.digicoffer.lauditor.Members;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,10 +50,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Members extends Fragment implements AsyncTaskCompleteListener, MembersAdapter.EventListener ,View.OnClickListener{
-    TextView tv_member_name, tv_designation, tv_email, tv_confirm_email, tv_default_rate, tv_create_members, tv_view_members, et_search_members;
+    TextView tv_member_name, tv_designation, tv_email, tv_confirm_email, tv_default_rate, tv_create_members, tv_view_members, et_search_members,textView2;
     Spinner sp_default_currency;
     private NewModel mViewModel;
-    AppCompatButton btn_cancel_members, bt_save_members, bt_cancel, bt_save,btn_cancel_save,btn_create;
+
+    AppCompatButton btn_cancel_members, bt_save_members, bt_cancel, bt_save,btn_cancel_save,btn_create,btn_add;
     RecyclerView rv_selected_member, rv_view_members;
     TextInputLayout tv_assign_groups;
     public static String FLAG = "";
@@ -101,19 +103,27 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         super.onViewCreated(v, savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
         tv_member_name = v.findViewById(R.id.tv_create_member_name);
+        tv_member_name.setHint(R.string.name);
         tv_designation = v.findViewById(R.id.tv_designation);
+        tv_designation.setHint(R.string.designation);
         tv_email = v.findViewById(R.id.tv_email);
+        tv_email.setHint(R.string.email);
         rv_view_members = v.findViewById(R.id.rv_view_members);
         tv_confirm_email = v.findViewById(R.id.tv_confirm_email);
+        tv_confirm_email.setHint(R.string.confirm_email);
         tv_default_rate = v.findViewById(R.id.tv_default_rate);
+        tv_default_rate.setHint(R.string.default_rate);
         bt_save = v.findViewById(R.id.btn_update);
         bt_cancel = v.findViewById(R.id.btn_cancel_edit);
         tv_create_members = v.findViewById(R.id.tv_create_members);
+
         tv_view_members = v.findViewById(R.id.tv_view_members);
+
         et_search_members = v.findViewById(R.id.et_search_members);
         sp_default_currency = v.findViewById(R.id.sp_default_currency);
         btn_cancel_members = v.findViewById(R.id.btn_cancel_members);
         bt_save_members = v.findViewById(R.id.btn_save_members);
+
         cv_details = v.findViewById(R.id.cv_details);
         btn_cancel_save = v.findViewById(R.id.btn_cancel_save);
         btn_create = v.findViewById(R.id.btn_create);
@@ -149,11 +159,14 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         String data = "View Members";
         setViewModelData(data);
         ViewMembersData();
+        tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_view_members.setTextColor(Color.WHITE);
         tv_create_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clearData();
 //                cv_members_details.setVisibility(View.GONE);
+
                 tv_create_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                 tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                 ll_confirm_email.setVisibility(View.VISIBLE);
@@ -162,14 +175,22 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 String data = "Create Members";
                 setViewModelData(data);
                 CreateMembersData();
+
+                tv_create_members.setTextColor(getContext().getResources().getColor(R.color.white));
+                tv_view_members.setTextColor(getContext().getResources().getColor(R.color.black));
+
             }
         });
+
         tv_view_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+               //tv_view_members.setTextColor(Color.WHITE);
                 String data = "View Members";
                 setViewModelData(data);
                 ViewMembersData();
+                tv_create_members.setTextColor(getContext().getResources().getColor(R.color.black));
+               tv_view_members.setTextColor(getContext().getResources().getColor(R.color.white));
 
             }
         });
@@ -321,6 +342,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         groupsList.clear();
         updatedMembersList.clear();
     }
+
 
     private void callViewGroupsWebservice() {
 
@@ -528,14 +550,14 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
             }
 
         });
-        btn_cancel_members.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                et_search_members.setText("");
-                groupsList.clear();
-                callGroupsWebservice();
-            }
-        });
+      //  btn_cancel_members.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+         //   public void onClick(View view) {
+            //    et_search_members.setText("");
+              //  groupsList.clear();
+               // callGroupsWebservice();
+           // }
+       // });
 
 //        }
 //        else {
@@ -570,6 +592,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this);
         rv_view_members.setAdapter(adapter);
         rv_view_members.setHasFixedSize(true);
+
     }
 
 
@@ -631,8 +654,9 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         btn_cancel_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 unhide();
-                et_search_members.setText("");
+
                 ViewMembersData();
 
             }
@@ -640,10 +664,12 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         bt_save_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String tag = "UGA";
                 callCreateMemberWebservice("", "", "", "", "", tag, membersModel.getId());
             }
         });
+        bt_save_members.setText("Add");
     }
 
     @Override
@@ -685,6 +711,5 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         tv_default_rate.setText("");
 
     }
-
 
 }
