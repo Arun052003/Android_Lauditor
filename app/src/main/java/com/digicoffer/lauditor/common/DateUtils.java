@@ -5,11 +5,19 @@ import android.content.Context;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+<<<<<<< Updated upstream
 import com.digicoffer.lauditor.AuditTrails.AuditTrails;
+=======
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.digicoffer.lauditor.AuditTrails.AuditTrails;
+import com.digicoffer.lauditor.AuditTrails.Model.AuditsModel;
+>>>>>>> Stashed changes
 import com.digicoffer.lauditor.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -28,7 +36,11 @@ public class DateUtils {
     public void setOnDateSelectedListener(OnDateSelectedListener listener) {
         this.dateSelectedListener = listener;
     }
+<<<<<<< Updated upstream
     public static void showDatePickerDialog(Context context, final TextView textView, Context context1, String FLAG) {
+=======
+    public static void showDatePickerDialog(Context context, final TextView textView, Context context1, ArrayList<AuditsModel> sorted_list, RecyclerView rv_audits, ArrayList<AuditsModel> auditsList, String catergory_type, String FLAG) {
+>>>>>>> Stashed changes
         final Calendar myCalendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override

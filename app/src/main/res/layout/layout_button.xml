@@ -53,10 +53,17 @@
             android:id="@+id/Submit"
             android:layout_width="120dp"
             android:layout_height="40dp"
+<<<<<<< Updated upstream
 
             android:visibility="visible"
             android:textStyle="bold"
             android:background="@color/dullBlueColor"
+=======
+            android:alpha="0.5"
+            android:visibility="visible"
+            android:textStyle="bold"
+            android:background="@color/blue"
+>>>>>>> Stashed changes
             android:fontFamily="@font/gill_sans"
             android:layout_gravity="center_horizontal"
             android:text="Submit"

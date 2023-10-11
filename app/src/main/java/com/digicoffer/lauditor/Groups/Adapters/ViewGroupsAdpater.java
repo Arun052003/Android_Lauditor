@@ -183,26 +183,26 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-                    if (name == "Edit Group") {
-                        eventListener.EditGroup(viewGroupModel);
-                    } else if (name == "Delete") {
-                        eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
-                    } else if (name == "Change Group Head") {
-                        eventListener.CGH(viewGroupModel, itemsArrayList);
-                    } else if (name == "Update Group Members") {
-                        try {
-                            eventListener.UGM(viewGroupModel);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
+                        if (name == "Edit Group") {
+                            eventListener.EditGroup(viewGroupModel);
+                        } else if (name == "Delete") {
+                            eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
+                        } else if (name == "Change Group Head") {
+                            eventListener.CGH(viewGroupModel, itemsArrayList);
+                        } else if (name == "Update Group Members") {
+                            try {
+                                eventListener.UGM(viewGroupModel);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else if (name == "Group Activity Log") {
+                            try {
+                                eventListener.GAL(viewGroupModel);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } else if (name == "Group Activity Log") {
-                        try {
-                            eventListener.GAL(viewGroupModel);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
 
                 @Override
@@ -280,7 +280,11 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+<<<<<<< Updated upstream
         private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name, created_id;
+=======
+        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name,created_id;
+>>>>>>> Stashed changes
         private Spinner sp_action;
         private CheckBox cb_team_members,rb_group;
         private RadioButton rb_group_head,rb_group_selected;
@@ -292,7 +296,11 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
+<<<<<<< Updated upstream
             created_id = itemView.findViewById(R.id.created_id);
+=======
+            created_id=itemView.findViewById(R.id.created_id);
+>>>>>>> Stashed changes
             //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
             sp_action = itemView.findViewById(R.id.sp_action);

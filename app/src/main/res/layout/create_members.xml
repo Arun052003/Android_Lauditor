@@ -132,6 +132,10 @@
                         android:id="@+id/tv_designation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+<<<<<<< Updated upstream
+=======
+                        android:hint="Designation"
+>>>>>>> Stashed changes
 
                       />
 
@@ -170,7 +174,11 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
+<<<<<<< Updated upstream
                             android:layout_marginTop="3dp"
+=======
+
+>>>>>>> Stashed changes
                             android:background="@drawable/rectangle_grey_background">
 
                             <Spinner
@@ -178,7 +186,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
 
+<<<<<<< Updated upstream
                                 android:layout_marginBottom="8dp"
+=======
+                                android:layout_marginBottom="7dp"
+>>>>>>> Stashed changes
                                 android:clickable="true"
                                 android:drawableRight="@drawable/spinner_drop_down"
                                 android:focusable="true"
@@ -460,15 +472,22 @@
 
                         android:id="@+id/btn_cancel_members"/>
 
+<<<<<<< Updated upstream
                     <include layout="@layout/submit_button"
 
+=======
+                    <include layout="@layout/add_button"
+>>>>>>> Stashed changes
                         
                         android:id="@+id/btn_save_members"
                         />
 
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>

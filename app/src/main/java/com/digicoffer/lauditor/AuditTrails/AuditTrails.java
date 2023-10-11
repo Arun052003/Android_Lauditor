@@ -110,11 +110,16 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                 @Override
                 public void onClick(View v) {
                     sorted_list.clear();
+<<<<<<< Updated upstream
 //                    rv_audits.removeAllViews();
 //                    rv_audits.setAdapter(null);
                     et_search_relationships.setText("");
                     String FLAG = "Start Time";
                     DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(),FLAG);
+=======
+                    String FLAG = "Start Time";
+                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(),sorted_list,rv_audits,auditsList,Catergory_type,FLAG);
+>>>>>>> Stashed changes
 
 //                    tv_event_start_time.requestFocus();
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
@@ -124,11 +129,16 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                 @Override
                 public void onClick(View v) {
                     sorted_list.clear();
+<<<<<<< Updated upstream
 //                    rv_audits.removeAllViews();
 //                    rv_audits.setAdapter(null);
                     et_search_relationships.setText("");
                     String FLAG = "End Time";
                     DateUtilsEndDate.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG);
+=======
+                    String FLAG = "End Time";
+                    DateUtilsEndDate.showDatePickerDialog(getContext(), tv_event_end_time, getContext(),sorted_list,rv_audits,auditsList,Catergory_type, FLAG);
+>>>>>>> Stashed changes
 
                 }
                     });
@@ -525,17 +535,28 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                     rv_audits.setAdapter(null);
                     et_search_relationships.setText("");
         Date selectedDateObj = DateUtils.stringToDate(selectedDate);
+<<<<<<< Updated upstream
         if(FLAG.equals("Start Time")) {
                     for (int i=0;i<auditsList.size();i++) {
                         AuditsModel auditsModel = auditsList.get(i);
                         String timestamp = auditsList.get(i).getTimestamp();
                         Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
+=======
+                    for (int i=0;i<auditsList.size();i++){
+                        AuditsModel auditsModel = auditsList.get(i);
+                        String timestamp = auditsList.get(i).getTimestamp();
+                        Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp,"MMM dd,yyyy, hh:mm a");
+>>>>>>> Stashed changes
 //                        String latest_timestamp = AndroidUtils.getDateToString(formatted_date,"MMM dd,yyyy hh:mm a");
 //                        Log.d("New_Date",latest_timestamp);
 //                        Log.d("Formatted_Date",formatted_date.toString());
 //                        Date updated_date =  DateUtils.stringToDate(selectedDate);
 //                        Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(),"MMM dd,YYYY");
+<<<<<<< Updated upstream
 
+=======
+                        if(FLAG.equals("Start Time")) {
+>>>>>>> Stashed changes
                             if (formatted_date.after(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
                                 if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
                                     AuditsModel auditsModelToAdd = new AuditsModel();
@@ -544,6 +565,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                                     auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
                                     sorted_list.add(auditsModelToAdd);
                                 }
+<<<<<<< Updated upstream
 
 
                         }
@@ -624,6 +646,27 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
 //        loadPage(currentPage);
 
 
+=======
+                            }
+                        }else{
+                            if (formatted_date.before(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
+                                if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                                    AuditsModel auditsModelToAdd = new AuditsModel();
+                                    auditsModelToAdd.setName(auditsList.get(i).getName());
+                                    auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+                                    auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+                                    sorted_list.add(auditsModelToAdd);
+                                }
+                            }
+                        }
+
+                    }
+                    loadRecyclerView(currentPage);
+                    setupPagination();
+//        loadPage(currentPage);
+
+    }
+>>>>>>> Stashed changes
 
     @Override
     public void onDateSelectedEndDate(String selectedDate, String FLAG) {
