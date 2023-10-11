@@ -83,7 +83,7 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener,View
     }
     private void loadMonthView() {
 
-        tv_month_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_month_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_day_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MonthlyCalendar nonSubmittedTimesheets = new MonthlyCalendar();
@@ -123,7 +123,7 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener,View
 //        childFragmentManager.beginTransaction().add(R.id.child_container_timesheets, childFragment).commit();
 //    }
     private void loadView() {
-        tv_view_calendar.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_view_calendar.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_create_event.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
 
 
@@ -147,7 +147,7 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener,View
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_view_calendar:
-                tv_month_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+                tv_month_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
                 tv_day_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
                 ll_view_type.setVisibility(View.VISIBLE);
                 loadMonthView();

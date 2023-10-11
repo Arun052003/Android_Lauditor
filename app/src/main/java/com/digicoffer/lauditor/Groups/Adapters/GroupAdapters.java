@@ -29,15 +29,13 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
     String mTag = "";
     int add_group_head = 2;
     int selectedPosition = -1;
-
-    public GroupAdapters(ArrayList<GroupModel> itemsArrayList, String Tag, ItemClickListener itemClickListener) {
+    public GroupAdapters(ArrayList<GroupModel> itemsArrayList,String Tag,ItemClickListener itemClickListener) {
         this.itemsArrayList = itemsArrayList;
         this.list_item = itemsArrayList;
         this.mTag = Tag;
         this.itemClickListener = itemClickListener;
     }
-
-    //    @Override
+//    @Override
 //    public void onViewRecycled(@NonNull ViewHolder holder) {
 //        holder.cb_team_members.setOnCheckedChangeListener(null);
 //        super.onViewRecycled(holder);
@@ -50,10 +48,10 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (mTag == "TM") {
+        if (mTag=="TM") {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
             return new GroupAdapters.ViewHolder(itemView);
-        } else {
+        }else{
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assign_group_head, parent, false);
             return new GroupAdapters.ViewHolder(itemView);
         }
@@ -67,60 +65,44 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
         itemsArrayList = list_item;
 
         if (mTag == "TM") {
-            //holder.select_all.setChecked(itemsArrayList.get(position).isChecked());
+
             holder.cb_team_members.setChecked(itemsArrayList.get(position).isChecked());
             holder.cb_team_members.setTag(position);
 //            if(groupModel.isIsenabled()==null)
-            if (itemsArrayList.get(position).isIsenabled()) {
+            if (itemsArrayList.get(position).isIsenabled()){
                 holder.cb_team_members.setEnabled(true);
-            } else {
+            }else
+            {
                 holder.cb_team_members.setEnabled(false);
             }
-//            for (int j=0;j<itemsArrayList.size();j++) {
-//                holder.cb_team_members.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                        int i;
-//                        boolean isChecked = true;
-//                        for (i = 0; i < itemsArrayList.size(); i++) {
-//                            if (!holder.cb_team_members.isChecked()) {
-//                                isChecked = false;
-//                                break;
-//                            }
-//                        }
-//                        return isChecked;
-//                    }
-//                });
-//            }
-
             holder.cb_team_members.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_team_members.getTag();
                     if (itemsArrayList.get(pos).isChecked()) {
                         itemsArrayList.get(pos).setChecked(false);
+
 //                        itemsArrayList.add(itemsArrayList.get(pos));
                     } else {
                         itemsArrayList.get(pos).setChecked(true);
 //                        itemsArrayList.remove(itemsArrayList.get(pos));
                     }
+
+
                 }
             });
+//            holder.cb_team_members.setChecked(true);
             holder.tv_tm_name.setText(groupModel.getName());
-//            if(holder.cb_team_members.isChecked())
-//            {
-//                holder.select_all.setChecked(groupModel.isChecked());
-//            }
-
-        } else {
-            holder.rb_group_head.setText(groupModel.getName());
-            holder.rb_group_head.setChecked(position == selectedPosition);
-            holder.rb_group_head.setTag(groupModel.getId());
+        }
+        else{
+          holder.rb_group_head.setText(groupModel.getName());
+          holder.rb_group_head.setChecked(position == selectedPosition);
+          holder.rb_group_head.setTag(groupModel.getId());
 //          holder.rb_group_head.
             holder.rb_group_head.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b) {
+                    if (b){
                         selectedPosition = holder.getAdapterPosition();
                         itemClickListener.onClick(groupModel.getId());
 //                        int copyOfLastCheckedPosition = selectedPosition;
@@ -140,7 +122,6 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
     public ArrayList<GroupModel> getList_item() {
         return itemsArrayList;
     }
-
     @Override
     public int getItemCount() {
         return itemsArrayList.size();
@@ -170,7 +151,7 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
 //                            }
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (AndroidUtils.isNull(row.getName()).toLowerCase().contains(charString.toLowerCase())) {
+                        if (AndroidUtils.isNull(row.getName()).toLowerCase().contains(charString.toLowerCase()) ) {
                             filteredList.add(row);
                         }
                     }
@@ -191,34 +172,19 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
         };
     }
 
-    public boolean selecctall = false;
-
-    public void selectOrDeselectAll(boolean isChecked) {
-        int i;
-
-        for (i = 0; i < list_item.size(); i++) {
+    public void selectOrDeselectAll(boolean isChecked)
+    {
+        for(int i = 0; i<list_item.size(); i++)
+        {
 //            if (list_item.get(i).isIsenabled())
 //            if (list_item.get(i).isIsenabled()) {
-            list_item.get(i).setChecked(isChecked);
+                list_item.get(i).setChecked(isChecked);
 //            }else {
 //                list_item.get(i).setChecked(false);
 //            }
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
     }
-//    public void select_all() {
-//        int i;
-//        for (i = 0; i < list_item.size(); i++) {
-//            list_item.get(i);
-//        }
-//        if (list_item.get(i).isChecked()) {
-//            selecctall = true;
-//        } else selecctall = false;
-//        notifyDataSetChanged();
-//    }
-
-    //checking for all team member is selected....
-
 //    public void selectOrDeselectAll(boolean isChecked) {
 //        for (int i = 0; i < list_item.size(); i++) {
 //
@@ -236,14 +202,12 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
 //    }
     public class ViewHolder extends RecyclerView.ViewHolder{
         private CheckBox cb_team_members;
-        private CheckBox select_all;
         private TextView tv_tm_name,tv_gh_name;
         private RadioButton rb_group_head;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
-            select_all=itemView.findViewById(R.id.chk_select_all);
 //            tv_gh_name = itemView.findViewById(R.id.tv_gh_name);
             rb_group_head = itemView.findViewById(R.id.rb_selected);
         }

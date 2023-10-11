@@ -338,7 +338,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     }
     private void hideviewClientBackground(){
-        tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_client_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
 
     }
@@ -575,7 +575,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_client_name.setVisibility(View.GONE);
         clearListData();
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_firm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_firm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
     }
 
     private void clearListData() {
@@ -852,7 +852,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     private void hideDisableDownloadBackground() {
         DOWNLOAD_TAG = false;
         tv_enable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_disable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_disable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
 
     }
 
@@ -872,7 +872,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         btn_upload.setVisibility(View.VISIBLE);
         btn_add_tags.setVisibility(View.GONE);
         tv_add_tag.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_edit_meta.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_edit_meta.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         loadRecyclerview(tag, subtag);
     }
 

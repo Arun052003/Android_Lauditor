@@ -40,7 +40,7 @@
             android:id="@+id/tv_view_calendar"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:background="@drawable/button_right_green_background"
+            android:background="@drawable/button_right_green_count"
             android:fontFamily="sans-serif-condensed-medium"
             android:padding="10dp"
             android:text="@string/teams"

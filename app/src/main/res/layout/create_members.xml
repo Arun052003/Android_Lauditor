@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Primary"
-    android:cursorVisible="false"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="20dp"
     tools:context=".MainActivity">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,12 +26,33 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.013">
 
-          <include layout="@layout/createmember_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="1dp"/>
+            <TextView
+                android:id="@+id/tv_create_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_left_background"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:padding="10dp"
+                android:text="@string/create_members"
+                android:textColor="@color/black"
+                android:textSize="@dimen/Fifteen_dp">
 
-           <include layout="@layout/viewmember_layout"/>
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_view_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_right_background"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:padding="10dp"
+                android:text="@string/view_members"
+                android:textColor="@color/black"
+                android:textSize="@dimen/Fifteen_dp">
+
+            </TextView>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.cardview.widget.CardView
@@ -61,19 +81,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:text="@string/name"
-
                         android:textColor="@color/Blue_text_color"
                         android:textSize="@dimen/Fifteen_dp">
+
                     </TextView>
 
-                  <include layout="@layout/icon"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/asterisk_icon">
+
+                    </ImageView>
 
                 </LinearLayout>
 
@@ -86,14 +109,14 @@
                     app:boxBackgroundMode="none">
 
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/group_name_layout"
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tv_create_member_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:autoLink="none"
-                        />
-
+                        android:layout_gravity="start"
+                        android:background="@drawable/rectangle_grey_background"
+                        android:gravity="start"
+                        android:imeOptions="actionDone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,7 +129,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/designation"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:text="@string/designation"
                         android:textColor="@color/Blue_text_color"
@@ -114,7 +136,12 @@
 
                     </TextView>
 
-                   <include layout="@layout/icon"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/asterisk_icon">
+
+                    </ImageView>
 
                 </LinearLayout>
 
@@ -128,12 +155,12 @@
                     app:boxBackgroundMode="none">
 
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/group_name_layout"
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tv_designation"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                      />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rectangle_grey_background"
+                        android:imeOptions="actionDone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,47 +172,31 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="89dp"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
-                       android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-
-
-                        >
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:layout_marginBottom="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:text="@string/default_currency"
-
                             android:textColor="@color/Blue_text_color"
                             android:textSize="@dimen/Fifteen_dp">
 
                         </TextView>
 
-                        <LinearLayout
+                        <Spinner
+                            android:id="@+id/sp_default_currency"
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:layout_marginTop="3dp"
-                            android:background="@drawable/rectangle_grey_background">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_grey_background"
 
-                            <Spinner
-                                android:id="@+id/sp_default_currency"
-                                android:layout_width="match_parent"
-                                android:layout_height="55dp"
-
-                                android:layout_marginBottom="8dp"
-                                android:clickable="true"
-                                android:drawableRight="@drawable/spinner_drop_down"
-                                android:focusable="true"
-                                android:imeOptions="actionDone" />
-
-                        </LinearLayout>
-
+                            android:clickable="true"
+                            android:focusable="true" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -209,20 +220,21 @@
 
                             </TextView>
 
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
 
-                            <include layout="@layout/icon"/>
-
-
-
+                            </ImageView>
 
                         </LinearLayout>
+
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/filledTextField6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-
                             android:textColorHint="@color/black"
                             app:boxBackgroundMode="none">
 
@@ -232,7 +244,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/rectangle_grey_background"
-
                                 android:imeOptions="actionDone"
                                 android:inputType="number" />
 
@@ -256,7 +267,12 @@
 
                     </TextView>
 
-                   <include layout="@layout/icon"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/asterisk_icon">
+
+                    </ImageView>
 
                 </LinearLayout>
 
@@ -264,18 +280,17 @@
                     android:id="@+id/filledTextField4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:inputType="text|textMultiLine"
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none">
 
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/group_name_layout"
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tv_email"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                       />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rectangle_grey_background"
+                        android:imeOptions="actionDone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -296,7 +311,12 @@
 
                     </TextView>
 
-                   <include layout="@layout/icon"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/asterisk_icon">
+
+                    </ImageView>
 
                 </LinearLayout>
 
@@ -304,17 +324,18 @@
                     android:id="@+id/filledTextField5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                  android:text="Confirm Email"
+
                     android:inputType="text|textMultiLine"
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none">
 
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/group_name_layout"
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tv_confirm_email"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rectangle_grey_background"
+                        android:imeOptions="actionDone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -333,7 +354,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed-medium"
-                        android:text="Add Group"
+                        android:text="@string/assign_group"
                         android:textColor="@color/black"
                         android:textSize="@dimen/Fifteen_dp">
 
@@ -349,16 +370,38 @@
                     android:visibility="visible"
 
                     >
-<include layout="@layout/cancel_button"
 
-    android:id="@+id/btn_cancel_save"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_cancel_save"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/cancel_button_background"
+                        android:elevation="20dp"
+                        android:text="@string/cancel"
+                        android:textAllCaps="false">
 
+                    </androidx.appcompat.widget.AppCompatButton>
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_create"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/save_button_background"
+                        android:backgroundTint="@color/Blue_text_color"
+                        android:elevation="@dimen/Fifteen_dp"
+                        android:gravity="center"
+                        android:text="@string/save"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white">
 
-
-                    <include layout="@layout/submit_button"
-
-                        android:id="@+id/btn_create"/>
+                    </androidx.appcompat.widget.AppCompatButton>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -370,11 +413,38 @@
                     android:visibility="gone"
 
                     >
-<include layout="@layout/cancel_button"
 
-    android:id="@+id/btn_cancel_edit"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_cancel_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/cancel_button_background"
+                        android:elevation="20dp"
+                        android:text="@string/cancel"
+                        android:textAllCaps="false">
 
-<include layout="@layout/cancel_update"/>
+                    </androidx.appcompat.widget.AppCompatButton>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/save_button_background"
+                        android:backgroundTint="@color/Blue_text_color"
+                        android:elevation="@dimen/Fifteen_dp"
+                        android:gravity="center"
+                        android:text="@string/update"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white">
+
+                    </androidx.appcompat.widget.AppCompatButton>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
@@ -408,7 +478,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:hint="Search Group"
+                    android:hint="Search Team Members"
 
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none"
@@ -456,23 +526,51 @@
 
                     >
 
-                    <include layout="@layout/cancel_button"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_cancel_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
 
-                        android:id="@+id/btn_cancel_members"/>
+                        android:background="@drawable/cancel_button_background"
+                        android:elevation="20dp"
+                        android:text="@string/cancel"
+                        android:textAllCaps="false">
 
-                    <include layout="@layout/submit_button"
+                    </androidx.appcompat.widget.AppCompatButton>
 
-                        
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_save_members"
-                        />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/save_button_background"
+                        android:backgroundTint="@color/Blue_text_color"
+                        android:elevation="@dimen/Fifteen_dp"
+                        android:gravity="center"
+                        android:text="@string/save"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white">
 
-
-
-
-
+                    </androidx.appcompat.widget.AppCompatButton>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
-      <include layout="@layout/recyclerview"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_view_members"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/cv_details_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="10dp"
+            />
+</androidx.constraintlayout.widget.ConstraintLayout>
+       </ScrollView>

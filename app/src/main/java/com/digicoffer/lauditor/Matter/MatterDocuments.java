@@ -55,6 +55,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.pgpainless.key.selection.key.util.And;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -65,6 +66,7 @@ import java.text.SimpleDateFormat;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -503,7 +505,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        at_add_documents.setText("");
 //        tv_selected_file.setText("");
         tv_document_library.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_device_drive.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_device_drive.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         ll_add_documents.setVisibility(View.GONE);
         ll_select_doc.setVisibility(View.VISIBLE);
 //        ll_selected_documents.removeAllViews();

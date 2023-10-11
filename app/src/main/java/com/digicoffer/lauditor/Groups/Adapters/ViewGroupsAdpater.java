@@ -2,10 +2,8 @@ package com.digicoffer.lauditor.Groups.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,7 +37,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     Context mcontext;
     ViewGroupsItemClickListener itemClickListener;
     String mTag = "";
-    int selectedPosition = -1;
+    int selectedPosition = 1;
     private boolean isSpinnerInitial = true;
 
     int hidingItemIndex = 0;
@@ -121,7 +119,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
             return new ViewGroupsAdpater.ViewHolder(itemView);
         } else {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.radio_button_layout, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assign_group_head, parent, false);
             return new ViewGroupsAdpater.ViewHolder(itemView);
         }
     }
@@ -132,18 +130,13 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         ViewGroupModel viewGroupModel = itemsArrayList.get(position);
         itemsArrayList = list_item;
         if (mTag == "VG") {
-
             holder.tv_user_type.setText(viewGroupModel.getName());
             holder.tv_owner_name.setText(viewGroupModel.getOwner_name());
             holder.tv_date.setText(viewGroupModel.getCreated());
             holder.tv_description.setText(viewGroupModel.getDescription());
-            //Modifying a text and its color in a design
-            holder.created_id.setText("Created :");
-            holder.tv_owner_name.setTextColor(Color.BLACK);
-            holder.tv_date.setTextColor(Color.BLACK);
             actions_List.clear();
 
-////        actions_List.add(new ActionModel("Add|Remove"));
+//        actions_List.add(new ActionModel("Add|Remove"));
             actions_List.add(new ActionModel("Choose Actions"));
             actions_List.add(new ActionModel("Edit Group"));
             actions_List.add(new ActionModel("Delete"));
@@ -171,14 +164,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
 //                    }
 //                }
 //            });
-//            holder.sp_action.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    userinteract=true;
-//                    return false;
-//                }
-//            });
-
             holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -226,10 +211,10 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             });
             holder.tv_tm_name.setText(viewGroupModel.getName());
         } else if (mTag == "DG") {
-            holder.rb_group_selected.setText(viewGroupModel.getName());
-            holder.rb_group_selected.setChecked(position == selectedPosition);
-            holder.rb_group_selected.setTag(viewGroupModel.getId());
-            holder.rb_group_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.rb_group_head.setText(viewGroupModel.getName());
+            holder.rb_group_head.setChecked(position == selectedPosition);
+            holder.rb_group_head.setTag(viewGroupModel.getId());
+            holder.rb_group_head.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
@@ -240,11 +225,12 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     }
                 }
             });
-        } else {
-            holder.rb_group_selected.setText(viewGroupModel.getGroup_name());
-            holder.rb_group_selected.setChecked(position == selectedPosition);
-            holder.rb_group_selected.setTag(viewGroupModel.getGroup_id());
-            holder.rb_group_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }
+        else {
+            holder.rb_group_head.setText(viewGroupModel.getGroup_name());
+            holder.rb_group_head.setChecked(position == selectedPosition);
+            holder.rb_group_head.setTag(viewGroupModel.getGroup_id());
+            holder.rb_group_head.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
@@ -273,31 +259,25 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getItemCount() {
         return itemsArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name, created_id;
+        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name;
         private Spinner sp_action;
-        private CheckBox cb_team_members,rb_group;
-        private RadioButton rb_group_head,rb_group_selected;
+        private CheckBox cb_team_members;
+        private RadioButton rb_group_head;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_user_type = itemView.findViewById(R.id.tv_group_name);
             tv_owner_name = itemView.findViewById(R.id.tv_group_head);
-            //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
-            created_id = itemView.findViewById(R.id.created_id);
-            //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
             sp_action = itemView.findViewById(R.id.sp_action);
-            rb_group_selected=itemView.findViewById(R.id.rb_group_selected);
-            rb_group=itemView.findViewById(R.id.chk_selected);
             rb_group_head = itemView.findViewById(R.id.rb_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
         }

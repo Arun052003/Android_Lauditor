@@ -113,7 +113,7 @@ public class Matter extends Fragment {
     //    public MatterModel matterModel
     private void loadViewUI() {
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         create_matter_view.setVisibility(View.GONE);
         viewMatter();
     }
@@ -145,7 +145,7 @@ public class Matter extends Fragment {
     private void loadGeneralMatter() {
         Constants.MATTER_TYPE = "General";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_general_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_general_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         loadMatterInformation();
         mViewModel.setData("General Matter");
     }
@@ -182,5 +182,4 @@ public class Matter extends Fragment {
         ft.addToBackStack(null);
         ft.commit();
     }
-
 }
