@@ -60,18 +60,12 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Enable or disable the submit button based on the email's validity
+                // Enable the submit button if a valid email is entered
                 boolean isValidEmail = isValidEmail(s.toString());
                 submitButton.setEnabled(isValidEmail);
-
-                // Change button color based on validity
-                if (isValidEmail) {
-                    submitButton.setBackgroundResource(R.color.blue); // Enable and set dark blue color
-                } else {
-                    submitButton.setBackgroundResource(R.color.dullBlueColor); // Disable and set dull blue color
-                }
             }
         });
+
         // Set click listener for the submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
