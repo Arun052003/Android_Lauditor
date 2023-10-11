@@ -39,7 +39,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     Context mcontext;
     ViewGroupsItemClickListener itemClickListener;
     String mTag = "";
-    int selectedPosition = 1;
+    int selectedPosition = -1;
     private boolean isSpinnerInitial = true;
 
     int hidingItemIndex = 0;
@@ -121,7 +121,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
             return new ViewGroupsAdpater.ViewHolder(itemView);
         } else {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.assign_group_head, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.radio_button_layout, parent, false);
             return new ViewGroupsAdpater.ViewHolder(itemView);
         }
     }
@@ -183,26 +183,26 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-                        if (name == "Edit Group") {
-                            eventListener.EditGroup(viewGroupModel);
-                        } else if (name == "Delete") {
-                            eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
-                        } else if (name == "Change Group Head") {
-                            eventListener.CGH(viewGroupModel, itemsArrayList);
-                        } else if (name == "Update Group Members") {
-                            try {
-                                eventListener.UGM(viewGroupModel);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else if (name == "Group Activity Log") {
-                            try {
-                                eventListener.GAL(viewGroupModel);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
+                    if (name == "Edit Group") {
+                        eventListener.EditGroup(viewGroupModel);
+                    } else if (name == "Delete") {
+                        eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
+                    } else if (name == "Change Group Head") {
+                        eventListener.CGH(viewGroupModel, itemsArrayList);
+                    } else if (name == "Update Group Members") {
+                        try {
+                            eventListener.UGM(viewGroupModel);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                    } else if (name == "Group Activity Log") {
+                        try {
+                            eventListener.GAL(viewGroupModel);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 @Override
@@ -226,10 +226,10 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             });
             holder.tv_tm_name.setText(viewGroupModel.getName());
         } else if (mTag == "DG") {
-            holder.rb_group_head.setText(viewGroupModel.getName());
-            holder.rb_group_head.setChecked(position == selectedPosition);
-            holder.rb_group_head.setTag(viewGroupModel.getId());
-            holder.rb_group_head.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.rb_group_selected.setText(viewGroupModel.getName());
+            holder.rb_group_selected.setChecked(position == selectedPosition);
+            holder.rb_group_selected.setTag(viewGroupModel.getId());
+            holder.rb_group_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
@@ -240,12 +240,11 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     }
                 }
             });
-        }
-        else {
-            holder.rb_group_head.setText(viewGroupModel.getGroup_name());
-            holder.rb_group_head.setChecked(position == selectedPosition);
-            holder.rb_group_head.setTag(viewGroupModel.getGroup_id());
-            holder.rb_group_head.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        } else {
+            holder.rb_group_selected.setText(viewGroupModel.getGroup_name());
+            holder.rb_group_selected.setChecked(position == selectedPosition);
+            holder.rb_group_selected.setTag(viewGroupModel.getGroup_id());
+            holder.rb_group_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
@@ -281,10 +280,10 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name,created_id;
+        private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name, created_id;
         private Spinner sp_action;
-        private CheckBox cb_team_members;
-        private RadioButton rb_group_head;
+        private CheckBox cb_team_members,rb_group;
+        private RadioButton rb_group_head,rb_group_selected;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -293,10 +292,12 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
-            created_id=itemView.findViewById(R.id.created_id);
+            created_id = itemView.findViewById(R.id.created_id);
             //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
             sp_action = itemView.findViewById(R.id.sp_action);
+            rb_group_selected=itemView.findViewById(R.id.rb_group_selected);
+            rb_group=itemView.findViewById(R.id.chk_selected);
             rb_group_head = itemView.findViewById(R.id.rb_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
         }
