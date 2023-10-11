@@ -23,24 +23,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.013">
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
             <include layout="@layout/createmember_layout"
                 android:id="@+id/tv_create_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"/>
-<<<<<<< Updated upstream
             <include layout="@layout/viewmember_layout"
                 android:id="@+id/tv_view_group"/>
-=======
-
-            <include layout="@layout/viewmember_layout"
-                android:id="@+id/tv_view_group"/>
-
->>>>>>> Stashed changes
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.cardview.widget.CardView
@@ -99,7 +88,6 @@
                 <include layout="@layout/group_name_layout"
                     android:id="@+id/tv_description"
                     android:layout_marginTop="10dp"
-<<<<<<< Updated upstream
                     android:layout_width="match_parent"
                     android:layout_height="150dp" />
                 <include layout="@layout/team_member_selection"
@@ -255,13 +243,8 @@
                     android:id="@+id/search_delete"
                     android:visibility="gone"
                     android:layout_margin="20dp"
-=======
->>>>>>> Stashed changes
                     android:layout_width="match_parent"
-                    android:layout_height="150dp" />
-                <include layout="@layout/team_member_selection"
                     android:layout_height="match_parent"
-<<<<<<< Updated upstream
                     android:textColorHint="@color/black"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:hint="Search Groups"
@@ -322,220 +305,6 @@
                     <include layout="@layout/cancel_button"/>
                     <include layout="@layout/submit_button"/>
                     <!--end-->
-=======
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="20dp"/>
-
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_edit_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-
-                    <!--include the submit and cancel layout -->
-                    <include layout="@layout/cancel_button"
-                        android:id="@+id/btn_cancel_edit"/>
-                    <include layout="@layout/submit_button"
-                        android:id="@+id/btn_update"/>
-
->>>>>>> Stashed changes
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-
-<<<<<<< Updated upstream
-        <com.google.android.material.textfield.TextInputLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/search"
-            android:visibility="gone"
-            android:layout_margin="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColorHint="@color/black"
-            android:background="@drawable/rectangle_light_grey_bg"
-            android:hint="Search Groups"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
-            app:layout_constraintVertical_bias="0.0">
-
-            <!--this is the actual edit text which takes the input-->
-            <include layout="@layout/search_layout"
-                android:id="@+id/et_search"
-                android:visibility="gone"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/cv_details_activity_log"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_details_activity_log"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
-            android:visibility="gone"
-            android:elevation="@dimen/Fifty_dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_view_group"
-            app:layout_constraintVertical_bias="0.0">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-=======
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_details"
-            app:layout_constraintVertical_bias="0.0">
-
-
-            <include layout="@layout/createmember_layout"
-                android:id="@+id/add_tm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="1dp"/>
-
-            <include layout="@layout/viewmember_layout"
-                android:id="@+id/add_phead"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/ll_select_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:background="@drawable/checkbox_background"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.914"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat1"
-            app:layout_constraintVertical_bias="0.0">
-
-            <!--include the select all check box -->
-            <include layout="@layout/check_select_all"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_details_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
-            android:elevation="10dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_select_all"
-            app:layout_constraintVertical_bias="0.0">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/linearLayoutCompat2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="5dp"
-                android:paddingBottom="30dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:id="@+id/search_tm"
-                    android:layout_margin="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search Team Members"
-                    android:textColorHint="@color/black"
-                    android:background="@drawable/rectangle_light_grey_bg">
-                    <!--include the search box -->
-                    <include layout="@layout/search_layout"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Select Head of the Practice"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/twenty_dp"
-                    android:visibility="gone">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/group_head_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:drawableLeft="@drawable/person_image_email"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:padding="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp"
-                    android:visibility="gone">
-
-                </TextView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_selected_tm"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical" />
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-
-                    <!--Submit and Cancel Button-->
-                    <include layout="@layout/cancel_button"/>
-                    <include layout="@layout/submit_button"/>
-                    <!--end-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
@@ -596,7 +365,6 @@
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.appcompat.widget.LinearLayoutCompat
->>>>>>> Stashed changes
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -784,9 +552,4 @@
                     app:layout_constraintVertical_bias="0.0" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
-<<<<<<< Updated upstream
 </androidx.constraintlayout.widget.ConstraintLayout></ScrollView>
-=======
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
->>>>>>> Stashed changes

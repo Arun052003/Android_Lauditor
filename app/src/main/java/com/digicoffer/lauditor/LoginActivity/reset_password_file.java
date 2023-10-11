@@ -44,7 +44,6 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
 
 
          submit = findViewById(R.id.Submit);
-<<<<<<< Updated upstream
         submit.setEnabled(false);
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -67,9 +66,6 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
         password2.addTextChangedListener(textWatcher);
 
         cancel = findViewById(R.id.Cancel);
-=======
-         cancel = findViewById(R.id.Cancel);
->>>>>>> Stashed changes
 
 
         submit.setOnClickListener(new View.OnClickListener() {

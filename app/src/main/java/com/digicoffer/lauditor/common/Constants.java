@@ -43,11 +43,7 @@ public class Constants {
     public static String DOWNLOAD_VIEWFILE_TAG = "DOWNLOAD_VIEWFILE";
 
     //public static String email = "akhilaTM2@mailinator.com";
-<<<<<<< Updated upstream
     public static String email = "soundaryavembaiyan@yahoo.com";
-=======
-    public static String email = "akhila.bs@vitacape.com";
->>>>>>> Stashed changes
     public static String password = "Test@123";
 
     public static JSONArray teamResArray = new JSONArray();

@@ -65,21 +65,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewGroupsAdpater.InterfaceListener {
-<<<<<<< Updated upstream
     RecyclerView rv_select_team_members, rv_view_groups, rv_activity_log;
     TextInputEditText et_search, tv_description, tv_search_name, tv_Client_name_id,et_search_delete;
-=======
-    RecyclerView rv_select_team_members, rv_view_groups,rv_activity_log;
-    TextInputEditText et_search,tv_description,tv_search_name,tv_Client_name_id;
-
-//Initializing a search TextInputLayout..
-    TextInputLayout search;
-
-    //rename of title name
-    TextView description_name,category_id,team_member_id,from_id,to_id,client_id_name,search_name;
-
-    //Rename the Hint name
->>>>>>> Stashed changes
 
     //Initializing a search TextInputLayout..
     TextInputLayout search,search_tm,search_delete;
@@ -167,7 +154,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         rv_activity_log = v.findViewById(R.id.rv_view_activity_log);
         ll_edit_groups = v.findViewById(R.id.ll_edit_buttons);
         cv_groups = v.findViewById(R.id.cv_details);
-<<<<<<< Updated upstream
 
 
         search_delete=v.findViewById(R.id.search_delete);
@@ -199,32 +185,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         category_id = v.findViewById(R.id.category_id);
         category_id.setText(R.string.category);
         team_member_id = v.findViewById(R.id.team_member_id);
-=======
-        //Category module changing
-
-        //view_groups components...
-        search_name=v.findViewById(R.id.search_name);
-        search_name.setText(R.string.search);
-        client_id_name=v.findViewById(R.id.client_id_name);
-        client_id_name.setText(R.string.client);
-        search=v.findViewById(R.id.search);
-        from_id=v.findViewById(R.id.from_id);
-        from_id.setText("From");
-        to_id=v.findViewById(R.id.to_id);
-        to_id.setText("To");
-        tv_search_name=v.findViewById(R.id.tv_search_name);
-        tv_search_name.setHint(R.string.search);
-        tv_Client_name_id=v.findViewById(R.id.tv_Client_name_id);
-        tv_Client_name_id.setHint(R.string.client);
-        //Changing sub_module name..
-        tv_description=v.findViewById(R.id.tv_description);
-        tv_description.setHint(R.string.description);
-        description_name=v.findViewById(R.id.description_name);
-        description_name.setText(R.string.description);
-        category_id=v.findViewById(R.id.category_id);
-        category_id.setText(R.string.category);
-        team_member_id=v.findViewById(R.id.team_member_id);
->>>>>>> Stashed changes
         team_member_id.setText(R.string.team_members);
 
 
@@ -264,11 +224,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         sp_team_member = v.findViewById(R.id.sp_team_member);
         btn_cancel = v.findViewById(R.id.btn_cancel);
         chk_select_all = v.findViewById(R.id.chk_select_all);
-<<<<<<< Updated upstream
         btn_save = (AppCompatButton) v.findViewById(R.id.btn_save);
-=======
-        btn_save =(AppCompatButton)  v.findViewById(R.id.btn_save);
->>>>>>> Stashed changes
         //Making a view group as a default view...
         String data = "View Groups";
         setViewModelData(data);
@@ -300,23 +256,16 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         tv_create_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< Updated upstream
                 cv_delete_team.setVisibility(View.GONE);
-=======
-
->>>>>>> Stashed changes
                 tv_view_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                 tv_create_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                 assignGroupsList.clear();
                 cv_groups.setVisibility(View.VISIBLE);
                 String data = "Create Groups";
                 setViewModelData(data);
-<<<<<<< Updated upstream
                 ll_edit_groups.setVisibility(View.VISIBLE);
                 btn_save.setText(R.string.save);
                 btn_cancel.setText(R.string.cancel);
-=======
->>>>>>> Stashed changes
 
                 //Changing a text color in create group module
                 tv_create_group.setTextColor(getContext().getResources().getColor(R.color.white));
@@ -941,15 +890,11 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               adapter.selectOrDeselectAll(isChecked);
+                adapter.selectOrDeselectAll(isChecked);
             }
         });
 
-<<<<<<< Updated upstream
         AppCompatButton btn_cancel_selected_tm = (AppCompatButton) v.findViewById(R.id.btn_cancel);
-=======
-        AppCompatButton btn_cancel_selected_tm =(AppCompatButton) v.findViewById(R.id.btn_cancel);
->>>>>>> Stashed changes
         btn_cancel_selected_tm.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
