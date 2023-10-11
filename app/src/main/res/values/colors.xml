@@ -10,6 +10,9 @@
     <color name="pearl">#C3FFFFFF</color>
     <color name="Primary">#1476B0</color>
     <color name="Primary_new">#004D87</color>
+    <color name="dullBlueColor">#577CA6</color>
+    <color name="darkBlueColor">#000080</color>
+
     <color name="Primary_new_one">#1476B0</color>
     <color name="Blue_text_color">#004D87</color>
     <color name="Dark_Blue_text_color">#00355C</color>
