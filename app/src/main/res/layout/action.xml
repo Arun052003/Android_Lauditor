@@ -39,12 +39,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:clickable="false"
+                android:clickable="true"
                 android:drawableRight="@drawable/spinner_action"
                 android:focusable="true" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-
 
 
