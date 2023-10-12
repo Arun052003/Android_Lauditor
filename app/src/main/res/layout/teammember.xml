@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_member_type"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_weight="1"
+    android:fontFamily="sans-serif-condensed-medium"
+    android:gravity="bottom"
+    android:padding="5dp"
+    android:text="Team Member"
+    android:textColor="@color/black"
+    android:textSize="@dimen/Twelve_dp" />
