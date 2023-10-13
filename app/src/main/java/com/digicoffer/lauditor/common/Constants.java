@@ -42,7 +42,8 @@ public class Constants {
     public static String XMPP_DOMAIN = ISPRODUCTION ? "chat.digicoffer.com" : "devchat.vitacape.com";
     public static String DOWNLOAD_VIEWFILE_TAG = "DOWNLOAD_VIEWFILE";
 
-    public static String email = "rajendra.sai@digicoffer.com";
+    //public static String email = "akhilaTM2@mailinator.com";
+    public static String email = "soundaryavembaiyan@yahoo.com";
     public static String password = "Test@123";
 
     public static JSONArray teamResArray = new JSONArray();

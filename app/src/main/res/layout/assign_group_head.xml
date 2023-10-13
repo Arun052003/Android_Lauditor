@@ -44,7 +44,7 @@
             android:padding="5dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:textColor="@color/black"
-            android:background="@drawable/rectangle_grey_background"
+            android:background="@drawable/rectangle_light_grey_bg"
             android:layout_gravity="center"
 
             />

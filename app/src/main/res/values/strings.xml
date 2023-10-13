@@ -30,6 +30,7 @@
     <string name="save">Save</string>
     <string name="update">Update</string>
     <string name="assign">Assign</string>
+    <string name="add_group">Add Group</string>
     <string name="category">Category</string>
     <string name="team_members">Team Members</string>
     <string name="from">From</string>
