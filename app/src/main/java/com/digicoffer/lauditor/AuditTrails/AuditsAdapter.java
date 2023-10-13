@@ -8,6 +8,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.AuditTrails.Model.AuditsModel;
@@ -16,6 +17,7 @@ import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHolder> implements Filterable {
@@ -26,7 +28,15 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
         this.filtered_list = auditsList;
         this.itemList = auditsList;
     }
+    public void updateData(List<AuditsModel> newData) {
+        AuditsDiffCallback diffCallback = new AuditsDiffCallback(this.filtered_list, newData);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
+        this.filtered_list.clear();
+        this.filtered_list.addAll(newData);
+
+        diffResult.dispatchUpdatesTo(this);
+    }
 
 
     @NonNull
