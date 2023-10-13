@@ -23,11 +23,11 @@
     <color name="dark_grey">#DDDDDE</color>
     <color name="grey_color_dark">#A0A0A0</color>
     <color name="grey_medium">#585858</color>
-    <color name="light_grey">#EDEDF1</color>
+
     <color name="Red">#ff0000</color>
     <color name="light_Red">#FF6A6A</color>
     <color name="overlay_background_color">#80050505</color>
-
+    <color name="dark_brown">#5C4033</color>
 
     <color name="background_tint_color">#0B5A9A</color>
     <color name="material_dynamic_neutral30">#FFDDDDDD</color>
@@ -37,7 +37,9 @@
     <color name="material_dynamic_neutral_variant1">#AABBCC</color>
     <color name="material_dynamic_neutral_variant0">#FF000000</color>
 
-
+    <color name="light_grey">#EDEDF1</color>
+    <color name="dullBlueColor">#577CA6</color>
+    <color name="darkBlueColor">#000080</color>
     <color name="blue">#0B5A9A</color>
 
 
