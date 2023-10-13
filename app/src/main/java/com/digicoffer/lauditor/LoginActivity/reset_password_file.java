@@ -1,11 +1,17 @@
 package com.digicoffer.lauditor.LoginActivity;
 
+import static com.digicoffer.lauditor.LoginActivity.ValidationUtils.isValidPassword;
+import static com.digicoffer.lauditor.common.Constants.password;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,8 +43,29 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
         password2 = findViewById(R.id.et_login_password2);
 
 
-         submit = findViewById(R.id.bt_submit_firm_login);
-         cancel = findViewById(R.id.Cancel);
+        submit = findViewById(R.id.Submit);
+        submit.setEnabled(false);
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                checkFields();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkFields();
+            }
+        };
+
+        password1.addTextChangedListener(textWatcher);
+        password2.addTextChangedListener(textWatcher);
+
+        cancel = findViewById(R.id.Cancel);
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +73,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
             public void onClick(View view) {
                 String password_check1=password1.getText().toString();
                 String password_check2=password2.getText().toString();
-                if(ValidationUtils.isValidPassword(password_check1)) {
+                if(isValidPassword(password_check1)) {
                     if (password_check1.equals(password_check2)) {
                         reset_pwd();
                     } else {
@@ -56,6 +83,10 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
                     showPopupMessage("Password is not Valid");
             }
         });
+
+
+
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,12 +96,25 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
             }
         });
     }
+    private void checkFields() {
+        String password1Text = password1.getText().toString().trim();
+        String password2Text = password2.getText().toString().trim();
+
+        if (isValidPassword(password1Text) && password1Text.equals(password2Text)) {
+            submit.setEnabled(true);
+            submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
+        } else {
+            submit.setEnabled(false);
+            submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dullBlueColor)));
+        }
+    }
 
     @Override
     public void onClick(View view) {
 
     }
 
+    //Getting response for the Update API..
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
         if (progressDialog != null && progressDialog.isShowing())
             AndroidUtils.dismiss_dialog(progressDialog);
@@ -113,7 +157,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
             //showPopupMessage("valid");
             String urlpath = "password/"+Constants.PK+"/user/"+Constants.USER_ID+"/update";
             WebServiceHelper.callHttpWebService(reset_password_file.this, reset_password_file.this, WebServiceHelper.RestMethodType.PUT, urlpath, "UPDATE", postData.toString());
-            Log.e("Reset password path",":"+urlpath);
+            Log.e("Reset Password path Success",":"+urlpath);
         } catch (Exception e) {
             if (progressDialog != null && progressDialog.isShowing())
                 AndroidUtils.dismiss_dialog(progressDialog);
@@ -121,6 +165,10 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
     }
     private void showPopupMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+    private boolean isValidPassword(String password) {
+
+        return password.length() >= 8;
     }
 }
 
