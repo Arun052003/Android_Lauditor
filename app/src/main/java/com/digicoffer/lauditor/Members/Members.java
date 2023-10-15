@@ -1,3 +1,4 @@
+
 package com.digicoffer.lauditor.Members;
 
 import android.annotation.SuppressLint;
@@ -218,6 +219,10 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                     String tag = "Create";
                     String id = "";
                     callCreateMemberWebservice(tv_member_name.getText().toString().trim(), tv_designation.getText().toString().trim(), tv_default_rate.getText().toString().trim(), tv_email.getText().toString().trim(), tv_confirm_email.getText().toString().trim(), tag, id);
+                    tv_create_members.setBackgroundResource(R.drawable.button_left_background);
+                    tv_create_members.setTextColor(Color.BLACK);
+                    tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
+                    tv_view_members.setTextColor(Color.WHITE);
                 }
 
             }
@@ -627,6 +632,10 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                     String id = membersModel.getId();
                     et_search_members.setText("");
                     callCreateMemberWebservice(tv_member_name.getText().toString().trim(), tv_designation.getText().toString().trim(), tv_default_rate.getText().toString().trim(), tv_email.getText().toString().trim(), tv_confirm_email.getText().toString().trim(), tag, id);
+                    tv_create_members.setBackgroundResource(R.drawable.button_left_background);
+                    tv_create_members.setTextColor(Color.BLACK);
+                    tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
+                    tv_view_members.setTextColor(Color.WHITE);
                 }
             }
         });
