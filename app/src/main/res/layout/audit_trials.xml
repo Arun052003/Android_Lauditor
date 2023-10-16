@@ -94,7 +94,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="15dp"
                 android:padding="5dp"
-                android:background="@drawable/rectangular_light_grey_background"
+                android:background="@drawable/rectangular_complete_blue_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

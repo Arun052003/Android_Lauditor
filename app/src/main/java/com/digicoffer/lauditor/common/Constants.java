@@ -37,7 +37,7 @@ public class Constants {
     public static String OLD_PASSWORD="";
     public static String COUNT = "";
     public static String PK="";
-    public static String VERSION = ISPRODUCTION? "1.0.2" : "1.0.24";
+    public static String VERSION = ISPRODUCTION? "1.0.2" : "1.0.26";
     //    public static String XMPP_DOMAIN = "dev.chat.digisecitus.com";
     public static String XMPP_DOMAIN = ISPRODUCTION ? "chat.digicoffer.com" : "devchat.vitacape.com";
     public static String DOWNLOAD_VIEWFILE_TAG = "DOWNLOAD_VIEWFILE";

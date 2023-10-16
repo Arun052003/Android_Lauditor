@@ -55,7 +55,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,DateUtils.OnDateSelectedListener, DateUtilsEndDate.OnDateSelectedListenerEndDate {
+public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, DateUtils.OnDateSelectedListener, DateUtilsEndDate.OnDateSelectedListenerEndDate {
     ArrayList<SpinnerItemModal> categoryList = new ArrayList<>();
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     TextView tv_name, tv_advanced_search;
@@ -63,7 +63,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
     private Button previousPageButton;
     AuditsAdapter audit_adapter;
     ArrayList<AuditsModel> sorted_list = new ArrayList<>();
-    private ColorStateList greenButtonTint,whiteButtonTint;
+    private ColorStateList greenButtonTint, whiteButtonTint;
     ArrayList<AuditsModel> pageItems = new ArrayList<>();
     Spinner sp_category;
     LinearLayout ll_page_navigation;
@@ -71,7 +71,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
     int maxPageButtons;
     RecyclerView rv_audits;
     TextInputLayout tl_event_start_time;
-    TextInputEditText tv_event_start_time,tv_event_end_time;
+    TextInputEditText tv_event_start_time, tv_event_end_time;
     private int currentPage = 1;
     ArrayList<AuditsModel> auditsList = new ArrayList<>();
 
@@ -117,7 +117,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
 //                    rv_audits.setAdapter(null);
                     et_search_relationships.setText("");
                     String FLAG = "Start Time";
-                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(),FLAG);
+                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG);
 
 //                    tv_event_start_time.requestFocus();
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
@@ -134,7 +134,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                     DateUtilsEndDate.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG);
 
                 }
-                    });
+            });
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_end_time,getContext());
 //
 //            });
@@ -205,7 +205,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
 //                }
 //            });
 
-                    loadSpinnerData();
+            loadSpinnerData();
 //          callAuditWebservice();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -227,10 +227,12 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                 // Set the visibility based on the flag
                 datePickersLayout.setVisibility(isDatePickerVisible ? View.VISIBLE : View.GONE);
                 if (!isDatePickerVisible) {
-                        tv_event_start_time.setText(""); // Clear start time
-                        tv_event_end_time.setText(""); // Clear end time
-                        sorted_list.clear();
-                    }
+                    tv_event_start_time.setText(""); // Clear start time
+                    tv_event_end_time.setText(""); // Clear end time
+                    sorted_list.clear();
+//                    auditsList.clear();
+//                    loadSpinnerData();
+                }
             }
         };
 //        ss.setSpan(new StyleSpan(Typeface.BOLD),0,0,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -273,56 +275,56 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-             try {
-                 rv_audits.removeAllViews();
-                 rv_audits.setAdapter(null);
-                 et_search_relationships.setText("");
+                try {
+                    rv_audits.removeAllViews();
+                    rv_audits.setAdapter(null);
+                    et_search_relationships.setText("");
 //                 sorted_list.clear();
 //              auditsList.clear();
-                 if (categoryList.get(i).getName().equalsIgnoreCase("Authentication")) {
-                     Catergory_type = "AUTH";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Groups")) {
-                     Catergory_type = "GROUPS";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Team Members")) {
-                     Catergory_type = "TEAM MEMBER";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Relationships")) {
-                     Catergory_type = "RELATIONSHIP";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Share")) {
-                     Catergory_type = "SHARE";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Documents")) {
-                     Catergory_type = "DOCUMENT";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Merge PDF")) {
-                     Catergory_type = "MERGE PDF";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("Legal Matters")) {
-                     Catergory_type = "LEGAL MATTER";
-                 } else if (categoryList.get(i).getName().equalsIgnoreCase("General Matters")) {
-                     Catergory_type = "GENERAL MATTER";
-                 }
-                 Log.d("Category_type", Catergory_type);
-                 Log.d("AuditSize", String.valueOf(auditsList.size()));
+                    if (categoryList.get(i).getName().equalsIgnoreCase("Authentication")) {
+                        Catergory_type = "AUTH";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Groups")) {
+                        Catergory_type = "GROUPS";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Team Members")) {
+                        Catergory_type = "TEAM MEMBER";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Relationships")) {
+                        Catergory_type = "RELATIONSHIP";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Share")) {
+                        Catergory_type = "SHARE";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Documents")) {
+                        Catergory_type = "DOCUMENT";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Merge PDF")) {
+                        Catergory_type = "MERGE PDF";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("Legal Matters")) {
+                        Catergory_type = "LEGAL MATTER";
+                    } else if (categoryList.get(i).getName().equalsIgnoreCase("General Matters")) {
+                        Catergory_type = "GENERAL MATTER";
+                    }
+                    Log.d("Category_type", Catergory_type);
+                    Log.d("AuditSize", String.valueOf(auditsList.size()));
 //                setupPagination();
-                 if (auditsList.size() == 0) {
-                     callAuditWebservice();
-                 } else {
-                     if (audit_adapter != null) {
-                         audit_adapter.clearData();
-                     }
+                    if (auditsList.size() == 0) {
+                        callAuditWebservice();
+                    } else {
+                        if (audit_adapter != null) {
+                            audit_adapter.clearData();
+                        }
 //                    sorted_list.clear();
-                     pageNumberLayout.removeAllViews();
-                     isAdvancedSearchEnabled = false;
-                     tv_event_start_time.setText("");
-                     tv_event_end_time.setText("");
-                     cv_list.setVisibility(View.VISIBLE);
+                        pageNumberLayout.removeAllViews();
+                        isAdvancedSearchEnabled = false;
+                        tv_event_start_time.setText("");
+                        tv_event_end_time.setText("");
+                        cv_list.setVisibility(View.VISIBLE);
 //                     setupPagination();
-                     currentPage = 1;
-                     loadPage(currentPage, isAdvancedSearchEnabled);
+                        currentPage = 1;
+                        loadPage(currentPage, isAdvancedSearchEnabled);
 
-                     setupPagination();
-                 }
-             } catch (Exception e) {
-                 Log.d("Exception",e.getMessage());
-                 throw new RuntimeException(e);
-             }
+                        setupPagination();
+                    }
+                } catch (Exception e) {
+                    Log.d("Exception", e.getMessage());
+                    throw new RuntimeException(e);
+                }
 //                loadPage(currentPage);
 //                entity_id = entities_list.get(sp_entities.getSelectedItemPosition()).getId();
 //                callEntityClientWebservice(entity_id);
@@ -401,8 +403,8 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
 //                });
 //            }
 //        });
-        for (int i=0;i<auditsList.size();i++){
-            Log.d("Audit_List",auditsList.get(i).getName());
+        for (int i = 0; i < auditsList.size(); i++) {
+            Log.d("Audit_List", auditsList.get(i).getName());
         }
         loadPage(currentPage, isAdvancedSearchEnabled);
         setupPagination();
@@ -421,7 +423,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
             maxPageButtons = 5;
         }
         greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
-        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.white));
+        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
 //        int screenWidth = getResources().getDisplayMetrics().widthPixels;
 //        int buttonWidth = screenWidth / maxPageButtons;
         // Dynamically add page number buttons
@@ -472,7 +474,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
     private void loadPage(int page, boolean isAdvancedSearchEnabled) {
         try {
 
-            if(!isAdvancedSearchEnabled) {
+            if (!isAdvancedSearchEnabled) {
                 sorted_list.clear();
 
 //            if (audit_adapter!=null){
@@ -490,11 +492,11 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                 }
                 Log.d("Sorted_list", String.valueOf(sorted_list.size()));
                 loadRecyclerView(page);
-            }else{
+            } else {
                 loadRecyclerView(page);
             }
         } catch (Exception e) {
-            Log.d("LoadPageException",e.getMessage());
+            Log.d("LoadPageException", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -558,125 +560,112 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener,D
                 }
             }
         } catch (Exception e) {
-            Log.d("Recyclervie_Exception",e.getMessage());
+            Log.d("Recyclervie_Exception", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void onDateSelected(String selectedDate, String FLAG) {
-            loadnewPage(selectedDate,FLAG);
+        loadnewPage(selectedDate, FLAG);
     }
 
     private void loadnewPage(String selectedDate, String FLAG) {
-                    sorted_list.clear();
-                    rv_audits.removeAllViews();
-                    rv_audits.setAdapter(null);
-                    et_search_relationships.setText("");
+        sorted_list.clear();
+        rv_audits.removeAllViews();
+        rv_audits.setAdapter(null);
+        et_search_relationships.setText("");
+        Date startDate = DateUtils.stringToDate(tv_event_start_time.getText().toString());
+        Date endDate = DateUtilsEndDate.stringToDate(tv_event_end_time.getText().toString());
+
         Date selectedDateObj = DateUtils.stringToDate(selectedDate);
-        if(FLAG.equals("Start Time")) {
-                    for (int i=0;i<auditsList.size();i++) {
-                        AuditsModel auditsModel = auditsList.get(i);
-                        String timestamp = auditsList.get(i).getTimestamp();
-                        Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
-//                        String latest_timestamp = AndroidUtils.getDateToString(formatted_date,"MMM dd,yyyy hh:mm a");
-//                        Log.d("New_Date",latest_timestamp);
-//                        Log.d("Formatted_Date",formatted_date.toString());
-//                        Date updated_date =  DateUtils.stringToDate(selectedDate);
-//                        Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(),"MMM dd,YYYY");
-
-                            if (formatted_date.after(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
-                                if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                                    AuditsModel auditsModelToAdd = new AuditsModel();
-                                    auditsModelToAdd.setName(auditsList.get(i).getName());
-                                    auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-                                    auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-                                    sorted_list.add(auditsModelToAdd);
-                                }
-
-
-                        }
-                    }
-                    }
-                    else{
-            for (int i=0;i<auditsList.size();i++) {
-                AuditsModel auditsModel = auditsList.get(i);
-                String timestamp = auditsList.get(i).getTimestamp();
-                Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
-//                        String latest_timestamp = AndroidUtils.getDateToString(formatted_date,"MMM dd,yyyy hh:mm a");
-//                        Log.d("New_Date",latest_timestamp);
-//                        Log.d("Formatted_Date",formatted_date.toString());
-//                        Date updated_date =  DateUtils.stringToDate(selectedDate);
-//                        Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(),"MMM dd,YYYY");
-
-                    if (formatted_date.before(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
-                        if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                            AuditsModel auditsModelToAdd = new AuditsModel();
-                            auditsModelToAdd.setName(auditsList.get(i).getName());
-                            auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-                            auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-                            sorted_list.add(auditsModelToAdd);
-                        }
-
-
-                }
-            }
-                        }
-//        loadRecyclerView(currentPage);
-//        int totalPages = (int) Math.ceil((double) sorted_list.size() / itemsPerPage);
+//        if (FLAG.equals("Start Time")) {
+//            for (int i = 0; i < auditsList.size(); i++) {
+//                AuditsModel auditsModel = auditsList.get(i);
+//                String timestamp = auditsList.get(i).getTimestamp();
+//                Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
 //
-//        // Remove existing page number buttons
-//        pageNumberLayout.removeAllViews();
-//
-//        // Update the maxPageButtons if needed
-//        if (totalPages < maxPageButtons) {
-//            maxPageButtons = totalPages;
-//        }
-//
-//        // Recreate page number buttons based on totalPages
-//        for (int i = 1; i <= totalPages; i++) {
-//            if (i > maxPageButtons) {
-//                break;
-//            }
-//
-//            // Create and configure the page number button
-//            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
-//            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
-//            pageButton.setText(String.valueOf(i));
-//            final int pageNumber = i;
-//
-//            pageButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (previousPageButton != null) {
-//                        previousPageButton.setBackgroundTintList(whiteButtonTint);
+//                if (formatted_date.after(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
+//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+//                        AuditsModel auditsModelToAdd = new AuditsModel();
+//                        auditsModelToAdd.setName(auditsList.get(i).getName());
+//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+//                        sorted_list.add(auditsModelToAdd);
 //                    }
 //
-//                    pageButton.setBackgroundTintList(greenButtonTint);
-//                    currentPage = pageNumber;
-//                    loadPage(currentPage, isAdvancedSearchEnabled);
-//                    previousPageButton = pageButton;
-//                }
-//            });
 //
-//            pageNumberLayout.addView(view_opponents);
-//            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+//                }
+//            }
+//        } else {
+//            for (int i = 0; i < auditsList.size(); i++) {
+//                AuditsModel auditsModel = auditsList.get(i);
+//                String timestamp = auditsList.get(i).getTimestamp();
+//                Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
+//                Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(), "MMM dd,YYYY");
+//
+//                if (formatted_date.before(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
+//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+//                        AuditsModel auditsModelToAdd = new AuditsModel();
+//                        auditsModelToAdd.setName(auditsList.get(i).getName());
+//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+//                        sorted_list.add(auditsModelToAdd);
+//                    }
+//
+//
+//                }
+//            }
 //        }
+        for (int i = 0; i < auditsList.size(); i++) {
+            AuditsModel auditsModel = auditsList.get(i);
+            String timestamp = auditsList.get(i).getTimestamp();
+            Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
+
+            if (startDate != null && endDate != null) {
+                if (formatted_date.after(startDate) && formatted_date.before(endDate)) {
+                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                        AuditsModel auditsModelToAdd = new AuditsModel();
+                        auditsModelToAdd.setName(auditsList.get(i).getName());
+                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+                        sorted_list.add(auditsModelToAdd);
+                    }
+                }
+            } else if (startDate != null) {
+                if (formatted_date.after(startDate)||formatted_date.equals(startDate)) {
+                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                        AuditsModel auditsModelToAdd = new AuditsModel();
+                        auditsModelToAdd.setName(auditsList.get(i).getName());
+                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+                        sorted_list.add(auditsModelToAdd);
+                    }
+                }
+            } else if (endDate != null) {
+                if (formatted_date.before(endDate)||formatted_date.equals(endDate)) {
+                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                        AuditsModel auditsModelToAdd = new AuditsModel();
+                        auditsModelToAdd.setName(auditsList.get(i).getName());
+                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+                        sorted_list.add(auditsModelToAdd);
+                    }
+                }
+            }
+        }
+
         setupPagination();
         currentPage = 1;
         isAdvancedSearchEnabled = true;
-        loadPage(currentPage,isAdvancedSearchEnabled);
-//                    setupPagination();
-                    }
+        loadPage(currentPage, isAdvancedSearchEnabled);
 
-//                    setupPagination();
-//        loadPage(currentPage);
-
+    }
 
 
     @Override
     public void onDateSelectedEndDate(String selectedDate, String FLAG) {
-        loadnewPage(selectedDate,FLAG);
+        loadnewPage(selectedDate, FLAG);
     }
 //        adapter = new MyAdapter(pageItems);
 //        recyclerView.setAdapter(adapter);
