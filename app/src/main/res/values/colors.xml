@@ -14,7 +14,6 @@
     <color name="Blue_text_color">#004D87</color>
     <color name="Dark_Blue_text_color">#00355C</color>
     <color name="dullBlueColor">#9CADBF</color>
-    <color name="darkBlueColor">#000080</color>
     <color name="grey_text_color">#EEEEEE</color>
     <color name="dashboard_background_color">#004D87</color>
     <color name="orange_color">#F15F12</color>
@@ -40,7 +39,6 @@
     <color name="material_dynamic_neutral_variant0">#FF000000</color>
 
     <color name="light_grey">#EDEDF1</color>
-    <color name="dullBlueColor">#577CA6</color>
     <color name="darkBlueColor">#000080</color>
     <color name="blue">#0B5A9A</color>
 

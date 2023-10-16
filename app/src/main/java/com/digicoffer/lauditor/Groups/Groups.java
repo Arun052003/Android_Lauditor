@@ -256,6 +256,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         tv_create_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                unhide_delete_data();
                 cv_delete_team.setVisibility(View.GONE);
                 tv_view_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                 tv_create_group.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -603,8 +604,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 });
             }
         };
-
-
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1056,12 +1055,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tv_group_description.setEnabled(true);
-                tv_group_name.setEnabled(true);
-                btn_update.setVisibility(View.VISIBLE);
-                btn_cancel_edit.setVisibility(View.VISIBLE);
-                cv_details.setVisibility(View.GONE);
-                unhideData();
+                reverse_data();
                 ViewGroupsData();
             }
         });
@@ -1088,10 +1082,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tv_group_description.setEnabled(true);
-                tv_group_name.setEnabled(true);
-                btn_update.setVisibility(View.VISIBLE);
-                btn_cancel_edit.setVisibility(View.VISIBLE);
 //                cv_details.setVisibility(View.GONE);
                 unhideData();
                 if (tv_group_name.getText().toString().equals("")) {
@@ -1103,6 +1093,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                     AndroidUtils.showToast("Description Required", getContext());
 //                        assignGroupsList.clear();
                 } else {
+                    reverse_data();
                     try {
                         callDeleteGroups(viewGroupModel.getId());
                     } catch (JSONException ex) {
@@ -1464,6 +1455,16 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         cv_groups.setVisibility(View.VISIBLE);
         ll_edit_groups.setVisibility(View.VISIBLE);
         tv_selected_members.setVisibility(View.GONE);
+    }
+    private void reverse_data()
+    {
+        tv_group_description.setEnabled(true);
+        tv_group_name.setEnabled(true);
+        btn_update.setVisibility(View.VISIBLE);
+        btn_cancel_edit.setVisibility(View.VISIBLE);
+        cv_details.setVisibility(View.GONE);
+        unhideData();
+//        ViewGroupsData();
     }
     public void hidedelete_data()
     {
