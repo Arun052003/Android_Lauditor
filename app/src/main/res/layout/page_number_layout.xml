@@ -13,7 +13,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    android:background="@color/light_grey"
+    android:background="@color/Blue_text_color"
     app:layout_constraintBottom_toBottomOf="parent">
         <Button
             android:id="@+id/page_number_button"
@@ -22,8 +22,8 @@
             android:textSize="10dp"
             android:text="20"
 
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Blue_text_color"
            >
 
         </Button>
