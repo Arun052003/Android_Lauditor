@@ -13,12 +13,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -38,6 +37,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,7 +66,11 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
+        tet_email.setText("rajendra.sai@digicoffer.com");
+        tet_password.setText("Test@123");
+
         bt_submit = findViewById(R.id.Submit);
+        Login();
         tv_forgot_password = findViewById(R.id.textView);
 
         tv_forgot_password.setOnClickListener(new View.OnClickListener() {
@@ -211,6 +215,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         CommonSpinnerAdapter<FirmsDo> adapter = new CommonSpinnerAdapter<>(this, list);
         sp_firm.setAdapter(adapter);
         final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
+        et_firm_password.setText("Test@123");
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.Submit);
 
         //Reset password---
@@ -220,7 +225,12 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         ad_dialog = dialog;
-
+        JSONObject postData = new JSONObject();
+        try {
+            callfirmloginWebservice(postData, sp_firm, list, et_firm_password, tet_email);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -247,18 +257,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                JSONObject postData = new JSONObject();
+
                 try {
                     if (Objects.requireNonNull(et_firm_password.getText()).toString().trim().equals("")) {
                         AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
                     }
                     else {
-                        progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
-                        int firm_position = sp_firm.getSelectedItemPosition();
-                        postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
-                        postData.put("userid", list.get(firm_position).getValue());
-                        postData.put("password", et_firm_password.getText().toString());
-                        WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
+                        callfirmloginWebservice(postData,sp_firm,list,et_firm_password,tet_email);
+
                     }
                 } catch (Exception e) {
                     if (progress_dialog != null && progress_dialog.isShowing())
@@ -270,6 +276,15 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         dialog.setView(dialogLayout);
         dialog.show();
+    }
+
+    private void callfirmloginWebservice(JSONObject postData, AppCompatSpinner sp_firm, ArrayList<FirmsDo> list, TextInputEditText et_firm_password, TextInputEditText tet_email) throws JSONException {
+        progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
+        int firm_position = sp_firm.getSelectedItemPosition();
+        postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
+        postData.put("userid", list.get(firm_position).getValue());
+        postData.put("password", et_firm_password.getText().toString());
+        WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
