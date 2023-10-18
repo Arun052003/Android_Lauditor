@@ -99,6 +99,10 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             tv_advanced_search = view.findViewById(R.id.tv_advancedSearch);
             et_search = view.findViewById(R.id.et_search);
             rv_audits = view.findViewById(R.id.rv_audits);
+            TextView from_date = view.findViewById(R.id.from_date);
+            TextView to_date = view.findViewById(R.id.to_date);
+            from_date.setText("From");
+            to_date.setText("To");
             et_search.setHint(R.string.search);
             ll_page_navigation = view.findViewById(R.id.ll_page_navigaiton);
             cv_list = view.findViewById(R.id.cv_list);
@@ -579,81 +583,64 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
         Date endDate = DateUtilsEndDate.stringToDate(tv_event_end_time.getText().toString());
 
         Date selectedDateObj = DateUtils.stringToDate(selectedDate);
-//        if (FLAG.equals("Start Time")) {
-//            for (int i = 0; i < auditsList.size(); i++) {
-//                AuditsModel auditsModel = auditsList.get(i);
-//                String timestamp = auditsList.get(i).getTimestamp();
-//                Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
-//
-//                if (formatted_date.after(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
-//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-//                        AuditsModel auditsModelToAdd = new AuditsModel();
-//                        auditsModelToAdd.setName(auditsList.get(i).getName());
-//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-//                        sorted_list.add(auditsModelToAdd);
-//                    }
-//
-//
-//                }
-//            }
-//        } else {
-//            for (int i = 0; i < auditsList.size(); i++) {
-//                AuditsModel auditsModel = auditsList.get(i);
-//                String timestamp = auditsList.get(i).getTimestamp();
-//                Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
-//                Date updated_date = AndroidUtils.stringToDateTimeDefault(tv_event_end_time.getText().toString(), "MMM dd,YYYY");
-//
-//                if (formatted_date.before(selectedDateObj) || formatted_date.equals(selectedDateObj)) {
-//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-//                        AuditsModel auditsModelToAdd = new AuditsModel();
-//                        auditsModelToAdd.setName(auditsList.get(i).getName());
-//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-//                        sorted_list.add(auditsModelToAdd);
-//                    }
-//
-//
-//                }
-//            }
-//        }
         for (int i = 0; i < auditsList.size(); i++) {
             AuditsModel auditsModel = auditsList.get(i);
-            String timestamp = auditsList.get(i).getTimestamp();
+            String timestamp = auditsModel.getTimestamp();
             Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
 
-            if (startDate != null && endDate != null) {
-                if (formatted_date.after(startDate) && formatted_date.before(endDate)) {
-                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                        AuditsModel auditsModelToAdd = new AuditsModel();
-                        auditsModelToAdd.setName(auditsList.get(i).getName());
-                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-                        sorted_list.add(auditsModelToAdd);
-                    }
+            if ((startDate != null && endDate != null) && (formatted_date != null)) {
+                if ((formatted_date.equals(startDate) || formatted_date.after(startDate)) &&
+                        (formatted_date.equals(endDate) || formatted_date.before(endDate)) &&
+                        auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                    sorted_list.add(auditsModel);
                 }
-            } else if (startDate != null) {
-                if (formatted_date.after(startDate)||formatted_date.equals(startDate)) {
-                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                        AuditsModel auditsModelToAdd = new AuditsModel();
-                        auditsModelToAdd.setName(auditsList.get(i).getName());
-                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-                        sorted_list.add(auditsModelToAdd);
-                    }
+            } else if ((startDate != null) && (formatted_date != null)) {
+                if (formatted_date.after(startDate) || formatted_date.equals(startDate) && auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT)) ){
+                    sorted_list.add(auditsModel);
                 }
-            } else if (endDate != null) {
-                if (formatted_date.before(endDate)||formatted_date.equals(endDate)) {
-                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                        AuditsModel auditsModelToAdd = new AuditsModel();
-                        auditsModelToAdd.setName(auditsList.get(i).getName());
-                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
-                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
-                        sorted_list.add(auditsModelToAdd);
-                    }
+            } else if ((endDate != null) && (formatted_date != null)) {
+                if (formatted_date.before(endDate) || formatted_date.equals(endDate) && auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                    sorted_list.add(auditsModel);
                 }
             }
         }
+//        for (int i = 0; i < auditsList.size(); i++) {
+//            AuditsModel auditsModel = auditsList.get(i);
+//            String timestamp = auditsModel.getTimestamp();
+//            Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
+//
+//            if (startDate != null && endDate != null) {
+//                if (formatted_date.after(startDate) && formatted_date.before(endDate)) {
+//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+//                        AuditsModel auditsModelToAdd = new AuditsModel();
+//                        auditsModelToAdd.setName(auditsList.get(i).getName());
+//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+//                        sorted_list.add(auditsModelToAdd);
+//                    }
+//                }
+//            } else if (startDate != null) {
+//                if (formatted_date.after(startDate)||formatted_date.equals(startDate)) {
+//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+//                        AuditsModel auditsModelToAdd = new AuditsModel();
+//                        auditsModelToAdd.setName(auditsList.get(i).getName());
+//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+//                        sorted_list.add(auditsModelToAdd);
+//                    }
+//                }
+//            } else if (endDate != null) {
+//                if (formatted_date.before(endDate)||formatted_date.equals(endDate)) {
+//                    if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+//                        AuditsModel auditsModelToAdd = new AuditsModel();
+//                        auditsModelToAdd.setName(auditsList.get(i).getName());
+//                        auditsModelToAdd.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModelToAdd.setMessage(auditsList.get(i).getMessage());
+//                        sorted_list.add(auditsModelToAdd);
+//                    }
+//                }
+//            }
+//        }
 
         setupPagination();
         currentPage = 1;
