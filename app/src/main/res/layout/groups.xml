@@ -99,6 +99,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="-10dp"
                     android:visibility="gone"
                     android:padding="10dp"
                     android:backgroundTint="@color/green_count_color"
@@ -113,23 +116,11 @@
                         android:textColor="@color/white"
                         android:drawableTint="@color/white"
                         android:layout_margin="20dp"
-                        android:textSize="25dp"
-                        android:layout_gravity="center"
+                        android:textSize="21dp"
+                        android:foregroundGravity="center"
+                        android:gravity="center_vertical"
                         android:drawableRight="@drawable/delete_icon_black"></TextView>
                 </androidx.cardview.widget.CardView>
-                <RelativeLayout
-                    android:id="@+id/delete_spinner_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_light_grey_bg"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-                </RelativeLayout>
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_edit_buttons"
                     android:layout_width="match_parent"

@@ -491,9 +491,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/search_teammember"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
 
                 android:background="@drawable/rectangle_light_grey_bg"
                 android:hint="Search Team Member"
@@ -502,15 +503,10 @@
                 app:boxBackgroundMode="none">
 
                 <!--this is the actual edit text which takes the input-->
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_search_teammember"
-                    android:layout_width="match_parent"
+                <include layout="@layout/search_layout"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-
-                    android:drawableRight="@drawable/search_groups"
-                    android:gravity="start" />
-
+                    android:layout_width="match_parent"
+                    android:id="@+id/et_search_teammember"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <include layout="@layout/recyclerview" />
