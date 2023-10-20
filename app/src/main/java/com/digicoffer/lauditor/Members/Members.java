@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.Groups.Adapters.ViewGroupsAdpater;
 import com.digicoffer.lauditor.Groups.GroupModels.GroupModel;
 import com.digicoffer.lauditor.Groups.GroupModels.ViewGroupModel;
 import com.digicoffer.lauditor.NewModel;
@@ -53,16 +54,20 @@ import java.util.regex.Pattern;
 public class Members extends Fragment implements AsyncTaskCompleteListener, MembersAdapter.EventListener ,View.OnClickListener{
     TextView tv_member_name, tv_designation, tv_email, tv_confirm_email, tv_default_rate, tv_create_members, tv_view_members,textView2;
     Spinner sp_default_currency;
-    TextInputEditText et_search_members;
+    TextInputEditText et_search_members,et_search_teammember;
     private NewModel mViewModel;
+    MembersAdapter adapter = null;
+
 
     AppCompatButton btn_cancel_members, bt_save_members, bt_cancel, bt_save,btn_cancel_save,btn_create,btn_add;
     RecyclerView rv_selected_member, rv_view_members;
-    TextInputLayout tv_assign_groups ;
+    TextInputLayout tv_assign_groups ,search_teammember;
+
     public static String FLAG = "";
     String default_currency = "";
     CardView cv_details, cv_members_details;
     GroupsAdapter groupsAdapter = null;
+    MembersAdapter membersAdapter = null;
     ArrayList<ViewGroupModel> updatedMembersList = new ArrayList<>();
     ArrayList<String> currency_list = new ArrayList<>();
     ArrayList<MembersModel> members_list = new ArrayList<>();
@@ -72,6 +77,8 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     LinearLayoutCompat ll_buttons, ll_new_buttons,ll_save_buttons;
     LinearLayout ll_confirm_email;
     AlertDialog progress_dialog;
+    private boolean MemberModelArrayList;
+    private Object MembersModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,6 +129,8 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         tv_view_members = v.findViewById(R.id.tv_view_members);
 
         et_search_members = v.findViewById(R.id.et_search_members);
+        et_search_teammember = v.findViewById(R.id.et_search_teammember);
+        search_teammember = v.findViewById(R.id.search_teammember);
         sp_default_currency = v.findViewById(R.id.sp_default_currency);
         btn_cancel_members = v.findViewById(R.id.btn_cancel_members);
         bt_save_members = v.findViewById(R.id.btn_save_members);
@@ -177,7 +186,8 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 String data = "Create Members";
                 setViewModelData(data);
                 CreateMembersData();
-
+                et_search_teammember.setVisibility(View.GONE);
+                search_teammember .setVisibility(View.GONE);
                 tv_create_members.setTextColor(getContext().getResources().getColor(R.color.white));
                 tv_view_members.setTextColor(getContext().getResources().getColor(R.color.black));
 
@@ -191,6 +201,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 String data = "View Members";
                 setViewModelData(data);
                 ViewMembersData();
+
                 tv_create_members.setTextColor(getContext().getResources().getColor(R.color.black));
                 tv_view_members.setTextColor(getContext().getResources().getColor(R.color.white));
 
@@ -344,9 +355,13 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         cv_members_details.setVisibility(View.GONE);
         callViewGroupsWebservice();
         et_search_members.setText("");
+        search_teammember.setVisibility(View.VISIBLE);
+        et_search_teammember.setVisibility(View.VISIBLE);
+        et_search_teammember.setText("");
         members_list.clear();
         groupsList.clear();
         updatedMembersList.clear();
+
     }
 
 
@@ -396,7 +411,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
             } else if (tag == "RP") {
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/member/resetpwd", "Reset Password", postdata.toString());
 
-            } else if (tag == "Delete") {
+            } else if (tag== "Delete") {
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.DELETE, "v3/member/" + id, "Delete Member", postdata.toString());
 
 
@@ -529,6 +544,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         Log.i("ArrayList", "info" + groupsList.toString());
         String mtag = "VG";
         loadGroupsRecylerview();
+        loadRecylcerview();
 
     }
 
@@ -591,15 +607,65 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
         loadRecylcerview();
 
-    }
 
-    private void loadRecylcerview() {
+    }
+    private void loadRecylcerview(){
         rv_view_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
         MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this);
+        // rv_view_members.setAdapter(adapter);
+        // rv_view_members.setHasFixedSize(true);
+        // membersApdater = new MembersAdapter(members_list);
         rv_view_members.setAdapter(adapter);
         rv_view_members.setHasFixedSize(true);
+        et_search_teammember.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                adapter.getFilter().filter(et_search_teammember.getText().toString());
+            }
+        });
+
 
     }
+
+    //private void loadRecylcerviews(ArrayList<MembersModel>MemberModelArrayList) {
+    // rv_view_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
+    // MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this);
+    // adapter = new MembersAdapter(MemberModelArrayList, getContext(), this);
+    // rv_view_groups.setAdapter(adapter_view_groups);
+    // rv_view_groups.setHasFixedSize(true);
+    // rv_view_members.setAdapter(adapter);
+    // rv_view_members.setHasFixedSize(true);
+    //et_search_teammember.addTextChangedListener(new TextWatcher() {
+    //   @Override
+    //  public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    // }
+
+    //  @Override
+    // public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    //  }
+
+    // @Override
+    // public void afterTextChanged(Editable editable) {
+
+    // adapter.getFilter().filter(et_search_teammember.getText().toString());
+    //  }
+    // });
+
+    // }
+
 
 
     @Override
@@ -636,6 +702,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                     tv_create_members.setTextColor(Color.BLACK);
                     tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
                     tv_view_members.setTextColor(Color.WHITE);
+
                 }
             }
         });
@@ -652,7 +719,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     }
 
     @Override
-    public void UpdateGroupAcess(MembersModel membersModel) throws JSONException {
+    public void UpdateGroupAccess(MembersModel membersModel) throws JSONException {
         TAG = "UGA";
         for (int i = 0; i < membersModel.getGroups().length(); i++) {
             ViewGroupModel viewGroupModel = new ViewGroupModel();
@@ -716,6 +783,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         ll_buttons.setVisibility(View.VISIBLE);
         tv_confirm_email.setVisibility(View.VISIBLE);
         et_search_members.setVisibility(View.VISIBLE);
+        et_search_teammember.setVisibility(View.VISIBLE);
         tv_confirm_email.setText("");
         tv_designation.setText("");
         tv_email.setText("");
@@ -725,3 +793,4 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     }
 
 }
+
