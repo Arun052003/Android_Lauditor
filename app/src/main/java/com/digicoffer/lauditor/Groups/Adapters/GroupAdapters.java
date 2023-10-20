@@ -1,5 +1,7 @@
 package com.digicoffer.lauditor.Groups.Adapters;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +11,14 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.GroupModel;
+import com.digicoffer.lauditor.Groups.Groups;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.ItemClickListener;
 import com.digicoffer.lauditor.common.AndroidUtils;
@@ -25,14 +30,19 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
     ArrayList<GroupModel> itemsArrayList;
     ArrayList<GroupModel> list_item;
     ItemClickListener itemClickListener;
+    public boolean select_checked;
     int add_tm = 1;
     String mTag = "";
     int add_group_head = 2;
+    Context context;
     int selectedPosition = -1;
+    Groups group;
 
-    public GroupAdapters(ArrayList<GroupModel> itemsArrayList, String Tag, ItemClickListener itemClickListener) {
+
+    public GroupAdapters(ArrayList<GroupModel> itemsArrayList, String Tag, ItemClickListener itemClickListener, Groups context) {
         this.itemsArrayList = itemsArrayList;
         this.list_item = itemsArrayList;
+        this.group = context;
         this.mTag = Tag;
         this.itemClickListener = itemClickListener;
     }
@@ -59,70 +69,21 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
         }
 
     }
-//    public boolean isAllchecked=false;
-//    public void setAllchecked(boolean isAllchecked)
-//    {
-//        this.isAllchecked=isAllchecked;
-//        notifyDataSetChanged();
-//    }
-//    public boolean isselecctall = false;
-//  public void select_all()
-//    {
-//        Log.e("Select_all is checked","True");
-//        isselecctall=true;
-//        notifyDataSetChanged();
-//    }
-//    public void un_selectall()
-//    {
-//        isselecctall=false;
-////        notifyDataSetChanged();
-//    }
 
 
     @Override
     public void onBindViewHolder(@NonNull GroupAdapters.ViewHolder holder, int position) {
         final GroupModel groupModel = itemsArrayList.get(position);
         itemsArrayList = list_item;
-        //Checking for Select_all check boxes...
-//        if (!isAllchecked)holder.cb_team_members.setChecked(false);
-//        else holder.cb_team_members.setChecked(true);
-//
-//        if (!isselecctall) holder.cb_team_members.setChecked(false);
-//        else holder.cb_team_members.setChecked(true);
-
         if (mTag == "TM") {
-            //holder.select_all.setChecked(itemsArrayList.get(position).isChecked());
             holder.cb_team_members.setChecked(itemsArrayList.get(position).isChecked());
             holder.cb_team_members.setTag(position);
-//            if(groupModel.isIsenabled()==null)
-//            if(holder.cb_team_members.isChecked())
-//            {
-//                isselecctall=true;
-//            }
-//            else {
-//                isselecctall=false;
-//            }
             if (itemsArrayList.get(position).isIsenabled()) {
                 holder.cb_team_members.setEnabled(true);
             } else {
                 holder.cb_team_members.setEnabled(false);
             }
-//            for (int j=0;j<itemsArrayList.size();j++) {
-//                holder.cb_team_members.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                        int i;
-//                        boolean isChecked = true;
-//                        for (i = 0; i < itemsArrayList.size(); i++) {
-//                            if (!holder.cb_team_members.isChecked()) {
-//                                isChecked = false;
-//                                break;
-//                            }
-//                        }
-//                        return isChecked;
-//                    }
-//                });
-//            }
+
 
             holder.cb_team_members.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,10 +96,12 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
                         itemsArrayList.get(pos).setChecked(true);
 //                        itemsArrayList.remove(itemsArrayList.get(pos));
                     }
+                    allselected();
                 }
             });
             holder.tv_tm_name.setText(groupModel.getName());
 //            if(holder.cb_team_members.isChecked())
+//
 //            {
 //                holder.select_all.setChecked(groupModel.isChecked());
 //            }
@@ -238,46 +201,49 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
         return isChecked;
     }
 
+    public void selectall() {
+        int i;
+        for (i = 0; i < list_item.size(); i++) {
+            list_item.get(i).setChecked(true);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void deselectall() {
+        for (int i = 0; i < list_item.size(); i++) {
+            list_item.get(i).setChecked(false);
+            notifyDataSetChanged();
+        }
+//        allselected();
+    }
+
+    public void allselected() {
+        for (int i = 0; i < itemsArrayList.size(); i++) {
+            if (!itemsArrayList.get(i).isChecked()) {
+                select_checked = false;
+                break;
+//                Log.e("ivalue",".."+i);
+            } else {
+                select_checked = true;
+            }
+        }
+
+        group.display(select_checked);
+
+//        select_checked=true;@
+        notifyDataSetChanged();
+    }
 
 
-//    public void select_all() {
-//        int i;
-//        for (i = 0; i < list_item.size(); i++) {
-//            list_item.get(i);
-//        }
-//        if (list_item.get(i).isChecked()) {
-//            selecctall = true;
-//        } else selecctall = false;
-//        notifyDataSetChanged();
-//    }
-
-    //checking for all team member is selected....
-
-//    public void selectOrDeselectAll(boolean isChecked) {
-//        for (int i = 0; i < list_item.size(); i++) {
-//
-//            if (isChecked){
-//                list_item.get(i).setSelected(true);
-//
-//            }
-//            else{
-//                list_item.get(i).setSelected(false);
-//            }
-//
-//        }
-//
-//        notifyDataSetChanged();
-//    }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private CheckBox cb_team_members;
-        private CheckBox select_all;
-        private TextView tv_tm_name,tv_gh_name;
+        private TextView tv_tm_name, tv_gh_name;
         private RadioButton rb_group_head;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
-            select_all=itemView.findViewById(R.id.chk_select_all);
 //            tv_gh_name = itemView.findViewById(R.id.tv_gh_name);
             rb_group_head = itemView.findViewById(R.id.rb_selected);
         }
