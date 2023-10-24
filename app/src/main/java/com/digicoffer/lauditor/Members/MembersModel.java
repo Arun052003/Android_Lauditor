@@ -93,4 +93,8 @@ public class MembersModel {
     public void setGroups(JSONArray groups) {
         this.groups = groups;
     }
+
+
 }
+
+

@@ -571,7 +571,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         }
         rv_select_team_members.removeAllViews();
         rv_select_team_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        adapter = new GroupAdapters(selectedTMArrayList, tmType, itemClickListener);
+        adapter = new GroupAdapters(selectedTMArrayList, tmType, itemClickListener,Groups.this);
         rv_select_team_members.setAdapter(adapter);
         rv_select_team_members.setHasFixedSize(true);
 //        rv_select_team_members.notify();
@@ -604,20 +604,17 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 });
             }
         };
-        chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chk_select_all.setOnClickListener(new OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                adapter.selectOrDeselectAll(isChecked);
+            public void onClick(View view) {
+                if (chk_select_all.isChecked()) {
+                    adapter.selectall();
+                } else {
+                    adapter.deselectall();
+                }
+
             }
         });
-//        if(adapter.selectOrDeselectAll(true))
-//        {
-//            chk_select_all.setChecked(true);
-//        }
-//        else {
-//            chk_select_all.setChecked(false);
-//        }
-//        selecting();
         btn_save.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -881,7 +878,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     private void loadTeamRecyclerview(ArrayList<GroupModel> selectedTMArrayList, String tmType) {
         rv_select_team_members.removeAllViews();
         rv_select_team_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        adapter = new GroupAdapters(selectedTMArrayList, tmType, itemClickListener);
+        adapter = new GroupAdapters(selectedTMArrayList, tmType, itemClickListener,Groups.this);
         rv_select_team_members.setAdapter(adapter);
         rv_select_team_members.setHasFixedSize(true);
 //        rv_select_team_members.notify();
@@ -901,10 +898,15 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
             }
 
         });
-        chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chk_select_all.setOnClickListener(new OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                adapter.selectOrDeselectAll(isChecked);
+            public void onClick(View view) {
+                if (chk_select_all.isChecked()) {
+                    adapter.selectall();
+                } else {
+                    adapter.deselectall();
+                }
+
             }
         });
 
@@ -1498,14 +1500,12 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         tv_selected_members.setVisibility(View.VISIBLE);
         cv_activity_log.setVisibility(View.GONE);
     }
-//public  void selecting()
-//{
-//    adapter.select_all();
-//    if (adapter.selecctall) {
-//        chk_select_all.setChecked(true);
-//    } else {
-//        chk_select_all.setChecked(false);
-//    }
-//}
+    public void display(boolean check_status) {
+        if (check_status) {
+            chk_select_all.setChecked(true);
+        } else {
+            chk_select_all.setChecked(false);
+        }
+    }
 }
 
