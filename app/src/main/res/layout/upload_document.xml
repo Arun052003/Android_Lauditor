@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +118,7 @@
                 android:paddingStart="50dp"
                 android:paddingTop="@dimen/twenty_dp"
                 android:paddingEnd="50dp"
-                >
+            >
 
                 <TextView
                     android:id="@+id/tv_client"
@@ -725,9 +725,9 @@
             android:id="@+id/ll_view_docs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
+            android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -739,7 +739,8 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                >
 
                 <TextView
                     android:id="@+id/tv_client_view"
@@ -801,7 +802,8 @@
                 android:elevation="50dp"
                 android:padding="5dp"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -816,36 +818,42 @@
                         android:orientation="vertical">
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/tv_name_view"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-                            <include layout="@layout/group_layout"
-                                android:id="@+id/tv_name_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <include layout="@layout/astrick_layout"/>
-                        </LinearLayout>
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="Client Name"
+                            android:textColor="@color/Blue_text_color"
+                            android:textSize="@dimen/Fifteen_dp">
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/client_spinner"
+                        </TextView>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/search_client"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
                             android:background="@drawable/rectangle_grey_background"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
 
-                            <include
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/tv_search_client"
-                                layout="@layout/spinner_layout" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:enabled="true"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:padding="15dp"
+                                android:text="Client Name"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="15dp" />
 
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
-
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
 
@@ -858,30 +866,36 @@
                         android:orientation="vertical">
 
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="Matter"
+                            android:textColor="@color/Blue_text_color"
+                            android:textSize="@dimen/Fifteen_dp">
 
-                        <include layout="@layout/group_layout"
-                            android:id="@+id/matter_name"/>
+                        </TextView>
 
 
-
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tl_matter_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
                             android:background="@drawable/rectangle_grey_background"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
 
-                            <include
+
+                            <Spinner
                                 android:id="@+id/sp_matter_view"
-                                layout="@layout/spinner_layout" />
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
 
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
+                                android:spinnerMode="dropdown" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ll_document_type_view"
                         android:layout_width="match_parent"
@@ -897,18 +911,27 @@
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <include layout="@layout/group_layout"
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/select_doc_type"/>
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="@string/select_document_type"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
 
-                            <include layout="@layout/astrick_layout"/>
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
 
                         </LinearLayout>
 
-
                         <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layout_buttons"
+
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/rectangle_grey_background"
@@ -916,92 +939,49 @@
                             app:boxBackgroundMode="none">
 
 
-                            <TextView
+                            <Spinner
                                 android:id="@+id/sp_document_type_view"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:enabled="true"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:padding="15dp"
-                                android:text="Select Groups"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="15dp" />
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
 
+                                android:spinnerMode="dropdown" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/ll_categories_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@id/ll_document_type_view"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-                        <include layout="@layout/group_layout"
-                            android:id="@+id/category_name_id"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                        <include layout="@layout/group_name_layout"
-                            android:id="@+id/tv_category_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/ll_search_client_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_categories_layout"
+                        android:layout_below="@id/ll_document_type_view"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
 
 
-                        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        <com.google.android.material.textfield.TextInputLayout
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="3dp"
                             android:background="@drawable/rectangle_grey_background"
-                            android:hint="Search "
-                            android:textColorHint="@color/black">
-                            <include layout="@layout/search_layout"
-                                android:id="@+id/tv_search_client_view"/>
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_search_client_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:drawableRight="@drawable/search_groups"
+                                android:enabled="false"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:hint="@string/search"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="15dp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/ll_search_client_views"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_search_client_view"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-
-                        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="3dp"
-                            android:background="@drawable/rectangle_grey_background"
-                            android:hint="Search "
-                            android:textColorHint="@color/black">
-                            <include layout="@layout/search_layout"
-                                android:id="@+id/tv_search_client_views"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-
-
 
 
                 </RelativeLayout>
@@ -1017,11 +997,19 @@
                 android:elevation="50dp"
                 android:padding="5dp"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                >
 
 
-              <include layout="@layout/recyclerview"
-                  android:id="@+id/rv_display_view_docs"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_display_view_docs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rectangle_right_background"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical" />
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
