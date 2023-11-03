@@ -9,79 +9,71 @@
         android:id="@+id/ll_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_margin="5dp"
-        android:padding="5dp"
         android:background="@drawable/cancel_button_background"
+        android:orientation="horizontal"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.029">
+
         <TextView
             android:id="@+id/tv_document_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:gravity="start"
-            android:layout_gravity="center"
-            android:padding="5dp"
             android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="start"
+            android:padding="5dp"
             android:text="Date"
-            android:textSize="@dimen/Fifteen_dp"
-            android:textColor="@color/cardview_dark_background"/>
-        <CheckBox
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="@dimen/Fifteen_dp" />
+
+        <include
             android:id="@+id/chk_selected_documents"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:paddingEnd="20dp"
-            android:visibility="gone"
-            android:layout_margin="10dp"
-            android:buttonTint="@color/grey_color_dark"
-            android:background="@color/white"
+            layout="@layout/check_select_all"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
+            android:visibility="visible" />
 
-            />
-        <ImageView
+        <include
             android:id="@+id/iv_edit_meta"
+            layout="@layout/astrick_layout"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:visibility="gone"
-            android:layout_margin="3dp"
-            android:src="@drawable/edit_documents_icon">
+            android:layout_margin="3dp" />
 
-        </ImageView>
-        <ImageView
+        <include
             android:id="@+id/iv_cancel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="3dp"
-            android:src="@drawable/cancel_red_icon">
-
-        </ImageView>
+            layout="@layout/astrick_layout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_tags"
-        >
-        <Button
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_tags">
+
+        <include
             android:id="@+id/btn_view_tags"
+            layout="@layout/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_weight="0.7"
             android:layout_margin="5dp"
-            android:visibility="gone"
-            android:text="View Tags">
-
-        </Button>
+            android:visibility="gone" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,37 +36,23 @@
                     android:background="@color/Blue_text_color"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <include
                         android:id="@+id/close_groups"
+                        layout="@layout/astrick_layout"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/cancel_icon"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/Fifteen_dp"
-                        android:visibility="visible">
+                        android:layout_margin="10dp" />
 
-                    </ImageView>
-
-                    <TextView
-                        android:id="@+id/header_name"
+                    <include
+                        android:id="@+id/header_name_group"
+                        layout="@layout/group_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="Select Groups"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/Fifteen_dp"
-                        android:visibility="visible">
-
-                    </TextView>
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="-10dp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_hide_data"
                     android:layout_width="match_parent"
@@ -74,7 +60,7 @@
                     android:orientation="vertical">
 
 
-    <TextView
+                    <TextView
                         android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -105,6 +91,7 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </ScrollView>
                 </LinearLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_buttons"
                     android:layout_width="match_parent"
@@ -114,35 +101,13 @@
 
                     >
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <include
                         android:id="@+id/btn_groups_cancel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/cancel_button_background"
-                        android:elevation="20dp"
-                        android:text="@string/cancel"
-                        android:textAllCaps="false">
+                        layout="@layout/cancel_button" />
 
-                    </androidx.appcompat.widget.AppCompatButton>
-
-                    <androidx.appcompat.widget.AppCompatButton
+                    <include
                         android:id="@+id/btn_save_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/save_button_background"
-                        android:elevation="@dimen/Fifteen_dp"
-                        android:padding="5dp"
-                        android:text="@string/save"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white">
-
-                    </androidx.appcompat.widget.AppCompatButton>
+                        layout="@layout/submit_button" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>

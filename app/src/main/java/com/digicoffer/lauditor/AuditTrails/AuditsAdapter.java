@@ -28,7 +28,15 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
         this.filtered_list = auditsList;
         this.itemList = auditsList;
     }
+    public void updateData(List<AuditsModel> newData) {
+        AuditsDiffCallback diffCallback = new AuditsDiffCallback(this.filtered_list, newData);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
+        this.filtered_list.clear();
+        this.filtered_list.addAll(newData);
+
+        diffResult.dispatchUpdatesTo(this);
+    }
 
 
     @NonNull
@@ -62,9 +70,6 @@ public class AuditsAdapter extends RecyclerView.Adapter<AuditsAdapter.MyViewHold
                 loadHiddenData(holder,auditsModel);
             }else  if(auditsModel.getName().equals("GENERAL MATTER")){
                 holder.tv_category_name.setText("GENERAL MATTER");
-                loadHiddenData(holder,auditsModel);
-            }else if(auditsModel.getName().equals("GROUPS")){
-                holder.tv_category_name.setText("GROUPS");
                 loadHiddenData(holder,auditsModel);
             }else{
                 holder.tv_category_name.setText(auditsModel.getName());

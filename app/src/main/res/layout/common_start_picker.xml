@@ -20,8 +20,7 @@
     <!--        app:layout_constraintVertical_bias="0"-->
     <!--        android:orientation="vertical">-->
 
-    <RelativeLayout
-        android:id="@+id/time_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -38,26 +37,13 @@
         </TextView>
 
         <ImageView
-            android:id="@+id/mandatory"
             android:layout_width="15dp"
             android:layout_height="10dp"
-            android:layout_toRightOf="@id/from_date"
             android:src="@drawable/asterisk_icon">
 
         </ImageView>
-        <ImageButton
-            android:id="@+id/cancel_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:visibility="visible"
-            android:layout_gravity="end"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/cancel_red_icon">
 
-        </ImageButton>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_event_start_time"

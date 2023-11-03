@@ -19,13 +19,13 @@ public class DateUtilsEndDate {
         void onDateSelectedEndDate(String selectedDate, String FLAG);
     }
     private AuditTrails auditTrails;
-    private static OnDateSelectedListenerEndDate dateSelectedListener;
+    private static DateUtilsEndDate.OnDateSelectedListenerEndDate dateSelectedListener;
 
     public DateUtilsEndDate(AuditTrails auditTrails) {
         this.auditTrails = auditTrails;
     }
 
-    public void setOnDateSelectedListener(OnDateSelectedListenerEndDate listener) {
+    public void setOnDateSelectedListener(DateUtilsEndDate.OnDateSelectedListenerEndDate listener) {
         this.dateSelectedListener = listener;
     }
     public static void showDatePickerDialog(Context context, final TextView textView, Context context1, String FLAG) {
