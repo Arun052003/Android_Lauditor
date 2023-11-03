@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tv_create_members"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="15dp"
-    android:layout_marginRight="1dp"
-    android:layout_marginBottom="15dp"
     android:layout_weight="1"
     android:background="@drawable/button_left_background"
+
     android:fontFamily="sans-serif-condensed-medium"
     android:padding="10dp"
-    android:shadowRadius="10"
+    app:cardCornerRadius="10dp"
     android:text="@string/create_members"
+    android:elevation="150dp"
     android:textColor="@color/black"
     android:textSize="@dimen/Fifteen_dp"
-    android:translationZ="12dp"
-    app:cardCornerRadius="10dp"></TextView>
+    >
+
+</TextView>

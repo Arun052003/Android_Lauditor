@@ -36,23 +36,26 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
-                    android:background="@color/dark_grey"
+                    android:background="@color/green_count_color"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:src="@mipmap/upload_black_icon1"
+                    android:src="@mipmap/upload_icon_black"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp"
-                    app:shapeAppearanceOverlay="@style/Circula" />
+                    app:shapeAppearanceOverlay="@style/Circula">
 
-                <include
-                    android:id="@+id/upload_name"
-                    layout="@layout/group_layout"
+                </com.google.android.material.imageview.ShapeableImageView>
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/upload_icon"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginLeft="15dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:text="Upload">
+
+                </TextView>
 
             </RelativeLayout>
 
@@ -69,9 +72,9 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
-                    android:background="@color/dark_grey"
+                    android:background="@color/green_count_color"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:src="@mipmap/eye_black_icon1"
+                    android:src="@mipmap/eye_icon_black"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp"
@@ -79,18 +82,20 @@
 
                 </com.google.android.material.imageview.ShapeableImageView>
 
-                <include
-                    android:id="@+id/view_name"
-                    layout="@layout/group_layout"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_icon"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:text="View">
+
+                </TextView>
 
             </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
         <LinearLayout
@@ -98,33 +103,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/upload_view"
             app:layout_constraintVertical_bias="0.0">
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/client_type"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="50dp"
                 android:paddingTop="@dimen/twenty_dp"
-                android:paddingEnd="50dp">
+                android:paddingEnd="50dp"
+                >
 
-                <include
+                <TextView
                     android:id="@+id/tv_client"
-                    layout="@layout/createmember_layout" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/button_left_background"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:padding="10dp"
+                    android:text="Client"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Fifteen_dp">
 
-                <include
+                </TextView>
+
+                <TextView
                     android:id="@+id/tv_firm"
-                    layout="@layout/viewmember_layout" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
 
+                    android:background="@drawable/button_right_background"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:padding="10dp"
+                    android:text="Firm"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Fifteen_dp">
+
+                </TextView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_client_details"
                 android:layout_width="match_parent"
@@ -154,35 +176,45 @@
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <include
+                            <TextView
                                 android:id="@+id/tv_name"
-                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp" />
-                            <!--                            android:text="Client Name"-->
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="Client Name"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
 
-                            <include layout="@layout/astrick_layout" />
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
 
                         </LinearLayout>
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/spinnerLayout"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/search_tm"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:background="@drawable/rectangle_grey_background"
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
 
-                            <include
+                            >
+
+                            <Spinner
                                 android:id="@+id/at_search_client"
-                                layout="@layout/spinner_layout" />
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:spinnerMode="dropdown" />
 
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
 
@@ -194,29 +226,48 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <include
-                            android:id="@+id/tv_matter"
-                            layout="@layout/group_layout" />
-                        <!--                            android:text="Client Name"-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="Matter"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
+
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tl_matter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:background="@drawable/rectangle_grey_background"
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
 
-                            <include
+
+                            <Spinner
                                 android:id="@+id/sp_matter"
-                                layout="@layout/spinner_layout" />
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
 
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
+                                android:spinnerMode="dropdown" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -234,26 +285,46 @@
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <include
-                                android:id="@+id/tv_select_group_name"
-                                layout="@layout/group_layout"
+                            <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="Select Groups"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
 
-                            <include layout="@layout/astrick_layout" />
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
 
                         </LinearLayout>
 
+                        <com.google.android.material.textfield.TextInputLayout
 
-                        <include layout="@layout/group_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:id="@+id/tv_select_groups"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="3dp"/>
-<!--                        <include-->
-<!--                            android:id="@+id/tv_select_groups"-->
-<!--                            layout="@layout/select_doc_layout" />-->
+                            android:layout_height="match_parent"
+                            android:background="@drawable/rectangle_grey_background"
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
+
+
+                            <TextView
+                                android:id="@+id/tv_select_groups"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:enabled="true"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:padding="15dp"
+                                android:text="Select Groups"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="15dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -265,13 +336,51 @@
                         android:orientation="vertical"
                         android:visibility="gone">
 
-                        <include
-                            android:id="@+id/category_name"
-                            layout="@layout/group_layout" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
-                        <include
-                            android:id="@+id/tv_category"
-                            layout="@layout/group_name_layout" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="Catergory"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
+
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rectangle_grey_background"
+                            android:textColorHint="@color/black"
+                            app:boxBackgroundMode="none">
+
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_category"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:enabled="false"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:hint="@string/category"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="15dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -288,40 +397,66 @@
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <include
-                                android:id="@+id/select_documents"
-                                layout="@layout/group_layout"
+                            <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                            <!--                            select_documents-->
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="Select Document(s)"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
 
-                            <include layout="@layout/astrick_layout" />
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
 
-                            <include
-                                layout="@layout/group_layout"
-                                android:id="@+id/tv_selected_file"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
-                                android:layout_weight="1" />
-
-
-                            <include
-                                android:id="@+id/btn_browse"
-                                layout="@layout/submit_button"
-                                android:layout_width="wrap_content"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/tl_selected_file"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center" />
+                                android:layout_below="@id/ll_client_name"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:background="@drawable/rectangle_grey_background"
+                                android:gravity="center"
+                                android:hint="Search Documents"
+                                android:textColorHint="@color/black"
+                                app:boxBackgroundMode="none">
+
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/tv_selected_file"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:enabled="false"
+                                    android:fontFamily="sans-serif-condensed-medium"
+                                    android:textColor="@color/Blue_text_color"
+                                    android:textSize="15dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <Button
+                                android:id="@+id/btn_browse"
+                                android:layout_width="200dp"
+                                android:layout_height="70dp"
+                                android:layout_margin="5dp"
+                                android:layout_weight="0.7"
+                                android:text="Browse">
+
+                            </Button>
 
                         </LinearLayout>
 
@@ -356,23 +491,57 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/tag_meta"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
+                        android:layout_height="70dp"
                         android:orientation="horizontal"
                         android:paddingTop="10dp"
                         android:paddingEnd="30dp"
 
                         >
 
-                        <include
+                        <TextView
                             android:id="@+id/tv_add_tag"
-                            layout="@layout/createmember_layout" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_left_background"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:gravity="center"
 
-                        <include
+                            android:padding="10dp"
+                            android:text="Add Tag"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Fifteen_dp">
+
+                        </TextView>
+
+                        <TextView
                             android:id="@+id/tv_edit_meta"
-                            layout="@layout/viewmember_layout" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_right_background"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="Edit Meta"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Fifteen_dp">
 
-                        <include layout="@layout/check_select_all" />
+                        </TextView>
+
+                        <CheckBox
+                            android:id="@+id/chk_select_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/checkbox_background"
+                            android:buttonTint="@color/grey_color_dark"
+
+                            android:text="@string/select_all" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -396,13 +565,38 @@
                     app:layout_constraintTop_toBottomOf="@id/rl_buttons"
                     app:layout_constraintVertical_bias="0.0">
 
-                    <include
+                    <TextView
                         android:id="@+id/tv_enable_download"
-                        layout="@layout/createmember_layout" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_left_background"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Enable Download"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/Fifteen_dp">
 
-                    <include
+                    </TextView>
+
+                    <TextView
                         android:id="@+id/tv_disable_download"
-                        layout="@layout/viewmember_layout" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_right_background"
+                        android:fontFamily="sans-serif-condensed-medium"
+
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Disable Download"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/Fifteen_dp">
+
+                    </TextView>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.cardview.widget.CardView
@@ -429,31 +623,31 @@
                         android:paddingBottom="30dp">
 
 
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:fontFamily="sans-serif-condensed"-->
-                        <!--                            android:text="Select Head of the Practice"-->
-                        <!--                            android:textColor="@color/Blue_text_color"-->
-                        <!--                            android:textSize="@dimen/twenty_dp"-->
-                        <!--                            android:visibility="gone">-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed"
+                            android:text="Select Head of the Practice"
+                            android:textColor="@color/Blue_text_color"
+                            android:textSize="@dimen/twenty_dp"
+                            android:visibility="gone">
 
-                        <!--                        </TextView>-->
+                        </TextView>
 
-                        <!--                        <TextView-->
-                        <!--                            android:id="@+id/group_head_name"-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_margin="10dp"-->
-                        <!--                            android:background="@drawable/rectangle_grey_background"-->
-                        <!--                            android:drawableLeft="@drawable/person_image_email"-->
-                        <!--                            android:fontFamily="sans-serif-condensed-medium"-->
-                        <!--                            android:padding="10dp"-->
-                        <!--                            android:textColor="@color/black"-->
-                        <!--                            android:textSize="@dimen/Fifteen_dp"-->
-                        <!--                            android:visibility="gone">-->
+                        <TextView
+                            android:id="@+id/group_head_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/rectangle_grey_background"
+                            android:drawableLeft="@drawable/person_image_email"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:visibility="gone">
 
-                        <!--                        </TextView>-->
+                        </TextView>
 
                         <ScrollView
                             android:layout_width="match_parent"
@@ -474,18 +668,52 @@
                             android:layout_margin="10dp"
                             android:orientation="horizontal">
 
-                            <include
+                            <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/btn_cancel"
-                                layout="@layout/cancel_button" />
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
 
-                            <include
+                                android:background="@drawable/cancel_button_background"
+                                android:elevation="20dp"
+                                android:text="@string/cancel"
+                                android:textAllCaps="false">
+
+                            </androidx.appcompat.widget.AppCompatButton>
+
+                            <Button
                                 android:id="@+id/btn_upload"
-                                layout="@layout/submit_button" />
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/save_button_background"
 
-                            <include
+                                android:elevation="@dimen/Fifteen_dp"
+                                android:text="@string/upload"
+                                android:textAllCaps="false"
+
+                                android:textColor="@color/white" />
+
+                            <Button
                                 android:id="@+id/btn_add_tag"
-                                layout="@layout/submit_button" />
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/save_button_background"
+                                android:elevation="@dimen/Fifteen_dp"
+                                android:text="@string/add_tag"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
 
+                                android:visibility="gone">
+
+                            </Button>
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.cardview.widget.CardView>
@@ -493,14 +721,13 @@
 
 
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/ll_view_docs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -681,7 +908,7 @@
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/layout_buttons"
+                        android:id="@+id/layout_buttons"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/rectangle_grey_background"
@@ -793,8 +1020,8 @@
                 app:cardCornerRadius="5dp">
 
 
-                <include layout="@layout/recyclerview"
-                    android:id="@+id/rv_display_view_docs"/>
+              <include layout="@layout/recyclerview"
+                  android:id="@+id/rv_display_view_docs"/>
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>

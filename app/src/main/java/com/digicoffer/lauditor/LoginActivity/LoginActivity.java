@@ -66,11 +66,11 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-        tet_email.setText("rajendra.sai@digicoffer.com");
-        tet_password.setText("Test@123");
+//        tet_email.setText("rajendra.sai@digicoffer.com");
+//        tet_password.setText("Test@123");
 
         bt_submit = findViewById(R.id.Submit);
-        Login();
+//        Login();
         tv_forgot_password = findViewById(R.id.textView);
 
         tv_forgot_password.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +215,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         CommonSpinnerAdapter<FirmsDo> adapter = new CommonSpinnerAdapter<>(this, list);
         sp_firm.setAdapter(adapter);
         final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
-        et_firm_password.setText("Test@123");
+//        et_firm_password.setText("Test@123");
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.Submit);
 
         //Reset password---
@@ -226,11 +226,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         ad_dialog = dialog;
         JSONObject postData = new JSONObject();
-        try {
-            callfirmloginWebservice(postData, sp_firm, list, et_firm_password, tet_email);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+//
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

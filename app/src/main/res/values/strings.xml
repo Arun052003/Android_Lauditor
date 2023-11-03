@@ -20,6 +20,7 @@
     <string name="default_currency">Default Currency</string>
     <string name="default_rate">Default Rate</string>
     <string name="description">Description</string>
+
     <string name="select_team_member">Select Team Member</string>
     <string name="assign_group">Assign Group</string>
     <string name="add_team_member">Add Team Member</string>
@@ -39,7 +40,6 @@
     <string name="view_relationships">View Relationships</string>
     <string name="search">Search</string>
     <string name="search_team_members">Search Team Members</string>
-    <string name="select_groups">Select Groups</string>
     <string name="first_name">First Name</string>
     <string name="country">Country</string>
     <string name="entity_name">Entity Name</string>
@@ -56,6 +56,7 @@
     <string name="document_name">Document Name</string>
     <string name="expiration_date">Expiration Date</string>
     <string name="photo_library">Photo Library</string>
+    <string name="select_groups">Select Groups</string>
     <string name="document">Document</string>
     <string name="add_tag">Add Tag</string>
     <string name="upload">Upload</string>

@@ -96,7 +96,7 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
                         itemsArrayList.get(pos).setChecked(true);
 //                        itemsArrayList.remove(itemsArrayList.get(pos));
                     }
-                    check_allselected();
+                    allselected();
                 }
             });
             holder.tv_tm_name.setText(groupModel.getName());
@@ -217,7 +217,7 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
 //        allselected();
     }
 
-    public void check_allselected() {
+    public void allselected() {
         for (int i = 0; i < itemsArrayList.size(); i++) {
             if (!itemsArrayList.get(i).isChecked()) {
                 select_checked = false;
@@ -228,7 +228,7 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
             }
         }
 
-        group.check_select_all(select_checked);
+        group.display(select_checked);
 
 //        select_checked=true;@
         notifyDataSetChanged();
