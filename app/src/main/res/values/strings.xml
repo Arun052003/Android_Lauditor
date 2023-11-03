@@ -39,6 +39,7 @@
     <string name="view_relationships">View Relationships</string>
     <string name="search">Search</string>
     <string name="search_team_members">Search Team Members</string>
+    <string name="select_groups">Select Groups</string>
     <string name="first_name">First Name</string>
     <string name="country">Country</string>
     <string name="entity_name">Entity Name</string>

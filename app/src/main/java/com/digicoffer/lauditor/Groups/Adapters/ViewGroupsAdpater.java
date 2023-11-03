@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
 import com.digicoffer.lauditor.Groups.GroupModels.ViewGroupModel;
+import com.digicoffer.lauditor.Groups.Groups;
 import com.digicoffer.lauditor.Groups.ViewGroupsItemClickListener;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
@@ -40,14 +41,16 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     ViewGroupsItemClickListener itemClickListener;
     String mTag = "";
     int selectedPosition = -1;
+    Groups group;
     private boolean isSpinnerInitial = true;
 
     int hidingItemIndex = 0;
 
-    public ViewGroupsAdpater(ArrayList<ViewGroupModel> itemsArrayList, Context context, InterfaceListener eventListener, String Tag, ViewGroupsItemClickListener itemClickListener) {
+    public ViewGroupsAdpater(ArrayList<ViewGroupModel> itemsArrayList, Context context, InterfaceListener eventListener, String Tag, ViewGroupsItemClickListener itemClickListener, Groups groups) {
         this.itemsArrayList = itemsArrayList;
         this.list_item = itemsArrayList;
         this.mcontext = context;
+        this.group = groups;
         this.eventListener = eventListener;
         this.mTag = Tag;
         this.itemClickListener = itemClickListener;
@@ -152,51 +155,38 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             actions_List.add(new ActionModel("Group Activity Log"));
             final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) mcontext, actions_List);
             holder.sp_action.setAdapter(spinner_adapter);
-//            holder.sp_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-//                    if (name == "Edit Group") {
-//                        eventListener.EditGroup(viewGroupModel);
-//                    } else if (name == "Delete") {
-//                        eventListener.DeleteGroup(viewGroupModel);
-//                    } else if (name == "Change Group Head") {
-//                        eventListener.CGH(viewGroupModel, itemsArrayList);
-//                    }else if(name == "Update Group Members"){
-//                        try {
-//                            eventListener.UGM(viewGroupModel);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            });
-//            holder.sp_action.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    userinteract=true;
-//                    return false;
-//                }
-//            });
 
+            holder.action_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.sp_action.performClick();
+                }
+            });
+
+            holder.sp_action.findFocus();
             holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                     String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
                     if (name == "Edit Group") {
+                        group.model_name("Edit Groups");
                         eventListener.EditGroup(viewGroupModel);
                     } else if (name == "Delete") {
+                        group.model_name("Delete Groups");
                         eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
                     } else if (name == "Change Group Head") {
+                        group.model_name("Change Group Head");
                         eventListener.CGH(viewGroupModel, itemsArrayList);
                     } else if (name == "Update Group Members") {
+                        group.model_name("Update Group Members");
                         try {
                             eventListener.UGM(viewGroupModel);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else if (name == "Group Activity Log") {
+                        group.model_name("Group Activity Log");
                         try {
                             eventListener.GAL(viewGroupModel);
                         } catch (JSONException e) {
@@ -282,8 +272,9 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name, created_id;
         private Spinner sp_action;
-        private CheckBox cb_team_members,rb_group;
-        private RadioButton rb_group_head,rb_group_selected;
+        LinearLayout action_layout;
+        private CheckBox cb_team_members, rb_group;
+        private RadioButton rb_group_head, rb_group_selected;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -293,11 +284,12 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
             created_id = itemView.findViewById(R.id.created_id);
+            action_layout = itemView.findViewById(R.id.action_layout);
             //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
             sp_action = itemView.findViewById(R.id.sp_action);
-            rb_group_selected=itemView.findViewById(R.id.rb_group_selected);
-            rb_group=itemView.findViewById(R.id.chk_selected);
+            rb_group_selected = itemView.findViewById(R.id.rb_group_selected);
+            rb_group = itemView.findViewById(R.id.chk_selected);
             rb_group_head = itemView.findViewById(R.id.rb_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
         }
