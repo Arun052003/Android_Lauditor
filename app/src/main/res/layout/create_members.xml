@@ -28,14 +28,12 @@
 
             <include
                 layout="@layout/createmember_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="1dp" />
+
+               />
 
             <include
                 layout="@layout/viewmember_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.cardview.widget.CardView

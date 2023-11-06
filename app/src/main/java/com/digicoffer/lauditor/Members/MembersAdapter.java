@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
   //  ArrayList<MembersModel> members_list = new ArrayList<>();
     ArrayList<ActionModel> actions_List = new ArrayList();
     ArrayList<MembersModel> itemsArrayList;
+
 
     ArrayList<MembersModel> list_item;
 
@@ -115,6 +117,14 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) mcontext, actions_List);
         holder.sp_action.setAdapter(spinner_adapter);
+        holder.action_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.sp_action.performClick();
+            }
+        });
+
+        holder.sp_action.findFocus();
         holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -148,6 +158,8 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_members_name, tv_member_type, tv_litigation, tv_email, tv_currency, tv_currency_type;
         Spinner sp_action;
+        LinearLayout action_layout;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +170,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
             tv_currency = itemView.findViewById(R.id.tv_currency);
             tv_email = itemView.findViewById(R.id.tv_email_id);
             sp_action = itemView.findViewById(R.id.sp_action);
+            action_layout = itemView.findViewById(R.id.action_layout);
         }
     }
 }
