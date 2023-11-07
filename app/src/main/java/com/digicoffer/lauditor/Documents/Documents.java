@@ -521,6 +521,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         count_file = 0;
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_selected_file.setText("Select Document(s)");
+        siv_view_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.eye_black_icon1));
+        siv_view_document.setBackground(getContext().getResources().getDrawable(R.color.dark_grey));
         siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
         siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.upload_green_icon1));
         ll_upload_docs.setVisibility(View.VISIBLE);
