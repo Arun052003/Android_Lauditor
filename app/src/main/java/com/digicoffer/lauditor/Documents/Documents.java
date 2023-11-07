@@ -545,6 +545,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
+
     private void open_add_tags_popup() {
         tags_list.clear();
         if (selected_documents_list.size() != 0) {
