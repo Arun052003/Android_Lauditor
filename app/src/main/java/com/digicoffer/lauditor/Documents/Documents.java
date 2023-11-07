@@ -547,7 +547,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
-
     private void open_add_tags_popup() {
         tags_list.clear();
         if (selected_documents_list.size() != 0) {
@@ -1606,7 +1605,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), matterlist);
         Log.i("ArrayList", "Info:" + matterlist);
         sp_matter.setAdapter(adapter);
-        sp_matter_view.setAdapter(adapter);
+//        sp_matter_view.setAdapter(adapter);
         sp_matter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1619,18 +1618,18 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             }
         });
-        sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                matter_id = matterlist.get(position).getId();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                matter_id = matterlist.get(position).getId();
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
     }
@@ -1659,34 +1658,34 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     }
 
-    private void intUI(ArrayList<ClientsModel> clientsList) {
-        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
-//        Log.i("ArrayList","Info:"+matterlist);
-//        ArrayAdapter adaptador = new ArrayAdapter(User_Profile.this, android.R.layout.simple_spinner_item, sorted_countriesList);
-//        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-//        spinner.setAdapter(adaptador);
-        // sp_client.setAdapter(adapter);
-        tv_search_client.setAdapter(adapter);
-
-
-        tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                matter_name = Documents.this.clientsList.get(position).getName();
-                client_id = clientsList.get(position).getId();
-                matterlist.clear();
-                callLegalMatter();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-    }
+//    private void intUI(ArrayList<ClientsModel> clientsList) {
+//        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
+////        Log.i("ArrayList","Info:"+matterlist);
+////        ArrayAdapter adaptador = new ArrayAdapter(User_Profile.this, android.R.layout.simple_spinner_item, sorted_countriesList);
+////        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+////        spinner.setAdapter(adaptador);
+//        // sp_client.setAdapter(adapter);
+//        tv_search_client.setAdapter(adapter);
+//
+//
+//        tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                matter_name = Documents.this.clientsList.get(position).getName();
+//                client_id = clientsList.get(position).getId();
+//                matterlist.clear();
+//                callLegalMatter();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//
+//    }
 
     private void loadClients(JSONObject data) throws JSONException {
         JSONArray relationships = data.getJSONArray("relationships");
@@ -1701,7 +1700,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //                    updatedClients.add(clientsModel);
         }
         initUI(clientsList);
-        intUI(clientsList);
+//        intUI(clientsList);
     }
 
     private void callLegalMatter() {
