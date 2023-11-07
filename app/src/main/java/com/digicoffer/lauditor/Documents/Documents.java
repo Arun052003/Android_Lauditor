@@ -1,5 +1,7 @@
 package com.digicoffer.lauditor.Documents;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -291,7 +293,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ll_hide_document_details.setVisibility(View.GONE);
             rv_documents = v.findViewById(R.id.rv_documents);
 
-
             siv_upload_document.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -560,6 +561,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_tag_name.setHint(R.string.tag);
             header_name = view.findViewById(R.id.header_name);
             header_name.setText(R.string.add_tag);
+            header_name.setGravity(Gravity.CENTER);
             header_name.setTextColor(getContext().getResources().getColor(R.color.white));
             header_name.setTextSize(20);
             final Button btn_add = view.findViewById(R.id.btn_add_tags);
@@ -657,6 +659,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             View view_added_tags = LayoutInflater.from(getContext()).inflate(R.layout.displays_documents_list, null);
             tv_tag_document_name = view_added_tags.findViewById(R.id.tv_document_name);
 
+            CheckBox chk_selected_documents = view_added_tags.findViewById(R.id.chk_selected_documents);
+            chk_selected_documents.setVisibility(View.GONE);
             ImageView iv_edit_tag = view_added_tags.findViewById(R.id.iv_edit_meta);
             iv_edit_tag.setImageResource(R.drawable.edit_documents_icon);
             ImageView iv_remove_tag = view_added_tags.findViewById(R.id.iv_cancel);
@@ -717,6 +721,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         header_name_edit = view_edit_tags.findViewById(R.id.header_name_edit);
         header_name_edit.setText("Edit Tag");
         header_name_edit.setTextSize(20);
+        header_name_edit.setGravity(Gravity.CENTER);
         header_name_edit.setTextColor(getContext().getResources().getColor(R.color.white));
         AppCompatButton btn_save_edited_tag = view_edit_tags.findViewById(R.id.btn_edit_save_tag);
         ImageView iv_close_edit_tags = view_edit_tags.findViewById(R.id.edit_close_tags);
@@ -764,6 +769,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void hidefirmBackground() {
+        count_file = 0;
+        tv_selected_file.setText("Select Document(s)");
         UPLOAD_TAG = "Client";
         ll_category.setVisibility(View.GONE);
         ll_matter.setVisibility(View.VISIBLE);
@@ -777,6 +784,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void hideClientBackground() {
+        count_file = 0;
+        tv_selected_file.setText("Select Document(s)");
         UPLOAD_TAG = "Firm";
         ll_matter.setVisibility(View.GONE);
         ll_category.setVisibility(View.VISIBLE);
@@ -1516,6 +1525,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ImageView iv_cancel = view.findViewById(R.id.close_groups);
             iv_cancel.setImageResource(R.drawable.cancel_icon);
             header_name_group = view.findViewById(R.id.header_name_group);
+            header_name_group.setGravity(Gravity.CENTER);
+            header_name_group.setTextColor(Color.WHITE);
             header_name_group.setText(R.string.select_groups);
             AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
             AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
@@ -1589,12 +1600,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void initMatter() {
-        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), matterlist);
+        final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), matterlist);
         Log.i("ArrayList", "Info:" + matterlist);
-//        ArrayAdapter adaptador = new ArrayAdapter(User_Profile.this, android.R.layout.simple_spinner_item, sorted_countriesList);
-//        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-//        spinner.setAdapter(adaptador);
         sp_matter.setAdapter(adapter);
         sp_matter_view.setAdapter(adapter);
         sp_matter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1627,11 +1634,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void initUI(ArrayList<ClientsModel> clientsList) {
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
-//        Log.i("ArrayList","Info:"+matterlist);
-//        ArrayAdapter adaptador = new ArrayAdapter(User_Profile.this, android.R.layout.simple_spinner_item, sorted_countriesList);
-//        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-//        spinner.setAdapter(adaptador);
         sp_client.setAdapter(adapter);
         // tv_search_client.setAdapter(adapter);
 

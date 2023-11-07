@@ -684,7 +684,7 @@
                             android:id="@+id/layout_buttons"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/rectangle_grey_background"
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:textColorHint="@color/black"
                             app:boxBackgroundMode="none">
 
@@ -695,10 +695,11 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:enabled="true"
+                                android:drawableRight="@drawable/down_arrow"
                                 android:fontFamily="sans-serif-condensed-medium"
                                 android:padding="15dp"
                                 android:text="Select Groups"
-                                android:textColor="@color/Blue_text_color"
+                                android:textColor="@color/black"
                                 android:textSize="15dp" />
 
                         </com.google.android.material.textfield.TextInputLayout>
