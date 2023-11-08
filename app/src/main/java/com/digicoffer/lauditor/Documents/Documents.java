@@ -230,6 +230,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_select_groups.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
             tv_select_groups.setPadding(20, 0, 20, 0);
 //            tv_select_groups.setText(null);
+
             tv_selected_file = v.findViewById(R.id.tv_selected_file);
             tv_selected_file.setText("Select Document(s)");
             tv_selected_file.setGravity(Gravity.CENTER_VERTICAL);
@@ -466,9 +467,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         //   ll_matter_view.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.VISIBLE);
         ll_upload_docs.setVisibility(View.GONE);
-        clearListData();
+        //clearListData();
         hideviewFirmBackground();
         callViewDocumentWebservice();
+
         mViewModel.setData("View Documents");
 
     }
@@ -486,12 +488,14 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void hideviewFirmBackground() {
         VIEW_TAG = "Client";
+     //   sp_documnet_type_view.setText("");
         ll_matter_view.setVisibility(View.VISIBLE);
         ll_client_name_view.setVisibility(View.VISIBLE);
         ll_categories_layout.setVisibility(View.GONE);
         ll_document_type_view.setVisibility(View.GONE);
         ll_search_client_view.setVisibility(View.VISIBLE);
         ll_search_client_views.setVisibility(View.GONE);
+        sp_documnet_type_view.setText("Select Groups");
         tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_firm_view.setTextColor(Color.BLACK);
         tv_client_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -507,8 +511,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_search_client_view.setVisibility(View.GONE);
         ll_search_client_views.setVisibility(View.VISIBLE);
         ll_categories_layout.setVisibility(View.VISIBLE);
-
-
+        sp_documnet_type_view.setText("Select Groups");
+        clearListData();
         tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_firm_view.setTextColor(Color.WHITE);
 
@@ -529,7 +533,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_view_docs.setVisibility(View.GONE);
         rv_documents.removeAllViews();
         hidefirmBackground();
-//        clearListData();
+       clearListData();
         callClientWebservice();
 
         mViewModel.setData("Upload Documents");
@@ -772,13 +776,15 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void hidefirmBackground() {
         count_file = 0;
+        sp_documnet_type_view.setText("");
         tv_selected_file.setText("Select Document(s)");
         UPLOAD_TAG = "Client";
         ll_category.setVisibility(View.GONE);
         ll_matter.setVisibility(View.VISIBLE);
         ll_groups.setVisibility(View.GONE);
         ll_client_name.setVisibility(View.VISIBLE);
-        clearListData();
+      tv_select_groups.setText("Select Groups");
+       // clearListData();
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_client.setTextColor(getContext().getResources().getColor(R.color.white));
         tv_firm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -806,6 +812,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //        tv_selected_file.setText("");
         selected_groups_list.clear();
         selected_documents_list.clear();
+        sp_documnet_type_view.setText("Select Groups");
         langList.clear();
         tags_list.clear();
         docsList.clear();
@@ -824,8 +831,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tags_list.clear();
         docsList.clear();
         groupsList.clear();
+
         tv_select_groups.setText("Select Groups");
-        sp_documnet_type_view.setText("Select Groups");
+       sp_documnet_type_view.setText("Select Groups");
     }
 
     private void callUploadDocumentWebservice() {
@@ -1379,26 +1387,32 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             String path = "";//result.getString("path");
             path = Constants.pdfFilePath;
             pdf_view.fromFile(new File(path))
-                    .defaultPage(0)
+                    .defaultPage(1)
                     .enableSwipe(true)
                     .onLoad(new OnLoadCompleteListener() {
                         @Override
                         public void loadComplete(int nbPages) {
                             pdf_view.setVisibility(View.VISIBLE);
                             image_view.setVisibility(View.GONE);
+                            Glide.with(getContext())
+                                    .load(R.drawable.pdf_icon_documents)
+                                    .placeholder(R.drawable.progress_animation)
+                                    .centerCrop()
+                                    .into(image_view);
                         }
                     })
                     .onError(new OnErrorListener() {
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void onError(Throwable t) {
-                            pdf_view.setVisibility(View.GONE);
-                            image_view.setVisibility(View.VISIBLE);
-                            Glide.with(getContext())
-                                    .load(R.drawable.pdf_icon_documents)
-                                    .placeholder(R.drawable.progress_animation)
-                                    .centerCrop()
-                                    .into(image_view);
+                           // pdf_view.setVisibility(View.VISIBLE);
+                           // image_view.setVisibility(View.GONE);
+                          //  Glide.with(getContext())
+                                   // .load(R.drawable.pdf_icon_documents)
+
+                                   // .placeholder(R.drawable.progress_animation)
+                                  //  .centerCrop()
+                                   // .into(image_view);
                         }
                     })
                     .load();
