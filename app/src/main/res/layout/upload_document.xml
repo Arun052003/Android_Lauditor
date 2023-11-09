@@ -245,15 +245,16 @@
                         </LinearLayout>
 
 
-                        <include layout="@layout/group_layout"
+                        <include
+                            android:id="@+id/tv_select_groups"
+                            layout="@layout/group_layout"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:id="@+id/tv_select_groups"
                             android:layout_marginTop="10dp"
-                            android:layout_marginRight="3dp"/>
-<!--                        <include-->
-<!--                            android:id="@+id/tv_select_groups"-->
-<!--                            layout="@layout/select_doc_layout" />-->
+                            android:layout_marginRight="3dp" />
+                        <!--                        <include-->
+                        <!--                            android:id="@+id/tv_select_groups"-->
+                        <!--                            layout="@layout/select_doc_layout" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -308,8 +309,8 @@
 
 
                             <include
-                                layout="@layout/group_layout"
                                 android:id="@+id/tv_selected_file"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="10dp"
@@ -594,11 +595,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
-                            <include layout="@layout/group_layout"
+
+                            <include
                                 android:id="@+id/tv_name_view"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <include layout="@layout/astrick_layout"/>
+                                android:layout_height="wrap_content" />
+
+                            <include layout="@layout/astrick_layout" />
                         </LinearLayout>
 
                         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -631,10 +635,9 @@
                         android:orientation="vertical">
 
 
-
-                        <include layout="@layout/group_layout"
-                            android:id="@+id/matter_name"/>
-
+                        <include
+                            android:id="@+id/matter_name"
+                            layout="@layout/group_layout" />
 
 
                         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -655,6 +658,7 @@
                             <include layout="@layout/spinner_drop_down" />
                         </RelativeLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ll_document_type_view"
                         android:layout_width="match_parent"
@@ -670,12 +674,13 @@
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <include layout="@layout/group_layout"
+                            <include
+                                android:id="@+id/select_doc_type"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/select_doc_type"/>
+                                android:layout_height="wrap_content" />
 
-                            <include layout="@layout/astrick_layout"/>
+                            <include layout="@layout/astrick_layout" />
 
                         </LinearLayout>
 
@@ -694,8 +699,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
-                                android:enabled="true"
                                 android:drawableRight="@drawable/down_arrow"
+                                android:enabled="true"
                                 android:fontFamily="sans-serif-condensed-medium"
                                 android:padding="15dp"
                                 android:text="Select Groups"
@@ -714,14 +719,18 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
-                        <include layout="@layout/group_layout"
+
+                        <include
                             android:id="@+id/category_name_id"
+                            layout="@layout/group_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                        <include layout="@layout/group_name_layout"
+                            android:layout_height="wrap_content" />
+
+                        <include
                             android:id="@+id/tv_category_name"
+                            layout="@layout/group_name_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
 
@@ -745,10 +754,13 @@
                             android:background="@drawable/rectangle_light_grey_bg"
                             android:hint="Search "
                             android:textColorHint="@color/black">
-                            <include layout="@layout/search_layout"
-                                android:id="@+id/tv_search_client_view"/>
+
+                            <include
+                                android:id="@+id/tv_search_client_view"
+                                layout="@layout/search_layout" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ll_search_client_views"
                         android:layout_width="match_parent"
@@ -769,13 +781,12 @@
                             android:background="@drawable/rectangle_light_grey_bg"
                             android:hint="Search "
                             android:textColorHint="@color/black">
-                            <include layout="@layout/search_layout"
-                                android:id="@+id/tv_search_client_views"/>
+
+                            <include
+                                android:id="@+id/tv_search_client_views"
+                                layout="@layout/search_layout" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
-
-
-
 
 
                 </RelativeLayout>
@@ -794,8 +805,9 @@
                 app:cardCornerRadius="5dp">
 
 
-                <include layout="@layout/recyclerview"
-                    android:id="@+id/rv_display_view_docs"/>
+                <include
+                    android:id="@+id/rv_display_view_docs"
+                    layout="@layout/recyclerview" />
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>

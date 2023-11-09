@@ -51,17 +51,17 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Members extends Fragment implements AsyncTaskCompleteListener, MembersAdapter.EventListener ,View.OnClickListener{
-    TextView tv_member_name, tv_designation, tv_email, tv_confirm_email, tv_default_rate, tv_create_members, tv_view_members,textView2;
+public class Members extends Fragment implements AsyncTaskCompleteListener, MembersAdapter.EventListener, View.OnClickListener {
+    TextView tv_member_name, tv_designation, tv_email, tv_confirm_email, tv_default_rate, tv_create_members, tv_view_members, textView2;
     Spinner sp_default_currency;
-    TextInputEditText et_search_members,et_search_teammember;
+    TextInputEditText et_search_members, et_search_teammember;
     private NewModel mViewModel;
     MembersAdapter adapter = null;
 
 
-    AppCompatButton btn_cancel_members, bt_save_members, bt_cancel, bt_save,btn_cancel_save,btn_create,btn_add;
+    AppCompatButton btn_cancel_members, bt_save_members, bt_cancel, bt_save, btn_cancel_save, btn_create, btn_add;
     RecyclerView rv_selected_member, rv_view_members;
-    TextInputLayout tv_assign_groups ,search_teammember;
+    TextInputLayout tv_assign_groups, search_teammember;
 
     public static String FLAG = "";
     String default_currency = "";
@@ -74,7 +74,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     String TAG = "";
     ArrayList<GroupModel> MembersList = new ArrayList<>();
     ArrayList<ViewGroupModel> groupsList = new ArrayList<>();
-    LinearLayoutCompat ll_buttons, ll_new_buttons,ll_save_buttons;
+    LinearLayoutCompat ll_buttons, ll_new_buttons, ll_save_buttons;
     LinearLayout ll_confirm_email;
     AlertDialog progress_dialog;
     private boolean MemberModelArrayList;
@@ -187,7 +187,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 setViewModelData(data);
                 CreateMembersData();
                 et_search_teammember.setVisibility(View.GONE);
-                search_teammember .setVisibility(View.GONE);
+                search_teammember.setVisibility(View.GONE);
                 tv_create_members.setTextColor(getContext().getResources().getColor(R.color.white));
                 tv_view_members.setTextColor(getContext().getResources().getColor(R.color.black));
 
@@ -299,12 +299,11 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
             tv_confirm_email.setError("Email and Confirm Email doesn't match");
             AndroidUtils.showToast("Email and Confirm Email doesn't match", getContext());
             status = true;
-        }else{
-            if (!tv_email.getText().toString().isEmpty()&&Patterns.EMAIL_ADDRESS.matcher(tv_email.getText().toString()).matches()){
+        } else {
+            if (!tv_email.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(tv_email.getText().toString()).matches()) {
 
                 status = false;
-            }else
-            {
+            } else {
                 tv_email.setError("Enter a valid email address");
                 AndroidUtils.showToast("Enter a valid email address", getContext());
                 status = true;
@@ -381,7 +380,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         try {
             JSONObject postdata = new JSONObject();
             JSONArray groups = new JSONArray();
-            if (groupsAdapter!=null) {
+            if (groupsAdapter != null) {
                 for (int i = 0; i < groupsAdapter.getList_item().size(); i++) {
                     ViewGroupModel viewGroupModel = groupsAdapter.getList_item().get(i);
                     if (viewGroupModel.isChecked()) {
@@ -405,13 +404,13 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 postdata.put("memberId", id);
             }
             if (tag == "Create") {
-                Log.i("Tag","Info:"+postdata.toString());
+                Log.i("Tag", "Info:" + postdata.toString());
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/member", "Create Members", postdata.toString());
 
             } else if (tag == "RP") {
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/member/resetpwd", "Reset Password", postdata.toString());
 
-            } else if (tag== "Delete") {
+            } else if (tag == "Delete") {
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.DELETE, "v3/member/" + id, "Delete Member", postdata.toString());
 
 
@@ -419,7 +418,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PATCH, "v3/member/" + id, "Update Members", postdata.toString());
             }
         } catch (Exception e) {
-            AndroidUtils.showToast(e.getMessage(),getContext());
+            AndroidUtils.showToast(e.getMessage(), getContext());
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
@@ -430,7 +429,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         try {
 
 
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.btn_create:
                     if (!validation()) {
                         String tag = "Create";
@@ -445,7 +444,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
             }
         } catch (Exception e) {
-            Log.e("TAG","Error:"+e.getMessage());
+            Log.e("TAG", "Error:" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -472,18 +471,18 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         try {
             JSONObject result = new JSONObject(httpResult.getResponseContent());
             if (httpResult.getRequestType().equals("Create Members")) {
-                if(httpResult.getStatus_code()==200) {
+                if (httpResult.getStatus_code() == 200) {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     ViewMembersData();
-                }else{
+                } else {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
 
                 }
             } else if (httpResult.getRequestType().equals("Update Members")) {
-                if(httpResult.getStatus_code()==200) {
+                if (httpResult.getStatus_code() == 200) {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     ViewMembersData();
-                }else{
+                } else {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
 
                 }
@@ -492,10 +491,10 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 AndroidUtils.showToast(data.getString("msg"), getContext());
                 ViewMembersData();
             } else if (httpResult.getRequestType().equals("Delete Member")) {
-                if(httpResult.getStatus_code()==200) {
+                if (httpResult.getStatus_code() == 200) {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     ViewMembersData();
-                }else{
+                } else {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
 
                 }
@@ -609,7 +608,8 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
 
     }
-    private void loadRecylcerview(){
+
+    private void loadRecylcerview() {
         rv_view_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
         MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this);
         // rv_view_members.setAdapter(adapter);
@@ -667,12 +667,11 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     // }
 
 
-
     @Override
     public void EditMember(MembersModel membersModel) {
 //        cv_members_details.setVisibility(View.GONE);
-
         CreateMembersData();
+        search_teammember.setVisibility(View.GONE);
         ll_buttons.setVisibility(View.GONE);
         ll_save_buttons.setVisibility(View.GONE);
         tv_assign_groups.setVisibility(View.GONE);
@@ -699,6 +698,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                     et_search_members.setText("");
                     callCreateMemberWebservice(tv_member_name.getText().toString().trim(), tv_designation.getText().toString().trim(), tv_default_rate.getText().toString().trim(), tv_email.getText().toString().trim(), tv_confirm_email.getText().toString().trim(), tag, id);
                     tv_create_members.setBackgroundResource(R.drawable.button_left_background);
+                    tv_assign_groups.setVisibility(View.VISIBLE);
                     tv_create_members.setTextColor(Color.BLACK);
                     tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
                     tv_view_members.setTextColor(Color.WHITE);
@@ -712,6 +712,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
 //                ll_confirm_email.setVisibility(View.GONE);
 //                membersModel.
+                tv_assign_groups.setVisibility(View.VISIBLE);
                 unhide();
                 ViewMembersData();
             }

@@ -172,7 +172,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:layout_marginTop="3dp"
-                            android:background="@drawable/rectangle_grey_background">
+                            android:background="@drawable/rectangle_light_grey_bg">
 
                             <Spinner
                                 android:id="@+id/sp_default_currency"
@@ -231,7 +231,7 @@
                                 android:id="@+id/tv_default_rate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/rectangle_grey_background"
+                                android:background="@drawable/rectangle_light_grey_bg"
 
                                 android:imeOptions="actionDone"
                                 android:inputType="number" />
@@ -324,7 +324,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/rectangle_grey_background"
+                    android:background="@drawable/rectangle_light_grey_bg"
                     android:hint="@string/description"
                     android:padding="@dimen/Fifteen_dp"
                     android:textColorHint="@color/black"
