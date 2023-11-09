@@ -215,7 +215,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_matter = v.findViewById(R.id.tv_matter);
             tv_matter.setText("Matter");
             tv_category = v.findViewById(R.id.tv_category);
-            tv_category.setText(R.string.sub_categories);
+            tv_category.setHint(R.string.sub_categories);
             tv_enable_download = v.findViewById(R.id.tv_enable_download);
             tv_enable_download.setText("Enable Download");
             tv_disable_download = v.findViewById(R.id.tv_disable_download);
@@ -800,6 +800,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_matter.setVisibility(View.GONE);
         ll_category.setVisibility(View.VISIBLE);
         ll_groups.setVisibility(View.VISIBLE);
+        tv_select_groups.setText("Select Groups");
         ll_client_name.setVisibility(View.GONE);
         rv_documents.removeAllViews();
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
