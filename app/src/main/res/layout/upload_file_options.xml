@@ -40,6 +40,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:background="@color/white"
                     android:text="Camera"
+                    android:visibility="gone"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     app:backgroundTint="@color/white"

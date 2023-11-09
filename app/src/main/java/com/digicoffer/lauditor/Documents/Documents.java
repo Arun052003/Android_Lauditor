@@ -293,7 +293,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ll_hide_document_details = v.findViewById(R.id.ll_hide_doc_details);
             ll_hide_document_details.setVisibility(View.GONE);
             rv_documents = v.findViewById(R.id.rv_documents);
-
+ //view_document();
             siv_upload_document.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -488,7 +488,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void hideviewFirmBackground() {
         VIEW_TAG = "Client";
+
      //   sp_documnet_type_view.setText("");
+        tv_search_client_view.getText().clear();
         ll_matter_view.setVisibility(View.VISIBLE);
         ll_client_name_view.setVisibility(View.VISIBLE);
         ll_categories_layout.setVisibility(View.GONE);
@@ -505,6 +507,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void hideviewClientBackground() {
         VIEW_TAG = "Firm";
+        tv_search_client_views.getText().clear();
         ll_matter_view.setVisibility(View.GONE);
         ll_client_name_view.setVisibility(View.GONE);
         ll_document_type_view.setVisibility(View.VISIBLE);
@@ -817,8 +820,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tags_list.clear();
         docsList.clear();
         groupsList.clear();
-        clientsList.clear();
-        matterlist.clear();
+        //clientsList.clear();
+       // matterlist.clear();
     }
 
     private void clear_upload() {
@@ -1380,7 +1383,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void loadWeb(PDFView pdf_view, ImageView image_view) {
-        image_view.setVisibility(View.GONE);
+        image_view.setVisibility(View.VISIBLE);
         pdf_view.setVisibility(View.VISIBLE);
 
         try {
@@ -1619,7 +1622,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), matterlist);
         Log.i("ArrayList", "Info:" + matterlist);
         sp_matter.setAdapter(adapter);
-//        sp_matter_view.setAdapter(adapter);
+       sp_matter_view.setAdapter(adapter);
         sp_matter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1632,18 +1635,19 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             }
         });
-//        sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                matter_id = matterlist.get(position).getId();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+       sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+              matter_id = matterlist.get(position).getId();
+
+            }
+
+         @Override
+          public void onNothingSelected(AdapterView<?> parent) {
+
+         }
+
+      });
 
 
     }
@@ -1651,7 +1655,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     private void initUI(ArrayList<ClientsModel> clientsList) {
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
         sp_client.setAdapter(adapter);
-        // tv_search_client.setAdapter(adapter);
+         tv_search_client.setAdapter(adapter);
 
 
         sp_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1663,11 +1667,48 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 callLegalMatter();
             }
 
+
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+       // tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+          //  @Override
+          //  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                matter_name = Documents.this.clientsList.get(position).getName();
+             //   client_id = clientsList.get(position).getId();
+             //   matterlist.clear();
+             //  callLegalMatter();
+          //  }
+
+
+
+          //  @Override
+           // public void onNothingSelected(AdapterView<?> parent) {
+
+           // }
+      //  });
+        //
+        //        tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                matter_name = Documents.this.clientsList.get(position).getName();
+//                client_id = clientsList.get(position).getId();
+//                matterlist.clear();
+//                callLegalMatter();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//
+//    }
+
 
 
     }
@@ -1714,7 +1755,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //                    updatedClients.add(clientsModel);
         }
         initUI(clientsList);
-//        intUI(clientsList);
+     //  intUI(clientsList);
     }
 
     private void callLegalMatter() {

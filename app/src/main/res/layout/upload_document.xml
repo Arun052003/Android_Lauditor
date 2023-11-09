@@ -742,7 +742,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="3dp"
-                            android:background="@drawable/rectangle_grey_background"
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:hint="Search "
                             android:textColorHint="@color/black">
                             <include layout="@layout/search_layout"
@@ -766,7 +766,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="3dp"
-                            android:background="@drawable/rectangle_grey_background"
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:hint="Search "
                             android:textColorHint="@color/black">
                             <include layout="@layout/search_layout"
