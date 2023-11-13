@@ -271,7 +271,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             //Enable the upload documents as the default view...
             siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
-            siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.upload_green_icon1));
+            siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_background_icon));
 
 
 //            view_document();
@@ -459,17 +459,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
 
     private void view_document() {
-        siv_view_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.eye_green_icon1));
+        siv_view_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_count_backgroung_icon));
         siv_view_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
-        siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.upload_black_icon1));
-        siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.dark_grey));
-        // ll_client_name_view.setVisibility(View.VISIBLE);
-        //   ll_matter_view.setVisibility(View.VISIBLE);
+        siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.uploadwhiteupload1));
+        siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.white));
+         ll_client_name_view.setVisibility(View.VISIBLE);
+          ll_matter_view.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.VISIBLE);
         ll_upload_docs.setVisibility(View.GONE);
-        //clearListData();
+       //clearListData();
         hideviewFirmBackground();
-        callViewDocumentWebservice();
+       // callClientWebservice();
+    // clientsList.clear();
+    // matterlist.clear();
+    //  callLegalMatter();
+       callViewDocumentWebservice();
         mViewModel.setData("View Documents");
 
     }
@@ -527,10 +531,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         count_file = 0;
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_selected_file.setText("Select Document(s)");
-        siv_view_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.eye_black_icon1));
-        siv_view_document.setBackground(getContext().getResources().getDrawable(R.color.dark_grey));
+        siv_view_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.eye_whitebackground_icon));
+        siv_view_document.setBackground(getContext().getResources().getDrawable(R.color.white));
         siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
-        siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.upload_green_icon1));
+        siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_background_icon));
         ll_upload_docs.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.GONE);
         rv_documents.removeAllViews();
@@ -820,8 +824,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tags_list.clear();
         docsList.clear();
         groupsList.clear();
-        //clientsList.clear();
-        // matterlist.clear();
+       // clientsList.clear();
+       //  matterlist.clear();
     }
 
     private void clear_upload() {
@@ -1619,7 +1623,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void initMatter() {
-        final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), matterlist);
+        final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.matterlist);
         Log.i("ArrayList", "Info:" + matterlist);
         sp_matter.setAdapter(adapter);
         sp_matter_view.setAdapter(adapter);
@@ -1635,19 +1639,23 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             }
         });
-        sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                matter_id = matterlist.get(position).getId();
+      //  Log.i("ArrayList", "Info:" + matterlist);
+     //   sp_matter_view.setAdapter(adapter);
+      //  sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //    @Override
+         //   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+          //      matter_id = matterlist.get(position).getId();
+              //  matterlist.clear();
 
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+          //  }
 
-            }
+          //  @Override
+           // public void onNothingSelected(AdapterView<?> parent) {
 
-        });
+          //  }
+
+        //});
 
 
     }
@@ -1672,21 +1680,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             }
         });
-        // tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        //  @Override
-        //  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+      //   tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+     //    @Override
+      //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                matter_name = Documents.this.clientsList.get(position).getName();
-        //   client_id = clientsList.get(position).getId();
-        //   matterlist.clear();
-        //  callLegalMatter();
-        //  }
+       //    client_id = clientsList.get(position).getId();
+       //   matterlist.clear();
+       //  callLegalMatters();
+       //  }
 
 
-        //  @Override
-        // public void onNothingSelected(AdapterView<?> parent) {
+     //   @Override
+     //   public void onNothingSelected(AdapterView<?> parent) {
 
-        // }
-        //  });
+     //   }
+     //    });
         //
         //        tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -1694,7 +1702,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 ////                matter_name = Documents.this.clientsList.get(position).getName();
 //                client_id = clientsList.get(position).getId();
 //                matterlist.clear();
-//                callLegalMatter();
+//                callLegalMatters();
 //            }
 //
 //            @Override
@@ -1755,6 +1763,19 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void callLegalMatter() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/matter/all/" + client_id, "Legal Matter", jsonObject.toString());
+
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+            e.printStackTrace();
+        }
+    }
+    private void callLegalMatters() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
