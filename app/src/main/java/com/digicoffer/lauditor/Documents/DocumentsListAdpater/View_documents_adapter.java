@@ -152,7 +152,7 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            siv_profile_icon = itemView.findViewById(R.id.iv_display_picture);
+          //  siv_profile_icon = itemView.findViewById(R.id.iv_display_picture);
             iv_doc_image = itemView.findViewById(R.id.iv_doc_image);
             uv_delete_document = itemView.findViewById(R.id.uv_delete_document);
             iv_edit_document = itemView.findViewById(R.id.iv_edit_document);
@@ -161,15 +161,15 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
             tv_client_name_one.setTextSize(12);
             tv_image_name = itemView.findViewById(R.id.tv_image_name);
             tv_client_name = itemView.findViewById(R.id.tv_client_name);
-            tv_client_name.setTextSize(12);
+            tv_client_name.setTextSize(15);
 
 
             tv_doc_description = itemView.findViewById(R.id.tv_doc_description);
-            tv_doc_description.setTextSize(12);
+            tv_doc_description.setTextSize(15);
             tv_created_date = itemView.findViewById(R.id.tv_created_date);
             tv_created_date.setText("Date");
             tv_Expiration = itemView.findViewById(R.id.tv_Expiration);
-            tv_Expiration.setText("Expiration");
+            tv_Expiration.setText("Expiration:");
             tv_Expiration_date = itemView.findViewById(R.id.tv_Expiration_date);
             tv_Expiration_date.setText("Expiration");
             iv_view_document = itemView.findViewById(R.id.iv_edit_view);

@@ -23,6 +23,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -163,8 +164,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             mViewModel.setData("Upload Documents");
             tv_client_view = v.findViewById(R.id.tv_client_view);
             sp_client = v.findViewById(R.id.at_search_client);
+            sp_client.isShown();
             tv_search_client = v.findViewById(R.id.tv_search_client);
             tv_search_client_view = v.findViewById(R.id.tv_search_client_view);
+           // tv_search_client_view.setHint("Search");
+     // tv_search_client_view.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
+
             sp_matter = v.findViewById(R.id.sp_matter);
             sp_matter_view = v.findViewById(R.id.sp_matter_view);
             tv_add_tag = v.findViewById(R.id.tv_add_tag);
@@ -175,6 +180,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_client_view = v.findViewById(R.id.tv_client_view);
             ll_search_client_views = v.findViewById(R.id.ll_search_client_views);
             tv_search_client_views = v.findViewById(R.id.tv_search_client_views);
+          //  tv_search_client_views.setHint("Search");
+         //   tv_search_client_views.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
+
             tv_name = v.findViewById(R.id.tv_name);
             ll_matter = v.findViewById(R.id.ll_matter);
             ll_category = v.findViewById(R.id.ll_category);
@@ -1645,6 +1653,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         sp_matter.setAdapter(adapter);
         sp_matter_view.setAdapter(adapter);
         sp_matter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            boolean userSelect = false;
+            public boolean onTouch(View v, MotionEvent event) {
+                userSelect = true;
+                return false;
+            }
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 matter_id = matterlist.get(position).getId();
@@ -1678,15 +1692,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void initUI(ArrayList<ClientsModel> clientsList) {
+
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
         sp_client.setAdapter(adapter);
         tv_search_client.setAdapter(adapter);
 
         sp_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                matter_name = Documents.this.clientsList.get(position).getName();
-                client_id = clientsList.get(position).getId();
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+
+//              matter_name = Documents.this.clientsList.get(position).getName();
+               // clientsList.clear();
+               // sp_client.setEnabled(true);
+                client_id = clientsList.get(pos).getId();
                 matterlist.clear();
                 callLegalMatter();
             }
