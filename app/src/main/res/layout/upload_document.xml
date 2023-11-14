@@ -500,13 +500,14 @@
             android:id="@+id/ll_view_docs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upload_view">
+            app:layout_constraintTop_toBottomOf="@id/upload_view"
+            app:layout_constraintVertical_bias="0.0">
 
             <RelativeLayout
 
@@ -522,6 +523,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
+                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_left_background"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -551,13 +553,12 @@
                 </TextView>
 
                 <TextView
-
+                    android:id="@+id/merge_pdf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/checkbox_background"
+                    android:background="@drawable/rectangular_light_grey_background"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:gravity="center"
                     android:padding="10dp"

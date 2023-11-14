@@ -38,6 +38,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -144,7 +145,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     String entity_id = "";
     String matter_id = "";
     String client_id = "";
-    TextView tv_tag_document_name, tv_select_groups, sp_documnet_type_view;
+    TextView tv_tag_document_name, tv_select_groups, sp_documnet_type_view,merge_pdf;
     ;
     //    TextInputLayout tl_selected_file;
     LinearLayout ll_hide_document_details, ll_search_client_views;
@@ -181,6 +182,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_name_view.setText(R.string.client_name);
             matter_name = v.findViewById(R.id.matter_name);
             matter_name.setText("Matter");
+            merge_pdf=v.findViewById(R.id.merge_pdf);
             rv_display_view_docs = v.findViewById(R.id.rv_display_view_docs);
             select_doc_type = v.findViewById(R.id.select_doc_type);
             select_doc_type.setText(R.string.select_groups);
@@ -432,6 +434,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     rv_display_view_docs.removeAllViews();
                     DOCUMENT_TYPE_TAG = "firm";
                     callViewDocumentWebservice();
+                }
+            });
+            merge_pdf.setOnClickListener(new View.OnClickListener() {
+
+                boolean is_clicked=true;
+                @Override
+                public void onClick(View view) {
+                    if (is_clicked) {
+                        merge_pdf.setTextColor(getContext().getResources().getColor(R.color.white));
+                        merge_pdf.setBackground(getContext().getResources().getDrawable(R.drawable.rectangular_button_green_count));
+                    } else {
+                        merge_pdf.setTextColor(getContext().getResources().getColor(R.color.black));
+                        merge_pdf.setBackground(getContext().getResources().getDrawable(R.drawable.rectangular_light_grey_background));
+                    }
+                    is_clicked = !is_clicked;
                 }
             });
 
@@ -790,7 +807,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_groups.setVisibility(View.GONE);
         ll_client_name.setVisibility(View.VISIBLE);
         tv_select_groups.setText("Select Groups");
-        // clearListData();
+         clearListData();
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_client.setTextColor(getContext().getResources().getColor(R.color.white));
         tv_firm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
