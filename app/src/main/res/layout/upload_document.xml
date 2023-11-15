@@ -761,7 +761,7 @@
                                 android:id="@+id/tv_search_client_view"
                                 layout="@layout/search_layout"
                                 android:layout_height="50dp"
-                                android:layout_width="300dp"
+                                android:layout_width="match_parent"
                                 android:layout_margin="3dp"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
@@ -791,7 +791,7 @@
                                 android:id="@+id/tv_search_client_views"
                                 layout="@layout/search_layout"
                                 android:layout_height="50dp"
-                                android:layout_width="300dp"
+                                android:layout_width="match_parent"
                                 android:layout_margin="3dp"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>

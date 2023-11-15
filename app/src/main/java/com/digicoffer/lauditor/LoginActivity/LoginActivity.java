@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-//        tet_email.setText("rajendra.sai@digicoffer.com");
-//        tet_password.setText("Test@123");
+        tet_email.setText("soundaryavembaiyan@yahoo.com");
+        tet_password.setText("Test@123");
 
         bt_submit = findViewById(R.id.Submit);
 //        Login();
