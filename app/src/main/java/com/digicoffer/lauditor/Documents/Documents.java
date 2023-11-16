@@ -1,7 +1,5 @@
 package com.digicoffer.lauditor.Documents;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,17 +27,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -95,8 +92,11 @@ import java.util.Locale;
 
 public class Documents extends Fragment implements BottomSheetUploadFile.OnPhotoSelectedListner, AsyncTaskCompleteListener, DocumentsListAdapter.EventListener, View_documents_adapter.Eventlistner {
     Button btn_browse;
+
+    //Initialize a file count to Zero
     int count_file = 0;
     private NewModel mViewModel;
+    RelativeLayout spinnerLayout;
 
     BottomSheetUploadFile bottommSheetUploadDocument;
     private Bitmap mSelectedBitmap;
@@ -146,7 +146,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     String entity_id = "";
     String matter_id = "";
     String client_id = "";
-    TextView tv_tag_document_name, tv_select_groups, sp_documnet_type_view,merge_pdf;
+    TextView tv_tag_document_name, tv_select_groups, sp_documnet_type_view, merge_pdf;
     ;
     //    TextInputLayout tl_selected_file;
     LinearLayout ll_hide_document_details, ll_search_client_views;
@@ -164,33 +164,31 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             mViewModel.setData("Upload Documents");
             tv_client_view = v.findViewById(R.id.tv_client_view);
             sp_client = v.findViewById(R.id.at_search_client);
-            sp_client.isShown();
+//            sp_client.isShown();
             tv_search_client = v.findViewById(R.id.tv_search_client);
             tv_search_client_view = v.findViewById(R.id.tv_search_client_view);
-           // tv_search_client_view.setHint("Search");
-     // tv_search_client_view.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
+            // tv_search_client_view.setHint("Search");
+            // tv_search_client_view.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
 
             sp_matter = v.findViewById(R.id.sp_matter);
             sp_matter_view = v.findViewById(R.id.sp_matter_view);
             tv_add_tag = v.findViewById(R.id.tv_add_tag);
             tv_edit_meta = v.findViewById(R.id.tv_edit_meta);
             btn_upload = v.findViewById(R.id.btn_upload);
-            tv_client = v.findViewById(R.id.tv_client);
             tv_firm = v.findViewById(R.id.tv_firm);
             tv_client_view = v.findViewById(R.id.tv_client_view);
             ll_search_client_views = v.findViewById(R.id.ll_search_client_views);
             tv_search_client_views = v.findViewById(R.id.tv_search_client_views);
-          //  tv_search_client_views.setHint("Search");
-         //   tv_search_client_views.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
+            //  tv_search_client_views.setHint("Search");
+            //   tv_search_client_views.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
 
             tv_name = v.findViewById(R.id.tv_name);
-            ll_matter = v.findViewById(R.id.ll_matter);
             ll_category = v.findViewById(R.id.ll_category);
             tv_name_view = v.findViewById(R.id.tv_name_view);
             tv_name_view.setText(R.string.client_name);
             matter_name = v.findViewById(R.id.matter_name);
             matter_name.setText("Matter");
-            merge_pdf=v.findViewById(R.id.merge_pdf);
+            merge_pdf = v.findViewById(R.id.merge_pdf);
             rv_display_view_docs = v.findViewById(R.id.rv_display_view_docs);
             select_doc_type = v.findViewById(R.id.select_doc_type);
             select_doc_type.setText(R.string.select_groups);
@@ -201,6 +199,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             siv_upload_document = v.findViewById(R.id.upload_icon);
             siv_view_document = v.findViewById(R.id.view_icon);
+            spinnerLayout = v.findViewById(R.id.spinnerLayout);
             btn_upload = v.findViewById(R.id.btn_upload);
             btn_upload.setText(R.string.upload);
             btn_cancel = v.findViewById(R.id.btn_cancel);
@@ -271,6 +270,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             chk_select_all = v.findViewById(R.id.chk_select_all);
             chk_select_all.getBackground().setAlpha(100);
             chk_select_all.setEnabled(false);
+            chk_select_all.setBackground(getContext().getResources().getDrawable(R.drawable.checkbox_background));
 //            upload_name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cancel_icon,0,0,0);
 
 //            tv_merge_pdf.setBackground(getContext().getResources().getDrawable(R.drawable.rectangular_light_grey_background));
@@ -291,9 +291,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ll_categories_layout = v.findViewById(R.id.ll_categories_layout);
             ll_search_client_view = v.findViewById(R.id.ll_search_client_view);
             ll_client_name = v.findViewById(R.id.ll_client_name);
-            chk_select_all = v.findViewById(R.id.chk_select_all);
-            chk_select_all.getBackground().setAlpha(100);
-            chk_select_all.setEnabled(false);
             btn_add_tags = v.findViewById(R.id.btn_add_tag);
             category_name = v.findViewById(R.id.tv_category_name);
             category_name.setHint("Sub Categories");
@@ -304,6 +301,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ll_hide_document_details.setVisibility(View.GONE);
             rv_documents = v.findViewById(R.id.rv_documents);
             //view_document();
+            // siv_view_document.performClick();
             siv_upload_document.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -446,7 +444,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             });
             merge_pdf.setOnClickListener(new View.OnClickListener() {
 
-                boolean is_clicked=true;
+                boolean is_clicked = true;
+
                 @Override
                 public void onClick(View view) {
                     if (is_clicked) {
@@ -488,17 +487,18 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         siv_view_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
         siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.uploadwhiteupload1));
         siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.white));
-         ll_client_name_view.setVisibility(View.VISIBLE);
-          ll_matter_view.setVisibility(View.VISIBLE);
+        ll_client_name_view.setVisibility(View.VISIBLE);
+        ll_matter_view.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.VISIBLE);
         ll_upload_docs.setVisibility(View.GONE);
-       //clearListData();
+        //clearListData();
         hideviewFirmBackground();
-       // callClientWebservice();
-    // clientsList.clear();
-    // matterlist.clear();
-    //  callLegalMatter();
-       callViewDocumentWebservice();
+//        matterlist.clear();
+//         callClientWebservice();
+        // clientsList.clear();
+
+        //  callLegalMatter();
+        callViewDocumentWebservice();
         mViewModel.setData("View Documents");
 
     }
@@ -564,9 +564,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_view_docs.setVisibility(View.GONE);
         rv_documents.removeAllViews();
         hidefirmBackground();
-        clearListData();
-        callClientWebservice();
+//        clearListData();
         clientsList.clear();
+        callClientWebservice();
         mViewModel.setData("Upload Documents");
     }
 
@@ -815,7 +815,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_groups.setVisibility(View.GONE);
         ll_client_name.setVisibility(View.VISIBLE);
         tv_select_groups.setText("Select Groups");
-         clearListData();
+        clearListData();
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_client.setTextColor(getContext().getResources().getColor(R.color.white));
         tv_firm.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -849,8 +849,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tags_list.clear();
         docsList.clear();
         groupsList.clear();
-       // clientsList.clear();
-       //  matterlist.clear();
+        // clientsList.clear();
+        //  matterlist.clear();
     }
 
     private void clear_upload() {
@@ -1636,6 +1636,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void loadMatters(JSONArray matters) throws JSONException {
+        //Adding a list first value as empty...
+        matterlist.add(0, new MattersModel());
         for (int i = 0; i < matters.length(); i++) {
             JSONObject jsonObject = matters.getJSONObject(i);
             MattersModel mattersModel = new MattersModel();
@@ -1654,6 +1656,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         sp_matter_view.setAdapter(adapter);
         sp_matter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean userSelect = false;
+
             public boolean onTouch(View v, MotionEvent event) {
                 userSelect = true;
                 return false;
@@ -1670,29 +1673,31 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             }
         });
-      //  Log.i("ArrayList", "Info:" + matterlist);
-     //   sp_matter_view.setAdapter(adapter);
-      //  sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        //    @Override
-         //   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-          //      matter_id = matterlist.get(position).getId();
-              //  matterlist.clear();
+        //  Log.i("ArrayList", "Info:" + matterlist);
+        sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            boolean userSelect = false;
 
+            public boolean onTouch(View v, MotionEvent event) {
+                userSelect = true;
+                return false;
+            }
 
-          //  }
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                matter_id = matterlist.get(position).getId();
 
-          //  @Override
-           // public void onNothingSelected(AdapterView<?> parent) {
+            }
 
-          //  }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        //});
+            }
+        });
 
 
     }
 
     private void initUI(ArrayList<ClientsModel> clientsList) {
-
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
         sp_client.setAdapter(adapter);
         tv_search_client.setAdapter(adapter);
@@ -1704,9 +1709,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
 
 //              matter_name = Documents.this.clientsList.get(position).getName();
-               // clientsList.clear();
-               // sp_client.setEnabled(true);
                 client_id = clientsList.get(pos).getId();
+                ll_matter.setVisibility(View.VISIBLE);
                 matterlist.clear();
                 callLegalMatter();
             }
@@ -1717,21 +1721,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             }
         });
-      //   tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-     //    @Override
-      //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //   tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //    @Override
+        //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                matter_name = Documents.this.clientsList.get(position).getName();
-       //    client_id = clientsList.get(position).getId();
-       //   matterlist.clear();
-       //  callLegalMatters();
-       //  }
+        //    client_id = clientsList.get(position).getId();
+        //   matterlist.clear();
+        //  callLegalMatters();
+        //  }
 
 
-     //   @Override
-     //   public void onNothingSelected(AdapterView<?> parent) {
+        //   @Override
+        //   public void onNothingSelected(AdapterView<?> parent) {
 
-     //   }
-     //    });
+        //   }
+        //    });
         //
         //        tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -1785,7 +1789,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void loadClients(JSONObject data) throws JSONException {
         JSONArray relationships = data.getJSONArray("relationships");
-
+        //Adding a list first value as empty...
+        clientsList.add(0, new ClientsModel());
         for (int i = 0; i < relationships.length(); i++) {
             JSONObject jsonObject = relationships.getJSONObject(i);
             ClientsModel clientsModel = new ClientsModel();
@@ -1812,6 +1817,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             e.printStackTrace();
         }
     }
+
     private void callLegalMatters() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());

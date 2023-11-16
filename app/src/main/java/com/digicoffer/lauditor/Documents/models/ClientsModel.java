@@ -5,6 +5,9 @@ public class ClientsModel {
     private String name;
     private String type;
 
+    public ClientsModel() {
+    }
+
     public String getId() {
         return id;
     }

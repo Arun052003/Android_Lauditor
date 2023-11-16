@@ -70,11 +70,10 @@
             android:layout_gravity="center" />
         <com.github.barteksc.pdfviewer.PDFView
             android:id="@+id/pdfview"
-            android:layout_width="500dp"
-            android:layout_height="500dp"
-            android:background="#0FFFFFFF"
-            android:visibility="visible"
-            tools:ignore="MissingClass" />
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"  />
 
     </LinearLayout>
 
