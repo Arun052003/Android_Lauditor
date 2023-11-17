@@ -152,7 +152,7 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-          //  siv_profile_icon = itemView.findViewById(R.id.iv_display_picture);
+            //  siv_profile_icon = itemView.findViewById(R.id.iv_display_picture);
             iv_doc_image = itemView.findViewById(R.id.iv_doc_image);
             uv_delete_document = itemView.findViewById(R.id.uv_delete_document);
             iv_edit_document = itemView.findViewById(R.id.iv_edit_document);
