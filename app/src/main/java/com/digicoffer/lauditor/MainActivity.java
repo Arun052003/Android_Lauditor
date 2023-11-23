@@ -107,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
 
         // Set Icon for each menu item
-        matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+        matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matter));
         timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheet));
         documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.document));
-        relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+        relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship));
         Groups_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.groups_menu_icon));
 //            menuOption6.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
 //            menuOption7.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
