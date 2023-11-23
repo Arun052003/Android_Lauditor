@@ -85,13 +85,14 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
         // Creating Floating Action Button
         final ImageView fabIconNew = new ImageView(this);
-        fabIconNew.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_4));
+        fabIconNew.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
         actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
                 .setContentView(fabIconNew)
                 .setLayoutParams(new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.LayoutParams(380, 196))
                 .setBackgroundDrawable(R.drawable.menu_desing)
                 .setPosition(com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.POSITION_BOTTOM_CENTER)
                 .build();
+
 
         // Creating menu items which are also Floating Action Buttons
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
@@ -101,17 +102,17 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         ImageView documents_menu = new ImageView(this);
         ImageView relationship_menu = new ImageView(this);
         ImageView Groups_menu = new ImageView(this);
-        ImageView menuOption6 = new ImageView(this);
-        ImageView menuOption7 = new ImageView(this);
-        ImageView menuOption8 = new ImageView(this);
+//        ImageView menuOption6 = new ImageView(this);
+//        ImageView menuOption7 = new ImageView(this);
+//        ImageView menuOption8 = new ImageView(this);
 
 
         // Set Icon for each menu item
-        matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matter));
-        timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheet));
-        documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.document));
-        relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship));
-        Groups_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.groups_menu_icon));
+        matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+        timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+        documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+        relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+        Groups_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
 //            menuOption6.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
 //            menuOption7.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
 //            menuOption8.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
@@ -126,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //                    .addSubActionView(rLSubBuilder.setContentView(menuOption7).build())
 //                    .addSubActionView(rLSubBuilder.setContentView(menuOption8).build())
                 .attachTo(actionButton)
-                .setStartAngle(185)
-                .setEndAngle(355)
+                .setStartAngle(180)
+                .setEndAngle(360)
 //                    .setRadius(300)
                 //.setStartAngle(360)
                 .build();
@@ -235,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 @Override
                 public void onClick(View v) {
                     if (!dLayout.isDrawerOpen(GravityCompat.START)) {
-
+                        center_menu.close(true);
                         actionButton.setVisibility(View.GONE);
                         dLayout.openDrawer(GravityCompat.START);
                         ll_bottom_menu.setVisibility(View.GONE);
