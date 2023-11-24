@@ -17,14 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -61,6 +64,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements MonthlyCalendar.EventDetailsListener, WeeklyCalendar.EventDetailsListener, View.OnClickListener {
     ExtendedFloatingActionButton mAddFab;
     ImageView iv_logo_dashboard;
+
+    //...
+    FloatingActionMenu center_menu;
     ImageButton iv_open_menu, iv_close_menu;
     private NewModel viewModel;
     TextView tv_pageName;
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton;
     TextView tv_headerName, tv_digilogo, tv_header_firm_name;
     DrawerLayout navigationDrawer;
+    ImageView menu_open1, menu_close1;
     FloatingActionButton fab_relationships, fab_documents, fab_timesheet, fab_matter, fab_more;
     TextView tv_relations, tv_documents, tv_timesheet, tv_matter, tv_more;
     public androidx.appcompat.widget.LinearLayoutCompat ll_bottom_menu;
@@ -82,14 +89,24 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ll_bottom_menu = findViewById(R.id.ll_bottom_menu);
 
         // Creating Floating Action Button
-        final ImageView fabIconNew = new ImageView(this);
-        fabIconNew.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setPadding(-10, -35, -10, -10);
+        linearLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing));
+        menu_open1 = new ImageView(this);
+        menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
+        menu_open1.setEnabled(false);
+        linearLayout.addView(menu_open1);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(380, 196);
+        params.setMargins(0, -10, 0, -60);
+        ImageView menu_open = new ImageView(this);
+        menu_open.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
         actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
-                .setContentView(fabIconNew)
-                .setLayoutParams(new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.LayoutParams(380, 196))
-                .setBackgroundDrawable(R.drawable.menu_desing)
+                .setContentView(linearLayout)
+                .setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing))
+                .setLayoutParams(new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.LayoutParams(params))
                 .setPosition(com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.POSITION_BOTTOM_CENTER)
                 .build();
 
@@ -102,10 +119,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         ImageView documents_menu = new ImageView(this);
         ImageView relationship_menu = new ImageView(this);
         ImageView Groups_menu = new ImageView(this);
-//        ImageView menuOption6 = new ImageView(this);
-//        ImageView menuOption7 = new ImageView(this);
-//        ImageView menuOption8 = new ImageView(this);
-
 
         // Set Icon for each menu item
         matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
@@ -113,35 +126,41 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
         relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
         Groups_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
-//            menuOption6.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
-//            menuOption7.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
-//            menuOption8.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_3p_24));
 
-        final FloatingActionMenu center_menu = new FloatingActionMenu.Builder(this)
+        center_menu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
                 .addSubActionView(rLSubBuilder.setContentView(timesheets_menu).build())
                 .addSubActionView(rLSubBuilder.setContentView(documents_menu).build())
                 .addSubActionView(rLSubBuilder.setContentView(relationship_menu).build())
                 .addSubActionView(rLSubBuilder.setContentView(Groups_menu).build())
-//                    .addSubActionView(rLSubBuilder.setContentView(menuOption6).build())
-//                    .addSubActionView(rLSubBuilder.setContentView(menuOption7).build())
-//                    .addSubActionView(rLSubBuilder.setContentView(menuOption8).build())
                 .attachTo(actionButton)
-                .setStartAngle(180)
-                .setEndAngle(360)
+                .setStartAngle(190)
+                .setEndAngle(350)
 //                    .setRadius(300)
-                //.setStartAngle(360)
                 .build();
 
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            private boolean ischekced = true;
+
+            @Override
+            public void onClick(View v) {
+                if (!center_menu.isOpen()) {
+                    center_menu.open(true);
+                    menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_down_icon));
+                } else {
+                    center_menu.close(true);
+                    menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
+                }
+                ischekced = !ischekced;
+            }
+        });
         // OnClickListeners for each menu item
         matter_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new Matter();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.id_framelayout, fragment);
-                ft.addToBackStack("current_fragment").commit();
-                center_menu.close(true);
+                fab_menu(fragment);
                 Toast.makeText(getApplicationContext(), "Matters", Toast.LENGTH_SHORT).show();
             }
         });
@@ -150,10 +169,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 Fragment fragment = new TimeSheets();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.id_framelayout, fragment);
-                ft.addToBackStack("current_fragment").commit();
-                center_menu.close(true);
+                fab_menu(fragment);
                 Toast.makeText(getApplicationContext(), "Timesheets", Toast.LENGTH_SHORT).show();
             }
         });
@@ -162,10 +178,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 Fragment fragment = new Documents();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.id_framelayout, fragment);
-                ft.addToBackStack("current_fragment").commit();
-                center_menu.close(true);
+                fab_menu(fragment);
                 Toast.makeText(getApplicationContext(), "Documents", Toast.LENGTH_SHORT).show();
             }
         });
@@ -175,10 +188,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             public void onClick(View v) {
 
                 Fragment fragment = new ClientRelationship();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.id_framelayout, fragment);
-                ft.addToBackStack("current_fragment").commit();
-                center_menu.close(true);
+                fab_menu(fragment);
                 Toast.makeText(getApplicationContext(), "Relationship", Toast.LENGTH_SHORT).show();
             }
         });
@@ -187,10 +197,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             public void onClick(View v) {
 
                 Fragment fragment = new Groups();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.id_framelayout, fragment);
-                ft.addToBackStack("current_fragment").commit();
-                center_menu.close(true);
+                fab_menu(fragment);
                 Toast.makeText(getApplicationContext(), "Groups", Toast.LENGTH_SHORT).show();
             }
         });
@@ -213,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             fab_documents = findViewById(R.id.fb_documents);
             fab_documents.setVisibility(View.GONE);
             iv_logo_dashboard = findViewById(R.id.logo_dashboard);
-            ll_bottom_menu = findViewById(R.id.ll_bottom_menu);
             ll_bottom_menu.setVisibility(View.GONE);
             fab_matter = findViewById(R.id.fb_matter);
             tv_pageName = findViewById(R.id.page_name);
@@ -231,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 tv_pageName.setText(item);
             });
             iv_Drawer = (ImageView) findViewById(R.id.menu);
-            ll_bottom_menu.setVisibility(View.GONE);
             iv_Drawer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -243,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     } else {
                         Toast.makeText(getApplicationContext(), "Menu items...", Toast.LENGTH_SHORT).show();
                         actionButton.setVisibility(View.VISIBLE);
+                        // ll_bottom_menu.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -391,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 fragmentTransaction3.commit();
                 navigationDrawer.closeDrawers();
                 actionButton.setVisibility(View.VISIBLE);
-//                ll_bottom_menu.setVisibility(View.VISIBLE);
+//                // ll_bottom_menu.setVisibility(View.VISIBLE);
 
             }
         });
@@ -407,48 +413,48 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 int itemId = menuItem.getItemId();
                 if (itemId == R.id.Dashboard) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
 
                 } else if (itemId == R.id.notifications) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Notifications();
                 } else if (itemId == R.id.matter) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Matter();
                 } else if (itemId == R.id.documents) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Documents();
                 } else if (itemId == R.id.calendar) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Meetings();
                 } else if (itemId == R.id.relationships) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new ClientRelationship();
                 } else if (itemId == R.id.groups) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Groups();
                 } else if (itemId == R.id.timesheets) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new TimeSheets();
                 } else if (itemId == R.id.members) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Members();
                 } else if (itemId == R.id.chat) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Chat();
                 } else if (itemId == R.id.audit) {
                     actionButton.setVisibility(View.VISIBLE);
-//                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new AuditTrails();
                 }
 //                else if (itemId == R.id.CredentialDocuments) {
@@ -629,10 +635,18 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     public boolean onOptionsItemSelected(MenuItem item) {
         if (dtoggle.onOptionsItemSelected(item)) {
             actionButton.setVisibility(View.VISIBLE);
-            ll_bottom_menu.setVisibility(View.VISIBLE);
+            // ll_bottom_menu.setVisibility(View.VISIBLE);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fab_menu(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.id_framelayout, fragment);
+        menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
+        ft.addToBackStack("current_fragment").commit();
+        center_menu.close(true);
     }
 
     @Override
