@@ -90,6 +90,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         rv_matter_list = view.findViewById(R.id.rv_matter_list);
         search_matter = view.findViewById(R.id.search_matter);
         et_search_matter = view.findViewById(R.id.et_search_matter);
+        et_search_matter.setHint("Search Matter");
         callMatterListWebservice();
         return view;
     }

@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_matter"
+
+        <!--this is the actual edit text which takes the input-->
+
+
+    <include
+        android:id="@+id/et_search_matter"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        layout="@layout/searchelement_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="Search Matter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColorHint="@color/black"
-        >
+        android:background="@android:color/transparent"
 
-        <!--this is the actual edit text which takes the input-->
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_search_matter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="@drawable/rectangle_grey_background"
-            android:drawableRight="@drawable/search_groups"
-            android:gravity="start" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_matter_list"
@@ -38,6 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_matter"
+        app:layout_constraintTop_toBottomOf="@id/et_search_matter"
         app:layout_constraintVertical_bias="0.068" />
 </androidx.constraintlayout.widget.ConstraintLayout>
