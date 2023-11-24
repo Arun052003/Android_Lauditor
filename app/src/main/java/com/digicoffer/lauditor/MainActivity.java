@@ -93,16 +93,14 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
         // Creating Floating Action Button
         LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setPadding(-10, -35, -10, -10);
+        linearLayout.setPadding(-10, -30, -10, -10);
         linearLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing));
         menu_open1 = new ImageView(this);
         menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
         menu_open1.setEnabled(false);
         linearLayout.addView(menu_open1);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(380, 196);
-        params.setMargins(0, -10, 0, -60);
-        ImageView menu_open = new ImageView(this);
-        menu_open.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(360, 170);
+        params.setMargins(0, -10, 0, -50);
         actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
                 .setContentView(linearLayout)
                 .setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing))
@@ -121,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         ImageView Groups_menu = new ImageView(this);
 
         // Set Icon for each menu item
+        matter_menu.setPadding(20, 10, 10, 10);
+        documents_menu.setPadding(10, 10, 10, 10);
         matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
         timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
         documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         Groups_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
 
         center_menu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
+                .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(180, 180)).build())
                 .addSubActionView(rLSubBuilder.setContentView(timesheets_menu).build())
                 .addSubActionView(rLSubBuilder.setContentView(documents_menu).build())
                 .addSubActionView(rLSubBuilder.setContentView(relationship_menu).build())
@@ -246,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                         dLayout.openDrawer(GravityCompat.START);
                         ll_bottom_menu.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Menu items...", Toast.LENGTH_SHORT).show();
                         actionButton.setVisibility(View.VISIBLE);
                         // ll_bottom_menu.setVisibility(View.VISIBLE);
                     }
@@ -412,50 +411,50 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 // create a Fragment Object
                 int itemId = menuItem.getItemId();
                 if (itemId == R.id.Dashboard) {
-                    actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
+                    actionButton.setVisibility(View.VISIBLE);
 
                 } else if (itemId == R.id.notifications) {
-                    actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Notifications();
-                } else if (itemId == R.id.matter) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.matter) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Matter();
-                } else if (itemId == R.id.documents) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.documents) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Documents();
-                } else if (itemId == R.id.calendar) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.calendar) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Meetings();
-                } else if (itemId == R.id.relationships) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.relationships) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new ClientRelationship();
-                } else if (itemId == R.id.groups) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.groups) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Groups();
-                } else if (itemId == R.id.timesheets) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.timesheets) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new TimeSheets();
-                } else if (itemId == R.id.members) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.members) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Members();
-                } else if (itemId == R.id.chat) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.chat) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Chat();
-                } else if (itemId == R.id.audit) {
                     actionButton.setVisibility(View.VISIBLE);
+                } else if (itemId == R.id.audit) {
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new AuditTrails();
+                    actionButton.setVisibility(View.VISIBLE);
                 }
 //                else if (itemId == R.id.CredentialDocuments) {
 //                    frag = new Credential_Docs();
