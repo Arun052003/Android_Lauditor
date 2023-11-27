@@ -348,8 +348,10 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 try {
                     View view_timeLine = LayoutInflater.from(getContext()).inflate(R.layout.matter_timeline, null);
                     TextView tv_timeline_title = view_timeLine.findViewById(R.id.tv_timeline_title);
+                    tv_timeline_title.setText("First text view");
 
                     TextView tv_timeline_date = view_timeLine.findViewById(R.id.tv_timeline_date);
+                    tv_timeline_date.setText("Second text view");
                     LinearLayout ll_empty_notes = view_timeLine.findViewById(R.id.ll_empty_notes);
                     LinearLayout ll_edit_notes = view_timeLine.findViewById(R.id.ll_edit_notes);
                     TextInputEditText tv_edit_notes = view_timeLine.findViewById(R.id.tv_edit_notes);

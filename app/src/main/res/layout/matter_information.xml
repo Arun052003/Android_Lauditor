@@ -181,7 +181,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
-                        <include layout="@layout/icon"/>
+
 
                     </LinearLayout>
 
@@ -244,21 +244,8 @@
 
                         >
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tv_dof"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="top"
-                            android:drawableRight="@drawable/calendar_activity"
-                            android:enabled="true"
-                            android:layout_marginBottom="10dp"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:gravity="top"
+                    <include layout="@layout/layout_dates"/>
 
-                            android:maxLines="4"
-                            android:padding="5dp"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -301,20 +288,8 @@
 
                         >
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tv_start_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="top"
-                            android:drawableRight="@drawable/calendar_activity"
-                            android:enabled="true"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:gravity="top"
-                            android:layout_marginBottom="10dp"
-                            android:maxLines="4"
-                            android:padding="5dp"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15dp" />
+                      <include layout="@layout/layout_dates"
+                          android:id="@+id/tv_start_date"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -356,20 +331,8 @@
 
                         >
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tv_end_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="top"
-                            android:drawableRight="@drawable/calendar_activity"
-                            android:enabled="true"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:gravity="top"
-                            android:layout_marginBottom="10dp"
-                            android:maxLines="4"
-                            android:padding="5dp"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15dp" />
+                      <include layout="@layout/layout_dates"
+                          android:id="@+id/tv_end_date"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -419,11 +382,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="top"
+
                             android:drawableRight="@drawable/court"
                             android:enabled="true"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:gravity="top"
-                            android:layout_marginBottom="10dp"
                             android:maxLines="4"
                             android:padding="5dp"
                             android:textColor="@color/Blue_text_color"
@@ -477,7 +440,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="top"
-                            android:drawableRight="@drawable/judge_icon"
+                            android:drawableRight="@drawable/framejudge"
                             android:enabled="true"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:gravity="top"
@@ -540,7 +503,7 @@
                             android:fontFamily="sans-serif-condensed-medium"
                             android:padding="10dp"
                             android:text="@string/high"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/Fifteen_dp">
 
                         </TextView>
@@ -627,7 +590,7 @@
                             android:padding="10dp"
 
                             android:text="@string/active"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/Fifteen_dp">
 
                         </TextView>
@@ -669,7 +632,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_header"
@@ -682,18 +645,16 @@
                     android:orientation="horizontal">
 
                     <include layout="@layout/group_layout"
-                        android:id="@+id/addopponentadvocate"/>
-
-                    <Button
-                        android:id="@+id/btn_add_advocate"
-                        android:layout_width="200dp"
+                        android:id="@+id/addopponentadvocate"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/add"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white">
+                        android:layout_weight="1"/>
 
-                    </Button>
+                <include layout="@layout/add_button"
+                    android:id="@+id/btn_add_advocate"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -707,6 +668,9 @@
                     >
 
                 </LinearLayout>
+                <Space
+                    android:layout_height="match_parent"
+                    android:layout_width="10dp"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_save_buttons"
@@ -720,6 +684,7 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
                     android:visibility="visible">
+
 
                     <include layout="@layout/cancel_button"
                         android:id="@+id/btn_cancel_save"/>

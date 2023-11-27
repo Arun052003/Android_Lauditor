@@ -47,6 +47,7 @@
 
         <TextView
             android:id="@+id/matter_date"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/matter_title"

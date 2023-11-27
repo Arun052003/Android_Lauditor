@@ -479,14 +479,19 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             tv_advocate_name.setHint("Name");
+            tv_advocate_name.setTextSize(14);
 
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             tv_advocate_email.setHint("Email");
+            tv_advocate_email.setTextSize(14);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
             tv_advocate_phone.setHint("Phone Number");
+            tv_advocate_phone.setTextSize(14);
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
+            loadHighPriorityUI();
+            loadActiveUI();
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
