@@ -78,8 +78,9 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:text="@string/name"
                     android:textColor="@color/Blue_text_color"
@@ -87,12 +88,12 @@
 
                 </TextView>
 
-<!--                <ImageView-->
-<!--                    android:layout_width="15dp"-->
-<!--                    android:layout_height="10dp"-->
-<!--                    android:src="@drawable/asterisk_icon">-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="15dp"-->
+                <!--                    android:layout_height="10dp"-->
+                <!--                    android:src="@drawable/asterisk_icon">-->
 
-<!--                </ImageView>-->
+                <!--                </ImageView>-->
 
             </LinearLayout>
 
@@ -101,24 +102,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_grey_background"
+
 
                 app:boxBackgroundMode="none"
 
 
                 >
 
-                <com.google.android.material.textfield.TextInputEditText
+                <include layout="@layout/group_name_layout"
                     android:id="@+id/tv_advocate_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:hint="@string/name"
-                    android:textColor="@color/Blue_text_color"
-                    android:textColorHint="@color/grey_text_color"
-
-                    android:textSize="@dimen/Fifteen_dp" />
+                    android:layout_height="wrap_content"/>
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -139,12 +133,12 @@
 
                 </TextView>
 
-<!--                <ImageView-->
-<!--                    android:layout_width="15dp"-->
-<!--                    android:layout_height="10dp"-->
-<!--                    android:src="@drawable/asterisk_icon">-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="15dp"-->
+                <!--                    android:layout_height="10dp"-->
+                <!--                    android:src="@drawable/asterisk_icon">-->
 
-<!--                </ImageView>-->
+                <!--                </ImageView>-->
 
             </LinearLayout>
 
@@ -154,23 +148,14 @@
                 android:layout_height="0dp"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_grey_background"
+
                 android:gravity="top"
                 app:boxBackgroundMode="none"
 
                 >
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_advocate_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/Blue_text_color"
-                    android:textColorHint="@color/grey_text_color"
-                    android:textSize="@dimen/Fifteen_dp" />
+                <include layout="@layout/group_name_layout"
+                    android:id="@+id/tv_advocate_email"/>
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -206,23 +191,14 @@
                 android:layout_height="0dp"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_grey_background"
+
                 android:gravity="top"
                 app:boxBackgroundMode="none"
 
                 >
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_advocate_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:hint="@string/phone_number"
-                    android:inputType="phone"
-                    android:textColor="@color/Blue_text_color"
-                    android:textColorHint="@color/grey_text_color"
-                    android:textSize="@dimen/Fifteen_dp" />
+                <include layout="@layout/group_name_layout"
+                    android:id="@+id/tv_advocate_phone"/>
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -250,36 +226,12 @@
 
                 >
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel_tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:elevation="20dp"
+                <include layout="@layout/cancel_button"
+                    android:id="@+id/btn_cancel_tag"/>
+                <include layout="@layout/submit_button"
+                    android:id="@+id/btn_save_tag"/>
 
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/cancel_button_background"
-                    android:textAllCaps="false"
-                    android:text="@string/cancel">
 
-                </androidx.appcompat.widget.AppCompatButton>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_save_tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:elevation="@dimen/Fifteen_dp"
-
-                    android:background="@drawable/save_button_background"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-
-                    android:text="@string/save">
-
-                </androidx.appcompat.widget.AppCompatButton>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

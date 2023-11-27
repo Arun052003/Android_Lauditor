@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Matter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,9 +45,15 @@ public class Matter extends Fragment {
         siv_groups = view.findViewById(R.id.siv_groups);
         siv_documents = view.findViewById(R.id.siv_documents);
         tv_legal_matter = view.findViewById(R.id.tv_legal_matter);
+
+
+        tv_legal_matter.setText("Legal Matter");
         tv_general_matter = view.findViewById(R.id.tv_general_matter);
+        tv_general_matter.setText("General Matter");
         tv_create = view.findViewById(R.id.tv_create_matter);
+        tv_create.setText("Create");
         tv_view = view.findViewById(R.id.tv_view_matter);
+        tv_view.setText("View");
 //        siv_upload = view.findViewById(R.id.upload_icon);
 //        siv_view = view.findViewById(R.id.view_icon);
         loadMatterInformation();
@@ -113,7 +120,9 @@ public class Matter extends Fragment {
     //    public MatterModel matterModel
     private void loadViewUI() {
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+        tv_create.setTextColor(Color.BLACK);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_view.setTextColor(Color.WHITE);
         create_matter_view.setVisibility(View.GONE);
         viewMatter();
     }
@@ -130,14 +139,18 @@ public class Matter extends Fragment {
     private void loadCreateUI() {
         create_matter_view.setVisibility(View.VISIBLE);
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_create.setTextColor(Color.WHITE);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_view.setTextColor(Color.BLACK);
         loadMatterInformation();
     }
 
     private void loadLegalMatter() {
         Constants.MATTER_TYPE = "Legal";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_legal_matter.setTextColor(Color.WHITE);
         tv_general_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_general_matter.setTextColor(Color.BLACK);
         loadMatterInformation();
         mViewModel.setData("Legal Matter");
     }
@@ -145,14 +158,16 @@ public class Matter extends Fragment {
     private void loadGeneralMatter() {
         Constants.MATTER_TYPE = "General";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+        tv_legal_matter.setTextColor(Color.BLACK);
         tv_general_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_general_matter.setTextColor(Color.WHITE);
         loadMatterInformation();
         mViewModel.setData("General Matter");
     }
 
     public void loadDocuments() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.groups_material_icon));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy_white));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterDocuments matterInformation = new MatterDocuments();
@@ -173,7 +188,7 @@ public class Matter extends Fragment {
 
     public void loadMatterInformation() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.groups_material_icon));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterInformation matterInformation = new MatterInformation();

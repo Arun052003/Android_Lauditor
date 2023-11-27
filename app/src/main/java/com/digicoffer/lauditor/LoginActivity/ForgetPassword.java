@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 public class ForgetPassword extends AppCompatActivity implements AsyncTaskCompleteListener {
-    private Button submitButton;
+    private Button submitButton,cancel;
     private TextInputEditText tetEmail;
     private AlertDialog progressDialog;
 
@@ -45,6 +45,7 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
 
         // Initialize the submit button
         submitButton = findViewById(R.id.Submit);
+        cancel = findViewById(R.id.Cancel);
         submitButton.setEnabled(false); // Disable the button initially
 
         // Add a TextWatcher to the email TextInputEditText
@@ -89,6 +90,14 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(ForgetPassword.this,LoginActivity.class));
+
             }
         });
     }

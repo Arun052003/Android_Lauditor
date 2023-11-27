@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/title_name"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/group_name"
+    android:id="@+id/title_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-            android:textColor="@color/Blue_text_color"
-            android:textSize="@dimen/Fifteen_dp">
-</TextView>
+    android:fontFamily="@font/gill_sans"
+    android:text="@string/group_name"
+    android:textColor="@color/Blue_text_color"
+    android:textSize="@dimen/Fifteen_dp"></TextView>
 
 
 

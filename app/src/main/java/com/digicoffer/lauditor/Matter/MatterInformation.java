@@ -1,7 +1,9 @@
 package com.digicoffer.lauditor.Matter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Patterns;
@@ -38,42 +40,73 @@ import java.util.Locale;
 
 public class MatterInformation extends Fragment implements View.OnClickListener {
     TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_dof, tv_court, tv_judge,tv_start_date,tv_end_date;
-    TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending;
+    TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending,Title,datefill,start_date,closedate,court,judge,priority,status,addopponentadvocate,name;
     Button btn_add_advocate;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
-    TextView m_c_number,m_c_type;
+    TextView m_c_number,m_c_type,description_name ;
     AppCompatButton btn_cancel_save, btn_create;
     LinearLayout ll_add_advocate,ll_start_date,ll_end_date,ll_court,ll_judge,ll_dof;
     JSONArray existing_opponents;
     TextView tv_opponent_name;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
-    View v;
+
     Matter matter;
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matter_information, container, false);
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
+        tv_matter_title.setHint("Case Title");
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
+        tv_matter_num.setHint("Case Number");
         tv_case_type = view.findViewById(R.id.tv_case_type);
-
+        tv_case_type.setHint("Case Type");
+        description_name = view.findViewById(R.id.description_name);
+        description_name.setText("Description");
+        Title = view.findViewById(R.id.Title_name);
+        Title.setText(" Case Title");
+        datefill = view.findViewById(R.id.datefill);
+        datefill.setText("Date of Filling");
+        start_date =  view.findViewById(R.id.start_date);
+        start_date.setText("Start Date");
+        closedate = view.findViewById(R.id.closedate);
+        closedate.setText("Close Date");
+        court = view.findViewById(R.id.court);
+        court.setText("Court");
+        judge = view.findViewById(R.id.judge);
+        judge.setText("Judge(s)");
+        priority = view.findViewById(R.id.priority);
+        priority.setText("Priority");
+        status = view.findViewById(R.id.status);
+        status.setText("Status");
+        addopponentadvocate = view.findViewById(R.id.addopponentadvocate);
+        addopponentadvocate.setText("Add Opponent Advocate ");
         ll_court = view.findViewById(R.id.ll_court);
         ll_judge = view.findViewById(R.id.ll_judge);
         ll_dof  = view.findViewById(R.id.ll_dof);
         m_c_number = view.findViewById(R.id.m_c_number);
+        m_c_number.setText("Case Number");
         m_c_type = view.findViewById(R.id.m_c_type);
+        m_c_type.setText("Case Type");
         ll_end_date = view.findViewById(R.id.ll_end_date);
         ll_start_date = view.findViewById(R.id.ll_start_date);
         tv_start_date = view.findViewById(R.id.tv_start_date);
+        tv_start_date.setHint("Start Data");
         tv_end_date = view.findViewById(R.id.tv_end_date);
+        tv_end_date.setHint("Close Data");
 
         tv_matter_description = view.findViewById(R.id.tv_matter_description);
+        tv_matter_description.setHint("Description");
         tv_dof = view.findViewById(R.id.tv_dof);
+        tv_dof.setHint("Date of filling");
         tv_court = view.findViewById(R.id.tv_court);
+        tv_court.setHint("Court");
         tv_judge = view.findViewById(R.id.tv_judge);
+        tv_judge.setHint("judge");
         tv_high_priority = view.findViewById(R.id.tv_high_priority);
         tv_high_priority.setOnClickListener(this);
         tv_medium_priority = view.findViewById(R.id.tv_medium_priority);
@@ -92,6 +125,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         btn_create.setOnClickListener(this);
         ll_add_advocate = view.findViewById(R.id.ll_add_advocate);
         matter = (Matter) getParentFragment();
+
         tv_start_date.setInputType(InputType.TYPE_NULL);
         tv_end_date.setInputType(InputType.TYPE_NULL);
         tv_dof.setInputType(InputType.TYPE_NULL);
@@ -444,8 +478,12 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
+            tv_advocate_name.setHint("Name");
+
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
+            tv_advocate_email.setHint("Email");
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+            tv_advocate_phone.setHint("Phone Number");
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
@@ -622,37 +660,50 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     private void loadActiveUI() {
         STATUS = "Active";
         tv_status_active.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_round_background));
+        tv_status_active.setTextColor(Color.WHITE);
         tv_status_pending.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
+        tv_status_pending.setTextColor(Color.BLACK);
 
     }
 
     private void loadPendingUI() {
         STATUS = "Pending";
         tv_status_active.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_round_background));
+        tv_status_active.setTextColor(Color.BLACK);
         tv_status_pending.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_round_background));
+        tv_status_pending.setTextColor(Color.WHITE);
 
     }
 
     private void loadLowPriorityUI() {
         CASE_PRIORITY = "Low";
         tv_high_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_round_background));
+        tv_high_priority.setTextColor(Color.BLACK);
         tv_medium_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.radiobutton_centre_background));
+        tv_medium_priority.setTextColor(Color.BLACK);
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_round_background));
+        tv_low_priority.setTextColor(Color.WHITE);
 
     }
 
     private void loadMediumPriorityUI() {
         CASE_PRIORITY = "Medium";
         tv_high_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_round_background));
+        tv_high_priority.setTextColor(Color.BLACK);
         tv_medium_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.radiobutton_centre_green_background));
+        tv_medium_priority.setTextColor(Color.WHITE);
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
+        tv_low_priority.setTextColor(Color.BLACK);
     }
 
     private void loadHighPriorityUI() {
         CASE_PRIORITY = "High";
         tv_high_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_round_background));
+        tv_high_priority.setTextColor(Color.WHITE);
         tv_medium_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.radiobutton_centre_background));
+        tv_medium_priority.setTextColor(Color.BLACK);
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
+        tv_low_priority.setTextColor(Color.BLACK);
     }
 
 }

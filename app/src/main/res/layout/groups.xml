@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
 
     tools:context=".MainActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,13 +24,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.013">
-            <include layout="@layout/createmember_layout"
+
+            <include
                 android:id="@+id/tv_create_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="1dp"/>
-            <include layout="@layout/viewmember_layout"
-                android:id="@+id/tv_view_group"/>
+                layout="@layout/createmember_layout" />
+
+            <include
+                android:id="@+id/tv_view_group"
+                layout="@layout/viewmember_layout" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.cardview.widget.CardView
@@ -37,9 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:elevation="@dimen/Fifty_dp"
             android:padding="10dp"
             app:cardCornerRadius="10dp"
-            android:elevation="@dimen/Fifty_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
@@ -57,19 +59,23 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
-                    <include layout="@layout/group_layout"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <include layout="@layout/astrick_layout"/>
+                        android:layout_height="wrap_content" />
+
+                    <include layout="@layout/astrick_layout" />
                 </LinearLayout>
 
                 <!--include the group name layout -->
 
                 <!--include the group name Box -->
-                <include layout="@layout/group_name_layout"
-                    android:id="@+id/tv_group_name"/>
+                <include
+                    android:id="@+id/tv_group_name"
+                    layout="@layout/group_name_layout" />
                 <!--include the group description layout -->
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -78,65 +84,76 @@
                     android:orientation="horizontal">
 
                     <!--Adding a description name-->
-                    <include layout="@layout/group_layout"
-                        android:layout_height="wrap_content"
+                    <include
+                        android:id="@+id/description_name"
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        android:id="@+id/description_name"/>
-                    <include layout="@layout/astrick_layout"/>
+                        android:layout_height="wrap_content" />
+
+                    <include layout="@layout/astrick_layout" />
                 </LinearLayout>
                 <!--include the group description box -->
-                <include layout="@layout/group_name_layout"
+                <include
                     android:id="@+id/tv_description"
-                    android:layout_marginTop="10dp"
+                    layout="@layout/group_name_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp" />
-                <include layout="@layout/team_member_selection"
-                    android:layout_height="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="10dp" />
+
+                <include
+                    layout="@layout/team_member_selection"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_delete_team"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="-10dp"
-                    android:visibility="gone"
-                    android:padding="10dp"
                     android:backgroundTint="@color/green_count_color"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="@dimen/Fifty_dp">
+                    android:elevation="@dimen/Fifty_dp"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="10dp">
+
                     <TextView
                         android:id="@+id/group_name_delete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="teams"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:drawableTint="@color/white"
                         android:layout_margin="20dp"
-                        android:textSize="21dp"
+                        android:drawableRight="@drawable/delete_icon_black"
+                        android:drawableTint="@color/white"
                         android:foregroundGravity="center"
                         android:gravity="center_vertical"
-                        android:drawableRight="@drawable/delete_icon_black"></TextView>
+                        android:text="teams"
+                        android:textColor="@color/white"
+                        android:textSize="21dp"
+                        android:textStyle="bold"></TextView>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_edit_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <!--include the submit and cancel layout -->
-                    <include layout="@layout/cancel_button"
-                        android:id="@+id/btn_cancel_edit"/>
-                    <include layout="@layout/submit_button"
-                        android:id="@+id/btn_update" />
+                    <include
+                        android:id="@+id/btn_cancel_edit"
+                        layout="@layout/cancel_button" />
+
+                    <include
+                        android:id="@+id/btn_update"
+                        layout="@layout/submit_button" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -146,11 +163,11 @@
             android:id="@+id/linearLayoutCompat1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:orientation="horizontal"
             android:padding="10dp"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -158,14 +175,18 @@
             app:layout_constraintVertical_bias="0.0">
 
 
-            <include layout="@layout/createmember_layout"
+            <include
                 android:id="@+id/add_tm"
+                layout="@layout/createmember_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="1dp"/>
+                android:layout_marginRight="1dp" />
 
-            <include layout="@layout/viewmember_layout"
-                android:id="@+id/add_phead"/>
+            <include
+                android:id="@+id/add_phead"
+                layout="@layout/viewmember_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -184,7 +205,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <!--include the select all check box -->
-            <include layout="@layout/check_select_all"/>
+            <include layout="@layout/check_select_all" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -193,10 +214,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
             android:elevation="10dp"
+            android:padding="10dp"
             android:visibility="visible"
+            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -212,33 +233,31 @@
                 android:padding="5dp"
                 android:paddingBottom="30dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:id="@+id/search_tm"
-                    android:layout_margin="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rectangle_light_grey_bg"
                     android:hint="Search Team Members"
-                    android:textColorHint="@color/black"
-                    android:background="@drawable/rectangle_light_grey_bg">
+                    android:textColorHint="@color/black">
                     <!--include the search box -->
-                    <include layout="@layout/search_layout"/>
+                    <include layout="@layout/search_layout" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:id="@+id/search_delete"
-                    android:visibility="gone"
-                    android:layout_margin="20dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColorHint="@color/black"
+                    android:layout_margin="20dp"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:hint="Search Groups"
+                    android:textColorHint="@color/black"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -247,9 +266,10 @@
                     app:layout_constraintVertical_bias="0.0">
 
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/search_layout"
+                    <include
                         android:id="@+id/et_search_delete"
-                        android:visibility="gone"/>
+                        layout="@layout/search_layout"
+                        android:visibility="gone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -285,6 +305,7 @@
                     android:layout_height="300dp"
                     android:layout_margin="10dp"
                     android:orientation="vertical" />
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_buttons"
                     android:layout_width="match_parent"
@@ -293,28 +314,28 @@
                     android:orientation="horizontal">
 
                     <!--Submit and Cancel Button-->
-                    <include layout="@layout/cancel_button"/>
-                    <include layout="@layout/submit_button"/>
+                    <include layout="@layout/cancel_button" />
+
+                    <include layout="@layout/submit_button" />
                     <!--end-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/search"
-            android:visibility="gone"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColorHint="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/rectangle_light_grey_bg"
             android:hint="Search Groups"
+            android:textColorHint="@color/black"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -323,9 +344,10 @@
             app:layout_constraintVertical_bias="0.0">
 
             <!--this is the actual edit text which takes the input-->
-            <include layout="@layout/search_layout"
+            <include
                 android:id="@+id/et_search"
-                android:visibility="gone"/>
+                layout="@layout/search_layout"
+                android:visibility="gone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -347,10 +369,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
-            android:visibility="gone"
             android:elevation="@dimen/Fifty_dp"
+            android:padding="10dp"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
@@ -372,9 +394,9 @@
                     <!--Changing sub title name to category-->
                     <include
                         android:id="@+id/category_id"
-                        android:layout_height="wrap_content"
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        layout="@layout/group_layout" />
+                        android:layout_height="wrap_content" />
 
                     <include layout="@layout/astrick_layout" />
 
@@ -385,8 +407,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="3dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="3dp"
                     android:layout_weight=".28"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:gravity="center"
@@ -406,8 +428,10 @@
                     <include
                         android:id="@+id/client_id_name"
                         layout="@layout/group_layout" />
-                    <include layout="@layout/group_name_layout"
-                        android:id="@+id/tv_Client_name_id" />
+
+                    <include
+                        android:id="@+id/tv_Client_name_id"
+                        layout="@layout/group_name_layout" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -426,8 +450,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="3dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="3dp"
                     android:layout_weight=".28"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:gravity="center"
@@ -450,8 +474,9 @@
                         android:id="@+id/search_name"
                         layout="@layout/group_layout" />
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/group_name_layout"
-                        android:id="@+id/tv_search_name"/>
+                    <include
+                        android:id="@+id/tv_search_name"
+                        layout="@layout/group_name_layout" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -482,7 +507,7 @@
 
                         <include
                             android:id="@+id/to_id"
-                            layout="@layout/group_layout"/>
+                            layout="@layout/group_layout" />
 
                         <!--        Adding a To date calender button-->
                         <include
@@ -495,8 +520,8 @@
                     android:id="@+id/ll_activity_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
@@ -518,8 +543,8 @@
                     android:layout_margin="10dp"
 
                     android:textColorHint="@color/black"
-                    app:boxBackgroundMode="none"
                     android:visibility="gone"
+                    app:boxBackgroundMode="none"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -528,8 +553,9 @@
                     app:layout_constraintVertical_bias="0.0">
 
                     <!--this is the actual edit text which takes the input-->
-                    <include layout="@layout/search_layout"
-                        android:id="@+id/et_search_message"/>
+                    <include
+                        android:id="@+id/et_search_message"
+                        layout="@layout/search_layout" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -546,4 +572,5 @@
                     app:layout_constraintVertical_bias="0.0" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout></ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

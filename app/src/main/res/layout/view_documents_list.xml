@@ -8,56 +8,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     >
-        <RelativeLayout
-            android:id="@+id/rv_display_name"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/rv_display_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/rectangle_light_grey_bg"
+        android:padding="10dp"
+        >
+
+        <include layout="@layout/uploadtext"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/rectangle_grey_background"
-            android:padding="10dp"
-            >
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_display_picture"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/sample_image"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="@string/create_group"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp"
-                app:shapeAppearanceOverlay="@style/Circula">
+            android:textStyle="bold"
+            android:fontFamily="@font/gill_sans"
 
-            </com.google.android.material.imageview.ShapeableImageView>
-            <TextView
-                android:id="@+id/tv_document_display_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_display_picture"
-                android:layout_marginLeft="15dp"
-                android:textSize="@dimen/twenty_dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:text="Upload">
 
-            </TextView>
-            <TextView
-                android:id="@+id/tv_client_name_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_display_picture"
-                android:layout_marginLeft="15dp"
-                android:textSize="@dimen/Fifteen_dp"
-                android:layout_below="@id/tv_document_display_name"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="Upload">
 
-            </TextView>
-        </RelativeLayout>
+            />
+
+        <include
+            android:id="@+id/tv_client_name_one"
+            layout="@layout/uploadtext"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_display_name"
+            android:fontFamily="@font/gill_sans"
+
+
+
+            android:layout_marginTop="30dp"
+
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rv_doc_details"
@@ -65,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/rectangle_grey_background"
+        android:background="@drawable/rectangle_light_grey_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -91,112 +80,85 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:background="@drawable/flower_image"
+            android:visibility="invisible"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp" />
-        <TextView
+
+        <include
             android:id="@+id/tv_image_name"
+            layout="@layout/uploadtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_doc_image"
-            android:layout_marginLeft="15dp"
-            android:textSize="@dimen/twenty_dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:text="Upload">
 
-        </TextView>
-        <TextView
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/gill_sans"
+
+
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold" />
+
+
+
+
+        <include layout="@layout/uploadtext"
             android:id="@+id/tv_client_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_doc_image"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@+id/tv_image_name"
-            android:textSize="@dimen/Fifteen_dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:text="Upload">
+            android:fontFamily="@font/gill_sans"
+            android:layout_below="@id/tv_image_name"
 
-        </TextView>
-        <TextView
+
+            android:textSize="12sp"/>
+        <include layout="@layout/uploadtext"
             android:id="@+id/tv_doc_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_doc_image"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@+id/tv_client_name"
-            android:textSize="@dimen/Fifteen_dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:text="Upload">
+            android:fontFamily="@font/gill_sans"
+            android:layout_below="@id/tv_client_name"
 
-        </TextView>
+            android:textSize="12sp"/>
+
 
         <RelativeLayout
             android:id="@+id/rv_dates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_doc_image"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/rectangular_button_green_count"
             android:orientation="vertical"
-            android:layout_margin="3dp"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/tv_created"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:text="@string/created"
-                android:textColor="@color/white"
-                android:textSize="@dimen/Fifteen_dp">
+            <include layout="@layout/createdocument"/>
 
-            </TextView>
-
-            <TextView
+            <include layout="@layout/createdocument"
                 android:id="@+id/tv_created_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_created"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
                 android:text="Date"
-                android:textColor="@color/white"
-                android:textSize="@dimen/Fifteen_dp">
+                />
 
-            </TextView>
-
-            <TextView
+            <include layout="@layout/createdocument"
                 android:id="@+id/tv_Expiration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_created"
-                android:layout_alignParentStart="true"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:text="@string/expiration"
-                android:textColor="@color/white"
-                android:textSize="@dimen/Fifteen_dp">
+                android:text="Expiration:"
+                android:textColor="@color/white"/>
 
-            </TextView>
-
-            <TextView
+            <include layout="@layout/createdocument"
                 android:id="@+id/tv_Expiration_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Expiration"
                 android:layout_below="@+id/tv_created_date"
-                android:layout_toRightOf="@id/tv_Expiration"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:text="@string/expiration"
-                android:textColor="@color/white"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
+                android:layout_toRightOf="@id/tv_Expiration"/>
         </RelativeLayout>
 
         <ImageView
@@ -215,7 +177,7 @@
             android:id="@+id/uv_delete_document"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/delete_icon_black"
+            android:src="@drawable/delete_icon"
             android:layout_alignParentEnd="true"
             android:padding="5dp"
             android:layout_marginRight="10dp"

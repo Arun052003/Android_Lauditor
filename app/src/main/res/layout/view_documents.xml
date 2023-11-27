@@ -64,17 +64,19 @@
         app:layout_constraintVertical_bias="0.038">
         <ImageView
             android:id="@+id/doc_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_weight="1"
             android:layout_gravity="center" />
-        <com.github.barteksc.pdfviewer.PDFView
-            android:id="@+id/pdfview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#0FFFFFFF"
-            android:visibility="visible"
-            tools:ignore="MissingClass" />
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_weight="1"
+
+            android:layout_gravity="center"  />
+
+
 
     </LinearLayout>
 
