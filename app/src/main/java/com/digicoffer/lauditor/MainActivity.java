@@ -3,6 +3,7 @@ package com.digicoffer.lauditor;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -26,6 +28,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 //import com.digicoffer.lauditor.AuditTrails.AuditTrails;
 import com.digicoffer.lauditor.AuditTrails.AuditTrails;
@@ -35,9 +39,13 @@ import com.digicoffer.lauditor.Calendar.MonthlyCalendar;
 import com.digicoffer.lauditor.Calendar.WeeklyCalendar;
 import com.digicoffer.lauditor.Chat.Chat;
 import com.digicoffer.lauditor.ClientRelationships.ClientRelationship;
+import com.digicoffer.lauditor.Dashboard.DahboardModels.MenuModels;
 import com.digicoffer.lauditor.Dashboard.Dashboard;
+import com.digicoffer.lauditor.Dashboard.MenuAdapter;
+import com.digicoffer.lauditor.Dashboard.SemiCircleLayoutManager;
 import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Groups.Groups;
+import com.digicoffer.lauditor.LoginActivity.LoginActivity;
 import com.digicoffer.lauditor.Matter.Matter;
 import com.digicoffer.lauditor.Members.Members;
 import com.digicoffer.lauditor.Notifications.Notifications;
@@ -53,6 +61,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements MonthlyCalendar.EventDetailsListener, WeeklyCalendar.EventDetailsListener, View.OnClickListener {
     ExtendedFloatingActionButton mAddFab;
     ImageView iv_logo_dashboard;
+    ArrayList<MenuModels> menuList = new ArrayList<>();
+    RecyclerView recyclerView;
     ImageButton iv_open_menu, iv_close_menu;
     private NewModel viewModel;
     TextView tv_pageName;
@@ -95,8 +105,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             tv_pageName = findViewById(R.id.page_name);
             appbar = (AppBarLayout) findViewById(R.id.appbar);
             appbar.setVisibility(View.VISIBLE);
-
-
             fab_matter.setVisibility(View.GONE);
             fab_timesheet = findViewById(R.id.fb_timesheets);
             fab_timesheet.setVisibility(View.GONE);
@@ -112,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 @Override
                 public void onClick(View v) {
                     if (!dLayout.isDrawerOpen(Gravity.START)) {
-
                         dLayout.openDrawer(Gravity.START);
                         ll_bottom_menu.setVisibility(View.GONE);
                     } else {
@@ -123,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             });
 //            dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //            navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
 //            tv_relations = findViewById(R.id.tv_relationships);
 //            tv_relations.setVisibility(View.GONE);
 //            tv_documents = findViewById(R.id.tv_documents);
@@ -210,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 @Override
                 public void onClick(View view) {
                     try {
+
                         openMenu();
                     } catch (Exception e) {
                         Log.e("Error", "Error" + e.getMessage());
@@ -235,6 +242,28 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             e.printStackTrace();
         }
 //        Sup
+    }
+
+    private void loadRecyclerview() {
+        menuList.add(new MenuModels("Matters",R.drawable.matter));
+        menuList.add(new MenuModels("Documents",R.drawable.document));
+        menuList.add(new MenuModels("Relationships",R.drawable.relationship));
+        menuList.add(new MenuModels("Timesheets",R.drawable.timesheet));
+        menuList.add(new MenuModels("Meetings",R.drawable.meeting_new));
+        menuList.add(new MenuModels("Emails",R.drawable.email_icon_dashboard));
+        menuList.add(new MenuModels("Messages",R.drawable.client_chat_icon));
+        menuList.add(new MenuModels("Notifications",R.drawable.notification_icon));
+        menuList.add(new MenuModels("Audits",R.drawable.audit_new));
+        menuList.add(new MenuModels("Groups",R.drawable.groups_icon));
+        menuList.add(new MenuModels("Invoice",R.drawable.invoice_icon));
+
+        recyclerView = findViewById(R.id.rv_menu);
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.rotate);
+        recyclerView.startAnimation(animation);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
+
+        MenuAdapter menuAdapter = new MenuAdapter(menuList);
+        recyclerView.setAdapter(menuAdapter);
     }
 
     private void setNavigationDrawer() {
@@ -270,7 +299,24 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             }
         });
 
-
+        if(Constants.ROLE.equals("AAM")){
+            nav_Menu.findItem(R.id.matter).setVisible(false);
+            nav_Menu.findItem(R.id.documents).setVisible(false);
+            nav_Menu.findItem(R.id.relationships).setVisible(false);
+            nav_Menu.findItem(R.id.email).setVisible(false);
+//            nav_Menu.findItem(R.id.chat).setVisible(false);
+            nav_Menu.findItem(R.id.invoices).setVisible(false);
+        }else if(Constants.ROLE.equals("SU")){
+            nav_Menu.findItem(R.id.firm_profile).setVisible(false);
+        }else if(Constants.ROLE.equals("GH")){
+            nav_Menu.findItem(R.id.firm_profile).setVisible(false);
+            nav_Menu.findItem(R.id.groups).setVisible(false);
+            nav_Menu.findItem(R.id.members).setVisible(false);
+        }else {
+            nav_Menu.findItem(R.id.firm_profile).setVisible(false);
+            nav_Menu.findItem(R.id.groups).setVisible(false);
+            nav_Menu.findItem(R.id.members).setVisible(false);
+        }
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -313,6 +359,21 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 }else if(itemId == R.id.audit){
                     ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new AuditTrails();
+                }else if(itemId == R.id.invoices){
+                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    frag = new Dashboard();
+                }else if(itemId == R.id.firm_profile){
+                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    frag = new Dashboard();
+                }else if(itemId == R.id.Version){
+                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    frag = new Dashboard();
+                }else if(itemId == R.id.email){
+                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    frag = new Dashboard();
+                }else if(itemId == R.id.logout){
+                    ll_bottom_menu.setVisibility(View.VISIBLE);
+                    confirmLogout();
                 }
 //                else if (itemId == R.id.CredentialDocuments) {
 //                    frag = new Credential_Docs();
@@ -385,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     }
 
     private void closeMenu() {
+        loadRecyclerview();
         iv_open_menu.setVisibility(View.VISIBLE);
         iv_close_menu.setVisibility(View.GONE);
 //            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.down_arrow));
@@ -401,6 +463,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     }
 
     private void openMenu() {
+        loadRecyclerview();
         iv_close_menu.setVisibility(View.VISIBLE);
         iv_open_menu.setVisibility(View.GONE);
 //            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.up_arrow));
@@ -481,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (getSupportFragmentManager().getFragments().get(0) instanceof Dashboard)
-                logout();
+                confirmLogout();
             else
                 super.onBackPressed();
         }
@@ -494,7 +557,32 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         }
         return super.onOptionsItemSelected(item);
     }
+    private void confirmLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        performLogout();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 
+    private void performLogout() {
+        // Clear SharedPreferences or any other session data here
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear(); // This will clear all data in SharedPreferences
+        editor.apply();
+
+        // Optionally, redirect the user to the LoginActivity
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish(); // To close the MainActivity and remove it from the back stack
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

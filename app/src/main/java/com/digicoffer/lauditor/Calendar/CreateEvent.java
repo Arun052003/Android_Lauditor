@@ -1792,7 +1792,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     if (timezone_offset.matches(String.valueOf((hours)))) {
                         sp_time_zone.setSelection(j);
                         offset = Integer.parseInt(timeZonesList.get(sp_time_zone.getSelectedItemPosition()).getGMT());
-
                         timezone_location = (timeZonesList.get(sp_time_zone.getSelectedItemPosition()).getNAME());
                     }
                 }

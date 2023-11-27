@@ -7,7 +7,7 @@ public class TeamChatModel {
    String tm_message;
    int count;
 
-    public TeamChatModel(String time, String tm_name, String tm_message, int count) {
+    public TeamChatModel(String time, String tm_name, String tm_message) {
         this.time = time;
         this.tm_name = tm_name;
         this.tm_message = tm_message;

@@ -15,8 +15,6 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:orientation="horizontal"
-
-        app:layout_constraintBottom_toTopOf="@+id/tv_bhours"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,61 +25,71 @@
             android:id="@+id/imageView5"
             android:layout_width="50dp"
             android:layout_height="50dp"
-
-            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_gravity="top|center_horizontal"
             android:contentDescription="@string/todo"
-
             android:src="@drawable/no_of_groups_icon" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="bottom"
+        android:padding="10dp"
+        android:text="Total"
+        android:textColor="@color/black"
+        android:textSize="@dimen/twenty_dp" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
+        <TextView
+            android:id="@+id/tv_bhours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Number of Groups"
+            android:textColor="@color/Blue_text_color"
+            android:textSize="@dimen/thirty_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline7"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/guideline8"
+            app:layout_constraintTop_toBottomOf="@+id/ll_1" />
+
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_nog_count"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
             android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="bottom"
-            android:padding="10dp"
-            android:text="Total"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp" />
-
+            android:text="5"
+            android:textColor="@color/green_count_color"
+            android:textSize="40dp"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <TextView
-        android:id="@+id/tv_bhours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:text="Number of Groups"
-        android:textColor="@color/Blue_text_color"
-        android:textSize="@dimen/thirty_dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline7"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/ll_1" />
+</LinearLayout>
 
 
-    <TextView
-        android:id="@+id/tv_nog_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:text="5"
-        android:textColor="@color/green_count_color"
-        android:textSize="@dimen/Fifty_dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline7"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@id/ll_1"
-        app:layout_constraintVertical_bias="1.0" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"

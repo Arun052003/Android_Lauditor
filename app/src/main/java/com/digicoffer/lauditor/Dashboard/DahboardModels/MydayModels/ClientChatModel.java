@@ -6,7 +6,7 @@ public class ClientChatModel {
    String chat_message;
    int count;
 
-    public ClientChatModel(String time, String client_name, String chat_message, int count) {
+    public ClientChatModel(String time, String client_name, String chat_message) {
         this.time = time;
         Client_name = client_name;
         this.chat_message = chat_message;

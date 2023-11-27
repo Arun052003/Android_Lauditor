@@ -27,18 +27,18 @@
         android:layout_weight="1"
         android:gravity="start"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/tv_active_members_count"
+
         app:layout_constraintLeft_toRightOf="@id/imageView5"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <TextView
 
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
-            android:fontFamily="sans-serif-condensed-light"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="start"
             android:padding="5dp"
             android:text="Data Storage"
@@ -47,12 +47,12 @@
 
         <TextView
 
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="sans-serif-condensed-light"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="start"
-
+            android:layout_weight="1"
             android:padding="5dp"
             android:text="Balance Storage"
             android:textColor="@color/Blue_text_color"
@@ -93,6 +93,7 @@
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-condensed-light"
                 android:padding="5dp"
+                android:textStyle="bold"
                 android:text="128"
                 android:textColor="@color/green_count_color"
                 android:textSize="@dimen/Fifty_dp">
@@ -108,7 +109,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="bottom"
                 android:padding="5dp"
-                android:text="Matters"
+                android:text="GB"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
 
@@ -133,6 +134,7 @@
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-condensed-light"
                 android:padding="5dp"
+                android:textStyle="bold"
                 android:text="4"
                 android:textColor="@color/green_count_color"
                 android:textSize="@dimen/Fifty_dp">
@@ -148,7 +150,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Matters"
+                android:text="GB"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
 

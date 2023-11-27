@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:orientation="horizontal"
-        android:padding="10dp"
+
         app:layout_constraintBottom_toTopOf="@+id/tv_tm_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -26,12 +26,12 @@
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
 
             android:layout_gravity="center"
             android:contentDescription="@string/todo"
 
-            android:src="@drawable/team_chat_icon" />
+            android:background="@drawable/team_chat_icon" />
 
         <TextView
             android:id="@+id/textView2"
@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:fontFamily="sans-serif-condensed-light"
             android:gravity="bottom"
             android:padding="10dp"
@@ -46,29 +47,18 @@
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/Login_header" />
 
-        <TextView
-            android:id="@+id/tv_tm_count"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@drawable/round_buttons_meeting_card"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/Fifteen_dp" />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginEnd="4dp"
         android:contentDescription="@string/todo"
-        android:background="@drawable/profile_button_profile_icon"
-
+        android:background="@drawable/star_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline8"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +71,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="Mon 10:22AM"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toTopOf="@id/tv_tm_name"
         app:layout_constraintEnd_toStartOf="@id/guideline7"
         app:layout_constraintHorizontal_bias="0.0"
@@ -91,10 +82,12 @@
         android:id="@+id/tv_tm_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:textSize="@dimen/twenty_dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Raksha S"
+        android:textStyle="bold"
         android:textColor="@color/green_count_color"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_tm_message"
         app:layout_constraintEnd_toStartOf="@id/guideline7"
         app:layout_constraintHorizontal_bias="0.0"
@@ -105,11 +98,11 @@
         android:id="@+id/tv_tm_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="I'm having breakfast,Can we talk at 12?"
         android:textColor="@color/grey_color_dark"
-        android:textSize="@dimen/small_size"
+        android:textSize="@dimen/Fifteen_dp"
         app:layout_constraintEnd_toStartOf="@id/guideline7"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/guideline8"

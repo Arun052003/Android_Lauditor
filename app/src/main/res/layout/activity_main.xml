@@ -23,9 +23,25 @@
             android:layout_height="match_parent"
             app:headerLayout="@layout/header"
             app:menu="@menu/nav_items"
+
+            app:itemVerticalPadding="3dp"
+            app:itemIconTint="@color/black"
+            app:itemHorizontalPadding="5dp"
+
             android:layout_gravity="start" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintVertical_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_bottom_menu"
@@ -41,6 +57,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <ImageButton
             android:id="@+id/iv_up_arrow"
@@ -143,6 +160,19 @@
     <!--                            android:text="Documents"-->
     <!--                            android:layout_marginBottom="80dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fb_timesheets"
         android:layout_width="wrap_content"

@@ -115,7 +115,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:padding="5dp"
-                android:text="Not Submitted Members"
+                android:text="Pending TimeSheets"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
             <TextView
@@ -153,7 +153,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:padding="5dp"
-                android:text="Submitted Members"
+                android:text="Submitted TimeSheets"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
             <TextView

@@ -3,55 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:padding="10dp"
     android:background="@drawable/dashboard_screens_background"
-    android:layout_height="wrap_content">
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/new_clients"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ll_3"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="start"
         android:orientation="horizontal"
+        app:layout_constraintLeft_toRightOf="@id/imageView5"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/new_clients" />
         <TextView
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
-            android:fontFamily="sans-serif-condensed-light"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="start"
             android:padding="5dp"
             android:text="New Clients"
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/thirty_dp" />
 
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="top"
+        android:gravity="start"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/imageView5"
         app:layout_constraintTop_toBottomOf="@id/ll_3"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints">
-
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -59,9 +68,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+
             android:gravity="start"
             android:orientation="horizontal"
             tools:ignore="MissingConstraints">
+
             <TextView
                 android:id="@+id/tv_newclients_legal_count"
                 android:layout_width="wrap_content"
@@ -69,14 +80,15 @@
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-condensed-light"
                 android:padding="5dp"
-                android:text="2"
+                android:text="128"
                 android:textColor="@color/green_count_color"
-                android:textSize="@dimen/Fifty_dp">
+                android:textSize="@dimen/Fifty_dp"
+                android:textStyle="bold">
 
             </TextView>
 
             <TextView
-                android:id="@+id/tv_closed_members"
+                android:id="@+id/tv_first_client_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -84,11 +96,9 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="bottom"
                 android:padding="5dp"
-                android:text="Legal"
+                android:text="GB"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
-
-
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -98,11 +108,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:layout_marginLeft="25dp"
             android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
-
             tools:ignore="MissingConstraints">
+
             <TextView
                 android:id="@+id/tv_newclients_civil_count"
                 android:layout_width="wrap_content"
@@ -110,25 +121,25 @@
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-condensed-light"
                 android:padding="5dp"
-                android:text="3"
+                android:text="4"
                 android:textColor="@color/green_count_color"
-                android:textSize="@dimen/Fifty_dp">
+                android:textSize="@dimen/Fifty_dp"
+                android:textStyle="bold">
 
             </TextView>
+
             <TextView
-                android:id="@+id/tv_active_members"
+                android:id="@+id/tv_second_client_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="start"
+                android:gravity="center"
                 android:padding="5dp"
-                android:text="Civil"
+                android:text="GB"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
-
-
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

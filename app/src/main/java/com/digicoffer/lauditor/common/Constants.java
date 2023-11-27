@@ -19,7 +19,7 @@ public class Constants {
     public static Boolean ISPRODUCTION = false;
     public static String MATTER_TYPE = "";
 
-//    public static String MyDay_KPI =
+    //    public static String MyDay_KPI =
     public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
     public static String BIZ_URL = ISPRODUCTION ? "https://api.digicoffer.com/business/" : "https://apidev.digicoffer.com/business/";
     //    public static String PROF_URL = "http://10.0.2.2:8011/professional/";
@@ -28,16 +28,16 @@ public class Constants {
 //    public static String BIZ_URL = "http://10.0.2.2:8011/business/";
 //    public static String base_URL = "";
     //    public static String base_URL = "https://apidev.digicoffer.com/business/";
-    public static String USER_ID ="";
-    public static String FIRM_NAME ="";
+    public static String USER_ID = "";
+    public static String FIRM_NAME = "";
     public static boolean IS_ADMIN = true;
-    public static String UID ="";
+    public static String UID = "";
     public static String ROLE = "";
-    public static String PASSWORD_MODE="";
-    public static String OLD_PASSWORD="";
+    public static String PASSWORD_MODE = "";
+    public static String OLD_PASSWORD = "";
     public static String COUNT = "";
-    public static String PK="";
-    public static String VERSION = ISPRODUCTION? "1.0.2" : "1.0.29";
+    public static String PK = "";
+    public static String VERSION = ISPRODUCTION ? "1.0.2" : "1.0.29";
     //    public static String XMPP_DOMAIN = "dev.chat.digisecitus.com";
     public static String XMPP_DOMAIN = ISPRODUCTION ? "chat.digicoffer.com" : "devchat.vitacape.com";
     public static String DOWNLOAD_VIEWFILE_TAG = "DOWNLOAD_VIEWFILE";
@@ -52,4 +52,19 @@ public class Constants {
 
     public static String chat_SENT = "SENT";
     public static String chat_RECEIVE = "RECEIVE";
+    public static String meetingApiEndpoint = "v3/dashboard/meeting/-330";
+    public static String chatRelationshipApiEndpoint = "v3/dashboard/otherapi";
+    public static String clientTeamApiEndpoint = "v3/dashboard/chat-team";
+    public static String emailApiEndpoint = "v3/dashboard/email";
+    public static String hoursEndpoint = "v3/dashboard/hours";
+    public static String hiringEndpoint = "v3/dashboard/hiring";
+    public static String storageEndpoint = "v3/dashboard/storage";
+    public static String timesheetEndpoint = "v3/dashboard/timesheet";
+    public static String matterEndpoint = "v3/dashboard/matter";
+    public static String subscriptionEndpoint = "v3/dashboard/subscription";
+    public static String groupsEndpoint = "v3/dashboard/groupsandtms";
+    public static String newclientEndpoint = "v3/dashboard/new-clients";
+    public static String externalCounselsEndpoint = "v3/dashboard/external-counsels";
+    public static String relationshipsEndpoint = "v3/dashboard/relationships";
+    public static String notificationEndpoint = "v3/dashboard/notification";
 }

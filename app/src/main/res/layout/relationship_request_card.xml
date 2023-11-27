@@ -14,94 +14,165 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:orientation="horizontal"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_requested_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/imageView5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.033"
         tools:ignore="MissingConstraints">
 
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/client_relationship" />
 
         <TextView
-            android:id="@+id/tv_client_name"
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:layout_marginLeft="50dp"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="bottom"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="start"
             android:padding="10dp"
-            android:text="Jhon Smith "
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp" />
+            android:text="Client Relationship"
+            android:textColor="@color/Blue_text_color"
+            android:textSize="@dimen/thirty_dp" />
 
-        <TextView
-            android:id="@+id/tv_requests_count"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@drawable/round_buttons_meeting_card"
-            android:fontFamily="sans-serif-condensed-medium"
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="start"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_1"
+        app:layout_constraintVertical_bias="0.033"
+        tools:ignore="MissingConstraints">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
             android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
 
-            android:text="1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/Fifteen_dp" />
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/tv_total_team_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:padding="5dp"
+                android:text="Accepted"
+                android:textColor="@color/black"
+                android:textSize="@dimen/Fifteen_dp" />
+            <TextView
+                android:id="@+id/tv_accepted_relationships"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:padding="5dp"
+                android:text="30"
+                android:textColor="@color/green_count_color"
+                android:textSize="@dimen/Fifty_dp">
+
+            </TextView>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="start"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/tv_not_submitted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:padding="5dp"
+                android:text="Pending"
+                android:textColor="@color/black"
+                android:textSize="@dimen/Fifteen_dp" />
+            <TextView
+                android:id="@+id/tv_pending_relationships"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:padding="5dp"
+                android:text="3"
+                android:textColor="@color/green_count_color"
+                android:textSize="@dimen/Fifty_dp">
+
+            </TextView>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="start"
+            android:layout_weight="1"
+            android:orientation="vertical"
+
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/tv_submitted_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:padding="5dp"
+                android:text="Deleted"
+                android:textColor="@color/black"
+                android:textSize="@dimen/Fifteen_dp" />
+            <TextView
+                android:id="@+id/tv_deleted_timesheets"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:padding="5dp"
+                android:text="27"
+                android:textColor="@color/green_count_color"
+                android:textSize="@dimen/Fifty_dp">
+
+            </TextView>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="50dp"
-        android:layout_height="100dp"
-
-        android:layout_gravity="center"
-        android:contentDescription="@string/todo"
-
-        android:src="@drawable/notification_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/tv_requested_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:text="Feb 28 2022 | 08:18 AM"
-        android:textSize="@dimen/Fifteen_dp"
-        android:textColor="@color/Blue_text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline7"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/ll_1" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.17" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="1.0" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="336dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

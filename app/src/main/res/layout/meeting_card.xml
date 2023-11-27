@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:orientation="horizontal"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_time_meeting"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,73 +27,110 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
 
-            android:layout_gravity="center"
             android:contentDescription="@string/todo"
-
-            android:src="@drawable/group_icon" />
-
+            android:layout_gravity="center"
+            android:background="@drawable/group_icon"
+             />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dp"
+            android:padding="5dp"
             android:fontFamily="sans-serif-condensed-light"
             android:textColor="@color/Blue_text_color"
             android:layout_gravity="center"
             android:gravity="bottom"
             android:textSize="@dimen/Login_header"
             android:text="@string/meeting"
-             />
+            />
 
-            <TextView
-                android:id="@+id/tv_count_meeting"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:background="@drawable/round_buttons_meeting_card"
-                android:textSize="@dimen/Fifteen_dp"
-                android:textColor="@color/white"
-                android:text="1"
-                />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/tv_from_ts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/twenty_dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="@string/_09_00_to_09_30"
+            />
+        <TextView
+            android:id="@+id/tv_time_meeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textStyle="bold"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="to"
+            />
+        <TextView
+            android:id="@+id/tv_to_ts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/twenty_dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="@string/_09_00_to_09_30"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>
+
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+
+
     <TextView
-        android:id="@+id/tv_time_meeting"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/_09_00_to_09_30"
-        app:layout_constraintBottom_toTopOf="@id/textView4"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Subject"
+        android:textStyle="bold"
+        android:textSize="@dimen/Fifteen_dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tv_subject_meeting"
         app:layout_constraintEnd_toStartOf="@id/guideline7"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/ll_1" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Subject"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/tv_subject_meeting"
-        app:layout_constraintEnd_toStartOf="@id/guideline7"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/tv_time_meeting" />
-
-    <TextView
         android:id="@+id/tv_subject_meeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:textSize="@dimen/twenty_dp"
+        android:fontFamily="sans-serif-condensed"
         android:text="@string/meeting_with_tripathi"
         android:textColor="@color/Blue_text_color"
         app:layout_constraintEnd_toStartOf="@id/guideline7"

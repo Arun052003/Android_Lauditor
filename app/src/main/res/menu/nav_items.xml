@@ -5,59 +5,99 @@
 
         <item
             android:id="@+id/Dashboard"
+            android:icon="@drawable/dashboard_new"
 
             android:title="Dashboard" />
         <item
+            android:id="@+id/firm_profile"
+            android:icon="@drawable/profile_icon_menu"
+            android:title="Firm Profile" />
+        <item
             android:id="@+id/matter"
+            android:icon="@drawable/closed_matters"
+            android:iconTint="@color/black"
+
             android:title="Matter">
 
         </item>
         <item
             android:id="@+id/documents"
+            android:icon="@drawable/document"
             android:title="Documents">
 
         </item>
         <item
+            android:id="@+id/relationships"
+            android:icon="@drawable/relationship"
+            android:title="Relationships">
+        </item>
+        <item
+            android:id="@+id/timesheets"
+            android:icon="@drawable/timesheet"
+            android:title="Timesheets">
+
+        </item>
+        <item
             android:id="@+id/calendar"
+            android:icon="@drawable/meeting_new"
             android:title="Meetings">
 
 
         </item>
         <item
-            android:id="@+id/relationships"
-
-            android:title="Relationships">
-        </item>
-        <item
-            android:id="@+id/groups"
-            android:title="Groups">
-
-        </item>
-        <item
-            android:id="@+id/timesheets"
-            android:title="Timesheets">
-
-        </item>
-        <item
-            android:id="@+id/members"
-            android:title="Members">
-
-        </item>
-        <item
-            android:id="@+id/notifications"
-            android:title="Notifications">
+            android:id="@+id/email"
+            android:icon="@drawable/email_icon_dashboard"
+            android:iconTint="@color/black"
+            android:title="Email">
 
         </item>
         <item
             android:id="@+id/chat"
+            android:icon="@drawable/client_chat_icon"
             android:title="Messages">
 
         </item>
         <item
+            android:id="@+id/notifications"
+android:icon="@drawable/notification_icon"
+            android:title="Notifications">
+
+        </item>
+        <item
             android:id="@+id/audit"
+            android:icon="@drawable/audit_new"
             android:title="Audit">
 
         </item>
+
+        <item
+            android:id="@+id/groups"
+
+            android:icon="@drawable/groups_new"
+            android:title="Groups">
+
+        </item>
+
+        <item
+            android:id="@+id/members"
+            android:icon="@drawable/groups_icon"
+            android:title="Members">
+
+        </item>
+        <item
+            android:id="@+id/invoices"
+            android:icon="@drawable/invoice_icon"
+            android:title="Invoice">
+
+        </item>
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/logout_image"
+            android:title="Logout">
+
+        </item>
+
 <!--        <item android:title="Relationships">-->
 <!--            <menu>-->
 <!--                <item-->
@@ -101,7 +141,7 @@
 
                 <item
                     android:id="@+id/Version"
-
+                    android:icon="@drawable/app_version_icon"
                     android:title="" />
 
 <!--            </menu>-->
