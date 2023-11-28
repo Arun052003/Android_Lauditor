@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -49,6 +50,7 @@ import com.digicoffer.lauditor.Dashboard.MenuAdapter;
 import com.digicoffer.lauditor.Dashboard.SemiCircleLayoutManager;
 import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Groups.Groups;
+import com.digicoffer.lauditor.LoginActivity.FirmsDo;
 import com.digicoffer.lauditor.LoginActivity.LoginActivity;
 import com.digicoffer.lauditor.Matter.Matter;
 import com.digicoffer.lauditor.Members.Members;
@@ -95,22 +97,21 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         ll_bottom_menu = findViewById(R.id.ll_bottom_menu);
 
         // Creating Floating Action Button
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setPadding(-10, -30, -10, -10);
-        linearLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing));
+//        LinearLayout linearLayout = new LinearLayout(this);
+//        linearLayout.setPadding(-10, -30, -10, -10);
+//        linearLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing));
         menu_open1 = new ImageView(this);
+        menu_open1.setPadding(-10, -30, -10, -10);
         menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
-        menu_open1.setEnabled(false);
-        linearLayout.addView(menu_open1);
+//        linearLayout.addView(menu_open1);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(360, 170);
         params.setMargins(0, -10, 0, -40);
         actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
-                .setContentView(linearLayout)
+                .setContentView(menu_open1)
                 .setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_desing))
                 .setLayoutParams(new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.LayoutParams(params))
                 .setPosition(com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.POSITION_BOTTOM_CENTER)
                 .build();
-
 
         // Creating menu items which are also Floating Action Buttons
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
@@ -120,30 +121,86 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         ImageView timesheets_menu = new ImageView(this);
         ImageView documents_menu = new ImageView(this);
         ImageView relationship_menu = new ImageView(this);
-        ImageView Groups_menu = new ImageView(this);
+        ImageView group_menu = new ImageView(this);
+        ImageView team_member_menu = new ImageView(this);
+        ImageView firm_profile_menu = new ImageView(this);
+        ImageView audit_menu = new ImageView(this);
+        ImageView more_menu = new ImageView(this);
 
-        // Set Icon for each menu item
         matter_menu.setPadding(10, 10, 10, 10);
         timesheets_menu.setPadding(10, 10, 10, 10);
         documents_menu.setPadding(10, 10, 10, 10);
-        relationship_menu.setPadding(10, 10, 10, 10);
-        Groups_menu.setPadding(10, 10, 10, 10);
+        relationship_menu.setPadding(15, 10, 15, 10);
+        group_menu.setPadding(10, 10, 10, 10);
+        firm_profile_menu.setPadding(10, 10, 10, 10);
+        more_menu.setPadding(10, 10, 10, 10);
+
+        team_member_menu.setPadding(15, 5, 15, 5);
+
+
+        // Set Icon for each menu item
         matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
         timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
         documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
         relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
-        Groups_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
-        center_menu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
-                .addSubActionView(rLSubBuilder.setContentView(timesheets_menu).build())
-                .addSubActionView(rLSubBuilder.setContentView(documents_menu).build())
-                .addSubActionView(rLSubBuilder.setContentView(relationship_menu).build())
-                .addSubActionView(rLSubBuilder.setContentView(Groups_menu).build())
-                .attachTo(actionButton)
-                .setStartAngle(190)
-                .setEndAngle(350)
-//                    .setRadius(300)
-                .build();
+        group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+        team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+        firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+        audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+        more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+        //..
+
+        //..
+
+        if (Constants.ROLE.equals("SU")) {
+            center_menu = new FloatingActionMenu.Builder(this)
+                    .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
+                    .addSubActionView(rLSubBuilder.setContentView(timesheets_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(documents_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(relationship_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(group_menu).build())
+                    .attachTo(actionButton)
+                    .setStartAngle(190)
+                    .setEndAngle(350)
+//                    .setRadius(280)
+                    .build();
+        } else if (Constants.ROLE.equals("GH")) {
+            center_menu = new FloatingActionMenu.Builder(this)
+                    .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
+                    .addSubActionView(rLSubBuilder.setContentView(timesheets_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(documents_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(relationship_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(more_menu).build())
+                    .attachTo(actionButton)
+                    .setStartAngle(190)
+                    .setEndAngle(350)
+//                    .setRadius(280)
+                    .build();
+        } else if (Constants.ROLE.equals("AAM")) {
+            center_menu = new FloatingActionMenu.Builder(this)
+                    .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
+                    .addSubActionView(rLSubBuilder.setContentView(group_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(team_member_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(audit_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(firm_profile_menu).build())
+                    .attachTo(actionButton)
+                    .setStartAngle(190)
+                    .setEndAngle(350)
+//                    .setRadius(280)
+                    .build();
+        } else {
+            center_menu = new FloatingActionMenu.Builder(this)
+                    .addSubActionView(rLSubBuilder.setContentView(matter_menu).setLayoutParams(new FrameLayout.LayoutParams(200, 200)).build())
+                    .addSubActionView(rLSubBuilder.setContentView(timesheets_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(documents_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(relationship_menu).build())
+                    .addSubActionView(rLSubBuilder.setContentView(more_menu).build())
+                    .attachTo(actionButton)
+                    .setStartAngle(190)
+                    .setEndAngle(350)
+//                    .setRadius(280)
+                    .build();
+        }
 
         center_menu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
             @Override
@@ -162,6 +219,26 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             public void onClick(View v) {
                 Fragment fragment = new Matter();
                 fab_menu(fragment);
+                matter_menu.setImageDrawable(getDrawable(R.drawable.matter_white));
+                matter_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                //..
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
             }
         });
 
@@ -170,6 +247,26 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             public void onClick(View v) {
                 Fragment fragment = new TimeSheets();
                 fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                timesheets_menu.setImageDrawable(getDrawable(R.drawable.timesheets_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
             }
         });
 
@@ -178,6 +275,26 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             public void onClick(View v) {
                 Fragment fragment = new Documents();
                 fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                documents_menu.setImageDrawable(getDrawable(R.drawable.documents_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
             }
         });
 
@@ -187,14 +304,162 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
                 Fragment fragment = new ClientRelationship();
                 fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                relationship_menu.setImageDrawable(getDrawable(R.drawable.relationship_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
             }
         });
-        Groups_menu.setOnClickListener(new View.OnClickListener() {
+        group_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Fragment fragment = new Groups();
                 fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                group_menu.setImageDrawable(getDrawable(R.drawable.groups_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
+        });
+        team_member_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Members();
+                fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.team_member_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
+        });
+        firm_profile_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Dashboard();
+                fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                firm_profile_menu.setImageDrawable(getDrawable(R.drawable.firm_profile_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
+        });
+        audit_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new AuditTrails();
+                fab_menu(fragment);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                audit_menu.setImageDrawable(getDrawable(R.drawable.audit_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                more_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.more_menu_icon));
+                //..
+                more_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
+        });
+        more_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dLayout.openDrawer(GravityCompat.START);
+                center_menu.close(true);
+                matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                documents_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                relationship_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                group_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                team_member_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                firm_profile_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                audit_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                more_menu.setBackground(getDrawable(R.drawable.circular_button_background));
+                more_menu.setImageDrawable(getDrawable(R.drawable.more_white));
+                //..
+                matter_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.matters_menu_icon));
+                timesheets_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timesheets_menu_icon));
+                documents_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.documents_menu_icon));
+                relationship_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.relationship_menu_icon));
+                group_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.group_menu_icon));
+                team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.teammember_menu_icon));
+                firm_profile_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.firm_profile_menu_icon));
+                audit_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.audit_menu_icon));
+                //..
             }
         });
 
@@ -239,6 +504,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     if (!dLayout.isDrawerOpen(GravityCompat.START)) {
                         dLayout.openDrawer(GravityCompat.START);
                         actionButton.setVisibility(View.GONE);
+                        center_menu.close(true);
 //                        ll_bottom_menu.setVisibility(View.GONE);
                     } else {
                         dLayout.closeDrawer(GravityCompat.END);
@@ -364,22 +630,22 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     }
 
     private void loadRecyclerview() {
-        menuList.add(new MenuModels("Matters",R.drawable.matter));
-        menuList.add(new MenuModels("Documents",R.drawable.document));
-        menuList.add(new MenuModels("Relationships",R.drawable.relationship));
-        menuList.add(new MenuModels("Timesheets",R.drawable.timesheet));
-        menuList.add(new MenuModels("Meetings",R.drawable.meeting_new));
-        menuList.add(new MenuModels("Emails",R.drawable.email_icon_dashboard));
-        menuList.add(new MenuModels("Messages",R.drawable.client_chat_icon));
-        menuList.add(new MenuModels("Notifications",R.drawable.notification_icon));
-        menuList.add(new MenuModels("Audits",R.drawable.audit_new));
-        menuList.add(new MenuModels("Groups",R.drawable.groups_icon));
-        menuList.add(new MenuModels("Invoice",R.drawable.invoice_icon));
+        menuList.add(new MenuModels("Matters", R.drawable.matter));
+        menuList.add(new MenuModels("Documents", R.drawable.document));
+        menuList.add(new MenuModels("Relationships", R.drawable.relationship));
+        menuList.add(new MenuModels("Timesheets", R.drawable.timesheet));
+        menuList.add(new MenuModels("Meetings", R.drawable.meeting_new));
+        menuList.add(new MenuModels("Emails", R.drawable.email_icon_dashboard));
+        menuList.add(new MenuModels("Messages", R.drawable.client_chat_icon));
+        menuList.add(new MenuModels("Notifications", R.drawable.notification_icon));
+        menuList.add(new MenuModels("Audits", R.drawable.audit_new));
+        menuList.add(new MenuModels("Groups", R.drawable.groups_icon));
+        menuList.add(new MenuModels("Invoice", R.drawable.invoice_icon));
 
         recyclerView = findViewById(R.id.rv_menu);
-        Animation animation = AnimationUtils.loadAnimation(this,R.anim.rotate);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
         recyclerView.startAnimation(animation);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         MenuAdapter menuAdapter = new MenuAdapter(menuList);
         recyclerView.setAdapter(menuAdapter);
@@ -419,20 +685,20 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             }
         });
 
-        if(Constants.ROLE.equals("AAM")){
+        if (Constants.ROLE.equals("AAM")) {
             nav_Menu.findItem(R.id.matter).setVisible(false);
             nav_Menu.findItem(R.id.documents).setVisible(false);
             nav_Menu.findItem(R.id.relationships).setVisible(false);
             nav_Menu.findItem(R.id.email).setVisible(false);
 //            nav_Menu.findItem(R.id.chat).setVisible(false);
             nav_Menu.findItem(R.id.invoices).setVisible(false);
-        }else if(Constants.ROLE.equals("SU")){
+        } else if (Constants.ROLE.equals("SU")) {
             nav_Menu.findItem(R.id.firm_profile).setVisible(false);
-        }else if(Constants.ROLE.equals("GH")){
+        } else if (Constants.ROLE.equals("GH")) {
             nav_Menu.findItem(R.id.firm_profile).setVisible(false);
             nav_Menu.findItem(R.id.groups).setVisible(false);
             nav_Menu.findItem(R.id.members).setVisible(false);
-        }else {
+        } else {
             nav_Menu.findItem(R.id.firm_profile).setVisible(false);
             nav_Menu.findItem(R.id.groups).setVisible(false);
             nav_Menu.findItem(R.id.members).setVisible(false);
@@ -450,63 +716,63 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
 
-                }else if(itemId == R.id.notifications){
+                } else if (itemId == R.id.notifications) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Notifications();
-                }else if(itemId == R.id.matter){
+                } else if (itemId == R.id.matter) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Matter();
-                }else if(itemId == R.id.documents){
+                } else if (itemId == R.id.documents) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Documents();
-                }else if(itemId == R.id.calendar){
+                } else if (itemId == R.id.calendar) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Meetings();
-                }else if(itemId == R.id.relationships){
+                } else if (itemId == R.id.relationships) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new ClientRelationship();
-                }else if(itemId == R.id.groups){
+                } else if (itemId == R.id.groups) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Groups();
-                }else if(itemId == R.id.timesheets){
+                } else if (itemId == R.id.timesheets) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new TimeSheets();
-                }else if(itemId == R.id.members){
+                } else if (itemId == R.id.members) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Members();
-                }else if(itemId == R.id.chat){
+                } else if (itemId == R.id.chat) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Chat();
-                }else if(itemId == R.id.audit){
+                } else if (itemId == R.id.audit) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new AuditTrails();
-                }else if(itemId == R.id.invoices){
+                } else if (itemId == R.id.invoices) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
-                }else if(itemId == R.id.firm_profile){
+                } else if (itemId == R.id.firm_profile) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
-                }else if(itemId == R.id.Version){
+                } else if (itemId == R.id.Version) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
-                }else if(itemId == R.id.email){
+                } else if (itemId == R.id.email) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     frag = new Dashboard();
-                }else if(itemId == R.id.logout){
+                } else if (itemId == R.id.logout) {
                     actionButton.setVisibility(View.VISIBLE);
                     // ll_bottom_menu.setVisibility(View.VISIBLE);
                     confirmLogout();
@@ -664,6 +930,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     public void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type) {
 
     }
+
     @Override
     public void onBackPressed() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -685,6 +952,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 super.onBackPressed();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (dtoggle.onOptionsItemSelected(item)) {
@@ -694,6 +962,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void confirmLogout() {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
@@ -708,31 +977,34 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 .show();
     }
 
-        private void performLogout () {
-            // Clear SharedPreferences or any other session data here
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear(); // This will clear all data in SharedPreferences
-            editor.apply();
+    private void performLogout() {
+        // Clear SharedPreferences or any other session data here
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear(); // This will clear all data in SharedPreferences
+        editor.apply();
 
-            // Optionally, redirect the user to the LoginActivity
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish(); // To close the MainActivity and remove it from the back stack
-        }
-    private void fab_menu (Fragment fragment){
+        // Optionally, redirect the user to the LoginActivity
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish(); // To close the MainActivity and remove it from the back stack
+    }
+
+    private void fab_menu(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.id_framelayout, fragment);
         ft.addToBackStack("current_fragment").commit();
         center_menu.close(true);
+        dLayout.closeDrawers();
         menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
     }
-        @Override
-        public void onClick (View v){
-            switch (v.getId()) {
-                case R.id.menu:
 
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.menu:
+
+                break;
         }
     }
+}
