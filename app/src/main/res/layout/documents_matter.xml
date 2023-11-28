@@ -47,11 +47,11 @@
 
         <TextView
             android:id="@+id/matter_date"
-
+             android:layout_marginTop="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/matter_title"
-            android:background="@color/white"
+            android:background="@drawable/rectangle_light_grey_bg"
             android:drawableRight="@drawable/calendar_activity"
             android:text="07-20-2023"
             android:padding="5dp"
@@ -73,31 +73,17 @@
 
             >
 
-            <TextView
-                android:id="@+id/tv_document_library"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/button_left_green_background"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="10dp"
-                android:text="@string/document_library"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp">
+          <include layout="@layout/createmember_layout"
+              android:id="@+id/tv_document_library"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"/>
 
-            </TextView>
 
-            <TextView
-                android:id="@+id/tv_device_drive"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/button_right_background"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="10dp"
-                android:text="@string/device_drive"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp">
 
-            </TextView>
+           <include layout="@layout/viewmember_layout"
+               android:id="@+id/tv_device_drive"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
         <LinearLayout
             android:id="@+id/ll_add_documents"
@@ -114,32 +100,21 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/add_groups"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="@string/add_documents"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
+              <include layout="@layout/group_layout"
+                  android:id="@+id/add_groups"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
 
-                </TextView>
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/asterisk_icon">
-
-                </ImageView>
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tl_add_groups"
-
+                android:layout_marginTop="7dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_grey_background"
+                android:background="@drawable/rectangle_light_grey_bg"
                 android:textColorHint="@color/black"
                 app:boxBackgroundMode="none">
 
@@ -148,27 +123,25 @@
                 <TextView
                     android:id="@+id/at_add_documents"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:enabled="true"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="15dp"
-                    android:drawableRight="@drawable/spinner_drop_down"
+                    android:layout_marginTop="7dp"
+                    android:drawableRight="@drawable/drops_down"
                     android:text="Select Documents"
                     android:textColor="@color/Blue_text_color"
                     android:textSize="15dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_add_documents"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/add"
-                android:textAllCaps="false"
-                android:layout_gravity="right">
-
-            </Button>
+         <include layout="@layout/add_button"
+             android:id="@+id/btn_add_documents"
+             android:layout_width="100dp"
+             android:layout_height="40dp"
+             android:layout_marginTop="5dp"
+             android:layout_gravity="right"/>
 
         </LinearLayout>
 
@@ -187,22 +160,12 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <include layout="@layout/group_layout"
+                android:id="@+id/select_all"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="Select Document(s)"
-                android:textColor="@color/Blue_text_color"
-                android:textSize="@dimen/Fifteen_dp">
+                android:layout_height="wrap_content"/>
 
-            </TextView>
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="10dp"
-                android:src="@drawable/asterisk_icon">
-
-            </ImageView>
+          <include layout="@layout/icon"/>
 
         </LinearLayout>
 
@@ -212,41 +175,22 @@
             android:orientation="horizontal">
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_selected_file"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ll_client_name"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/rectangle_grey_background"
-                android:gravity="center"
-                android:hint="Search Documents"
-                android:textColorHint="@color/black"
-                app:boxBackgroundMode="none">
 
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_selected_file"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:enabled="false"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="15dp" />
+            <include
+                android:id="@+id/tv_selected_file"
+                layout="@layout/group_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
+            <include
                 android:id="@+id/btn_browse"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:layout_weight="0.7"
-                android:text="Browse">
-
-            </Button>
+                layout="@layout/submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
         </LinearLayout>
 
@@ -279,36 +223,13 @@
             android:orientation="horizontal"
             android:visibility="visible">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_cancel_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/cancel_button_background"
-                android:elevation="20dp"
-                android:text="@string/cancel"
-                android:textAllCaps="false">
+           <include layout="@layout/cancel_button"
+               android:id="@+id/btn_cancel_save"
+              />
 
-            </androidx.appcompat.widget.AppCompatButton>
+      <include layout="@layout/submit_button"
+          android:id="@+id/btn_submit"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/save_button_background"
-                android:elevation="@dimen/Fifteen_dp"
-                android:gravity="center"
-                android:text="Submit"
-                android:textAllCaps="false"
-                android:textColor="@color/white">
-
-            </androidx.appcompat.widget.AppCompatButton>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
     </androidx.cardview.widget.CardView>

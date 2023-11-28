@@ -61,14 +61,21 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.matter_information, container, false);
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
         tv_matter_title.setHint("Case Title");
+        tv_matter_title.setTextSize(14);
+
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
         tv_matter_num.setHint("Case Number");
+        tv_matter_num.setTextSize(14);
+
         tv_case_type = view.findViewById(R.id.tv_case_type);
         tv_case_type.setHint("Case Type");
+        tv_case_type.setTextSize(14);
         description_name = view.findViewById(R.id.description_name);
         description_name.setText("Description");
+
         Title = view.findViewById(R.id.Title_name);
         Title.setText(" Case Title");
+
         datefill = view.findViewById(R.id.datefill);
         datefill.setText("Date of Filling");
         start_date =  view.findViewById(R.id.start_date);
@@ -96,17 +103,23 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         ll_start_date = view.findViewById(R.id.ll_start_date);
         tv_start_date = view.findViewById(R.id.tv_start_date);
         tv_start_date.setHint("Start Data");
+        tv_start_date.setTextSize(14);
         tv_end_date = view.findViewById(R.id.tv_end_date);
         tv_end_date.setHint("Close Data");
+        tv_end_date.setTextSize(14);
 
         tv_matter_description = view.findViewById(R.id.tv_matter_description);
         tv_matter_description.setHint("Description");
+        tv_matter_description.setTextSize(14);
         tv_dof = view.findViewById(R.id.tv_dof);
         tv_dof.setHint("Date of filling");
+        tv_dof.setTextSize(14);
         tv_court = view.findViewById(R.id.tv_court);
         tv_court.setHint("Court");
+        tv_court.setTextSize(14);
         tv_judge = view.findViewById(R.id.tv_judge);
         tv_judge.setHint("judge");
+        tv_judge.setTextSize(14);
         tv_high_priority = view.findViewById(R.id.tv_high_priority);
         tv_high_priority.setOnClickListener(this);
         tv_medium_priority = view.findViewById(R.id.tv_medium_priority);

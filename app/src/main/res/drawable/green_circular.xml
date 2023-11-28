@@ -7,7 +7,7 @@
     android:thicknessRatio="2.0"
     android:useLevel="false" >
 
-    <gradient android:angle="45" android:centerColor="@color/green_color_dark" android:endColor="@color/green_color" android:startColor="@color/green_color" android:type="linear" />
+    <gradient android:angle="45" android:centerColor="#007705" android:endColor="#007705" android:startColor="#007705" android:type="linear" />
 
 
     <stroke

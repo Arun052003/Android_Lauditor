@@ -46,7 +46,7 @@ import java.util.Locale;
 
 public class GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
 
-    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members;
+    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members,add_groups,add_clients,tv_assigned_team_members;
     boolean[] selectedLanguage;
     boolean[] selectedClients;
     boolean[] selectedTM;
@@ -85,18 +85,30 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         View view = inflater.inflate(R.layout.gct_layout, container, false);
         matter_date = view.findViewById(R.id.matter_date);
         at_add_groups = view.findViewById(R.id.at_add_groups);
+        at_add_groups.setOnClickListener(this);
+        add_groups = view.findViewById(R.id.add_groups);
+        add_groups.setText("Add Groups");
+        add_clients = view.findViewById(R.id.add_clients);
+        add_clients.setText("Add Clients");
+        tv_assigned_team_members = view.findViewById(R.id.tv_assigned_team_members);
+        tv_assigned_team_members.setText("Assign Team Members");
         at_add_clients = view.findViewById(R.id.at_add_clients);
+        at_add_clients.setOnClickListener(this);
         at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
+        at_assigned_team_members.setOnClickListener(this);
         btn_add_groups = view.findViewById(R.id.btn_add_groups);
+        btn_add_groups.setText("Add");
         selected_groups = view.findViewById(R.id.selected_groups);
         selected_clients = view.findViewById(R.id.selected_clients);
         selected_tm = view.findViewById(R.id.selected_tm);
         btn_add_groups.setOnClickListener(this);
         btn_add_clients = view.findViewById(R.id.btn_add_clients);
+        btn_add_clients.setText("Add");
         btn_add_clients.setOnClickListener(this);
         btn_create = view.findViewById(R.id.btn_create);
         btn_create.setOnClickListener(this);
         btn_assigned_team_members = view.findViewById(R.id.btn_assigned_team_members);
+        btn_assigned_team_members.setText("Add");
         btn_assigned_team_members.setOnClickListener(this);
         ll_selected_groups = view.findViewById(R.id.ll_selected_groups);
         ll_assigned_team_members = view.findViewById(R.id.ll_assigned_team_members);
@@ -344,14 +356,14 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_add_groups:
+            case R.id.at_add_groups:
                 if (groupsList.size() == 0) {
                     callGroupsWebservice();
                 } else {
                     GroupsPopup();
                 }
                 break;
-            case R.id.btn_add_clients:
+            case R.id.at_add_clients:
                 if (clientsList.size() == 0) {
                     callClientsWebservice();
                 } else {
@@ -359,7 +371,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                 }
 
                 break;
-            case R.id.btn_assigned_team_members:
+            case R.id.at_assigned_team_members:
                 if (tmList.size() == 0) {
                     callTMWebservice();
                 } else {
@@ -543,6 +555,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
             View view = inflater.inflate(R.layout.groups_list_adapter, null);
             RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
             ImageView iv_cancel = view.findViewById(R.id.close_groups);
+            iv_cancel.setImageResource(R.drawable.cancel_icon);
             AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
             AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -631,6 +644,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         }
     }
 
+
     @Override
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
         if (progress_dialog != null && progress_dialog.isShowing())
@@ -709,6 +723,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
             View view = inflater.inflate(R.layout.groups_list_adapter, null);
             RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
             ImageView iv_cancel = view.findViewById(R.id.close_groups);
+            iv_cancel.setImageResource(R.drawable.cancel_icon);
             AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
             AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -903,6 +918,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
             View view = inflater.inflate(R.layout.groups_list_adapter, null);
             RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
             ImageView iv_cancel = view.findViewById(R.id.close_groups);
+            iv_cancel.setImageResource(R.drawable.cancel_icon);
             AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
             AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

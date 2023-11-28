@@ -177,7 +177,7 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             btn_view_tags = itemView.findViewById(R.id.btn_view_tags);
             btn_view_tags.setText("View Tags");
             iv_cancel = itemView.findViewById(R.id.iv_cancel);
-            iv_cancel.setImageResource(R.drawable.crossicon);
+            iv_cancel.setImageResource(R.drawable.cancel);
             if (tag == "add_tag") {
                 cb_documents_list.setVisibility(View.VISIBLE);
                 iv_edit_meta.setVisibility(View.GONE);

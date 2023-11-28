@@ -10,12 +10,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +72,7 @@ import java.util.Locale;
 
 public class MatterDocuments extends Fragment implements AsyncTaskCompleteListener,View.OnClickListener ,BottomSheetUploadFile.OnPhotoSelectedListner{
 
-    private TextView tv_tag_document_name,matter_date,tv_document_library,tv_device_drive,at_add_documents,tv_selected_file;
+    private TextView tv_tag_document_name,matter_date,tv_document_library,tv_device_drive,at_add_documents,tv_selected_file,add_groups,select_all;
     private LinearLayout ll_added_tags, ll_add_documents,ll_selected_documents,ll_select_doc,ll_uploaded_documents;
     private Button btn_browse,btn_add_documents;
     String matter_title, case_number, case_type, description, dof,start_date,end_date, court, judge, case_priority, case_status;
@@ -118,22 +120,37 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         Calendar myCalendar = Calendar.getInstance();
         matter_date = view.findViewById(R.id.matter_date);
         tv_document_library = view.findViewById(R.id.tv_document_library);
+        tv_document_library.setText("Document Library");
         tv_document_library.setOnClickListener(this);
         tv_device_drive = view.findViewById(R.id.tv_device_drive);
+        tv_device_drive.setText("Device/Drive");
+        add_groups = view.findViewById(R.id.add_groups);
+        add_groups.setText("Add Documents");
+        select_all = view.findViewById(R.id.select_all);
+        select_all.setText("Select Document(s)");
         tv_device_drive.setOnClickListener(this);
         at_add_documents = view.findViewById(R.id.at_add_documents);
+        at_add_documents.setHint("Select Document(s)");
+        at_add_documents.setOnClickListener(this);
         tv_selected_file = view.findViewById(R.id.tv_selected_file);
+        tv_selected_file.setText(R.string.select_document);
+        tv_selected_file.setGravity(Gravity.CENTER_VERTICAL);
+        tv_selected_file.setTextColor(getContext().getResources().getColor(R.color.black));
+        tv_selected_file.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
+        tv_selected_file.setPadding(20, 0, 0, 0);
         ll_add_documents = view.findViewById(R.id.ll_add_documents);
         ll_selected_documents = view.findViewById(R.id.ll_selected_documents);
         ll_uploaded_documents = view.findViewById(R.id.ll_uploaded_documents);
         ll_select_doc = view.findViewById(R.id.ll_select_doc);
         btn_browse = view.findViewById(R.id.btn_browse);
+        btn_browse.setText("BROWSE");
         btn_browse.setOnClickListener(this);
         btn_add_documents = view.findViewById(R.id.btn_add_documents);
         btn_add_documents.setOnClickListener(this);
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         btn_create = view.findViewById(R.id.btn_submit);
         btn_create.setOnClickListener(this);
+        loadDocumentLibraryUI();
         matter = (Matter) getParentFragment();
         matterArraylist  = matter.getMatter_arraylist();
         if (matterArraylist.size()!=0) {
@@ -339,7 +356,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             case R.id.tv_device_drive:
                 loadDeviceDriveUI();
                 break;
-            case R.id.btn_add_documents:
+            case R.id.at_add_documents:
                 if(documentsList.size()==0) {
                     callDocumentsWebService();
                 }else
@@ -503,7 +520,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        at_add_documents.setText("");
 //        tv_selected_file.setText("");
         tv_document_library.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+        tv_document_library.setTextColor(Color.BLACK);
         tv_device_drive.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        tv_device_drive.setTextColor(Color.WHITE);
         ll_add_documents.setVisibility(View.GONE);
         ll_select_doc.setVisibility(View.VISIBLE);
 //        ll_selected_documents.removeAllViews();
@@ -519,7 +538,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        at_add_documents.setText("");
 //        tv_selected_file.setText("");
         tv_document_library.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_document_library.setTextColor(Color.WHITE);
         tv_device_drive.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_device_drive.setTextColor(Color.BLACK);
         ll_add_documents.setVisibility(View.VISIBLE);
         ll_select_doc.setVisibility(View.GONE);
     }

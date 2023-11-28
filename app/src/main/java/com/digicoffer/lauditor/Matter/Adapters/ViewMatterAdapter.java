@@ -85,6 +85,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
                 holder.tv_initiated.setText("Active");
                 holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.green_circular));
+                actions_List.add(new ActionModel("Close Matter"));
 
             } else if (viewMatterModel.getStatus().equals("Closed")) {
 
