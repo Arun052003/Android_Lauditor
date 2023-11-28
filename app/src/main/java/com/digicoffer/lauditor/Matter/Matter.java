@@ -51,12 +51,15 @@ public class Matter extends Fragment {
         tv_general_matter = view.findViewById(R.id.tv_general_matter);
         tv_general_matter.setText("General Matter");
         tv_create = view.findViewById(R.id.tv_create_matter);
+
         tv_create.setText("Create");
         tv_view = view.findViewById(R.id.tv_view_matter);
         tv_view.setText("View");
 //        siv_upload = view.findViewById(R.id.upload_icon);
 //        siv_view = view.findViewById(R.id.view_icon);
         loadMatterInformation();
+        loadLegalMatter();
+        loadViewUI();
         tv_legal_matter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,13 +165,15 @@ public class Matter extends Fragment {
         tv_general_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_general_matter.setTextColor(Color.WHITE);
         loadMatterInformation();
+        loadViewUI();
+
         mViewModel.setData("General Matter");
     }
 
     public void loadDocuments() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy_white));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterDocuments matterInformation = new MatterDocuments();
         ft.replace(R.id.child_container, matterInformation);
@@ -179,8 +184,8 @@ public class Matter extends Fragment {
 
     public void loadGCT() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.groups_material_icon_white));
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         Fragment childFragment = new GCT();
         FragmentManager childFragmentManager = getChildFragmentManager();
         childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
@@ -189,7 +194,7 @@ public class Matter extends Fragment {
     public void loadMatterInformation() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterInformation matterInformation = new MatterInformation();
         ft.replace(R.id.child_container, matterInformation);

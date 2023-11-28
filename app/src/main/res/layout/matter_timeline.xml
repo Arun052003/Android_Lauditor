@@ -5,27 +5,20 @@
     android:orientation="vertical">
 
     <!-- First text view -->
-    <TextView
-        android:id="@+id/tv_timeline_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:padding="5dp"
-        android:text="First text view"
-        android:textColor="@color/Blue_text_color"
-        android:textSize="@dimen/twenty_dp" />
-
-    <!-- Second text view -->
-    <TextView
-        android:id="@+id/tv_timeline_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:padding="5dp"
-        android:text="Second text view"
-        android:textSize="@dimen/Fifteen_dp" />
+   <include layout="@layout/group_layout"
+       android:id="@+id/tv_timeline_title"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
 
     <!-- Image views -->
+
+    <include
+        android:id="@+id/tv_timeline_date"
+        layout="@layout/group_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

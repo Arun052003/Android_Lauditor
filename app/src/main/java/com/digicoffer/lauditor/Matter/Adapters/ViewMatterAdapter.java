@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.Matter.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -116,6 +118,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, items);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             holder.sp_action.setAdapter(adapter);
+
 //            holder.sp_action.setSelection(Spinner.INVALID_POSITION);
 //            adapter.notifyDataSetChanged();
 
@@ -212,18 +215,51 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 //    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_matter_title, tv_case_number, tv_date_of_filling, tv_client_name, tv_owner_name, tv_initiated;
+        TextView tv_matter_title, tv_case_number, tv_date_of_filling, tv_client_name, tv_owner_name, tv_initiated,filed,textView,owner;
         ImageView iv_initiated;
         Spinner sp_action;
+        LinearLayout action_layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_matter_title = itemView.findViewById(R.id.tv_matter_title);
+            tv_matter_title.setText("Matter Title");
+            tv_matter_title.setTextColor(Color.BLACK);
             tv_case_number = itemView.findViewById(R.id.tv_case_number);
+            tv_case_number.setText("Case Number");
+            action_layout = itemView.findViewById(R.id.action_layout);
+
+            textView = itemView.findViewById(R.id.textView);
+            textView.setText("Client:");
+            textView.setTextColor(Color.BLACK);
+            textView.setTextSize(12);
+            owner = itemView.findViewById(R.id.owner);
+            owner.setText("Owner:");
+            owner.setTextColor(Color.BLACK);
+            owner.setTextSize(12);
+
+
             tv_date_of_filling = itemView.findViewById(R.id.tv_date_of_filling);
+            tv_date_of_filling.setText("Date of Filing");
+            tv_date_of_filling.setTextSize(12);
+            tv_date_of_filling.setTextColor(Color.BLACK);
             tv_client_name = itemView.findViewById(R.id.tv_client_name);
+            tv_client_name.setText("client");
+            tv_client_name.setTextSize(12);
+            tv_client_name.setTextColor(Color.BLACK);
             tv_owner_name = itemView.findViewById(R.id.tv_owner_name);
+            tv_owner_name.setText("owner name");
+            tv_owner_name.setTextSize(12);
+            tv_owner_name.setTextColor(Color.BLACK);
             tv_initiated = itemView.findViewById(R.id.tv_initiated);
+            tv_initiated.setText("Pending");
+            tv_initiated.setTextSize(20);
+            filed = itemView.findViewById(R.id.filed);
+            filed.setText("Filed:");
+            filed.setTextColor(Color.BLACK);
+            filed.setTextSize(12);
+
+
             iv_initiated = itemView.findViewById(R.id.iv_initiated);
             sp_action = itemView.findViewById(R.id.sp_action);
         }
