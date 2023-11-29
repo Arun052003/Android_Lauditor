@@ -129,10 +129,10 @@
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="15dp"
                     android:layout_marginTop="7dp"
-                    android:drawableRight="@drawable/drops_down"
+                    android:drawableRight="@drawable/down_arrow"
                     android:text="Select Documents"
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
