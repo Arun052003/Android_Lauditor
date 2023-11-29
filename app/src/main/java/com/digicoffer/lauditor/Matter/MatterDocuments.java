@@ -356,7 +356,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             case R.id.tv_device_drive:
                 loadDeviceDriveUI();
                 break;
-            case R.id.at_add_documents:
+            case R.id.btn_add_documents:
                 if(documentsList.size()==0) {
                     callDocumentsWebService();
                 }else
@@ -892,6 +892,10 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             View view = inflater.inflate(R.layout.groups_list_adapter, null);
             RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
             ImageView iv_cancel = view.findViewById(R.id.close_groups);
+            iv_cancel.setImageResource(R.drawable.cancel_icon);
+            TextView header_name_group=view.findViewById(R.id.header_name_group);
+            header_name_group.setText(R.string.select_document);
+
             AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
             AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

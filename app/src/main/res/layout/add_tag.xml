@@ -24,12 +24,12 @@
                 android:background="@color/Blue_text_color"
                 android:orientation="horizontal">
 
-                <include
+                <ImageView
                     android:id="@+id/close_tags"
-                    layout="@layout/astrick_layout"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
+                    android:src="@drawable/cancel_icon"
                     android:layout_margin="10dp" />
 
                 <include

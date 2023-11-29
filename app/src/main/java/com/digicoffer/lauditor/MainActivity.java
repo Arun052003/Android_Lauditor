@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         center_menu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
             @Override
             public void onMenuOpened(FloatingActionMenu floatingActionMenu) {
+                dLayout.close();
                 menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_down_icon));
             }
 
@@ -503,8 +504,9 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 public void onClick(View v) {
                     if (!dLayout.isDrawerOpen(GravityCompat.START)) {
                         dLayout.openDrawer(GravityCompat.START);
-                        actionButton.setVisibility(View.GONE);
+//                        actionButton.setVisibility(View.GONE);
                         center_menu.close(true);
+
 //                        ll_bottom_menu.setVisibility(View.GONE);
                     } else {
                         dLayout.closeDrawer(GravityCompat.END);
@@ -692,12 +694,15 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             nav_Menu.findItem(R.id.email).setVisible(false);
 //            nav_Menu.findItem(R.id.chat).setVisible(false);
             nav_Menu.findItem(R.id.invoices).setVisible(false);
+
         } else if (Constants.ROLE.equals("SU")) {
             nav_Menu.findItem(R.id.firm_profile).setVisible(false);
+
         } else if (Constants.ROLE.equals("GH")) {
             nav_Menu.findItem(R.id.firm_profile).setVisible(false);
             nav_Menu.findItem(R.id.groups).setVisible(false);
             nav_Menu.findItem(R.id.members).setVisible(false);
+
         } else {
             nav_Menu.findItem(R.id.firm_profile).setVisible(false);
             nav_Menu.findItem(R.id.groups).setVisible(false);

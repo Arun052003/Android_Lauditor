@@ -451,6 +451,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
 }

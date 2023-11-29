@@ -367,7 +367,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     callUploadDocumentWebservice();
 
 
-
                 }
             });
             tv_add_tag.setOnClickListener(new View.OnClickListener() {
@@ -708,9 +707,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             CheckBox chk_selected_documents = view_added_tags.findViewById(R.id.chk_selected_documents);
             chk_selected_documents.setVisibility(View.GONE);
             ImageView iv_edit_tag = view_added_tags.findViewById(R.id.iv_edit_meta);
-            iv_edit_tag.setImageResource(R.drawable.edit_documents_icon);
             ImageView iv_remove_tag = view_added_tags.findViewById(R.id.iv_cancel);
-            iv_remove_tag.setImageResource(R.drawable.cancel_red_icon);
             iv_remove_tag.setTag(i);
             iv_remove_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -959,9 +956,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                                 doc_type = content_type[1];
                                 docname = content_type[0];
                             }
-
-
-
 
 
                             jsonObject.put("name", docsList.get(i).getName());
@@ -1430,6 +1424,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         webView.loadUrl("https://coffer-east1.s3.amazonaws.com/prof-ACB10A6B53F9D27D/64d1cb6fa1db72042d7521f8?response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIZR2NZO3XRT7O54Q%2F20231116%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231116T061851Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=2f83156b91cd10c789c19519bd84bd6b428dca979fe7440123ffb797f30fb37b\"\n" +
                 pdfUrl);
     }
+
     private void laodViewDocuments(JSONArray docs) throws JSONException {
         try {
             view_docs_list.clear();
