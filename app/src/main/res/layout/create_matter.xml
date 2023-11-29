@@ -28,14 +28,17 @@
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_marginRight="1dp"
-            android:padding="20dp"/>
+            android:padding="20dp"
+            android:textStyle="bold"/>
 
         <include
             android:id="@+id/tv_general_matter"
             layout="@layout/viewmember_layout"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:padding="20dp"/>
+            android:padding="20dp"
+            android:textStyle="bold"
+           />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -60,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="1dp"
+            android:textStyle="bold"
 
 
 
@@ -70,7 +74,8 @@
             android:id="@+id/tv_view_matter"
             layout="@layout/viewmember_layout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:textStyle="bold"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat

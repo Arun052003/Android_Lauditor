@@ -73,22 +73,22 @@ public class EditMatterTimeline extends Fragment {
 
     private void loadTimeline() {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_new_white_icon));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.groups_material_icon));
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
 
     }
     public void loadGCT() {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.groups_material_icon_white));
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
 //        Fragment childFragment = new GCT();
 //        FragmentManager childFragmentManager = getChildFragmentManager();
 //        childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
     public void loadDocuments() {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.groups_material_icon));
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.documents_copy_white));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
 //        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 //        MatterDocuments matterInformation = new MatterDocuments();
 //        ft.replace(R.id.child_container,matterInformation);

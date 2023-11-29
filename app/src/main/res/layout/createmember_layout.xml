@@ -12,12 +12,12 @@
     android:layout_weight="1"
     android:background="@drawable/button_left_background"
     android:fontFamily="@font/gill_sans"
-
+    android:textFontWeight="700"
     android:padding="10dp"
     android:shadowRadius="10"
     android:text="@string/create_members"
     android:textColor="@color/black"
-    android:textFontWeight="700"
+
     android:textSize="@dimen/Fifteen_dp"
 
     android:translationZ="12dp"

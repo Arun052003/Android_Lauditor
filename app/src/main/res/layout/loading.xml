@@ -21,6 +21,7 @@
         android:id="@+id/progress"
         android:layout_width="30dp"
         android:layout_height="30dp"
+
         app:mk_color="@color/Primary"
         android:layout_margin="5dp"
         app:mk_type="ClassicSpinner"
@@ -30,11 +31,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/Blue_text_color"
+        android:textColor="@color/black"
         android:layout_margin="5dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Loading..., Please wait"
+        android:text="Loading..."
        />
     </LinearLayout>
 </RelativeLayout>

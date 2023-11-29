@@ -15,4 +15,4 @@
     android:maxLines="4"
     android:padding="5dp"
     android:textColor="@color/Blue_text_color"
-    android:textSize="15dp" />
+    android:textSize="15sp" />

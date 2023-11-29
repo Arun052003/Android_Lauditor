@@ -17,5 +17,6 @@
     android:text="@string/view_members"
     android:textColor="@color/black"
     android:textSize="@dimen/Fifteen_dp"
+     android:textFontWeight="700"
     android:translationZ="12dp"
     app:cardCornerRadius="10dp"></TextView>

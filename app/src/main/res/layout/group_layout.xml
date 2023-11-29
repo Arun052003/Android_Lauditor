@@ -7,7 +7,7 @@
     android:fontFamily="@font/gill_sans"
     android:text="@string/group_name"
     android:textColor="@color/Blue_text_color"
-    android:textSize="@dimen/Fifteen_dp"></TextView>
+    android:textSize="15sp"></TextView>
 
 
 

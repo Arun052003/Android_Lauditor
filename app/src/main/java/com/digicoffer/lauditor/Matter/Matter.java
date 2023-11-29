@@ -47,6 +47,7 @@ public class Matter extends Fragment {
         tv_legal_matter = view.findViewById(R.id.tv_legal_matter);
 
 
+
         tv_legal_matter.setText("Legal Matter");
         tv_general_matter = view.findViewById(R.id.tv_general_matter);
         tv_general_matter.setText("General Matter");

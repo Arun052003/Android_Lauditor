@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
@@ -48,6 +49,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     AppCompatButton btn_cancel_save, btn_create;
     LinearLayout ll_add_advocate,ll_start_date,ll_end_date,ll_court,ll_judge,ll_dof;
     JSONArray existing_opponents;
+    CardView cv_client_details;
     TextView tv_opponent_name;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
@@ -61,15 +63,15 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.matter_information, container, false);
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
         tv_matter_title.setHint("Case Title");
-        tv_matter_title.setTextSize(14);
+        tv_matter_title.setTextSize(15);
 
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
         tv_matter_num.setHint("Case Number");
-        tv_matter_num.setTextSize(14);
+        tv_matter_num.setTextSize(15);
 
         tv_case_type = view.findViewById(R.id.tv_case_type);
         tv_case_type.setHint("Case Type");
-        tv_case_type.setTextSize(14);
+        tv_case_type.setTextSize(15);
         description_name = view.findViewById(R.id.description_name);
         description_name.setText("Description");
 
@@ -103,23 +105,24 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         ll_start_date = view.findViewById(R.id.ll_start_date);
         tv_start_date = view.findViewById(R.id.tv_start_date);
         tv_start_date.setHint("Start Data");
-        tv_start_date.setTextSize(14);
+        tv_start_date.setTextSize(15);
         tv_end_date = view.findViewById(R.id.tv_end_date);
         tv_end_date.setHint("Close Data");
-        tv_end_date.setTextSize(14);
+        tv_end_date.setTextSize(15);
+        cv_client_details = view.findViewById(R.id.cv_client_details);
 
         tv_matter_description = view.findViewById(R.id.tv_matter_description);
         tv_matter_description.setHint("Description");
-        tv_matter_description.setTextSize(14);
+        tv_matter_description.setTextSize(15);
         tv_dof = view.findViewById(R.id.tv_dof);
         tv_dof.setHint("Date of filling");
-        tv_dof.setTextSize(14);
+        tv_dof.setTextSize(15);
         tv_court = view.findViewById(R.id.tv_court);
         tv_court.setHint("Court");
-        tv_court.setTextSize(14);
+        tv_court.setTextSize(15);
         tv_judge = view.findViewById(R.id.tv_judge);
         tv_judge.setHint("judge");
-        tv_judge.setTextSize(14);
+        tv_judge.setTextSize(15);
         tv_high_priority = view.findViewById(R.id.tv_high_priority);
         tv_high_priority.setOnClickListener(this);
         tv_medium_priority = view.findViewById(R.id.tv_medium_priority);
@@ -405,6 +408,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 break;
             case R.id.btn_create:
                 saveMatterInformation();
+
+
                 break;
         }
     }
@@ -413,36 +418,26 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         if (tv_matter_title.getText().toString().equals("")) {
             tv_matter_title.setError("Title Required");
             tv_matter_title.requestFocus();
+
+
         } else if (tv_matter_num.getText().toString().equals("")) {
             tv_matter_num.setError("Case Number Required");
             tv_matter_num.requestFocus();
-        } else if (tv_matter_description.getText().toString().equals("")) {
-            tv_matter_description.setError("Description is Required");
-            tv_matter_description.requestFocus();
-        } else if (Constants.MATTER_TYPE=="Legal") {
-            if(tv_dof.getText().toString().equals("")) {
-                tv_dof.setError("Date of Filing is Required");
-                tv_dof.requestFocus();
-            }
-            else{
-                submitMatter();
-            }
-        } else if(Constants.MATTER_TYPE=="General"){
-            if (tv_start_date.getText().toString().equals("")){
-                tv_start_date.setError("Start Date is Required");
-                tv_start_date.requestFocus();
-            }else if(tv_end_date.getText().toString().equals("")){
-                tv_end_date.setError("Close Date is Required");
-                tv_end_date.requestFocus();
-            }
-            else{
-                submitMatter();
-            }
-        }else {
+
+        } else {
             submitMatter();
-//
         }
     }
+
+
+           // else{
+               // submitMatter();
+          //  }
+      //  }else {
+           // submitMatter();
+//
+       // }
+  //  }
 
     private void submitMatter() {
         JSONArray group_acls = new JSONArray();
@@ -450,11 +445,13 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 //            JSONArray members = new JSONArray();
         MatterModel matterModel = new MatterModel();
         matterModel.setMatter_title(tv_matter_title.getText().toString());
+        tv_matter_title.clearFocus();
         matterModel.setCase_number(tv_matter_num.getText().toString());
+        tv_matter_num.clearFocus();
         matterModel.setCase_type(tv_case_type.getText().toString());
-        matterModel.setDescription(tv_matter_description.getText().toString());
+       matterModel.setDescription(tv_matter_description.getText().toString());
         matterModel.setDate_of_filing(tv_dof.getText().toString());
-        matterModel.setStart_date(tv_start_date.getText().toString());
+       matterModel.setStart_date(tv_start_date.getText().toString());
         matterModel.setEnd_date(tv_end_date.getText().toString());
         matterModel.setCourt(tv_court.getText().toString());
         matterModel.setJudge(tv_judge.getText().toString());
@@ -481,7 +478,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         }else{
             matterArraylist.set(0,matterModel);
         }
+        cv_client_details.setVisibility(View.GONE);
         matter.loadGCT();
+
+
     }
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/Blue_text_color"
+    android:background="@color/Primary"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,17 +16,18 @@
             android:id="@+id/cv_client_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_marginBottom="20dp"
             android:elevation="50dp"
             android:padding="5dp"
             android:visibility="visible"
-            app:cardCornerRadius="5dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -54,6 +55,7 @@
                     android:layout_below="@id/matter_title"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:drawableRight="@drawable/calendar_activity"
+                    android:visibility="gone"
                     android:text="07-20-2023"
                     android:padding="5dp"
                     android:textColor="@color/black">
@@ -165,6 +167,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+
                     android:layout_below="@id/selected_groups"
                     android:orientation="vertical">
 

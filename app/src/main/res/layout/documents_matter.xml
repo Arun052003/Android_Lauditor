@@ -41,7 +41,7 @@
         android:textSize="@dimen/twenty_dp"
         android:text="@string/matter_title"
         android:textAllCaps="false"
-        android:textColor="@color/Blue_text_color">
+        android:textColor="@color/Primary">
 
     </androidx.appcompat.widget.AppCompatButton>
 
@@ -54,6 +54,7 @@
             android:background="@drawable/rectangle_light_grey_bg"
             android:drawableRight="@drawable/calendar_activity"
             android:text="07-20-2023"
+            android:visibility="gone"
             android:padding="5dp"
             android:enabled="false"
             android:textColor="@color/black">
@@ -76,14 +77,16 @@
           <include layout="@layout/createmember_layout"
               android:id="@+id/tv_document_library"
               android:layout_width="wrap_content"
-              android:layout_height="match_parent"/>
+              android:layout_height="match_parent"
+              android:visibility="gone"/>
 
 
 
            <include layout="@layout/viewmember_layout"
                android:id="@+id/tv_device_drive"
                android:layout_width="wrap_content"
-               android:layout_height="match_parent"/>
+               android:layout_height="match_parent"
+               android:visibility="gone"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
         <LinearLayout
             android:id="@+id/ll_add_documents"
@@ -129,10 +132,10 @@
                     android:fontFamily="sans-serif-condensed-medium"
                     android:padding="15dp"
                     android:layout_marginTop="7dp"
-                    android:drawableRight="@drawable/drops_down"
+                    android:drawableRight="@drawable/down_arrow"
                     android:text="Select Documents"
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,7 +143,8 @@
              android:id="@+id/btn_add_documents"
              android:layout_width="100dp"
              android:layout_height="40dp"
-             android:layout_marginTop="5dp"
+
+             android:layout_marginTop="8dp"
              android:layout_gravity="right"/>
 
         </LinearLayout>

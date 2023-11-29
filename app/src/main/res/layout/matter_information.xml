@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/Blue_text_color"
-    android:backgroundTint="@color/Blue_text_color"
+    android:background="@color/Primary"
+    android:backgroundTint="@color/Primary"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/Blue_text_color">
+        android:backgroundTint="@color/Primary">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_client_details"
@@ -228,7 +228,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
-                        <include layout="@layout/icon"/>
+
 
                     </LinearLayout>
 
@@ -272,7 +272,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
-                        <include layout="@layout/icon"/>
+
 
                     </LinearLayout>
 
@@ -315,7 +315,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
-                        <include layout="@layout/icon"/>
+
 
                     </LinearLayout>
 

@@ -222,21 +222,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-
+                             android:layout_marginTop="10dp"
                             android:textColorHint="@color/black"
                             app:boxBackgroundMode="none">
 
                             <!--this is the actual edit text which takes the input-->
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/tv_default_rate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/rectangle_light_grey_bg"
-
-                                android:imeOptions="actionDone"
-                                android:inputType="number" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tv_default_rate"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:background="@drawable/rectangle_light_grey_bg"
+
+                            android:imeOptions="actionDone"
+                            android:inputType="number" />
                     </LinearLayout>
                 </LinearLayout>
 

@@ -80,6 +80,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             holder.tv_case_number.setText(viewMatterModel.getCaseNumber());
             holder.tv_owner_name.setText(owner_name);
             holder.tv_date_of_filling.setText(viewMatterModel.getDate_of_filling());
+
             if (viewMatterModel.getStatus().equals("Active")) {
 
 
@@ -119,6 +120,14 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, items);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             holder.sp_action.setAdapter(adapter);
+            holder.action_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.sp_action.performClick();
+                }
+            });
+
+            holder.sp_action.findFocus();
 
 //            holder.sp_action.setSelection(Spinner.INVALID_POSITION);
 //            adapter.notifyDataSetChanged();
