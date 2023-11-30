@@ -80,12 +80,15 @@
                         android:visibility="gone">
 
                     </TextView>
+                    <include layout="@layout/searchelement_layout"
+                        android:id="@+id/search_groups"/>
 
 
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         tools:context=".MainActivity">
+
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_relationship_documents"

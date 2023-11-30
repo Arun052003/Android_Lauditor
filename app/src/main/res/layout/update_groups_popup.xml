@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
 
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/ll_add_tag"
@@ -67,20 +67,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="10dp">
-<!--            <ScrollView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"-->
-<!--                tools:context=".MainActivity">-->
+            <!--            <ScrollView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="200dp"-->
+            <!--                tools:context=".MainActivity">-->
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/rv_groups"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_margin="5dp"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:scrollbars="vertical"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
-<!--            </ScrollView>-->
+            <!--                <androidx.recyclerview.widget.RecyclerView-->
+            <!--                    android:id="@+id/rv_groups"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_margin="5dp"-->
+            <!--                    android:orientation="vertical"-->
+            <!--                    android:scrollbars="vertical"-->
+            <!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+            <!--            </ScrollView>-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,36 +95,11 @@
 
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_cancel_save"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:padding="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/cancel_button_background"
-                android:elevation="20dp"
-                android:text="@string/cancel"
-                android:textAllCaps="false">
+          <include layout="@layout/cancel_button"
+              android:id="@+id/btn_cancel_save"/>
 
-            </androidx.appcompat.widget.AppCompatButton>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_create"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:padding="10dp"
-                android:background="@drawable/save_button_background"
-android:layout_weight="1"
-                android:elevation="@dimen/Fifteen_dp"
-                android:gravity="center"
-                android:text="@string/save"
-                android:textAllCaps="false"
-                android:textColor="@color/white">
-
-            </androidx.appcompat.widget.AppCompatButton>
+          <include layout="@layout/submit_button"
+              android:id="@+id/btn_create"/>
 
 
         </LinearLayout>

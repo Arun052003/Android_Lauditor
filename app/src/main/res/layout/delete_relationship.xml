@@ -127,7 +127,7 @@
                         </androidx.appcompat.widget.AppCompatButton>
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_yes"
-                            android:layout_width="10dp"
+                            android:layout_width="5dp"
                             android:layout_height="60dp"
                             android:layout_weight="1"
                             android:layout_marginLeft="20dp"

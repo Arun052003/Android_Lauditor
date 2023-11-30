@@ -72,13 +72,13 @@ public class EditMatterTimeline extends Fragment {
     }
 
     private void loadTimeline() {
-        siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_new_white_icon));
+        siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_green));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
 
     }
     public void loadGCT() {
-        siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
+        siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
 //        Fragment childFragment = new GCT();
@@ -86,7 +86,7 @@ public class EditMatterTimeline extends Fragment {
 //        childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
     public void loadDocuments() {
-        siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
+        siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
 //        FragmentTransaction ft = getChildFragmentManager().beginTransaction();

@@ -202,9 +202,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.update_groups_popup, null);
         LinearLayout ll_groups = view.findViewById(R.id.ll_groups);
+        //RecyclerView rv_relationship_documents = view.findViewById(R.id.rv_relationship_documents);
         AppCompatButton btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         AppCompatButton btn_create = view.findViewById(R.id.btn_create);
+        btn_create.setText("Update");
         ImageView close_details = view.findViewById(R.id.close_details);
+
 //        RecyclerView rv_groups = view.findViewById(R.id.rv_groups);
 //        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 //        rv_groups.setLayoutManager(layoutManager);
@@ -224,6 +227,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             chk_selected.setChecked(groupsArrayList.get(i).isChecked());
 //            chk_selected.setId(groupsArrayList.get(i).getGroup_id());
             chk_selected.setTag(i);
+
+
             chk_selected.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -233,6 +238,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                         v = ll_groups.getChildAt(position);
                         viewMatterModel = groupsArrayList.get(position);
 
+                        callgroupsWebservice();
                     }
 
 //                    int position =i;

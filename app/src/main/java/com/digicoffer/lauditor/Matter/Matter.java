@@ -82,6 +82,7 @@ public class Matter extends Fragment {
         tv_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 loadViewUI();
             }
         });

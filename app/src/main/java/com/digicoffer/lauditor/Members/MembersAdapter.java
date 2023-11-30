@@ -41,10 +41,12 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     Context mcontext;
     EventListener eventListener;
 
+
     // Constructor with listener
     public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener) {
         this.itemsArrayList = itemsArrayList;
         this.mcontext = context;
+
         this.eventListener = listener;
         this.list_item = itemsArrayList;
     }
@@ -130,6 +132,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
                 if ("Edit Member".equals(name)) {
+
                     eventListener.EditMember(membersModel);
                 } else if ("Add|Remove Group Access".equals(name)) {
                     try {

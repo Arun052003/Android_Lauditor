@@ -26,23 +26,9 @@
             android:orientation="horizontal">
 
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
 
-                android:background="@drawable/ic_arrow_left">
 
-            </ImageView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Back"
-                android:textColor="@color/white"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -67,7 +53,7 @@
                     android:layout_weight="1"
                     android:background="@color/green_count_color"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:src="@mipmap/timeline_new_white_icon"
+                    android:src="@mipmap/timeline_green"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp"
