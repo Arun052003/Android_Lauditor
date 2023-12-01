@@ -71,14 +71,20 @@ public class Matter extends Fragment {
             @Override
             public void onClick(View v) {
                 loadGeneralMatter();
+
+
+
             }
         });
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadCreateUI();
+
+
             }
         });
+
         tv_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +92,7 @@ public class Matter extends Fragment {
                 loadViewUI();
             }
         });
+
         siv_matter_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +137,16 @@ public class Matter extends Fragment {
         tv_view.setTextColor(Color.WHITE);
         create_matter_view.setVisibility(View.GONE);
         viewMatter();
+        mViewModel.setData("View Legal Matter");
+    }
+    private void loadViewgeneralUI() {
+        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+        tv_create.setTextColor(Color.BLACK);
+        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+        tv_view.setTextColor(Color.WHITE);
+        create_matter_view.setVisibility(View.GONE);
+        viewMatter();
+        mViewModel.setData("View General Matter");
     }
 
     private void viewMatter() {
@@ -148,8 +165,17 @@ public class Matter extends Fragment {
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_view.setTextColor(Color.BLACK);
         loadMatterInformation();
+        mViewModel.setData("Create Legal Matter");
     }
-
+    private void loadgeneralUI() {
+        create_matter_view.setVisibility(View.VISIBLE);
+        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_create.setTextColor(Color.WHITE);
+        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_view.setTextColor(Color.BLACK);
+        loadMatterInformation();
+        mViewModel.setData("Create  General Matter");
+    }
     private void loadLegalMatter() {
         Constants.MATTER_TYPE = "Legal";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -157,7 +183,8 @@ public class Matter extends Fragment {
         tv_general_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_general_matter.setTextColor(Color.BLACK);
         loadMatterInformation();
-        mViewModel.setData("Legal Matter");
+        loadViewUI();
+        mViewModel.setData("  View Legal Matter");
     }
 
     private void loadGeneralMatter() {
@@ -169,7 +196,7 @@ public class Matter extends Fragment {
         loadMatterInformation();
         loadViewUI();
 
-        mViewModel.setData("General Matter");
+        mViewModel.setData(" View General Matter");
     }
 
     public void loadDocuments() {

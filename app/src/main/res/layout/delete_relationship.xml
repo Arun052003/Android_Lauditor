@@ -41,8 +41,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="5dp"
-                    android:paddingBottom="30dp"
-                    >
+                    android:paddingBottom="30dp">
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -66,46 +65,45 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:enabled="false"
-                            android:textSize="@dimen/twenty_dp"
-                            android:textColor="@color/black"
                             android:fontFamily="sans-serif-condensed-medium"
+                            android:gravity="start"
                             android:text="dghhjsd"
-                            android:gravity="start" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twenty_dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
                         android:text="Select Head of the Practice"
-                        android:textSize="@dimen/twenty_dp"
                         android:textColor="@color/Blue_text_color"
-                        android:visibility="gone"
-                        android:fontFamily="sans-serif-condensed">
+                        android:textSize="@dimen/twenty_dp"
+                        android:visibility="gone">
 
                     </TextView>
+
                     <TextView
                         android:id="@+id/group_head_name"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rectangle_grey_background"
+                        android:drawableLeft="@drawable/person_image_email"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:padding="10dp"
                         android:textColor="@color/black"
-                        android:fontFamily="sans-serif-condensed-medium"
                         android:textSize="@dimen/Fifteen_dp"
-                        android:drawableLeft="@drawable/person_image_email"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_grey_background"
-                        android:layout_margin="10dp">
+                        android:visibility="gone">
 
                     </TextView>
-
-
-
 
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/ll_buttons"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="65dp"
                         android:layout_margin="10dp"
                         android:orientation="horizontal"
 
@@ -113,30 +111,32 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_No"
-                            android:layout_width="10dp"
-                            android:layout_height="60dp"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="20dp"
-                            android:elevation="20dp"
-                            android:textColor="@color/white"
-                            android:layout_marginRight="20dp"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="50dp"
                             android:background="@drawable/yes_button_red_button"
-                            android:textAllCaps="false"
-                            android:text="No">
+                            android:text="No"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false">
 
                         </androidx.appcompat.widget.AppCompatButton>
+
+
+
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_yes"
-                            android:layout_width="5dp"
-                            android:layout_height="60dp"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:elevation="@dimen/Fifteen_dp"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="50dp"
+
                             android:background="@drawable/no_button_green_button"
-                            android:textColor="@color/white"
+                            android:text="Yes"
                             android:textAllCaps="false"
-                            android:text="Yes">
+                            android:textColor="@color/white">
 
                         </androidx.appcompat.widget.AppCompatButton>
                     </androidx.appcompat.widget.LinearLayoutCompat>

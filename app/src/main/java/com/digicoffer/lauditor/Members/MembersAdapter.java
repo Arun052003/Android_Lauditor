@@ -42,6 +42,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     EventListener eventListener;
 
 
+
     // Constructor with listener
     public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener) {
         this.itemsArrayList = itemsArrayList;

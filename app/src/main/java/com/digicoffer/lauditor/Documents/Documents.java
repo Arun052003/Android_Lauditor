@@ -39,6 +39,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -112,6 +113,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     String UPLOAD_TAG = "Client";
     String VIEW_TAG = "Client";
     DocumentsListAdapter adapter;
+    CardView  cv_view_documents;
     ArrayList<ViewDocumentsModel> view_docs_list = new ArrayList<>();
     ShapeableImageView siv_upload_document, siv_view_document;
     ArrayList<Integer> langList = new ArrayList<>();
@@ -168,6 +170,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             sp_client = v.findViewById(R.id.at_search_client);
 //            sp_client.isShown();
             tv_search_client = v.findViewById(R.id.tv_search_client);
+            cv_view_documents = v.findViewById(R.id. cv_view_documents);
             tv_search_client_view = v.findViewById(R.id.tv_search_client_view);
             // tv_search_client_view.setHint("Search");
             // tv_search_client_view.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
@@ -444,7 +447,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     view_docs_list.clear();
                     rv_display_view_docs.removeAllViews();
                     DOCUMENT_TYPE_TAG = "firm";
-                    callViewDocumentWebservice();
+                    rv_display_view_docs.removeAllViews();
+                    cv_view_documents.setVisibility(View.GONE);
+
+                    callclientfirmWebServices();
                 }
             });
             merge_pdf.setOnClickListener(new View.OnClickListener() {
@@ -516,10 +522,25 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             JSONObject jsonObject = new JSONObject();
             progress_dialog = AndroidUtils.get_progress(getActivity());
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/documents/" + DOCUMENT_TYPE_TAG, "VIEW_DOCUMENT", jsonObject.toString());
+
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
+
+    }
+    private void callViewDocumentWebservices() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/documents/" + DOCUMENT_TYPE_TAG, "VIEW_DOCUMENT", jsonObject.toString());
+            callclientfirmWebServices();
+
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing())
+                AndroidUtils.dismiss_dialog(progress_dialog);
+        }
+
     }
 
     private void hideviewFirmBackground() {
@@ -1593,7 +1614,40 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
                     String str = String.join(",", value);
                     tv_select_groups.setText(str);
-                    sp_documnet_type_view.setText(str);
+
+                    dialog.dismiss();
+                }
+
+            });
+            btn_save_group.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    ArrayList<String>
+                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+                        if (documentsModel.isGroupChecked()) {
+                            selected_groups_list.add(documentsModel);
+                            callclientfirmWebServices();
+cv_view_documents.setVisibility(View.VISIBLE);
+rv_display_view_docs.setVisibility(View.VISIBLE);
+//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+
+
+                        }
+                    }
+
+                    String[] value = new String[selected_groups_list.size()];
+                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                                value += "," + family_members.get(i);
+//                               value.add(family_members.get(i));
+                        value[i] = selected_groups_list.get(i).getGroup_name();
+
+                    }
+
+                    String str = String.join(",", value);
+                   sp_documnet_type_view.setText(str);
+
+
                     dialog.dismiss();
                 }
 
@@ -1606,6 +1660,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
+
 
     private void loadMatters(JSONArray matters) throws JSONException {
         //Adding a list first value as empty...
@@ -2105,6 +2160,67 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
+        }
+    }
+    private void callclientfirmWebServices() {
+        try {
+
+
+            if (selected_groups_list.size() == 0) {
+                AndroidUtils.showToast("Please select atleast one group", getContext());
+            }else {
+                if (VIEW_TAG == "Firm")
+
+                    for (int i = 0; i < docsList.size(); i++) {
+                        currentpoistion++;
+                        JSONObject jsonObject = new JSONObject();
+                        JSONArray clients = new JSONArray();
+                        JSONObject clients_jobject = new JSONObject();
+
+//                JSONArray tags = new JSONArray();
+                        String docname = "";
+                        DocumentsModel documentsModel = docsList.get(i);
+                        filename = documentsModel.getName();
+                        JSONArray groups = new JSONArray();
+                        for (int k = 0; k < selected_groups_list.size(); k++) {
+                            DocumentsModel documentsModel1 = selected_groups_list.get(k);
+                            groups.put(documentsModel1.getGroup_id());
+
+                        }
+                        File new_file = documentsModel.getFile();
+                        String doc_type = "pdf";
+                        String content_string = new_file.getName().replace(".", "/");
+                        String[] content_type = content_string.split("/");
+                        if (content_type.length >= 2) {
+                            doc_type = content_type[1];
+                            docname = content_type[0];
+                        }
+
+
+                        jsonObject.put("category", "firm");
+                        jsonObject.put("matters", "");
+                        jsonObject.put("groups", groups);
+                        jsonObject.put("showPdfDocs", false);
+
+
+                        if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
+                            jsonObject.put("content_type", "image/" + doc_type);
+                        } else {
+                            jsonObject.put("content_type", "application/" + doc_type);
+                        }
+
+//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
+                        WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "View Document", new_file, jsonObject.toString());
+                        rv_display_view_docs.setVisibility(View.VISIBLE);
+                    }
+            }
+
+
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+            e.printStackTrace();
         }
     }
 

@@ -80,8 +80,6 @@
                         android:visibility="gone">
 
                     </TextView>
-                    <include layout="@layout/searchelement_layout"
-                        android:id="@+id/search_groups"/>
 
 
                     <ScrollView
