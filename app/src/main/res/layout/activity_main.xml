@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/appbar" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -16,32 +19,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".MainActivity">
+
         <include layout="@layout/content_menu" />
+
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="130dp"
             app:headerLayout="@layout/header"
-            app:menu="@menu/nav_items"
-
-            app:itemVerticalPadding="3dp"
-            app:itemIconTint="@color/black"
             app:itemHorizontalPadding="5dp"
-
-            android:layout_gravity="start" />
-
+            app:itemIconTint="@color/black"
+            app:itemVerticalPadding="3dp"
+            app:menu="@menu/nav_items" />
     </androidx.drawerlayout.widget.DrawerLayout>
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintVertical_bias="1.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
-
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_bottom_menu"
@@ -54,9 +57,9 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
 
         <ImageButton
@@ -112,9 +115,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ll_bottom_menu"
         app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_relationships"-->
     <!--                            android:layout_width="match_parent"-->
@@ -164,15 +167,16 @@
         android:id="@+id/rv_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layout_constraintVertical_bias="0.9" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fb_timesheets"
         android:layout_width="wrap_content"
@@ -258,12 +262,12 @@
         app:elevation="0dp"
         app:fabCustomSize="70dp"
         app:fabSize="auto"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/ll_bottom_menu"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_more"-->
     <!--                            android:layout_width="match_parent"-->

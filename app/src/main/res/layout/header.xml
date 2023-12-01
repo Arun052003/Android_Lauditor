@@ -2,9 +2,9 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_layout"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-
     android:background="@drawable/title_background"
     android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -12,11 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
 
 
         <ImageView
@@ -73,7 +72,7 @@
                 android:layout_weight="1"
                 android:text="Name"
                 android:textColor="@color/white"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/tv_firm_name"
@@ -82,8 +81,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Name"
-                android:textColor="@color/white"
-                />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
