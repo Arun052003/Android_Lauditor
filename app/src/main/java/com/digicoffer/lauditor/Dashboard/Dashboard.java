@@ -71,6 +71,7 @@ import org.minidns.record.A;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -115,7 +116,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
         super.onViewCreated(v, savedInstanceState);
         try {
             mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
-            mViewModel.setData("Dashboard");
+            mViewModel.setData("Lauditor");
             calendar = Calendar.getInstance();
             dateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
             date = dateFormat.format(calendar.getTime());

@@ -43,15 +43,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        app:layout_constraintVertical_bias="1.0"></androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_bottom_menu"
         android:layout_width="110dp"
         android:layout_height="54dp"
         android:layout_gravity="center|bottom"
-        android:background="@drawable/menu_desing"
+        android:background="@drawable/background_transparent"
         android:backgroundTint="@color/dashboard_background_shadow_color"
         android:backgroundTintMode="screen"
         android:orientation="vertical"
@@ -62,62 +61,62 @@
         app:layout_constraintVertical_bias="1.0">
 
 
-        <ImageButton
-            android:id="@+id/iv_up_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/down_arrow">
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/iv_up_arrow"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:background="@drawable/down_arrow">-->
 
-        </ImageButton>
+        <!--        </ImageButton>-->
 
-        <ImageButton
-            android:id="@+id/iv_down_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/up_arrow"
-            android:visibility="gone">
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/iv_down_arrow"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:background="@drawable/up_arrow"-->
+        <!--            android:visibility="gone">-->
 
-        </ImageButton>
+        <!--        </ImageButton>-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:text="MENU"
-            android:textColor="@color/Primary">
+        <!--        <TextView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_marginBottom="5dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="MENU"-->
+        <!--            android:textColor="@color/Primary">-->
 
-        </TextView>
+        <!--        </TextView>-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fb_relationships"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center"
-        android:background="@color/white"
-        android:backgroundTint="@color/grey_text_color"
-        android:clickable="true"
-        android:contentDescription="Text"
-        android:elevation="0dp"
-        android:src="@drawable/relationship"
-        android:visibility="gone"
-        app:backgroundTint="@color/grey_text_color"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ll_bottom_menu"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fb_relationships"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_gravity="bottom|center"-->
+    <!--        android:background="@color/white"-->
+    <!--        android:backgroundTint="@color/grey_text_color"-->
+    <!--        android:clickable="true"-->
+    <!--        android:contentDescription="Text"-->
+    <!--        android:elevation="0dp"-->
+    <!--        android:src="@drawable/relationship"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:backgroundTint="@color/grey_text_color"-->
+    <!--        app:elevation="0dp"-->
+    <!--        app:fabCustomSize="70dp"-->
+    <!--        app:fabSize="auto"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/ll_bottom_menu"-->
+    <!--        app:layout_constraintHorizontal_bias="0.9"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0" />-->
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_relationships"-->
     <!--                            android:layout_width="match_parent"-->
@@ -128,31 +127,31 @@
     <!--                            android:text="Relationships"-->
     <!--                            android:layout_marginBottom="15dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fb_documents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center"
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fb_documents"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_gravity="bottom|center"-->
 
-        android:background="@color/white"
-        android:backgroundTint="@color/grey_text_color"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:src="@drawable/document"
-        android:visibility="gone"
-        app:backgroundTint="@color/grey_text_color"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/drawer_layout"
-        app:layout_constraintVertical_bias="0.990"
-        app:layout_editor_absoluteX="100dp" />
+    <!--        android:background="@color/white"-->
+    <!--        android:backgroundTint="@color/grey_text_color"-->
+    <!--        android:clickable="true"-->
+    <!--        android:elevation="0dp"-->
+    <!--        android:src="@drawable/document"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:backgroundTint="@color/grey_text_color"-->
+    <!--        app:elevation="0dp"-->
+    <!--        app:fabCustomSize="70dp"-->
+    <!--        app:fabSize="auto"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_menu"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.3"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/drawer_layout"-->
+    <!--        app:layout_constraintVertical_bias="0.990"-->
+    <!--        app:layout_editor_absoluteX="100dp" />-->
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_documents"-->
     <!--                            android:layout_width="match_parent"-->
@@ -177,30 +176,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fb_timesheets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center"
-        android:background="@color/white"
-        android:backgroundTint="@color/grey_text_color"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:src="@drawable/timesheet"
-        android:visibility="gone"
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fb_timesheets"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_gravity="bottom|center"-->
+    <!--        android:background="@color/white"-->
+    <!--        android:backgroundTint="@color/grey_text_color"-->
+    <!--        android:clickable="true"-->
+    <!--        android:elevation="0dp"-->
+    <!--        android:src="@drawable/timesheet"-->
+    <!--        android:visibility="gone"-->
 
-        app:backgroundTint="@color/grey_text_color"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.980" />
+    <!--        app:backgroundTint="@color/grey_text_color"-->
+    <!--        app:elevation="0dp"-->
+    <!--        app:fabCustomSize="70dp"-->
+    <!--        app:fabSize="auto"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_menu"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.980" />-->
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_timesheet"-->
     <!--                            android:layout_width="match_parent"-->
@@ -211,30 +210,30 @@
     <!--                            android:text="Timesheet"-->
     <!--                            android:layout_marginBottom="140dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fb_matter"
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fb_matter"-->
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center"
-        android:background="@color/white"
-        android:backgroundTint="@color/grey_text_color"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:src="@drawable/matter"
-        android:visibility="gone"
-        app:backgroundTint="@color/grey_text_color"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.990" />
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_gravity="bottom|center"-->
+    <!--        android:background="@color/white"-->
+    <!--        android:backgroundTint="@color/grey_text_color"-->
+    <!--        android:clickable="true"-->
+    <!--        android:elevation="0dp"-->
+    <!--        android:src="@drawable/matter"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:backgroundTint="@color/grey_text_color"-->
+    <!--        app:elevation="0dp"-->
+    <!--        app:fabCustomSize="70dp"-->
+    <!--        app:fabSize="auto"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_menu"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.7"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.990" />-->
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_matter"-->
     <!--                            android:layout_width="match_parent"-->
@@ -245,29 +244,29 @@
     <!--                            android:text="Matter"-->
     <!--                            android:layout_marginBottom="80dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fb_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|center"
-        android:background="@color/white"
-        android:backgroundTint="@color/grey_text_color"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:src="@drawable/more"
-        android:visibility="gone"
-        app:backgroundTint="@color/grey_text_color"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/ll_bottom_menu"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fb_more"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_gravity="bottom|center"-->
+    <!--        android:background="@color/white"-->
+    <!--        android:backgroundTint="@color/grey_text_color"-->
+    <!--        android:clickable="true"-->
+    <!--        android:elevation="0dp"-->
+    <!--        android:src="@drawable/more"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:backgroundTint="@color/grey_text_color"-->
+    <!--        app:elevation="0dp"-->
+    <!--        app:fabCustomSize="70dp"-->
+    <!--        app:fabSize="auto"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.1"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/ll_bottom_menu"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0" />-->
     <!--                        <TextView-->
     <!--                            android:id="@+id/tv_more"-->
     <!--                            android:layout_width="match_parent"-->

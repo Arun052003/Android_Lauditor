@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     TextView person_icon;
     ArrayList<MenuModels> menuList = new ArrayList<>();
     RecyclerView recyclerView;
-    ImageButton iv_open_menu, iv_close_menu;
+    //    ImageButton iv_open_menu, iv_close_menu;
     private NewModel viewModel;
     TextView tv_pageName;
     ActionBarDrawerToggle dtoggle;
-    Animation fabOpen, fabClose, rotateForward, rotateBackward;
+    //    Animation fabOpen, fabClose, rotateForward, rotateBackward;
     DrawerLayout dLayout;
     AppBarLayout appbar;
     ImageView iv_digilogo;
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton;
     TextView tv_headerName, tv_digilogo, tv_header_firm_name;
     DrawerLayout navigationDrawer;
-    FloatingActionButton fab_relationships, fab_documents, fab_timesheet, fab_matter, fab_more;
-    TextView tv_relations, tv_documents, tv_timesheet, tv_matter, tv_more;
+//    FloatingActionButton fab_relationships, fab_documents, fab_timesheet, fab_matter, fab_more;
+//    TextView tv_relations, tv_documents, tv_timesheet, tv_matter, tv_more;
 
     ImageView matter_menu, timesheets_menu, relationship_menu, group_menu, team_member_menu, audit_menu, more_menu, firm_profile_menu, documents_menu;
     Menu nav_Menu;
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         ll_bottom_menu = findViewById(R.id.ll_bottom_menu);
 
         menu_open1 = new ImageView(this);
-        menu_open1.setPadding(-10, -30, -10, -10);
+        menu_open1.setPadding(-10, -30, -10, -30);
         menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(360, 170);
         params.setMargins(0, -10, 0, -40);
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         team_member_menu.setPadding(15, 5, 15, 5);
 
         // Set Icon for each menu item
-        un_hide_chosen_menu();
+        hide_un_chosen_menu();
 
         // Creating menu items which are also Floating Action Buttons
         SubActionButton.Builder rLSubBuilder = new SubActionButton.Builder(this);
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new Matter());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 matter_menu.setImageDrawable(getDrawable(R.drawable.matter_white));
                 matter_menu.setBackground(getDrawable(R.drawable.circular_button_background));
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new TimeSheets());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 timesheets_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 timesheets_menu.setImageDrawable(getDrawable(R.drawable.timesheets_white));
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new Documents());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 documents_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 documents_menu.setImageDrawable(getDrawable(R.drawable.documents_white));
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new ClientRelationship());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 relationship_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 relationship_menu.setImageDrawable(getDrawable(R.drawable.relationship_white));
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new Groups());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 group_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 group_menu.setImageDrawable(getDrawable(R.drawable.groups_white));
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new Members());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 team_member_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 team_member_menu.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.team_member_white));
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new Dashboard());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 firm_profile_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 firm_profile_menu.setImageDrawable(getDrawable(R.drawable.firm_profile_white));
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             @Override
             public void onClick(View v) {
                 fab_menu(new AuditTrails());
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 audit_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 audit_menu.setImageDrawable(getDrawable(R.drawable.audit_white));
@@ -288,41 +288,43 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             public void onClick(View v) {
                 dLayout.openDrawer(GravityCompat.START);
                 center_menu.close(true);
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 more_menu.setBackground(getDrawable(R.drawable.circular_button_background));
                 more_menu.setImageDrawable(getDrawable(R.drawable.more_white));
             }
         });
 
-
         try {
 //            mAddFab = findViewById(R.id.fb_menu);
-            fabOpen = AnimationUtils.loadAnimation
-                    (this, R.anim.fab_open);
-            fabClose = AnimationUtils.loadAnimation
-                    (this, R.anim.fab_close);
-            rotateForward = AnimationUtils.loadAnimation
-                    (this, R.anim.rotate_forward);
-            rotateBackward = AnimationUtils.loadAnimation
-                    (this, R.anim.rotate_backward);
-            iv_open_menu = findViewById(R.id.iv_up_arrow);
-            iv_close_menu = findViewById(R.id.iv_down_arrow);
-            fab_relationships = findViewById(R.id.fb_relationships);
-            fab_relationships.setVisibility(View.GONE);
-            fab_documents = findViewById(R.id.fb_documents);
-            fab_documents.setVisibility(View.GONE);
-            iv_logo_dashboard = findViewById(R.id.logo_dashboard);
-            ll_bottom_menu = findViewById(R.id.ll_bottom_menu);
-            fab_matter = findViewById(R.id.fb_matter);
+//            fabOpen = AnimationUtils.loadAnimation
+//                    (this, R.anim.fab_open);
+//            fabClose = AnimationUtils.loadAnimation
+//                    (this, R.anim.fab_close);
+//            rotateForward = AnimationUtils.loadAnimation
+//                    (this, R.anim.rotate_forward);
+//            rotateBackward = AnimationUtils.loadAnimation
+//                    (this, R.anim.rotate_backward);
+
+
+//            iv_open_menu = findViewById(R.id.iv_up_arrow);
+//            iv_close_menu = findViewById(R.id.iv_down_arrow);
+//            fab_relationships = findViewById(R.id.fb_relationships);
+//            fab_relationships.setVisibility(View.GONE);
+//            fab_documents = findViewById(R.id.fb_documents);
+//            fab_documents.setVisibility(View.GONE);
+//            ll_bottom_menu = findViewById(R.id.ll_bottom_menu);
+//            fab_matter = findViewById(R.id.fb_matter);
+//            fab_matter.setVisibility(View.GONE);
+//            fab_timesheet = findViewById(R.id.fb_timesheets);
+//            fab_timesheet.setVisibility(View.GONE);
+//            fab_more = findViewById(R.id.fb_more);
+//            fab_more.setVisibility(View.GONE);
+
             tv_pageName = findViewById(R.id.page_name);
+            iv_logo_dashboard = findViewById(R.id.logo_dashboard);
             appbar = (AppBarLayout) findViewById(R.id.appbar);
             appbar.setVisibility(View.VISIBLE);
-            fab_matter.setVisibility(View.GONE);
-            fab_timesheet = findViewById(R.id.fb_timesheets);
-            fab_timesheet.setVisibility(View.GONE);
-            fab_more = findViewById(R.id.fb_more);
-            fab_more.setVisibility(View.GONE);
             viewModel = new ViewModelProvider(this).get(NewModel.class);
             viewModel.getselectedItem().observe(this, item -> {
                 tv_pageName.setText(item);
@@ -343,6 +345,22 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     }
                 }
             });
+            iv_logo_dashboard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hide_un_chosen_menu();
+                    selected_menu();
+                    fab_menu(new Dashboard());
+//                    ft.commit();
+                }
+            });
+            Fragment fragment = new Dashboard();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.id_framelayout, fragment);
+            ft.commit();
+            isAllFabsVisible = false;
+            setNavigationDrawer();
+
 //            dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //            navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //            tv_relations = findViewById(R.id.tv_relationships);
@@ -355,12 +373,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //            tv_matter.setVisibility(View.GONE);
 //            tv_more = findViewById(R.id.tv_more);
 //            tv_more.setVisibility(View.GONE);
-            Fragment fragment = new Dashboard();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.id_framelayout, fragment);
-            ft.commit();
-            isAllFabsVisible = false;
-            setNavigationDrawer();
 //            fab_more.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
@@ -416,15 +428,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //                    closeMenu();
 //                }
 //            });
-            iv_logo_dashboard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    un_hide_chosen_menu();
-                    selected_menu();
-                    fab_menu(new Dashboard());
-//                    ft.commit();
-                }
-            });
 //            iv_open_menu.setOnClickListener(new View.OnClickListener
 //                    () {
 //                @Override
@@ -449,31 +452,30 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //                    }
 //                }
 //            });
-
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadRecyclerview() {
-        menuList.add(new MenuModels("Matters", R.drawable.matter));
-        menuList.add(new MenuModels("Documents", R.drawable.document));
-        menuList.add(new MenuModels("Relationships", R.drawable.relationship));
-        menuList.add(new MenuModels("Timesheets", R.drawable.timesheet));
-        menuList.add(new MenuModels("Meetings", R.drawable.meeting_new));
-        menuList.add(new MenuModels("Emails", R.drawable.email_icon_dashboard));
-        menuList.add(new MenuModels("Messages", R.drawable.client_chat_icon));
-        menuList.add(new MenuModels("Notifications", R.drawable.notification_icon));
-        menuList.add(new MenuModels("Audits", R.drawable.audit_new));
-        menuList.add(new MenuModels("Groups", R.drawable.groups_icon));
-        menuList.add(new MenuModels("Invoice", R.drawable.invoice_icon));
-        recyclerView = findViewById(R.id.rv_menu);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
-        recyclerView.startAnimation(animation);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        MenuAdapter menuAdapter = new MenuAdapter(menuList);
-        recyclerView.setAdapter(menuAdapter);
-    }
+//    private void loadRecyclerview() {
+//        menuList.add(new MenuModels("Matters", R.drawable.matter));
+//        menuList.add(new MenuModels("Documents", R.drawable.document));
+//        menuList.add(new MenuModels("Relationships", R.drawable.relationship));
+//        menuList.add(new MenuModels("Timesheets", R.drawable.timesheet));
+//        menuList.add(new MenuModels("Meetings", R.drawable.meeting_new));
+//        menuList.add(new MenuModels("Emails", R.drawable.email_icon_dashboard));
+//        menuList.add(new MenuModels("Messages", R.drawable.client_chat_icon));
+//        menuList.add(new MenuModels("Notifications", R.drawable.notification_icon));
+//        menuList.add(new MenuModels("Audits", R.drawable.audit_new));
+//        menuList.add(new MenuModels("Groups", R.drawable.groups_icon));
+//        menuList.add(new MenuModels("Invoice", R.drawable.invoice_icon));
+//        recyclerView = findViewById(R.id.rv_menu);
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
+//        recyclerView.startAnimation(animation);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+//        MenuAdapter menuAdapter = new MenuAdapter(menuList);
+//        recyclerView.setAdapter(menuAdapter);
+//    }
 
     private void setNavigationDrawer() {
         dLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -499,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         iv_digilogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 Dashboard fragment_d = new Dashboard();
                 fab_menu(fragment_d);
@@ -515,16 +517,16 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         em_menu = nav_Menu.findItem(R.id.email);
         logout_menu = nav_Menu.findItem(R.id.logout);
 
-        //Setting the Icons for the each Menu Item.
+        //Side Menu Items Text Color changes.
         selected_menu();
 
-        // Changing Slide menu items as per the Role of the User.
+        // Changing Side Menu items as per the Role of the User.
         menu_items_checked();
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                un_hide_chosen_menu();
+                hide_un_chosen_menu();
                 selected_menu();
                 Fragment frag = null;
                 Activity activity = null;
@@ -655,81 +657,81 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         });
     }
 
-    private void closeMenu() {
-        loadRecyclerview();
-        iv_open_menu.setVisibility(View.VISIBLE);
-        iv_close_menu.setVisibility(View.GONE);
-//            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.down_arrow));
-        fab_relationships.setVisibility(View.GONE);
-        fab_relationships.startAnimation(fabClose);
-        fab_documents.setVisibility(View.GONE);
-        fab_documents.startAnimation(fabClose);
-        fab_matter.setVisibility(View.GONE);
-        fab_matter.startAnimation(fabClose);
-        fab_timesheet.setVisibility(View.GONE);
-        fab_timesheet.startAnimation(fabClose);
-        fab_more.setVisibility(View.GONE);
-        fab_more.startAnimation(fabClose);
-    }
+//    private void closeMenu() {
+//        loadRecyclerview();
+//        iv_open_menu.setVisibility(View.VISIBLE);
+//        iv_close_menu.setVisibility(View.GONE);
+////            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.down_arrow));
+//        fab_relationships.setVisibility(View.GONE);
+//        fab_relationships.startAnimation(fabClose);
+//        fab_documents.setVisibility(View.GONE);
+//        fab_documents.startAnimation(fabClose);
+//        fab_matter.setVisibility(View.GONE);
+//        fab_matter.startAnimation(fabClose);
+//        fab_timesheet.setVisibility(View.GONE);
+//        fab_timesheet.startAnimation(fabClose);
+//        fab_more.setVisibility(View.GONE);
+//        fab_more.startAnimation(fabClose);
+//    }
 
-    private void openMenu() {
-        loadRecyclerview();
-        iv_close_menu.setVisibility(View.VISIBLE);
-        iv_open_menu.setVisibility(View.GONE);
-//            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.up_arrow));
-//                    mAddFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_full_sad));
-        fab_relationships.setVisibility(View.VISIBLE);
-        fab_relationships.startAnimation(fabOpen);
-        fab_documents.setVisibility(View.VISIBLE);
-        fab_documents.startAnimation(fabOpen);
-        fab_matter.setVisibility(View.VISIBLE);
-        fab_matter.startAnimation(fabOpen);
-        fab_timesheet.setVisibility(View.VISIBLE);
-        fab_timesheet.startAnimation(fabOpen);
-        fab_more.setVisibility(View.VISIBLE);
-        fab_more.startAnimation(fabOpen);
-    }
+//    private void openMenu() {
+//        loadRecyclerview();
+//        iv_close_menu.setVisibility(View.VISIBLE);
+//        iv_open_menu.setVisibility(View.GONE);
+////            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.up_arrow));
+////                    mAddFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_full_sad));
+//        fab_relationships.setVisibility(View.VISIBLE);
+//        fab_relationships.startAnimation(fabOpen);
+//        fab_documents.setVisibility(View.VISIBLE);
+//        fab_documents.startAnimation(fabOpen);
+//        fab_matter.setVisibility(View.VISIBLE);
+//        fab_matter.startAnimation(fabOpen);
+//        fab_timesheet.setVisibility(View.VISIBLE);
+//        fab_timesheet.startAnimation(fabOpen);
+//        fab_more.setVisibility(View.VISIBLE);
+//        fab_more.startAnimation(fabOpen);
+//    }
 
-    private void animateFab() {
-//        LinearLayout.LayoutParams lp = new
-//                LinearLayout.LayoutParams(tv_relations.getWidth(),tv_relations.getHeight());
-//        lp.setMargins(0,0,165,15);
-        if (!isAllFabsVisible) {
-//            iv_open_menu.startAnimation(rotateForward);
-
-//            tv_more.startAnimation(fabOpen);
-//                    mAddFab.extend();
-            isAllFabsVisible = true;
-        } else {
-//            iv_open_menu.startAnimation(rotateBackward);
-        }
-    }
-
-
-    private void logout() {
-        new AlertDialog.Builder(this)
-                .setTitle("Alert")
-                .setMessage("Are you sure you want to logout?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//                        prefs.edit().remove("current_fragment");
-////                        SharedPreferences crend_Prefs = getSharedPreferences(Constants.BIOMETIRCSharedPrefsKey, MODE_PRIVATE);
-//                        crend_Prefs.edit().putString(Constants.TOKEN_key,"");
-//                        crend_Prefs.edit().putString(Constants.PK_key,"");
-//                        crend_Prefs.edit().apply();
+//    private void animateFab() {
+////        LinearLayout.LayoutParams lp = new
+////                LinearLayout.LayoutParams(tv_relations.getWidth(),tv_relations.getHeight());
+////        lp.setMargins(0,0,165,15);
+//        if (!isAllFabsVisible) {
+////            iv_open_menu.startAnimation(rotateForward);
 //
-//                        FragmentManager fragmentManager = getSupportFragmentManager();
-//                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+////            tv_more.startAnimation(fabOpen);
+////                    mAddFab.extend();
+//            isAllFabsVisible = true;
+//        } else {
+////            iv_open_menu.startAnimation(rotateBackward);
+//        }
+//    }
 
-                        finish();
 
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
+//    private void logout() {
+//        new AlertDialog.Builder(this)
+//                .setTitle("Alert")
+//                .setMessage("Are you sure you want to logout?")
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+////                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+////                        prefs.edit().remove("current_fragment");
+//////                        SharedPreferences crend_Prefs = getSharedPreferences(Constants.BIOMETIRCSharedPrefsKey, MODE_PRIVATE);
+////                        crend_Prefs.edit().putString(Constants.TOKEN_key,"");
+////                        crend_Prefs.edit().putString(Constants.PK_key,"");
+////                        crend_Prefs.edit().apply();
+////
+////                        FragmentManager fragmentManager = getSupportFragmentManager();
+////                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//
+//                        finish();
+//
+//                    }
+//                })
+//                .setNegativeButton("No", null)
+//                .show();
+//    }
 
     @Override
     public void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type) {
@@ -803,7 +805,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         menu_open1.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.menu_icon_img));
     }
 
-    private void menu_items_checked() {     //To Restrict the users as per their Role.
+    private void menu_items_checked() {     //To Restrict the Menu Items in Side Menu as per their Role.
         if (Constants.ROLE.equals("AAM")) {
             hide_menu_items();
             nav_Menu.findItem(R.id.calendar).setVisible(true);//meetings menu
@@ -833,7 +835,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         }
     }
 
-    private void selected_menu() { //Side Menu Items Text Color changes
+    private void selected_menu() { //Setting the Text color for the each Menu Item.
         SpannableString spannableString1 = new SpannableString(tm_menu.getTitle());
         spannableString1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.black)), 0, spannableString1.length(), 0);
         tm_menu.setTitle(spannableString1);
@@ -857,7 +859,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         logout_menu.setTitle(spannableString7);
     }
 
-    private void hide_menu_items() { //Hide the Side Menu Items....
+    private void hide_menu_items() { //Hide the Menu Items in Side Menu....
         nav_Menu.findItem(R.id.Dashboard).setVisible(false);
         nav_Menu.findItem(R.id.matter).setVisible(false);
         nav_Menu.findItem(R.id.documents).setVisible(false);
@@ -876,7 +878,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         nav_Menu.findItem(R.id.firm_profile).setVisible(false);
     }
 
-    private void un_hide_chosen_menu() {
+    private void hide_un_chosen_menu() {
         //Bottom Menu Backgrounds
         matter_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
         timesheets_menu.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));

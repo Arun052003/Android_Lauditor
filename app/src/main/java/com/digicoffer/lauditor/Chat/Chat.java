@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -19,6 +21,7 @@ import com.digicoffer.lauditor.Webservice.HttpResultDo;
 public class Chat extends Fragment implements AsyncTaskCompleteListener {
 
     TextView tv_create_event,tv_view_calendar;
+    private NewModel mViewModel;
     @Override
     public void onClick(View view) {
 
@@ -29,6 +32,8 @@ public class Chat extends Fragment implements AsyncTaskCompleteListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat,container,false);
+        mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
+        mViewModel.setData("Messages");
         tv_create_event = view.findViewById(R.id.tv_create_event);
         tv_view_calendar = view.findViewById(R.id.tv_view_calendar);
         loadClient();

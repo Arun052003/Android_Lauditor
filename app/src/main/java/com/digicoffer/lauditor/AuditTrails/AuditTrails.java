@@ -33,11 +33,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.AuditTrails.Model.AuditsModel;
 import com.digicoffer.lauditor.AuditTrails.Model.SpinnerItemModal;
+import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -106,6 +108,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
     View view;
     private Date selectedStartDate;
     private Date selectedEndDate;
+    private NewModel mViewModel;
 
     @Nullable
     @Override
@@ -113,6 +116,8 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
         try {
             view = inflater.inflate(R.layout.audit_trials, container, false);
             sp_category = view.findViewById(R.id.sp_project);
+            mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
+            mViewModel.setData("Audit");
             tv_name = view.findViewById(R.id.tv_name);
             datePickersLayout = view.findViewById(R.id.datePickersLayout);
             tv_advanced_search = view.findViewById(R.id.tv_advancedSearch);
