@@ -449,7 +449,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     DOCUMENT_TYPE_TAG = "firm";
                     rv_display_view_docs.removeAllViews();
                     cv_view_documents.setVisibility(View.GONE);
-
+                    callViewDocumentWebservice();
                     callclientfirmWebServices();
                 }
             });
@@ -1597,6 +1597,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                         DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
                         if (documentsModel.isGroupChecked()) {
                             selected_groups_list.add(documentsModel);
+                            callclientfirmWebServices();
 
 //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
 
@@ -1664,7 +1665,7 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
 
     private void loadMatters(JSONArray matters) throws JSONException {
         //Adding a list first value as empty...
-        matterlist.add(0, new MattersModel());
+       matterlist.add(0, new MattersModel());
         for (int i = 0; i < matters.length(); i++) {
             JSONObject jsonObject = matters.getJSONObject(i);
             MattersModel mattersModel = new MattersModel();
@@ -1673,21 +1674,16 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
             mattersModel.setType(jsonObject.getString("type"));
             matterlist.add(mattersModel);
         }
+        Log.d("matter_size",String.valueOf(matterlist.size()));
         initMatter();
     }
 
     private void initMatter() {
-        final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.matterlist);
+        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.matterlist);
         Log.i("ArrayList", "Info:" + matterlist);
         sp_matter.setAdapter(adapter);
         sp_matter_view.setAdapter(adapter);
         sp_matter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            boolean userSelect = false;
-
-            public boolean onTouch(View v, MotionEvent event) {
-                userSelect = true;
-                return false;
-            }
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1702,12 +1698,7 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
         });
         //  Log.i("ArrayList", "Info:" + matterlist);
         sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            boolean userSelect = false;
 
-            public boolean onTouch(View v, MotionEvent event) {
-                userSelect = true;
-                return false;
-            }
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1727,7 +1718,7 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
     private void initUI(ArrayList<ClientsModel> clientsList) {
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
         sp_client.setAdapter(adapter);
-        tv_search_client.setAdapter(adapter);
+       tv_search_client.setAdapter(adapter);
 
         sp_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -1748,19 +1739,45 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
 
             }
         });
-        sp_matter_view.findFocus();
         tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                matter_name = Documents.this.clientsList.get(position).getName();
-                client_id = clientsList.get(position).getId();
-//           matterlist.clear();
-//          callLegalMatters();
+                if(position > 0){
+                    client_id = clientsList.get(position).getId();
+                    matterlist.clear();
+                    callLegalMatter();
+                }
+
             }
 
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+
+    private void intUI(ArrayList<ClientsModel> clientsList) {
+      CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
+     //   sp_client.setAdapter(adapter);
+        tv_search_client.setAdapter(adapter);
+    // sp_matter_view.findFocus();
+       tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                matter_name = Documents.this.clientsList.get(position).getName();
+                client_id = clientsList.get(position).getId();
+        matterlist.clear();
+        callLegalMatter();
+          }
+
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -1812,13 +1829,14 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
 //                    updatedClients.add(clientsModel);
         }
         initUI(clientsList);
-        //  intUI(clientsList);
+         // intUI(clientsList);
     }
 
     private void callLegalMatter() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
+            Log.d("Client_id",client_id);
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/matter/all/" + client_id, "Legal Matter", jsonObject.toString());
 
         } catch (Exception e) {
@@ -2210,7 +2228,7 @@ rv_display_view_docs.setVisibility(View.VISIBLE);
                         }
 
 //            AndroidUtils.showAlert(jsonObject.toString(),getContext());
-                        WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "View Document", new_file, jsonObject.toString());
+                        WebServiceHelper.callHttpViewWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "View Document", new_file, jsonObject.toString());
                         rv_display_view_docs.setVisibility(View.VISIBLE);
                     }
             }
