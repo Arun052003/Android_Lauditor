@@ -595,9 +595,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     email_sm.setTitle(spannableString1);
                     frag = new Dashboard();
                 } else if (itemId == R.id.logout) {
-                    SpannableString spannableString1 = new SpannableString(logout_sm.getTitle());
-                    spannableString1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getApplicationContext(), R.color.green_count_color)), 0, spannableString1.length(), 0);
-                    logout_sm.setTitle(spannableString1);
                     confirmLogout();
                 } else if (itemId == R.id.matter) {
                     frag = new Matter();
@@ -848,9 +845,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         SpannableString spannableString6 = new SpannableString(email_sm.getTitle());
         spannableString6.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.black)), 0, spannableString6.length(), 0);
         email_sm.setTitle(spannableString6);
-        SpannableString spannableString7 = new SpannableString(logout_sm.getTitle());
-        spannableString7.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.black)), 0, spannableString7.length(), 0);
-        logout_sm.setTitle(spannableString7);
     }
 
     private void hide_menu_items() { //Hide the Menu Items in Side Menu....
