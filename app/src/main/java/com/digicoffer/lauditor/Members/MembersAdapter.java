@@ -25,7 +25,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHolder> implements Filterable {
-  //  ArrayList<MembersModel> members_list = new ArrayList<>();
+    //  ArrayList<MembersModel> members_list = new ArrayList<>();
     ArrayList<ActionModel> actions_List = new ArrayList();
     ArrayList<MembersModel> itemsArrayList;
 
@@ -39,19 +39,18 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     }
 
     Context mcontext;
+    Members members;
     EventListener eventListener;
 
 
-
     // Constructor with listener
-    public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener) {
+    public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener, Members member) {
         this.itemsArrayList = itemsArrayList;
         this.mcontext = context;
-
+        this.members = member;
         this.eventListener = listener;
         this.list_item = itemsArrayList;
     }
-
 
 
     public Filter getFilter() {
@@ -73,13 +72,13 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
                 FilterResults filterResults = new FilterResults();
                 filterResults.count = itemsArrayList.size();
-                filterResults.values =itemsArrayList;
+                filterResults.values = itemsArrayList;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsArrayList= (ArrayList<MembersModel>) filterResults.values;
+                itemsArrayList = (ArrayList<MembersModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -133,10 +132,11 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
                 if ("Edit Member".equals(name)) {
-
+                    members.model_name("Edit Member");
                     eventListener.EditMember(membersModel);
                 } else if ("Add|Remove Group Access".equals(name)) {
                     try {
+                        members.model_name("Add|Remove Group Access");
                         eventListener.UpdateGroupAccess(membersModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -144,10 +144,10 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
                 } else if ("Reset Password".equals(name)) {
                     eventListener.ResetPassword(membersModel);
                 } else if ("Delete Member".equals(name)) {
+                    members.model_name("Delete Member");
                     eventListener.DeleteMember(membersModel);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }

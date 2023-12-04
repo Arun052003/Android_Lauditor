@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:background="@drawable/appbar_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,29 +115,28 @@
 
             </ImageView>
 
-            <RelativeLayout
+
+            <TextView
+                android:id="@+id/person_icon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_gravity="center"
                 android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/circular_button_background"
+                android:gravity="center"
+                android:text="AA"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/menu"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toEndOf="@id/reminders"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/person_icon"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="AA"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/menu"

@@ -36,62 +36,62 @@
             app:menu="@menu/nav_items" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"></androidx.appcompat.widget.LinearLayoutCompat>
+    <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0"></androidx.appcompat.widget.LinearLayoutCompat>-->
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/ll_bottom_menu"
-        android:layout_width="110dp"
-        android:layout_height="54dp"
-        android:layout_gravity="center|bottom"
-        android:background="@drawable/background_transparent"
-        android:backgroundTint="@color/dashboard_background_shadow_color"
-        android:backgroundTintMode="screen"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+    <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+    <!--        android:id="@+id/ll_bottom_menu"-->
+    <!--        android:layout_width="110dp"-->
+    <!--        android:layout_height="54dp"-->
+    <!--        android:layout_gravity="center|bottom"-->
+    <!--        android:background="@drawable/background_transparent"-->
+    <!--        android:backgroundTint="@color/dashboard_background_shadow_color"-->
+    <!--        android:backgroundTintMode="screen"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0">-->
 
 
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/iv_up_arrow"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:background="@drawable/down_arrow">-->
+    <!--        &lt;!&ndash;        <ImageButton&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/iv_up_arrow"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:background="@drawable/down_arrow">&ndash;&gt;-->
 
-        <!--        </ImageButton>-->
+    <!--        &lt;!&ndash;        </ImageButton>&ndash;&gt;-->
 
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/iv_down_arrow"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:background="@drawable/up_arrow"-->
-        <!--            android:visibility="gone">-->
+    <!--        &lt;!&ndash;        <ImageButton&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/iv_down_arrow"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:background="@drawable/up_arrow"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:visibility="gone">&ndash;&gt;-->
 
-        <!--        </ImageButton>-->
+    <!--        &lt;!&ndash;        </ImageButton>&ndash;&gt;-->
 
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:layout_marginBottom="5dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:text="MENU"-->
-        <!--            android:textColor="@color/Primary">-->
+    <!--        &lt;!&ndash;        <TextView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginBottom="5dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:gravity="center"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:text="MENU"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:textColor="@color/Primary">&ndash;&gt;-->
 
-        <!--        </TextView>-->
+    <!--        &lt;!&ndash;        </TextView>&ndash;&gt;-->
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/fb_relationships"-->
@@ -162,19 +162,19 @@
     <!--                            android:text="Documents"-->
     <!--                            android:layout_marginBottom="80dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/rv_menu"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/ll_bottom_menu"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.9" />-->
 
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/fb_timesheets"-->

@@ -56,7 +56,6 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     Spinner sp_default_currency;
     TextInputEditText et_search_members, et_search_teammember;
     private NewModel mViewModel;
-    MembersAdapter adapter = null;
 
 
     AppCompatButton btn_cancel_members, bt_save_members, bt_cancel, bt_save, btn_cancel_save, btn_create, btn_add;
@@ -603,15 +602,12 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
             members_list.add(membersModel);
         }
-
         loadRecylcerview();
-
-
     }
 
     private void loadRecylcerview() {
         rv_view_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this);
+        MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this, Members.this);
         // rv_view_members.setAdapter(adapter);
         // rv_view_members.setHasFixedSize(true);
         // membersApdater = new MembersAdapter(members_list);
@@ -790,7 +786,18 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         tv_email.setText("");
         tv_member_name.setText("");
         tv_default_rate.setText("");
+    }
 
+    public void model_name(String action_list) {
+        if (action_list == "Edit Member") {
+            mViewModel.setData("Edit Member");
+        } else if (action_list == "Add|Remove Group Access") {
+            mViewModel.setData("Add|Remove Group Access");
+        } else if (action_list == "Delete Member") {
+            mViewModel.setData("Delete Member");
+        } else {
+            mViewModel.setData("View Members");
+        }
     }
 
 }

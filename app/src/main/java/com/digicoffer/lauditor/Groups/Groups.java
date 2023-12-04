@@ -66,14 +66,8 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     //Initializing a search TextInputLayout..
     TextInputLayout search, search_tm, search_delete;
     CardView cv_delete_team;
-    //    Spinner delete_tm;
-    RelativeLayout delete_spinner_layout;
-
     //rename of title name
     TextView description_name, category_id, team_member_id, from_id, to_id, client_id_name, search_name, group_name_delete;
-
-    //Rename the Hint name
-
     AppCompatButton tv_from_date, tv_to_date;
     TextInputLayout tv_selected_members;
     private NewModel mViewModel;
@@ -153,8 +147,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         search_delete = v.findViewById(R.id.search_delete);
         search_tm = v.findViewById(R.id.search_tm);
         et_search_delete = v.findViewById(R.id.et_search_delete);
-//        delete_tm = v.findViewById(R.id.delete_tm);
-//        delete_spinner_layout = v.findViewById(R.id.delete_spinner_layout);
         group_name_delete = v.findViewById(R.id.group_name_delete);
         cv_delete_team = v.findViewById(R.id.cv_delete_team);
         //view_groups components...
@@ -192,8 +184,8 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         cv_details = v.findViewById(R.id.cv_details_2);
         btn_cancel_gal = v.findViewById(R.id.btn_cancel_activity_log);
         btn_search_gal = v.findViewById(R.id.btn_update_activity_log);
-//        changing a name of submit button to search...
         btn_search_gal.setText("Search");
+
         cv_activity_log = v.findViewById(R.id.cv_details_activity_log);
         tv_selected_members = v.findViewById(R.id.filledTextField3);
         ll_tm = v.findViewById(R.id.linearLayoutCompat1);
@@ -322,7 +314,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         btn_cancel_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 tv_group_name.setText("");
                 tv_group_description.setText("");
                 assignGroupsList.clear();
@@ -410,11 +401,9 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         et_search.setVisibility(View.VISIBLE);
         et_search.setText("");
         callViewGroupsWebservice();
-
     }
 
     private void callMembersWebservice() {
-
         try {
             JSONObject postdata = new JSONObject();
             progress_dialog = AndroidUtils.get_progress(getActivity());
@@ -438,11 +427,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     }
 
     private void loadViewGroupsRecylerview(String TAG_TYPE, ArrayList<ViewGroupModel> viewGroupModelArrayList) {
-
-//        for (int i = 0; i < viewGroupModelArrayList.size(); i++) {
-//
-//        }
-//        String mtag = "VG";
         if (TAG_TYPE == "VG") {
             rv_view_groups.setLayoutManager(new GridLayoutManager(getContext(), 1));
             adapter_view_groups = new ViewGroupsAdpater(viewGroupModelArrayList, getContext(), this, TAG_TYPE, new_itemClickListener, Groups.this);
@@ -518,7 +502,7 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         if (tmType == "TM") {
             chk_select_all.setVisibility(View.VISIBLE);
 //            When clicking cancel button
-            //Changing a text color for the Add-group head and Add-team member module..
+            //Changing a text color for the Add-Group head and Add-Team member module..
             tv_add_tm.setTextColor(getContext().getResources().getColor(R.color.white));
             tv_practice_head.setTextColor(getContext().getResources().getColor(R.color.black));
             tv_practice_head.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -1032,7 +1016,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 JSONObject jsonObject = viewGroupModel.getMembers().getJSONObject(i);
                 viewGroupModel_1.setGroup_name(jsonObject.getString("name"));
                 viewGroupModel_1.setGroup_id(jsonObject.getString("id"));
-
                 viewGroupMembersList.add(viewGroupModel_1);
             }
 
@@ -1054,11 +1037,8 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 @Override
                 public void onClick(View view) {
                     mViewModel.setData("View Groups");
-
                     if (group_head.equals("")) {
-//                        tv_group_name.setError("Group name Required");
                         AndroidUtils.showToast("Please select a Group Head", getContext());
-//                        assignGroupsList.clear();
                     } else {
                         try {
 //                            unhideData();
@@ -1068,7 +1048,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                         }
                     }
 //                    ViewGroupsData();
-
                 }
             });
 
@@ -1163,7 +1142,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         btn_cancel_gal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 mViewModel.setData("View Groups");
                 unhideData();
                 tv_from_date.setText("");
@@ -1177,11 +1155,11 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         btn_search_gal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.setData("View Groups");
                 //search layout displaying....
 //                String update_type = "UGM";
                 try {
                     callSearchResultsWebservice(selected_category, selected_tm, tv_from_date.getText().toString(), tv_to_date.getText().toString(), viewGroupModel.getId());
+                    mViewModel.setData("View Groups");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1191,7 +1169,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     }
 
     private void callSearchResultsWebservice(String selected_category, String selected_tm, String from_date, String to_date, String id) throws JSONException {
-
         JSONObject postdate = new JSONObject();
         postdate.put("category", selected_category);
         postdate.put("client", "");
@@ -1258,10 +1235,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         ll_select_tm.setVisibility(View.VISIBLE);
         rv_view_groups.setVisibility(View.GONE);
         rv_select_team_members.setVisibility(View.VISIBLE);
-//        rv_view_groups
-//        ll_buttons.setVisibility(View.VISIBLE);
-//        rv_select_team_members.setVisibility(View.VISIBLE);
-
         //Make search TextInputLayout invisible
         search.setVisibility(View.GONE);
         et_search.setVisibility(View.GONE);
@@ -1272,7 +1245,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     }
 
     private void callDeleteGroups(String id) throws JSONException {
-
         try {
             JSONObject postData = new JSONObject();
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.DELETE, "v3/group/" + id + "/" + group_head, "Delete Groups", postData.toString());
@@ -1282,16 +1254,13 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     }
 
     private void callUpdateGroups(String group_name, String description, String id, String update_type, ArrayList<GroupModel> list_item) throws JSONException {
-
         try {
-
             JSONObject postData = new JSONObject();
             JSONArray jsonArray = new JSONArray();
             if (update_type == "EG") {
                 postData.put("name", group_name);
                 postData.put("description", description);
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PATCH, "v3/group/" + id, "Update Groups", postData.toString());
-
             } else if (update_type == "UGM") {
                 for (int i = 0; i < list_item.size(); i++) {
                     GroupModel model = list_item.get(i);
@@ -1306,7 +1275,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
                 } else {
                     AndroidUtils.showToast("Please select atleast one team member", getContext());
                 }
-
             }
 //            AndroidUtils.showToast(postData.toString(),getContext());
             Log.i("TAG", "Object:" + postData.toString() + ":" + id);
@@ -1316,7 +1284,6 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
     }
 
     private void hideData() {
-
         ll_group_list.setVisibility(View.GONE);
         ll_tm.setVisibility(View.GONE);
         ll_select_all.setVisibility(View.GONE);
@@ -1381,11 +1348,11 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
         }
     }
 
-    public void model_name(String action_list) {
-        if (action_list == "Edit Groups") {
-            mViewModel.setData("Edit Groups");
-        } else if (action_list == "Delete Groups") {
-            mViewModel.setData("Delete Groups");
+    public void page_name(String action_list) {
+        if (action_list == "Edit Group") {
+            mViewModel.setData("Edit Group");
+        } else if (action_list == "Delete Group") {
+            mViewModel.setData("Delete Group");
         } else if (action_list == "Update Group Members") {
             mViewModel.setData("Update Group Members");
         } else if (action_list == "Change Group Head") {

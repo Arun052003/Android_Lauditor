@@ -81,7 +81,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     }
                     itemsArrayList = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.count = itemsArrayList.size();
                 filterResults.values = itemsArrayList;
@@ -96,7 +95,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         };
     }
 
-
     public interface InterfaceListener {
         void EditGroup(ViewGroupModel viewGroupModel);
 
@@ -109,11 +107,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         void GAL(ViewGroupModel viewGroupModel) throws JSONException;
     }
 
-    //    @Override
-//    public void onViewRecycled(@NonNull ViewHolder holder) {
-//        holder.cb_team_members.setOnCheckedChangeListener(null);
-//        super.onViewRecycled(holder);
-//    }
     @NonNull
     @Override
     public ViewGroupsAdpater.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -155,7 +148,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             actions_List.add(new ActionModel("Group Activity Log"));
             final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) mcontext, actions_List);
             holder.sp_action.setAdapter(spinner_adapter);
-
             holder.action_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -170,23 +162,23 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
 
                     String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
                     if (name == "Edit Group") {
-                        group.model_name("Edit Groups");
+                        group.page_name("Edit Group");
                         eventListener.EditGroup(viewGroupModel);
                     } else if (name == "Delete") {
-                        group.model_name("Delete Groups");
+                        group.page_name("Delete Group");
                         eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
                     } else if (name == "Change Group Head") {
-                        group.model_name("Change Group Head");
+                        group.page_name("Change Group Head");
                         eventListener.CGH(viewGroupModel, itemsArrayList);
                     } else if (name == "Update Group Members") {
-                        group.model_name("Update Group Members");
+                        group.page_name("Update Group Members");
                         try {
                             eventListener.UGM(viewGroupModel);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else if (name == "Group Activity Log") {
-                        group.model_name("Group Activity Log");
+                        group.page_name("Group Activity Log");
                         try {
                             eventListener.GAL(viewGroupModel);
                         } catch (JSONException e) {
@@ -223,10 +215,8 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
-
                         selectedPosition = holder.getAdapterPosition();
                         itemClickListener.onClick(viewGroupModel.getId());
-
                     }
                 }
             });
@@ -244,25 +234,14 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 }
             });
         }
-
     }
 
     public void selectOrDeselectAll(boolean isChecked) {
         for (int i = 0; i < list_item.size(); i++) {
-
-//            if (isChecked){
-//                list_item.get(i).setSelected(true);
-//
-//            }
-//            else{
-//                list_item.get(i).setSelected(false);
-//            }
             list_item.get(i).setChecked(isChecked);
         }
-
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemCount() {
@@ -280,12 +259,10 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             super(itemView);
             tv_user_type = itemView.findViewById(R.id.tv_group_name);
             tv_owner_name = itemView.findViewById(R.id.tv_group_head);
-            //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
             created_id = itemView.findViewById(R.id.created_id);
             action_layout = itemView.findViewById(R.id.action_layout);
-            //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
             sp_action = itemView.findViewById(R.id.sp_action);
             rb_group_selected = itemView.findViewById(R.id.rb_group_selected);
