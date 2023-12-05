@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
-//        tet_email.setText("soundaryavembaiyan@yahoo.com");
-//        tet_password.setText("Test@123");
+        //  tet_email.setText("soundaryavembaiyan@yahoo.com");
+        //  tet_password.setText("Test@123");
 
         bt_submit = findViewById(R.id.Submit);
 //        Login();
@@ -133,7 +133,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 }
             }
         });
-        Login();
 
         // Rest of your code...
         // Initialize your views and other functionality
@@ -402,8 +401,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                                 postData.put("password", tet_password.getText().toString());
                                 WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
                             }
-                        }
-                        else {
+                        } else {
                             String error_msg = result.has("plan") && result.getString("plan").equals("lauditor") ? String.valueOf(result.get("msg")) : "Account not found";
 //                            startActivity(new Intent(this, reset_password_file.class));
                             AndroidUtils.showToast(error_msg,LoginActivity.this);
@@ -451,7 +449,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         finish();
     }
 }
