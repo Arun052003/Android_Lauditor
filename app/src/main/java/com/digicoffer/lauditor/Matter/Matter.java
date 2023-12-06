@@ -82,6 +82,7 @@ public class Matter extends Fragment {
                 loadCreateUI();
 
 
+
             }
         });
 
@@ -215,9 +216,15 @@ public class Matter extends Fragment {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         Fragment childFragment = new GCT();
-        FragmentManager childFragmentManager = getChildFragmentManager();
-        childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
+      //  FragmentManager childFragmentManager = getChildFragmentManager();
+       ft.replace(R.id.child_container,childFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
+
+       // childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
 
     public void loadMatterInformation() {

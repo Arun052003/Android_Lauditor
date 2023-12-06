@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 public class EditMatterTimeline extends Fragment {
     private ArrayList<ViewMatterModel> models;
     com.google.android.material.imageview.ShapeableImageView siv_time_line,siv_groups,siv_documents;
+    CardView cv_client_details;
+    ViewMatter matter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class EditMatterTimeline extends Fragment {
             if (args != null ){
                 ViewMatterModel viewMatterModel = getArguments().getParcelable("viewMatterModel");
 //                models = (ArrayList<ViewMatterModel>) getArguments().getSerializable("viewMatterModel");
-                AndroidUtils.showAlert(viewMatterModel.getTitle(),getContext());
+                //AndroidUtils.showAlert(viewMatterModel.getTitle(),getContext());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,6 +57,12 @@ public class EditMatterTimeline extends Fragment {
             @Override
             public void onClick(View v) {
                 loadTimeline();
+             // matter.openViewDetailsPopUp();
+
+
+
+
+
             }
         });
         siv_groups.setOnClickListener(new View.OnClickListener() {
@@ -75,12 +84,20 @@ public class EditMatterTimeline extends Fragment {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_green));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+       // matter.openViewDetailsPopUp();
 
     }
     public void loadGCT() {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        Fragment parentFragment = new GCT();
+        //  FragmentManager childFragmentManager = getChildFragmentManager();
+        ft.replace(R.id.parent_container,parentFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+       // ft.addToBackStack(null);
+        ft.commit();
 //        Fragment childFragment = new GCT();
 //        FragmentManager childFragmentManager = getChildFragmentManager();
 //        childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
@@ -89,6 +106,12 @@ public class EditMatterTimeline extends Fragment {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        MatterDocuments matterInformation = new MatterDocuments();
+        ft.replace(R.id.parent_container, matterInformation);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
 //        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 //        MatterDocuments matterInformation = new MatterDocuments();
 //        ft.replace(R.id.child_container,matterInformation);

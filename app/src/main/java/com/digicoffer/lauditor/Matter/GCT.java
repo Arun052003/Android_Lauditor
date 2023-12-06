@@ -57,6 +57,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
     JSONArray existing_clients;
     JSONArray existing_members;
     CardView cv_client_details;
+    MatterInformation matterInformation;
 
     ArrayList<DocumentsModel> selected_documents_list = new ArrayList<>();
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
@@ -79,6 +80,8 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
     ArrayList<ViewMatterModel> new_groupsList = new ArrayList<>();
     ArrayList<TeamModel> tmList = new ArrayList<>();
     Matter matter;
+
+
     private JSONArray existing_opponents;
 
 
@@ -123,6 +126,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         ll_assigned_team_members = view.findViewById(R.id.ll_assigned_team_members);
         ll_selected_clients = view.findViewById(R.id.ll_selected_clients);
         Calendar myCalendar = Calendar.getInstance();
+
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

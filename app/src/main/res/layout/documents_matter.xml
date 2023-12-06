@@ -41,7 +41,7 @@
         android:textSize="@dimen/twenty_dp"
         android:text="@string/matter_title"
         android:textAllCaps="false"
-        android:textColor="@color/Primary">
+        android:textColor="@color/Blue_text_color">
 
     </androidx.appcompat.widget.AppCompatButton>
 

@@ -17,7 +17,9 @@
         layout="@layout/group_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+       />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,7 +88,7 @@
                 android:id="@+id/tv_edit_notes"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/rectangle_grey_background"
+                android:background="@drawable/rectangle_light_grey_bg"
                 android:hint="Notes"
                 android:inputType="textMultiLine"
                 android:padding="5dp"
@@ -116,35 +118,12 @@
                     android:layout_weight="1" />
 
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel_save"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/cancel_button_background"
-                    android:elevation="20dp"
-                    android:text="@string/cancel"
-                    android:textAllCaps="false">
+             <include layout="@layout/cancel_button"
+                 android:id="@+id/btn_cancel_save"/>
 
-                </androidx.appcompat.widget.AppCompatButton>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_create"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="3dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/save_button_background"
-
-                    android:elevation="@dimen/Fifteen_dp"
-                    android:gravity="center"
-                    android:text="@string/save"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white">
-
-                </androidx.appcompat.widget.AppCompatButton>
+           <include layout="@layout/submit_button"
+               android:id="@+id/btn_create"/>
 
 
             </LinearLayout>

@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/create_matter_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_transparent"
+
         android:orientation="vertical"
 
 
@@ -26,9 +27,23 @@
             android:orientation="horizontal">
 
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
 
+                android:background="@drawable/ic_arrow_left">
 
+            </ImageView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Back"
+                android:textColor="@color/white"
+                android:textSize="@dimen/Fifteen_dp">
+
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -170,7 +185,7 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/edit_child_container"
+                android:id="@+id/parent_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
