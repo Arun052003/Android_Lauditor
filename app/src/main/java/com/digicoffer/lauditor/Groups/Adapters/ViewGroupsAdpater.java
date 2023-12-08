@@ -13,11 +13,13 @@ import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
@@ -81,6 +83,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     }
                     itemsArrayList = filteredList;
                 }
+
                 FilterResults filterResults = new FilterResults();
                 filterResults.count = itemsArrayList.size();
                 filterResults.values = itemsArrayList;
@@ -95,6 +98,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         };
     }
 
+
     public interface InterfaceListener {
         void EditGroup(ViewGroupModel viewGroupModel);
 
@@ -107,6 +111,11 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         void GAL(ViewGroupModel viewGroupModel) throws JSONException;
     }
 
+    //    @Override
+//    public void onViewRecycled(@NonNull ViewHolder holder) {
+//        holder.cb_team_members.setOnCheckedChangeListener(null);
+//        super.onViewRecycled(holder);
+//    }
     @NonNull
     @Override
     public ViewGroupsAdpater.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -128,7 +137,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         ViewGroupModel viewGroupModel = itemsArrayList.get(position);
         itemsArrayList = list_item;
         if (mTag == "VG") {
-
+            holder.sp_action.setVisibility(View.GONE);
             holder.tv_user_type.setText(viewGroupModel.getName());
             holder.tv_owner_name.setText(viewGroupModel.getOwner_name());
             holder.tv_date.setText(viewGroupModel.getCreated());
@@ -140,44 +149,49 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             actions_List.clear();
 
 ////        actions_List.add(new ActionModel("Add|Remove"));
-            actions_List.add(new ActionModel("Choose Actions"));
+//            actions_List.add(new ActionModel("Choose Actions"));
             actions_List.add(new ActionModel("Edit Group"));
             actions_List.add(new ActionModel("Delete"));
-            actions_List.add(new ActionModel("Update Group Members"));
             actions_List.add(new ActionModel("Change Group Head"));
+            actions_List.add(new ActionModel("Update Group Members"));
             actions_List.add(new ActionModel("Group Activity Log"));
             final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) mcontext, actions_List);
             holder.sp_action.setAdapter(spinner_adapter);
-            holder.action_layout.setOnClickListener(new View.OnClickListener() {
+
+            holder.custom_spinner_cardview.setOnClickListener(new View.OnClickListener() {
+                boolean ischecked = true;
+
                 @Override
-                public void onClick(View view) {
-                    holder.sp_action.performClick();
+                public void onClick(View v) {
+                    if (ischecked)
+                        holder.sp_action.setVisibility(View.VISIBLE);
+                    else
+                        holder.sp_action.setVisibility(View.GONE);
+                    ischecked = !ischecked;
                 }
             });
 
-            holder.sp_action.findFocus();
-            holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            holder.sp_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-                    if (name == "Edit Group") {
-                        group.page_name("Edit Group");
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    int name = position;
+                    if (name == 0) {
+                        group.page_name("Edit Groups");
                         eventListener.EditGroup(viewGroupModel);
-                    } else if (name == "Delete") {
-                        group.page_name("Delete Group");
+                    } else if (name == 1) {
+                        group.page_name("Delete Groups");
                         eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
-                    } else if (name == "Change Group Head") {
+                    } else if (name == 2) {
                         group.page_name("Change Group Head");
                         eventListener.CGH(viewGroupModel, itemsArrayList);
-                    } else if (name == "Update Group Members") {
+                    } else if (name == 3) {
                         group.page_name("Update Group Members");
                         try {
                             eventListener.UGM(viewGroupModel);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if (name == "Group Activity Log") {
+                    } else if (name == 4) {
                         group.page_name("Group Activity Log");
                         try {
                             eventListener.GAL(viewGroupModel);
@@ -185,13 +199,45 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                             e.printStackTrace();
                         }
                     }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
+                    holder.sp_action.setVisibility(View.GONE);
                 }
             });
+//            holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
+//                    if (name == "Edit Group") {
+//                        group.page_name("Edit Groups");
+//                        eventListener.EditGroup(viewGroupModel);
+//                    } else if (name == "Delete") {
+//                        group.page_name("Delete Groups");
+//                        eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
+//                    } else if (name == "Change Group Head") {
+//                        group.page_name("Change Group Head");
+//                        eventListener.CGH(viewGroupModel, itemsArrayList);
+//                    } else if (name == "Update Group Members") {
+//                        group.page_name("Update Group Members");
+//                        try {
+//                            eventListener.UGM(viewGroupModel);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else if (name == "Group Activity Log") {
+//                        group.page_name("Group Activity Log");
+//                        try {
+//                            eventListener.GAL(viewGroupModel);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                }
+//            });
         } else if (mTag == "UGM") {
             holder.cb_team_members.setChecked(itemsArrayList.get(position).isChecked());
             holder.cb_team_members.setTag(position);
@@ -215,8 +261,10 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
+
                         selectedPosition = holder.getAdapterPosition();
                         itemClickListener.onClick(viewGroupModel.getId());
+
                     }
                 }
             });
@@ -234,14 +282,25 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 }
             });
         }
+
     }
 
     public void selectOrDeselectAll(boolean isChecked) {
         for (int i = 0; i < list_item.size(); i++) {
+
+//            if (isChecked){
+//                list_item.get(i).setSelected(true);
+//
+//            }
+//            else{
+//                list_item.get(i).setSelected(false);
+//            }
             list_item.get(i).setChecked(isChecked);
         }
+
         notifyDataSetChanged();
     }
+
 
     @Override
     public int getItemCount() {
@@ -250,7 +309,9 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name, created_id;
-        private Spinner sp_action;
+        private ListView sp_action;
+        TextView custom_spinner;
+        CardView custom_spinner_cardview;
         LinearLayout action_layout;
         private CheckBox cb_team_members, rb_group;
         private RadioButton rb_group_head, rb_group_selected;
@@ -259,12 +320,16 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             super(itemView);
             tv_user_type = itemView.findViewById(R.id.tv_group_name);
             tv_owner_name = itemView.findViewById(R.id.tv_group_head);
+            //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
             created_id = itemView.findViewById(R.id.created_id);
             action_layout = itemView.findViewById(R.id.action_layout);
+            //tv_date.setTextColor(Color.BLACK);
             tv_description = itemView.findViewById(R.id.tv_description);
-            sp_action = itemView.findViewById(R.id.sp_action);
+            custom_spinner = itemView.findViewById(R.id.custom_spinner);
+            custom_spinner_cardview = itemView.findViewById(R.id.custom_spinner_cardview);
+            sp_action = itemView.findViewById(R.id.list_client);
             rb_group_selected = itemView.findViewById(R.id.rb_group_selected);
             rb_group = itemView.findViewById(R.id.chk_selected);
             rb_group_head = itemView.findViewById(R.id.rb_selected);

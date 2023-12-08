@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
+    <dimen name="action_list_height_tm">148dp</dimen>
+    <dimen name="action_list_width">232dp</dimen>
+    <dimen name="action_list_height_gp">183dp</dimen>
+    <dimen name="one_fifty_dp">150dp</dimen>
     <dimen name="Login_header">40sp</dimen>
     <dimen name="twenty_dp">20sp</dimen>
     <dimen name="Fifteen_dp">15sp</dimen>

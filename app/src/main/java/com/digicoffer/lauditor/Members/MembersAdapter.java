@@ -9,10 +9,12 @@ import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
@@ -43,14 +45,13 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     EventListener eventListener;
 
     // Constructor with listener
-    public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener,Members members) {
+    public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener, Members members) {
         this.itemsArrayList = itemsArrayList;
         this.mcontext = context;
         this.eventListener = listener;
-        this.members= members;
+        this.members = members;
         this.list_item = itemsArrayList;
     }
-
 
 
     public Filter getFilter() {
@@ -72,13 +73,13 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
                 FilterResults filterResults = new FilterResults();
                 filterResults.count = itemsArrayList.size();
-                filterResults.values =itemsArrayList;
+                filterResults.values = itemsArrayList;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsArrayList= (ArrayList<MembersModel>) filterResults.values;
+                itemsArrayList = (ArrayList<MembersModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -105,7 +106,8 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     public void onBindViewHolder(@NonNull MembersAdapter.ViewHolder holder, int position) {
         MembersModel membersModel = itemsArrayList.get(position);
         actions_List.clear();
-        actions_List.add(new ActionModel("Choose Actions"));
+        holder.sp_action.setVisibility(View.GONE);
+//        actions_List.add(new ActionModel("Choose Actions"));
         actions_List.add(new ActionModel("Edit Member"));
         actions_List.add(new ActionModel("Reset Password"));
         actions_List.add(new ActionModel("Update Group Access"));
@@ -119,41 +121,72 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) mcontext, actions_List);
         holder.sp_action.setAdapter(spinner_adapter);
-        holder.action_layout.setOnClickListener(new View.OnClickListener() {
+
+        holder.custom_spinner_cardview.setOnClickListener(new View.OnClickListener() {
+            boolean ischecked = true;
+
             @Override
-            public void onClick(View view) {
-                holder.sp_action.performClick();
+            public void onClick(View v) {
+                if (ischecked)
+                    holder.sp_action.setVisibility(View.VISIBLE);
+                else
+                    holder.sp_action.setVisibility(View.GONE);
+                ischecked = !ischecked;
             }
         });
 
         holder.sp_action.findFocus();
-        holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        holder.sp_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-                if (name == "Edit Member") {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int name = position;
+                if (name == 0) {
                     members.model_name("Edit Member");
                     eventListener.EditMember(membersModel);
-                } else if (name=="Update Group Access") {
+                } else if (name == 2) {
                     members.model_name("Update Group Access");
                     try {
                         eventListener.UpdateGroupAccess(membersModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } else if ("Reset Password".equals(name)) {
-
+                } else if (name == 1) {
                     eventListener.ResetPassword(membersModel);
-                } else if ("Delete Member".equals(name)) {
+                } else if (name == 3) {
                     members.model_name("Delete Member");
                     eventListener.DeleteMember(membersModel);
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                holder.sp_action.setVisibility(View.GONE);
             }
         });
+
+//        holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
+//                if (name == "Edit Member") {
+//                    members.model_name("Edit Member");
+//                    eventListener.EditMember(membersModel);
+//                } else if (name=="Update Group Access") {
+//                    members.model_name("Update Group Access");
+//                    try {
+//                        eventListener.UpdateGroupAccess(membersModel);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                } else if ("Reset Password".equals(name)) {
+//
+//                    eventListener.ResetPassword(membersModel);
+//                } else if ("Delete Member".equals(name)) {
+//                    members.model_name("Delete Member");
+//                    eventListener.DeleteMember(membersModel);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//            }
+//        });
     }
 
     @Override
@@ -163,7 +196,9 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_members_name, tv_member_type, tv_litigation, tv_email, tv_currency, tv_currency_type;
-        Spinner sp_action;
+        private ListView sp_action;
+        TextView custom_spinner;
+        CardView custom_spinner_cardview;
         LinearLayout action_layout;
 
 
@@ -175,7 +210,10 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
             tv_currency_type = itemView.findViewById(R.id.tv_currency_type);
             tv_currency = itemView.findViewById(R.id.tv_currency);
             tv_email = itemView.findViewById(R.id.tv_email_id);
-            sp_action = itemView.findViewById(R.id.sp_action);
+
+            custom_spinner = itemView.findViewById(R.id.custom_spinner);
+            custom_spinner_cardview = itemView.findViewById(R.id.custom_spinner_cardview);
+            sp_action = itemView.findViewById(R.id.list_client);
             action_layout = itemView.findViewById(R.id.action_layout);
         }
     }

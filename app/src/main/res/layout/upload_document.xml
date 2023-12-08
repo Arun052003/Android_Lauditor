@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,15 +13,15 @@
             android:id="@+id/upload_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
             android:paddingStart="50dp"
             android:paddingTop="@dimen/twenty_dp"
             android:paddingEnd="50dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.593"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.013">
+            app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -37,7 +36,6 @@
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-
                     android:fontFamily="sans-serif-condensed-medium"
                     android:src="@mipmap/uploadwhiteupload1"
                     android:text="@string/create_group"
@@ -93,13 +91,12 @@
             </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
         <LinearLayout
             android:id="@+id/ll_upload_docs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -167,23 +164,21 @@
 
                         </LinearLayout>
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/spinnerLayout"
+
+                        <include layout="@layout/spinner_text_view" />
+
+                        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/list_scroll"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:layout_height="150dp"
+                            android:fillViewport="true">
 
-                            <include
-                                android:id="@+id/at_search_client"
-                                layout="@layout/spinner_layout" />
+                            <include layout="@layout/spinner_list" />
+                        </ScrollView>
 
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
+                        <!--                            <include-->
+                        <!--                                android:id="@+id/at_search_client"-->
+                        <!--                                layout="@layout/spinner_layout" />-->
 
                     </LinearLayout>
 
@@ -194,31 +189,31 @@
                         android:layout_below="@id/ll_client_name"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <include
                             android:id="@+id/tv_matter"
-                            layout="@layout/group_layout" />
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginBottom="@dimen/small_size" />
                         <!--                            android:text="Client Name"-->
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/tl_matter"
+                        <include
+                            android:id="@+id/custom_spinner2"
+                            layout="@layout/spinner_text_view" />
+
+                        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/list_scroll2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:layout_height="150dp"
+                            android:fillViewport="true">
 
                             <include
-                                android:id="@+id/sp_matter"
-                                layout="@layout/spinner_layout" />
-
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
+                                android:id="@+id/list_matter"
+                                layout="@layout/spinner_list" />
+                        </ScrollView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -307,6 +302,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="10dp"
+                            android:baselineAligned="false"
                             android:orientation="horizontal">
 
 
@@ -502,7 +498,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -630,15 +626,26 @@
                             android:layout_alignParentTop="true"
                             android:layout_marginRight="3dp"
                             android:layout_weight=".28"
-
+                            android:background="@drawable/background_transparent"
                             android:gravity="center"
                             android:orientation="horizontal">
 
                             <include
-                                android:id="@+id/tv_search_client"
-                                layout="@layout/spinner_layout" />
+                                android:id="@+id/custom_spinner3"
+                                layout="@layout/spinner_text_view" />
 
-                            <include layout="@layout/spinner_drop_down" />
+                            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:id="@+id/list_scroll3"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:layout_below="@id/custom_spinner3"
+                                android:fillViewport="true">
+
+                                <include
+                                    android:id="@+id/list_client_view"
+                                    layout="@layout/spinner_list" />
+                            </ScrollView>
+
                         </RelativeLayout>
 
 
@@ -650,7 +657,6 @@
                         android:layout_height="match_parent"
                         android:layout_below="@id/ll_client_name_view"
                         android:layout_weight="1"
-                        android:visibility="gone"
                         android:orientation="vertical">
 
 
@@ -659,23 +665,21 @@
                             layout="@layout/group_layout" />
 
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/tl_matter_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="3dp"
-                            android:layout_weight=".28"
+                        <include
+                            android:id="@+id/custom_spinner4"
+                            layout="@layout/spinner_text_view" />
 
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/list_scroll4"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_below="@id/custom_spinner4"
+                            android:fillViewport="true">
 
                             <include
-                                android:id="@+id/sp_matter_view"
-                                layout="@layout/spinner_layout" />
-
-                            <include layout="@layout/spinner_drop_down" />
-                        </RelativeLayout>
+                                android:id="@+id/list_matter_view"
+                                layout="@layout/spinner_list" />
+                        </ScrollView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -777,9 +781,9 @@
                             <include
                                 android:id="@+id/tv_search_client_view"
                                 layout="@layout/search_layout"
-                                android:layout_height="50dp"
                                 android:layout_width="match_parent"
-                                android:layout_margin="3dp"/>
+                                android:layout_height="50dp"
+                                android:layout_margin="3dp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -807,9 +811,9 @@
                             <include
                                 android:id="@+id/tv_search_client_views"
                                 layout="@layout/search_layout"
-                                android:layout_height="50dp"
                                 android:layout_width="match_parent"
-                                android:layout_margin="3dp"/>
+                                android:layout_height="50dp"
+                                android:layout_margin="3dp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 

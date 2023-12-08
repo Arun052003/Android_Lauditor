@@ -6,10 +6,11 @@
     android:layout_margin="10dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/action_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="4dp"
         android:elevation="50dp"
+        app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,24 +31,24 @@
                     android:id="@+id/tv_group_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_margin="5dp"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="TextView"
-                    android:maxLines="1"
+                    android:layout_weight="1"
                     android:ellipsize="end"
-                    android:drawableRight="@drawable/lock_password"
+                    android:fontFamily="sans-serif-condensed"
+                    android:maxLines="1"
+                    android:text="TextView"
                     android:textColor="@color/black"
                     android:textSize="@dimen/thirty_dp" />
 
 
             </LinearLayout>
 
-            <include layout="@layout/group_layout"
-                android:layout_height="match_parent"
+            <include
+                android:id="@+id/tv_description"
+                layout="@layout/group_layout"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="8dp"
-                android:id="@+id/tv_description"/>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,9 +68,11 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/owner_layout"/>
-                        <include layout="@layout/owner_layout"
-                            android:id="@+id/tv_group_head"/>
+                        <include layout="@layout/owner_layout" />
+
+                        <include
+                            android:id="@+id/tv_group_head"
+                            layout="@layout/owner_layout" />
 
                     </LinearLayout>
 
@@ -79,23 +82,41 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/owner_layout"
+                        <include
+                            android:id="@+id/created_id"
+                            layout="@layout/owner_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/created_id"/>
+                            android:layout_height="wrap_content" />
 
-                        <include layout="@layout/owner_layout"
-                            android:id="@+id/tv_date"/>
+                        <include
+                            android:id="@+id/tv_date"
+                            layout="@layout/owner_layout" />
                     </LinearLayout>
                 </LinearLayout>
 
-             <include layout="@layout/action"
-                 android:layout_width="120dp"
-                 android:layout_marginRight="15dp"
-                 android:layout_gravity="center"
-                 android:layout_height="wrap_content"/>
+                <include
+                    android:id="@+id/action_custom_layout"
+                    layout="@layout/custom_layout_file"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp" />
 
             </LinearLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
+
+    <include
+        android:id="@+id/list_client"
+        layout="@layout/spinner_list"
+        android:layout_width="@dimen/action_list_width"
+        android:layout_height="@dimen/action_list_height_gp"
+        android:layout_below="@+id/action_cv"
+        android:layout_alignParentEnd="true"
+        android:background="@color/design_default_color_on_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_cv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,11 @@
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_client"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginStart="3dp"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/rectangle_light_grey_bg"
+    android:padding="5dp"
+    android:scrollIndicators="right"
+    android:scrollbars="vertical"
+    android:visibility="visible" />
