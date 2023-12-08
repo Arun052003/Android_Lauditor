@@ -76,6 +76,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     LinearLayoutCompat ll_buttons, ll_new_buttons, ll_save_buttons;
     LinearLayout ll_confirm_email;
     AlertDialog progress_dialog;
+    Members members;
     private boolean MemberModelArrayList;
     private Object MembersModel;
 
@@ -352,6 +353,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         cv_details.setVisibility(View.GONE);
         cv_members_details.setVisibility(View.GONE);
         callViewGroupsWebservice();
+
         et_search_members.setText("");
         search_teammember.setVisibility(View.VISIBLE);
         et_search_teammember.setVisibility(View.VISIBLE);
@@ -607,7 +609,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
     private void loadRecylcerview() {
         rv_view_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this, Members.this);
+        MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this,Members.this);
         // rv_view_members.setAdapter(adapter);
         // rv_view_members.setHasFixedSize(true);
         // membersApdater = new MembersAdapter(members_list);
@@ -666,7 +668,9 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     @Override
     public void EditMember(MembersModel membersModel) {
 //        cv_members_details.setVisibility(View.GONE);
+        // TAG="UGA";
         CreateMembersData();
+        cv_details.setVisibility(View.VISIBLE);
         search_teammember.setVisibility(View.GONE);
         ll_buttons.setVisibility(View.GONE);
         ll_save_buttons.setVisibility(View.GONE);
@@ -693,11 +697,61 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                     String id = membersModel.getId();
                     et_search_members.setText("");
                     callCreateMemberWebservice(tv_member_name.getText().toString().trim(), tv_designation.getText().toString().trim(), tv_default_rate.getText().toString().trim(), tv_email.getText().toString().trim(), tv_confirm_email.getText().toString().trim(), tag, id);
-                    tv_create_members.setBackgroundResource(R.drawable.button_left_background);
-                    tv_assign_groups.setVisibility(View.VISIBLE);
-                    tv_create_members.setTextColor(Color.BLACK);
-                    tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
-                    tv_view_members.setTextColor(Color.WHITE);
+//                    tv_create_members.setBackgroundResource(R.drawable.button_left_background);
+//                    tv_assign_groups.setVisibility(View.VISIBLE);
+//                    tv_create_members.setTextColor(Color.BLACK);
+//                    tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
+//                    tv_view_members.setTextColor(Color.WHITE);
+
+                }
+            }
+        });
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+//                ll_confirm_email.setVisibility(View.GONE);
+//                membersModel.
+                tv_assign_groups.setVisibility(View.VISIBLE);
+                unhide();
+                ViewMembersData();
+            }
+        });
+    }
+    public void edit_member() {
+
+        MembersModel membersModel = new MembersModel();
+        search_teammember.setVisibility(View.GONE);
+        ll_buttons.setVisibility(View.GONE);
+        ll_save_buttons.setVisibility(View.GONE);
+        tv_assign_groups.setVisibility(View.GONE);
+        ll_new_buttons.setVisibility(View.VISIBLE);
+        cv_members_details.setVisibility(View.GONE);
+        ll_confirm_email.setVisibility(View.VISIBLE);
+        tv_member_name.setText(membersModel.getName());
+        tv_email.setText(membersModel.getEmail());
+        tv_default_rate.setText(membersModel.getDefaultRate());
+        tv_confirm_email.setVisibility(View.VISIBLE);
+        tv_confirm_email.setText(tv_email.getText().toString());
+        for (int i = 0; i < currency_list.size(); i++) {
+            if (currency_list.get(i).equals(membersModel.getCurrency())) {
+                sp_default_currency.setSelection(i);
+            }
+        }
+        tv_designation.setText(membersModel.getDesignation());
+        bt_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validation()) {
+                    String tag = "Update";
+                    String id = membersModel.getId();
+                    et_search_members.setText("");
+                    callCreateMemberWebservice(tv_member_name.getText().toString().trim(), tv_designation.getText().toString().trim(), tv_default_rate.getText().toString().trim(), tv_email.getText().toString().trim(), tv_confirm_email.getText().toString().trim(), tag, id);
+//                    tv_create_members.setBackgroundResource(R.drawable.button_left_background);
+//                    tv_assign_groups.setVisibility(View.VISIBLE);
+//                    tv_create_members.setTextColor(Color.BLACK);
+//                    tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
+//                    tv_view_members.setTextColor(Color.WHITE);
 
                 }
             }
@@ -715,9 +769,9 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         });
     }
 
-    @Override
     public void UpdateGroupAccess(MembersModel membersModel) throws JSONException {
         TAG = "UGA";
+
         for (int i = 0; i < membersModel.getGroups().length(); i++) {
             ViewGroupModel viewGroupModel = new ViewGroupModel();
             JSONObject jsonObject = membersModel.getGroups().getJSONObject(i);
@@ -726,11 +780,12 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
             updatedMembersList.add(viewGroupModel);
         }
         CreateMembersData();
+
         btn_cancel_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                unhide();
+                // unhide();
 
                 ViewMembersData();
 
@@ -746,7 +801,6 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         });
         bt_save_members.setText("Add");
     }
-
     @Override
     public void ResetPassword(MembersModel membersModel) {
         String tag = "RP";
@@ -791,8 +845,8 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     public void model_name(String action_list) {
         if (action_list == "Edit Member") {
             mViewModel.setData("Edit Member");
-        } else if (action_list == "Add|Remove Group Access") {
-            mViewModel.setData("Add|Remove Group Access");
+        } else if (action_list == "Update Group Access") {
+            mViewModel.setData("Update Group Access");
         } else if (action_list == "Delete Member") {
             mViewModel.setData("Delete Member");
         } else {

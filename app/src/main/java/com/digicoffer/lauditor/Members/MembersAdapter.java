@@ -42,15 +42,15 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     Members members;
     EventListener eventListener;
 
-
     // Constructor with listener
-    public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener, Members member) {
+    public MembersAdapter(ArrayList<MembersModel> itemsArrayList, Context context, EventListener listener,Members members) {
         this.itemsArrayList = itemsArrayList;
         this.mcontext = context;
-        this.members = member;
         this.eventListener = listener;
+        this.members= members;
         this.list_item = itemsArrayList;
     }
+
 
 
     public Filter getFilter() {
@@ -72,13 +72,13 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
                 FilterResults filterResults = new FilterResults();
                 filterResults.count = itemsArrayList.size();
-                filterResults.values = itemsArrayList;
+                filterResults.values =itemsArrayList;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsArrayList = (ArrayList<MembersModel>) filterResults.values;
+                itemsArrayList= (ArrayList<MembersModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -108,7 +108,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
         actions_List.add(new ActionModel("Choose Actions"));
         actions_List.add(new ActionModel("Edit Member"));
         actions_List.add(new ActionModel("Reset Password"));
-        actions_List.add(new ActionModel("Add|Remove Group Access"));
+        actions_List.add(new ActionModel("Update Group Access"));
         actions_List.add(new ActionModel("Delete Member"));
 
         holder.tv_members_name.setText(membersModel.getName());
@@ -131,23 +131,25 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-                if ("Edit Member".equals(name)) {
+                if (name == "Edit Member") {
                     members.model_name("Edit Member");
                     eventListener.EditMember(membersModel);
-                } else if ("Add|Remove Group Access".equals(name)) {
+                } else if (name=="Update Group Access") {
+                    members.model_name("Update Group Access");
                     try {
-                        members.model_name("Add|Remove Group Access");
                         eventListener.UpdateGroupAccess(membersModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else if ("Reset Password".equals(name)) {
+
                     eventListener.ResetPassword(membersModel);
                 } else if ("Delete Member".equals(name)) {
                     members.model_name("Delete Member");
                     eventListener.DeleteMember(membersModel);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
