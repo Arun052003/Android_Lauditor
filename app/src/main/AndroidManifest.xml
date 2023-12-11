@@ -49,6 +49,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode"
         tools:targetApi="33" >
+
         <activity android:name=".LoginActivity.ForgetPassword"
             android:exported="true"/>
         <activity

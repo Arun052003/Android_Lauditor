@@ -166,7 +166,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="3dp"
-            android:src="@drawable/edit_documents_icon"
+            android:src="@drawable/edit_icon"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="60dp"
             android:padding="3dp"

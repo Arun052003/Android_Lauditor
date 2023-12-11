@@ -1,8 +1,9 @@
 package com.digicoffer.lauditor.Matter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,12 +21,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.digicoffer.lauditor.Dashboard.Dashboard;
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
+import com.digicoffer.lauditor.Matter.Adapters.GroupsAdapter;
 import com.digicoffer.lauditor.Matter.Adapters.ViewMatterAdapter;
-import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
 import com.digicoffer.lauditor.Matter.Models.ClientsModel;
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.Matter.Models.HistoryModel;
@@ -43,8 +44,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.minidns.record.A;
-import org.pgpainless.key.selection.key.util.And;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, ViewMatterAdapter.InterfaceListener {
     TextInputLayout search_matter;
+    LinearLayout linear_notes;
     RecyclerView rv_matter_list;
     TextInputEditText et_search_matter;
     AlertDialog progressDialog;
@@ -81,6 +81,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
      String Matter_Title = "";
      String Case_Number = "";
     ViewMatterModel viewMatterModel;
+    GroupsModel groupsModel;
     private ArrayList<GroupsModel> groupsList;
 
     @Nullable
@@ -153,6 +154,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 }else if(httpResult.getRequestType().equals("Update Groups")){
                     groupsArrayList.clear();
                     callMatterListWebservice();
+
                 }else if(httpResult.getRequestType().equals("Update Matter")){
 
                     String msg = result.getString("msg");
@@ -197,27 +199,28 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     }
 
     private void openViewGroupsPopup() {
+
 //        groupsArrayList.clear();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.update_groups_popup, null);
-        LinearLayout ll_groups = view.findViewById(R.id.ll_groups);
-        //RecyclerView rv_relationship_documents = view.findViewById(R.id.rv_relationship_documents);
+       LinearLayout ll_groups = view.findViewById(R.id.ll_groups);
+      //  RecyclerView rv_selected_member = view.findViewById(R.id.rv_selected_member);
         AppCompatButton btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         AppCompatButton btn_create = view.findViewById(R.id.btn_create);
         btn_create.setText("Update");
         ImageView close_details = view.findViewById(R.id.close_details);
 
-//        RecyclerView rv_groups = view.findViewById(R.id.rv_groups);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-//        rv_groups.setLayoutManager(layoutManager);
+      // RecyclerView rv_groups = view.findViewById(R.id.rv_groups);
+       // RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+       //rv_groups.setLayoutManager(layoutManager);
 
-//        String ADAPTER_TAG = "UGM";
-//        GroupsAdapter groupsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,groupsArrayList, ADAPTER_TAG);
-//        rv_groups.setAdapter(groupsAdapter);
-//        rv_groups.setHasFixedSize(true);
+      //  String ADAPTER_TAG = "UGM";
+     //   GroupsAdapter groupsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,groupsArrayList, ADAPTER_TAG);
+     //  rv_groups.setAdapter(groupsAdapter);
+       // rv_groups.setHasFixedSize(true);
 
-        ll_groups.removeAllViews();
+       ll_groups.removeAllViews();
 
         for ( i= 0; i<groupsArrayList.size(); i++){
             View view_groups = LayoutInflater.from(getContext()).inflate(R.layout.select_team_members, null);
@@ -235,10 +238,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                     int position = 0;
                     if (v.getTag() instanceof Integer) {
                         position = (Integer) v.getTag();
-                        v = ll_groups.getChildAt(position);
+                       // v = rv_selected_member.getChildAt(position);
                         viewMatterModel = groupsArrayList.get(position);
 
-                        callgroupsWebservice();
+
+                        callgroupsWebservice(groupsArrayList);
+
                     }
 
 //                    int position =i;
@@ -258,7 +263,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 //                    groupsArrayList.get(i).setChecked(chk_selected.isChecked());
                 }
             });
-            ll_groups.addView(view_groups);
+           ll_groups.addView(view_groups);
         }
         final AlertDialog dialog = builder.create();
         btn_cancel_save.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +278,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             public void onClick(View v) {
 
                 dialog.dismiss();
+                callgroupsWebservice(groupsArrayList);
                 callUpdateGroupsWebservice(groupsArrayList);
             }
         });
@@ -339,7 +345,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         openViewDetailsPopUp();
     }
 
-    private void openViewDetailsPopUp() {
+    public void openViewDetailsPopUp() {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -359,6 +365,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
                     TextView tv_timeline_date = view_timeLine.findViewById(R.id.tv_timeline_date);
                     tv_timeline_date.setText("Second text view");
+                    tv_timeline_date.setTextColor(Color.BLACK);
+
                     LinearLayout ll_empty_notes = view_timeLine.findViewById(R.id.ll_empty_notes);
                     LinearLayout ll_edit_notes = view_timeLine.findViewById(R.id.ll_edit_notes);
                     TextInputEditText tv_edit_notes = view_timeLine.findViewById(R.id.tv_edit_notes);
@@ -366,6 +374,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                     AppCompatButton btn_cancel_save = view_timeLine.findViewById(R.id.btn_cancel_save);
                     AppCompatButton btn_create = view_timeLine.findViewById(R.id.btn_create);
                     TextInputEditText tv_view_notes = view_timeLine.findViewById(R.id.tv_view_notes);
+                    LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
                     ImageView iv_view_timeLine = view_timeLine.findViewById(R.id.iv_view);
                     TextView normal_notes = view_timeLine.findViewById(R.id.normal_notes);
 
@@ -493,11 +502,14 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                         @Override
                         public void onClick(View v) {
                             try {
+
                                 int position = 0;
                                 if (v.getTag() instanceof Integer) {
                                     position = (Integer) v.getTag();
                                     v = ll_timeline.getChildAt(position);
+
                                     if (tv_view_notes.getVisibility() == View.VISIBLE) {
+                                        linear_notes.setVisibility(View.VISIBLE);
                                         ll_empty_notes.setVisibility(View.VISIBLE);
                                         ll_edit_notes.setVisibility(View.GONE);
                                         tv_view_notes.setVisibility(View.GONE);
@@ -753,17 +765,19 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void Edit_Matter_Info(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("viewMatterModel",  viewMatterModel);
-        Fragment fragment = new EditMatterTimeline();
+      Bundle bundle = new Bundle();
+      //  bundle.putParcelable("viewMatterModel",  viewMatterModel);
+        Fragment fragment = new MatterInformation();
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.id_framelayout, fragment);
+       ft.replace(R.id.id_framelayout, fragment);
         ft.commit();
+
     }
 
     @Override
@@ -786,7 +800,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
     }
 
-    private void callgroupsWebservice() {
+    private void callgroupsWebservice(ArrayList<ViewMatterModel> groupsArrayList) {
         progressDialog = AndroidUtils.get_progress(getActivity());
         try{
             JSONObject postdata = new JSONObject();
@@ -874,6 +888,9 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             if(viewMatterModel.getStatus().equals("Closed")){
                 tv_confirmation.setText("Are you sure you want to ReOpen " +viewMatterModel.getTitle() + "?");
                 Matter_Status = "Active";
+
+
+
             }else{
                 tv_confirmation.setText("Are you sure you want to Close " +viewMatterModel.getTitle() + "?");
                 Matter_Status = "Closed";
