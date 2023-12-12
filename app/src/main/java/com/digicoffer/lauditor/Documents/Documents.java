@@ -22,7 +22,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -353,6 +352,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             //...
 
             //..
+
             custom_spinner3.setText("");
             custom_spinner4.setText("");
             list_scroll4.setVisibility(View.GONE);
@@ -619,13 +619,19 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
         //   sp_documnet_type_view.setText("");
         tv_search_client_view.getText().clear();
-//        ll_matter_view.setVisibility(View.VISIBLE);
+        ll_matter_view.setVisibility(View.GONE);
         ll_client_name_view.setVisibility(View.VISIBLE);
         ll_categories_layout.setVisibility(View.GONE);
         ll_document_type_view.setVisibility(View.GONE);
         ll_search_client_view.setVisibility(View.VISIBLE);
         ll_search_client_views.setVisibility(View.GONE);
         sp_documnet_type_view.setText("Select Groups");
+        custom_spinner3.setText("");
+        custom_spinner4.setText("");
+        list_scroll4.setVisibility(View.GONE);
+        list_scroll3.setVisibility(View.GONE);
+        ll_matter_view.setVisibility(View.GONE);
+
         tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_firm_view.setTextColor(Color.BLACK);
         tv_client_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));

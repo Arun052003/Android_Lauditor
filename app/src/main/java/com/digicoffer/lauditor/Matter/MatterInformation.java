@@ -69,6 +69,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_matter_num.setHint("Case Number");
         tv_matter_num.setTextSize(15);
 
+
         tv_case_type = view.findViewById(R.id.tv_case_type);
         tv_case_type.setHint("Case Type");
         tv_case_type.setTextSize(15);
@@ -178,6 +179,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 }
                 if (matterModel.getCase_number() != null) {
                     tv_matter_num.setText(matterModel.getCase_number());
+
                 } else {
                     tv_matter_num.setText("");
                 }
@@ -420,12 +422,14 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             tv_matter_title.requestFocus();
 
 
-        } else if (tv_matter_num.getText().toString().equals("")) {
-            tv_matter_num.setError("Case Number Required");
-            tv_matter_num.requestFocus();
-
         } else {
-            submitMatter();
+            String matternum = tv_matter_num.getText().toString();
+            if (!matternum.matches("[0-9]+")) {
+                tv_matter_num.setError("Numeric number is Required");
+                tv_matter_num.requestFocus();
+            } else {
+                submitMatter();
+            }
         }
     }
 
@@ -439,7 +443,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
        // }
   //  }
 
-    private void submitMatter() {
+    void submitMatter() {
         JSONArray group_acls = new JSONArray();
 //            JSONArray client = new JSONArray();
 //            JSONArray members = new JSONArray();

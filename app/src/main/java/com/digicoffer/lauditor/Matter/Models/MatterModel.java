@@ -1,9 +1,15 @@
 package com.digicoffer.lauditor.Matter.Models;
 
+import androidx.appcompat.widget.AppCompatButton;
+
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.json.JSONArray;
 
 public class MatterModel {
     String matter_title;
+
+
 
     String case_number;
     String case_type;
@@ -24,6 +30,7 @@ public class MatterModel {
     JSONArray members_list;
     JSONArray documents_list;
     JSONArray documents;
+    private String tv_matter_title;
 
     public JSONArray getDocuments_list() {
         return documents_list;
@@ -105,15 +112,23 @@ public class MatterModel {
         this.clients = clients;
     }
 
-    public String getMatter_title() {
+    public CharSequence getMatter_title() {
         return matter_title;
     }
+    public String tv_matter_title(){
+        return tv_matter_title;
+    }
+    public void settv_matter_title(AppCompatButton tv_matter_title){
+        this.tv_matter_title = String.valueOf(tv_matter_title);
+    }
+
 
     public void setMatter_title(String matter_title) {
         this.matter_title = matter_title;
     }
 
     public String getCase_number() {
+
         return case_number;
     }
 
