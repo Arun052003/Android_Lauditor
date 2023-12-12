@@ -111,11 +111,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         void GAL(ViewGroupModel viewGroupModel) throws JSONException;
     }
 
-    //    @Override
-//    public void onViewRecycled(@NonNull ViewHolder holder) {
-//        holder.cb_team_members.setOnCheckedChangeListener(null);
-//        super.onViewRecycled(holder);
-//    }
     @NonNull
     @Override
     public ViewGroupsAdpater.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -176,10 +171,10 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     int name = position;
                     if (name == 0) {
-                        group.page_name("Edit Groups");
+                        group.page_name("Edit Group");
                         eventListener.EditGroup(viewGroupModel);
                     } else if (name == 1) {
-                        group.page_name("Delete Groups");
+                        group.page_name("Delete Group");
                         eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
                     } else if (name == 2) {
                         group.page_name("Change Group Head");
@@ -202,42 +197,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     holder.sp_action.setVisibility(View.GONE);
                 }
             });
-//            holder.sp_action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                @Override
-//                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                    String name = actions_List.get(adapterView.getSelectedItemPosition()).getName();
-//                    if (name == "Edit Group") {
-//                        group.page_name("Edit Groups");
-//                        eventListener.EditGroup(viewGroupModel);
-//                    } else if (name == "Delete") {
-//                        group.page_name("Delete Groups");
-//                        eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
-//                    } else if (name == "Change Group Head") {
-//                        group.page_name("Change Group Head");
-//                        eventListener.CGH(viewGroupModel, itemsArrayList);
-//                    } else if (name == "Update Group Members") {
-//                        group.page_name("Update Group Members");
-//                        try {
-//                            eventListener.UGM(viewGroupModel);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else if (name == "Group Activity Log") {
-//                        group.page_name("Group Activity Log");
-//                        try {
-//                            eventListener.GAL(viewGroupModel);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//                }
-//            });
         } else if (mTag == "UGM") {
             holder.cb_team_members.setChecked(itemsArrayList.get(position).isChecked());
             holder.cb_team_members.setTag(position);
@@ -282,25 +241,14 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 }
             });
         }
-
     }
 
     public void selectOrDeselectAll(boolean isChecked) {
         for (int i = 0; i < list_item.size(); i++) {
-
-//            if (isChecked){
-//                list_item.get(i).setSelected(true);
-//
-//            }
-//            else{
-//                list_item.get(i).setSelected(false);
-//            }
             list_item.get(i).setChecked(isChecked);
         }
-
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemCount() {

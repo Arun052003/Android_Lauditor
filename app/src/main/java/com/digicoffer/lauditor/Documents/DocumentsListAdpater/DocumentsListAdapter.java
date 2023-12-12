@@ -121,20 +121,12 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
         return itemsArrayList;
     }
 
-    public void selectall() {
-        int i;
-        for (i = 0; i < list_item.size(); i++) {
-            list_item.get(i).setChecked(true);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void deselectall() {
+    public boolean selectOrDeselectAll(boolean isChecked) {
         for (int i = 0; i < list_item.size(); i++) {
-            list_item.get(i).setChecked(false);
+            list_item.get(i).setChecked(isChecked);
             notifyDataSetChanged();
         }
-//        allselected();
+        return isChecked;
     }
 
     public void check_allselected() {
@@ -142,7 +134,6 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             if (!itemsArrayList.get(i).isChecked()) {
                 select_checked = false;
                 break;
-//                Log.e("ivalue",".."+i);
             } else {
                 select_checked = true;
             }

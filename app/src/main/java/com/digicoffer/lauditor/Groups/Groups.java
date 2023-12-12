@@ -553,9 +553,9 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
             @Override
             public void onClick(View view) {
                 if (chk_select_all.isChecked()) {
-                    adapter.selectall();
+                    adapter.selectOrDeselectAll(true);
                 } else {
-                    adapter.deselectall();
+                    adapter.selectOrDeselectAll(false);
                 }
             }
         });
@@ -822,9 +822,9 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
             @Override
             public void onClick(View view) {
                 if (chk_select_all.isChecked()) {
-                    adapter.selectall();
+                    adapter.selectOrDeselectAll(true);
                 } else {
-                    adapter.deselectall();
+                    adapter.selectOrDeselectAll(false);
                 }
             }
         });
@@ -1357,8 +1357,10 @@ public class Groups extends Fragment implements AsyncTaskCompleteListener, ViewG
             mViewModel.setData("Update Group Members");
         } else if (action_list == "Change Group Head") {
             mViewModel.setData("Change Group Head");
-        } else {
+        } else if (action_list == "Group Activity Log") {
             mViewModel.setData("Group Activity Log");
+        } else {
+            mViewModel.setData("View Groups");
         }
     }
 }
