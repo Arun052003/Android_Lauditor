@@ -15,13 +15,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.digicoffer.lauditor.MainActivity;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -34,11 +36,13 @@ import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -49,6 +53,9 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
     TextInputEditText tet_email, tet_password;
+    String firm_name;
+    boolean ischecked = true;
+    TextView spinner_firm_view;
     AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
@@ -81,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 startActivity(intent);
                 try {
                     isAllFieldsChecked = Validate();
-                    if (isAllFieldsChecked){
+                    if (isAllFieldsChecked) {
                         // Reset();
                         //Login();
                     }
@@ -123,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             public void onClick(View v) {
                 try {
                     isAllFieldsChecked = Validate();
-                    if (isAllFieldsChecked){
+                    if (isAllFieldsChecked) {
                         Login();
                         checkFieldsNotEmpty();
                         // Reset();
@@ -145,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         // Check if both email and password are not empty
         boolean bothFieldsNotEmpty = !email.isEmpty() && !password.isEmpty();
 
-        if (bothFieldsNotEmpty  && isValidPassword(password)) {
+        if (bothFieldsNotEmpty && isValidPassword(password)) {
             // Enable the submit button and set its color to the enabled state
             bt_submit.setEnabled(true);
             bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
@@ -168,8 +175,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
 
-
-
     private void Login() {
         try {
             Constants.PROBIZ_TYPE = "PROFESSIONAL";
@@ -187,14 +192,12 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
 
-
-
-    private boolean Validate(){
-        if (tet_email.getText().toString().trim().length()==0){
+    private boolean Validate() {
+        if (tet_email.getText().toString().trim().length() == 0) {
             tet_email.setError("Email is required");
             return false;
         }
-        if (tet_password.getText().toString().trim().length()==0){
+        if (tet_password.getText().toString().trim().length() == 0) {
             tet_password.setError("Password is required");
             return false;
         }
@@ -208,20 +211,47 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
     private void firm_login(final ArrayList<FirmsDo> list) {
-        MaterialAlertDialogBuilder builder = new  MaterialAlertDialogBuilder(LoginActivity.this,R.style.MaterialAlertDialog_Rounded);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(LoginActivity.this, R.style.MaterialAlertDialog_Rounded);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogLayout = inflater.inflate(R.layout.firm_login, null);
-        final AppCompatSpinner sp_firm =  dialogLayout.findViewById(R.id.sp_firm);
+        ListView sp_firm = dialogLayout.findViewById(R.id.sp_firm);
+        sp_firm.setBackground(getDrawable(R.drawable.rectangular_white_background));
+        spinner_firm_view = dialogLayout.findViewById(R.id.spinner_firm_view);
+        spinner_firm_view.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+        spinner_firm_view.setPadding(30, 3, 3, 0);
+        spinner_firm_view.setText("");
         CommonSpinnerAdapter<FirmsDo> adapter = new CommonSpinnerAdapter<>(this, list);
         sp_firm.setAdapter(adapter);
+        sp_firm.setVisibility(View.GONE);
+        spinner_firm_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ischecked)
+                    sp_firm.setVisibility(View.VISIBLE);
+                else
+                    sp_firm.setVisibility(View.GONE);
+                ischecked = !ischecked;
+            }
+        });
+        sp_firm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                firm_name = list.get(position).getValue();
+                String firm_list_name = list.get(position).getName();
+                Log.d("FIRM_NAME_ID", firm_name);
+                spinner_firm_view.setText(firm_list_name);
+                sp_firm.setVisibility(View.GONE);
+                ischecked = true;
+            }
+        });
         final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
 //        et_firm_password.setText("Test@123");
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.Submit);
 
         //Reset password---
-        TextView forget_psd=(TextView) dialogLayout.findViewById(R.id.forgetpassword);
+        TextView forget_psd = (TextView) dialogLayout.findViewById(R.id.forgetpassword);
 
-        Button bt_cancel=(Button) dialogLayout.findViewById(R.id.Cancel);
+        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.Cancel);
 //        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         ad_dialog = dialog;
@@ -257,9 +287,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 try {
                     if (Objects.requireNonNull(et_firm_password.getText()).toString().trim().equals("")) {
                         AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
-                    }
-                    else {
-                        callfirmloginWebservice(postData,sp_firm,list,et_firm_password,tet_email);
+                    } else {
+                        callfirmloginWebservice(postData, sp_firm, list, et_firm_password, tet_email);
 
                     }
                 } catch (Exception e) {
@@ -274,11 +303,11 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         dialog.show();
     }
 
-    private void callfirmloginWebservice(JSONObject postData, AppCompatSpinner sp_firm, ArrayList<FirmsDo> list, TextInputEditText et_firm_password, TextInputEditText tet_email) throws JSONException {
+    private void callfirmloginWebservice(JSONObject postData, ListView sp_firm, ArrayList<FirmsDo> list, TextInputEditText et_firm_password, TextInputEditText tet_email) throws JSONException {
         progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
-        int firm_position = sp_firm.getSelectedItemPosition();
+//        int firm_position = Integer.parseInt(firm_name);
         postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
-        postData.put("userid", list.get(firm_position).getValue());
+        postData.put("userid", firm_name);
         postData.put("password", et_firm_password.getText().toString());
         WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
     }
@@ -289,8 +318,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         SharedPreferences prefs = getDefaultSharedPreferences(getApplicationContext());
         String uid = Constants.UID;
-        if (!Constants.ROLE.equalsIgnoreCase("admin"))
-        {
+        if (!Constants.ROLE.equalsIgnoreCase("admin")) {
             uid = uid + "_" + Constants.USER_ID;
         }
 
@@ -327,7 +355,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         JSONObject probiz_data = new JSONObject(result.getString("data"));
                         if (!probiz_data.getString("plan").toLowerCase().equals("lauditor")) {
 //                            AndroidUtils.showToast("Account not found", this);
-                            AndroidUtils.showToast("Account not found",LoginActivity.this);
+                            AndroidUtils.showToast("Account not found", LoginActivity.this);
                             return;
                         }
                         String email = null;
@@ -354,7 +382,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         Constants.NAME = probiz_data.getString("name");
                         Constants.USER_ID = probiz_data.getString("user_id");
                         Constants.UID = probiz_data.getString("uid");
-                        Constants.OLD_PASSWORD=tet_password.getText().toString();
+                        Constants.OLD_PASSWORD = tet_password.getText().toString();
                         Constants.PK = probiz_data.getString("pk");
                         Constants.PASSWORD_MODE = probiz_data.getString("password_mode");
                         Constants.IS_ADMIN = probiz_data.getBoolean("admin");
@@ -362,13 +390,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         Constants.ROLE = probiz_data.getString("role");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             save_xmpp_preference();
-                        }if(Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
+                        }
+                        if (Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
                         {
                             AndroidUtils.showToast("Login Successful", this);
                             startActivity(new Intent(this, MainActivity.class));
                             if (ad_dialog != null && ad_dialog.isShowing())
                                 ad_dialog.dismiss();
-                        }else {
+                        } else {
                             startActivity(new Intent(LoginActivity.this, reset_password_file.class));
                         }
 
@@ -380,7 +409,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                             JSONArray adminJsonArray = firms.getJSONArray("lauditor");
                             if (adminJsonArray.length() == 0) {
                                 String msg = "Account not found";
-                                AndroidUtils.showToast(msg,LoginActivity.this);
+                                AndroidUtils.showToast(msg, LoginActivity.this);
                             } else if (adminJsonArray.length() > 1) {
                                 for (int i = 0; i < adminJsonArray.length(); i++) {
                                     JSONObject obj = adminJsonArray.getJSONObject(i);
@@ -404,7 +433,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         } else {
                             String error_msg = result.has("plan") && result.getString("plan").equals("lauditor") ? String.valueOf(result.get("msg")) : "Account not found";
 //                            startActivity(new Intent(this, reset_password_file.class));
-                            AndroidUtils.showToast(error_msg,LoginActivity.this);
+                            AndroidUtils.showToast(error_msg, LoginActivity.this);
 //                            ((TextView) findViewById(R.id.tv_response)).setText(error_msg);
 //                            AndroidUtils.showToast(error_msg, this);
                         }
@@ -412,10 +441,10 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 }
 
             } catch (Exception e) {
-                AndroidUtils.showToast(e.getMessage(),LoginActivity.this);
+                AndroidUtils.showToast(e.getMessage(), LoginActivity.this);
             }
         } else {
-            AndroidUtils.showToast(httpResult.getResponseContent(),LoginActivity.this);
+            AndroidUtils.showToast(httpResult.getResponseContent(), LoginActivity.this);
 //            ((TextView) findViewById(R.id.tv_response)).setText((httpResult.getResponseContent()));
         }
     }

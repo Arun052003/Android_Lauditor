@@ -520,6 +520,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     rv_display_view_docs.removeAllViews();
                     view_docs_list.clear();
                     DOCUMENT_TYPE_TAG = "client";
+//                    cv_view_documents.setVisibility(View.VISIBLE);
+                    rv_display_view_docs.setVisibility(View.VISIBLE);
 //                    callViewDocumentWebservice();
                 }
             });
@@ -533,7 +535,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     rv_display_view_docs.removeAllViews();
                     cv_view_documents.setVisibility(View.GONE);
 //                    callViewDocumentWebservice();
-                    callclientfirmWebServices();
+//                    callclientfirmWebServices();
                 }
             });
             merge_pdf.setOnClickListener(new View.OnClickListener() {
@@ -595,6 +597,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         // clientsList.clear();
 
         //  callLegalMatter();
+
 //        callViewDocumentWebservice();
         mViewModel.setData("View Documents");
 
@@ -605,12 +608,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             JSONObject jsonObject = new JSONObject();
             progress_dialog = AndroidUtils.get_progress(getActivity());
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/documents/" + DOCUMENT_TYPE_TAG, "VIEW_DOCUMENT", jsonObject.toString());
-
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
-
     }
 
     private void hideviewFirmBackground() {
@@ -1012,7 +1013,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             doc_type = content_type[1];
                             docname = content_type[0];
                         }
-                        for (int j = 1; j < clientsList.size(); j++) {
+
+                        for (int j = 0; j < clientsList.size(); j++) {
                             if (clientsList.get(j).getId().matches(client_id)) {
                                 ClientsModel clientsModel = clientsList.get(j);
                                 clients_jobject.put("id", clientsModel.getId());
@@ -1044,83 +1046,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //            AndroidUtils.showAlert(jsonObject.toString(),getContext());
                     }
                 } else {
-                    if (UPLOAD_TAG == "Firm")
-                        for (int i = 0; i < docsList.size(); i++) {
-                            currentpoistion++;
-                            JSONObject jsonObject = new JSONObject();
-                            JSONArray clients = new JSONArray();
-                            JSONObject clients_jobject = new JSONObject();
-
-//                JSONArray tags = new JSONArray();
-                            String docname = "";
-                            DocumentsModel documentsModel = docsList.get(i);
-                            filename = documentsModel.getName();
-                            JSONArray groups = new JSONArray();
-                            for (int k = 0; k < selected_groups_list.size(); k++) {
-                                DocumentsModel documentsModel1 = selected_groups_list.get(k);
-                                groups.put(documentsModel1.getGroup_id());
-
-                            }
-                            File new_file = documentsModel.getFile();
-                            String doc_type = "pdf";
-                            String content_string = new_file.getName().replace(".", "/");
-                            String[] content_type = content_string.split("/");
-                            if (content_type.length >= 2) {
-                                doc_type = content_type[1];
-                                docname = content_type[0];
-                            }
-
-
-                            jsonObject.put("name", docsList.get(i).getName());
-                            jsonObject.put("description", docsList.get(i).getDescription());
-                            jsonObject.put("filename", docname);
-                            jsonObject.put("category", "firm");
-                            jsonObject.put("clients", "");
-                            jsonObject.put("groups", groups);
-                            jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
-                            if (docsList.get(i).getTags() == null) {
-                                jsonObject.put("tags", "");
-                            } else {
-                                jsonObject.put("tags", docsList.get(i).getTags());
-                            }
-
-                            if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
-                                jsonObject.put("content_type", "image/" + doc_type);
-                            } else {
-                                jsonObject.put("content_type", "application/" + doc_type);
-                            }
-
-//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
-                            WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
-                        }
-                }
-
-            }
-        } catch (Exception e) {
-            if (progress_dialog != null && progress_dialog.isShowing()) {
-                AndroidUtils.dismiss_dialog(progress_dialog);
-            }
-            e.printStackTrace();
-        }
-    }
-
-    private void view_documents() {
-        try {
-            if (view_docs_list.size() == 0) {
-                AndroidUtils.showToast("No Documents", getContext());
-            } else {
-                progress_dialog = AndroidUtils.get_progress(getActivity());
-                if (CATEGORY_TAG == "Client") {
-                    for (int i = 0; i < view_docs_list.size(); i++) {
-
+                    for (int i = 0; i < docsList.size(); i++) {
+                        currentpoistion++;
                         JSONObject jsonObject = new JSONObject();
                         JSONArray clients = new JSONArray();
                         JSONObject clients_jobject = new JSONObject();
-                        JSONArray matter = new JSONArray();
+
 //                JSONArray tags = new JSONArray();
                         String docname = "";
                         DocumentsModel documentsModel = docsList.get(i);
                         filename = documentsModel.getName();
+                        JSONArray groups = new JSONArray();
+                        for (int k = 0; k < selected_groups_list.size(); k++) {
+                            DocumentsModel documentsModel1 = selected_groups_list.get(k);
+                            groups.put(documentsModel1.getGroup_id());
+                        }
                         File new_file = documentsModel.getFile();
                         String doc_type = "pdf";
                         String content_string = new_file.getName().replace(".", "/");
@@ -1129,61 +1069,39 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             doc_type = content_type[1];
                             docname = content_type[0];
                         }
-                        for (int j = 1; j < clientsList.size(); j++) {
+
+                        for (int j = 0; j < clientsList.size(); j++) {
                             if (clientsList.get(j).getId().matches(client_id)) {
                                 ClientsModel clientsModel = clientsList.get(j);
                                 clients_jobject.put("id", clientsModel.getId());
+                                clients_jobject.put("type", clientsModel.getType());
                                 clients.put(clients_jobject);
                             }
                         }
-                        matter.put(matter_id);
-                        jsonObject.put("category", clients);
-                        jsonObject.put("clients", client_id);
-                        jsonObject.put("matters", matter_id);
-                        jsonObject.put("groups", selected_groups_list);
-                        jsonObject.put("showpdfDocs", false);
-
-                        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
-//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
-                    }
-                } else {
-                    if (CATEGORY_TAG == "Firm")
-                        for (int i = 0; i < view_docs_list.size(); i++) {
-                            currentpoistion++;
-                            JSONObject jsonObject = new JSONObject();
-                            JSONArray clients = new JSONArray();
-                            JSONObject clients_jobject = new JSONObject();
-
-//                JSONArray tags = new JSONArray();
-                            String docname = "";
-                            DocumentsModel documentsModel = docsList.get(i);
-                            filename = documentsModel.getName();
-                            JSONArray groups = new JSONArray();
-                            for (int k = 0; k < selected_groups_list.size(); k++) {
-                                DocumentsModel documentsModel1 = selected_groups_list.get(k);
-                                groups.put(documentsModel1.getGroup_id());
-
-                            }
-                            File new_file = documentsModel.getFile();
-                            String doc_type = "pdf";
-                            String content_string = new_file.getName().replace(".", "/");
-                            String[] content_type = content_string.split("/");
-                            if (content_type.length >= 2) {
-                                doc_type = content_type[1];
-                                docname = content_type[0];
-                            }
 
 
-                            jsonObject.put("category", "firm");
-                            jsonObject.put("clients", clients);
-                            jsonObject.put("matters", matterlist);
-                            jsonObject.put("groups", selected_groups_list);
-                            jsonObject.put("showpdfDocs", false);
-
-                            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
-
-//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
+                        jsonObject.put("name", docsList.get(i).getName());
+                        jsonObject.put("description", docsList.get(i).getDescription());
+                        jsonObject.put("filename", docname);
+                        jsonObject.put("category", "firm");
+                        jsonObject.put("clients", "");
+                        jsonObject.put("groups", groups);
+                        jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
+                        if (docsList.get(i).getTags() == null) {
+                            jsonObject.put("tags", "");
+                        } else {
+                            jsonObject.put("tags", docsList.get(i).getTags());
                         }
+
+                        if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
+                            jsonObject.put("content_type", "image/" + doc_type);
+                        } else {
+                            jsonObject.put("content_type", "application/" + doc_type);
+                        }
+
+//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
+                        WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
+                    }
                 }
 
             }
@@ -1194,6 +1112,97 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             e.printStackTrace();
         }
     }
+
+//    private void view_documents() {
+//        try {
+//            if (view_docs_list.size() == 0) {
+//                AndroidUtils.showToast("No Documents", getContext());
+//            } else {
+//                progress_dialog = AndroidUtils.get_progress(getActivity());
+//                if (CATEGORY_TAG == "Client") {
+//                    for (int i = 0; i < view_docs_list.size(); i++) {
+//
+//                        JSONObject jsonObject = new JSONObject();
+//                        JSONArray clients = new JSONArray();
+//                        JSONObject clients_jobject = new JSONObject();
+//                        JSONArray matter = new JSONArray();
+////                JSONArray tags = new JSONArray();
+//                        String docname = "";
+//                        DocumentsModel documentsModel = docsList.get(i);
+//                        filename = documentsModel.getName();
+//                        File new_file = documentsModel.getFile();
+//                        String doc_type = "pdf";
+//                        String content_string = new_file.getName().replace(".", "/");
+//                        String[] content_type = content_string.split("/");
+//                        if (content_type.length >= 2) {
+//                            doc_type = content_type[1];
+//                            docname = content_type[0];
+//                        }
+//                        for (int j = 1; j < clientsList.size(); j++) {
+//                            if (clientsList.get(j).getId().matches(client_id)) {
+//                                ClientsModel clientsModel = clientsList.get(j);
+//                                clients_jobject.put("id", clientsModel.getId());
+//                                clients.put(clients_jobject);
+//                            }
+//                        }
+//                        matter.put(matter_id);
+//                        jsonObject.put("category", clients);
+//                        jsonObject.put("clients", client_id);
+//                        jsonObject.put("matters", matter_id);
+//                        jsonObject.put("groups", selected_groups_list);
+//                        jsonObject.put("showpdfDocs", false);
+//
+//                        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
+////            AndroidUtils.showAlert(jsonObject.toString(),getContext());
+//                    }
+//                } else {
+//                    if (CATEGORY_TAG == "Firm")
+//                        for (int i = 0; i < view_docs_list.size(); i++) {
+//                            currentpoistion++;
+//                            JSONObject jsonObject = new JSONObject();
+//                            JSONArray clients = new JSONArray();
+//                            JSONObject clients_jobject = new JSONObject();
+//
+////                JSONArray tags = new JSONArray();
+//                            String docname = "";
+//                            DocumentsModel documentsModel = docsList.get(i);
+//                            filename = documentsModel.getName();
+//                            JSONArray groups = new JSONArray();
+//                            for (int k = 0; k < selected_groups_list.size(); k++) {
+//                                DocumentsModel documentsModel1 = selected_groups_list.get(k);
+//                                groups.put(documentsModel1.getGroup_id());
+//
+//                            }
+//                            File new_file = documentsModel.getFile();
+//                            String doc_type = "pdf";
+//                            String content_string = new_file.getName().replace(".", "/");
+//                            String[] content_type = content_string.split("/");
+//                            if (content_type.length >= 2) {
+//                                doc_type = content_type[1];
+//                                docname = content_type[0];
+//                            }
+//
+//
+//                            jsonObject.put("category", "firm");
+//                            jsonObject.put("clients", clients);
+//                            jsonObject.put("matters", matterlist);
+//                            jsonObject.put("groups", selected_groups_list);
+//                            jsonObject.put("showpdfDocs", false);
+//
+//                            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
+//
+////            AndroidUtils.showAlert(jsonObject.toString(),getContext());
+//                        }
+//                }
+//
+//            }
+//        } catch (Exception e) {
+//            if (progress_dialog != null && progress_dialog.isShowing()) {
+//                AndroidUtils.dismiss_dialog(progress_dialog);
+//            }
+//            e.printStackTrace();
+//        }
+//    }
 
     private void callClientWebservice() {
         try {
@@ -1546,7 +1555,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     Log.d("TAG_VIEW_CLIENT", data.toString());
                 } else if (httpResult.getRequestType().equals("VIEW_DOCUMENT")) {
                     JSONArray docs = result.getJSONArray("docs");
-//                    laodViewDocuments(docs);
+                    laodViewDocuments(docs);
                     Log.d("TAG_view", docs.toString());
                 } else if (httpResult.getRequestType().equals("Update Documents")) {
                     String msg = result.getString("msg");
@@ -1851,7 +1860,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                         if (documentsModel.isGroupChecked()) {
                             selected_groups_list.add(documentsModel);
                             callclientfirmWebServices();
-                            cv_view_documents.setVisibility(View.VISIBLE);
+//                            cv_view_documents.setVisibility(View.VISIBLE);
                             rv_display_view_docs.setVisibility(View.VISIBLE);
 //                            view_documents();
 //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Primary"
+    android:background="@color/blue"
     tools:context=".LoginActivity.LoginActivity">
 
     <!--cardview for Layout Design-->
@@ -13,29 +12,29 @@
         android:id="@+id/cardview2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="20dp"
+        android:padding="24dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="30dp"
-        android:padding="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="59dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="59dp">
 
         <!--Layout for card Design-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:background="@color/white"
+            android:gravity="center"
             android:orientation="vertical">
 
             <!--Logo for Lauditor Design-->
-            <include layout="@layout/logo_layout"/>
+            <include layout="@layout/logo_layout" />
             <!--Textview for Layout Design-->
             <TextView
                 android:id="@+id/textview"
@@ -53,16 +52,16 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="10dp"
-                app:cardBackgroundColor="@color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="8dp">
 
                 <TextView
+                    android:id="@+id/firm_name_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -73,26 +72,31 @@
                     android:textSize="13dp"
                     app:cardBackgroundColor="@color/white" />
 
-
-                <!--spinner added text-->
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/sp_firm"
+                <include
+                    android:id="@+id/spinner_firm_view"
+                    layout="@layout/spinner_text_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="25dp"
-                    android:drawablePadding="7dp"
-                    android:dropDownWidth="260dp"
-                    android:fontFamily="@font/gill_sans"
-                    android:spinnerMode="dropdown"
-                    android:text="" />
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp" />
+
+                <include
+                    android:id="@+id/sp_firm"
+                    layout="@layout/spinner_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:visibility="gone" />
+                <!--spinner added text-->
             </androidx.cardview.widget.CardView>
 
             <!--Card view for password field-->
-            <include layout="@layout/password_layout"
+            <include
+                layout="@layout/password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
 
             <!--Forget password button-->
@@ -104,18 +108,16 @@
                 android:layout_marginLeft="15dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="@color/white"
+                android:clickable="true"
                 android:fontFamily="@font/gill_sans"
                 android:text="@string/underline"
                 android:textAllCaps="false"
-                android:clickable="true"
                 android:textColor="@color/black" />
             <!-- Button layout-->
-            <include
-                layout="@layout/layout_button"/>
+            <include layout="@layout/layout_button" />
             <!--End of Submitions button layout-->
         </LinearLayout>
         <!--End of design-->
     </androidx.cardview.widget.CardView>
     <!--End of card design-->
-</androidx.constraintlayout.widget.ConstraintLayout>
-    <!--End of layout card design-->
+</androidx.constraintlayout.widget.ConstraintLayout><!--End of layout card design-->
