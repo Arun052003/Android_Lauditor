@@ -2,6 +2,7 @@ package com.digicoffer.lauditor.Documents.models;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +14,16 @@ public class ViewDocumentsModel {
     String content_type;
     String id;
     String[] groups;
+
+    public String[] getGroups() {
+        return groups;
+    }
+
+    public void setGroups(String groups) {
+        this.groups = new String[]{groups};
+    }
+
+
     String[] matters;
     boolean is_disabled;
     boolean isdisabled;
@@ -68,56 +79,25 @@ public class ViewDocumentsModel {
         return clientsModel;
     }
 
-    public void setClientsModel(JSONObject clientsModel) throws JSONException {
+//    public void setClientsModel(JSONObject clientsModel) throws JSONException {
+//        ClientsModel cm = new ClientsModel();
+//        JSONObject object = new JSONObject();
+//        cm.setId(object.getString("id"));
+//        cm.setType(object.getString("type"));
+//        cm.setName(object.getString("name"));
+//        this.clientsModel = cm;
+//    }
+
+    public void setClientsModel(JSONArray clients) throws JSONException {
+//        Log.d("setClientsModel: ", String.valueOf(clients));
         ClientsModel cm = new ClientsModel();
-        JSONObject object = new JSONObject();
-        cm.setId(object.getString("id"));
-        cm.setType(object.getString("type"));
-        cm.setName(object.getString("name"));
+        JSONObject result = clients.getJSONObject(0);
+        cm.setId((result.getString("id")));
+        cm.setType(result.getString("type"));
+        cm.setName(result.getString("name"));
         this.clientsModel = cm;
     }
 
-    public static class ClientsModel {
-        private String id;
-        private String name;
-        private String type;
-
-        public ClientsModel() {
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-    }
-
-
-    public String[] getGroups() {
-        return groups;
-    }
-
-    public void setGroups(String groups) {
-        this.groups = new String[]{groups};
-    }
 
     public String[] getMatters() {
         return matters;
