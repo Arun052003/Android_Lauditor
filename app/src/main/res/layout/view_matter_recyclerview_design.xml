@@ -6,8 +6,10 @@
     android:layout_height="wrap_content"
 
     tools:context=".MainActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout   android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
         >
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_relationships_details"
@@ -15,7 +17,8 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
             android:elevation="50dp"
-            android:layout_margin="5dp"
+            android:layout_margin="0dp"
+
             android:padding="5dp"
             android:visibility="visible"
 
@@ -94,32 +97,39 @@
                     android:layout_below="@id/tv_matter_title"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginRight="-373dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginRight="-378dp"
                     android:layout_marginBottom="20dp"
                     android:layout_toLeftOf="@+id/tv_case_number"
                     android:fontFamily="sans-serif-condensed"
-                    android:textStyle="bold"
-                   android:textFontWeight="700"
                     android:gravity="end"
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/twenty_dp" />
+                    android:textFontWeight="700"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_case_number"
-                    android:orientation="horizontal"
-                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
 
-                    >
+                    android:layout_marginEnd="5dp"
+
+
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
                     <LinearLayout
-                        android:layout_width="240dp"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+
+                        >
+
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -127,19 +137,21 @@
                             android:layout_weight="1"
                             android:orientation="horizontal">
 
-                           <include layout="@layout/group_layout"
-                               android:id="@+id/filed"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"/>
-                            <Space
-                                android:layout_height="match_parent"
-                                android:layout_width="5dp"/>
+                            <include
+                                android:id="@+id/filed"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
-                          <include layout="@layout/group_layout"
-                              android:id="@+id/tv_date_of_filling"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_weight="1"/>
+                            <Space
+                                android:layout_width="5dp"
+                                android:layout_height="match_parent" />
+
+                            <include
+                                android:id="@+id/tv_date_of_filling"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -148,20 +160,23 @@
                             android:layout_weight="1"
                             android:orientation="horizontal">
 
-                           <include layout="@layout/group_layout"
-                               android:id="@+id/textView"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:layout_weight="1"/>
-                            <Space
-                                android:layout_height="match_parent"
-                                android:layout_width="5dp"/>
+                            <include
+                                android:id="@+id/textView"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
 
-                          <include layout="@layout/group_layout"
-                              android:id="@+id/tv_client_name"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_weight="1"/>
+                            <Space
+                                android:layout_width="5dp"
+                                android:layout_height="match_parent" />
+
+                            <include
+                                android:id="@+id/tv_client_name"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -170,24 +185,31 @@
                             android:layout_weight="1"
                             android:orientation="horizontal">
 
-                          <include layout="@layout/group_layout"
-                              android:id="@+id/owner"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_weight="1"/>
-                            <Space
-                                android:layout_height="match_parent"
-                                android:layout_width="5dp"/>
+                            <include
+                                android:id="@+id/owner"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
-                       <include layout="@layout/group_layout"
-                           android:id="@+id/tv_owner_name"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_weight="1"/>
+
+                            <include
+                                android:id="@+id/tv_owner_name"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
                         </LinearLayout>
                     </LinearLayout>
 
-           <include layout="@layout/action"/>
+
+                    <include
+                        android:id="@+id/action_custom_layout"
+                        layout="@layout/custom_layout_file"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+
+                        android:layout_marginRight="0dp" />
 
                 </LinearLayout>
 
@@ -669,5 +691,17 @@
 
             </LinearLayout>
         </LinearLayout>
+        <include
+            android:id="@+id/list_client"
+            layout="@layout/spinner_list"
+            android:layout_width="220dp"
+            android:layout_height="143dp"
+            android:layout_below="@+id/cv_relationships_details"
+            android:layout_alignParentEnd="true"
+            android:background="@color/design_default_color_on_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_relationships_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -374,7 +374,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                     AppCompatButton btn_cancel_save = view_timeLine.findViewById(R.id.btn_cancel_save);
                     AppCompatButton btn_create = view_timeLine.findViewById(R.id.btn_create);
                     TextInputEditText tv_view_notes = view_timeLine.findViewById(R.id.tv_view_notes);
-                    LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
+                  //  LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
                     ImageView iv_view_timeLine = view_timeLine.findViewById(R.id.iv_view);
                     TextView normal_notes = view_timeLine.findViewById(R.id.normal_notes);
 
@@ -681,14 +681,14 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         }
     }
 
-    @Override
-    public void View_Details(ViewMatterModel viewMatterModel) {
-        TimeLineId = viewMatterModel.getId();
-        Header_name = viewMatterModel.getTitle();
-        callTimeLineWebservice();
-
-//        AndroidUtils.showAlert(viewMatterModel.getTitle(),getContext());
-    }
+ //   @Override
+//    public void View_Details(ViewMatterModel viewMatterModel) {
+//        TimeLineId = viewMatterModel.getId();
+//        Header_name = viewMatterModel.getTitle();
+//        callTimeLineWebservice();
+//
+////        AndroidUtils.showAlert(viewMatterModel.getTitle(),getContext());
+//    }
 
     private void callTimeLineWebservice() {
         try {
@@ -748,6 +748,11 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         }
     }
 
+    @Override
+    public void Edit_Matter_Info(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
+
+    }
+
     private void callDeleteMatterWebService(ViewMatterModel viewMatterModel) {
         progressDialog = AndroidUtils.get_progress(getActivity());
         try{
@@ -767,11 +772,11 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
     @SuppressLint("ResourceType")
     @Override
-    public void Edit_Matter_Info(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
+    public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
 
       Bundle bundle = new Bundle();
-      //  bundle.putParcelable("viewMatterModel",  viewMatterModel);
-        Fragment fragment = new MatterInformation();
+        bundle.putParcelable("viewMatterModel",  viewMatterModel);
+        Fragment fragment = new EditMatterTimeline();
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
