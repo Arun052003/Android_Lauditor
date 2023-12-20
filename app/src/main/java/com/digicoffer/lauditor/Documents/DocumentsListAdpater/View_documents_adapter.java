@@ -2,6 +2,7 @@ package com.digicoffer.lauditor.Documents.DocumentsListAdpater;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,19 +30,20 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
     View_documents_adapter.Eventlistner eventlistner;
     Context cContext;
 
-    public View_documents_adapter(ArrayList<ViewDocumentsModel> itemsArrayList, Eventlistner eventlistner,Context context) {
-        this.itemsArrayList= itemsArrayList;
+    public View_documents_adapter(ArrayList<ViewDocumentsModel> itemsArrayList, Eventlistner eventlistner, Context context) {
+        this.itemsArrayList = itemsArrayList;
         this.eventlistner = eventlistner;
         this.cContext = context;
         this.list_item = itemsArrayList;
     }
+
     public Filter getFilter() {
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
-                    itemsArrayList= list_item;
+                    itemsArrayList = list_item;
                 } else {
                     ArrayList<ViewDocumentsModel> filteredList = new ArrayList<>();
                     for (ViewDocumentsModel row : list_item) {
@@ -49,17 +51,17 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
                             filteredList.add(row);
                         }
                     }
-                    itemsArrayList= filteredList;
+                    itemsArrayList = filteredList;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.count =itemsArrayList.size();
+                filterResults.count = itemsArrayList.size();
                 filterResults.values = itemsArrayList;
                 return filterResults;
             }
 
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                itemsArrayList= (ArrayList<ViewDocumentsModel>) filterResults.values;
+                itemsArrayList = (ArrayList<ViewDocumentsModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -90,10 +92,11 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
             holder.tv_doc_description.setText(viewDocumentsModel.getDescription());
             holder.tv_document_display_name.setText(viewDocumentsModel.getName());
             holder.tv_image_name.setText(viewDocumentsModel.getName());
+            Log.d("IMage_name", viewDocumentsModel.getName());
             holder.tv_created_date.setText(viewDocumentsModel.getCreated());
             holder.tv_Expiration_date.setText(viewDocumentsModel.getExpiration_date());
-            holder.tv_client_name.setPaintFlags(holder.tv_client_name.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
-            holder.tv_doc_description.setPaintFlags(holder.tv_doc_description.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+            holder.tv_client_name.setPaintFlags(holder.tv_client_name.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            holder.tv_doc_description.setPaintFlags(holder.tv_doc_description.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             holder.iv_edit_document.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -134,7 +137,7 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
 //        }
         } catch (Exception e) {
             e.printStackTrace();
-            AndroidUtils.showAlert(e.getMessage(),cContext);
+            AndroidUtils.showAlert(e.getMessage(), cContext);
         }
     }
 
@@ -147,8 +150,8 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         com.google.android.material.imageview.ShapeableImageView siv_profile_icon;
-        ImageView iv_doc_image, iv_edit_document, uv_delete_document,iv_view_document;
-        TextView tv_document_display_name,tv_Expiration, tv_client_name_one, tv_image_name,tv_Expiration_date, tv_client_name, tv_doc_description,tv_created_date;
+        ImageView iv_doc_image, iv_edit_document, uv_delete_document, iv_view_document;
+        TextView tv_document_display_name, tv_Expiration, tv_client_name_one, tv_image_name, tv_Expiration_date, tv_client_name, tv_doc_description, tv_created_date;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

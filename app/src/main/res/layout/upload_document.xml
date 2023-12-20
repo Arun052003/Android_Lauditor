@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/upload_icon"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/small_size"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp" />
 
@@ -69,7 +69,7 @@
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:src="@mipmap/eye_whitebackground_icon"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
@@ -136,7 +136,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
+                    android:layout_margin="@dimen/small_size">
 
                     <LinearLayout
                         android:id="@+id/ll_client_name"
@@ -149,7 +149,7 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -157,7 +157,7 @@
                                 layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp" />
+                                android:layout_marginBottom="@dimen/small_size" />
                             <!--                            android:text="Client Name"-->
 
                             <include layout="@layout/astrick_layout" />
@@ -228,7 +228,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -242,13 +242,51 @@
                         </LinearLayout>
 
 
-                        <include
+                        <TextView
                             android:id="@+id/tv_select_groups"
-                            layout="@layout/group_layout"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="3dp" />
+                            android:layout_gravity="center"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/rectangle_light_grey_bg"
+                            android:drawableRight="@drawable/down_arrow"
+                            android:fontFamily="@font/gill_sans"
+                            android:padding="15dp"
+                            android:text="Select Groups"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
+
+                        <LinearLayout
+                            android:id="@+id/upload_group_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <include
+                                android:id="@+id/rv_display_upload_groups_docs"
+                                layout="@layout/recyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="5dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_size"
+                                android:orientation="horizontal">
+
+                                <include
+                                    android:id="@+id/btn_group_cancel"
+                                    layout="@layout/cancel_button" />
+
+                                <include
+                                    android:id="@+id/btn_group_submit"
+                                    layout="@layout/submit_button" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -280,7 +318,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -297,7 +335,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:baselineAligned="false"
                             android:orientation="horizontal">
 
@@ -306,7 +344,7 @@
                                 layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginRight="@dimen/small_size"
                                 android:layout_weight="1" />
 
                             <include
@@ -339,8 +377,8 @@
                     android:id="@+id/rl_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_margin="@dimen/twenty_dp"
+                    android:layout_marginTop="@dimen/small_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cv_client_details">
@@ -351,42 +389,39 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:orientation="horizontal"
-                        android:paddingTop="10dp"
-                        android:paddingEnd="30dp">
+                        android:paddingTop="@dimen/small_size"
+                        android:paddingEnd="10dp">
 
                         <include
                             android:id="@+id/tv_add_tag"
                             layout="@layout/createmember_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="@dimen/twenty_dp"
+                            android:layout_marginTop="@dimen/twenty_dp"
                             android:layout_marginRight="1dp"
-                            android:layout_marginBottom="20dp" />
+                            android:layout_marginBottom="@dimen/twenty_dp" />
 
                         <include
                             android:id="@+id/tv_edit_meta"
                             layout="@layout/viewmember_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_marginBottom="20dp" />
+                            android:layout_marginTop="@dimen/twenty_dp"
+                            android:layout_marginBottom="@dimen/twenty_dp" />
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/ll_select_all"
+                        <CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/chk_select_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginTop="15dp"
-                            android:background="@drawable/background_transparent"
-                            android:visibility="visible">
-
-                            <include
-                                layout="@layout/check_select_all"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                            android:layout_gravity="end|center"
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginTop="-5dp"
+                            android:background="@drawable/checkbox_background"
+                            android:buttonTint="@color/grey_color_dark"
+                            android:gravity="center"
+                            android:paddingEnd="10dp"
+                            android:text="@string/select_all" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
 
@@ -394,12 +429,12 @@
                     android:id="@+id/ll_download"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_margin="@dimen/small_size"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:orientation="horizontal"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/small_size"
                     android:paddingEnd="30dp"
-                    android:paddingBottom="10dp"
+                    android:paddingBottom="@dimen/small_size"
                     app:layout_constraintBottom_toTopOf="@id/cv_details_2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.145"
@@ -420,11 +455,11 @@
                     android:id="@+id/cv_details_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:elevation="10dp"
-                    android:padding="10dp"
+                    android:layout_margin="@dimen/small_size"
+                    android:elevation="@dimen/small_size"
+                    android:padding="@dimen/small_size"
                     android:visibility="visible"
-                    app:cardCornerRadius="10dp"
+                    app:cardCornerRadius="@dimen/small_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -455,11 +490,11 @@
                         <!--                            android:id="@+id/group_head_name"-->
                         <!--                            android:layout_width="match_parent"-->
                         <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_margin="10dp"-->
+                        <!--                            android:layout_margin="@dimen/small_size"-->
                         <!--                            android:background="@drawable/rectangle_grey_background"-->
                         <!--                            android:drawableLeft="@drawable/person_image_email"-->
                         <!--                            android:fontFamily="sans-serif-condensed-medium"-->
-                        <!--                            android:padding="10dp"-->
+                        <!--                            android:padding="@dimen/small_size"-->
                         <!--                            android:textColor="@color/black"-->
                         <!--                            android:textSize="@dimen/Fifteen_dp"-->
                         <!--                            android:visibility="gone">-->
@@ -474,7 +509,7 @@
                                 android:id="@+id/rv_documents"
                                 android:layout_width="match_parent"
                                 android:layout_height="300dp"
-                                android:layout_margin="10dp"
+                                android:layout_margin="@dimen/small_size"
                                 android:orientation="vertical" />
                         </ScrollView>
 
@@ -482,7 +517,7 @@
                             android:id="@+id/ll_buttons"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="10dp"
+                            android:layout_margin="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -535,15 +570,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="@dimen/small_size"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="15dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_left_background"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="Client"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -556,7 +591,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="15dp"
                     android:layout_toRightOf="@id/tv_client_view"
@@ -564,7 +599,7 @@
                     android:background="@drawable/button_right_background"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="Firm"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -577,12 +612,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:layout_marginEnd="@dimen/small_size"
                     android:background="@drawable/rectangular_light_grey_background"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="Merge PDF"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -606,7 +641,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
+                    android:layout_margin="@dimen/small_size">
 
                     <LinearLayout
                         android:id="@+id/ll_client_name_view"
@@ -619,7 +654,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginBottom="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -674,7 +710,11 @@
 
                         <include
                             android:id="@+id/matter_name"
-                            layout="@layout/group_layout" />
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginBottom="@dimen/small_size" />
 
 
                         <include
@@ -706,7 +746,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginBottom="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -719,32 +760,52 @@
 
                         </LinearLayout>
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/layout_buttons"
+                        <TextView
+                            android:id="@+id/tv_select_groups_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="4dp"
                             android:background="@drawable/rectangle_light_grey_bg"
-                            android:textColorHint="@color/black"
-                            app:boxBackgroundMode="none">
+                            android:drawableRight="@drawable/down_arrow"
+                            android:enabled="true"
+                            android:fontFamily="@font/gill_sans"
+                            android:padding="15dp"
+                            android:text="Select Groups"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
 
+                        <LinearLayout
+                            android:id="@+id/view_group_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/sp_document_type_view"
+                            <include
+                                android:id="@+id/rv_display_view_groups_docs"
+                                layout="@layout/recyclerview"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:drawableRight="@drawable/down_arrow"
-                                android:enabled="true"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:padding="15dp"
-                                android:text="Select Groups"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
+                                android:layout_height="150dp"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="5dp" />
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/small_size"
+                                android:orientation="horizontal">
+
+                                <include
+                                    android:id="@+id/btn_group_view_cancel"
+                                    layout="@layout/cancel_button" />
+
+                                <include
+                                    android:id="@+id/btn_group_view_submit"
+                                    layout="@layout/submit_button" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/ll_categories_layout"
@@ -759,7 +820,9 @@
                             android:id="@+id/category_name_id"
                             layout="@layout/group_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginBottom="@dimen/small_size" />
 
                         <include
                             android:id="@+id/tv_category_name"
@@ -774,7 +837,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ll_categories_layout"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
@@ -784,7 +847,7 @@
                             xmlns:app="http://schemas.android.com/apk/res-auto"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="3dp"
                             android:background="@drawable/rectangle_light_grey_bg"
                             android:hint="Search "
@@ -794,7 +857,7 @@
                                 android:id="@+id/tv_search_client_view"
                                 layout="@layout/search_layout"
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="wrap_content"
                                 android:layout_margin="3dp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
@@ -804,7 +867,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ll_search_client_view"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
@@ -814,7 +877,7 @@
                             xmlns:app="http://schemas.android.com/apk/res-auto"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="3dp"
                             android:background="@drawable/rectangle_light_grey_bg"
                             android:hint="Search "
@@ -824,7 +887,7 @@
                                 android:id="@+id/tv_search_client_views"
                                 layout="@layout/search_layout"
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="wrap_content"
                                 android:layout_margin="3dp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>

@@ -4,25 +4,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.digicoffer.lauditor.ClientRelationships.Adapter.SharedDocumentsAdapter;
-import com.digicoffer.lauditor.ClientRelationships.Model.SharedDocumentsDo;
+import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Documents.models.DocumentsModel;
-import com.digicoffer.lauditor.Documents.models.GroupsModel;
-import com.digicoffer.lauditor.Groups.GroupModels.GroupModel;
 import com.digicoffer.lauditor.R;
 
 import java.util.ArrayList;
 
-public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Viewholder>  {
+public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Viewholder> {
     ArrayList<DocumentsModel> sharedList = new ArrayList<>();
     ArrayList<DocumentsModel> list_item = new ArrayList<>();
+    Documents documents1;
 
-    public GroupsListAdapter(ArrayList<DocumentsModel> sharedList) {
+    public GroupsListAdapter(ArrayList<DocumentsModel> sharedList, Documents documents) {
+        this.documents1 = documents;
         this.sharedList = sharedList;
         this.list_item = sharedList;
     }
@@ -30,7 +30,7 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
     @NonNull
     @Override
     public GroupsListAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shared_documents_by_us, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
         return new GroupsListAdapter.Viewholder(itemView);
     }
 
@@ -52,9 +52,11 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
             }
         });
     }
+
     public ArrayList<DocumentsModel> getList_item() {
         return sharedList;
     }
+
     @Override
     public int getItemCount() {
         return sharedList.size();
@@ -64,6 +66,7 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -71,11 +74,21 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
 
     public class Viewholder extends RecyclerView.ViewHolder {
         private TextView tv_tm_name;
+        private View list_line;
+        private LinearLayout select_tm_layout;
         private CheckBox cb_documents;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             cb_documents = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
+            select_tm_layout = itemView.findViewById(R.id.select_tm_layout);
+            list_line = itemView.findViewById(R.id.list_line);
+            list_line.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 0);
+            select_tm_layout.setLayoutParams(params);
+            select_tm_layout.setBackgroundResource(com.applandeo.materialcalendarview.R.drawable.background_transparent);
         }
     }
 }

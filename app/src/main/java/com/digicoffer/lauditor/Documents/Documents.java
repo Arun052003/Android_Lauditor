@@ -1,4 +1,3 @@
-
 package com.digicoffer.lauditor.Documents;
 
 import android.Manifest;
@@ -57,7 +56,6 @@ import com.digicoffer.lauditor.Documents.models.ClientsModel;
 import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.Documents.models.MattersModel;
 import com.digicoffer.lauditor.Documents.models.ViewDocumentsModel;
-import com.digicoffer.lauditor.Documents.models.viewdocumentsmodel1;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -65,11 +63,8 @@ import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.BottomSheetUploadFile;
-import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnErrorListener;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -96,18 +91,21 @@ import java.util.Locale;
 
 
 public class Documents extends Fragment implements BottomSheetUploadFile.OnPhotoSelectedListner, AsyncTaskCompleteListener, DocumentsListAdapter.EventListener, View_documents_adapter.Eventlistner {
-    Button btn_browse;
+    Button btn_browse, btn_group_cancel, btn_group_submit, btn_group_view_cancel, btn_group_view_submit;
 
     //Initialize a file count to Zero
     //....
-    TextView custom_spinner, custom_spinner2, custom_spinner3, custom_spinner4;
+    TextView custom_spinner, custom_spinner2, custom_spinner3, custom_spinner4, custom_spinner_group, tv_select_groups_view;
     CardView cv_view_doc;
 
+    JSONArray array_group = new JSONArray();
     boolean is_clicked_add = true;
+    boolean ischecked_group = true;
+    boolean ischecked_group_view = true;
     boolean is_clicked_edit = true;
     boolean ischecked = true;
-    ListView list_client, list_matter, list_client_view, list_matter_view;
-    ScrollView list_scroll, list_scroll2, list_scroll3, list_scroll4;
+    ListView list_client, list_matter, list_client_view, list_matter_view, list_group;
+    ScrollView list_scroll, list_scroll2, list_scroll3, list_scroll4, list_scroll_group;
 
     //...
     int count_file = 0;
@@ -116,7 +114,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     BottomSheetUploadFile bottommSheetUploadDocument;
     private Bitmap mSelectedBitmap;
-    LinearLayout ll_added_tags, ll_matter, ll_category, ll_groups, ll_client_name, ll_view_docs, ll_upload_docs;
+    LinearLayout ll_added_tags, ll_matter, ll_category, ll_groups, ll_client_name, ll_view_docs, ll_upload_docs, upload_group_layout, view_group_layout;
     LinearLayout ll_matter_view, ll_client_name_view, ll_categories_layout, ll_document_type_view, ll_search_client_view;
     TextInputEditText tv_tag_type, tv_tag_name, tv_search_client_view;
     private ImageView imageView;
@@ -128,7 +126,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     DocumentsListAdapter adapter;
     CardView cv_view_documents;
     ArrayList<ViewDocumentsModel> view_docs_list = new ArrayList<>();
-    ArrayList<viewdocumentsmodel1> view_docs_list1 = new ArrayList<>();
     ShapeableImageView siv_upload_document, siv_view_document;
     ArrayList<Integer> langList = new ArrayList<>();
     ArrayList<DocumentsModel> groupsList = new ArrayList<>();
@@ -147,7 +144,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     ArrayList<ClientsModel> updatedClients = new ArrayList<>();
     ArrayList<DocumentsModel> selected_groups_list = new ArrayList<>();
     ArrayList<DocumentsModel> docsList = new ArrayList<>();
-    RecyclerView rv_documents, rv_display_view_docs;
+    RecyclerView rv_documents, rv_display_view_docs, rv_display_upload_groups_docs, rv_display_view_groups_docs;
     AlertDialog progress_dialog;
 
     TextView tv_matter, select_documents, tv_select_group_name, upload_name, view_name, tag_type_name, tag_name, header_name, header_name_group;
@@ -164,7 +161,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     String entity_id = "";
     String matter_id = "";
     String client_id = "";
-    TextView tv_tag_document_name, tv_select_groups, sp_documnet_type_view, merge_pdf;
+    String group_id = "";
+    TextView tv_tag_document_name, tv_select_groups, merge_pdf;
     ;
     //    TextInputLayout tl_selected_file;
     LinearLayout ll_hide_document_details, ll_search_client_views;
@@ -192,6 +190,11 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_search_client_view = v.findViewById(R.id.tv_search_client_view);
 
             custom_spinner = v.findViewById(R.id.custom_spinner);
+
+//            custom_spinner_group=v.findViewById(R.id.custom_spinner_group);
+//            list_group=v.findViewById(R.id.list_group);
+//            list_scroll_group=v.findViewById(R.id.list_scroll_group);
+
             list_client = v.findViewById(R.id.list_client);
             list_scroll = v.findViewById(R.id.list_scroll);
             custom_spinner2 = v.findViewById(R.id.custom_spinner2);
@@ -239,7 +242,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             siv_upload_document = v.findViewById(R.id.upload_icon);
             siv_view_document = v.findViewById(R.id.view_icon);
             spinnerLayout = v.findViewById(R.id.spinnerLayout);
-            btn_upload = v.findViewById(R.id.btn_upload);
+//            btn_upload = v.findViewById(R.id.btn_upload);
             btn_upload.setText(R.string.upload);
             btn_cancel = v.findViewById(R.id.btn_cancel);
             btn_add_tags = v.findViewById(R.id.btn_add_tag);
@@ -247,6 +250,17 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             btn_add_tags.setVisibility(View.GONE);
             btn_browse = v.findViewById(R.id.btn_browse);
             btn_browse.setText("Browse");
+
+            upload_group_layout = v.findViewById(R.id.upload_group_layout);
+            rv_display_upload_groups_docs = v.findViewById(R.id.rv_display_upload_groups_docs);
+            btn_group_cancel = v.findViewById(R.id.btn_group_cancel);
+            btn_group_submit = v.findViewById(R.id.btn_group_submit);
+
+            view_group_layout = v.findViewById(R.id.view_group_layout);
+            rv_display_view_groups_docs = v.findViewById(R.id.rv_display_view_groups_docs);
+            btn_group_view_cancel = v.findViewById(R.id.btn_group_view_cancel);
+            btn_group_view_submit = v.findViewById(R.id.btn_group_view_submit);
+
 //            tl_selected_file = v.findViewById(R.id.tl_selected_file);
 
             //modifying the name of add tag and edit meta textview..
@@ -272,11 +286,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_select_group_name = v.findViewById(R.id.tv_select_group_name);
             tv_select_group_name.setText(R.string.select_groups);
             tv_select_groups.setText(R.string.select_groups);
-            tv_select_groups.setGravity(Gravity.CENTER_VERTICAL);
-            tv_select_groups.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-            tv_select_groups.setTextColor(getContext().getResources().getColor(R.color.black));
-            tv_select_groups.setBackground(getContext().getResources().getDrawable(R.drawable.rectangle_light_grey_bg));
-            tv_select_groups.setPadding(20, 0, 20, 0);
+
 //            tv_select_groups.setText(null);
 
             tv_selected_file = v.findViewById(R.id.tv_selected_file);
@@ -291,6 +301,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ll_category = v.findViewById(R.id.ll_category);
             ll_groups = v.findViewById(R.id.ll_groups);
             ll_upload_docs = v.findViewById(R.id.ll_upload_docs);
+
             ll_view_docs = v.findViewById(R.id.ll_view_docs);
             ll_hide_document_details = v.findViewById(R.id.ll_hide_doc_details);
             ll_hide_document_details.setVisibility(View.GONE);
@@ -318,6 +329,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             rv_display_view_docs = v.findViewById(R.id.rv_display_view_docs);
             rv_documents = v.findViewById(R.id.rv_documents);
 
+
             //Enable the upload documents as the default view...
             siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
             siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_background_icon));
@@ -338,11 +350,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_disable_download = v.findViewById(R.id.tv_disable_download);
             ll_hide_document_details = v.findViewById(R.id.ll_hide_doc_details);
             ll_hide_document_details.setVisibility(View.GONE);
-            rv_documents = v.findViewById(R.id.rv_documents);
-            //view_document();
+//            rv_documents = v.findViewById(R.id.rv_documents);
 
-            ll_upload_docs.setVisibility(View.VISIBLE);
-            ll_view_docs.setVisibility(View.GONE);
+            //Make View Documents as Default View.....
+            ll_upload_docs.setVisibility(View.GONE);
+            ll_view_docs.setVisibility(View.VISIBLE);
+            view_document();
             //..
             custom_spinner.setText("");
             custom_spinner2.setText("");
@@ -361,9 +374,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             //...
 
             //....
+
             custom_spinner.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    clientsList.clear();
+                    callClientWebservice();
                     if (ischecked)
                         list_scroll.setVisibility(View.VISIBLE);
                     else
@@ -384,6 +400,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             custom_spinner3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    clientsList.clear();
+                    callClientWebservice();
                     if (ischecked2)
                         list_scroll3.setVisibility(View.VISIBLE);
                     else
@@ -418,23 +436,44 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 }
             });
 
-            tv_select_groups = v.findViewById(R.id.tv_select_groups);
-            sp_documnet_type_view = v.findViewById(R.id.sp_document_type_view);
+//            tv_select_groups = v.findViewById(R.id.tv_select_groups);
+            tv_select_groups_view = v.findViewById(R.id.tv_select_groups_view);
+            tv_select_groups_view.setText("Select Groups");
+
+            // .....
+            upload_group_layout.setVisibility(View.GONE);
+
+            view_group_layout.setVisibility(View.GONE);
+
+            //...upload Documents Group Selection
             tv_select_groups.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     callGroupsWebservice();
+                    if (ischecked_group) {
+                        rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+                        upload_group_layout.setVisibility(View.VISIBLE);
+                    } else {
+                        upload_group_layout.setVisibility(View.GONE);
+                    }
+                    ischecked_group = !ischecked_group;
                 }
             });
-            sp_documnet_type_view.setOnClickListener(new View.OnClickListener() {
+
+            //...View Documents Group Selection
+            tv_select_groups_view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
                     callGroupsWebservice();
+                    if (ischecked_group_view) {
+                        rv_display_view_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+                        view_group_layout.setVisibility(View.VISIBLE);
+                    } else {
+                        view_group_layout.setVisibility(View.GONE);
+                    }
+                    ischecked_group_view = !ischecked_group_view;
                 }
             });
-
-
-            hidefirmBackground();
 
             tv_enable_download.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -454,40 +493,41 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     tv_firm.setTextColor(getContext().getResources().getColor(R.color.black));
                     tv_client.setTextColor(getContext().getResources().getColor(R.color.white));
                     rv_documents.removeAllViews();
-                    hidefirmBackground();
+                    ischecked = true;
+                    hideFirmBackground();
                 }
             });
             tv_firm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     hideClientBackground();
-                    callUploadDocumentWebservice();
+                    rv_display_upload_groups_docs.removeAllViews();
                 }
             });
             tv_add_tag.setOnClickListener(new View.OnClickListener() {
-                private boolean is_clicked = true;
 
                 @Override
                 public void onClick(View view) {
-                    if (is_clicked) {
+                    if (is_clicked_add) {
                         AddTag();
                     } else {
                         Hide_Add_EditMeta();
                     }
-                    is_clicked = !is_clicked;
+                    is_clicked_edit = true;
+                    is_clicked_add = !is_clicked_add;
                 }
             });
             tv_edit_meta.setOnClickListener(new View.OnClickListener() {
-                private boolean is_clicked = true;
 
                 @Override
                 public void onClick(View view) {
-                    if (is_clicked) {
+                    if (is_clicked_edit) {
                         EditMeta();
                     } else {
                         Hide_Add_EditMeta();
                     }
-                    is_clicked = !is_clicked;
+                    is_clicked_add = true;
+                    is_clicked_edit = !is_clicked_edit;
                 }
             });
 
@@ -520,6 +560,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     rv_display_view_docs.removeAllViews();
                     view_docs_list.clear();
                     DOCUMENT_TYPE_TAG = "client";
+                    CATEGORY_TAG = "client";
 //                    cv_view_documents.setVisibility(View.VISIBLE);
                     rv_display_view_docs.setVisibility(View.VISIBLE);
 //                    callViewDocumentWebservice();
@@ -530,6 +571,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 public void onClick(View v) {
                     hideviewClientBackground();
                     view_docs_list.clear();
+                    view_group_layout.setVisibility(View.GONE);
+                    ischecked_group_view = true;
+                    ll_matter_view.setVisibility(View.GONE);
+//                    rv_display_view_groups_docs.removeAllViews();
                     rv_display_view_docs.removeAllViews();
                     DOCUMENT_TYPE_TAG = "firm";
                     rv_display_view_docs.removeAllViews();
@@ -569,15 +614,11 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     callUploadDocumentWebservice();
                 }
             });
-            callClientWebservice();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return v;
-
-
     }
 
 
@@ -588,19 +629,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.white));
         ll_client_name_view.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.VISIBLE);
+        view_group_layout.setVisibility(View.GONE);
         ll_upload_docs.setVisibility(View.GONE);
         ll_matter_view.setVisibility(View.GONE);
-        //clearListData();
+        rv_display_upload_groups_docs.removeAllViews();
         hideviewFirmBackground();
-//        matterlist.clear();
-//         callClientWebservice();
-        // clientsList.clear();
-
-        //  callLegalMatter();
-
-//        callViewDocumentWebservice();
         mViewModel.setData("View Documents");
-
     }
 
     private void callViewDocumentWebservice() {
@@ -616,9 +650,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void hideviewFirmBackground() {
         VIEW_TAG = "Client";
-        CATEGORY_TAG = "client";
-
-        //   sp_documnet_type_view.setText("");
+        ischecked2 = true;
         tv_search_client_view.getText().clear();
         ll_matter_view.setVisibility(View.GONE);
         ll_client_name_view.setVisibility(View.VISIBLE);
@@ -626,7 +658,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_document_type_view.setVisibility(View.GONE);
         ll_search_client_view.setVisibility(View.VISIBLE);
         ll_search_client_views.setVisibility(View.GONE);
-        sp_documnet_type_view.setText("Select Groups");
+//        sp_documnet_type_view.setText("Select Groups");
         custom_spinner3.setText("");
         custom_spinner4.setText("");
         list_scroll4.setVisibility(View.GONE);
@@ -637,7 +669,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tv_firm_view.setTextColor(Color.BLACK);
         tv_client_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_client_view.setTextColor(Color.WHITE);
-
     }
 
     private void hideviewClientBackground() {
@@ -650,8 +681,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_search_client_view.setVisibility(View.GONE);
         ll_search_client_views.setVisibility(View.VISIBLE);
         ll_categories_layout.setVisibility(View.VISIBLE);
-        sp_documnet_type_view.setText("Select Groups");
+        tv_select_groups_view.setText("Select Groups");
         clearListData();
+        custom_spinner3.setText("");
+        custom_spinner4.setText("");
         tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_firm_view.setTextColor(Color.WHITE);
 
@@ -671,8 +704,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ll_upload_docs.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.GONE);
         rv_documents.removeAllViews();
-        hidefirmBackground();
-//        clearListData();
+        rv_display_upload_groups_docs.removeAllViews();
+        hideFirmBackground();
         //..
         custom_spinner.setText("");
         custom_spinner2.setText("");
@@ -680,8 +713,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         list_scroll.setVisibility(View.GONE);
         ll_matter.setVisibility(View.GONE);
         //...
-        clientsList.clear();
-        callClientWebservice();
         mViewModel.setData("Upload Documents");
     }
 
@@ -918,17 +949,17 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
-    private void hidefirmBackground() {
+    private void hideFirmBackground() {
         count_file = 0;
-        sp_documnet_type_view.setText("");
+//        tv_select_groups_view.setText("");
         tv_selected_file.setText("Select Document(s)");
         UPLOAD_TAG = "Client";
         ll_category.setVisibility(View.GONE);
         ll_matter.setVisibility(View.VISIBLE);
         ll_groups.setVisibility(View.GONE);
         ll_client_name.setVisibility(View.VISIBLE);
-        tv_select_groups.setText("Select Groups");
         clearListData();
+        rv_display_upload_groups_docs.removeAllViews();
         //..
         custom_spinner.setText("");
         custom_spinner2.setText("");
@@ -946,6 +977,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         count_file = 0;
         tv_selected_file.setText("Select Document(s)");
         UPLOAD_TAG = "Firm";
+        upload_group_layout.setVisibility(View.GONE);
+        ischecked_group = true;
         ll_matter.setVisibility(View.GONE);
         ll_category.setVisibility(View.VISIBLE);
         ll_groups.setVisibility(View.VISIBLE);
@@ -964,7 +997,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //        tv_selected_file.setText("");
         selected_groups_list.clear();
         selected_documents_list.clear();
-        sp_documnet_type_view.setText("Select Groups");
+//        tv_select_groups_view.setText("Select Groups");
         langList.clear();
         tags_list.clear();
         docsList.clear();
@@ -985,126 +1018,132 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         groupsList.clear();
 
         tv_select_groups.setText("Select Groups");
-        sp_documnet_type_view.setText("Select Groups");
+        tv_select_groups_view.setText("Select Groups");
     }
 
     private void callUploadDocumentWebservice() {
         try {
-            if (docsList.size() == 0) {
-                AndroidUtils.showToast("Please select atleast one document", getContext());
+            if (UPLOAD_TAG == "Client" && clientsList.size() == 0) {
+                AndroidUtils.showToast("Please Select a Client to Upload Documents", getContext());
+            } else if (UPLOAD_TAG == "Firm" && selected_groups_list.size() == 0) {
+                AndroidUtils.showToast("Please Select One Group to Upload Documents", getContext());
             } else {
-                progress_dialog = AndroidUtils.get_progress(getActivity());
-                if (UPLOAD_TAG == "Client") {
-                    for (int i = 0; i < docsList.size(); i++) {
-
-                        JSONObject jsonObject = new JSONObject();
-                        JSONArray clients = new JSONArray();
-                        JSONObject clients_jobject = new JSONObject();
-                        JSONArray matter = new JSONArray();
-//                JSONArray tags = new JSONArray();
-                        String docname = "";
-                        DocumentsModel documentsModel = docsList.get(i);
-                        filename = documentsModel.getName();
-                        File new_file = documentsModel.getFile();
-                        String doc_type = "pdf";
-                        String content_string = new_file.getName().replace(".", "/");
-                        String[] content_type = content_string.split("/");
-                        if (content_type.length >= 2) {
-                            doc_type = content_type[1];
-                            docname = content_type[0];
-                        }
-
-                        for (int j = 0; j < clientsList.size(); j++) {
-                            if (clientsList.get(j).getId().matches(client_id)) {
-                                ClientsModel clientsModel = clientsList.get(j);
-                                clients_jobject.put("id", clientsModel.getId());
-                                clients_jobject.put("type", clientsModel.getType());
-                                clients.put(clients_jobject);
-                            }
-                        }
-                        matter.put(matter_id);
-                        jsonObject.put("name", docsList.get(i).getName());
-                        jsonObject.put("description", docsList.get(i).getDescription());
-                        jsonObject.put("filename", docname);
-                        jsonObject.put("category", "client");
-                        jsonObject.put("clients", clients);
-                        jsonObject.put("matters", matter);
-                        jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
-                        if (docsList.get(i).getTags() == null) {
-                            jsonObject.put("tags", "");
-                        } else {
-                            jsonObject.put("tags", docsList.get(i).getTags());
-                        }
-
-                        if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
-                            jsonObject.put("content_type", "image/" + doc_type);
-                        } else {
-                            jsonObject.put("content_type", "application/" + doc_type);
-                        }
-                        WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
-
-//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
-                    }
+                if (docsList.size() == 0) {
+                    AndroidUtils.showToast("Please Select Atleast one document", getContext());
                 } else {
-                    for (int i = 0; i < docsList.size(); i++) {
-                        currentpoistion++;
-                        JSONObject jsonObject = new JSONObject();
-                        JSONArray clients = new JSONArray();
-                        JSONObject clients_jobject = new JSONObject();
+                    progress_dialog = AndroidUtils.get_progress(getActivity());
+                    if (UPLOAD_TAG == "Client") {
+                        for (int i = 0; i < docsList.size(); i++) {
 
+                            JSONObject jsonObject = new JSONObject();
+                            JSONArray clients = new JSONArray();
+                            JSONObject clients_jobject = new JSONObject();
+                            JSONArray matter = new JSONArray();
 //                JSONArray tags = new JSONArray();
-                        String docname = "";
-                        DocumentsModel documentsModel = docsList.get(i);
-                        filename = documentsModel.getName();
-                        JSONArray groups = new JSONArray();
-                        for (int k = 0; k < selected_groups_list.size(); k++) {
-                            DocumentsModel documentsModel1 = selected_groups_list.get(k);
-                            groups.put(documentsModel1.getGroup_id());
-                        }
-                        File new_file = documentsModel.getFile();
-                        String doc_type = "pdf";
-                        String content_string = new_file.getName().replace(".", "/");
-                        String[] content_type = content_string.split("/");
-                        if (content_type.length >= 2) {
-                            doc_type = content_type[1];
-                            docname = content_type[0];
-                        }
-
-                        for (int j = 0; j < clientsList.size(); j++) {
-                            if (clientsList.get(j).getId().matches(client_id)) {
-                                ClientsModel clientsModel = clientsList.get(j);
-                                clients_jobject.put("id", clientsModel.getId());
-                                clients_jobject.put("type", clientsModel.getType());
-                                clients.put(clients_jobject);
+                            String docname = "";
+                            DocumentsModel documentsModel = docsList.get(i);
+                            filename = documentsModel.getName();
+                            File new_file = documentsModel.getFile();
+                            String doc_type = "pdf";
+                            String content_string = new_file.getName().replace(".", "/");
+                            String[] content_type = content_string.split("/");
+                            if (content_type.length >= 2) {
+                                doc_type = content_type[1];
+                                docname = content_type[0];
                             }
-                        }
 
+                            for (int j = 0; j < clientsList.size(); j++) {
+                                if (clientsList.get(j).getId().matches(client_id)) {
+                                    ClientsModel clientsModel = clientsList.get(j);
+                                    clients_jobject.put("id", clientsModel.getId());
+                                    clients_jobject.put("type", clientsModel.getType());
+                                    clients.put(clients_jobject);
+                                }
+                            }
+                            matter.put(matter_id);
+                            jsonObject.put("name", docsList.get(i).getName());
+                            jsonObject.put("description", docsList.get(i).getDescription());
+                            jsonObject.put("filename", docname);
+                            jsonObject.put("category", "client");
+                            jsonObject.put("clients", clients);
+                            jsonObject.put("matters", matter);
+                            jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
+                            if (docsList.get(i).getTags() == null) {
+                                jsonObject.put("tags", "");
+                            } else {
+                                jsonObject.put("tags", docsList.get(i).getTags());
+                            }
 
-                        jsonObject.put("name", docsList.get(i).getName());
-                        jsonObject.put("description", docsList.get(i).getDescription());
-                        jsonObject.put("filename", docname);
-                        jsonObject.put("category", "firm");
-                        jsonObject.put("clients", "");
-                        jsonObject.put("groups", groups);
-                        jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
-                        if (docsList.get(i).getTags() == null) {
-                            jsonObject.put("tags", "");
-                        } else {
-                            jsonObject.put("tags", docsList.get(i).getTags());
-                        }
-
-                        if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
-                            jsonObject.put("content_type", "image/" + doc_type);
-                        } else {
-                            jsonObject.put("content_type", "application/" + doc_type);
-                        }
+                            if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
+                                jsonObject.put("content_type", "image/" + doc_type);
+                            } else {
+                                jsonObject.put("content_type", "application/" + doc_type);
+                            }
+                            WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
 
 //            AndroidUtils.showAlert(jsonObject.toString(),getContext());
-                        WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
+                        }
+                    } else {
+                        for (int i = 0; i < docsList.size(); i++) {
+                            currentpoistion++;
+                            JSONObject jsonObject = new JSONObject();
+                            JSONArray clients = new JSONArray();
+                            JSONObject clients_jobject = new JSONObject();
+
+//                JSONArray tags = new JSONArray();
+                            String docname = "";
+                            DocumentsModel documentsModel = docsList.get(i);
+                            filename = documentsModel.getName();
+                            JSONArray groups = new JSONArray();
+                            for (int k = 0; k < selected_groups_list.size(); k++) {
+                                DocumentsModel documentsModel1 = selected_groups_list.get(k);
+                                groups.put(documentsModel1.getGroup_id());
+                            }
+                            File new_file = documentsModel.getFile();
+                            String doc_type = "pdf";
+                            String content_string = new_file.getName().replace(".", "/");
+                            String[] content_type = content_string.split("/");
+                            if (content_type.length >= 2) {
+                                doc_type = content_type[1];
+                                docname = content_type[0];
+                            }
+
+                            for (int j = 0; j < clientsList.size(); j++) {
+                                if (clientsList.get(j).getId().matches(client_id)) {
+                                    ClientsModel clientsModel = clientsList.get(j);
+                                    clients_jobject.put("id", clientsModel.getId());
+                                    clients_jobject.put("type", clientsModel.getType());
+                                    clients.put(clients_jobject);
+                                }
+                            }
+
+
+                            jsonObject.put("name", docsList.get(i).getName());
+                            jsonObject.put("description", docsList.get(i).getDescription());
+                            jsonObject.put("filename", docname);
+                            jsonObject.put("category", "firm");
+                            jsonObject.put("clients", "");
+                            jsonObject.put("groups", groups);
+                            jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
+                            if (docsList.get(i).getTags() == null) {
+                                jsonObject.put("tags", "");
+                            } else {
+                                jsonObject.put("tags", docsList.get(i).getTags());
+                            }
+
+                            if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
+                                jsonObject.put("content_type", "image/" + doc_type);
+                            } else {
+                                jsonObject.put("content_type", "application/" + doc_type);
+                            }
+
+//            AndroidUtils.showAlert(jsonObject.toString(),getContext());
+                            WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
+                        }
                     }
                 }
-
             }
+
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
@@ -1551,6 +1590,11 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     loadGroupsData(data);
                 } else if (httpResult.getRequestType().equals("Display clientDocuments")) {
                     JSONArray data = result.getJSONArray("data");
+                    callLegalMatter();
+                    load_view_doc(data);
+                    Log.d("TAG_VIEW_CLIENT", data.toString());
+                } else if (httpResult.getRequestType().equals("Display firmDocuments")) {
+                    JSONArray data = result.getJSONArray("data");
                     load_view_doc(data);
                     Log.d("TAG_VIEW_CLIENT", data.toString());
                 } else if (httpResult.getRequestType().equals("VIEW_DOCUMENT")) {
@@ -1656,15 +1700,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 viewDocumentsModel.setName(jsonObject.getString("name"));
 //                viewDocumentsModel.setOrigin(jsonObject.getString("origin"));
                 viewDocumentsModel.setUploaded_by(jsonObject.getString("uploaded_by"));
-                viewDocumentsModel.setGroups(jsonObject.getString("groups"));
-                viewDocumentsModel.setMatters(jsonObject.getString("matters"));
-//                ViewDocumentsModel.main(jsonObject.getString("clients"));
-                viewDocumentsModel.setClientsModel(jsonObject.getJSONArray("clients"));
-                viewDocumentsModel.setAdded_encryption(jsonObject.getBoolean("added_encryption"));
-                viewDocumentsModel.setTag(new String[]{jsonObject.getString("tag")});
-                viewDocumentsModel.setTags(jsonObject.getJSONObject("tags"));
-                viewDocumentsModel.setIsdisabled(jsonObject.getBoolean("isdisabled"));
-//
                 view_docs_list.add(viewDocumentsModel);
                 Log.d("VIEW_POSITION", view_docs_list.get(i).toString());
             }
@@ -1673,7 +1708,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
-
     }
 
     private void laodViewDocuments(JSONArray docs) throws JSONException {
@@ -1790,66 +1824,30 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 }
             }
             selected_groups_list.clear();
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.groups_list_adapter, null);
-            RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-            ImageView iv_cancel = view.findViewById(R.id.close_groups);
-            iv_cancel.setImageResource(R.drawable.cancel_icon);
-            header_name_group = view.findViewById(R.id.header_name_group);
-            header_name_group.setGravity(Gravity.CENTER);
-            header_name_group.setTextColor(Color.WHITE);
-            header_name_group.setText(R.string.select_groups);
-            AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-            AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
+//            ImageView iv_cancel = view.findViewById(R.id.close_groups);
+//            iv_cancel.setImageResource(R.drawable.cancel_icon);
+//            header_name_group = view.findViewById(R.id.header_name_group);
+//            header_name_group.setGravity(Gravity.CENTER);
+//            header_name_group.setTextColor(Color.WHITE);
+//            header_name_group.setText(R.string.select_groups);
+
+            //...Upload Documents Group Selection
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rv_groups.setLayoutManager(layoutManager);
-            rv_groups.setHasFixedSize(true);
-            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList);
-            rv_groups.setAdapter(documentsAdapter);
-            AlertDialog dialog = dialogBuilder.create();
-            iv_cancel.setOnClickListener(new View.OnClickListener() {
+            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+            rv_display_upload_groups_docs.setHasFixedSize(true);
+
+            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.this);
+            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+
+            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialog.dismiss();
+                    upload_group_layout.setVisibility(View.GONE);
+                    ischecked_group = true;
                 }
             });
-            btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-//            btn_save_group.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-////                    ArrayList<String>
-//                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-//                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
-//                        if (documentsModel.isGroupChecked()) {
-//                            clientsList.clear();
-//                            matterlist.clear();
-//                            CATEGORY_TAG="firm";
-//                            selected_groups_list.add(documentsModel);
-////                            callclientfirmWebServices();
-////                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-//                        }
-//                    }
-//
-//                    String[] value = new String[selected_groups_list.size()];
-//                    for (int i = 0; i < selected_groups_list.size(); i++) {
-////                                value += "," + family_members.get(i);
-////                               value.add(family_members.get(i));
-//                        value[i] = selected_groups_list.get(i).getGroup_name();
-//                    }
-//
-//                    String str = String.join(",", value);
-//                    tv_select_groups.setText(str);
-//                    dialog.dismiss();
-//                }
-//
-//            });
-            btn_save_group.setOnClickListener(new View.OnClickListener() {
+
+            btn_group_submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
@@ -1857,20 +1855,53 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                         DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
                         if (documentsModel.isGroupChecked()) {
                             selected_groups_list.add(documentsModel);
-//                            callclientfirmWebServices();
-//                            cv_view_documents.setVisibility(View.VISIBLE);
-//                            rv_display_view_docs.setVisibility(View.VISIBLE);
-//                            view_documents();
-//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                            CATEGORY_TAG = "firm";
-                            callfilter_client_webservices();
-                            cv_view_documents.setVisibility(View.VISIBLE);
-                            rv_display_view_docs.setVisibility(View.VISIBLE);
-//                            selected_groups_list.clear();
 
+//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                         }
                     }
+                    String[] value = new String[selected_groups_list.size()];
+                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                                value += "," + family_members.get(i);
+//                               value.add(family_members.get(i));
+                        value[i] = selected_groups_list.get(i).getGroup_name();
 
+                    }
+                    String str = String.join(",", value);
+                    tv_select_groups.setText(str);
+//                    dialog.dismiss();
+                    upload_group_layout.setVisibility(View.GONE);
+                    ischecked_group = true;
+                }
+            });
+
+            //...View Documents Group Selection
+            RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            rv_display_view_groups_docs.setLayoutManager(layoutManager1);
+            rv_display_view_groups_docs.setHasFixedSize(true);
+
+            GroupsListAdapter documentsAdapter1 = new GroupsListAdapter(groupsList, Documents.this);
+            rv_display_view_groups_docs.setAdapter(documentsAdapter1);
+
+            btn_group_view_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view_group_layout.setVisibility(View.GONE);
+                    ischecked_group_view = true;
+                }
+            });
+            btn_group_view_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    ArrayList<String>
+                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+                        if (documentsModel.isGroupChecked()) {
+                            selected_groups_list.add(documentsModel);
+                            cv_view_documents.setVisibility(View.VISIBLE);
+                            rv_display_view_docs.setVisibility(View.VISIBLE);
+//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                        }
+                    }
                     String[] value = new String[selected_groups_list.size()];
                     for (int i = 0; i < selected_groups_list.size(); i++) {
 //                                value += "," + family_members.get(i);
@@ -1879,17 +1910,72 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
                     }
 
+                    String[] value_id = new String[selected_groups_list.size()];
+                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                                value += "," + family_members.get(i);
+//                               value.add(family_members.get(i));
+                        value_id[i] = selected_groups_list.get(i).getGroup_id();
+                    }
+                    try {
+                        array_group = new JSONArray(value_id);
+                        callfilter_client_webservices();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                     String str = String.join(",", value);
-                    sp_documnet_type_view.setText(str);
-
-
-                    dialog.dismiss();
+                    tv_select_groups_view.setText(str);
+//                    dialog.dismiss();
+                    view_group_layout.setVisibility(View.GONE);
+                    ischecked_group_view = true;
                 }
-
             });
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
+
+//            btn_save_group.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+////                    ArrayList<String>
+//                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+//                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+//                        if (documentsModel.isGroupChecked()) {
+//                            selected_groups_list.add(documentsModel);
+////                            callclientfirmWebServices();
+////                            cv_view_documents.setVisibility(View.VISIBLE);
+////                            rv_display_view_docs.setVisibility(View.VISIBLE);
+////                            view_documents();
+//                            if (selected_groups_list.size() == 0) {
+//                                AndroidUtils.showToast("Please select atleast one group", getContext());
+//                            } else {
+//                                groups = new JSONArray();
+//                                for (int k = 0; k < selected_groups_list.size(); k++) {
+//                                    DocumentsModel documentsModel1 = selected_groups_list.get(k);
+//                                    groups.put(documentsModel1.getGroup_id());
+//                                }
+//                            }
+//                            Log.d("Group_list_1",""+groups);
+//                            CATEGORY_TAG = "firm";
+//                            callfilter_client_webservices(groups);
+//                            cv_view_documents.setVisibility(View.VISIBLE);
+//                            rv_display_view_docs.setVisibility(View.VISIBLE);
+////                            selected_groups_list.clear();
+//                        }
+//                    }
+//                    String[] value = new String[selected_groups_list.size()];
+//                    for (int i = 0; i < selected_groups_list.size(); i++) {
+////                                value += "," + family_members.get(i);
+////                               value.add(family_members.get(i));
+//                        value[i] = selected_groups_list.get(i).getGroup_name();
+//
+//                    }
+//                    String str = String.join(",", value);
+//                    tv_select_groups.setText(str);
+//                    sp_documnet_type_view.setText(str);
+//                    dialog.dismiss();
+//                }
+//
+//            });
+//            dialog.setCancelable(false);
+//            dialog.setView(view);
+//            dialog.show();
         } catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -2027,20 +2113,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                matter_name = Documents.this.clientsList.get(position).getName();
+                selected_groups_list.clear();
                 client_id = clientsList.get(position).getId();
                 String client_name = clientsList.get(position).getName();
                 Log.d("Client_value_name", client_name);
                 custom_spinner3.setText(client_name);
                 ll_matter_view.setVisibility(View.VISIBLE);
                 CATEGORY_TAG = "client";
+                custom_spinner4.setText("");
                 matterlist.clear();
-//                ll_matter.setVisibility(View.VISIBLE);
+                matter_id = "";
                 callfilter_client_webservices();
                 cv_view_documents.setVisibility(View.VISIBLE);
                 rv_display_view_docs.setVisibility(View.VISIBLE);
                 list_scroll3.setVisibility(View.GONE);
                 ischecked2 = true;
-                callLegalMatter();
             }
         });
 
@@ -2424,9 +2511,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     @Override
     public void Display_Document(ViewDocumentsModel viewDocumentsModel) {
         CONTENT_TYPE = viewDocumentsModel.getContent_type();
+        Log.d("IMage_name_content", CONTENT_TYPE);
         callDisplayDocumentWebservice(viewDocumentsModel.getId());
-
-
     }
 
     private void callDisplayDocumentWebservice(String id) {
@@ -2441,24 +2527,31 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
-    private void callfilter_client_webservices() {
+    public void callfilter_client_webservices() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
-            String[] groups = null;
-            if (!selected_groups_list.isEmpty()) {
-                groups = new String[selected_groups_list.size()];
-                for (int i = 0; i < selected_groups_list.size(); i++) {
-                    groups[i] = selected_groups_list.get(i).getGroup_id();
-                }
-            }
-            jsonObject.put("category", CATEGORY_TAG);
-            jsonObject.put("clients", client_id);
-            jsonObject.put("matters", matter_id);
-            jsonObject.put("showPdfDocs", false);
-            jsonObject.put("groups", groups);
+//            JSONArray groups1 = new JSONArray();
+            if (CATEGORY_TAG == "client") {
+                jsonObject.put("category", "client");
+                jsonObject.put("clients", client_id);
+                jsonObject.put("matters", matter_id);
+                jsonObject.put("showPdfDocs", false);
+                jsonObject.put("groups", null);
 
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
+                Log.d("Group_doc_view1", jsonObject.toString());
+            } else if (CATEGORY_TAG == "firm") {
+                jsonObject.put("category", "firm");
+                jsonObject.put("clients", "");
+                jsonObject.put("matters", "");
+                jsonObject.put("showPdfDocs", false);
+                jsonObject.put("groups", array_group);
+                Log.d("Group_value_num", array_group.toString());
+
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display firmDocuments", jsonObject.toString());
+                Log.d("Group_doc_view1", jsonObject.toString());
+            }
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
@@ -2552,6 +2645,3 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 }
-
-
-
