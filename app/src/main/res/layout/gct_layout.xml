@@ -32,7 +32,22 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
 
-                <androidx.appcompat.widget.AppCompatButton
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/matter_title"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@color/white"-->
+<!--                    android:fontFamily="sans-serif-condensed-medium"-->
+<!--                    android:gravity="start|center_vertical"-->
+<!--                    android:padding="5dp"-->
+<!--                    android:textSize="@dimen/twenty_dp"-->
+<!--                    android:enabled="false"-->
+<!--                    android:text="Matter Title"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/Blue_text_color">-->
+
+<!--                </com.google.android.material.textfield.TextInputEditText>-->
+                <TextView
                     android:id="@+id/matter_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -46,7 +61,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/Blue_text_color">
 
-                </androidx.appcompat.widget.AppCompatButton>
+                </TextView>
+
 
                 <TextView
                     android:id="@+id/matter_date"
@@ -85,29 +101,45 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/tl_add_groups"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:textColorHint="@color/black"
-                        app:boxBackgroundMode="none">
-
-                        >
                         <TextView
                             android:id="@+id/at_add_groups"
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center"
-                            android:enabled="true"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="15dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:drawableRight="@drawable/down_arrow"
+                            android:fontFamily="@font/gill_sans"
+                            android:padding="15dp"
                             android:text="Select Groups"
-                            android:textColor="@color/Blue_text_color"
+                            android:textColor="@color/black"
                             android:textSize="15dp" />
-                    </RelativeLayout>
+                        <LinearLayout
+                            android:id="@+id/upload_group_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_below="@id/at_add_groups"
+                            android:visibility="invisible"
+                            android:orientation="vertical"/>
+
+                        <include
+                            android:id="@+id/rv_display_upload_groups_docs"
+                            layout="@layout/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_below="@id/upload_group_layout"
+                            android:layout_height="150dp"
+                            android:visibility="gone"
+                            android:background="@drawable/rectangular_white_background"
+
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp" />
+
+
 
                   <include layout="@layout/add_button"
                       android:id="@+id/btn_add_groups"
@@ -172,7 +204,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-
+                      android:id="@+id/line"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -187,30 +219,46 @@
 
                     </LinearLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_add_clients"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:textColorHint="@color/black"
-                        app:boxBackgroundMode="none">
-
-                        >
 
                         <TextView
                             android:id="@+id/at_add_clients"
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center"
-                            android:enabled="true"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="15dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginEnd="4dp"
+
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:drawableRight="@drawable/down_arrow"
+                            android:fontFamily="@font/gill_sans"
+                            android:padding="15dp"
                             android:text="Select Clients"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:textColor="@color/black"
+                            android:textSize="15dp"  />
+
+                        <LinearLayout
+                            android:id="@+id/upload_client_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/at_add_clients"
+                              android:visibility="invisible"
+                            android:layout_marginTop="5dp"
+                            android:orientation="vertical"/>
+
+                        <include
+                            android:id="@+id/rv_display_upload_client_docs"
+                            layout="@layout/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_below="@id/upload_client_layout"
+                            android:layout_height="150dp"
+                            android:visibility="gone"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp" />
+
+
+
 
                  <include layout="@layout/add_button"
                      android:id="@+id/btn_add_clients"
@@ -284,35 +332,48 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"/>
 
-                       <include layout="@layout/icon"/>
+
 
                     </LinearLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_assigned_team_members"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:textColorHint="@color/black"
-                        app:boxBackgroundMode="none">
-
-                        >
 
 
                         <TextView
                             android:id="@+id/at_assigned_team_members"
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center"
-                            android:enabled="true"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:padding="15dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:layout_marginEnd="4dp"
+
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:drawableRight="@drawable/down_arrow"
+                            android:fontFamily="@font/gill_sans"
+                            android:padding="15dp"
                             android:text="Assign Team Members"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:textColor="@color/black"
+                            android:textSize="15dp"  />
+                        <LinearLayout
+                            android:id="@+id/upload_tm_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/at_assigned_team_members"
+                            android:layout_marginTop="5dp"
+                            android:orientation="vertical"/>
+
+                        <include
+                            android:id="@+id/rv_display_upload_tm_docs"
+                            layout="@layout/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_below="@id/upload_tm_layout"
+                            android:layout_height="150dp"
+                            android:visibility="gone"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="5dp" />
+
+
 
                  <include layout="@layout/add_button"
                      android:id="@+id/btn_assigned_team_members"

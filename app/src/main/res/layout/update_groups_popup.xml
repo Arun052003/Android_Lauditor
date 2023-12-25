@@ -105,6 +105,16 @@
             android:layout_margin="10dp">
         </LinearLayout>
 
+        <include
+            android:id="@+id/rv_display_upload_tm_docs"
+            layout="@layout/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_below="@id/upload_tm_layout"
+            android:layout_height="150dp"
+            android:visibility="visible"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="5dp" />
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_buttons_1"
             android:layout_width="match_parent"

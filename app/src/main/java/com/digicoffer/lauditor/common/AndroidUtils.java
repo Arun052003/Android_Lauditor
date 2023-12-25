@@ -368,5 +368,6 @@ public class AndroidUtils {
     }
 
 
-
+    public static void showAlert(String s) {
+    }
 }

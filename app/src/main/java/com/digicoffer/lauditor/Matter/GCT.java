@@ -33,19 +33,22 @@ import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.minidns.record.A;
 
+import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
+public class
+GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
 
     TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members,add_groups,add_clients,tv_assigned_team_members;
     boolean[] selectedLanguage;
@@ -53,8 +56,10 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
     boolean[] selectedTM;
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
+TextView matter_title_tv ;
     String matter_title, case_number, case_type, description, dof,start_date,end_date, court, judge, case_priority, case_status;
     JSONArray existing_clients;
+
     JSONArray existing_members;
     CardView cv_client_details;
     MatterInformation matterInformation;
@@ -73,13 +78,18 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
     ArrayList<GroupsModel> updated_groups_list = new ArrayList<>();
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
+    LinearLayout upload_group_layout, upload_client_layout, upload_tm_layout ;
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
     ArrayList<GroupsModel> groupsList = new ArrayList<>();
+    boolean ischecked_group = true;
+    boolean ischecked_client = true;
     ArrayList<DocumentsModel> documentsList = new ArrayList<>();
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<ViewMatterModel> new_groupsList = new ArrayList<>();
     ArrayList<TeamModel> tmList = new ArrayList<>();
     Matter matter;
+    Matter mattermodel;
+    RecyclerView rv_display_upload_groups_docs,rv_display_upload_client_docs,rv_display_upload_tm_docs;
 
 
     private JSONArray existing_opponents;
@@ -93,6 +103,13 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         at_add_groups = view.findViewById(R.id.at_add_groups);
         at_add_groups.setOnClickListener(this);
         add_groups = view.findViewById(R.id.add_groups);
+        upload_group_layout = view.findViewById(R.id.upload_group_layout);
+        upload_client_layout = view.findViewById(R.id. upload_client_layout);
+        upload_tm_layout = view.findViewById(R.id. upload_tm_layout);
+        rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
+        rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
+
+        rv_display_upload_groups_docs = view.findViewById(R.id.rv_display_upload_groups_docs);
         add_groups.setText("Add Groups");
         add_clients = view.findViewById(R.id.add_clients);
         add_clients.setText("Add Clients");
@@ -100,6 +117,12 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         tv_assigned_team_members = view.findViewById(R.id.tv_assigned_team_members);
         tv_assigned_team_members.setText("Assign Team Members");
         at_add_clients = view.findViewById(R.id.at_add_clients);
+        at_add_clients.setText("Select Clients");
+//        tv_matter_title = view.findViewById(R.id.tv_matter_title);
+//        String text = tv_matter_title.getText().toString();
+//        matter_title.setText(text);
+        matter_title_tv = view.findViewById(R.id.matter_title);
+
         at_add_clients.setOnClickListener(this);
         at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
         at_assigned_team_members.setOnClickListener(this);
@@ -116,6 +139,9 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         ll_add_clients.setVisibility(View.GONE);
         ll_assign_team_members = view.findViewById(R.id.ll_assign_team_members);
         ll_assign_team_members.setVisibility(View.GONE);
+      //  String matter_title = tv_matter_title.getText().toString();
+
+
 
         btn_create = view.findViewById(R.id.btn_create);
         btn_create.setOnClickListener(this);
@@ -126,6 +152,67 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         ll_assigned_team_members = view.findViewById(R.id.ll_assigned_team_members);
         ll_selected_clients = view.findViewById(R.id.ll_selected_clients);
         Calendar myCalendar = Calendar.getInstance();
+//        TextInputEditText tv_matter_title = view. findViewById(R.id.tv_matter_title);
+//        AppCompatButton matter_title = view.findViewById(R.id.matter_title);
+//        AppCompatButton finalmatter_title = matter_title;
+//        matter_title.setOnClickListener(new View.OnClickListener(){
+//            private BreakIterator finalMatter_title;
+//
+//            public void onClick(View view){
+//                String item = tv_matter_title.getText().toString();
+//                finalMatter_title.setText(item);
+//            }
+//        });
+        at_add_groups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callGroupsWebservice();
+
+
+
+                rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
+                if (ischecked_group) {
+                    rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+                    upload_group_layout.setVisibility(View.VISIBLE);
+
+                } else {
+                    upload_group_layout.setVisibility(View.GONE);
+                }
+                ischecked_group = !ischecked_group;
+
+
+            }
+
+        });
+
+        at_add_clients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callClientsWebservice();
+                rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+                if (ischecked_client) {
+                    rv_display_upload_client_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+                    upload_client_layout.setVisibility(View.VISIBLE);
+                } else {
+                    upload_client_layout.setVisibility(View.GONE);
+                }
+                ischecked_client = !ischecked_client;
+            }
+        });
+        at_assigned_team_members.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callTMWebservice();
+                rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
+                if (ischecked_client) {
+                    rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+                    upload_tm_layout.setVisibility(View.VISIBLE);
+                } else {
+                    upload_tm_layout .setVisibility(View.GONE);
+                }
+                ischecked_client = !ischecked_client;
+            }
+        });
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -160,6 +247,8 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         if (matterArraylist.size() != 0) {
             for (int i = 0; i < matterArraylist.size(); i++) {
                 MatterModel matterModel = matterArraylist.get(i);
+                matter_title_tv.setText("");
+                matter_title_tv.setText(matterModel.getMatter_title());
                 if (matterModel.getGroup_acls()!=null){
                 exisiting_group_acls = matterModel.getGroup_acls();
                 try {
@@ -302,8 +391,9 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                     }
                 }
 
-                    if (matterModel.getMatter_title()!=null){
-                    matter_title = matterModel.getMatter_title();
+                if (matterModel.getMatter_title()!=null){
+                    matter_title =  matterModel.getMatter_title();
+
                 }
                 if(matterModel.getCase_number()!=null){
                     case_number = matterModel.getCase_number();
@@ -369,14 +459,14 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_add_groups:
+            case R.id.at_add_groups:
                 if (groupsList.size() == 0) {
                     callGroupsWebservice();
                 } else {
                     GroupsPopup();
                 }
                 break;
-            case R.id.btn_add_clients:
+            case R.id.at_add_clients:
                 if (clientsList.size() == 0) {
                     callClientsWebservice();
                 } else {
@@ -384,9 +474,12 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                 }
 
                 break;
-            case R.id.btn_assigned_team_members:
+            case R.id.at_assigned_team_members:
                 if (tmList.size() == 0) {
                     callTMWebservice();
+                    rv_display_upload_tm_docs.setVisibility(View.GONE);
+                    upload_tm_layout.setVisibility(View.GONE);
+
                 } else {
                     TeamPopUp();
                 }
@@ -394,6 +487,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
             case R.id.btn_create:
                 cv_client_details.setVisibility(View.GONE);
                 saveGCTinformation();
+
                 break;
         }
     }
@@ -403,8 +497,6 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
             AndroidUtils.showToast("Please select atealst one group", getContext());
         } else if (selected_clients_list.size() == 0) {
             AndroidUtils.showToast("Please select atleast one client", getContext());
-        } else if (selected_tm_list.size() == 0) {
-            AndroidUtils.showToast("Please Assign atleast one Team Member", getContext());
         } else {
             try {
                 JSONArray clients = new JSONArray();
@@ -521,7 +613,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                     jsonObject.put("name", documentsModel.getName());
                     new_documents_list.put(jsonObject);
                 }
-                matterModel.setMatter_title(matter_title);
+               matterModel.setMatter_title(matter_title);
                 matterModel.setCase_number(case_number);
                 matterModel.setCase_type(case_type);
                 matterModel.setDescription(description);
@@ -552,6 +644,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
 
     private void TeamPopUp() {
         try {
+            rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
 
             for (int i = 0; i < tmList.size(); i++) {
                 for (int j = 0; j < selected_tm_list.size(); j++) {
@@ -564,36 +657,17 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                 }
             }
             selected_tm_list.clear();
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.groups_list_adapter, null);
-            RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-            ImageView iv_cancel = view.findViewById(R.id.close_groups);
-            iv_cancel.setImageResource(R.drawable.cancel_icon);
-            AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-            TextView header_name_group=view.findViewById(R.id.header_name_group);
-            header_name_group.setText("Select Team Member");
-            AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
+
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rv_groups.setLayoutManager(layoutManager);
-            rv_groups.setHasFixedSize(true);
+            rv_display_upload_tm_docs.setLayoutManager(layoutManager);
+            rv_display_upload_tm_docs.setHasFixedSize(true);
             ADAPTER_TAG = "TM";
             GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
-            rv_groups.setAdapter(documentsAdapter);
-            AlertDialog dialog = dialogBuilder.create();
-            iv_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btn_save_group.setOnClickListener(new View.OnClickListener() {
+            rv_display_upload_tm_docs.setAdapter(documentsAdapter);
+
+
+
+            btn_assigned_team_members.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
@@ -610,13 +684,11 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                     loadSelectedTM();
 //                    loadSelectedClients();
 //                    loadSelectedGroups();
-                    dialog.dismiss();
+
                 }
 
             });
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
+
         } catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -735,38 +807,17 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                 }
             }
             selected_clients_list.clear();
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.groups_list_adapter, null);
-            RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-            ImageView iv_cancel = view.findViewById(R.id.close_groups);
-            iv_cancel.setImageResource(R.drawable.cancel_icon);
-            AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-            TextView header_name_group=view.findViewById(R.id.header_name_group);
-            header_name_group.setText("Select Client");
-            AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
 
-           LinearLayout ll_add_clients = view.findViewById(R.id.ll_add_clients);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rv_groups.setLayoutManager(layoutManager);
-            rv_groups.setHasFixedSize(true);
+            rv_display_upload_client_docs.setLayoutManager(layoutManager);
+            rv_display_upload_client_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Clients";
             GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
-            rv_groups.setAdapter(documentsAdapter);
-            AlertDialog dialog = dialogBuilder.create();
-            iv_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btn_save_group.setOnClickListener(new View.OnClickListener() {
+            rv_display_upload_client_docs.setAdapter(documentsAdapter);
+
+
+
+            btn_add_clients.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
@@ -783,18 +834,90 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
 
                     loadSelectedClients();
 //                    loadSelectedGroups();
-                    dialog.dismiss();
+
                 }
 
             });
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
+
         } catch (Exception e) {
             e.printStackTrace();
-            AndroidUtils.showAlert(e.getMessage(), getContext());
+           AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
+private void ClientssPopUp() {
+    try {
+
+        for (int i = 0; i < clientsList.size(); i++) {
+            for (int j = 0; j < selected_clients_list.size(); j++) {
+                if (clientsList.get(i).getClient_id().matches(selected_clients_list.get(j).getClient_id())) {
+                    ClientsModel clientsModel = clientsList.get(i);
+                    clientsModel.setChecked(true);
+//                        selected_groups_list.set(j,documentsModel);
+
+                }
+            }
+        }
+        selected_clients_list.clear();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.groups_list_adapter, null);
+        RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
+        ImageView iv_cancel = view.findViewById(R.id.close_groups);
+        iv_cancel.setImageResource(R.drawable.cancel_icon);
+        AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
+        TextView header_name_group=view.findViewById(R.id.header_name_group);
+        header_name_group.setText("Select Client");
+        AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
+
+        LinearLayout ll_add_clients = view.findViewById(R.id.ll_add_clients);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rv_groups.setLayoutManager(layoutManager);
+        rv_groups.setHasFixedSize(true);
+        ADAPTER_TAG = "Clients";
+        GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
+        rv_groups.setAdapter(documentsAdapter);
+        AlertDialog dialog = dialogBuilder.create();
+        iv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btn_save_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                    ArrayList<String>
+                for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
+                    ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
+                    if (clientsModel.isChecked()) {
+                        selected_clients_list.add(clientsModel);
+                        ll_assign_team_members.setVisibility(View.VISIBLE);
+
+                        //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                    }
+                }
+
+
+                loadSelectedClients();
+//                    loadSelectedGroups();
+                dialog.dismiss();
+            }
+
+        });
+        dialog.setCancelable(false);
+        dialog.setView(view);
+        dialog.show();
+    } catch (Exception e) {
+        e.printStackTrace();
+        AndroidUtils.showAlert(e.getMessage(), getContext());
+    }
+}
 
     private void loadSelectedTM() {
         String[] value = new String[selected_tm_list.size()];
@@ -861,6 +984,8 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
 
         String str = String.join(",", value);
         at_add_clients.setText(str);
+
+
         selected_clients.setVisibility(View.VISIBLE);
         ll_selected_clients.removeAllViews();
         for (int i = 0; i < selected_clients_list.size(); i++) {
@@ -890,7 +1015,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                             }
 
                             String str = String.join(",", value);
-                            at_add_clients.setText(str);
+                         at_add_clients.setText(str);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -922,7 +1047,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         }
     }
 
-    private void GroupsPopup() {
+    public void GroupsPopup() {
         try {
 
             for (int i = 0; i < groupsList.size(); i++) {
@@ -936,38 +1061,24 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
                 }
             }
             selected_groups_list.clear();
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.groups_list_adapter, null);
-            RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-            ImageView iv_cancel = view.findViewById(R.id.close_groups);
-            iv_cancel.setImageResource(R.drawable.cancel_icon);
-            AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-            AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
+
+
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rv_groups.setLayoutManager(layoutManager);
-            rv_groups.setHasFixedSize(true);
+            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+            rv_display_upload_groups_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Groups";
             GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
-            rv_groups.setAdapter(documentsAdapter);
-            AlertDialog dialog = dialogBuilder.create();
-            iv_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btn_save_group.setOnClickListener(new View.OnClickListener() {
+            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+
+
+
+          btn_add_groups.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
                     for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+                        rv_display_upload_groups_docs.setVisibility(View.GONE);
+
                         GroupsModel groupsModel = documentsAdapter.getList_item().get(i);
                         if (groupsModel.isChecked()) {
                             selected_groups_list.add(groupsModel);
@@ -981,12 +1092,12 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
 
 
                     loadSelectedGroups();
-                    dialog.dismiss();
+
                 }
             });
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
+
+            //dialog.setView(view);
+
         } catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -1016,7 +1127,7 @@ public class GCT extends Fragment implements View.OnClickListener, AsyncTaskComp
         } else {
             // the list has not changed in size
         }
-        at_add_clients.setText("");
+      //  at_add_clients.setText("");
         at_assigned_team_members.setText("");
     }
 
