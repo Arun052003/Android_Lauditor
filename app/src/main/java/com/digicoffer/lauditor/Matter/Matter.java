@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,7 +22,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
+import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -29,7 +34,13 @@ public class Matter extends Fragment {
     private HorizontalScrollView scrollView;
     private TextView tv_legal_matter, tv_general_matter;
     private TextView tv_create, tv_view;
+    private TextInputEditText tv_matter_title;
+    private AppCompatButton matter_title;
     private NewModel mViewModel;
+    MatterInformation matterInformation;
+    CardView   cv_add_opponent_advocate;
+    Matter matter;
+
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view;
 
@@ -46,7 +57,7 @@ public class Matter extends Fragment {
         siv_documents = view.findViewById(R.id.siv_documents);
         tv_legal_matter = view.findViewById(R.id.tv_legal_matter);
 
-
+        tv_matter_title = view.findViewById(R.id.tv_matter_title);
 
         tv_legal_matter.setText("Legal Matter");
         tv_general_matter = view.findViewById(R.id.tv_general_matter);
@@ -60,7 +71,11 @@ public class Matter extends Fragment {
 //        siv_view = view.findViewById(R.id.view_icon);
         loadMatterInformation();
         loadLegalMatter();
-        loadViewUI();
+       // loadViewUI();
+
+
+
+
         tv_legal_matter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,15 +123,23 @@ public class Matter extends Fragment {
         siv_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() != 0) {
-                    loadGCT();
+                if (matter_arraylist.size() == 0) {
+                    AndroidUtils.showAlert("Please check the Matter information section", getContext());
+                }
+                else{
+                   loadGCT();
+
                 }
             }
         });
         siv_documents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() != 0) {
+                if (matter_arraylist.size() == 0) {
+
+                    AndroidUtils.showAlert("Please check the Matter information,Groups,clients,team member section", getContext());
+                }
+                else{
                     loadDocuments();
                 }
             }
@@ -131,7 +154,7 @@ public class Matter extends Fragment {
     }
 
     //    public MatterModel matterModel
-    private void loadViewUI() {
+    void loadViewUI() {
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_create.setTextColor(Color.BLACK);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
@@ -177,7 +200,7 @@ public class Matter extends Fragment {
         loadMatterInformation();
         mViewModel.setData("Create  General Matter");
     }
-    private void loadLegalMatter() {
+    void loadLegalMatter() {
         Constants.MATTER_TYPE = "Legal";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_legal_matter.setTextColor(Color.WHITE);
@@ -185,7 +208,7 @@ public class Matter extends Fragment {
         tv_general_matter.setTextColor(Color.BLACK);
         loadMatterInformation();
         loadViewUI();
-        mViewModel.setData("  View Legal Matter");
+        mViewModel.setData( " Legal Matter");
     }
 
     private void loadGeneralMatter() {
@@ -197,12 +220,13 @@ public class Matter extends Fragment {
         loadMatterInformation();
         loadViewUI();
 
-        mViewModel.setData(" View General Matter");
+        mViewModel.setData("  General Matter");
     }
 
     public void loadDocuments() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterDocuments matterInformation = new MatterDocuments();
@@ -218,11 +242,17 @@ public class Matter extends Fragment {
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         Fragment childFragment = new GCT();
+//        tv_matter_title = findViewById(R.id.tv_matter_title);
+//        String text = tv_matter_title.getText().toString();
+//        matter_title.setText(text);
       //  FragmentManager childFragmentManager = getChildFragmentManager();
        ft.replace(R.id.child_container,childFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+      //  AndroidUtils.showAlert("Please check the Matter Information section");
+
+       // cv_add_opponent_advocate.setVisibility(View.GONE);
 
        // childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
@@ -230,7 +260,9 @@ public class Matter extends Fragment {
     public void loadMatterInformation() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_groups.setClickable(true);
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        siv_documents.setClickable(true);
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterInformation matterInformation = new MatterInformation();
         ft.replace(R.id.child_container, matterInformation);
