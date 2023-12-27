@@ -45,16 +45,18 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     Button btn_add_advocate;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
+ //   MatterModel matterModel_info = new MatterModel();
     TextView m_c_number,m_c_type,description_name ;
     AppCompatButton btn_cancel_save, btn_create;
     LinearLayout ll_add_advocate,ll_start_date,ll_end_date,ll_court,ll_judge,ll_dof;
     JSONArray existing_opponents;
-    CardView cv_client_details;
+    CardView cv_client_details,cv_add_opponent_advocate;
     TextView tv_opponent_name;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
 
     Matter matter;
+    EditMatterTimeline editMatterTimeline;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -64,6 +66,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
         tv_matter_title.setHint("Case Title");
         tv_matter_title.setTextSize(15);
+        cv_add_opponent_advocate = view.findViewById(R.id.cv_add_opponent_advocate);
 
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
         tv_matter_num.setHint("Case Number");
@@ -193,7 +196,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 } else {
                     tv_matter_description.setText("");
                 }
-                if (matterModel.getDate_of_filing() != null) {
+                if (matterModel.getDate_of_filing() == null) {
                     tv_dof.setText(matterModel.getDate_of_filing());
                 } else {
                     datePickerData();
@@ -482,8 +485,12 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         }else{
             matterArraylist.set(0,matterModel);
         }
+       // matterModel_info = matterModel;
         cv_client_details.setVisibility(View.GONE);
+
+
         matter.loadGCT();
+
 
 
     }
@@ -727,5 +734,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
         tv_low_priority.setTextColor(Color.BLACK);
     }
+
 
 }

@@ -12,7 +12,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,13 +19,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
-import com.digicoffer.lauditor.Matter.Matter;
+import com.digicoffer.lauditor.Matter.MatterDocuments;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
+import com.digicoffer.lauditor.Matter.ViewMatter;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -38,7 +37,8 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
     //  ArrayList<ActionModel> actions_List = new ArrayList<ActionModel>();
     Context context;
     InterfaceListener eventListener;
-    String[] items = { "View Details", "Edit Matter Info", "Update Group(s)", "Delete", "Close Matter","ReOpen Matter"};
+    ViewMatter viewmatter;
+    String[] items = { "View Details", "Edit Matter Info", "Update Group(s)", "Delete", "Close Matter/ReOpen Matter"};
 
     ViewMatterModel new_view_model;
 
@@ -49,6 +49,9 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         this.eventListener = eventListener;
 
+    }
+
+    public ViewMatterAdapter(ArrayList<ViewMatterModel> matterList, Context context, MatterDocuments matterDocuments) {
     }
 
     @NonNull
@@ -64,7 +67,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         void DeleteMatter(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList);
 
-        void Edit_Matter_Info(ViewMatterModel viewMatterModel,ArrayList<ViewMatterModel> itemsArrayList);
+        void Edit_Matter_Info(MatterModel viewMatterModel);
 
         void Update_Group(ViewMatterModel viewMatterModel);
 
@@ -72,6 +75,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         void ReopenMatter(ViewMatterModel viewMatterModel);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewMatterAdapter.MyViewHolder holder, int position) {
@@ -87,12 +91,12 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             holder.tv_matter_title.setText(viewMatterModel.getTitle());
             holder.tv_case_number.setText(viewMatterModel.getCaseNumber());
             holder.tv_owner_name.setText(owner_name);
-//            actions_List.add(new ActionModel("View Details"));
-//            actions_List.add(new ActionModel("Edit Matter Info"));
-//            actions_List.add(new ActionModel("Update Group(s)"));
-//            actions_List.add(new ActionModel("Delete"));
-//            actions_List.add(new ActionModel("Close Matter"));
-//            actions_List.add(new ActionModel("Reopen Matter"));
+            actions_List.add(new ActionModel("View Details"));
+            actions_List.add(new ActionModel("Edit Matter Info"));
+            actions_List.add(new ActionModel("Update Group(s)"));
+            actions_List.add(new ActionModel("Delete"));
+            actions_List.add(new ActionModel("Close Matter"));
+            actions_List.add(new ActionModel("Reopen Matter"));
             holder.tv_date_of_filling.setText(viewMatterModel.getDate_of_filling());
 
             if (viewMatterModel.getStatus().equals("Active")) {
@@ -161,11 +165,12 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     int name = position;
                     if (name == 0) {
+
                         eventListener.View_Details(viewMatterModel, itemsArrayList);
                     } else if (name == 1) {
 
 
-                        eventListener.Edit_Matter_Info(viewMatterModel,itemsArrayList);
+                        eventListener.Edit_Matter_Info(viewMatterModel);
 
                     } else if (name == 2) {
                         eventListener.Update_Group(viewMatterModel);

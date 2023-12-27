@@ -199,7 +199,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-
+      android:visibility="gone"
                     android:layout_below="@id/selected_groups"
                     android:orientation="vertical">
 
@@ -318,7 +318,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_below="@id/selected_clients"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
 
@@ -352,7 +353,7 @@
                             android:drawableRight="@drawable/down_arrow"
                             android:fontFamily="@font/gill_sans"
                             android:padding="15dp"
-                            android:text="Assign Team Members"
+                            android:text="Select Team Member"
                             android:textColor="@color/black"
                             android:textSize="15dp"  />
                         <LinearLayout
@@ -438,7 +439,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                    <include layout="@layout/cancel_button"
                        android:id="@+id/btn_cancel_save"/>

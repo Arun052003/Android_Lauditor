@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/scroll_list"
     android:background="@color/Blue_text_color"
     android:backgroundTint="@color/Blue_text_color"
     tools:context=".MainActivity">
@@ -92,6 +93,7 @@
                         <include layout="@layout/group_layout"
                             android:id="@+id/m_c_number"
                             android:layout_width="wrap_content"
+                            android:layout_marginLeft="4dp"
                             android:layout_height="wrap_content"/>
 
                         <include layout="@layout/icon"/>
@@ -133,7 +135,8 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
                         <include layout="@layout/group_layout"
-                            android:id="@+id/m_c_type"/>
+                            android:id="@+id/m_c_type"
+                            android:layout_marginLeft="4dp"/>
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -179,7 +182,8 @@
                         <include layout="@layout/group_layout"
                             android:id="@+id/description_name"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"/>
 
 
 
@@ -226,7 +230,8 @@
                         <include layout="@layout/group_layout"
                             android:id="@+id/datefill"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"/>
 
 
 
@@ -270,7 +275,8 @@
                         <include layout="@layout/group_layout"
                             android:id="@+id/start_date"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"/>
 
 
 
@@ -313,7 +319,8 @@
                         <include layout="@layout/group_layout"
                             android:id="@+id/closedate"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"/>
 
 
 
@@ -354,7 +361,8 @@
                         android:orientation="horizontal">
 
                         <include layout="@layout/group_layout"
-                            android:id="@+id/court"/>
+                            android:id="@+id/court"
+                            android:layout_marginLeft="4dp"/>
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -412,7 +420,8 @@
                         android:orientation="horizontal">
 
                         <include layout="@layout/group_layout"
-                            android:id="@+id/judge"/>
+                            android:id="@+id/judge"
+                            android:layout_marginLeft="4dp"/>
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -469,7 +478,8 @@
                         android:orientation="horizontal">
 
                         <include layout="@layout/group_layout"
-                            android:id="@+id/priority"/>
+                            android:id="@+id/priority"
+                            android:layout_marginLeft="4dp"/>
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -555,7 +565,8 @@
                         android:orientation="horizontal">
 
                         <include layout="@layout/group_layout"
-                            android:id="@+id/status"/>
+                            android:id="@+id/status"
+                            android:layout_marginLeft="4dp"/>
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -615,16 +626,18 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_add_opponent_advocate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_margin="5dp"
             android:elevation="50dp"
             android:padding="5dp"
 
             android:visibility="visible"
             app:cardCornerRadius="5dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -648,12 +661,16 @@
                         android:id="@+id/addopponentadvocate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginLeft="4dp"/>
 
                 <include layout="@layout/add_button"
                     android:id="@+id/btn_add_advocate"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="4dp"
                     android:layout_weight="1"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -678,7 +695,7 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/ll_add_advocate"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
 
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
@@ -694,6 +711,23 @@
                     <include layout="@layout/submit_button"
                         android:id="@+id/btn_create"/>
 
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_edit_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+
+                    >
+
+                    <include
+                        android:id="@+id/btn_cancel_edit"
+
+                        layout="@layout/cancel_button" />
+
+                    <include layout="@layout/cancel_update" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </RelativeLayout>

@@ -110,6 +110,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:src="@mipmap/single_document_icon_white"
                 android:text="@string/create_group"
+                android:clickable="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp"
                 app:shapeAppearanceOverlay="@style/Circula">
@@ -150,6 +151,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:src="@mipmap/frame_white_background"
                 android:text="@string/create_group"
+                android:clickable="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp"
                 app:shapeAppearanceOverlay="@style/Circula">
@@ -187,6 +189,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:src="@mipmap/white_document"
                 android:text="@string/create_group"
+                android:clickable="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp"
                 app:shapeAppearanceOverlay="@style/Circula">

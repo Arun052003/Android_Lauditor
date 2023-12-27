@@ -1,6 +1,8 @@
 
 package com.digicoffer.lauditor.Matter;
 
+import static com.digicoffer.lauditor.R.layout.view_matter;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,16 +39,20 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Matter.Adapters.DocumentsAdapter;
+import com.digicoffer.lauditor.Matter.Adapters.ViewMatterAdapter;
 import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
 import com.digicoffer.lauditor.Matter.Models.ClientsModel;
 import com.digicoffer.lauditor.Matter.Models.DocumentsModel;
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.Matter.Models.TeamModel;
+import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -54,6 +62,7 @@ import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.BottomSheetUploadFile;
 import com.digicoffer.lauditor.common.Constants;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -78,12 +87,16 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     private TextView tv_tag_document_name,matter_date,tv_document_library,tv_device_drive,at_add_documents,tv_selected_file,add_groups,select_all;
     private LinearLayout ll_added_tags, ll_add_documents,ll_selected_documents,ll_select_doc,ll_uploaded_documents;
     private Button btn_browse,btn_add_documents;
+    RecyclerView rv_matter_list;
+    AlertDialog progressDialog;
     private NewModel mViewModel;
     CardView cv_client_details,cv_add_opponent_advocate;
     Matter matter;
+    ArrayList<ViewMatterModel> matterList = new ArrayList<>();
     String matter_title, case_number, case_type, description, dof,start_date,end_date, court, judge, case_priority, case_status;
     private JSONArray existing_opponents;
     TextInputEditText tv_tag_type, tv_tag_name;
+    TextInputLayout search_matter;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
     private ImageView imageView;
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
@@ -104,6 +117,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     JSONArray exisiting_group_acls;
     JSONArray existing_documents;
     JSONArray existing_documents_list;
+    TextInputEditText et_search_matter;
     boolean ischecked_doc = true;
     JSONArray existing_clients;
     JSONArray existing_members;
@@ -133,6 +147,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         tv_document_library = view.findViewById(R.id.tv_document_library);
         tv_document_library.setText("Document Library");
         tv_document_library.setOnClickListener(this);
+       et_search_matter = view.findViewById(R.id.et_search_matter);
         cv_client_details = view.findViewById(R.id.cv_client_details);
         cv_add_opponent_advocate = view.findViewById(R.id.cv_add_opponent_advocate);
         tv_device_drive = view.findViewById(R.id.tv_device_drive);
@@ -141,6 +156,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         add_groups.setText("Add Documents");
         select_all = view.findViewById(R.id.select_all);
         select_all.setText("Select Document(s)");
+        rv_matter_list = view.findViewById(R.id.rv_matter_list);
+        search_matter = view.findViewById(R.id.search_matter);
         tv_device_drive.setOnClickListener(this);
         at_add_documents = view.findViewById(R.id.at_add_documents);
         at_add_documents.setHint("Select Document(s)");
@@ -162,10 +179,16 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         btn_add_documents.setOnClickListener(this);
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         btn_create = view.findViewById(R.id.btn_submit);
+        btn_create.setText("Submit");
         tv_matter_title_btn = view.findViewById(R.id.matter_title);
         upload_doc_layout = view.findViewById(R.id.upload_doc_layout);
         rv_display_upload_doc = view.findViewById(R.id.rv_display_upload_doc);
         btn_create.setOnClickListener(this);
+
+
+
+
+
         at_add_documents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -400,14 +423,27 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 checkPermissionREAD_EXTERNAL_STORAGE(getContext());
                 break;
             case R.id.btn_submit:
-             //  submitMatterInformation();
-                submitMatter();
+          //  submitMatterInformation();
+             submitMatter();
+                //View_Matter_Page();
+              // viewMatter();
+               // callMatterListWebservice();
+               // loadMatterRecyclerview();
+
+
+               // viewmatter.callMatterListWebservice();
 
                 break;
 
 
+            default:
+                throw new IllegalStateException("Unexpected value: " + view.getId());
         }
+
     }
+
+
+
 
     private void submitMatterInformation() {
 
@@ -484,7 +520,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                         e.printStackTrace();
                     }
                 }else{
+
                     submitMatter();
+
                 }
 
 
@@ -753,6 +791,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
             try {
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
+
                 if (httpResult.getRequestType().equals("Documents")) {
                     JSONArray data = result.getJSONArray("documents");
 //                    AndroidUtils.showAlert(data.toString(),getContext());
@@ -768,6 +807,22 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                         submitMatterInformation();
 
 //
+                    }
+                }
+
+                if (httpResult.getRequestType().equals("Matter List")) {
+                    boolean error = result.getBoolean("error");
+                    if (error) {
+                        String msg = result.getString("msg");
+                        AndroidUtils.showToast(msg, getContext());
+                    } else {
+                        JSONArray matters = result.getJSONArray("matters");
+                        try {
+                            loadMattersList(matters);
+                        } catch (Exception e) {
+                            AndroidUtils.showAlert(e.getMessage(),getContext());
+                            e.printStackTrace();
+                        }
                     }
                 }else if(httpResult.getRequestType()=="Create Matter"){
                     boolean error = result.getBoolean("error");
@@ -785,6 +840,18 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public void callMatterListWebservice() {
+        try {
+            progressDialog = AndroidUtils.get_progress(getActivity());
+            JSONObject postdata = new JSONObject();
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/" + Constants.MATTER_TYPE.toLowerCase(Locale.ROOT), "Matter List", postdata.toString());
+        } catch (Exception e) {
+//            if (progressDialog != null && progressDialog.isShowing()) {
+//                AndroidUtils.dismiss_dialog(progressDialog);
+//            }
+            e.printStackTrace();
         }
     }
 
@@ -867,15 +934,68 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     postdata.put("matter_type", case_type);
                     Matter_type = "general";
                 }
+
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "matter/"+Matter_type+"/create", "Create Matter", postdata.toString());
 
 
             }
 
 
+
+
         } catch (JSONException e) {
             e.printStackTrace();
+
         }
+    }
+    public void View_Matter_Page() {
+        try {
+
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.delete_relationship, null);
+            TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
+
+            tv_confirmation.setText(" Do you want to go viewmatter page" );
+//                Matter_Status = "Closed";
+
+
+            AppCompatButton bt_yes = view.findViewById(R.id.btn_yes);
+            AppCompatButton btn_no = view.findViewById(R.id.btn_No);
+            final AlertDialog dialog = dialogBuilder.create();
+//            ad_dialog_delete = dialog;
+            btn_no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            bt_yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    Log.d("view matter", String.valueOf(view));
+
+                    viewMatter();
+                    callMatterListWebservice();
+//                    callCloseMatterWebService(viewMatterModel,Matter_Status);
+                }
+            });
+
+            dialog.setView(view);
+            dialog.show();
+        } catch (Exception e) {
+            AndroidUtils.showToast(e.getMessage(), getContext());
+        }
+    }
+
+    private void viewMatter() {
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        ViewMatter matterInformation = new ViewMatter();
+        ft.replace(R.id.child_container, matterInformation);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
 
@@ -1104,6 +1224,125 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             ll_selected_documents.addView(view_opponents);
         }
     }
+    private void loadMattersList(JSONArray matters) {
+        try {
+            matterList.clear();
+            for (int i = 0; i < matters.length(); i++) {
+                JSONObject jsonObject = matters.getJSONObject(i);
+                ViewMatterModel viewMatterModel = new ViewMatterModel();
+                viewMatterModel.setId(jsonObject.getString("id"));
+                if (jsonObject.has("caseNumber")) {
+                    viewMatterModel.setCaseNumber(jsonObject.getString("caseNumber"));
+                }
+                if(jsonObject.has("caseType")) {
+                    viewMatterModel.setCasetype(jsonObject.getString("caseType"));
+                }
+                viewMatterModel.setClients(jsonObject.getJSONArray("clients"));
+                if(jsonObject.has("courtName")){
+                    viewMatterModel.setCourtName(jsonObject.getString("courtName"));
+                }
+                if (jsonObject.has("date_of_filling")){
+                    viewMatterModel.setDate_of_filling(jsonObject.getString("date_of_filling"));
+                }
+                if(jsonObject.has("closedate")){
+                    viewMatterModel.setClosedate(jsonObject.getString("closedate"));
+                }
+                if(jsonObject.has("matterNumber")){
+                    viewMatterModel.setMatterNumber(jsonObject.getString("matterNumber"));
+                }
+                if(jsonObject.has("matterType")){
+                    viewMatterModel.setMatterType(jsonObject.getString("matterType"));
+                }
+                if (jsonObject.has("startdate")){
+                    viewMatterModel.setStartdate(jsonObject.getString("startdate"));
+                }
+                if(jsonObject.has("timesheets")){
+                    viewMatterModel.setTimesheets(jsonObject.getJSONArray("timesheets"));
+                }
+                viewMatterModel.setDescription(jsonObject.getString("description"));
+                viewMatterModel.setDocuments(jsonObject.getJSONArray("documents"));
+
+                viewMatterModel.setGroupAcls(jsonObject.getJSONArray("groupAcls"));
+                viewMatterModel.setGroups(jsonObject.getJSONArray("groups"));
+                if(jsonObject.has("hearingDateDetails")){
+                    viewMatterModel.setHearingDateDetails(jsonObject.getJSONObject("hearingDateDetails"));
+                }
+                viewMatterModel.setIs_editable(jsonObject.getBoolean("is_editable"));
+                if (jsonObject.has("judges")) {
+                    viewMatterModel.setJudges(jsonObject.getString("judges"));
+                }
+                if (jsonObject.has("matterClosedDate")){
+                    viewMatterModel.setMatterClosedDate(jsonObject.getString("matterClosedDate"));
+                }
+                viewMatterModel.setMembers(jsonObject.getJSONArray("members"));
+                if(jsonObject.has("nextHearingDate")) {
+                    viewMatterModel.setNextHearingDate(jsonObject.getString("nextHearingDate"));
+                }
+                if(jsonObject.has("opponentAdvocates")) {
+                    viewMatterModel.setOpponentAdvocates(jsonObject.getJSONArray("opponentAdvocates"));
+                }
+                viewMatterModel.setOwner(jsonObject.getJSONObject("owner"));
+                viewMatterModel.setPriority(jsonObject.getString("priority"));
+                viewMatterModel.setStatus(jsonObject.getString("status"));
+                viewMatterModel.setTags(jsonObject.getJSONObject("tags"));
+                if (jsonObject.has("tempClients")){
+                    viewMatterModel.setTempClients(jsonObject.getJSONArray("tempClients"));
+                }
+                if(jsonObject.has("timesheets")){
+                    viewMatterModel.setTimesheets(jsonObject.getJSONArray("timesheets"));
+                }
+
+                viewMatterModel.setTemporaryClients(jsonObject.getJSONArray("temporaryClients"));
+                viewMatterModel.setTitle(jsonObject.getString("title"));
+//                actions_List.clear();
+//              viewMatterModel = viewMatterModel;
+                matterList.add(viewMatterModel);
+            }
+
+
+
+            loadMatterRecyclerview();
+        } catch (JSONException e) {
+            AndroidUtils.showToast(e.getMessage(), getContext());
+            e.printStackTrace();
+        }
+    }
+    public void loadMatterRecyclerview() {
+        try {
+            if (getContext() != null && rv_matter_list != null) {
+
+
+                rv_matter_list.removeAllViews();
+                rv_matter_list.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                ViewMatterAdapter viewMatterAdapter = new ViewMatterAdapter(matterList, getContext(), MatterDocuments.this);
+                rv_matter_list.setAdapter(viewMatterAdapter);
+                rv_matter_list.setHasFixedSize(true);
+//            viewMatterAdapter.notifyDataSetChanged();
+                et_search_matter.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        viewMatterAdapter.getFilter().filter(s);
+                    }
+
+                });
+            }
+//            viewMatterAdapter.notifyDataSetChanged();
+
+        } catch (Exception e) {
+            AndroidUtils.showToast(e.getMessage(), getContext());
+        }
+    }
+
     private void open_add_tags_popup(DocumentsModel documentsModel) throws JSONException {
         tags_list.clear();
         if (documentsModel.getTags_list()!=null) {

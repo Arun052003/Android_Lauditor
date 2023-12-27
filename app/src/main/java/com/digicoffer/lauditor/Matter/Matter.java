@@ -208,7 +208,7 @@ public class Matter extends Fragment {
         tv_general_matter.setTextColor(Color.BLACK);
         loadMatterInformation();
         loadViewUI();
-        mViewModel.setData( " Legal Matter");
+        mViewModel.setData( " View Legal Matter");
     }
 
     private void loadGeneralMatter() {
@@ -220,7 +220,7 @@ public class Matter extends Fragment {
         loadMatterInformation();
         loadViewUI();
 
-        mViewModel.setData("  General Matter");
+        mViewModel.setData("    View General Matter");
     }
 
     public void loadDocuments() {

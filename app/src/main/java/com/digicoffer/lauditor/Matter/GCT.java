@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,6 +55,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     boolean[] selectedLanguage;
     boolean[] selectedClients;
     boolean[] selectedTM;
+    ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
 TextView matter_title_tv ;
@@ -82,9 +84,11 @@ TextView matter_title_tv ;
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
     ArrayList<GroupsModel> groupsList = new ArrayList<>();
     boolean ischecked_group = true;
+    LinearLayoutCompat ll_save_buttons;
     boolean ischecked_client = true;
+    boolean ischecked_tm = true;
     ArrayList<DocumentsModel> documentsList = new ArrayList<>();
-    ArrayList<ClientsModel> clientsList = new ArrayList<>();
+
     ArrayList<ViewMatterModel> new_groupsList = new ArrayList<>();
     ArrayList<TeamModel> tmList = new ArrayList<>();
     Matter matter;
@@ -103,8 +107,10 @@ TextView matter_title_tv ;
         at_add_groups = view.findViewById(R.id.at_add_groups);
         at_add_groups.setOnClickListener(this);
         add_groups = view.findViewById(R.id.add_groups);
+        ll_save_buttons = view.findViewById(R.id.ll_save_buttons);
         upload_group_layout = view.findViewById(R.id.upload_group_layout);
         upload_client_layout = view.findViewById(R.id. upload_client_layout);
+        ll_add_clients = view.findViewById(R.id.ll_add_clients);
         upload_tm_layout = view.findViewById(R.id. upload_tm_layout);
         rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
         rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
@@ -126,6 +132,7 @@ TextView matter_title_tv ;
         at_add_clients.setOnClickListener(this);
         at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
         at_assigned_team_members.setOnClickListener(this);
+        at_assigned_team_members.setText("Select Team Members");
         btn_add_groups = view.findViewById(R.id.btn_add_groups);
         btn_add_groups.setText("Add");
         selected_groups = view.findViewById(R.id.selected_groups);
@@ -188,8 +195,17 @@ TextView matter_title_tv ;
         at_add_clients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clientsList.clear();
+
                 callClientsWebservice();
                 rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+                if (clientsList.size() == 0) {
+                   upload_client_layout.setVisibility(View.GONE);
+                    rv_display_upload_client_docs.setVisibility(View.GONE);
+                } else {
+                    upload_client_layout.setVisibility(View.VISIBLE);
+                    rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+                }
                 if (ischecked_client) {
                     rv_display_upload_client_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
                     upload_client_layout.setVisibility(View.VISIBLE);
@@ -202,15 +218,24 @@ TextView matter_title_tv ;
         at_assigned_team_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tmList.clear();
                 callTMWebservice();
                 rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
-                if (ischecked_client) {
+                if (tmList.size() == 0) {
+                   upload_tm_layout.setVisibility(View.GONE);
+                    rv_display_upload_tm_docs.setVisibility(View.GONE);
+                } else {
+                   upload_tm_layout.setVisibility(View.VISIBLE);
+                    rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
+                }
+
+                if (ischecked_tm) {
                     rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
                     upload_tm_layout.setVisibility(View.VISIBLE);
                 } else {
                     upload_tm_layout .setVisibility(View.GONE);
                 }
-                ischecked_client = !ischecked_client;
+                ischecked_tm = !ischecked_tm;
             }
         });
 
@@ -477,8 +502,6 @@ TextView matter_title_tv ;
             case R.id.at_assigned_team_members:
                 if (tmList.size() == 0) {
                     callTMWebservice();
-                    rv_display_upload_tm_docs.setVisibility(View.GONE);
-                    upload_tm_layout.setVisibility(View.GONE);
 
                 } else {
                     TeamPopUp();
@@ -728,6 +751,7 @@ TextView matter_title_tv ;
             postdata.put("group_acls", group_acls);
             postdata.put("attachment_type", "clients");
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Clients", postdata.toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -766,6 +790,13 @@ TextView matter_title_tv ;
                 teamModel.setTm_name(jsonObject.getString("name"));
                 teamModel.setUser_id(jsonObject.getString("user_id"));
                 tmList.add(teamModel);
+                if (tmList.size() == 0) {
+                    ll_assign_team_members.setVisibility(View.GONE);
+                    rv_display_upload_tm_docs.setVisibility(View.GONE);
+                } else {
+                    ll_assign_team_members.setVisibility(View.VISIBLE);
+                    rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
+                }
                 selectedTM = new boolean[tmList.size()];
 
             }
@@ -784,7 +815,16 @@ TextView matter_title_tv ;
                 clientsModel.setClient_name(jsonObject.getString("name"));
                 clientsModel.setClient_type(jsonObject.getString("type"));
                 clientsList.add(clientsModel);
+                if (clientsList.size() == 0) {
+                    ll_add_clients.setVisibility(View.GONE);
+                    rv_display_upload_client_docs.setVisibility(View.GONE);
+                } else {
+                    ll_add_clients.setVisibility(View.VISIBLE);
+                    rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+                }
+
                 selectedClients = new boolean[clientsList.size()];
+
 
             }
             ClientsPopUp();
@@ -1083,6 +1123,9 @@ private void ClientssPopUp() {
                         if (groupsModel.isChecked()) {
                             selected_groups_list.add(groupsModel);
                             ll_add_clients.setVisibility(View.VISIBLE);
+                            ll_assign_team_members.setVisibility(View.VISIBLE);
+                            ll_save_buttons.setVisibility(View.VISIBLE);
+
 
                             //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                         }
@@ -1128,7 +1171,7 @@ private void ClientssPopUp() {
             // the list has not changed in size
         }
       //  at_add_clients.setText("");
-        at_assigned_team_members.setText("");
+//        at_assigned_team_members.setText("Select Team Members");
     }
 
 
