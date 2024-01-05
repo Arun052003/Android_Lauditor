@@ -109,7 +109,7 @@
             android:id="@+id/rv_display_upload_tm_docs"
             layout="@layout/recyclerview"
             android:layout_width="match_parent"
-            android:layout_below="@id/upload_tm_layout"
+            android:layout_below="@id/ll_groups"
             android:layout_height="150dp"
             android:visibility="visible"
             android:layout_marginStart="2dp"

@@ -1,7 +1,10 @@
 package com.digicoffer.lauditor.Matter.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,26 +23,28 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
-import com.digicoffer.lauditor.Matter.MatterDocuments;
+import com.digicoffer.lauditor.Matter.Matter;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
-import com.digicoffer.lauditor.Matter.ViewMatter;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.MyViewHolder> implements Filterable {
     ArrayList<ViewMatterModel> itemsArrayList;
+    boolean ischecked = true;
     ArrayList<ActionModel> actions_List = new ArrayList();
     ArrayList<ViewMatterModel> list_item;
     //  ArrayList<ActionModel> actions_List = new ArrayList<ActionModel>();
     Context context;
     InterfaceListener eventListener;
-    ViewMatter viewmatter;
-    String[] items = { "View Details", "Edit Matter Info", "Update Group(s)", "Delete", "Close Matter/ReOpen Matter"};
+//    String[] items = { "View Details", "Edit Matter Info", "Update Group(s)", "Delete", "Close Matter","ReOpen Matter"};
 
     ViewMatterModel new_view_model;
 
@@ -49,9 +55,6 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         this.eventListener = eventListener;
 
-    }
-
-    public ViewMatterAdapter(ArrayList<ViewMatterModel> matterList, Context context, MatterDocuments matterDocuments) {
     }
 
     @NonNull
@@ -67,7 +70,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         void DeleteMatter(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList);
 
-        void Edit_Matter_Info(MatterModel viewMatterModel);
+        void Edit_Matter_Info(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList);
 
         void Update_Group(ViewMatterModel viewMatterModel);
 
@@ -75,7 +78,6 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         void ReopenMatter(ViewMatterModel viewMatterModel);
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewMatterAdapter.MyViewHolder holder, int position) {
@@ -91,72 +93,69 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             holder.tv_matter_title.setText(viewMatterModel.getTitle());
             holder.tv_case_number.setText(viewMatterModel.getCaseNumber());
             holder.tv_owner_name.setText(owner_name);
-            actions_List.add(new ActionModel("View Details"));
-            actions_List.add(new ActionModel("Edit Matter Info"));
-            actions_List.add(new ActionModel("Update Group(s)"));
-            actions_List.add(new ActionModel("Delete"));
-            actions_List.add(new ActionModel("Close Matter"));
-            actions_List.add(new ActionModel("Reopen Matter"));
+
+            //Displaying the name of the client from the Clients array in ViewMatter Model....
+            JSONArray client = viewMatterModel.getClients();
+            for (int i = 0; i < client.length(); i++) {
+                JSONObject client_value = client.getJSONObject(i);
+                String client_name = client_value.getString("name");
+                holder.tv_client_name.setText(client_name);
+                Log.d("cleint_value_name", client_name);
+            }
+
             holder.tv_date_of_filling.setText(viewMatterModel.getDate_of_filling());
 
             if (viewMatterModel.getStatus().equals("Active")) {
-
-
                 holder.tv_initiated.setText("Active");
                 holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.green_circular));
-                actions_List.add(new ActionModel("Close Matter"));
-                actions_List.remove(new ActionModel("Reopen Matter"));
-
-
             } else if (viewMatterModel.getStatus().equals("Closed")) {
-
                 holder.tv_initiated.setText("Closed");
                 holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.circular));
-//
-                actions_List.add(new ActionModel("Reopen Matter"));
-                actions_List.add(new ActionModel("Close Matter"));
             } else {
-
-
-                String[] newItems = new String[items.length - 1];
-                for (int i = 0, j = 0; i < items.length; i++) {
-                    if (!items[i].equals("Close/ReOpen Matter")) {
-                        newItems[j++] = items[i];
-                    }
-                }
-                items = newItems;
-//                for (int i = 0; i < items.length(); i++) {
-//                    if (items.get(i).equals("Item 5")) {
-//                        items.remove(i);
-//                    }
-//                }
-
-//                spinner_adapter.
                 holder.tv_initiated.setText("Pending");
                 holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.red_circular));
 //               adapter.remove("");
-//                actions_List.add(new ActionModel("Reopen Matter"));
             }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, items);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            holder.sp_action.setAdapter(adapter);
-
-            holder.custom_spinner_cardview.setOnClickListener(new View.OnClickListener() {
-                boolean ischecked = true;
-
-                @Override
-                public void onClick(View v) {
-                    if (ischecked)
-                        holder.sp_action.setVisibility(View.VISIBLE);
-                    else
-                        holder.sp_action.setVisibility(View.GONE);
-                    ischecked = !ischecked;
-                }
-            });
 
             holder.sp_action.findFocus();
             holder.sp_action.setVisibility(View.GONE);
+            holder.custom_spinner_cardview.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (ischecked) {
+                        if (viewMatterModel.getStatus().equals("Active")) {
+                            actions_List.clear();
+                            actions_List.add(new ActionModel("View Details"));
+                            actions_List.add(new ActionModel("Edit Matter Info"));
+                            actions_List.add(new ActionModel("Update Group(s)"));
+                            actions_List.add(new ActionModel("Delete"));
+                            actions_List.add(new ActionModel("Close Matter"));
+                        } else if (viewMatterModel.getStatus().equals("Closed")) {
+                            actions_List.clear();
+                            actions_List.add(new ActionModel("View Details"));
+                            actions_List.add(new ActionModel("Edit Matter Info"));
+                            actions_List.add(new ActionModel("Update Group(s)"));
+                            actions_List.add(new ActionModel("Delete"));
+                            actions_List.add(new ActionModel("Reopen Matter"));
+                        } else {
+                            actions_List.clear();
+                            actions_List.add(new ActionModel("View Details"));
+                            actions_List.add(new ActionModel("Edit Matter Info"));
+                            actions_List.add(new ActionModel("Update Group(s)"));
+                            actions_List.add(new ActionModel("Delete"));
+                            actions_List.add(new ActionModel("Reopen Matter"));
+                        }
+
+                        final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) context, actions_List);
+                        holder.sp_action.setAdapter(spinner_adapter);
+                        holder.sp_action.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.sp_action.setVisibility(View.GONE);
+                    }
+                    ischecked = !ischecked;
+                }
+            });
 
 //            holder.sp_action.setSelection(Spinner.INVALID_POSITION);
 //            adapter.notifyDataSetChanged();
@@ -165,13 +164,10 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     int name = position;
                     if (name == 0) {
-
                         eventListener.View_Details(viewMatterModel, itemsArrayList);
                     } else if (name == 1) {
-
-
-                        eventListener.Edit_Matter_Info(viewMatterModel);
-
+                        eventListener.Edit_Matter_Info(viewMatterModel, itemsArrayList);
+                        Log.d("VIEW_MATTER..", "" + viewMatterModel);
                     } else if (name == 2) {
                         eventListener.Update_Group(viewMatterModel);
                     } else if (name == 3) {
@@ -179,9 +175,8 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                     } else if (name == 4) {
                         eventListener.Close_Matter(viewMatterModel);
                     }
-
-
                     holder.sp_action.setVisibility(View.GONE);
+                    ischecked = true;
                 }
             });
 
@@ -282,7 +277,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 //    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_matter_title, tv_case_number, tv_date_of_filling, tv_client_name, tv_owner_name, tv_initiated,filed,textView,owner;
+        TextView tv_matter_title, tv_case_number, tv_date_of_filling, tv_client_name, tv_owner_name, tv_initiated, filed, textView, owner;
         ImageView iv_initiated;
         private ListView sp_action;
         TextView custom_spinner;
@@ -302,12 +297,12 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             custom_spinner_cardview = itemView.findViewById(R.id.custom_spinner_cardview);
 
             textView = itemView.findViewById(R.id.textView);
-            textView.setText("Client:");
+            textView.setText("Client  : ");
             textView.setTextColor(Color.BLACK);
             textView.setTextSize(12);
 
             owner = itemView.findViewById(R.id.owner);
-            owner.setText("Owner:");
+            owner.setText("Owner : ");
             owner.setTextColor(Color.BLACK);
             owner.setTextSize(12);
 
@@ -317,9 +312,11 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             tv_date_of_filling.setTextSize(12);
             tv_date_of_filling.setTextColor(Color.BLACK);
             tv_client_name = itemView.findViewById(R.id.tv_client_name);
-            tv_client_name.setText("client");
+            tv_client_name.setText("");
             tv_client_name.setTextSize(12);
             tv_client_name.setTextColor(Color.BLACK);
+            tv_client_name.setGravity(Gravity.START);
+            tv_client_name.setForegroundGravity(Gravity.CENTER_VERTICAL);
             tv_owner_name = itemView.findViewById(R.id.tv_owner_name);
             tv_owner_name.setText("owner name");
             tv_owner_name.setTextSize(12);
@@ -328,7 +325,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             tv_initiated.setText("Pending");
             tv_initiated.setTextSize(20);
             filed = itemView.findViewById(R.id.filed);
-            filed.setText("Filed:");
+            filed.setText("Filed   : ");
             filed.setTextColor(Color.BLACK);
             filed.setTextSize(12);
 

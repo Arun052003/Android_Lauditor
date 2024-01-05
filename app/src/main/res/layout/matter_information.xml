@@ -4,15 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/scroll_list"
     android:background="@color/Blue_text_color"
     android:backgroundTint="@color/Blue_text_color"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/edit_matter_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/Primary">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/edit_matter_page_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@color/green_count_color"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:foregroundGravity="center_horizontal"
+            android:src="@mipmap/single_document_icon_white"
+            android:text="@string/create_group"
+            android:textColor="@color/black"
+            android:textSize="@dimen/Fifteen_dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/edit_matter_page_txt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/Circula"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/edit_matter_page_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_matter_page_icon"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center_horizontal"
+            android:text="Matter Information"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/cv_client_details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_matter_page_icon"
+            tools:ignore="MissingConstraints"></TextView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_client_details"
@@ -26,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/edit_matter_page_txt">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -47,12 +91,13 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/Title_name"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
-                        <include layout="@layout/icon"/>
+                        <include layout="@layout/icon" />
 
                     </LinearLayout>
 
@@ -68,8 +113,9 @@
 
                         >
 
-                        <include layout="@layout/group_name_layout"
-                            android:id="@+id/tv_matter_title"/>
+                        <include
+                            android:id="@+id/tv_matter_title"
+                            layout="@layout/group_name_layout" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,13 +136,13 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/m_c_number"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
-                        <include layout="@layout/icon"/>
+                        <include layout="@layout/icon" />
 
                     </LinearLayout>
 
@@ -112,8 +158,9 @@
 
                         >
 
-                        <include layout="@layout/group_name_layout"
-                            android:id="@+id/tv_matter_num"/>
+                        <include
+                            android:id="@+id/tv_matter_num"
+                            layout="@layout/group_name_layout" />
 
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -134,9 +181,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
-                        <include layout="@layout/group_layout"
+
+                        <include
                             android:id="@+id/m_c_type"
-                            android:layout_marginLeft="4dp"/>
+                            layout="@layout/group_layout" />
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -157,8 +205,9 @@
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none">
 
-                        <include layout="@layout/group_name_layout"
-                            android:id="@+id/tv_case_type"/>
+                        <include
+                            android:id="@+id/tv_case_type"
+                            layout="@layout/group_name_layout" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,12 +228,11 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/description_name"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"/>
-
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
@@ -227,12 +275,11 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/datefill"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"/>
-
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
@@ -249,7 +296,7 @@
 
                         >
 
-                    <include layout="@layout/layout_dates"/>
+                        <include layout="@layout/layout_dates" />
 
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -272,12 +319,11 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/start_date"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"/>
-
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
@@ -294,8 +340,9 @@
 
                         >
 
-                      <include layout="@layout/layout_dates"
-                          android:id="@+id/tv_start_date"/>
+                        <include
+                            android:id="@+id/tv_start_date"
+                            layout="@layout/layout_dates" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -316,12 +363,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
-                        <include layout="@layout/group_layout"
-                            android:id="@+id/closedate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"/>
 
+                        <include
+                            android:id="@+id/closedate"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
@@ -338,8 +385,9 @@
 
                         >
 
-                      <include layout="@layout/layout_dates"
-                          android:id="@+id/tv_end_date"/>
+                        <include
+                            android:id="@+id/tv_end_date"
+                            layout="@layout/layout_dates" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -360,9 +408,9 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/court"
-                            android:layout_marginLeft="4dp"/>
+                            layout="@layout/group_layout" />
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -419,9 +467,9 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/judge"
-                            android:layout_marginLeft="4dp"/>
+                            layout="@layout/group_layout" />
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -449,11 +497,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="top"
+                            android:layout_marginBottom="10dp"
                             android:drawableRight="@drawable/framejudge"
                             android:enabled="true"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:gravity="top"
-                            android:layout_marginBottom="10dp"
                             android:maxLines="4"
                             android:padding="5dp"
                             android:textColor="@color/Blue_text_color"
@@ -477,9 +525,9 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/priority"
-                            android:layout_marginLeft="4dp"/>
+                            layout="@layout/group_layout" />
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -507,8 +555,8 @@
                             android:id="@+id/tv_high_priority"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:layout_marginRight="1dp"
+                            android:layout_weight="1"
                             android:background="@drawable/button_left_green_round_background"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:padding="10dp"
@@ -522,8 +570,8 @@
                             android:id="@+id/tv_medium_priority"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:layout_marginRight="1dp"
+                            android:layout_weight="1"
                             android:background="@drawable/radiobutton_centre_background"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:padding="10dp"
@@ -537,8 +585,8 @@
                             android:id="@+id/tv_low_priority"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:layout_marginRight="1dp"
+                            android:layout_weight="1"
                             android:background="@drawable/button_right_round_background"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:padding="10dp"
@@ -564,9 +612,9 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/status"
-                            android:layout_marginLeft="4dp"/>
+                            layout="@layout/group_layout" />
 
                         <!--                <ImageView-->
                         <!--                    android:layout_width="15dp"-->
@@ -594,8 +642,8 @@
                             android:id="@+id/tv_status_active"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:layout_marginRight="1dp"
+                            android:layout_weight="1"
                             android:background="@drawable/button_left_green_round_background"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:padding="10dp"
@@ -611,8 +659,8 @@
                             android:id="@+id/tv_status_pending"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:layout_marginRight="1dp"
+                            android:layout_weight="1"
                             android:background="@drawable/button_right_round_background"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:padding="10dp"
@@ -626,18 +674,16 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_add_opponent_advocate"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:elevation="50dp"
             android:padding="5dp"
 
             android:visibility="visible"
             app:cardCornerRadius="5dp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -657,21 +703,19 @@
                     android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/group_layout"
+                    <include
                         android:id="@+id/addopponentadvocate"
+                        layout="@layout/group_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginLeft="4dp"/>
+                        android:layout_weight="1" />
 
-                <include layout="@layout/add_button"
-                    android:id="@+id/btn_add_advocate"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"/>
+                    <include
+                        android:id="@+id/btn_add_advocate"
+                        layout="@layout/add_button"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -685,9 +729,10 @@
                     >
 
                 </LinearLayout>
+
                 <Space
-                    android:layout_height="match_parent"
-                    android:layout_width="10dp"/>
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_save_buttons"
@@ -695,7 +740,7 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/ll_add_advocate"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
 
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
@@ -703,31 +748,15 @@
                     android:visibility="visible">
 
 
-                    <include layout="@layout/cancel_button"
-                        android:id="@+id/btn_cancel_save"/>
-
-
-
-                    <include layout="@layout/submit_button"
-                        android:id="@+id/btn_create"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_edit_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-
-                    >
-
                     <include
-                        android:id="@+id/btn_cancel_edit"
-
+                        android:id="@+id/btn_cancel_save"
                         layout="@layout/cancel_button" />
 
-                    <include layout="@layout/cancel_update" />
+
+                    <include
+                        android:id="@+id/btn_create"
+                        layout="@layout/submit_button" />
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </RelativeLayout>
