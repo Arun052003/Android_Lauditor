@@ -1161,19 +1161,20 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 //.......
             } else {
                 String inputDate = viewMatterModel.getClosedate();
-                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = inputFormat.parse(inputDate);
-
-                SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-                String date_of_filling = outputFormat.format(date);
-                postdata.put("closedate", date_of_filling);
-
-
-                String startdate = viewMatterModel.getStartdate();
-                SimpleDateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-                Date date2 = inputFormat2.parse(startdate);
-                SimpleDateFormat outputFormat2 = new SimpleDateFormat("dd-MM-yyyy");
-                String new_start_date = outputFormat2.format(date2);
+                String new_start_date= "";
+//                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                Date date = inputFormat.parse(inputDate);
+//
+//                SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+//                String date_of_filling = outputFormat.format(date);
+//                postdata.put("closedate", date_of_filling);
+//
+//
+//                String startdate = viewMatterModel.getStartdate();
+//                SimpleDateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+//                Date date2 = inputFormat2.parse(startdate);
+//                SimpleDateFormat outputFormat2 = new SimpleDateFormat("dd-MM-yyyy");
+//                String new_start_date = outputFormat2.format(date2);
 
                 postdata.put("startdate", new_start_date);
                 postdata.put("matter_number", viewMatterModel.getMatterNumber());

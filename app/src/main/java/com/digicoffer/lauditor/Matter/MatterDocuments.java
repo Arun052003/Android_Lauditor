@@ -184,6 +184,14 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         upload_doc_layout = view.findViewById(R.id.upload_doc_layout);
         rv_display_upload_doc = view.findViewById(R.id.rv_display_upload_doc);
         btn_create.setOnClickListener(this);
+        btn_create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitMatter();
+              //  matter.loadViewUI();
+               // callMatterListWebservice();
+            }
+        });
 
 
 
@@ -192,13 +200,15 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         at_add_documents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+             //   documentsList.clear();
                 callDocumentsWebService();
                 rv_display_upload_doc.setVisibility(View.VISIBLE);
+                selected_documents_list.clear();
                 if (ischecked_doc) {
                     rv_display_upload_doc.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
-                    upload_doc_layout.setVisibility(View.VISIBLE);
+                    rv_display_upload_doc.setVisibility(View.VISIBLE);
                 } else {
-                    upload_doc_layout.setVisibility(View.GONE);
+                    rv_display_upload_doc .setVisibility(View.GONE);
                 }
                 ischecked_doc = !ischecked_doc;
             }
@@ -421,18 +431,6 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 break;
             case R.id.btn_browse:
                 checkPermissionREAD_EXTERNAL_STORAGE(getContext());
-                break;
-            case R.id.btn_submit:
-          //  submitMatterInformation();
-             submitMatter();
-                //View_Matter_Page();
-              // viewMatter();
-               // callMatterListWebservice();
-               // loadMatterRecyclerview();
-
-
-               // viewmatter.callMatterListWebservice();
-
                 break;
 
 
@@ -833,7 +831,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     else
                     {
                         AndroidUtils.showToast(msg,getContext());
-                        matter.loadMatterInformation();
+
                         matterArraylist.clear();
                     }
                 }
@@ -904,7 +902,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     jsonObject.put("phone", advocateModel.getNumber());
                     opponent_advocates.put(jsonObject);
                 }
-                postdata.put("title", matter_title);
+               postdata.put("title", matter_title);
 
 
                 postdata.put("affidavit_filing_date", "");
@@ -927,15 +925,20 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     postdata.put("case_number", case_number);
                     postdata.put("case_type", case_type);
                     Matter_type = "legal";
+                    matter.loadViewUI();
                 }else{
                     postdata.put("startdate",start_date);
                     postdata.put("closedate",end_date);
                     postdata.put("matter_number", case_number);
                     postdata.put("matter_type", case_type);
                     Matter_type = "general";
+                    matter. loadGeneralMatter();
                 }
 
+
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "matter/"+Matter_type+"/create", "Create Matter", postdata.toString());
+
+
 
 
             }
@@ -1063,10 +1066,16 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     for (int i = 0; i < documentsAdapter.getDocumentsList().size(); i++) {
                         DocumentsModel documentsModel = documentsAdapter.getDocumentsList().get(i);
                         if (documentsModel.isChecked()) {
-                            selected_documents_list.add(documentsModel);
+                            if (!selected_documents_list.contains(documentsModel)) {
+
+
+                                selected_documents_list.add(documentsModel);
+                            }
                             //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                         }
                     }
+                    upload_doc_layout.setVisibility(View.GONE);
+                    rv_display_upload_doc.setVisibility(View.GONE);
 
 
                     loadSelectedDocuments();

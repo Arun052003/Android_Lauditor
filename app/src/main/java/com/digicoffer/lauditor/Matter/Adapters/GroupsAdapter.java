@@ -42,7 +42,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
     @NonNull
     @Override
     public GroupsAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shared_documents_by_us, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
         return new GroupsAdapter.Viewholder(itemView);
     }
 
@@ -50,6 +50,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
     public void onBindViewHolder(@NonNull GroupsAdapter.Viewholder holder, int position) {
         if (TAG == "Groups") {
             GroupsModel groupsModel = sharedList.get(position);
+
             holder.cb_documents.setChecked(sharedList.get(position).isChecked());
             holder.cb_documents.setTag(position);
             holder.tv_tm_name.setText(groupsModel.getGroup_name());
@@ -57,6 +58,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_documents.getTag();
+
                     if (sharedList.get(pos).isChecked()) {
                         sharedList.get(pos).setChecked(false);
                     } else {
@@ -74,9 +76,11 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_documents.getTag();
                     if (clientsList.get(pos).isChecked()) {
-                        clientsList.get(pos).setChecked(false);
+                       clientsList.get(pos).setChecked(false);
+
                     } else {
                         clientsList.get(pos).setChecked(true);
+
                     }
                 }
             });
@@ -115,6 +119,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
         }
 
     }
+
 
     public ArrayList<ClientsModel> getClientsList_item() {
         return clientsList;

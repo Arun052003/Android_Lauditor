@@ -106,6 +106,7 @@ public class Matter extends Fragment {
             public void onClick(View v) {
 
                 loadViewUI();
+                loadgeneralUI();
             }
         });
 
@@ -211,7 +212,7 @@ public class Matter extends Fragment {
         mViewModel.setData( " View Legal Matter");
     }
 
-    private void loadGeneralMatter() {
+    void loadGeneralMatter() {
         Constants.MATTER_TYPE = "General";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_legal_matter.setTextColor(Color.BLACK);
@@ -257,7 +258,7 @@ public class Matter extends Fragment {
        // childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
 
-    public void loadMatterInformation() {
+    void loadMatterInformation() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_groups.setClickable(true);
@@ -269,5 +270,20 @@ public class Matter extends Fragment {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    public void loadMatterInformmation() {
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_groups.setClickable(true);
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        siv_documents.setClickable(true);
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        MatterInformation matterInformation = new MatterInformation();
+        ft.replace(R.id.child_container, matterInformation);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
+
     }
 }

@@ -1,11 +1,16 @@
 package com.digicoffer.lauditor.Matter;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+import static com.digicoffer.lauditor.common.DateUtils.showDatePickerDialog;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +21,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+import androidx.arch.core.executor.ArchTaskExecutor;
+import androidx.fragment.app.Fragment;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.digicoffer.lauditor.Calendar.Models.Event;
 import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.R;
@@ -40,23 +54,31 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MatterInformation extends Fragment implements View.OnClickListener {
-    TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_dof, tv_court, tv_judge,tv_start_date,tv_end_date;
-    TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending,Title,datefill,start_date,closedate,court,judge,priority,status,addopponentadvocate,name;
-    Button btn_add_advocate;
+    TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_dof, tv_court, tv_judge, tv_start_date, tv_end_date;
+    TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, Title, datefill, start_date, closedate, court, judge, priority, status, addopponentadvocate, name;
+    Button btn_add_advocate, btn_cancel_edit;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
+
+
+    private int selectedYear, selectedMonth, selectedDay;
     ArrayList<MatterModel> matterArraylist;
- //   MatterModel matterModel_info = new MatterModel();
-    TextView m_c_number,m_c_type,description_name ;
+    //   MatterModel matterModel_info = new MatterModel();
+    Matter matter;
+    TextView m_c_number, m_c_type, description_name;
     AppCompatButton btn_cancel_save, btn_create;
-    LinearLayout ll_add_advocate,ll_start_date,ll_end_date,ll_court,ll_judge,ll_dof;
+    LinearLayout ll_add_advocate, ll_start_date, ll_end_date, ll_court, ll_judge, ll_dof;
     JSONArray existing_opponents;
-    CardView cv_client_details,cv_add_opponent_advocate;
+    CardView cv_client_details, cv_add_opponent_advocate;
     TextView tv_opponent_name;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
 
-    Matter matter;
+
     EditMatterTimeline editMatterTimeline;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private static final String TAG = "MatterInformation";
+    private Calendar finalMyCalendar = Calendar.getInstance();
+
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -71,6 +93,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
         tv_matter_num.setHint("Case Number");
         tv_matter_num.setTextSize(15);
+        btn_cancel_edit = view.findViewById(R.id.btn_cancel_edit);
 
 
         tv_case_type = view.findViewById(R.id.tv_case_type);
@@ -84,7 +107,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
         datefill = view.findViewById(R.id.datefill);
         datefill.setText("Date of Filling");
-        start_date =  view.findViewById(R.id.start_date);
+        start_date = view.findViewById(R.id.start_date);
         start_date.setText("Start Date");
         closedate = view.findViewById(R.id.closedate);
         closedate.setText("Close Date");
@@ -100,7 +123,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         addopponentadvocate.setText("Add Opponent Advocate ");
         ll_court = view.findViewById(R.id.ll_court);
         ll_judge = view.findViewById(R.id.ll_judge);
-        ll_dof  = view.findViewById(R.id.ll_dof);
+        ll_dof = view.findViewById(R.id.ll_dof);
         m_c_number = view.findViewById(R.id.m_c_number);
         m_c_number.setText("Case Number");
         m_c_type = view.findViewById(R.id.m_c_type);
@@ -145,11 +168,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         btn_create.setOnClickListener(this);
         ll_add_advocate = view.findViewById(R.id.ll_add_advocate);
         matter = (Matter) getParentFragment();
-
         tv_start_date.setInputType(InputType.TYPE_NULL);
         tv_end_date.setInputType(InputType.TYPE_NULL);
         tv_dof.setInputType(InputType.TYPE_NULL);
-        if (Constants.MATTER_TYPE=="Legal"){
+        if (Constants.MATTER_TYPE == "Legal") {
             m_c_number.setText("Case Number");
             m_c_type.setText("Case Type");
             ll_court.setVisibility(View.VISIBLE);
@@ -158,7 +180,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             ll_start_date.setVisibility(View.GONE);
             ll_end_date.setVisibility(View.GONE);
             datePickerData();
-        }else{
+        } else {
             m_c_number.setText("Matter Number");
             m_c_type.setText("Matter Type");
             ll_court.setVisibility(View.GONE);
@@ -196,19 +218,19 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 } else {
                     tv_matter_description.setText("");
                 }
-                if (matterModel.getDate_of_filing() == null) {
+                if (matterModel.getDate_of_filing() != null) {
                     tv_dof.setText(matterModel.getDate_of_filing());
                 } else {
                     datePickerData();
                 }
-                if (matterModel.getStart_date()!=null){
+                if (matterModel.getStart_date() != null) {
                     tv_start_date.setText(matterModel.getStart_date());
-                }else{
+                } else {
                     datePickerStartDate();
                 }
-                if (matterModel.getEnd_date()!=null){
+                if (matterModel.getEnd_date() != null) {
                     tv_end_date.setText(matterModel.getEnd_date());
-                }else{
+                } else {
                     datePickerEndDate();
                 }
 
@@ -277,8 +299,9 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
     }
 
+
     private void datePickerStartDate() {
-        Calendar myCalendar = Calendar.getInstance();
+        final Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -291,103 +314,149 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             private void updateLabel() {
                 String myFormat = "dd-MM-yyyy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-//                tv_dof.setText(sdf.format(myCalendar.getTime()));
                 tv_start_date.setText(sdf.format(myCalendar.getTime()));
-//                tv_end_date.setText(sdf.format(myCalendar.getTime()));
             }
         };
 
         tv_start_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                datePickerDialog.show();
+                int selectedYear = myCalendar.get(Calendar.YEAR);
+                int selectedMonth = myCalendar.get(Calendar.MONTH);
+                int selectedDay = myCalendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        v.getContext(),
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        date,
+                        selectedYear, selectedMonth, selectedDay);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
-
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-//        tv_dof.setText(formattedDate);
-        tv_start_date.setText(formattedDate);
-//        tv_end_date.setText(formattedDate);
     }
+
+
+
     private void datePickerEndDate() {
-        Calendar myCalendar = Calendar.getInstance();
+        final Calendar[] myCalendar = {Calendar.getInstance()};
+        Calendar finalMyCalendar = myCalendar[0];
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, month);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                finalMyCalendar.set(Calendar.YEAR, year);
+                finalMyCalendar.set(Calendar.MONTH, month);
+                finalMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabel();
             }
 
             private void updateLabel() {
                 String myFormat = "dd-MM-yyyy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-//                tv_dof.setText(sdf.format(myCalendar.getTime()));
-                tv_end_date.setText(sdf.format(myCalendar.getTime()));
-//                tv_end_date.setText(sdf.format(myCalendar.getTime()));
+                tv_dof.setText(sdf.format(finalMyCalendar.getTime()));
+
             }
         };
-
+        // Declare a global variable to store the selected date
+        final int[] selectedYear = new int[1];
+        final int[] selectedMonth = new int[1];
+        final int[] selectedDay = new int[1];
         tv_end_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                datePickerDialog.show();
+                myCalendar[0] = Calendar.getInstance();
+                selectedYear[0] = myCalendar[0].get(Calendar.YEAR);
+                selectedMonth[0] = myCalendar[0].get(Calendar.MONTH);
+                selectedDay[0] = myCalendar[0].get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog;
+                dialog = new DatePickerDialog(
+                        v.getContext(),
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        selectedYear[0], selectedMonth[0], selectedDay[0]);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
 
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
+        mDateSetListener = (view, year, month, dayOfMonth) -> {
+            month = month + 1;
+            Log.d(TAG, "onDataSet : mm/dd/yy : " + month + "/" + dayOfMonth + "/" + year);
+            updateDateInViews(year, month, dayOfMonth);
+//
+        };
+
+
+    }
+
+    private void updateDateInViews(int year, int month, int dayOfMonth) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-//        tv_dof.setText(formattedDate);
-//        tv_start_date.setText(formattedDate);
+        Calendar selectedCalendar = Calendar.getInstance();
+        selectedCalendar.set(year, month - 1, dayOfMonth);
+        String formattedDate = df.format(selectedCalendar.getTime());
+
+
         tv_end_date.setText(formattedDate);
     }
 
-    private void datePickerData() {
-        Calendar myCalendar = Calendar.getInstance();
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, month);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
 
-            private void updateLabel() {
-                String myFormat = "dd-MM-yyyy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                tv_dof.setText(sdf.format(myCalendar.getTime()));
-//                tv_start_date.setText(sdf.format(myCalendar.getTime()));
-//                tv_end_date.setText(sdf.format(myCalendar.getTime()));
-            }
-        };
-        tv_dof.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
-                datePickerDialog.show();
-            }
-        });
 
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-        tv_dof.setText(formattedDate);
-//        tv_start_date.setText(formattedDate);
+
+
+//        tv_end_date.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+//                datePickerDialog.show();
+//            }
+//        });
+//
+//        Date c = Calendar.getInstance().getTime();
+//        System.out.println("Current time => " + c);
+//        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//        String formattedDate = df.format(c);
+////        tv_dof.setText(formattedDate);
+////        tv_start_date.setText(formattedDate);
 //        tv_end_date.setText(formattedDate);
+//    }
+
+
+    private void datePickerData() {
+        final DatePickerDialog.OnDateSetListener mDateSetListener = (view, year, month, dayOfMonth) -> {
+            finalMyCalendar.set(Calendar.YEAR, year);
+            finalMyCalendar.set(Calendar.MONTH, month);
+            finalMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDateInView();
+        };
+
+        tv_dof.setOnClickListener(v -> {
+            DatePickerDialog dialog = new DatePickerDialog(
+                    v.getContext(),
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    mDateSetListener,
+                    finalMyCalendar.get(Calendar.YEAR),
+                    finalMyCalendar.get(Calendar.MONTH),
+                    finalMyCalendar.get(Calendar.DAY_OF_MONTH));
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        });
     }
+
+    private void updateDateInView() {
+        String myFormat = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String formattedDate = sdf.format(finalMyCalendar.getTime());
+        tv_dof.setText(formattedDate);
+    }
+
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -416,10 +485,13 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
 
                 break;
+            case R.id.btn_cancel_save:
+                matter.loadViewUI();
+                break;
         }
     }
 
-    private void saveMatterInformation() {
+    public void saveMatterInformation() {
         if (tv_matter_title.getText().toString().equals("")) {
             tv_matter_title.setError("Title Required");
             tv_matter_title.requestFocus();
@@ -430,7 +502,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             if (!matternum.matches("[0-9]+")) {
                 tv_matter_num.setError("Numeric number is Required");
                 tv_matter_num.requestFocus();
-            } else {
+            }
+            else {
                 submitMatter();
             }
         }

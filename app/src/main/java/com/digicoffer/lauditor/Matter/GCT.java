@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +52,7 @@ import java.util.Locale;
 public class
 GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
 
-    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members,add_groups,add_clients,tv_assigned_team_members;
+    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members,add_groups,add_clients,tv_assigned_team_members,tv_selected_clients;
     boolean[] selectedLanguage;
     boolean[] selectedClients;
     boolean[] selectedTM;
@@ -59,11 +60,13 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
 TextView matter_title_tv ;
+ConstraintLayout cv_details;
     String matter_title, case_number, case_type, description, dof,start_date,end_date, court, judge, case_priority, case_status;
     JSONArray existing_clients;
 
     JSONArray existing_members;
     CardView cv_client_details;
+    LinearLayout ll_add_groups;
     MatterInformation matterInformation;
 
     ArrayList<DocumentsModel> selected_documents_list = new ArrayList<>();
@@ -74,7 +77,7 @@ TextView matter_title_tv ;
     JSONArray existing_documents;
     JSONArray existing_documents_list;
     String ADAPTER_TAG = "Groups";
-    Button btn_add_groups, btn_add_clients, btn_assigned_team_members, btn_create;
+    Button btn_add_groups, btn_add_clients, btn_assigned_team_members, btn_create,btn_cancel_save;
     LinearLayout ll_selected_groups, ll_selected_clients, ll_assigned_team_members, selected_groups, selected_clients, selected_tm,ll_add_clients,ll_assign_team_members;
     AlertDialog progress_dialog;
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
@@ -107,14 +110,19 @@ TextView matter_title_tv ;
         at_add_groups = view.findViewById(R.id.at_add_groups);
         at_add_groups.setOnClickListener(this);
         add_groups = view.findViewById(R.id.add_groups);
+        btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
+        cv_details = view.findViewById(R.id.cv_details);
         ll_save_buttons = view.findViewById(R.id.ll_save_buttons);
+        ll_save_buttons.setVisibility(View.GONE);
         upload_group_layout = view.findViewById(R.id.upload_group_layout);
         upload_client_layout = view.findViewById(R.id. upload_client_layout);
         ll_add_clients = view.findViewById(R.id.ll_add_clients);
+        tv_selected_clients = view.findViewById(R.id.tv_selected_clients);
+        ll_add_clients.setVisibility(View.GONE);
         upload_tm_layout = view.findViewById(R.id. upload_tm_layout);
         rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
         rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
-
+        ll_add_groups = view.findViewById(R.id.ll_add_groups);
         rv_display_upload_groups_docs = view.findViewById(R.id.rv_display_upload_groups_docs);
         add_groups.setText("Add Groups");
         add_clients = view.findViewById(R.id.add_clients);
@@ -137,13 +145,14 @@ TextView matter_title_tv ;
         btn_add_groups.setText("Add");
         selected_groups = view.findViewById(R.id.selected_groups);
         selected_clients = view.findViewById(R.id.selected_clients);
+        selected_clients.setVisibility(View.GONE);
         selected_tm = view.findViewById(R.id.selected_tm);
+        selected_tm.setVisibility(View.GONE);
         btn_add_groups.setOnClickListener(this);
         btn_add_clients = view.findViewById(R.id.btn_add_clients);
         btn_add_clients.setText("Add");
         btn_add_clients.setOnClickListener(this);
-        ll_add_clients = view.findViewById(R.id.ll_add_clients);
-        ll_add_clients.setVisibility(View.GONE);
+
         ll_assign_team_members = view.findViewById(R.id.ll_assign_team_members);
         ll_assign_team_members.setVisibility(View.GONE);
       //  String matter_title = tv_matter_title.getText().toString();
@@ -173,14 +182,20 @@ TextView matter_title_tv ;
         at_add_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callGroupsWebservice();
-
+                if (groupsList.size() == 0) {
+                    callGroupsWebservice();
+                } else {
+                    GroupsPopup();
+                }
+               // callGroupsWebservice();
+              //  selected_groups_list.clear();
 
 
                 rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
                 if (ischecked_group) {
                     rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
                     upload_group_layout.setVisibility(View.VISIBLE);
+
 
                 } else {
                     upload_group_layout.setVisibility(View.GONE);
@@ -196,11 +211,16 @@ TextView matter_title_tv ;
             @Override
             public void onClick(View view) {
                 clientsList.clear();
+                if (clientsList.size() == 0) {
+                    callClientsWebservice();
+                } else {
+                    ClientssPopUp();
+                }
 
-                callClientsWebservice();
+              //  callClientsWebservice();
                 rv_display_upload_client_docs.setVisibility(View.VISIBLE);
                 if (clientsList.size() == 0) {
-                   upload_client_layout.setVisibility(View.GONE);
+                    upload_client_layout.setVisibility(View.GONE);
                     rv_display_upload_client_docs.setVisibility(View.GONE);
                 } else {
                     upload_client_layout.setVisibility(View.VISIBLE);
@@ -215,6 +235,8 @@ TextView matter_title_tv ;
                 ischecked_client = !ischecked_client;
             }
         });
+
+
         at_assigned_team_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -462,6 +484,7 @@ TextView matter_title_tv ;
                     }
                     if (selected_tm_list.size() != 0) {
 //                    callTMWebservice();
+
                         loadSelectedTM();
                     }
 
@@ -485,32 +508,32 @@ TextView matter_title_tv ;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.at_add_groups:
-                if (groupsList.size() == 0) {
-                    callGroupsWebservice();
-                } else {
-                    GroupsPopup();
-                }
+
                 break;
             case R.id.at_add_clients:
                 if (clientsList.size() == 0) {
                     callClientsWebservice();
                 } else {
-                    ClientsPopUp();
+                    ClientssPopUp();
                 }
 
                 break;
             case R.id.at_assigned_team_members:
-                if (tmList.size() == 0) {
-                    callTMWebservice();
-
-                } else {
-                    TeamPopUp();
-                }
+//                if (tmList.size() == 0) {
+//                    callTMWebservice();
+//
+//                } else {
+//                    TeamPopUp();
+//                }
                 break;
             case R.id.btn_create:
-                cv_client_details.setVisibility(View.GONE);
+                cv_client_details.setVisibility(View.VISIBLE);
+                cv_details.setVisibility(View.VISIBLE);
                 saveGCTinformation();
-
+//
+//                ll_add_clients.setVisibility(View.VISIBLE);
+//                ll_assign_team_members.setVisibility(View.VISIBLE);
+//                ll_save_buttons.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -519,7 +542,10 @@ TextView matter_title_tv ;
         if (selected_groups_list.size() == 0) {
             AndroidUtils.showToast("Please select atealst one group", getContext());
         } else if (selected_clients_list.size() == 0) {
-            AndroidUtils.showToast("Please select atleast one client", getContext());
+
+            AndroidUtils.showAlert("Please check  the add client", getContext());
+
+
         } else {
             try {
                 JSONArray clients = new JSONArray();
@@ -552,6 +578,7 @@ TextView matter_title_tv ;
                         jsonObject.put("id", groupsModel.getGroup_id());
                         jsonObject.put("name", groupsModel.getGroup_name());
                         new_groups_list.put(jsonObject);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -658,6 +685,7 @@ TextView matter_title_tv ;
                 matterModel.setDocuments_list(new_documents_list);
                 matterArraylist.set(0, matterModel);
                 matter.loadDocuments();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -697,16 +725,24 @@ TextView matter_title_tv ;
                     for (int i = 0; i < documentsAdapter.getTmList().size(); i++) {
                         TeamModel teamModel = documentsAdapter.getTmList().get(i);
                         if (teamModel.isChecked()) {
-                            selected_tm_list.add(teamModel);
-                            ll_add_clients.setVisibility(View.VISIBLE);
-                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            if (!selected_tm_list.contains(teamModel)) {
+
+
+                                selected_tm_list.add(teamModel);
+                               // ll_assigned_team_members.setVisibility(View.VISIBLE);
+                             //   ll_add_clients.setVisibility(View.VISIBLE);
+                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            }
                         }
                     }
+                    upload_tm_layout.setVisibility(View.GONE);
+                    rv_display_upload_tm_docs.setVisibility(View.GONE);
 
 
                     loadSelectedTM();
 //                    loadSelectedClients();
 //                    loadSelectedGroups();
+
 
                 }
 
@@ -816,10 +852,10 @@ TextView matter_title_tv ;
                 clientsModel.setClient_type(jsonObject.getString("type"));
                 clientsList.add(clientsModel);
                 if (clientsList.size() == 0) {
-                    ll_add_clients.setVisibility(View.GONE);
+                    //ll_add_clients.setVisibility(View.GONE);
                     rv_display_upload_client_docs.setVisibility(View.GONE);
                 } else {
-                    ll_add_clients.setVisibility(View.VISIBLE);
+                   // ll_add_clients.setVisibility(View.VISIBLE);
                     rv_display_upload_client_docs.setVisibility(View.VISIBLE);
                 }
 
@@ -827,7 +863,7 @@ TextView matter_title_tv ;
 
 
             }
-            ClientsPopUp();
+            ClientssPopUp();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -847,13 +883,14 @@ TextView matter_title_tv ;
                 }
             }
             selected_clients_list.clear();
-
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_client_docs.setLayoutManager(layoutManager);
             rv_display_upload_client_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Clients";
             GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
             rv_display_upload_client_docs.setAdapter(documentsAdapter);
+            selected_clients_list.clear();
 
 
 
@@ -864,101 +901,119 @@ TextView matter_title_tv ;
                     for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
                         ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
                         if (clientsModel.isChecked()) {
-                            selected_clients_list.add(clientsModel);
-                            ll_assign_team_members.setVisibility(View.VISIBLE);
+                            if (!selected_clients_list.contains(clientsModel)) {
 
+
+                                selected_clients_list.add(clientsModel);
+
+
+
+
+                            }
                             //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                         }
+                        upload_client_layout.setVisibility(View.GONE);
+                        rv_display_upload_client_docs.setVisibility(View.GONE);
+
                     }
 
 
+//                    if(selected_clients_list.size()==0){
+//
+//                        ll_assign_team_members.setVisibility(View.VISIBLE);
+//                        ll_save_buttons.setVisibility(View.VISIBLE);
+//
+//                    }else{
+//                        selected_clients.setVisibility(View.VISIBLE);
+//                        ll_assign_team_members.setVisibility(View.VISIBLE);
+//                        ll_save_buttons.setVisibility(View.VISIBLE);
+//                    }
+
+
+
+                      //  ll_save_buttons.setVisibility(View.VISIBLE);
+
+
+
+
+
                     loadSelectedClients();
+
 //                    loadSelectedGroups();
 
                 }
 
             });
 
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
            AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
-private void ClientssPopUp() {
-    try {
+    private void ClientssPopUp() {
+        try {
 
-        for (int i = 0; i < clientsList.size(); i++) {
-            for (int j = 0; j < selected_clients_list.size(); j++) {
-                if (clientsList.get(i).getClient_id().matches(selected_clients_list.get(j).getClient_id())) {
-                    ClientsModel clientsModel = clientsList.get(i);
-                    clientsModel.setChecked(true);
+            for (int i = 0; i < clientsList.size(); i++) {
+                for (int j = 0; j < selected_clients_list.size(); j++) {
+                    if (clientsList.get(i).getClient_id().matches(selected_clients_list.get(j).getClient_id())) {
+                        ClientsModel clientsModel = clientsList.get(i);
+                        clientsModel.setChecked(true);
 //                        selected_groups_list.set(j,documentsModel);
-
-                }
-            }
-        }
-        selected_clients_list.clear();
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.groups_list_adapter, null);
-        RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-        ImageView iv_cancel = view.findViewById(R.id.close_groups);
-        iv_cancel.setImageResource(R.drawable.cancel_icon);
-        AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-        TextView header_name_group=view.findViewById(R.id.header_name_group);
-        header_name_group.setText("Select Client");
-        AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
-
-        LinearLayout ll_add_clients = view.findViewById(R.id.ll_add_clients);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rv_groups.setLayoutManager(layoutManager);
-        rv_groups.setHasFixedSize(true);
-        ADAPTER_TAG = "Clients";
-        GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
-        rv_groups.setAdapter(documentsAdapter);
-        AlertDialog dialog = dialogBuilder.create();
-        iv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        btn_save_group.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                    ArrayList<String>
-                for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
-                    ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
-                    if (clientsModel.isChecked()) {
-                        selected_clients_list.add(clientsModel);
-                        ll_assign_team_members.setVisibility(View.VISIBLE);
-
-                        //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                     }
                 }
-
-
-                loadSelectedClients();
-//                    loadSelectedGroups();
-                dialog.dismiss();
             }
+            selected_clients_list.clear();
 
-        });
-        dialog.setCancelable(false);
-        dialog.setView(view);
-        dialog.show();
-    } catch (Exception e) {
-        e.printStackTrace();
-        AndroidUtils.showAlert(e.getMessage(), getContext());
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            rv_display_upload_client_docs.setLayoutManager(layoutManager);
+            rv_display_upload_client_docs.setHasFixedSize(true);
+            ADAPTER_TAG = "Clients";
+            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
+            rv_display_upload_client_docs.setAdapter(documentsAdapter);
+
+
+            btn_add_clients.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    ArrayList<String>
+                    for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
+                        ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
+                        if (clientsModel.isChecked()) {
+                            if (!selected_clients_list.contains(clientsModel)) {
+                                selected_clients_list.add(clientsModel);
+                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            }
+                        }
+
+                        //upload_client_layout.setVisibility(View.GONE);
+                        rv_display_upload_client_docs.setVisibility(View.GONE);
+
+//                  }  ischecked_client = true;
+                    }
+                    if(selected_clients_list.size()==0){
+
+                        ll_assign_team_members.setVisibility(View.VISIBLE);
+                        ll_save_buttons.setVisibility(View.VISIBLE);
+
+                    }else{
+                        selected_clients.setVisibility(View.VISIBLE);
+                        ll_assign_team_members.setVisibility(View.VISIBLE);
+                        ll_save_buttons.setVisibility(View.VISIBLE);
+                    }
+                    loadSelectedClients();
+//                    loadSelectedGroups();
+                }
+
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), getContext());
+        }
     }
-}
-
     private void loadSelectedTM() {
         String[] value = new String[selected_tm_list.size()];
         for (int i = 0; i < selected_tm_list.size(); i++) {
@@ -971,6 +1026,8 @@ private void ClientssPopUp() {
         String str = String.join(",", value);
         at_assigned_team_members.setText(str);
         selected_tm.setVisibility(View.VISIBLE);
+        ll_save_buttons.setVisibility(View.VISIBLE);
+        ll_assign_team_members.setVisibility(View.VISIBLE);
         ll_assigned_team_members.removeAllViews();
         for (int i = 0; i < selected_tm_list.size(); i++) {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
@@ -1012,7 +1069,6 @@ private void ClientssPopUp() {
             ll_assigned_team_members.addView(view_opponents);
         }
     }
-
     private void loadSelectedClients() {
         String[] value = new String[selected_clients_list.size()];
         for (int i = 0; i < selected_clients_list.size(); i++) {
@@ -1024,9 +1080,11 @@ private void ClientssPopUp() {
 
         String str = String.join(",", value);
         at_add_clients.setText(str);
-
-
+        ll_add_clients.setVisibility(View.VISIBLE);
+        ll_assign_team_members.setVisibility(View.VISIBLE);
         selected_clients.setVisibility(View.VISIBLE);
+        ll_save_buttons.setVisibility(View.VISIBLE);
+
         ll_selected_clients.removeAllViews();
         for (int i = 0; i < selected_clients_list.size(); i++) {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
@@ -1048,6 +1106,7 @@ private void ClientssPopUp() {
                             ClientsModel clientsModel = selected_clients_list.get(position);
                             clientsModel.setChecked(false);
                             selected_clients_list.remove(position);
+
 //                            selected_groups_list.set(position, groupsModel);
                             String[] value = new String[selected_clients_list.size()];
                             for (int i = 0; i < selected_clients_list.size(); i++) {
@@ -1055,8 +1114,20 @@ private void ClientssPopUp() {
                             }
 
                             String str = String.join(",", value);
-                         at_add_clients.setText(str);
+                            at_add_clients.setText(str);
+
                         }
+//                        if (selected_clients_list.size() > 0) {
+//
+//                            ll_assign_team_members.setVisibility(View.VISIBLE);
+//                            ll_save_buttons.setVisibility(View.VISIBLE);
+//
+//                        } else {
+//
+//                            ll_assign_team_members.setVisibility(View.VISIBLE);
+//                            selected_groups.setVisibility(View.VISIBLE);
+//                            ll_save_buttons.setVisibility(View.VISIBLE);
+//                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -1067,6 +1138,9 @@ private void ClientssPopUp() {
             ll_selected_clients.addView(view_opponents);
         }
     }
+
+
+
 
 
     private void loadGroupsData(JSONArray data) {
@@ -1101,8 +1175,10 @@ private void ClientssPopUp() {
                 }
             }
             selected_groups_list.clear();
-
-
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+//            View view = inflater.inflate(R.layout.gct_layout, null);
+            AlertDialog dialog = dialogBuilder.create();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_groups_docs.setLayoutManager(layoutManager);
             rv_display_upload_groups_docs.setHasFixedSize(true);
@@ -1110,7 +1186,7 @@ private void ClientssPopUp() {
             GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
             rv_display_upload_groups_docs.setAdapter(documentsAdapter);
 
-
+            selected_groups_list.clear();
 
           btn_add_groups.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1121,32 +1197,44 @@ private void ClientssPopUp() {
 
                         GroupsModel groupsModel = documentsAdapter.getList_item().get(i);
                         if (groupsModel.isChecked()) {
-                            selected_groups_list.add(groupsModel);
-                            ll_add_clients.setVisibility(View.VISIBLE);
-                            ll_assign_team_members.setVisibility(View.VISIBLE);
-                            ll_save_buttons.setVisibility(View.VISIBLE);
+                            if (!selected_groups_list.contains(groupsModel)) {
+                                selected_groups_list.add(groupsModel);
+                            }
 
 
-                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                         }
                     }
+                    if(selected_groups_list.size()>0){
+                        ll_add_clients.setVisibility(View.VISIBLE);
+                        ll_assign_team_members.setVisibility(View.VISIBLE);
+                        ll_save_buttons.setVisibility(View.VISIBLE);
+                        selected_clients.setVisibility(View.GONE);
+
+
+                    }else {
+                        ll_add_clients.setVisibility(View.GONE);
+                        ll_assign_team_members.setVisibility(View.GONE);
+                        ll_save_buttons.setVisibility(View.GONE);
+                    }
+
+
+
 
                     detectListChanges();
 
 
-                    loadSelectedGroups();
+                   loadSelectedGroups();
 
                 }
+
             });
 
-            //dialog.setView(view);
 
         } catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
-
     private void detectListChanges() {
         updated_groups_list.addAll(selected_groups_list);
         int originalSize = updated_groups_list.size();
@@ -1170,9 +1258,10 @@ private void ClientssPopUp() {
         } else {
             // the list has not changed in size
         }
-      //  at_add_clients.setText("");
-//        at_assigned_team_members.setText("Select Team Members");
+        at_add_clients.setText("");
+        at_assigned_team_members.setText("");
     }
+
 
 
     private void loadSelectedGroups() {
@@ -1187,20 +1276,20 @@ private void ClientssPopUp() {
         String str = String.join(",", value);
         at_add_groups.setText(str);
         selected_groups.setVisibility(View.VISIBLE);
-        ll_selected_groups.removeAllViews();
-        if (selected_groups_list.size() == 0) {
-            clientsList.clear();
-            selected_clients_list.clear();
-            ll_selected_clients.removeAllViews();
-            tmList.clear();
-            selected_tm_list.clear();
+       // ll_selected_groups.removeAllViews();
+        if (selected_groups_list.size() != 0) {
+//            clientsList.clear();
+//            selected_clients_list.clear();
+//            ll_selected_clients.removeAllViews();
+//            tmList.clear();
+//            selected_tm_list.clear();
             ll_assigned_team_members.removeAllViews();
             at_add_groups.setText("Select Groups");
             at_add_clients.setText("Select Clients");
             at_assigned_team_members.setText("Assign Team Members");
-            selected_groups.setVisibility(View.GONE);
-            selected_clients.setVisibility(View.GONE);
-            selected_tm.setVisibility(View.GONE);
+            selected_groups.setVisibility(View.VISIBLE);
+            selected_clients.setVisibility(View.VISIBLE);
+            selected_tm.setVisibility(View.VISIBLE);
 
         }
         for (int i = 0; i < selected_groups_list.size(); i++) {
@@ -1232,7 +1321,19 @@ private void ClientssPopUp() {
                             String str = String.join(",", value);
                             at_add_groups.setText(str);
                         }
-                    } catch (Exception e) {
+                        if (selected_groups_list.size() > 0) {
+                            ll_add_clients.setVisibility(View.VISIBLE);
+                            ll_assign_team_members.setVisibility(View.VISIBLE);
+                            ll_save_buttons.setVisibility(View.VISIBLE);
+
+                        } else {
+                            ll_add_clients.setVisibility(View.GONE);
+                            ll_assign_team_members.setVisibility(View.GONE);
+                            selected_groups.setVisibility(View.GONE);
+                            ll_save_buttons.setVisibility(View.GONE);
+                        }
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
@@ -1240,7 +1341,13 @@ private void ClientssPopUp() {
             });
             iv_edit_opponent.setVisibility(View.GONE);
             ll_selected_groups.addView(view_opponents);
+
+
+
         }
     }
+
+
+
 
 }

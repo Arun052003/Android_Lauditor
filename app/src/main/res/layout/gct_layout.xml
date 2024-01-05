@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cv_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -199,7 +200,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-      android:visibility="gone"
+      android:visibility="visible"
                     android:layout_below="@id/selected_groups"
                     android:orientation="vertical">
 
@@ -294,12 +295,7 @@
 
                         </TextView>
 
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="10dp"
-                            android:src="@drawable/asterisk_icon">
-
-                        </ImageView>
+                       <include layout="@layout/icon"/>
 
                     </LinearLayout>
 
@@ -319,7 +315,7 @@
                     android:layout_weight="1"
                     android:layout_below="@id/selected_clients"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
 
@@ -411,9 +407,11 @@
                         </TextView>
 
                         <ImageView
+                            android:id="@+id/client_img"
                             android:layout_width="15dp"
                             android:layout_height="10dp"
-                            android:src="@drawable/asterisk_icon">
+                            android:src="@drawable/asterisk_icon"
+                            >
 
                         </ImageView>
 
@@ -439,7 +437,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                    <include layout="@layout/cancel_button"
                        android:id="@+id/btn_cancel_save"/>

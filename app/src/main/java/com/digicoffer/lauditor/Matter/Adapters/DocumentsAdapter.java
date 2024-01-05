@@ -33,7 +33,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.View
     @NonNull
     @Override
     public DocumentsAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shared_documents_by_us, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
         return new DocumentsAdapter.Viewholder(itemView);
     }
 
