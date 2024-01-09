@@ -344,7 +344,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                             }
                         }
                         if (matterModel.getMatter_title()!=null){
-                            matter_title = matterModel.getMatter_title();
+                            matter_title = (String) matterModel.getMatter_title();
                         }
                         if(matterModel.getCase_number()!=null){
                             case_number = matterModel.getCase_number();
@@ -1323,7 +1323,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
                 rv_matter_list.removeAllViews();
                 rv_matter_list.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                ViewMatterAdapter viewMatterAdapter = new ViewMatterAdapter(matterList, getContext(), MatterDocuments.this);
+                ViewMatterAdapter viewMatterAdapter = new ViewMatterAdapter(matterList, getContext(), (ViewMatterAdapter.InterfaceListener) MatterDocuments.this);
                 rv_matter_list.setAdapter(viewMatterAdapter);
                 rv_matter_list.setHasFixedSize(true);
 //            viewMatterAdapter.notifyDataSetChanged();

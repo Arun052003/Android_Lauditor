@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.fragment.app.Fragment;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -54,7 +55,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MatterInformation extends Fragment implements View.OnClickListener {
-    TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_dof, tv_court, tv_judge, tv_start_date, tv_end_date;
+    TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;
+    AppCompatButton tv_start_date, tv_end_date, tv_dof;
     TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, Title, datefill, start_date, closedate, court, judge, priority, status, addopponentadvocate, name;
     Button btn_add_advocate, btn_cancel_edit;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
@@ -338,7 +340,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     }
 
 
-
     private void datePickerEndDate() {
         final Calendar[] myCalendar = {Calendar.getInstance()};
         Calendar finalMyCalendar = myCalendar[0];
@@ -403,9 +404,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     }
 
 
-
-
-
 //        tv_end_date.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -455,9 +453,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     }
 
 
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -502,22 +497,21 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             if (!matternum.matches("[0-9]+")) {
                 tv_matter_num.setError("Numeric number is Required");
                 tv_matter_num.requestFocus();
-            }
-            else {
+            } else {
                 submitMatter();
             }
         }
     }
 
 
-           // else{
-               // submitMatter();
-          //  }
-      //  }else {
-           // submitMatter();
+    // else{
+    // submitMatter();
+    //  }
+    //  }else {
+    // submitMatter();
 //
-       // }
-  //  }
+    // }
+    //  }
 
     void submitMatter() {
         JSONArray group_acls = new JSONArray();
@@ -529,9 +523,9 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         matterModel.setCase_number(tv_matter_num.getText().toString());
         tv_matter_num.clearFocus();
         matterModel.setCase_type(tv_case_type.getText().toString());
-       matterModel.setDescription(tv_matter_description.getText().toString());
+        matterModel.setDescription(tv_matter_description.getText().toString());
         matterModel.setDate_of_filing(tv_dof.getText().toString());
-       matterModel.setStart_date(tv_start_date.getText().toString());
+        matterModel.setStart_date(tv_start_date.getText().toString());
         matterModel.setEnd_date(tv_end_date.getText().toString());
         matterModel.setCourt(tv_court.getText().toString());
         matterModel.setJudge(tv_judge.getText().toString());
@@ -553,17 +547,16 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             e.printStackTrace();
         }
         matterModel.setOpponent_advocate(jsonArray);
-        if(matterArraylist.size()==0) {
+        if (matterArraylist.size() == 0) {
             matterArraylist.add(matterModel);
-        }else{
-            matterArraylist.set(0,matterModel);
+        } else {
+            matterArraylist.set(0, matterModel);
         }
-       // matterModel_info = matterModel;
+        // matterModel_info = matterModel;
         cv_client_details.setVisibility(View.GONE);
 
 
         matter.loadGCT();
-
 
 
     }

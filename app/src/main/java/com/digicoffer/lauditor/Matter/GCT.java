@@ -439,7 +439,7 @@ ConstraintLayout cv_details;
                 }
 
                 if (matterModel.getMatter_title()!=null){
-                    matter_title =  matterModel.getMatter_title();
+                    matter_title = (String) matterModel.getMatter_title();
 
                 }
                 if(matterModel.getCase_number()!=null){

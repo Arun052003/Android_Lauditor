@@ -1,8 +1,12 @@
 package com.digicoffer.lauditor.Matter;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -19,6 +23,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +46,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -65,11 +71,14 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private AlertDialog progress_dialog;
 
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
-    TextView tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_dof, tv_court, tv_judge, tv_start_date, tv_end_date;
+    TextView tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;
+    AppCompatButton tv_start_date, tv_end_date, tv_dof;
     TextView description_name, court, judge, Title, datefill, start_date, closedate, priority, status, addopponentadvocate, m_c_number, m_c_type;
     private String mParam2;
     MatterInformation matterInformation;
     LinearLayoutCompat ll_save_buttons;
+    private Calendar finalMyCalendar = Calendar.getInstance();
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
     ArrayList<ViewMatterModel> existing_clients = new ArrayList<>();
     ArrayList<ViewMatterModel> existing_documents = new ArrayList<>();
     ArrayList<ViewMatterModel> existing_members = new ArrayList<>();
@@ -79,15 +88,19 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     CardView cv_client_details;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
+    String DATE_ROLE = "";
     ShapeableImageView edit_matter_page_icon;
-    TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, tv_view_matter,edit_matter_page_txt;
+    TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, tv_view_matter, edit_matter_page_txt;
     AppCompatButton btn_cancel_save, btn_create, btn_add_advocate;
     LinearLayout ll_start_date, ll_end_date, ll_court, ll_judge, ll_dof;
     Matter matter;
-    private NewModel mViewModel;
-
-    LinearLayoutCompat ll_add_advocate,create_matter_view;
+    //    private NewModel mViewModel;
+    LinearLayoutCompat ll_header;
+    LinearLayout ll_add_advocate;
     ViewMatter viewMatter1;
+    String ad_name = "";
+    String ad_email = "";
+    String ad_phone = "";
 
     public matter_edit(ViewMatterModel viewMatterModel, ViewMatter viewMatter) {
         viewMatterModel1 = viewMatterModel;
@@ -95,21 +108,10 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment matter_edit.
-     */
     // TODO: Rename and change types and number of parameters
     public matter_edit newInstance(ViewMatterModel viewMatterModel) throws IllegalAccessException, java.lang.InstantiationException {
         matter_edit fragment = new matter_edit(viewMatterModel, ViewMatter.class.newInstance());
         Bundle args = new Bundle();
-//        viewMatterModel.getTitle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -127,8 +129,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matter_information, container, false);
-        mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
-        mViewModel.setData("Edit Matter Info");
+//        mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
+//        mViewModel.setData("Edit Matter Info");
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
         tv_matter_title.setHint("Case Title");
         tv_matter_title.setTextSize(15);
@@ -138,15 +140,16 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_matter_num.setHint("Case Number");
         tv_matter_num.setTextSize(15);
 
-        edit_matter_page_icon=view.findViewById(R.id.edit_matter_page_icon);
+        edit_matter_page_icon = view.findViewById(R.id.edit_matter_page_icon);
         edit_matter_page_icon.setVisibility(View.VISIBLE);
-        edit_matter_page_txt=view.findViewById(R.id.edit_matter_page_txt);
+        edit_matter_page_txt = view.findViewById(R.id.edit_matter_page_txt);
         edit_matter_page_txt.setVisibility(View.VISIBLE);
 
         btn_add_advocate = view.findViewById(R.id.btn_add_advocate);
         edit_matter_info = view.findViewById(R.id.edit_matter_info);
 //        ll_save_buttons = view.findViewById(R.id.ll_save_buttons_edit);
-        ll_add_advocate = view.findViewById(R.id.ll_header);
+        ll_header = view.findViewById(R.id.ll_header);
+        ll_add_advocate = view.findViewById(R.id.ll_add_advocate);
         tv_high_priority = view.findViewById(R.id.tv_high_priority);
         tv_medium_priority = view.findViewById(R.id.tv_medium_priority);
         tv_low_priority = view.findViewById(R.id.tv_low_priority);
@@ -208,8 +211,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_judge.setHint("judge");
         tv_judge.setTextSize(15);
 //        tv_matter_title=view.findViewById(R.id.tv_matter_title);
-
-
         tv_matter_title.setText(viewMatterModel1.getTitle());
         tv_matter_num.setText(viewMatterModel1.getCaseNumber());
         tv_case_type.setText(viewMatterModel1.getCasetype());
@@ -217,6 +218,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_dof.setText(viewMatterModel1.getDate_of_filling());
         tv_court.setText(viewMatterModel1.getCourtName());
         tv_judge.setText(viewMatterModel1.getJudges());
+        tv_start_date.setText(viewMatterModel1.getStartdate());
+        tv_end_date.setText(viewMatterModel1.getClosedate());
 
         btn_create = view.findViewById(R.id.btn_create);
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
@@ -240,14 +243,18 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             ll_start_date.setVisibility(View.GONE);
             ll_end_date.setVisibility(View.GONE);
             ll_dof.setVisibility(View.VISIBLE);
-            ll_add_advocate.setVisibility(View.VISIBLE);
+            ll_header.setVisibility(View.VISIBLE);
             btn_create.setText(R.string.update);
+            load_existing_advocates();
+            datePickerData();
         } else {
             ll_start_date.setVisibility(View.VISIBLE);
             ll_end_date.setVisibility(View.VISIBLE);
             ll_dof.setVisibility(View.GONE);
-            ll_add_advocate.setVisibility(View.GONE);
+            ll_header.setVisibility(View.GONE);
             btn_create.setText("Next");
+            datePickerendData();
+            datePickerstartData();
         }
 
         btn_cancel_save.setOnClickListener(new View.OnClickListener() {
@@ -260,12 +267,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                edit_matter_info.setVisibility(View.GONE);
                 call_load_edit();
-//                edit_matter_info.setVisibility(View.GONE);
-//                edit_matter_page_icon.setVisibility(View.GONE);
-//                Intent intent=new Intent(getActivity(),Matter.class);
-//                startActivity(intent);
             }
         });
 
@@ -325,7 +327,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_status_active.setTextColor(Color.BLACK);
         tv_status_pending.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_round_background));
         tv_status_pending.setTextColor(Color.WHITE);
-
     }
 
     private void loadLowPriorityUI() {
@@ -336,7 +337,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_medium_priority.setTextColor(Color.BLACK);
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_round_background));
         tv_low_priority.setTextColor(Color.WHITE);
-
     }
 
     private void loadMediumPriorityUI() {
@@ -384,8 +384,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                             advocateModel.setNumber("");
                             advocates_list.set(position, advocateModel);
                             advocates_list.remove(position);
-//                        add_tags_listing();
-//                                    ll_added_tags.removeAllViews();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -401,15 +399,66 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     if (view.getTag() instanceof Integer) {
                         position = (Integer) view.getTag();
                         view = ll_add_advocate.getChildAt(position);
-//                        ll_add_advocate.addView(view);
                         AdvocateModel advocateModel = advocates_list.get(position);
-//                        matterInformation.EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_opponent_name, view);
-//                        loadAdvocateUI();
-//                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
+                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_opponent_name, view);
                     }
                 }
             });
             ll_add_advocate.addView(view_opponents);
+        }
+    }
+
+    private void EditAdvocateUI(String advocate_name, String email, String number, int position, TextView tv_opponent_name, View view_advocate) {
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
+            TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
+            TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
+            TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+            AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
+            AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
+            final AlertDialog dialog = builder.create();
+            btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            tv_advocate_name.setText(advocate_name);
+            tv_advocate_email.setText(email);
+            tv_advocate_phone.setText(number);
+            btn_save_tag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (tv_advocate_name.getText().toString().equals("")) {
+                        tv_advocate_name.setError("Name is required");
+                        tv_advocate_name.requestFocus();
+                    } else if (tv_advocate_email.getText().toString().equals("")) {
+                        tv_advocate_email.setError("Email is required");
+                        tv_advocate_email.requestFocus();
+                    } else if (!(tv_advocate_email.getText().toString().matches(Patterns.EMAIL_ADDRESS.toString()))) {
+                        tv_advocate_email.setError("Please enter a valid");
+                        tv_advocate_email.requestFocus();
+                    } else if (tv_advocate_phone.getText().toString().equals("")) {
+                        tv_advocate_phone.setError("Phone is required");
+                        tv_advocate_phone.requestFocus();
+                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
+                        tv_advocate_phone.setError("Please enter a valid phone number");
+                        tv_advocate_phone.requestFocus();
+                    } else {
+                        dialog.dismiss();
+                        loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
+//                        loadOpponentsList(advocates_list);
+                    }
+                }
+            });
+            dialog.setCancelable(false);
+            dialog.setView(view);
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
 
@@ -421,22 +470,17 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             tv_advocate_name.setHint("Name");
             tv_advocate_name.setTextSize(15);
-            tv_advocate_name.setText(viewMatterModel1.getAdvocate_name());
 
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             tv_advocate_email.setHint("Email");
             tv_advocate_email.setTextSize(15);
-            tv_advocate_email.setText(viewMatterModel1.getEmail());
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
             tv_advocate_phone.setHint("Phone Number");
             tv_advocate_phone.setTextSize(15);
-            tv_advocate_phone.setText(viewMatterModel1.getNumber());
 
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
-            loadHighPriorityUI();
-            loadActiveUI();
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -474,7 +518,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 }
             });
 
-
             dialog.setCancelable(false);
             dialog.setView(view);
             dialog.show();
@@ -502,9 +545,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                         String message = result.getString("msg");
                         AndroidUtils.showToast(message, getContext());
                         nav_view_matter();
-//                        viewMatter1.display(true);
                     } else {
-                        AndroidUtils.showToast("Matter Updating failed...", getContext());
+                        AndroidUtils.showToast("Matter Not Updated. Please Check the filled Details", getContext());
                     }
                 }
             } catch (Exception e) {
@@ -513,6 +555,16 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void loadEditedData(String adv_name, String adv_email, String adv_phone, int position, View view_advocate, TextView tv_opponent_name) {
+        AdvocateModel advocateModel = new AdvocateModel();
+        advocateModel.setAdvocate_name(adv_name);
+        advocateModel.setEmail(adv_email);
+        advocateModel.setNumber(adv_phone);
+        advocates_list.set(position, advocateModel);
+        tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
+        tv_opponent_name.setText(advocateModel.getAdvocate_name());
     }
 
     private void call_load_edit() {
@@ -527,7 +579,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             JSONArray advocates = new JSONArray();
             for (int i = 0; i < existing_clients.size(); i++) {
 //                ViewMatterModel viewMatterModel1 = viewMatterModel.getClients().get(i);
-                ViewMatterModel viewMatterModel1 = existing_clients.get(i);
+                viewMatterModel1 = existing_clients.get(i);
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("id", viewMatterModel1.getClient_id());
                 jsonObject.put("type", viewMatterModel1.getClient_type());
@@ -548,14 +600,13 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 //                jsonObject.put("name",viewMatterModel1.getMember_name());
                 members.put(jsonObject);
             }
-            for (int i = 0; i < existing_advocates.size(); i++) {
-                ViewMatterModel advocateModel = existing_advocates.get(i);
+            for (int i = 0; i < advocates_list.size(); i++) {
                 JSONObject jsonObject = new JSONObject();
+                AdvocateModel advocateModel = advocates_list.get(i);
                 jsonObject.put("name", advocateModel.getAdvocate_name());
                 jsonObject.put("email", advocateModel.getEmail());
                 jsonObject.put("phone", advocateModel.getNumber());
                 advocates.put(jsonObject);
-
             }
             for (int i = 0; i < existing_groups.size(); i++) {
                 ViewMatterModel viewMatterModel1 = existing_groups.get(i);
@@ -566,23 +617,13 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 groups.put(jsonObject);
                 group_acls.put(viewMatterModel1.getGroup_id());
             }
-
-
-//            for (int i=0;i<existing_groups.size())
             postdata.put("affidavit_filing_date", "");
             postdata.put("affidavit_isfiled", "");
             if (Constants.MATTER_TYPE.equals("Legal")) {
                 String inputDate = tv_dof.getText().toString();
                 SimpleDateFormat inputFormat = new SimpleDateFormat("MMM dd, yyyy");
-
-
                 //Rectify the un Parseable date.......
-
-
                 if (inputDate.equals("")) {
-//                    Date date = inputFormat.parse(inputDate);
-//                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-//                    String date_of_filling = outputFormat.format(date);
                     postdata.put("case_number", tv_matter_num.getText().toString());
                     postdata.put("judges", tv_judge.getText().toString());
                     postdata.put("case_type", tv_case_type.getText().toString());
@@ -603,21 +644,32 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 }
                 //.......
             } else {
-                String inputDate = viewMatterModel1.getClosedate();
-                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = inputFormat.parse(inputDate);
+                String closeDate = tv_end_date.getText().toString();
+                String startDate = tv_start_date.getText().toString();
 
-                SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-                String date_of_filling = outputFormat.format(date);
-                postdata.put("closedate", date_of_filling);
-                String startdate = viewMatterModel1.getStartdate();
-                SimpleDateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-                Date date2 = inputFormat2.parse(startdate);
+                if (closeDate.equals("")) {
+                    postdata.put("closedate", "");
+                } else {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = inputFormat.parse(closeDate);
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    String date_of_filling = outputFormat.format(date);
+                    postdata.put("closedate", date_of_filling);
+                }
+                if (startDate.equals("")) {
+                    postdata.put("startdate", "");
+                } else {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = inputFormat.parse(startDate);
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    String date_of_filling = outputFormat.format(date);
+                    postdata.put("startdate", date_of_filling);
+                }
 
-                SimpleDateFormat outputFormat2 = new SimpleDateFormat("dd-MM-yyyy");
-                String new_start_date = outputFormat2.format(date2);
-
-                postdata.put("startdate", new_start_date);
+//                    SimpleDateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+//                    Date date2 = inputFormat2.parse(startdate);
+//                    SimpleDateFormat outputFormat2 = new SimpleDateFormat("dd-MM-yyyy");
+//                    String new_start_date = outputFormat2.format(date2);
                 postdata.put("matter_number", viewMatterModel1.getMatterNumber());
                 postdata.put("matter_type", viewMatterModel1.getMatterType());
             }
@@ -630,7 +682,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             postdata.put("status", STATUS);
             postdata.put("title", tv_matter_title.getText().toString());
 
-//            AndroidUtils.showAlert(postdata.toString(),getContext());
 //            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "/matter/legal/update/64ad2f54a1db7203e4fd6014", "Edit Document",postdata.toString());
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + Constants.MATTER_TYPE.toLowerCase(Locale.ROOT) + "/update/" + viewMatterModel1.getId(), "Edit Matter", postdata.toString());
         } catch (Exception e) {
@@ -641,12 +692,144 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             e.printStackTrace();
         }
     }
-    private void nav_view_matter()
-    {
+
+    private void nav_view_matter() {
         Fragment fragment = new Matter();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.id_framelayout, fragment);
         ft.commit();
     }
+
+    private void load_existing_advocates() {
+        ll_add_advocate.removeAllViews();
+
+        //Displaying the name of the Advocates from the advocates array in ViewMatter Model....
+        JSONArray advocates = viewMatterModel1.getOpponentAdvocates();
+        for (int i = 0; i < advocates.length(); i++) {
+            JSONObject client_value = null;
+            try {
+                client_value = advocates.getJSONObject(i);
+                ad_name = client_value.getString("name");
+                ad_email = client_value.getString("email");
+                ad_phone = client_value.getString("phone");
+                Log.d("Advocate_value_name", ad_name + ad_email + ad_phone);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            AdvocateModel advocateModel = new AdvocateModel();
+            advocateModel.setAdvocate_name(ad_name);
+            advocateModel.setEmail(ad_email);
+            advocateModel.setNumber(ad_phone);
+            advocates_list.add(advocateModel);
+        }
+        loadOpponentsList();
+    }
+
+    private void datePickerData() {
+        final DatePickerDialog.OnDateSetListener mDateSetListener = (view, year, month, dayOfMonth) -> {
+            finalMyCalendar.set(Calendar.YEAR, year);
+            finalMyCalendar.set(Calendar.MONTH, month);
+            finalMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDateInView();
+        };
+
+        tv_dof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int selectedYear = finalMyCalendar.get(Calendar.YEAR);
+                int selectedMonth = finalMyCalendar.get(Calendar.MONTH);
+                int selectedDay = finalMyCalendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        v.getContext(),
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        selectedYear, selectedMonth, selectedDay);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+    }
+
+    private void datePickerendData() {
+        final DatePickerDialog.OnDateSetListener mDateSetListener = (view, year, month, dayOfMonth) -> {
+            finalMyCalendar.set(Calendar.YEAR, year);
+            finalMyCalendar.set(Calendar.MONTH, month);
+            finalMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDateendInView();
+        };
+        tv_end_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tv_start_date.getText().toString().isEmpty()) {
+                    AndroidUtils.showToast("Please Select the Start Date first", getContext());
+                } else {
+                    int selectedYear = finalMyCalendar.get(Calendar.YEAR);
+                    int selectedMonth = finalMyCalendar.get(Calendar.MONTH);
+                    int selectedDay = finalMyCalendar.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog dialog = new DatePickerDialog(
+                            v.getContext(),
+                            android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                            mDateSetListener,
+                            selectedYear, selectedMonth, selectedDay);
+
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                }
+            }
+        });
+    }
+
+    private void datePickerstartData() {
+        final DatePickerDialog.OnDateSetListener mDateSetListener = (view, year, month, dayOfMonth) -> {
+            finalMyCalendar.set(Calendar.YEAR, year);
+            finalMyCalendar.set(Calendar.MONTH, month);
+            finalMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDatestartInView();
+        };
+
+        tv_start_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedYear = finalMyCalendar.get(Calendar.YEAR);
+                int selectedMonth = finalMyCalendar.get(Calendar.MONTH);
+                int selectedDay = finalMyCalendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        v.getContext(),
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        selectedYear, selectedMonth, selectedDay);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+    }
+
+    private void updateDateInView() {
+        String myFormat = "MMM dd, yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String formattedDate = sdf.format(finalMyCalendar.getTime());
+        tv_dof.setText(formattedDate);
+    }
+
+    private void updateDatestartInView() {
+        String myFormat = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String formattedDate = sdf.format(finalMyCalendar.getTime());
+        tv_start_date.setText(formattedDate);
+    }
+
+    private void updateDateendInView() {
+        String myFormat = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String formattedDate = sdf.format(finalMyCalendar.getTime());
+        tv_end_date.setText(formattedDate);
+    }
+
 }

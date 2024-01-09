@@ -38,8 +38,9 @@ public class Matter extends Fragment {
     private AppCompatButton matter_title;
     private NewModel mViewModel;
     MatterInformation matterInformation;
-    CardView   cv_add_opponent_advocate;
+    CardView cv_add_opponent_advocate;
     Matter matter;
+    matter_edit edit_matter1;
 
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view;
@@ -50,7 +51,6 @@ public class Matter extends Fragment {
         View view = inflater.inflate(R.layout.create_matter, container, false);
         mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
         mViewModel.setData("Matter");
-        Constants.MATTER_TYPE = "Legal";
         siv_matter_icon = view.findViewById(R.id.siv_matter_icon);
         create_matter_view = view.findViewById(R.id.create_matter_view);
         siv_groups = view.findViewById(R.id.siv_groups);
@@ -69,12 +69,12 @@ public class Matter extends Fragment {
         tv_view.setText("View");
 //        siv_upload = view.findViewById(R.id.upload_icon);
 //        siv_view = view.findViewById(R.id.view_icon);
-        loadMatterInformation();
-        loadLegalMatter();
-       // loadViewUI();
-
-
-
+        // loadViewUI();
+        if (Constants.MATTER_TYPE.equals("Legal"))
+            loadLegalMatter();
+        else if (Constants.MATTER_TYPE.equals("General")) {
+            loadGeneralMatter();
+        } else loadLegalMatter();
 
         tv_legal_matter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,14 +88,12 @@ public class Matter extends Fragment {
                 loadGeneralMatter();
 
 
-
             }
         });
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadCreateUI();
-
 
 
             }
@@ -106,7 +104,7 @@ public class Matter extends Fragment {
             public void onClick(View v) {
 
                 loadViewUI();
-                loadgeneralUI();
+//                loadgeneralUI();
             }
         });
 
@@ -126,9 +124,8 @@ public class Matter extends Fragment {
             public void onClick(View v) {
                 if (matter_arraylist.size() == 0) {
                     AndroidUtils.showAlert("Please check the Matter information section", getContext());
-                }
-                else{
-                   loadGCT();
+                } else {
+                    loadGCT();
 
                 }
             }
@@ -139,8 +136,7 @@ public class Matter extends Fragment {
                 if (matter_arraylist.size() == 0) {
 
                     AndroidUtils.showAlert("Please check the Matter information,Groups,clients,team member section", getContext());
-                }
-                else{
+                } else {
                     loadDocuments();
                 }
             }
@@ -151,7 +147,7 @@ public class Matter extends Fragment {
     }
 
     public ArrayList<MatterModel> getMatter_arraylist() {
-        return  matter_arraylist;
+        return matter_arraylist;
     }
 
     //    public MatterModel matterModel
@@ -164,6 +160,7 @@ public class Matter extends Fragment {
         viewMatter();
         mViewModel.setData("View Legal Matter");
     }
+
     private void loadViewgeneralUI() {
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_create.setTextColor(Color.BLACK);
@@ -192,6 +189,7 @@ public class Matter extends Fragment {
         loadMatterInformation();
         mViewModel.setData("Create Legal Matter");
     }
+
     private void loadgeneralUI() {
         create_matter_view.setVisibility(View.VISIBLE);
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -201,6 +199,7 @@ public class Matter extends Fragment {
         loadMatterInformation();
         mViewModel.setData("Create  General Matter");
     }
+
     void loadLegalMatter() {
         Constants.MATTER_TYPE = "Legal";
         tv_legal_matter.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -209,7 +208,7 @@ public class Matter extends Fragment {
         tv_general_matter.setTextColor(Color.BLACK);
         loadMatterInformation();
         loadViewUI();
-        mViewModel.setData( " View Legal Matter");
+        mViewModel.setData(" View Legal Matter");
     }
 
     void loadGeneralMatter() {
@@ -246,16 +245,16 @@ public class Matter extends Fragment {
 //        tv_matter_title = findViewById(R.id.tv_matter_title);
 //        String text = tv_matter_title.getText().toString();
 //        matter_title.setText(text);
-      //  FragmentManager childFragmentManager = getChildFragmentManager();
-       ft.replace(R.id.child_container,childFragment);
+        //  FragmentManager childFragmentManager = getChildFragmentManager();
+        ft.replace(R.id.child_container, childFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
-      //  AndroidUtils.showAlert("Please check the Matter Information section");
+        //  AndroidUtils.showAlert("Please check the Matter Information section");
 
-       // cv_add_opponent_advocate.setVisibility(View.GONE);
+        // cv_add_opponent_advocate.setVisibility(View.GONE);
 
-       // childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
+        // childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
 
     void loadMatterInformation() {

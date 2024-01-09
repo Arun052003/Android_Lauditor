@@ -284,22 +284,10 @@
 
                     </LinearLayout>
 
+                    <include
+                        android:id="@+id/tv_dof"
+                        layout="@layout/button_calender" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_dof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:textColorHint="@color/black"
-                        app:boxBackgroundMode="none">
-
-                        >
-
-                        <include layout="@layout/layout_dates" />
-
-
-                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
@@ -325,27 +313,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
-
                     </LinearLayout>
 
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_start_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:textColorHint="@color/black"
-                        app:boxBackgroundMode="none">
-
-                        >
-
-                        <include
-                            android:id="@+id/tv_start_date"
-                            layout="@layout/layout_dates" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
+                    <include
+                        android:id="@+id/tv_start_date"
+                        layout="@layout/button_calender" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -374,23 +346,9 @@
                     </LinearLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tl_end_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:textColorHint="@color/black"
-                        app:boxBackgroundMode="none">
-
-                        >
-
-                        <include
-                            android:id="@+id/tv_end_date"
-                            layout="@layout/layout_dates" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
+                    <include
+                        android:id="@+id/tv_end_date"
+                        layout="@layout/button_calender" />
                 </LinearLayout>
 
                 <LinearLayout
