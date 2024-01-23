@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Matter.Models;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,8 +9,12 @@ import androidx.annotation.NonNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ViewMatterModel implements Parcelable {
+@SuppressLint("ParcelCreator")
+public class ViewMatterModel extends MatterModel implements Parcelable {
     String id;
+    String created;
+    String matter_title;
+    String client_name;
     String caseNumber;
     String casetype;
     String courtName;
@@ -33,8 +38,48 @@ public class ViewMatterModel implements Parcelable {
     String startdate;
     JSONArray timesheets;
 
+    public JSONArray getGroups_list() {
+        return groups_list;
+    }
+
+    public void setGroups_list(JSONArray groups_list) {
+        this.groups_list = groups_list;
+    }
+    public JSONArray getClients_list() {
+        return clients_list;
+    }
+    public JSONArray getDocuments_list() {
+        return documents_list;
+    }
+
+    public void setDocuments_list(JSONArray documents_list) {
+        this.documents_list = documents_list;
+    }
+    //    public JSONArray getDocuments() {
+//        return documents;
+//    }
+//    public void setDocuments(JSONArray documents) {
+//        this.documents = documents;
+//    }
+    public void setClients_list(JSONArray clients_list) {
+        this.clients_list = clients_list;
+    }
+    public JSONArray getMembers_list() {
+        return members_list;
+    }
+
+    public void setMembers_list(JSONArray members_list) {
+        this.members_list = members_list;
+    }
+
     public JSONArray getTimesheets() {
         return timesheets;
+    }
+    public String getMatter_title() {
+        return matter_title;
+    }
+    public void setMatter_title(String matter_title) {
+        this.matter_title = matter_title;
     }
 
     public void setTimesheets(JSONArray timesheets) {
@@ -52,6 +97,7 @@ public class ViewMatterModel implements Parcelable {
     public String getMatterNumber() {
         return matterNumber;
     }
+
 
     public void setMatterNumber(String matterNumber) {
         this.matterNumber = matterNumber;
@@ -191,6 +237,7 @@ public class ViewMatterModel implements Parcelable {
     String nextHearingDate;
     JSONArray opponentAdvocates;
     JSONObject owner;
+    JSONObject client;
     String priority;
     String status;
     JSONObject tags;
@@ -223,6 +270,11 @@ public class ViewMatterModel implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+    public String getCreated() { return  created;
+    }
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public String getCaseNumber() {
@@ -263,6 +315,7 @@ public class ViewMatterModel implements Parcelable {
 
     public void setDate_of_filling(String date_of_filling) {
         this.date_of_filling = date_of_filling;
+
     }
 
     public String getDescription() {
@@ -328,6 +381,19 @@ public class ViewMatterModel implements Parcelable {
     public void setJudges(String judges) {
         this.judges = judges;
     }
+    public String getClient_name() {
+        return client_name;
+    }
+    public JSONArray getGroup_acls() {
+        return group_acls;
+    }
+    public void setGroup_acls(JSONArray group_acls) {
+        this.group_acls = group_acls;
+    }
+
+    public void setClient_name(String client_name) {
+        this.client_name = client_name;
+    }
 
     public String getMatterClosedDate() {
         return matterClosedDate;
@@ -356,6 +422,10 @@ public class ViewMatterModel implements Parcelable {
     public JSONObject getOwner() {
         return owner;
     }
+    public JSONObject getClient(){
+        return client;
+    }
+    public void setClient(JSONObject client){this.client = client;}
 
     public void setOwner(JSONObject owner) {
         this.owner = owner;
@@ -417,5 +487,13 @@ public class ViewMatterModel implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
 
+    }
+
+    public void set(int i, MatterModel matterModel) {
+    }
+
+    public int size() {
+
+        return 0;
     }
 }

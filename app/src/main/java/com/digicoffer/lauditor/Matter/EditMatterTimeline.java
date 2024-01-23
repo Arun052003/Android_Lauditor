@@ -33,6 +33,7 @@ public class EditMatterTimeline extends Fragment {
 
     public ArrayList<MatterModel> matter_arraylist;
     ImageView image_view;
+    ViewMatterModel viewMatterModel;
     TextView back;
     ViewMatter matter;
     @SuppressLint("MissingInflatedId")
@@ -69,12 +70,7 @@ public class EditMatterTimeline extends Fragment {
         loadTimeline();
 
 
-        image_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewMatter();
-            }
-        });
+
         siv_time_line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,9 +93,7 @@ public class EditMatterTimeline extends Fragment {
         siv_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() != 0) {
-                   loadGCT();
-                }
+               loadGCT();
 
 
             }
@@ -131,19 +125,35 @@ public class EditMatterTimeline extends Fragment {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        Fragment parentFragment = new GCT();
 
-        cv_client_details.setVisibility(View.VISIBLE);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("viewMatterModel",  viewMatterModel);
+//        Fragment fragment = new matter_ca(viewMatterModel,this);
+//        fragment.setArguments(bundle);
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction ft = fragmentManager.beginTransaction();
+//        ft.replace(R.id.parent_container, fragment);
+//        ft.commit();
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        Fragment childFragment = new matter_ca(viewMatterModel,this);
+//        tv_matter_title = findViewById(R.id.tv_matter_title);
+//        String text = tv_matter_title.getText().toString();
+//        matter_title.setText(text);
         //  FragmentManager childFragmentManager = getChildFragmentManager();
-        ft.replace(R.id.parent_container,parentFragment);
+        ft.replace(R.id.parent_container, childFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-       // ft.addToBackStack(null);
+        ft.addToBackStack(null);
         ft.commit();
+
+
+
+
+
 //        Fragment childFragment = new GCT();
 //        FragmentManager childFragmentManager = getChildFragmentManager();
 //        childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
+
     public void loadDocuments() {
         siv_time_line.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));

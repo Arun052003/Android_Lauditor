@@ -491,51 +491,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                         normal_notes.setText(historyList.get(i).getNotes());
                     }
 
-//                    tv_edit_notes.addTextChangedListener(new TextWatcher() {
-//                        @Override
-//                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                            String[] words = s.toString().trim().split("\\s+");
-//                            int wordCount = words.length;
-//
-//                            // Update the word count TextView
-//                            float wordCountFraction = (float) wordCount / 1000;
-//                            String wordCountText = String.format(Locale.getDefault(), "%.2f /1000", wordCountFraction);
-//                            word_count_text_view.setText(wordCountText);
-//
-//                            // Check if the word count exceeds the limit
-//                            if (wordCount > 1000) {
-//                                // Remove the last word if it exceeds the limit
-//                                int lastSpace = s.toString().lastIndexOf(" ", s.length() - 2);
-//                                tv_edit_notes.setText(s.subSequence(0, lastSpace));
-//                                tv_edit_notes.setSelection(lastSpace);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                            // Count the number of words
-//                            String[] words = s.toString().trim().split("\\s+");
-//                            int wordCount = words.length;
-//
-//                            // Update the word count TextView
-//                            float wordCountFraction = (float) wordCount / 1000;
-//                            String wordCountText = String.format(Locale.getDefault(), "%.2f /1000", wordCountFraction);
-//                            word_count_text_view.setText(wordCountText);
-//
-//                            // Check if the word count exceeds the limit
-//                            if (wordCount > 1000) {
-//                                // Remove the last word if it exceeds the limit
-//                                int lastSpace = s.toString().lastIndexOf(" ", s.length() - 2);
-//                                tv_edit_notes.setText(s.subSequence(0, lastSpace));
-//                                tv_edit_notes.setSelection(lastSpace);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void afterTextChanged(Editable s) {
-//                            // Not used
-//                        }
-//                    });
+
 
                     iv_edit_notes.setTag(i);
                     iv_edit_notes.setOnClickListener(new View.OnClickListener() {
@@ -628,8 +584,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             close_details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
-                }
+                    //  nav_view_matter();
+                    dialog.dismiss();                }
             });
 
             dialog.setCancelable(false);
@@ -914,7 +870,9 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     @SuppressLint("ResourceType")
     @Override
     public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
-
+        TimeLineId = viewMatterModel.getId();
+        Header_name = viewMatterModel.getTitle();
+        callTimeLineWebservice();
         Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
         Fragment fragment = new EditMatterTimeline();
