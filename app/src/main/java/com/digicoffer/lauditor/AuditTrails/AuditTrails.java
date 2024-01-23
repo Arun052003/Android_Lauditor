@@ -102,7 +102,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
     private ColorStateList defaultButtonTint;
     ImageView iv_forward_button, iv_backward_button, ib_start_mandatory, ib_end_mandatory;
 
-    ImageButton ib_cancel_button, ib_cancel_button_end_date;
+    ImageView ib_cancel_button, ib_cancel_button_end_date;
 
     private boolean isDatePickerVisible = false;
     View view;
@@ -160,7 +160,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             dateUtils.setOnDateSelectedListener(this);
             tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
             tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
-            tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
+//            tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
             tv_event_start_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -19,7 +20,9 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -28,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +43,9 @@ import com.digicoffer.lauditor.Calendar.Models.MinutesDO;
 import com.digicoffer.lauditor.Calendar.Models.RelationshipsDO;
 import com.digicoffer.lauditor.Calendar.Models.TaskDo;
 import com.digicoffer.lauditor.Calendar.Models.TeamDo;
+import com.digicoffer.lauditor.Documents.Documents;
+import com.digicoffer.lauditor.Documents.DocumentsListAdpater.GroupsListAdapter;
+import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -54,7 +61,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,6 +78,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     private AlertDialog progressDialog;
     MultiAutoCompleteTextView at_family_members;
     CardView cv_meeting_details;
+    int temp = 0;
+    int end = 0;
+
+    int startMinute = 0;
+    int endMinute = 0;
     final ArrayList<String> Repetetions = new ArrayList<>();
     JSONArray notification = new JSONArray();
     LinearLayout ll_client_team_members, ll_documents_list, ll_attach_document, ll_selected_entites, selected_individual, ll_individual_list, ll_selected_team_members, selected_tm, selected_groups;
@@ -84,8 +98,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     private boolean tmTaskCompleted = false;
     final String[] AM_PM = new String[1];
     int offset;
-    private Button btn_add_groups, btn_attach_document, btn_create_event, btn_add_clients, btn_assigned_team_members, btn_individual;
+    private Button btn_add_groups, btn_attach_document, btn_create_event, btn_add_clients, btn_assigned_clients, btn_individual;
     String team_member_id;
+    String start_time;
+    String Starttime1;
+    String end_time;
     int adapter_position = 0;
     ArrayList<RelationshipsDO> entities_list = new ArrayList<>();
     ArrayList<RelationshipsDO> individual_list = new ArrayList<>();
@@ -95,17 +112,22 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     ArrayList<RelationshipsDO> new_selected_client_list = new ArrayList<>();
     ArrayList<RelationshipsDO> entity_client_list = new ArrayList<>();
     ArrayList<TeamDo> selected_tm_list = new ArrayList<>();
-    private TextView at_add_groups, tv_message,at_attach_document, at_add_clients, at_assigned_team_members, at_individual;
-    private Spinner sp_entities, sp_project, sp_matter_name, sp_task, sp_time_zone, sp_repetetion, sp_add_team_member, sp_add_entity, sp_client_team_members;
-    private TextInputEditText tv_event_creation_date, tv_event_start_time, tv_event_end_time, tv_meeting_link, tv_dialing_number, tv_location, tv_description;
-    private AppCompatButton add_notification, btn_cancel_timesheet, btn_save_timesheet;
+    private TextView at_add_groups, tv_message, at_attach_document, at_add_clients, at_assigned_client, at_individual;
+    private Spinner sp_add_team_member, sp_add_entity, sp_client_team_members;
+    private TextInputEditText tv_meeting_link, tv_dialing_number, tv_location, tv_description;
+    private AppCompatButton add_notification, btn_cancel_event, btn_save_timesheet;
+    TextView tv_project_name, tv_matter_name, tv_task_name, tv_date_name, tv_time_zone, tv_repetetion, tv_meeting_link_name, tv_dial_in_number, tv_location_name, tv_description_name, tv_message_name, add_groups, add_entities, tv_assigned_client, tv_individual, tv_selected_individual, tv_selected_tm, tv_selected_document, tv_name, tv_selected_clients;
+    TextView tv_sp_project, tv_sp_matter_name, tv_sp_task_name, tv_sp_time_zone, tv_sp_repetetion, Time_duration, tv_sp_entities, tv_attach_document;
+    ListView sp_project, sp_matter_name, sp_task, sp_time_zone, sp_repetetion, sp_entities;
+    boolean ischecked_project = true, ischecked_matter = true, ischecked_task = true, ischecked_time = true, ischecked_repetetion = true, is_notify = true, is_entities = true, is_clicked_team = true, is_clicked_clients = true, is_clicked_individuals = true, is_clicked_documents = true;
+    AppCompatButton tv_event_creation_date, tv_event_start_time, tv_event_end_time;
+    NestedScrollView scrollView;
     private String selected_project;
-    private String selected_matter;
     private String selected_task;
     private String entity_id;
     Hashtable<String, Integer> timesPosHash = new Hashtable<>();
     ArrayList<TimeZonesDO> timeZonesList = new ArrayList<TimeZonesDO>();
-    private LinearLayout ll_project, selected_attached_documents, ll_matter_name, ll_message, ll_task, ll_add_notification;
+    private LinearLayout ll_project, selected_attached_documents, ll_matter_name, ll_message, ll_task, ll_repetetion, ll_add_notification;
     ArrayList<CalendarDo> projectList = new ArrayList<>();
     ArrayList<ViewMatterModel> matterList = new ArrayList<>();
     ArrayList<DocumentsDo> documents_list = new ArrayList<>();
@@ -119,6 +141,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     private String matter_id;
     private String matter_name;
     private String matter_legal;
+    private Meetings meetings;
+
+    RecyclerView rv_groups_view, rv_clients_view, rv_individuals_view, rv_documents_view;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,35 +151,124 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("WrongViewCast")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_event, container, false);
-        sp_project = view.findViewById(R.id.sp_project);
+        sp_project = view.findViewById(R.id.sp_project1);
+        scrollView = view.findViewById(R.id.scrollView);
         sp_matter_name = view.findViewById(R.id.sp_matter_name);
         at_individual = view.findViewById(R.id.at_individual);
         sp_task = view.findViewById(R.id.sp_task);
+        sp_task.setVisibility(View.GONE);
+        ll_matter_name = view.findViewById(R.id.ll_matter_name);
+        ll_matter_name.setVisibility(View.GONE);
         sp_time_zone = view.findViewById(R.id.sp_time_zone);
+        sp_time_zone.setVisibility(View.GONE);
+
+        tv_sp_time_zone = view.findViewById(R.id.tv_sp_time_zone);
+        tv_sp_repetetion = view.findViewById(R.id.tv_sp_repetetion);
         sp_repetetion = view.findViewById(R.id.sp_repetetion);
+        sp_repetetion.setVisibility(View.GONE);
         at_add_groups = view.findViewById(R.id.at_add_groups);
+        add_groups = view.findViewById(R.id.add_groups);
+        add_groups.setText("Add Team Members");
         btn_create_event = view.findViewById(R.id.btn_create_event);
         btn_create_event.setOnClickListener(this);
+        ll_message = view.findViewById(R.id.ll_message);
         tv_message = view.findViewById(R.id.tv_message);
+        tv_message_name = view.findViewById(R.id.tv_message_name);
+        tv_message_name.setText("Message");
+        tv_message.setHint("Message");
         at_attach_document = view.findViewById(R.id.at_attach_document);
         cb_all_day = view.findViewById(R.id.cb_all_day);
+        cb_all_day.setText("All Day");
+        cb_all_day.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+        btn_cancel_event = view.findViewById(R.id.btn_cancel_event);
+        Time_duration = view.findViewById(R.id.Time_duration);
+        Time_duration.setVisibility(View.GONE);
+        tv_project_name = view.findViewById(R.id.tv_project_name);
+        tv_project_name.setText("Event Type");
+        tv_sp_project = view.findViewById(R.id.tv_sp_project);
+//        list_scroll_project = view.findViewById(R.id.list_scroll_project);
+        sp_project.setVisibility(View.GONE);
+
+        tv_matter_name = view.findViewById(R.id.tv_matter_name);
+        tv_matter_name.setText(R.string.matter_name);
+        tv_sp_matter_name = view.findViewById(R.id.tv_sp_matter_name);
+//        list_scroll_matter = view.findViewById(R.id.list_scroll_matter);
+        sp_matter_name.setVisibility(View.GONE);
+        sp_matter_name.setNestedScrollingEnabled(true);
+//        sp_project.setNestedScrollingEnabled(true);
+        tv_task_name = view.findViewById(R.id.tv_task_name);
+        tv_task_name.setText(R.string.task);
+        tv_sp_task_name = view.findViewById(R.id.tv_sp_task_name);
+        tv_date_name = view.findViewById(R.id.tv_date_name);
+        tv_date_name.setText(R.string.date);
+        tv_time_zone = view.findViewById(R.id.tv_time_zone);
+        tv_time_zone.setText(R.string.time_zone);
+        tv_repetetion = view.findViewById(R.id.tv_repetetion);
+        tv_repetetion.setText("Repetition");
+        tv_meeting_link_name = view.findViewById(R.id.tv_meeting_link_name);
+        tv_meeting_link_name.setText(R.string.meeting_link);
+        tv_dial_in_number = view.findViewById(R.id.tv_dial_in_number);
+        tv_dial_in_number.setText("Dial-In Number");
+        tv_location_name = view.findViewById(R.id.tv_location_name);
+        tv_location_name.setText(R.string.location);
+        tv_description_name = view.findViewById(R.id.tv_description_name);
+        tv_description_name.setText(R.string.description);
+        tv_sp_entities = view.findViewById(R.id.tv_sp_entities);
+        sp_entities = view.findViewById(R.id.sp_entities);
+        sp_entities.setVisibility(View.GONE);
 //       isAllDay = cb_all_day.isChecked();
         cv_meeting_details = view.findViewById(R.id.cv_meeting_details);
         cb_add_to_timesheet = view.findViewById(R.id.cb_add_to_timesheet);
+        cb_add_to_timesheet.setText("Add To Timesheet");
+        cb_add_to_timesheet.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
         loadcheckboxData();
         ll_attach_document = view.findViewById(R.id.ll_attach_document);
         btn_attach_document = view.findViewById(R.id.btn_attach_document);
         btn_attach_document.setOnClickListener(this);
         ll_add_notification = view.findViewById(R.id.ll_add_notification);
-        sp_entities = view.findViewById(R.id.sp_entities);
+
+        rv_groups_view = view.findViewById(R.id.rv_groups_view);
+        rv_groups_view.setVisibility(View.GONE);
+        rv_groups_view.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_clients_view = view.findViewById(R.id.rv_clients_view);
+        rv_clients_view.setVisibility(View.GONE);
+        rv_clients_view.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_individuals_view = view.findViewById(R.id.rv_individuals_view);
+        rv_individuals_view.setVisibility(View.GONE);
+        rv_individuals_view.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_documents_view = view.findViewById(R.id.rv_documents_view);
+        rv_documents_view.setVisibility(View.GONE);
+        rv_documents_view.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+
+        add_entities = view.findViewById(R.id.add_entities);
+        add_entities.setText(R.string.add_entity);
         add_notification = view.findViewById(R.id.add_notification);
         add_notification.setOnClickListener(this);
+        add_notification.setText("Add Notification");
         ll_documents_list = view.findViewById(R.id.ll_documents_list);
-        at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
+        at_assigned_client = view.findViewById(R.id.at_assigned_client);
+        tv_assigned_client = view.findViewById(R.id.tv_assigned_client);
+        tv_assigned_client.setText(R.string.add_clients);
+        tv_individual = view.findViewById(R.id.tv_individual);
+        tv_individual.setText("Add Individuals");
+        tv_selected_clients = view.findViewById(R.id.tv_selected_clients);
+        tv_selected_clients.setText("Selected Entities");
+        tv_selected_individual = view.findViewById(R.id.tv_selected_individual);
+        tv_selected_individual.setText("Selected Individuals");
+        tv_selected_tm = view.findViewById(R.id.tv_selected_tm);
+        tv_selected_tm.setText("Selected Clients");
+        tv_selected_document = view.findViewById(R.id.tv_selected_document);
+        tv_selected_document.setText("Selected Documents");
+        tv_name = view.findViewById(R.id.tv_name);
+        tv_name.setText("Selected Team Members");
+        tv_attach_document = view.findViewById(R.id.tv_attach_document);
+        tv_attach_document.setText("Add Documents");
+
         btn_add_groups = view.findViewById(R.id.btn_add_groups);
         selected_groups = view.findViewById(R.id.selected_groups);
         btn_individual = view.findViewById(R.id.btn_individual);
@@ -168,9 +282,8 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ll_client_team_members = view.findViewById(R.id.ll_client_team_members);
         ll_selected_entites = view.findViewById(R.id.ll_selected_entites);
         ll_selected_team_members = view.findViewById(R.id.ll_selected_team_members);
-        btn_assigned_team_members = view.findViewById(R.id.btn_assigned_team_members);
-        btn_assigned_team_members.setOnClickListener(this);
-//        at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
+        btn_assigned_clients = view.findViewById(R.id.btn_assigned_clients);
+        btn_assigned_clients.setOnClickListener(this);
         tv_event_creation_date = view.findViewById(R.id.tv_event_creation_date);
         tv_event_creation_date.setOnClickListener(this);
         tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
@@ -178,23 +291,146 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
         tv_event_end_time.setOnClickListener(this);
         selected_attached_documents = view.findViewById(R.id.selected_attached_documents);
-        tv_meeting_link = view.findViewById(R.id.tv_meeting_link);
+        tv_meeting_link = view.findViewById(R.id.tv_meeting_link1);
+        tv_meeting_link.setHint(R.string.meeting_link);
         tv_dialing_number = view.findViewById(R.id.tv_dialing_number);
-        tv_location = view.findViewById(R.id.tv_location);
+        tv_dialing_number.setHint("Dial In Number");
+        tv_location = view.findViewById(R.id.tv_location1);
+        tv_location.setHint(R.string.location);
         tv_description = view.findViewById(R.id.tv_description);
+        tv_description.setHint(R.string.description);
         ll_project = view.findViewById(R.id.ll_project);
-        ll_matter_name = view.findViewById(R.id.ll_matter_name);
-        ll_message = view.findViewById(R.id.ll_message);
+
         ll_task = view.findViewById(R.id.ll_task);
+        ll_repetetion = view.findViewById(R.id.ll_repetetion);
+        ll_repetetion.setVisibility(View.GONE);
+
+
+        tv_sp_task_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ischecked_task) {
+                    sp_task.setVisibility(View.VISIBLE);
+                } else
+                    sp_task.setVisibility(View.GONE);
+                ischecked_task = !ischecked_task;
+            }
+        });
+        tv_sp_project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ischecked_project) {
+                    sp_project.setVisibility(View.VISIBLE);
+                } else
+                    sp_project.setVisibility(View.GONE);
+                ischecked_project = !ischecked_project;
+            }
+        });
+
+        tv_sp_time_zone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ischecked_time) {
+                    sp_time_zone.setVisibility(View.VISIBLE);
+                } else
+                    sp_time_zone.setVisibility(View.GONE);
+                ischecked_time = !ischecked_time;
+            }
+        });
+        tv_sp_repetetion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ischecked_repetetion) {
+                    sp_repetetion.setVisibility(View.VISIBLE);
+                } else
+                    sp_repetetion.setVisibility(View.GONE);
+                ischecked_repetetion = !ischecked_repetetion;
+            }
+        });
+        tv_sp_matter_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ischecked_matter) {
+                    sp_matter_name.setVisibility(View.VISIBLE);
+                } else
+                    sp_matter_name.setVisibility(View.GONE);
+                ischecked_matter = !ischecked_matter;
+            }
+        });
+        tv_sp_entities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_entities)
+                    sp_entities.setVisibility(View.VISIBLE);
+                else
+                    sp_entities.setVisibility(View.GONE);
+                is_entities = !is_entities;
+            }
+        });
+        at_add_groups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_clicked_team) {
+                    if (matterList.size() == 0) {
+                        rv_groups_view.setVisibility(View.GONE);
+                        callTeamMemberWebservice();
+                    } else {
+                        rv_groups_view.setVisibility(View.VISIBLE);
+                        TeamMembersPopup();
+                    }
+                } else {
+                    rv_groups_view.setVisibility(View.GONE);
+                }
+                is_clicked_team = !is_clicked_team;
+            }
+        });
+
+        at_individual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_clicked_individuals) {
+                    if (individual_list.size() == 0) {
+                        callClientsWebservice();
+                    } else {
+                        rv_individuals_view.setVisibility(View.VISIBLE);
+                        load_individual_Popup();
+                    }
+                } else {
+                    rv_individuals_view.setVisibility(View.GONE);
+                }
+                is_clicked_individuals = !is_clicked_individuals;
+            }
+        });
+        at_assigned_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_clicked_clients) {
+                    rv_clients_view.setVisibility(View.VISIBLE);
+                    loadEntityClientPopup();
+                } else {
+                    rv_clients_view.setVisibility(View.GONE);
+                }
+                is_clicked_clients = !is_clicked_clients;
+            }
+        });
+
+        at_attach_document.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_clicked_documents) {
+                    rv_documents_view.setVisibility(View.VISIBLE);
+                    load_documents_Popup();
+                } else {
+                    rv_documents_view.setVisibility(View.GONE);
+                }
+                is_clicked_documents = !is_clicked_documents;
+            }
+        });
         projectList.clear();
-
         if (Constants.ROLE.equals("AAM")) {
-
             projectList.add(new CalendarDo("Overhead"));
             projectList.add(new CalendarDo("Others"));
             projectList.add(new CalendarDo("Reminders"));
-
-
         } else {
             projectList.add(new CalendarDo("Legal Matter"));
             projectList.add(new CalendarDo("General Matter"));
@@ -202,23 +438,21 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             projectList.add(new CalendarDo("Others"));
             projectList.add(new CalendarDo("Reminders"));
         }
-
         legalTaksList.clear();
 
 //        callTimeZoneWebservice();
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) getContext(), projectList);
 
         sp_project.setAdapter(spinner_adapter);
-        sp_project.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_project.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selected_project = projectList.get(adapterView.getSelectedItemPosition()).getProjectName();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selected_project = projectList.get(position).getProjectName();
+                tv_sp_project.setText(selected_project);
                 loadProjectData(selected_project);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                ischecked_project = true;
+                ll_repetetion.setVisibility(View.VISIBLE);
+                sp_project.setVisibility(View.GONE);
             }
         });
         return view;
@@ -259,8 +493,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void callTimeZoneWebservice() {
         try {
-
-
             progressDialog = AndroidUtils.get_progress(getActivity());
             JSONObject postData = new JSONObject();
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "event/timezones", "TIMEZONES", postData.toString());
@@ -307,16 +539,27 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
+                                int baseT = 24;
+
+                                Float baseM = 60.0F;
+                                Float minuteValue = 0.0F;
                                 if (hourOfDay < 12) {
-                                    AM_PM[0] = "AM";
+                                    AM_PM[0] = "  AM";
+                                    temp = hourOfDay;
                                 } else {
-                                    AM_PM[0] = "PM";
+                                    AM_PM[0] = "  PM";
+                                    temp = baseT - hourOfDay;
                                 }
-
+                                if (minute > 0) {
+                                    startMinute = 60 - minute;
+                                }
+//                                AndroidUtils.showToast("" + temp, getContext());
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+//                                start_time = hourOfDay + ":" + minute;
+                                Starttime1 = (24 - hourOfDay) + ":" + (minute);
                                 tv_event_start_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-
                             }
-                        }, hour, minute, true);
+                        }, hour, minute, false);
                 timePickerDialog.show();
                 break;
             case R.id.tv_event_end_time:
@@ -331,84 +574,123 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
+
+                                int baseT = 24;
                                 final Calendar c = Calendar.getInstance();
                                 mHour[0] = c.get(Calendar.HOUR_OF_DAY);
                                 mMinute[0] = c.get(Calendar.MINUTE);
                                 if (hourOfDay < 12) {
-                                    AM_PM[0] = "AM";
+                                    AM_PM[0] = "  AM";
+                                    end = hourOfDay;
                                 } else {
-                                    AM_PM[0] = "PM";
+                                    AM_PM[0] = "  PM";
+                                    end = baseT - hourOfDay;
+                                    //end = baseT - hourOfDay;
+                                }
+                                if (minute > 0) {
+                                    endMinute = minute;
+                                }
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+                                tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
+                                end_time = tv_event_end_time.getText().toString();
+                                start_time = tv_event_start_time.getText().toString();
+                                Date event_end_date, event_start_date;
+                                event_end_date = AndroidUtils.stringToDateTimeDefault(end_time, "hh:mm");
+
+                                event_start_date = AndroidUtils.stringToDateTimeDefault(start_time, "hh:mm");
+
+                                if (event_end_date.getTime() > event_start_date.getTime()) {
+                                    int x = temp + end, min_x = startMinute + endMinute;
+                                    long differenceInMilliSeconds = Math.abs(event_start_date.getTime() - event_end_date.getTime());
+                                    long differenceInHours = (differenceInMilliSeconds / (60 * 60 * 1000)) % 24;
+                                    long differenceInMinutes = (differenceInMilliSeconds / (60 * 1000)) % 60;
+                                    if ((min_x) > 60) {
+                                        x = x + 1;
+                                        min_x = (min_x) - 60;
+                                    }
+                                    String duration = (x - 1) + ":" + (min_x);
+                                    Time_duration.setText("Duration : " + duration);
+                                } else {
+                                    Integer x = temp + end;
+                                    int min_x = startMinute + endMinute;
+//                                    AndroidUtils.showToast("Endtime = "+end_time,getContext());
+                                    event_end_date = AndroidUtils.stringToDateTimeDefault(end_time, "hh:mm");
+                                    event_start_date = AndroidUtils.stringToDateTimeDefault(start_time, "hh:mm");
+                                    long differenceInMilliSeconds = Math.abs(event_end_date.getTime() + event_start_date.getTime());
+                                    long differenceInHours = (differenceInMilliSeconds / (60 * 60 * 1000)) % 12;
+                                    long differenceInMinutes = (differenceInMilliSeconds / (60 * 1000)) % 60;
+                                    if ((min_x) > 60) {
+                                        x += 1;
+                                        min_x = min_x - 60;
+                                    }
+                                    String duration = (x - 1) + ":" + (min_x);
+                                    Time_duration.setText("Duration : " + duration);
                                 }
 
-//                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH);
-                                tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-
-                            }
-                        }, mHour[0], mMinute[0], true);
-                timePickerDialog_end_time.show();
-                break;
-            case R.id.btn_add_groups:
-                if(matterList.size()==0){
-                    callTeamMemberWebservice();
-                }
-                else{
-                    TeamMembersPopup();
-                }
-
-
+//                                try {
+//                                    Date start_time1=sdf.parse(start_time);
+//                                    Date end_time1=sdf.parse(end_time);
 //
-                break;
-            case R.id.btn_individual:
-                if (individual_list.size()==0){
-                    callClientsWebservice();
-                }else {
-                    load_individual_Popup();
-                }
-                break;
-            case R.id.btn_assigned_team_members:
+//                                    long time_duration=start_time1.getTime()-end_time1.getTime();
+//                                    long hrs=(time_duration/(1000*60*60))%24;
+//                                    long min=(time_duration/(1000*60))%60;
+//
+////                                    Time_duration.setText(hrs+"   ,   "+min);
+//                                } catch (ParseException e) {
+//                                    throw new RuntimeException(e);
+//                                }
 
-                    loadEntityClientPopup();
-
-
+//                                Integer time_duration=end_time-start_time;
+//                                if(time_duration<0)
+//                                {
+//                                    time_duration=-(time_duration);
+//                                }
+//                                time= String.valueOf(time_duration);
+                            }
+                        }, mHour[0], mMinute[0], false);
+                timePickerDialog_end_time.show();
                 break;
             case R.id.add_notification:
                 NotificationPopup();
                 break;
+            case R.id.btn_cancel_event:
+                AndroidUtils.showToast("Event is not Created", getContext());
+                loadClearedLists();
+                meetings.loadView();
             case R.id.btn_create_event:
-                if (!matter_legal.equals("reminders")){
-                    if(tv_event_creation_date.getText().toString().equals("")){
+                if (!matter_legal.equals("reminders")) {
+                    if (tv_event_creation_date.getText().toString().equals("")) {
                         tv_event_creation_date.setError("Date is required");
                         tv_event_creation_date.requestFocus();
-                    }else if(tv_event_start_time.getText().toString().equals("")){
+                    } else if (tv_event_start_time.getText().toString().equals("")) {
                         tv_event_start_time.setError("Start Time is required");
                         tv_event_start_time.requestFocus();
-                    }else if(tv_event_end_time.getText().toString().equals("")){
+                    } else if (tv_event_end_time.getText().toString().equals("")) {
                         tv_event_end_time.setError("End time is required");
                         tv_event_end_time.requestFocus();
-                    }else{
+                    } else {
                         callCreateEventWebservice();
                     }
-                }else{
-                    if(tv_event_creation_date.getText().toString().equals("")){
+                } else {
+                    if (tv_event_creation_date.getText().toString().equals("")) {
                         tv_event_creation_date.setError("Date is required");
                         tv_event_creation_date.requestFocus();
-                    }else if(tv_event_start_time.getText().toString().equals("")){
+                    } else if (tv_event_start_time.getText().toString().equals("")) {
                         tv_event_start_time.setError("Start Time is required");
                         tv_event_start_time.requestFocus();
-                    }else if(tv_event_end_time.getText().toString().equals("")){
+                    } else if (tv_event_end_time.getText().toString().equals("")) {
                         tv_event_end_time.setError("End time is required");
                         tv_event_end_time.requestFocus();
-                    }else if(tv_message.getText().toString().equals("")){
+                    } else if (tv_message.getText().toString().equals("")) {
                         tv_message.setError("Message is required");
                         tv_message.requestFocus();
-                    }else{
+                    } else {
                         callCreateEventWebservice();
                     }
                 }
 
                 break;
-            case R.id.btn_attach_document:
-                load_documents_Popup();
+
         }
 
     }
@@ -433,9 +715,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     }
                 }
             }
-            if (documents_list.size()==0) {
-                AndroidUtils.showToast("No document to show",getContext());
-            }else {
+            if (documents_list.size() == 0) {
+                AndroidUtils.showToast("No document to show", getContext());
+            } else {
                 for (int i = 0; i < documents_list.size(); i++) {
                     for (int j = 0; j < selected_documents_list.size(); j++) {
                         if (documents_list.get(i).getDocid().matches(selected_documents_list.get(j).getDocid())) {
@@ -447,35 +729,14 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 selected_documents_list.clear();
 //            selected_tm_list.clear();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View view = inflater.inflate(R.layout.groups_list_adapter, null);
-                TextView tv_header = view.findViewById(R.id.header_name);
-                tv_header.setText("Select Documents");
-                RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-                ImageView iv_cancel = view.findViewById(R.id.close_groups);
-                AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-                AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                rv_groups.setLayoutManager(layoutManager);
-                rv_groups.setHasFixedSize(true);
+                rv_documents_view.setLayoutManager(layoutManager);
+                rv_documents_view.setHasFixedSize(true);
                 ADAPTER_TAG = "Documents";
                 CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
-                rv_groups.setAdapter(documentsAdapter);
-                AlertDialog dialog = dialogBuilder.create();
-                iv_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_save_group.setOnClickListener(new View.OnClickListener() {
+                rv_documents_view.setAdapter(documentsAdapter);
+
+                btn_attach_document.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         for (int i = 0; i < documentsAdapter.getDocuments_list().size(); i++) {
@@ -489,13 +750,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                         }
 
                         loadSelectedDocuments();
+                        is_clicked_documents = true;
+                        rv_documents_view.setVisibility(View.GONE);
 //                    loadSelectedIndividual();
-                        dialog.dismiss();
                     }
                 });
-                dialog.setCancelable(false);
-                dialog.setView(view);
-                dialog.show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -679,13 +938,13 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             postData.put("invitees_external", selected_clients_list);
             postData.put("invitees_consumer_external", individual_array);
             postData.put("title", matter_name + " - " + selected_task);
-            if (!matter_legal.equals("reminders")){
+            if (!matter_legal.equals("reminders")) {
                 postData.put("dialin", tv_dialing_number.getText().toString());
                 postData.put("location", tv_location.getText().toString());
                 postData.put("addtimesheet", isAddTimesheet);
                 postData.put("timesheets", time_sheets);
                 postData.put("description", tv_description.getText().toString());
-            }else{
+            } else {
                 postData.put("description", tv_message.getText().toString());
             }
 
@@ -698,7 +957,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             postData.put("allday", isAllDay);
             postData.put("from_ts", event_starting_date);
             postData.put("to_ts", event_end_time);
-            if (matter_legal.equals("legal")||matter_legal.equals("general")) {
+            if (matter_legal.equals("legal") || matter_legal.equals("general")) {
                 postData.put("matter_type", matter_legal);
                 postData.put("matter_id", matter_id);
             }
@@ -712,12 +971,23 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void NotificationPopup() {
         View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.add_calendar_notification, null);
-        Spinner sp_minutes = view_opponents.findViewById(R.id.sp_minutes);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView tv_sp_minutes = view_opponents.findViewById(R.id.tv_sp_minutes);
+        ListView sp_minutes = view_opponents.findViewById(R.id.sp_minutes);
         ArrayList<MinutesDO> minutes_list = new ArrayList<>();
         minutes_list.add(new MinutesDO("Minutes"));
         minutes_list.add(new MinutesDO("Hours"));
         minutes_list.add(new MinutesDO("Days"));
         minutes_list.add(new MinutesDO("Weeks"));
+        sp_minutes.setVisibility(View.GONE);
+        tv_sp_minutes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_notify)
+                    sp_minutes.setVisibility(View.VISIBLE);
+                else sp_minutes.setVisibility(View.GONE);
+                is_notify = !is_notify;
+            }
+        });
         TextInputEditText tv_numbers = view_opponents.findViewById(R.id.tv_numbers);
         ImageView iv_delete_notification = view_opponents.findViewById(R.id.iv_delete_notification);
         tv_numbers.setText("1");
@@ -727,10 +997,10 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) getContext(), minutes_list);
         sp_minutes.setAdapter(spinner_adapter);
-        sp_minutes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_minutes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selected_hour_type = minutes_list.get(adapterView.getSelectedItemPosition()).getName();
+            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                selected_hour_type = minutes_list.get(i).getName();
 //                selectedValues.clear();
                 loadnewInput(tv_numbers, view);
 
@@ -749,11 +1019,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                is_notify = true;
+                sp_minutes.setVisibility(View.GONE);
+                tv_sp_minutes.setText(selected_hour_type);
             }
         });
 
@@ -871,9 +1139,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void load_individual_Popup() {
         try {
-            if (individual_list.size()==0){
-                AndroidUtils.showToast("No Individuals to show",getContext());
-            }else {
+            if (individual_list.size() == 0) {
+                AndroidUtils.showToast("No Individuals to show", getContext());
+            } else {
                 for (int i = 0; i < individual_list.size(); i++) {
                     for (int j = 0; j < selected_individual_list.size(); j++) {
                         if (individual_list.get(i).getId().matches(selected_individual_list.get(j).getId())) {
@@ -885,55 +1153,31 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 selected_individual_list.clear();
 //            selected_tm_list.clear();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View view = inflater.inflate(R.layout.groups_list_adapter, null);
-                RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-                ImageView iv_cancel = view.findViewById(R.id.close_groups);
-                TextView tv_header = view.findViewById(R.id.header_name);
-                tv_header.setText("Select Individuals");
-                AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-                AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                rv_groups.setLayoutManager(layoutManager);
-                rv_groups.setHasFixedSize(true);
+                rv_individuals_view.setLayoutManager(layoutManager);
+                rv_individuals_view.setHasFixedSize(true);
                 ADAPTER_TAG = "INDIVIDUAL";
                 CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
-                rv_groups.setAdapter(documentsAdapter);
-                AlertDialog dialog = dialogBuilder.create();
-                iv_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_save_group.setOnClickListener(new View.OnClickListener() {
+                rv_individuals_view.setAdapter(documentsAdapter);
+                btn_individual.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         for (int i = 0; i < documentsAdapter.getIndividual_List().size(); i++) {
                             RelationshipsDO teamModel = documentsAdapter.getIndividual_List().get(i);
                             if (teamModel.isChecked()) {
-                                selected_individual_list.add(teamModel);
+                                if (!selected_individual_list.contains(teamModel)) {
+                                    selected_individual_list.add(teamModel);
 //                        AndroidUtils.showAlert(selected_individual_list.toString(),getContext());
 //                        new_selected_individual_list.add(teamModel);
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                    //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                }
                             }
                         }
-
-
+                        rv_individuals_view.setVisibility(View.GONE);
+                        is_clicked_individuals = true;
                         loadSelectedIndividual();
-                        dialog.dismiss();
                     }
                 });
-                dialog.setCancelable(false);
-                dialog.setView(view);
-                dialog.show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1021,8 +1265,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void TeamMembersPopup() {
         try {
-
-
 //            teamList.clear();
             if (teamList.size() == 0) {
                 for (int i = 0; i < matterList.size(); i++) {
@@ -1038,8 +1280,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     }
                 }
             }
-
-
             for (int i = 0; i < teamList.size(); i++) {
                 for (int j = 0; j < selected_tm_list.size(); j++) {
                     if (teamList.get(i).getId().matches(selected_tm_list.get(j).getId())) {
@@ -1053,68 +1293,46 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             if (teamList.size() == 0) {
                 AndroidUtils.showToast("No Team Members to View", getContext());
             } else {
-//            selected_tm_list.clear();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View view = inflater.inflate(R.layout.groups_list_adapter, null);
-                RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-                ImageView iv_cancel = view.findViewById(R.id.close_groups);
-                TextView tv_header = view.findViewById(R.id.header_name);
-                tv_header.setText("Select Team Members");
-                AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-                AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                rv_groups.setLayoutManager(layoutManager);
-                rv_groups.setHasFixedSize(true);
+                rv_groups_view.setLayoutManager(layoutManager);
+                rv_groups_view.setHasFixedSize(true);
                 ADAPTER_TAG = "TM";
-                CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
-                rv_groups.setAdapter(documentsAdapter);
-                AlertDialog dialog = dialogBuilder.create();
-                iv_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_save_group.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
 
+                CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
+                rv_groups_view.setAdapter(documentsAdapter);
+                btn_add_groups.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         for (int i = 0; i < documentsAdapter.getTmList().size(); i++) {
                             TeamDo teamModel = documentsAdapter.getTmList().get(i);
                             if (teamModel.isChecked()) {
-                                selected_tm_list.add(teamModel);
-
+                                if (!selected_tm_list.contains(teamModel)) {
+                                    selected_tm_list.add(teamModel);
+//                        selected_tm_list.add(teamModel);
+                                    //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                }
                                 //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                             }
                         }
-
-                        if(selected_tm_list.size()==0){
-                                selected_groups.setVisibility(View.GONE);
-                                at_add_groups.setText("Select Team Members");
-
-                        }else {
+                        if (selected_tm_list.size() == 0) {
+                            selected_groups.setVisibility(View.GONE);
+                            at_add_groups.setText("Select Team Members");
+                        } else {
                             loadSelectedTM();
                         }
-                        dialog.dismiss();
+                        rv_groups_view.setVisibility(View.GONE);
+                        is_clicked_team = true;
                     }
                 });
-                dialog.setCancelable(false);
-                dialog.setView(view);
-                dialog.show();
+
             }
-            } catch(Exception e){
-                e.printStackTrace();
-                AndroidUtils.showAlert(e.getMessage(), getContext());
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), getContext());
+        }
 
     }
+
 
     private void loadSelectedClients() {
         String[] value = new String[selected_entity_client_list.size()];
@@ -1124,7 +1342,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             value[i] = selected_entity_client_list.get(i).getName();
         }
         String str = String.join(",", value);
-        at_assigned_team_members.setText(str);
+        at_assigned_client.setText(str);
         selected_tm.setVisibility(View.VISIBLE);
         ll_client_team_members.removeAllViews();
         for (int i = 0; i < selected_entity_client_list.size(); i++) {
@@ -1150,7 +1368,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             if (selected_entity_client_list.size() == 0) {
                                 selected_tm.setVisibility(View.GONE);
                                 ll_client_team_members.removeAllViews();
-                                at_assigned_team_members.setText("Select Client");
+                                at_assigned_client.setText("Select Client");
                             } else {
                                 selected_tm.setVisibility(View.VISIBLE);
                             }
@@ -1162,7 +1380,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             }
 
                             String str = String.join(",", value);
-                            at_assigned_team_members.setText(str);
+                            at_assigned_client.setText(str);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1212,19 +1430,19 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             selected_tm_list.remove(position);
 
 //                                ll_selected_team_members.setVisibility(View.GONE);
-                                if (selected_tm_list.size() == 0) {
-                                    selected_groups.setVisibility(View.GONE);
-                                    at_add_groups.setText("Select Team Members");
-                                }else {
+                            if (selected_tm_list.size() == 0) {
+                                selected_groups.setVisibility(View.GONE);
+                                at_add_groups.setText("Select Team Members");
+                            } else {
 //                            selected_groups_list.set(position, groupsModel);
-                                    String[] value = new String[selected_tm_list.size()];
-                                    for (int i = 0; i < selected_tm_list.size(); i++) {
-                                        value[i] = selected_tm_list.get(i).getName();
-                                    }
-
-                                    String str = String.join(",", value);
-                                    at_add_groups.setText(str);
+                                String[] value = new String[selected_tm_list.size()];
+                                for (int i = 0; i < selected_tm_list.size(); i++) {
+                                    value[i] = selected_tm_list.get(i).getName();
                                 }
+
+                                String str = String.join(",", value);
+                                at_add_groups.setText(str);
+                            }
 
                         }
                     } catch (Exception e) {
@@ -1256,7 +1474,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 //                TaskDo hearing = new TaskDo("Hearing");
                 legalTaksList.add(new TaskDo("Case Filling"));
                 legalTaksList.add(new TaskDo("Consultation"));
-                legalTaksList.add(new TaskDo("Creating Legal Breifs"));
+                legalTaksList.add(new TaskDo("Creating Legal Briefs"));
                 legalTaksList.add(new TaskDo("Meeting with client"));
                 legalTaksList.add(new TaskDo("Hearing"));
                 loadTaskList(legalTaksList);
@@ -1320,6 +1538,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 loadTaskList(legalTaksList);
                 break;
             case "Reminders":
+                cb_add_to_timesheet.setVisibility(View.GONE);
                 legalTaksList.clear();
                 hideAlldetails();
                 loadRepetetions();
@@ -1351,15 +1570,13 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Repetetions);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_repetetion.setAdapter(adapter1);
-        sp_repetetion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_repetetion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                repeat_interval = Repetetions.get(sp_repetetion.getSelectedItemPosition());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                repeat_interval = Repetetions.get(position);
+                tv_sp_repetetion.setText(repeat_interval);
+                sp_repetetion.setVisibility(View.GONE);
+                ischecked_repetetion = true;
             }
         });
     }
@@ -1376,6 +1593,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         cv_meeting_details.setVisibility(View.VISIBLE);
         ll_matter_name.setVisibility(View.GONE);
         ll_message.setVisibility(View.GONE);
+        cb_add_to_timesheet.setVisibility(View.VISIBLE);
         ll_task.setVisibility(View.VISIBLE);
         ll_attach_document.setVisibility(View.GONE);
     }
@@ -1392,17 +1610,13 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) getContext(), legalTaksList);
 
         sp_task.setAdapter(spinner_adapter);
-        sp_task.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_task.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selected_task = legalTaksList.get(adapterView.getSelectedItemPosition()).getTaskName();
-
-//                loadProjectData(selected_project);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selected_task = legalTaksList.get(position).getTaskName();
+                tv_sp_task_name.setText(selected_task);
+                sp_task.setVisibility(View.GONE);
+                ischecked_task = true;
             }
         });
     }
@@ -1518,9 +1732,10 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     } else {
                         AndroidUtils.showAlert("Something went wrong", getContext());
                     }
-                }else if(httpResult.getRequestType().equals("CREATE_EVENT")){
-                    AndroidUtils.showToast(result.getString("msg"),getContext());
+                } else if (httpResult.getRequestType().equals("CREATE_EVENT")) {
+                    AndroidUtils.showToast(result.getString("msg"), getContext());
                     loadClearedLists();
+                    meetings.loadView();//Navigating to View Meetings page after meeting/event is created...
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1562,10 +1777,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void loadEntityClientPopup() {
         try {
-            if (entity_client_list.size()==0){
-                AndroidUtils.showToast("No Clients to show",getContext());
-            }
-            else {
+            if (entity_client_list.size() == 0) {
+                AndroidUtils.showToast("No Clients to show", getContext());
+            } else {
                 for (int i = 0; i < entity_client_list.size(); i++) {
                     for (int j = 0; j < selected_entity_client_list.size(); j++) {
                         if (entity_client_list.get(i).getId().matches(selected_entity_client_list.get(j).getId())) {
@@ -1577,53 +1791,31 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 selected_entity_client_list.clear();
 //            selected_tm_list.clear();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View view = inflater.inflate(R.layout.groups_list_adapter, null);
-                TextView tv_header = view.findViewById(R.id.header_name);
-                tv_header.setText("Select Clients");
-                RecyclerView rv_groups = view.findViewById(R.id.rv_relationship_documents);
-                ImageView iv_cancel = view.findViewById(R.id.close_groups);
-                AppCompatButton btn_groups_cancel = view.findViewById(R.id.btn_groups_cancel);
-                AppCompatButton btn_save_group = view.findViewById(R.id.btn_save_group);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                rv_groups.setLayoutManager(layoutManager);
-                rv_groups.setHasFixedSize(true);
+                rv_clients_view.setLayoutManager(layoutManager);
+                rv_clients_view.setHasFixedSize(true);
                 ADAPTER_TAG = "ENTITY";
                 CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
-                rv_groups.setAdapter(documentsAdapter);
-                AlertDialog dialog = dialogBuilder.create();
-                iv_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_groups_cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                btn_save_group.setOnClickListener(new View.OnClickListener() {
+                rv_clients_view.setAdapter(documentsAdapter);
+                btn_assigned_clients.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         for (int i = 0; i < documentsAdapter.getEntity_client_list().size(); i++) {
                             RelationshipsDO teamModel = documentsAdapter.getEntity_client_list().get(i);
                             if (teamModel.isChecked()) {
-                                selected_entity_client_list.add(teamModel);
+                                if (!selected_entity_client_list.contains(teamModel)) {
+                                    selected_entity_client_list.add(teamModel);
 //                        AndroidUtils.showAlert(selected_individual_list.toString(),getContext());
 //                        new_selected_client_list.add(teamModel);
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                    //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                }
                             }
                         }
                         loadSelectedClients();
-                        dialog.dismiss();
+                        rv_clients_view.setVisibility(View.GONE);
+                        is_clicked_clients = true;
                     }
                 });
-                dialog.setCancelable(false);
-                dialog.setView(view);
-                dialog.show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1655,7 +1847,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         loadEntitiesSpinnerData();
     }
 
-    private void loadEntitiesSpinnerData() throws JSONException{
+    private void loadEntitiesSpinnerData() throws JSONException {
         if (entities_list.size() == 0) {
             for (int i = 0; i < matterList.size(); i++) {
                 if (matter_id.equals(matterList.get(i).getId())) {
@@ -1681,20 +1873,19 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             }
         }
 
+
         final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), entities_list);
         sp_entities.setAdapter(adapter);
 //        callTimeZoneWebservice();
-        sp_entities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_entities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                entity_id = entities_list.get(sp_entities.getSelectedItemPosition()).getId();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                entity_id = entities_list.get(position).getId();
+                String entity_name = entities_list.get(position).getName();
                 callEntityClientWebservice(entity_id);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                tv_sp_entities.setText(entity_name);
+                sp_entities.setVisibility(View.GONE);
+                is_entities = true;
             }
         });
     }
@@ -1782,24 +1973,22 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         int offset1 = timeZone.getRawOffset();
         final long hours = TimeUnit.MILLISECONDS.toMinutes(offset1);
 //        callTimeZoneWebservice();
-        sp_time_zone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_time_zone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<TimeZonesDO> timezones = new ArrayList<>();
                 for (int j = 0; j < timeZonesList.size(); j++) {
                     String timezone_offset = timeZonesList.get(j).getGMT();
 
                     if (timezone_offset.matches(String.valueOf((hours)))) {
                         sp_time_zone.setSelection(j);
-                        offset = Integer.parseInt(timeZonesList.get(sp_time_zone.getSelectedItemPosition()).getGMT());
-                        timezone_location = (timeZonesList.get(sp_time_zone.getSelectedItemPosition()).getNAME());
+                        offset = Integer.parseInt(timeZonesList.get(position).getGMT());
+                        timezone_location = (timeZonesList.get(position).getNAME());
+                        tv_sp_time_zone.setText(timezone_location);
+                        sp_time_zone.setVisibility(View.GONE);
+                        ischecked_time = true;
                     }
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 //        if (Constants.ROLE.equals("AAM")) {
@@ -1822,6 +2011,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 //            viewMatterModel.setCasetype(jsonObject.getString("caseType"));
             matterList.add(viewMatterModel);
         }
+        if (matterList.size() == 0) {
+            ll_matter_name.setVisibility(View.GONE);
+        } else {
+            ll_matter_name.setVisibility(View.VISIBLE);
+        }
 //        AndroidUtils.showAlert(matters.toString(),getContext());
         loadMatterSpinnerList(matterList);
     }
@@ -1831,33 +2025,36 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) getContext(), matterList);
 
         sp_matter_name.setAdapter(spinner_adapter);
-        sp_matter_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_matter_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selected_matter = matterList.get(adapterView.getSelectedItemPosition()).getCasetype();
-                matter_id = matterList.get(adapterView.getSelectedItemPosition()).getId();
-                matter_name = matterList.get(adapterView.getSelectedItemPosition()).getTitle();
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                matter_id = matterList.get(position).getId();
+                matter_name = matterList.get(position).getTitle();
+                tv_sp_matter_name.setText(matter_name);
                 try {
                     loadEntitiesSpinnerData();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                loadProjectData(selected_project);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                sp_matter_name.setVisibility(View.GONE);
+                ischecked_matter = true;
             }
         });
-        try {
+        {
+            try {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 //        callClientsWebservice();
 //            callTeamMemberWebservice();
+        }
+
+
     }
 
+    public CreateEvent(Meetings meetings1) {
+        meetings = meetings1;
 
+    }
 }

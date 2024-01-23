@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
     String TAG = "TM";
 
 
-    public CommonRelationshipsAdapter(ArrayList<TeamDo> teamList,String Tag,ArrayList<RelationshipsDO> individual_list,ArrayList<RelationshipsDO> entity_client_list,ArrayList<DocumentsDo> documents_list) {
+    public CommonRelationshipsAdapter(ArrayList<TeamDo> teamList, String Tag, ArrayList<RelationshipsDO> individual_list, ArrayList<RelationshipsDO> entity_client_list, ArrayList<DocumentsDo> documents_list) {
 
         this.entity_client_list = entity_client_list;
         this.individual_list = individual_list;
@@ -44,7 +45,7 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
     @NonNull
     @Override
     public CommonRelationshipsAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shared_documents_by_us, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
         return new CommonRelationshipsAdapter.Viewholder(itemView);
     }
 
@@ -67,7 +68,7 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
                     }
                 }
             });
-        }else if(TAG == "INDIVIDUAL"){
+        } else if (TAG == "INDIVIDUAL") {
             RelationshipsDO relationshipsDO = individual_list.get(position);
             holder.cb_documents.setChecked(individual_list.get(position).isChecked());
             holder.cb_documents.setTag(position);
@@ -83,7 +84,7 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
                     }
                 }
             });
-        }else if(TAG =="Documents"){
+        } else if (TAG == "Documents") {
             DocumentsDo documentsDo = documents_list.get(position);
             holder.cb_documents.setChecked(documents_list.get(position).isChecked());
             holder.cb_documents.setTag(position);
@@ -99,7 +100,7 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
                     }
                 }
             });
-        }else {
+        } else {
             RelationshipsDO relationshipsDO = entity_client_list.get(position);
             holder.cb_documents.setChecked(entity_client_list.get(position).isChecked());
             holder.cb_documents.setTag(position);
@@ -131,11 +132,12 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
         return tmList;
     }
 
-    public ArrayList<RelationshipsDO> getEntity_client_list(){
+    public ArrayList<RelationshipsDO> getEntity_client_list() {
         return entity_client_list;
     }
-    public ArrayList<DocumentsDo> getDocuments_list(){
-        return  documents_list;
+
+    public ArrayList<DocumentsDo> getDocuments_list() {
+        return documents_list;
     }
 
     @Override
@@ -147,14 +149,13 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
 //        } else if(TAG == "UGM"){
 //            return groupsList.size();
 //        }
-        if(TAG == "TM")  {
+        if (TAG == "TM") {
             return tmList.size();
-        }
-        else if(TAG == "INDIVIDUAL"){
+        } else if (TAG == "INDIVIDUAL") {
             return individual_list.size();
-        }else if(TAG =="Documents"){
+        } else if (TAG == "Documents") {
             return documents_list.size();
-        }else{
+        } else {
             return entity_client_list.size();
         }
     }
@@ -171,12 +172,21 @@ public class CommonRelationshipsAdapter extends RecyclerView.Adapter<CommonRelat
 
     public class Viewholder extends RecyclerView.ViewHolder {
         private TextView tv_tm_name;
+        private View list_line;
+        private LinearLayout select_tm_layout;
         private CheckBox cb_documents;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             cb_documents = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
+            select_tm_layout = itemView.findViewById(R.id.select_tm_layout);
+            list_line = itemView.findViewById(R.id.list_line);
+            list_line.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 0);
+            select_tm_layout.setLayoutParams(params);
+            select_tm_layout.setBackgroundResource(com.applandeo.materialcalendarview.R.drawable.background_transparent);
         }
     }
 }

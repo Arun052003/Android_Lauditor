@@ -1,104 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_timesheet_type"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:visibility="visible"
         android:orientation="horizontal"
-        android:padding="5dp"
-        android:paddingTop="@dimen/twenty_dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.013"
 
         >
 
-        <TextView
+        <include
             android:id="@+id/tv_create_event"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_left_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Create"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
+            layout="@layout/createmember_layout" />
 
-        </TextView>
-
-        <TextView
+        <include
             android:id="@+id/tv_view_calendar"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_right_green_count"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:text="View"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
-
-        </TextView>
+            layout="@layout/viewmember_layout" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_view_type"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:visibility="visible"
+        android:layout_marginTop="-20dp"
         android:orientation="horizontal"
-        android:padding="5dp"
-        android:paddingTop="@dimen/twenty_dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_timesheet_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_timesheet_type"
         app:layout_constraintVertical_bias="0.03">
 
-        <TextView
+        <include
             android:id="@+id/tv_day_view"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_left_green_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Week"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
+            layout="@layout/createmember_layout" />
 
-        </TextView>
-
-        <TextView
+        <include
             android:id="@+id/tv_month_view"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_right_background"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:text="Month"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp">
-
-        </TextView>
+            layout="@layout/viewmember_layout" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ScrollView

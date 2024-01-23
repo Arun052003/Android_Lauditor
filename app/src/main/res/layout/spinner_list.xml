@@ -5,6 +5,7 @@
     android:layout_marginStart="3dp"
     android:layout_marginEnd="5dp"
     android:background="@drawable/rectangle_light_grey_bg"
+    android:nestedScrollingEnabled="true"
     android:padding="5dp"
     android:scrollIndicators="right"
     android:scrollbars="vertical"

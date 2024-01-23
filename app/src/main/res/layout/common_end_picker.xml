@@ -1,85 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:layout_weight="1"
-    android:weightSum="1"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="5dp"-->
-<!--        android:layout_weight="1"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0"-->
-<!--        android:orientation="vertical">-->
+    android:weightSum="1">
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="5dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0"-->
+    <!--        android:orientation="vertical">-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_margin="@dimen/left_space"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/to_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:text="@string/event_end_time"
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/Fifteen_dp">
 
         </TextView>
 
-        <ImageView
+        <include
             android:id="@+id/mandatory_end_date"
-            android:layout_width="15dp"
-            android:layout_height="10dp"
-            android:layout_toRightOf="@id/to_date"
-            android:src="@drawable/asterisk_icon">
-
-        </ImageView>
-        <ImageButton
-            android:id="@+id/cancel_button_end_date"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:visibility="gone"
-            android:layout_gravity="end"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/cancel_red_icon">
-
-        </ImageButton>
+            layout="@layout/astrick_layout"
+            android:layout_width="10dp"
+            android:layout_height="15dp"
+            android:layout_toEndOf="@id/to_date" />
     </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:textColorHint="@color/black"
-            app:boxBackgroundMode="none">
-
-            <!--this is the actual edit text which takes the input-->
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tv_event_end_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:focusable="false"
-                android:background="@drawable/rectangle_grey_background"
-                android:drawableRight="@drawable/calendar_activity"
-                android:editable="false"
-                android:gravity="start"
-                android:hint="00:00AM"
-                android:imeOptions="actionDone" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-<!--    </LinearLayout>-->
+    <ImageView
+        android:id="@+id/cancel_button_end_date"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/left_space"
+        android:layout_marginTop="@dimen/left_space"
+        android:layout_marginEnd="@dimen/small_size"
+        android:layout_marginBottom="@dimen/left_space"
+        android:src="@drawable/cancel_red_icon"
+        android:visibility="gone" />
+    <!--this is the actual edit text which takes the input-->
+    <include
+        android:id="@+id/tv_event_end_time"
+        layout="@layout/button_calender" />
+    <!--    </LinearLayout>-->
 </LinearLayout>

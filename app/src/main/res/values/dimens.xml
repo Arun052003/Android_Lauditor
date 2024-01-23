@@ -8,6 +8,7 @@
     <dimen name="twenty_dp">20sp</dimen>
     <dimen name="Fifteen_dp">15sp</dimen>
     <dimen name="Twelve_dp">12sp</dimen>
+    <dimen name="left_space">4sp</dimen>
     <dimen name="small_size">10sp</dimen>
     <dimen name="thirty_dp">30dp</dimen>
     <dimen name="Fifty_dp">50dp</dimen>
