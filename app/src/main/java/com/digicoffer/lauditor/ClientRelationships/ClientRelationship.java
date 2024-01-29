@@ -1,5 +1,8 @@
 package com.digicoffer.lauditor.ClientRelationships;
 
+import static org.jivesoftware.smackx.jingle.element.JingleReason.Cancel;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,6 +66,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     ArrayList<RelationshipsModel> relationshipsList = new ArrayList<>();
     String TAG = "";
     private NewModel mViewModel;
+    TextView email,confirm_email,first_name,last_name,country, Contact_phno ,contact_person;
     String value = "";
     String Relationship_Type = "";
     EntitySearchModel entitySearchModel;
@@ -72,7 +76,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     LinearLayout ll_entity_name, ll_contact_person, ll_first_name, ll_last_name, ll_contatc_phone,ll_search_individual,ll_search_entity,ll_relationships,ll_select_all,ll_groups;
     TextInputEditText et_search_relationships, et_search_individual,et_search_view_relationships, tv_individual_email, tv_individual_confirm_email, tv_individual_firstname, tv_individual_last_name, tv_entity_name, tv_entity_contact_person, tv_entity_phone_number;
     Button btn_search_individual, btn_relationships_cancel, btn_send_request,btn_search_entity;
-    TextView tv_response;
+    TextView tv_response,entity_name;
     AutoCompleteTextView at_search_entity;
     TextInputLayout tl_individual_country;
     String entity_id = "";
@@ -172,6 +176,22 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         rg_relationship = view.findViewById(R.id.relationship);
         sv_relationships = (ScrollView) view.findViewById(R.id.sv_relationships);
         rb_add_relationship = view.findViewById(R.id.add_relationship);
+        email = view.findViewById(R.id.email);
+        email.setText("Email");
+        confirm_email =  view.findViewById(R.id.confirm_email);
+        confirm_email.setText("Confirm Email");
+        first_name = view.findViewById(R.id.first_name);
+        first_name.setText("First Name");
+        last_name = view.findViewById(R.id.last_name);
+        last_name.setText("Last Name");
+        country =view.findViewById(R.id.country);
+        country.setText("Country");
+        Contact_phno = view.findViewById(R.id.Contact_phno);
+        Contact_phno.setText("Contact Phone Number");
+        entity_name = view.findViewById(R.id.entity_name);
+        entity_name.setText("Entity Name");
+        contact_person = view.findViewById(R.id.contact_person);
+        contact_person.setText("Contact Person");
         rb_view_relationships = view.findViewById(R.id.view_relationship);
         rg_individual_entity = view.findViewById(R.id.entity);
         rb_individual = view.findViewById(R.id.add_individiual);
@@ -189,34 +209,48 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         ll_contatc_phone = view.findViewById(R.id.ll_entity_number);
         sp_country = view.findViewById(R.id.sp_country);
         at_search_entity = view.findViewById(R.id.ac_search_entity);
+        at_search_entity.setHint("Search");
+
         et_search_individual = view.findViewById(R.id.et_search_individual);
+        et_search_individual.setHint("Search");
         btn_search_individual = view.findViewById(R.id.btn_search_individual);
         btn_search_entity = view.findViewById(R.id.btn_search_entity);
         et_search_relationships = view.findViewById(R.id.et_search_relationships);
+        et_search_relationships.setHint("Search Groups");
         tv_response = view.findViewById(R.id.tv_response);
         cv_details = view.findViewById(R.id.cv_details);
         chk_select_all = view.findViewById(R.id.chk_select_all);
         tv_individual_email = view.findViewById(R.id.tv_individual_email);
+        tv_individual_email.setHint("Email");
         tv_entity_contact_person = view.findViewById(R.id.tv_entity_contact_person);
+        tv_entity_contact_person.setHint("Contact Person");
         tv_entity_name = view.findViewById(R.id.tv_entity_name);
+        tv_entity_name.setHint("Entity Name");
         tv_entity_phone_number = view.findViewById(R.id.tv_entity_phone_number);
+        tv_entity_phone_number.setHint("Contact Phone Number");
         ll_relationships = view.findViewById(R.id.ll_relationships);
         et_search_view_relationships = view.findViewById(R.id.et_search_view_relationships);
+        et_search_view_relationships.setHint("Search Relationships");
         tv_individual_confirm_email = view.findViewById(R.id.tv_individual_confirm_email);
+        tv_individual_confirm_email.setHint("Confirm Email");
         tv_individual_email = view.findViewById(R.id.tv_individual_email);
         tl_individual_country = view.findViewById(R.id.tl_individual_country);
         tv_individual_firstname = view.findViewById(R.id.tv_individual_firstname);
+        tv_individual_firstname.setHint("First Name");
         tv_individual_last_name = view.findViewById(R.id.tv_individual_last_name);
+        tv_individual_last_name.setHint("Last Name");
         btn_send_request = view.findViewById(R.id.btn_send_request);
+        btn_send_request.setText("Send Request");
         btn_relationships_cancel = view.findViewById(R.id.btn_relationships_cancel);
+
         enableAlpha();
         btn_search_individual.setOnClickListener(this);
         rb_individual_relationship = view.findViewById(R.id.add_individiual_relationship);
         rb_business_relationship = view.findViewById(R.id.add_entity_relationship);
         btn_search_entity.setOnClickListener(this);
-        rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
-        rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.black));
+
         rg_individual_entity.setVisibility(View.VISIBLE);
+        viewRelationshipsData();
         rg_add_relationships.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -227,6 +261,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rg_relationship.setVisibility(View.GONE);
                         rb_add_relationship.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
+
                         rb_view_relationships.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
                         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.black));
@@ -238,8 +273,10 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rv_relationships.removeAllViews();
                         break;
                     case R.id.view_relationship:
-                        rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+                        rb_individual.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+                        rb_individual.setTextColor(Color.WHITE);
                         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
+                        rb_business_relationship.setTextColor(Color.BLACK);
                         Relationship_Type = "individuals";
                         viewRelationshipsData();
 
@@ -322,6 +359,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.black));
         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.white));
         ll_relationships.setVisibility(View.VISIBLE);
+        rb_individual.setTextColor(Color.WHITE);
         cv_details.setVisibility(View.GONE);
         ll_select_all.setVisibility(View.GONE);
         ll_groups.setVisibility(View.GONE);
