@@ -49,7 +49,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-public class WeeklyCalendar extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener,Events_Adapter.EventListener,WeeklyCalendarAdapter.OnDaySelectedListener {
+public class WeeklyCalendar extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener, Events_Adapter.EventListener, WeeklyCalendarAdapter.OnDaySelectedListener {
     Calendar calendar = Calendar.getInstance();
     WeekDateInfo weekDateInfo;
     String filter = "";
@@ -67,11 +67,12 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     RecyclerView rv_displayEvents;
     String Current_day = "";
     Events_Adapter events_adapter;
-    TextView tv_from_date_timesheet,tv_to_date_timesheet;
+    TextView tv_from_date_timesheet, tv_to_date_timesheet;
     ArrayList<Event_Details_DO> event_details_list = new ArrayList<Event_Details_DO>();
     final java.util.Calendar mCalendar = Calendar.getInstance();
     ArrayList<Events_Do> events_list = new ArrayList<Events_Do>();
     List<EventDay> events = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,11 +80,11 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         ImageButton iv_next_week = v.findViewById(R.id.iv_next_week);
         ImageButton iv_previous_week = v.findViewById(R.id.iv_previous_week);
         rv_displayEvents = (RecyclerView) v.findViewById(R.id.rv_events);
-        rv_week_dates = (RecyclerView)v.findViewById(R.id.rv_week_dates);
+        rv_week_dates = (RecyclerView) v.findViewById(R.id.rv_week_dates);
         tv_from_date_timesheet = (TextView) v.findViewById(R.id.tv_from_date_timesheet);
-        tv_to_date_timesheet = (TextView)v.findViewById(R.id.tv_to_date_timesheet);
+        tv_to_date_timesheet = (TextView) v.findViewById(R.id.tv_to_date_timesheet);
 
-      CurrentWeek();
+        CurrentWeek();
         adapter = new WeeklyCalendarAdapter(days, this::onDaySelected);
         rv_week_dates.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv_week_dates.setAdapter(adapter);
@@ -167,6 +168,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     public void onClick(View v) {
 
     }
+
     private void showPreviousWeek() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         cal = Calendar.getInstance();
@@ -208,7 +210,6 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         tv_from_date_timesheet.setText(fromDate);
         tv_to_date_timesheet.setText(toDate);
     }
-
 
 
     private void showNextWeek() {
@@ -253,15 +254,17 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         tv_from_date_timesheet.setText(fromDate);
         tv_to_date_timesheet.setText(toDate);
     }
+
     public interface EventDetailsListener {
         void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type);
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 //        if (context instanceof EventDetailsListener) {
         try {
-            Log.d("Interface","Interface Called");
+            Log.d("Interface", "Interface Called");
             eventDetailsListener = (EventDetailsListener) getParentFragment();
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,6 +274,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 //                    + " must implement EventDetailsListener");
 //        }
     }
+
     private void callEventListwebservice(String filter) {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postData = new JSONObject();
@@ -310,10 +314,9 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         WeekDateInfo weekDateInfo = new WeekDateInfo(startDate + " - " + endDate, weekDates);
         return weekDateInfo;
     }
+
     @Override
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
-        if (progress_dialog != null && progress_dialog.isShowing())
-            AndroidUtils.dismiss_dialog(progress_dialog);
         try {
             if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
                 try {
@@ -325,8 +328,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                         } else {
                             AndroidUtils.showAlert(result.getString("msg"), getContext());
                         }
-                    }
-                    else if (httpResult.getRequestType().equals("EVENT DETAILS")) {
+                    } else if (httpResult.getRequestType().equals("EVENT DETAILS")) {
                         if (!result.getBoolean("error")) {
                             event_details_list.clear();
 //                            load_event_details(result.getJSONObject("event"), event_id);
@@ -350,10 +352,13 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                     e.printStackTrace();
                 }
             }
+            if (progress_dialog != null && progress_dialog.isShowing())
+                AndroidUtils.dismiss_dialog(progress_dialog);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void loadEvents(JSONArray jsonArray) {
         try {
             Events_Do events_do;
@@ -370,10 +375,10 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                 if (jsonObject.has("matter_id")) {
                     events_do.setMatter_id(jsonObject.getString("matter_id"));
                 }
-                if (jsonObject.has("matter_name")){
+                if (jsonObject.has("matter_name")) {
                     events_do.setMatter_name(jsonObject.getString("matter_name"));
                 }
-                if(jsonObject.has("matter_type")){
+                if (jsonObject.has("matter_type")) {
                     events_do.setMatter_type(jsonObject.getString("matter_type"));
                 }
                 events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
@@ -399,12 +404,12 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                 String event_end_time = AndroidUtils.getDateToString(event_date2, "HH:mm a");
                 events_do.setCOnverted_End_time(event_end_time);
                 String converted_from_ts = AndroidUtils.getDateToString(event_date, "yyyy-MM-dd");
-                String converted_to_ts = AndroidUtils.getDateToString(event_date2,"yyyy-MM-dd");
-                String converted_day = AndroidUtils.getDateToString(event_date,"dd");
-                int year = Integer.parseInt(AndroidUtils.getDateToString(event_date,"yyyy"));
+                String converted_to_ts = AndroidUtils.getDateToString(event_date2, "yyyy-MM-dd");
+                String converted_day = AndroidUtils.getDateToString(event_date, "dd");
+                int year = Integer.parseInt(AndroidUtils.getDateToString(event_date, "yyyy"));
 //                System.out.println(events_do.getEvent_Name() + ";" + event_date.getDate() + "-" + event_date.getMonth() + "-" +year);
                 Calendar calendar = Calendar.getInstance();
-                calendar.set(year,event_date.getMonth(),event_date.getDate());
+                calendar.set(year, event_date.getMonth(), event_date.getDate());
                 events.add(new EventDay(calendar, DrawableUtils.getThreeDots(getContext())));
 //                events.add(new EventDay(calendar,DrawableUtils.getDayCircle(getContext(), R.color.blue,R.color.green )));
 //                Log.d("From Start Date", converted_from_ts);
@@ -415,7 +420,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                         break;
                     }
                 }
-                if (converted_from_ts.toString().contains(Currenr_date)||converted_to_ts.toString().contains(Currenr_date)) {
+                if (converted_from_ts.toString().contains(Currenr_date) || converted_to_ts.toString().contains(Currenr_date)) {
 //                    events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
 //                    if (events_do.isRecurring()) {
 //                        events_list.add(events_do);
@@ -439,20 +444,21 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 
             loadRecyclerView();
         } catch (Exception e) {
-            AndroidUtils.showToast(e.getMessage().toString(),getContext());
+            AndroidUtils.showToast(e.getMessage().toString(), getContext());
             e.printStackTrace();
         }
     }
+
     private void loadRecyclerView() throws Exception {
         try {
             rv_displayEvents.setLayoutManager(new GridLayoutManager(getContext(), 1));
             for (Events_Do event : events_list) {
-                Log.d("Event List",event.getEvent_Name());
+                Log.d("Event List", event.getEvent_Name());
             }
-            events_adapter = new Events_Adapter(events_list, this,getContext(),getActivity());
+            events_adapter = new Events_Adapter(events_list, this, getContext(), getActivity());
             rv_displayEvents.setAdapter(events_adapter);
         } catch (Exception e) {
-            AndroidUtils.showToast(e.getMessage(),getContext());
+            AndroidUtils.showToast(e.getMessage(), getContext());
             e.printStackTrace();
         }
     }
@@ -460,9 +466,9 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     @Override
     public void onEvent(ArrayList<Event_Details_DO> event_details_list) {
         if (eventDetailsListener != null) {
-            Log.d("EventsList",event_details_list.toString());
-            String Calendar_Type ="Weekly";
-            eventDetailsListener.onEventDetailsPassed(event_details_list,Calendar_Type);
+            Log.d("EventsList", event_details_list.toString());
+            String Calendar_Type = "Weekly";
+            eventDetailsListener.onEventDetailsPassed(event_details_list, Calendar_Type);
         }
     }
 
@@ -474,6 +480,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             callDeleteEventwebservice(event_id, recurring_edit_choice);
         }
     }
+
     private void callDeleteEventwebservice(String id, String recurring_choice) {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postData = new JSONObject();
@@ -489,6 +496,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 
 
     }
+
     private void delete_event(final String event_id) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -514,7 +522,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             ad_dialog = dialog;
             Button delete = (Button) dialogLayout.findViewById(R.id.delete_event);
 
-            ImageButton btn_close_event = (ImageButton)dialogLayout.findViewById(R.id.btn_close_event);
+            ImageButton btn_close_event = (ImageButton) dialogLayout.findViewById(R.id.btn_close_event);
             btn_close_event.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

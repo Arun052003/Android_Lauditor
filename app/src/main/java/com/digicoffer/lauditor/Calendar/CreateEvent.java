@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +66,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,12 +81,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     private static String ADAPTER_TAG = "";
     private AlertDialog progressDialog;
     MultiAutoCompleteTextView at_family_members;
-    CardView cv_meeting_details;
+    CardView cv_meeting_details, cv_add_clients;
     int temp = 0;
     int end = 0;
-
-    int startMinute = 0;
+    String time_value;
     int endMinute = 0;
+    int startMinute = 0;
     final ArrayList<String> Repetetions = new ArrayList<>();
     JSONArray notification = new JSONArray();
     LinearLayout ll_client_team_members, ll_documents_list, ll_attach_document, ll_selected_entites, selected_individual, ll_individual_list, ll_selected_team_members, selected_tm, selected_groups;
@@ -100,9 +104,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     int offset;
     private Button btn_add_groups, btn_attach_document, btn_create_event, btn_add_clients, btn_assigned_clients, btn_individual;
     String team_member_id;
-    String start_time;
+    int start_time = 0;
     String Starttime1;
-    String end_time;
+    int end_time = 0;
     int adapter_position = 0;
     ArrayList<RelationshipsDO> entities_list = new ArrayList<>();
     ArrayList<RelationshipsDO> individual_list = new ArrayList<>();
@@ -127,7 +131,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     private String entity_id;
     Hashtable<String, Integer> timesPosHash = new Hashtable<>();
     ArrayList<TimeZonesDO> timeZonesList = new ArrayList<TimeZonesDO>();
-    private LinearLayout ll_project, selected_attached_documents, ll_matter_name, ll_message, ll_task, ll_repetetion, ll_add_notification;
+    private LinearLayout ll_project, selected_attached_documents, ll_matter_name, ll_message, ll_task, ll_repetetion, ll_add_notification, ll_add_groups, ll_add_entities, ll_individual, ll_documents_view, ll_assign_clients;
     ArrayList<CalendarDo> projectList = new ArrayList<>();
     ArrayList<ViewMatterModel> matterList = new ArrayList<>();
     ArrayList<DocumentsDo> documents_list = new ArrayList<>();
@@ -167,6 +171,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         sp_time_zone = view.findViewById(R.id.sp_time_zone);
         sp_time_zone.setVisibility(View.GONE);
 
+
         tv_sp_time_zone = view.findViewById(R.id.tv_sp_time_zone);
         tv_sp_repetetion = view.findViewById(R.id.tv_sp_repetetion);
         sp_repetetion = view.findViewById(R.id.sp_repetetion);
@@ -187,7 +192,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         cb_all_day.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
         btn_cancel_event = view.findViewById(R.id.btn_cancel_event);
         Time_duration = view.findViewById(R.id.Time_duration);
-        Time_duration.setVisibility(View.GONE);
+//        Time_duration.setVisibility(View.GONE);
         tv_project_name = view.findViewById(R.id.tv_project_name);
         tv_project_name.setText("Event Type");
         tv_sp_project = view.findViewById(R.id.tv_sp_project);
@@ -223,6 +228,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         sp_entities.setVisibility(View.GONE);
 //       isAllDay = cb_all_day.isChecked();
         cv_meeting_details = view.findViewById(R.id.cv_meeting_details);
+        cv_add_clients = view.findViewById(R.id.cv_add_clients);
+        cv_add_clients.setVisibility(View.GONE);
+
         cb_add_to_timesheet = view.findViewById(R.id.cb_add_to_timesheet);
         cb_add_to_timesheet.setText("Add To Timesheet");
         cb_add_to_timesheet.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
@@ -286,10 +294,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         btn_assigned_clients.setOnClickListener(this);
         tv_event_creation_date = view.findViewById(R.id.tv_event_creation_date);
         tv_event_creation_date.setOnClickListener(this);
+        tv_event_creation_date.setHint(R.string.date);
         tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
         tv_event_start_time.setOnClickListener(this);
         tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
         tv_event_end_time.setOnClickListener(this);
+        tv_event_end_time.setHint(R.string.to);
         selected_attached_documents = view.findViewById(R.id.selected_attached_documents);
         tv_meeting_link = view.findViewById(R.id.tv_meeting_link1);
         tv_meeting_link.setHint(R.string.meeting_link);
@@ -302,9 +312,17 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ll_project = view.findViewById(R.id.ll_project);
 
         ll_task = view.findViewById(R.id.ll_task);
+        ll_task.setVisibility(View.GONE);
         ll_repetetion = view.findViewById(R.id.ll_repetetion);
         ll_repetetion.setVisibility(View.GONE);
+        ll_add_groups = view.findViewById(R.id.ll_add_groups);
+        ll_assign_clients = view.findViewById(R.id.ll_assign_clients);
+        ll_assign_clients.setVisibility(View.GONE);
+        ll_add_entities = view.findViewById(R.id.ll_add_entities);
+//        ll_assign_clients = view.findViewById(R.id.ll_assign_team_members);
 
+        ll_documents_view = view.findViewById(R.id.ll_documents_view);
+        ll_individual = view.findViewById(R.id.ll_individual);
 
         tv_sp_task_name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -449,10 +467,14 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selected_project = projectList.get(position).getProjectName();
                 tv_sp_project.setText(selected_project);
-                loadProjectData(selected_project);
                 ischecked_project = true;
                 ll_repetetion.setVisibility(View.VISIBLE);
+                ll_task.setVisibility(View.VISIBLE);
+                selected_task = "";
+                tv_sp_task_name.setText("");
+                sp_task.setVisibility(View.GONE);
                 sp_project.setVisibility(View.GONE);
+                loadProjectData(selected_project);
             }
         });
         return view;
@@ -524,136 +546,91 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                         tv_event_creation_date.setText(sdf.format(myCalendar.getTime()));
                     }
                 };
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.BlueDatePickerDialogTheme, date, myCalendar.get(java.util.Calendar.YEAR), myCalendar.get(java.util.Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(java.util.Calendar.YEAR), myCalendar.get(java.util.Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
                 break;
             case R.id.tv_event_start_time:
-                final Calendar c = Calendar.getInstance();
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minute = c.get(Calendar.MINUTE);
+                if (tv_event_creation_date.getText().equals("")) {
+                    AndroidUtils.showAlert("Please First Select the Date", getContext());
+                } else {
+                    final Calendar c = Calendar.getInstance();
+                    int hour = c.get(Calendar.HOUR_OF_DAY);
+                    int minute = c.get(Calendar.MINUTE);
 
-                final TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                        new TimePickerDialog.OnTimeSetListener() {
+                    final TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog,
+                            new TimePickerDialog.OnTimeSetListener() {
 
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-                                int baseT = 24;
-
-                                Float baseM = 60.0F;
-                                Float minuteValue = 0.0F;
-                                if (hourOfDay < 12) {
-                                    AM_PM[0] = "  AM";
-                                    temp = hourOfDay;
-                                } else {
-                                    AM_PM[0] = "  PM";
-                                    temp = baseT - hourOfDay;
-                                }
-                                if (minute > 0) {
-                                    startMinute = 60 - minute;
-                                }
-//                                AndroidUtils.showToast("" + temp, getContext());
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+                                    if (hourOfDay < 12) {
+                                        AM_PM[0] = "  AM";
+                                    } else {
+                                        AM_PM[0] = "  PM";
+                                    }
+                                    start_time = hourOfDay;
+                                    startMinute = minute;
+                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
 //                                start_time = hourOfDay + ":" + minute;
-                                Starttime1 = (24 - hourOfDay) + ":" + (minute);
-                                tv_event_start_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-                            }
-                        }, hour, minute, false);
-                timePickerDialog.show();
+                                    tv_event_start_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
+                                }
+                            }, hour, minute, false);
+                    timePickerDialog.setTitle("Select Start Time");
+                    timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    timePickerDialog.show();
+
+                }
                 break;
             case R.id.tv_event_end_time:
-                final Calendar calendar = Calendar.getInstance();
-                mHour[0] = calendar.get(Calendar.HOUR_OF_DAY);
-                mMinute[0] = calendar.get(Calendar.MINUTE);
+                if (tv_event_creation_date.getText().equals("")) {
+                    AndroidUtils.showAlert("Please First Select the Date", getContext());
+                } else if (tv_event_start_time.getText().equals("")) {
+                    AndroidUtils.showAlert("Please Select the Start Time", getContext());
+                } else {
+                    final Calendar calendar = Calendar.getInstance();
+                    mHour[0] = calendar.get(Calendar.HOUR_OF_DAY);
+                    mMinute[0] = calendar.get(Calendar.MINUTE);
 
-                // Launch Time Picker Dialog
-                final TimePickerDialog timePickerDialog_end_time = new TimePickerDialog(getContext(),
-                        new TimePickerDialog.OnTimeSetListener() {
+                    // Launch Time Picker Dialog
+                    final TimePickerDialog timePickerDialog_end_time = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog,
+                            new TimePickerDialog.OnTimeSetListener() {
 
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                int baseT = 24;
-                                final Calendar c = Calendar.getInstance();
-                                mHour[0] = c.get(Calendar.HOUR_OF_DAY);
-                                mMinute[0] = c.get(Calendar.MINUTE);
-                                if (hourOfDay < 12) {
-                                    AM_PM[0] = "  AM";
-                                    end = hourOfDay;
-                                } else {
-                                    AM_PM[0] = "  PM";
-                                    end = baseT - hourOfDay;
-                                    //end = baseT - hourOfDay;
-                                }
-                                if (minute > 0) {
-                                    endMinute = minute;
-                                }
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-                                tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-                                end_time = tv_event_end_time.getText().toString();
-                                start_time = tv_event_start_time.getText().toString();
-                                Date event_end_date, event_start_date;
-                                event_end_date = AndroidUtils.stringToDateTimeDefault(end_time, "hh:mm");
-
-                                event_start_date = AndroidUtils.stringToDateTimeDefault(start_time, "hh:mm");
-
-                                if (event_end_date.getTime() > event_start_date.getTime()) {
-                                    int x = temp + end, min_x = startMinute + endMinute;
-                                    long differenceInMilliSeconds = Math.abs(event_start_date.getTime() - event_end_date.getTime());
-                                    long differenceInHours = (differenceInMilliSeconds / (60 * 60 * 1000)) % 24;
-                                    long differenceInMinutes = (differenceInMilliSeconds / (60 * 1000)) % 60;
-                                    if ((min_x) > 60) {
-                                        x = x + 1;
-                                        min_x = (min_x) - 60;
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay,
+                                                      int minute) {
+                                    final Calendar c = Calendar.getInstance();
+                                    mHour[0] = c.get(Calendar.HOUR_OF_DAY);
+                                    mMinute[0] = c.get(Calendar.MINUTE);
+                                    if (hourOfDay < start_time) {
+                                        AndroidUtils.showAlert("Please select End Time with in this Date", getContext());
+                                        tv_event_end_time.setText("");
+                                    } else {
+                                        if (hourOfDay < 12) {
+                                            AM_PM[0] = "  AM";
+                                        } else {
+                                            AM_PM[0] = "  PM";
+                                        }
+                                        tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
+                                        end_time = hourOfDay;
+                                        endMinute = minute;
+                                        LocalTime st_time = LocalTime.of(start_time, startMinute);
+                                        LocalTime ed_time = LocalTime.of(end_time, endMinute);
+                                        Duration t_d;
+                                        t_d = Duration.between(st_time, ed_time);
+                                        Time_duration.setText("Time Duration : " + t_d.toHours() + " : " + t_d.toMinutes() % 60);
                                     }
-                                    String duration = (x - 1) + ":" + (min_x);
-                                    Time_duration.setText("Duration : " + duration);
-                                } else {
-                                    Integer x = temp + end;
-                                    int min_x = startMinute + endMinute;
-//                                    AndroidUtils.showToast("Endtime = "+end_time,getContext());
-                                    event_end_date = AndroidUtils.stringToDateTimeDefault(end_time, "hh:mm");
-                                    event_start_date = AndroidUtils.stringToDateTimeDefault(start_time, "hh:mm");
-                                    long differenceInMilliSeconds = Math.abs(event_end_date.getTime() + event_start_date.getTime());
-                                    long differenceInHours = (differenceInMilliSeconds / (60 * 60 * 1000)) % 12;
-                                    long differenceInMinutes = (differenceInMilliSeconds / (60 * 1000)) % 60;
-                                    if ((min_x) > 60) {
-                                        x += 1;
-                                        min_x = min_x - 60;
-                                    }
-                                    String duration = (x - 1) + ":" + (min_x);
-                                    Time_duration.setText("Duration : " + duration);
                                 }
-
-//                                try {
-//                                    Date start_time1=sdf.parse(start_time);
-//                                    Date end_time1=sdf.parse(end_time);
-//
-//                                    long time_duration=start_time1.getTime()-end_time1.getTime();
-//                                    long hrs=(time_duration/(1000*60*60))%24;
-//                                    long min=(time_duration/(1000*60))%60;
-//
-////                                    Time_duration.setText(hrs+"   ,   "+min);
-//                                } catch (ParseException e) {
-//                                    throw new RuntimeException(e);
-//                                }
-
-//                                Integer time_duration=end_time-start_time;
-//                                if(time_duration<0)
-//                                {
-//                                    time_duration=-(time_duration);
-//                                }
-//                                time= String.valueOf(time_duration);
-                            }
-                        }, mHour[0], mMinute[0], false);
-                timePickerDialog_end_time.show();
+                            }, mHour[0], mMinute[0], false);
+                    timePickerDialog_end_time.setTitle("Select End Time");
+                    timePickerDialog_end_time.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    timePickerDialog_end_time.show();
+                }
                 break;
             case R.id.add_notification:
                 NotificationPopup();
                 break;
-            case R.id.btn_cancel_event:
+            case R.id.btn_cancel_timesheet:
                 AndroidUtils.showToast("Event is not Created", getContext());
                 loadClearedLists();
                 meetings.loadView();
@@ -697,27 +674,8 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void load_documents_Popup() {
         try {
-
 //            documents_list.clear();
-            if (documents_list.size() == 0) {
-                for (int i = 0; i < matterList.size(); i++) {
-                    if (matter_id.equals(matterList.get(i).getId())) {
-                        JSONArray documents = matterList.get(i).getDocuments();
-                        for (int j = 0; j < documents.length(); j++) {
-                            DocumentsDo documentsDo = new DocumentsDo();
-                            JSONObject jsonObject = documents.getJSONObject(j);
-                            documentsDo.setDocid(jsonObject.getString("docid"));
-                            documentsDo.setDoctype(jsonObject.getString("doctype"));
-                            documentsDo.setName(jsonObject.getString("name"));
-                            documentsDo.setUser_id(jsonObject.getString("user_id"));
-                            documents_list.add(documentsDo);
-                        }
-                    }
-                }
-            }
-            if (documents_list.size() == 0) {
-                AndroidUtils.showToast("No document to show", getContext());
-            } else {
+            if (!(documents_list.size() == 0)) {
                 for (int i = 0; i < documents_list.size(); i++) {
                     for (int j = 0; j < selected_documents_list.size(); j++) {
                         if (documents_list.get(i).getDocid().matches(selected_documents_list.get(j).getDocid())) {
@@ -1265,21 +1223,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void TeamMembersPopup() {
         try {
-//            teamList.clear();
-            if (teamList.size() == 0) {
-                for (int i = 0; i < matterList.size(); i++) {
-                    if (matter_id.equals(matterList.get(i).getId())) {
-                        JSONArray team_members = matterList.get(i).getMembers();
-                        for (int j = 0; j < team_members.length(); j++) {
-                            TeamDo teamModel = new TeamDo();
-                            JSONObject jsonObject = team_members.getJSONObject(j);
-                            teamModel.setId(jsonObject.getString("id"));
-                            teamModel.setName(jsonObject.getString("name"));
-                            teamList.add(teamModel);
-                        }
-                    }
-                }
-            }
             for (int i = 0; i < teamList.size(); i++) {
                 for (int j = 0; j < selected_tm_list.size(); j++) {
                     if (teamList.get(i).getId().matches(selected_tm_list.get(j).getId())) {
@@ -1290,42 +1233,44 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
             }
             selected_tm_list.clear();
-            if (teamList.size() == 0) {
-                AndroidUtils.showToast("No Team Members to View", getContext());
-            } else {
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                rv_groups_view.setLayoutManager(layoutManager);
-                rv_groups_view.setHasFixedSize(true);
-                ADAPTER_TAG = "TM";
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            rv_groups_view.setLayoutManager(layoutManager);
+            rv_groups_view.setHasFixedSize(true);
+            ADAPTER_TAG = "TM";
 
-                CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
-                rv_groups_view.setAdapter(documentsAdapter);
-                btn_add_groups.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (int i = 0; i < documentsAdapter.getTmList().size(); i++) {
-                            TeamDo teamModel = documentsAdapter.getTmList().get(i);
-                            if (teamModel.isChecked()) {
-                                if (!selected_tm_list.contains(teamModel)) {
-                                    selected_tm_list.add(teamModel);
+            CommonRelationshipsAdapter documentsAdapter = new CommonRelationshipsAdapter(teamList, ADAPTER_TAG, individual_list, entity_client_list, documents_list);
+            rv_groups_view.setAdapter(documentsAdapter);
+            btn_add_groups.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int index = 0;
+                    for (int i = 0; i < documentsAdapter.getTmList().size(); i++) {
+                        TeamDo teamModel = documentsAdapter.getTmList().get(i);
+                        if (teamModel.isChecked()) {
+                            if (!selected_tm_list.contains(teamModel)) {
+                                //selected_tm_list.add(teamModel);
+                                selected_tm_list.add(index, teamModel);
+                                index++;
 //                        selected_tm_list.add(teamModel);
-                                    //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                                }
                                 //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                             }
+                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                         }
-                        if (selected_tm_list.size() == 0) {
-                            selected_groups.setVisibility(View.GONE);
-                            at_add_groups.setText("Select Team Members");
-                        } else {
-                            loadSelectedTM();
-                        }
-                        rv_groups_view.setVisibility(View.GONE);
-                        is_clicked_team = true;
                     }
-                });
+                    for (int i = 0; i < selected_tm_list.size(); i++) {
+                        Log.d("List_Item", selected_tm_list.get(i).getName().toString());
+                    }
+                    if (selected_tm_list.size() == 0) {
+                        selected_groups.setVisibility(View.GONE);
+                        at_add_groups.setText("");
+                    } else {
+                        loadSelectedTM();
+                    }
+                    rv_groups_view.setVisibility(View.GONE);
+                    is_clicked_team = true;
+                }
+            });
 
-            }
         } catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -1432,7 +1377,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 //                                ll_selected_team_members.setVisibility(View.GONE);
                             if (selected_tm_list.size() == 0) {
                                 selected_groups.setVisibility(View.GONE);
-                                at_add_groups.setText("Select Team Members");
+                                at_add_groups.setText("");
                             } else {
 //                            selected_groups_list.set(position, groupsModel);
                                 String[] value = new String[selected_tm_list.size()];
@@ -1771,13 +1716,19 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             relationshipsDO.setName(jsonObject.getString("name"));
             entity_client_list.add(relationshipsDO);
         }
-
+        if (entity_client_list.size() == 0) {
+            ll_assign_clients.setVisibility(View.GONE);
+        } else {
+            ll_assign_clients.setVisibility(View.VISIBLE);
+        }
 //        loadSelectedClients();
     }
 
     private void loadEntityClientPopup() {
         try {
             if (entity_client_list.size() == 0) {
+                rv_clients_view.setVisibility(View.GONE);
+                is_clicked_clients = true;
                 AndroidUtils.showToast("No Clients to show", getContext());
             } else {
                 for (int i = 0; i < entity_client_list.size(); i++) {
@@ -1825,13 +1776,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     }
 
     private void loadRelationshipsList(JSONArray jsonArray) throws JSONException {
-        individual_list.clear();
-        entities_list.clear();
+//        individual_list.clear();
+//        entities_list.clear();
         for (int i = 0; i < jsonArray.length(); i++) {
             RelationshipsDO relationshipsDO = new RelationshipsDO();
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 //                String type =   ;
-
             if (jsonObject.getString("type").equals("consumer")) {
                 relationshipsDO.setId(jsonObject.getString("id"));
                 relationshipsDO.setName(jsonObject.getString("name"));
@@ -1848,6 +1798,38 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     }
 
     private void loadEntitiesSpinnerData() throws JSONException {
+        entities_list.clear();
+        individual_list.clear();
+        teamList.clear();
+        documents_list.clear();
+        if (documents_list.size() == 0) {
+            for (int i = 0; i < matterList.size(); i++) {
+                if (matter_id.equals(matterList.get(i).getId())) {
+                    JSONArray documents = matterList.get(i).getDocuments();
+                    for (int j = 0; j < documents.length(); j++) {
+                        DocumentsDo documentsDo = new DocumentsDo();
+                        JSONObject jsonObject = documents.getJSONObject(j);
+                        documentsDo.setDocid(jsonObject.getString("docid"));
+                        documentsDo.setDoctype(jsonObject.getString("doctype"));
+                        documentsDo.setName(jsonObject.getString("name"));
+                        documentsDo.setUser_id(jsonObject.getString("user_id"));
+                        documents_list.add(documentsDo);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < matterList.size(); i++) {
+            if (matter_id.equals(matterList.get(i).getId())) {
+                JSONArray team_members = matterList.get(i).getMembers();
+                for (int j = 0; j < team_members.length(); j++) {
+                    TeamDo teamModel = new TeamDo();
+                    JSONObject jsonObject = team_members.getJSONObject(j);
+                    teamModel.setId(jsonObject.getString("id"));
+                    teamModel.setName(jsonObject.getString("name"));
+                    teamList.add(teamModel);
+                }
+            }
+        }
         if (entities_list.size() == 0) {
             for (int i = 0; i < matterList.size(); i++) {
                 if (matter_id.equals(matterList.get(i).getId())) {
@@ -1855,8 +1837,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     for (int j = 0; j < entities.length(); j++) {
                         RelationshipsDO relationshipsDO = new RelationshipsDO();
                         JSONObject jsonObject = entities.getJSONObject(j);
-//                String type =   ;
-
                         if (jsonObject.getString("type").equals("consumer")) {
                             relationshipsDO.setId(jsonObject.getString("id"));
                             relationshipsDO.setName(jsonObject.getString("name"));
@@ -1872,8 +1852,26 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
             }
         }
-
-
+        if (teamList.size() == 0) {
+            ll_add_groups.setVisibility(View.GONE);
+        } else {
+            ll_add_groups.setVisibility(View.VISIBLE);
+        }
+        if (entities_list.size() == 0) {
+            ll_add_entities.setVisibility(View.GONE);
+        } else {
+            ll_add_entities.setVisibility(View.VISIBLE);
+        }
+        if (individual_list.size() == 0) {
+            ll_individual.setVisibility(View.GONE);
+        } else {
+            ll_individual.setVisibility(View.VISIBLE);
+        }
+        if (teamList.size() == 0 && entities_list.size() == 0 && individual_list.size() == 0) {
+            cv_add_clients.setVisibility(View.GONE);
+        } else {
+            cv_add_clients.setVisibility(View.VISIBLE);
+        }
         final CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), entities_list);
         sp_entities.setAdapter(adapter);
 //        callTimeZoneWebservice();
@@ -1883,6 +1881,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 entity_id = entities_list.get(position).getId();
                 String entity_name = entities_list.get(position).getName();
                 callEntityClientWebservice(entity_id);
+
                 tv_sp_entities.setText(entity_name);
                 sp_entities.setVisibility(View.GONE);
                 is_entities = true;

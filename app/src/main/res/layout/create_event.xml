@@ -754,7 +754,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_assign_team_members"
+                    android:id="@+id/ll_assign_clients"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/selected_clients"
@@ -809,8 +809,8 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:layout_marginStart="@dimen/left_space"
+                            android:layout_marginTop="10dp"
                             android:layout_marginEnd="@dimen/left_space"
                             android:orientation="horizontal">
 
@@ -887,14 +887,14 @@
                         android:layout_below="@id/ll_assign_team_members"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/left_space"
-                            android:layout_marginEnd="@dimen/left_space"
                             android:layout_marginTop="10dp"
+                            android:layout_marginEnd="@dimen/left_space"
                             android:orientation="horizontal">
 
                             <include
@@ -912,7 +912,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_attach_document"
+                        android:id="@+id/ll_documents_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@id/selected_clients"
@@ -922,64 +922,71 @@
                         android:orientation="vertical"
                         android:visibility="visible">
 
-
-                        <include
-                            android:id="@+id/tv_attach_document"
-                            layout="@layout/group_layout" />
-
-                        <include
-                            android:id="@+id/at_attach_document"
-                            layout="@layout/spinner_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp" />
-
-                        <include
-                            android:id="@+id/rv_documents_view"
-                            layout="@layout/recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:layout_marginStart="@dimen/left_space"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginEnd="@dimen/small_size"
-                            android:layout_marginBottom="@dimen/small_size" />
-                    </LinearLayout>
-
-                    <include
-                        android:id="@+id/btn_attach_document"
-                        layout="@layout/submit_button"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_margin="@dimen/left_space" />
-
-                    <LinearLayout
-                        android:id="@+id/selected_attached_documents"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@id/ll_assign_team_members"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
                         <LinearLayout
-
+                            android:id="@+id/ll_attach_document"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <include
-                                android:id="@+id/tv_selected_document"
-                                layout="@layout/group_layout" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/ll_documents_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical">
 
+
+                            <include
+                                android:id="@+id/tv_attach_document"
+                                layout="@layout/group_layout" />
+
+                            <include
+                                android:id="@+id/at_attach_document"
+                                layout="@layout/spinner_text_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp" />
+
+                            <include
+                                android:id="@+id/rv_documents_view"
+                                layout="@layout/recyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:layout_marginStart="@dimen/left_space"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginEnd="@dimen/small_size"
+                                android:layout_marginBottom="@dimen/small_size" />
+                        </LinearLayout>
+
+                        <include
+                            android:id="@+id/btn_attach_document"
+                            layout="@layout/submit_button"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_margin="@dimen/left_space" />
+
+                        <LinearLayout
+                            android:id="@+id/selected_attached_documents"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/ll_assign_team_members"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <include
+                                    android:id="@+id/tv_selected_document"
+                                    layout="@layout/group_layout" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_documents_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            </LinearLayout>
                         </LinearLayout>
 
                     </LinearLayout>
