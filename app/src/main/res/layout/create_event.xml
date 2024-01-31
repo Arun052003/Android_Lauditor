@@ -375,15 +375,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <TextView
+                        <include layout="@layout/group_layout"
                             android:id="@+id/Time_duration"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/gill_sans"
-                            android:gravity="center_vertical"
+                            android:layout_height="wrap_content"
                             android:text="Duration : "
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="@dimen/Fifteen_dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

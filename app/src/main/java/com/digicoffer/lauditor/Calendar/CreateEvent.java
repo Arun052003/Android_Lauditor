@@ -83,6 +83,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     MultiAutoCompleteTextView at_family_members;
     CardView cv_meeting_details, cv_add_clients;
     int temp = 0;
+    TimePickerDialog timePickerDialog;
     int end = 0;
     String time_value;
     int endMinute = 0;
@@ -192,6 +193,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         cb_all_day.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
         btn_cancel_event = view.findViewById(R.id.btn_cancel_event);
         Time_duration = view.findViewById(R.id.Time_duration);
+        Time_duration.setText("Duration : ");
 //        Time_duration.setVisibility(View.GONE);
         tv_project_name = view.findViewById(R.id.tv_project_name);
         tv_project_name.setText("Event Type");
@@ -470,8 +472,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 ischecked_project = true;
                 ll_repetetion.setVisibility(View.VISIBLE);
                 ll_task.setVisibility(View.VISIBLE);
+
                 selected_task = "";
                 tv_sp_task_name.setText("");
+                matter_name = "";
+                tv_sp_matter_name.setText("");
                 sp_task.setVisibility(View.GONE);
                 sp_project.setVisibility(View.GONE);
                 loadProjectData(selected_project);
@@ -526,6 +531,48 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         }
     }
 
+    private void Show_Time_picker(boolean is_start, String title) {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        timePickerDialog = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                if (hourOfDay < 12) {
+                    AM_PM[0] = "  AM";
+                } else {
+                    AM_PM[0] = "  PM";
+                }
+                if (is_start) {
+                    start_time = hourOfDay;
+                    startMinute = minute;
+                    tv_event_start_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
+                } else {
+                    if (hourOfDay < start_time) {
+                        AndroidUtils.showAlert("Please select End Time with in this Date", getContext());
+                        tv_event_end_time.setText("");
+                        Time_duration.setText("Duration : ");
+                    } else {
+                        tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
+                        end_time = hourOfDay;
+                        endMinute = minute;
+                        display_duration();
+                    }
+                }
+            }
+        }, hour, minute, false);
+        timePickerDialog.setTitle(title);
+        timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        timePickerDialog.show();
+    }
+
+    private void display_duration() {
+        LocalTime st_time = LocalTime.of(start_time, startMinute);
+        LocalTime ed_time = LocalTime.of(end_time, endMinute);
+        Duration t_d = Duration.between(st_time, ed_time);
+        Time_duration.setText("Duration : " + t_d.toHours() + " Hours," + t_d.toMinutes() % 60 + " Minutes");
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -554,32 +601,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 if (tv_event_creation_date.getText().equals("")) {
                     AndroidUtils.showAlert("Please First Select the Date", getContext());
                 } else {
-                    final Calendar c = Calendar.getInstance();
-                    int hour = c.get(Calendar.HOUR_OF_DAY);
-                    int minute = c.get(Calendar.MINUTE);
-
-                    final TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog,
-                            new TimePickerDialog.OnTimeSetListener() {
-
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay,
-                                                      int minute) {
-                                    if (hourOfDay < 12) {
-                                        AM_PM[0] = "  AM";
-                                    } else {
-                                        AM_PM[0] = "  PM";
-                                    }
-                                    start_time = hourOfDay;
-                                    startMinute = minute;
-                                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-//                                start_time = hourOfDay + ":" + minute;
-                                    tv_event_start_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-                                }
-                            }, hour, minute, false);
-                    timePickerDialog.setTitle("Select Start Time");
-                    timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    timePickerDialog.show();
-
+                    Show_Time_picker(true, "Select Start Time");
                 }
                 break;
             case R.id.tv_event_end_time:
@@ -588,43 +610,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 } else if (tv_event_start_time.getText().equals("")) {
                     AndroidUtils.showAlert("Please Select the Start Time", getContext());
                 } else {
-                    final Calendar calendar = Calendar.getInstance();
-                    mHour[0] = calendar.get(Calendar.HOUR_OF_DAY);
-                    mMinute[0] = calendar.get(Calendar.MINUTE);
-
-                    // Launch Time Picker Dialog
-                    final TimePickerDialog timePickerDialog_end_time = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog,
-                            new TimePickerDialog.OnTimeSetListener() {
-
-                                @Override
-                                public void onTimeSet(TimePicker view, int hourOfDay,
-                                                      int minute) {
-                                    final Calendar c = Calendar.getInstance();
-                                    mHour[0] = c.get(Calendar.HOUR_OF_DAY);
-                                    mMinute[0] = c.get(Calendar.MINUTE);
-                                    if (hourOfDay < start_time) {
-                                        AndroidUtils.showAlert("Please select End Time with in this Date", getContext());
-                                        tv_event_end_time.setText("");
-                                    } else {
-                                        if (hourOfDay < 12) {
-                                            AM_PM[0] = "  AM";
-                                        } else {
-                                            AM_PM[0] = "  PM";
-                                        }
-                                        tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-                                        end_time = hourOfDay;
-                                        endMinute = minute;
-                                        LocalTime st_time = LocalTime.of(start_time, startMinute);
-                                        LocalTime ed_time = LocalTime.of(end_time, endMinute);
-                                        Duration t_d;
-                                        t_d = Duration.between(st_time, ed_time);
-                                        Time_duration.setText("Time Duration : " + t_d.toHours() + " : " + t_d.toMinutes() % 60);
-                                    }
-                                }
-                            }, mHour[0], mMinute[0], false);
-                    timePickerDialog_end_time.setTitle("Select End Time");
-                    timePickerDialog_end_time.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    timePickerDialog_end_time.show();
+                    Show_Time_picker(false, "Select End Time");
                 }
                 break;
             case R.id.add_notification:
@@ -1799,6 +1785,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void loadEntitiesSpinnerData() throws JSONException {
         entities_list.clear();
+        entity_client_list.clear();
         individual_list.clear();
         teamList.clear();
         documents_list.clear();
@@ -1851,6 +1838,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     }
                 }
             }
+        }
+        if (documents_list.size() == 0) {
+            ll_documents_view.setVisibility(View.GONE);
+        } else {
+            ll_documents_view.setVisibility(View.VISIBLE);
         }
         if (teamList.size() == 0) {
             ll_add_groups.setVisibility(View.GONE);
@@ -2030,6 +2022,24 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 matter_id = matterList.get(position).getId();
                 matter_name = matterList.get(position).getTitle();
                 tv_sp_matter_name.setText(matter_name);
+                ll_assign_clients.setVisibility(View.GONE);
+
+                at_add_groups.setText("");
+                at_assigned_client.setText("");
+                at_individual.setText("");
+                at_attach_document.setText("");
+                tv_sp_entities.setText("");
+
+                selected_documents_list.clear();
+                selected_individual_list.clear();
+                selected_tm_list.clear();
+                selected_entity_client_list.clear();
+                selected_documents_list.clear();
+
+                selected_groups.setVisibility(View.GONE);//team members
+                selected_tm.setVisibility(View.GONE);//clients
+                selected_individual.setVisibility(View.GONE);
+                selected_attached_documents.setVisibility(View.GONE);
                 try {
                     loadEntitiesSpinnerData();
                 } catch (JSONException e) {
