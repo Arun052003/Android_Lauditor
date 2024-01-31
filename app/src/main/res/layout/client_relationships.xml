@@ -8,214 +8,215 @@
     android:id="@+id/sv_relationships"
     android:background="@color/Primary"
     tools:context=".MainActivity">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
-    >
-
-    <RadioGroup
-        android:id="@+id/rgTask"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/thirty_dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        >
 
-        <RadioButton
-            android:id="@+id/add_relationship"
+        <RadioGroup
+            android:id="@+id/rgTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="@string/add_relationships"
-            android:textSize="@dimen/Fifteen_dp" />
+            android:layout_margin="@dimen/thirty_dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/add_relationship"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:background="@drawable/button_left_green_background"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="15dp"
+                android:singleLine="true"
+                android:text="@string/add_relationships"
+                android:textSize="@dimen/Fifteen_dp" />
 
 
 
-        <RadioButton
-            android:id="@+id/view_relationship"
+            <RadioButton
+                android:id="@+id/view_relationship"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:background="@drawable/button_right_background"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="15dp"
+                android:singleLine="true"
+                android:text="@string/view_relationships"
+                android:textSize="@dimen/Fifteen_dp" />
+
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/entity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_margin="@dimen/thirty_dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
             android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="@string/view_relationships"
-            android:textSize="@dimen/Fifteen_dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.771"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rgTask"
+            app:layout_constraintVertical_bias="0.0">
+
+            <RadioButton
+                android:id="@+id/add_individiual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="@drawable/button_left_green_background"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="15dp"
+                android:singleLine="true"
+                android:text="Individual"
+                android:textSize="@dimen/Fifteen_dp" />
 
 
-    </RadioGroup>
 
-    <RadioGroup
-        android:id="@+id/entity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/thirty_dp"
-        android:orientation="horizontal"
- android:visibility="gone"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.771"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgTask"
-        app:layout_constraintVertical_bias="0.0">
+            <RadioButton
+                android:id="@+id/add_entity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/button_right_background"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="15dp"
+                android:singleLine="true"
+                android:text="Entity"
+                android:textSize="@dimen/Fifteen_dp" />
 
-        <RadioButton
-            android:id="@+id/add_individiual"
-            android:layout_width="wrap_content"
+
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/relationship"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-android:textColor="@color/white"
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_margin="@dimen/thirty_dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
             android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Individual"
-            android:textSize="@dimen/Fifteen_dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.771"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entity"
+            app:layout_constraintVertical_bias="0.0">
+
+            <RadioButton
+                android:id="@+id/add_individiual_relationship"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/button_left_green_background"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="15dp"
+                android:textColor="@color/white"
+                android:singleLine="true"
+                android:text="Individual"
+                android:textSize="@dimen/Fifteen_dp" />
 
 
 
-        <RadioButton
-            android:id="@+id/add_entity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-       android:textColor="@color/black"
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Entity"
-            android:textSize="@dimen/Fifteen_dp" />
+            <RadioButton
+                android:id="@+id/add_entity_relationship"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/button_right_background"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="15dp"
+                android:singleLine="true"
+                android:text="Entity"
+                android:textSize="@dimen/Fifteen_dp" />
 
 
-    </RadioGroup>
-    <RadioGroup
-        android:id="@+id/relationship"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/thirty_dp"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.771"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entity"
-        app:layout_constraintVertical_bias="0.0">
-
-        <RadioButton
-            android:id="@+id/add_individiual_relationship"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Individual"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-
-        <RadioButton
-            android:id="@+id/add_entity_relationship"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Entity"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-    </RadioGroup>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="@dimen/Fifty_dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/relationship"
-        app:layout_constraintVertical_bias="0.0">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+        </RadioGroup>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/ll_search_individual"
+            android:padding="10dp"
+            app:cardCornerRadius="10dp"
+            android:elevation="@dimen/Fifty_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/relationship"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/ll_search_individual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
 
-                >
+                    >
 
 
                     <!--this is the actual edit text which takes the input-->
-                   <include android:id="@+id/et_search_individual"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    layout="@layout/search_relationship"
+                    <include android:id="@+id/et_search_individual"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        layout="@layout/search_relationship"
                         android:maxLines="1"
                         android:scrollHorizontally="true"
                         android:textSize="20dp"
-                       android:hint="Search"
+                        android:hint="Search"
                         android:background="@drawable/rectangle_grey_background"
 
                         android:gravity="start" />
 
 
-                <Button
-                    android:id="@+id/btn_search_individual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="bottom"
-                    android:textAllCaps="false"
-                    android:backgroundTint="@color/Blue_text_color"
-                    android:text="@string/search">
+                    <Button
+                        android:id="@+id/btn_search_individual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_gravity="bottom"
+                        android:textAllCaps="false"
+                        android:backgroundTint="@color/Blue_text_color"
+                        android:text="@string/search">
 
-                </Button>
+                    </Button>
 
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_search_entity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="horizontal"
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_search_entity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
 
-                >
+                    >
 
 
                     <!--this is the actual edit text which takes the input-->
@@ -236,433 +237,438 @@ android:textColor="@color/white"
 
 
 
-                <Button
-                    android:id="@+id/btn_search_entity"
-                    android:layout_width="wrap_content"
+                    <Button
+                        android:id="@+id/btn_search_entity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_gravity="bottom"
+                        android:visibility="visible"
+                        android:textAllCaps="false"
+                        android:backgroundTint="@color/Blue_text_color"
+                        android:text="@string/search">
+
+                    </Button>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_response"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="@dimen/Fifteen_dp"
+                    >
+
+                </TextView>
+
+                <LinearLayout
+                    android:id="@+id/ll_entity_name"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/entity_name"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/icon" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_entity_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <include layout="@layout/group_name_layout"
+                            android:id="@+id/tv_entity_name"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_contact_person"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/contact_person"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/icon" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_entity_contact_person"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <include layout = "@layout/group_name_layout"
+                            android:id="@+id/tv_entity_contact_person"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/email"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/icon" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_individual_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <include
+                            android:id="@+id/tv_individual_email"
+                            layout="@layout/group_name_layout" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_confirm_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/confirm_email"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/icon" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_individual_confirm_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <include
+                            android:id="@+id/tv_individual_confirm_email"
+                            layout="@layout/group_name_layout"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/first_name"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/icon" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_individual_firstname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <include layout="@layout/group_name_layout"
+                            android:id="@+id/tv_individual_firstname"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/last_name"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/icon" />
+
+                    </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_individual_last_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <include layout="@layout/group_name_layout"
+                            android:id="@+id/tv_individual_last_name"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    tools:ignore="ExtraText">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="@string/country"
+                            android:textColor="@color/Blue_text_color"
+                            android:textSize="@dimen/Fifteen_dp">
+
+                        </TextView>
+
+                        <include layout="@layout/icon"/>
+
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_individual_country"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/rectangle_light_grey_bg"
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
+
+
+                        <Spinner
+                            android:id="@+id/sp_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+
+                            android:spinnerMode="dropdown"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_entity_number"
                     android:visibility="visible"
-                    android:textAllCaps="false"
-                    android:backgroundTint="@color/Blue_text_color"
-                    android:text="@string/search">
-
-                </Button>
-            </LinearLayout>
-            <TextView
-                android:id="@+id/tv_response"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-
-                android:fontFamily="sans-serif-condensed-medium"
-                android:textSize="@dimen/Fifteen_dp"
-                >
-
-            </TextView>
-
-            <LinearLayout
-                android:id="@+id/ll_entity_name"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/entity_name"
-                        layout="@layout/group_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include layout="@layout/icon" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_entity_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                   <include layout="@layout/group_name_layout"
-                       android:id="@+id/tv_entity_name"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_contact_person"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/contact_person"
-                        layout="@layout/group_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include layout="@layout/icon" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_entity_contact_person"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                   <include layout = "@layout/group_name_layout"
-                       android:id="@+id/tv_entity_contact_person"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/email"
-                        layout="@layout/group_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include layout="@layout/icon" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_individual_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                    <include
-                        android:id="@+id/tv_individual_email"
-                        layout="@layout/group_name_layout" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_confirm_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/confirm_email"
-                        layout="@layout/group_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include layout="@layout/icon" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_individual_confirm_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                  <include
-                      android:id="@+id/tv_individual_confirm_email"
-                     layout="@layout/group_name_layout"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_first_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/first_name"
-                        layout="@layout/group_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include layout="@layout/icon" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_individual_firstname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                  <include layout="@layout/group_name_layout"
-                      android:id="@+id/tv_individual_firstname"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_last_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        android:id="@+id/last_name"
-                        layout="@layout/group_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <include layout="@layout/icon" />
-
-                </LinearLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_individual_last_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                 <include layout="@layout/group_name_layout"
-                     android:id="@+id/tv_individual_last_name"/>
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/country"
-                        android:layout_width="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/country"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
-                    </TextView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
-                 <include layout="@layout/icon"/>
+                            <include
+                                android:id="@+id/Contact_phno"
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
 
-                </LinearLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_individual_country"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/rectangle_light_grey_bg"
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
+                            <include layout="@layout/icon" />
 
-
-                <Spinner
-                    android:id="@+id/sp_country"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-
-                    android:spinnerMode="dropdown"
-                     />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_entity_number"
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/Contact_phno"
-                        android:layout_width="wrap_content"
+                        </LinearLayout>
+                    </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tl_entity_phone_number"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/contact_phone_number"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
 
-                    </TextView>
+                        app:boxBackgroundMode="none"
+                        android:textColorHint="@color/black">
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
+                        <!--this is the actual edit text which takes the input-->
+                        <include layout="@layout/group_name_layout"
+                            android:id="@+id/tv_entity_phone_number"/>
 
-                    </ImageView>
-
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tl_entity_phone_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:boxBackgroundMode="none"
-                    android:textColorHint="@color/black">
-
-                    <!--this is the actual edit text which takes the input-->
-                   <include layout="@layout/group_name_layout"
-                       android:id="@+id/tv_entity_phone_number"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
-    <LinearLayout
-        android:id="@+id/ll_select_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:background="@drawable/checkbox_background"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_details"
-        app:layout_constraintVertical_bias="0.0">
-
-        <CheckBox
-            android:id="@+id/chk_select_all"
-            android:layout_width="match_parent"
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:id="@+id/ll_select_all"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="20dp"
-            android:layout_margin="10dp"
-            android:text="@string/select_all"
-            android:buttonTint="@color/grey_color_dark"
-            android:background="@color/grey_text_color"
-            android:layout_gravity="center"
-
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_groups"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ll_select_all"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical">
-        <include
-            layout="@layout/add_relationships"
-            >
-
-        </include>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_relationships"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/ll_groups"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_view_relationships"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-
-
-            android:textColorHint="@color/black"
-            app:boxBackgroundMode="none"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/checkbox_background"
+            android:orientation="horizontal"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.914"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
+            app:layout_constraintTop_toBottomOf="@+id/cv_details"
             app:layout_constraintVertical_bias="0.0">
 
-            <!--this is the actual edit text which takes the input-->
+            <CheckBox
+                android:id="@+id/chk_select_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:layout_margin="10dp"
+                android:text="@string/select_all"
+                android:buttonTint="@color/grey_color_dark"
+                android:background="@color/grey_text_color"
+                android:layout_gravity="center"
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ll_select_all"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
             <include
-                android:id="@+id/et_search_view_relationships"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                layout="@layout/searchelement_layout"
+                layout="@layout/add_relationships"
+                >
+
+            </include>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_relationships"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/ll_groups"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_view_relationships"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="16dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_relationships"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible"
-            android:layout_margin="10dp"
-
-            />
-    </LinearLayout>
 
 
+                android:textColorHint="@color/black"
+                app:boxBackgroundMode="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
+                app:layout_constraintVertical_bias="0.0">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <!--this is the actual edit text which takes the input-->
+                <include
+                    android:id="@+id/et_search_view_relationships"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    layout="@layout/searchelement_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/transparent"
+
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_relationships"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:layout_margin="10dp"
+
+                />
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

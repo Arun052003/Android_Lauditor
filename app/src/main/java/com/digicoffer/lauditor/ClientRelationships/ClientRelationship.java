@@ -1,6 +1,5 @@
 package com.digicoffer.lauditor.ClientRelationships;
 
-import static org.jivesoftware.smackx.jingle.element.JingleReason.Cancel;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -56,6 +56,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ClientRelationship extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, RelationshipsAdapter.EventListener {
 
@@ -66,6 +67,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     ArrayList<RelationshipsModel> relationshipsList = new ArrayList<>();
     String TAG = "";
     private NewModel mViewModel;
+    private ListView countryListView;
     TextView email,confirm_email,first_name,last_name,country, Contact_phno ,contact_person;
     String value = "";
     String Relationship_Type = "";
@@ -273,8 +275,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rv_relationships.removeAllViews();
                         break;
                     case R.id.view_relationship:
-                        rb_individual.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-                        rb_individual.setTextColor(Color.WHITE);
+                        rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+                        rb_individual_relationship.setTextColor(Color.WHITE);
                         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
                         rb_business_relationship.setTextColor(Color.BLACK);
                         Relationship_Type = "individuals";
@@ -305,10 +307,10 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     case R.id.add_entity:
                         RELATIONSHIP_TAG = "ENTITY";
                         callEntityWebService();
-                       ll_search_individual.setVisibility(View.GONE);
-                       ll_search_entity.setVisibility(View.VISIBLE);
-                       ll_first_name.setVisibility(View.GONE);
-                       ll_last_name.setVisibility(View.GONE);
+                        ll_search_individual.setVisibility(View.GONE);
+                        ll_search_entity.setVisibility(View.VISIBLE);
+                        ll_first_name.setVisibility(View.GONE);
+                        ll_last_name.setVisibility(View.GONE);
                         enableAlpha();
                         callGroupsWebservice();
                         //end new code
@@ -331,13 +333,17 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     case R.id.add_individiual_relationship:
                         Relationship_Type = "individuals";
                         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+                        rb_individual_relationship.setTextColor(Color.WHITE);
                         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
+                        rb_business_relationship.setTextColor(Color.BLACK);
                         viewRelationshipsData();
                         break;
                     case R.id.add_entity_relationship:
                         Relationship_Type = "business";
                         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_background));
+                        rb_individual_relationship.setTextColor(Color.BLACK);
                         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+                        rb_business_relationship.setTextColor(Color.WHITE);
 
                         viewRelationshipsData();
                         break;
@@ -358,6 +364,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         rb_view_relationships.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.black));
         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.white));
+
         ll_relationships.setVisibility(View.VISIBLE);
         rb_individual.setTextColor(Color.WHITE);
         cv_details.setVisibility(View.GONE);
@@ -520,7 +527,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     private void loadRelationshipsData(JSONArray relationships) throws JSONException {
         RelationshipsModel relationshipsModel = null;
         for (int i = 0; i < relationships.length(); i++) {
-             relationshipsModel = new RelationshipsModel();
+            relationshipsModel = new RelationshipsModel();
             JSONObject jsonObject = relationships.getJSONObject(i);
             relationshipsModel.setAdminName(jsonObject.getString("adminName"));
             relationshipsModel.setCanAccept(jsonObject.getBoolean("canAccept"));
@@ -543,13 +550,13 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
     private void loadRelationshipsRecylerview(RelationshipsModel relationshipsModel)throws JSONException {
 
-            for (int j=0;j<relationshipsModel.getGroups().length();j++){
-                ViewGroupModel viewGroupModel = new ViewGroupModel();
-                JSONObject jsonObject = relationshipsModel.getGroups().getJSONObject(j);
-                viewGroupModel.setGroup_id(jsonObject.getString("id"));
-                viewGroupModel.setGroup_name(jsonObject.getString("name"));
-                updatedMembersList.add(viewGroupModel);
-            }
+        for (int j=0;j<relationshipsModel.getGroups().length();j++){
+            ViewGroupModel viewGroupModel = new ViewGroupModel();
+            JSONObject jsonObject = relationshipsModel.getGroups().getJSONObject(j);
+            viewGroupModel.setGroup_id(jsonObject.getString("id"));
+            viewGroupModel.setGroup_name(jsonObject.getString("name"));
+            updatedMembersList.add(viewGroupModel);
+        }
 
         rv_relationships.setLayoutManager(new GridLayoutManager(getContext(), 1));
         Log.i("Tag","Info:"+updatedMembersList.toString());
@@ -625,13 +632,13 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     private void loadEntitydata(JSONArray entity) throws JSONException{
         entityList.clear();
         for (int i=0;i<entity.length();i++){
-           JSONObject jsonObject = entity.getJSONObject(i);
+            JSONObject jsonObject = entity.getJSONObject(i);
             entityModel = new EntityModel();
-           entityModel.setEntityID(jsonObject.getString("entityId"));
-           entityModel.setName(jsonObject.getString("name"));
-           entityModel.setContactName(jsonObject.getString("contactName"));
-           entityList.add(entityModel.getName());
-           updatedEntityList.add(entityModel);
+            entityModel.setEntityID(jsonObject.getString("entityId"));
+            entityModel.setName(jsonObject.getString("name"));
+            entityModel.setContactName(jsonObject.getString("contactName"));
+            entityList.add(entityModel.getName());
+            updatedEntityList.add(entityModel);
 //           entityList.add(entityModel.getEntityID());
         }
         Log.i("TAG","EntityList:"+entityList);
@@ -639,22 +646,20 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 getContext(), android.R.layout.simple_dropdown_item_1line, entityList);
         at_search_entity.setAdapter(adapter);
         at_search_entity.setThreshold(1);
-      at_search_entity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          @Override
-          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                  value = adapter.getItem(i);
-              for (int j=0;j<updatedEntityList.size();j++){
+        at_search_entity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                value = adapter.getItem(i);
+                for (int j=0;j<updatedEntityList.size();j++){
 //                  for (int k=0;k<entityList.size();k++){
-                      if (value.equals(updatedEntityList.get(j).getName())){
-                          entity_id = updatedEntityList.get(j).getEntityID();
+                    if (value.equals(updatedEntityList.get(j).getName())){
+                        entity_id = updatedEntityList.get(j).getEntityID();
 //                      }
-                  }
-              }
-          }
-      });
-        }
-
-
+                    }
+                }
+            }
+        });
+    }
     private void loadCountryData() {
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), countriesList);
         Log.i("ArrayList","Info:"+countriesList);
@@ -676,6 +681,14 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             }
         });
     }
+
+
+
+
+
+
+
+
 
     private void loadViewGroups(JSONArray data) throws JSONException {
 
@@ -847,9 +860,9 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
 //                AndroidUtils.showValidationALert("Alert",postdata.toString(), getContext());
             }
-         }else{
+        }else{
             AndroidUtils.showToast("No groups selected",getContext());
-         }
+        }
 
 
     }
@@ -979,22 +992,22 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 }
             }
         }else{
-             if (tv_entity_name.getText().toString().equals("")) {
-                 tv_entity_name.setError("Entity Name is required");
-                 tv_entity_name.requestFocus();
+            if (tv_entity_name.getText().toString().equals("")) {
+                tv_entity_name.setError("Entity Name is required");
+                tv_entity_name.requestFocus();
                 AndroidUtils.showToast("Entity Name is required", getContext());
                 status = true;
             }else if (tv_entity_contact_person.getText().toString().equals("")) {
-                 tv_entity_contact_person.setError("Contact Person is required");
-                 tv_entity_contact_person.requestFocus();
-                 AndroidUtils.showToast("Contact Person is required", getContext());
-                 status = true;
-             }else if(tv_entity_phone_number.getText().toString().equals("")){
-                 tv_entity_phone_number.setError("Contact Phone Number is required");
-                 tv_entity_phone_number.requestFocus();
-                 AndroidUtils.showToast("Contact Phone Number is required",getContext());
-             }
-             else if (tv_individual_email.getText().toString().equals("")) {
+                tv_entity_contact_person.setError("Contact Person is required");
+                tv_entity_contact_person.requestFocus();
+                AndroidUtils.showToast("Contact Person is required", getContext());
+                status = true;
+            }else if(tv_entity_phone_number.getText().toString().equals("")){
+                tv_entity_phone_number.setError("Contact Phone Number is required");
+                tv_entity_phone_number.requestFocus();
+                AndroidUtils.showToast("Contact Phone Number is required",getContext());
+            }
+            else if (tv_individual_email.getText().toString().equals("")) {
                 tv_individual_email.setError("Email is required");
                 tv_individual_email.requestFocus();
                 AndroidUtils.showToast("Email is required", getContext());

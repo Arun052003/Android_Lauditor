@@ -6,667 +6,693 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     tools:context=".MainActivity">
-<androidx.constraintlayout.widget.ConstraintLayout   android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_relationships_details"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout   android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
-        android:elevation="50dp"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:visibility="visible"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-        <RelativeLayout
+        >
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_relationships_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp"
+            android:elevation="50dp"
+            android:layout_margin="5dp"
             android:padding="5dp"
+            android:visibility="visible"
 
-            >
-
-            <TextView
-                android:id="@+id/tv_relationship_name"
-                android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_toLeftOf="@id/cv_staus"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="start"
-                android:singleLine="true"
-                android:text="Veera Venkata Swamy"
-                android:textColor="@color/Blue_text_color"
-                android:textSize="@dimen/twenty_dp">
+                android:padding="5dp"
 
-            </TextView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_staus"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:cardCornerRadius="250dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="40dp"
-                android:layout_margin="10dp"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:id="@+id/iv_initiated"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/circular" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tv_created_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_relationship_name"
-                android:layout_alignParentStart="true"
-                android:layout_margin="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:text="Created Dec 07,2022"
-                android:textColor="@color/Red"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/tv_initiated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_relationship_name"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
-                android:layout_toRightOf="@+id/tv_created_date"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="end"
-                android:text="Initiated"
-                android:textColor="@color/black">
-
-            </TextView>
-            <TextView
-                android:id="@+id/tv_consumer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Consumer"
-                android:gravity="center"
-                android:textSize="@dimen/twenty_dp"
-                android:layout_below="@id/tv_created_date"
-                android:layout_margin="5dp"
-                android:textColor="@color/black"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:layout_alignParentStart="true"
                 >
 
-            </TextView>
-
-            <TextView
-                android:id="@+id/tv_more_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_consumer"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:linksClickable="true"
-                android:text="More Details"
-                android:textColor="@color/Blue_text_color">
-
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_initiated"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-
-
-                android:layout_toRightOf="@id/tv_consumer"
-                android:gravity="end"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/accept"
+                <TextView
+                    android:id="@+id/tv_relationship_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Accept"
-                    android:textAllCaps="false">
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toLeftOf="@id/cv_staus"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:text="Veera Venkata Swamy"
+                    android:textColor="@color/Blue_text_color"
+                    android:textSize="@dimen/twenty_dp">
 
-                </Button>
+                </TextView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_staus"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:cardCornerRadius="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_margin="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center">
 
-                <ImageView
-                    android:id="@+id/iv_groups_relationships"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    <ImageView
+                        android:id="@+id/iv_initiated"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/circular" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_created_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_relationship_name"
+                    android:layout_alignParentStart="true"
                     android:layout_margin="5dp"
-                    android:src="@drawable/groups_icon_relationship"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:text="Created Dec 07,2022"
+                    android:textColor="@color/Red"
+                    android:textSize="@dimen/Fifteen_dp">
 
-                    />
+                </TextView>
 
-                <ImageView
-                    android:id="@+id/iv_clock_relationships"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <TextView
+                    android:id="@+id/tv_initiated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_relationship_name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toRightOf="@+id/tv_created_date"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="end"
+                    android:text="Initiated"
+                    android:textColor="@color/black">
+
+                </TextView>
+                <TextView
+                    android:id="@+id/tv_consumer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Consumer"
+                    android:gravity="center"
+                    android:textSize="@dimen/twenty_dp"
+                    android:layout_below="@id/tv_created_date"
                     android:layout_margin="5dp"
-                    android:src="@drawable/time_icon_relationships"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_alignParentStart="true"
+                    >
 
-                    />
+                </TextView>
 
-                <ImageView
-                    android:id="@+id/iv_delete_relationships"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/delete_icon_relationships"
+                <TextView
+                    android:id="@+id/tv_more_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_consumer"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:linksClickable="true"
+                    android:text="More Details"
+                    android:textColor="@color/Blue_text_color">
 
-                    />
-            </LinearLayout>
+                </TextView>
 
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-<LinearLayout
-    android:id="@+id/ll_expandable_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:visibility="visible"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/cv_relationships_details">
-
-
-    <RadioGroup
-        android:id="@+id/profile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.771"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_relationships_details"
-        app:layout_constraintVertical_bias="0.0">
-
-        <RadioButton
-            android:id="@+id/rb_profile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:layout_weight="1"
-            android:singleLine="false"
-            android:text="@string/profile"
-            android:textSize="10dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_initiated"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
 
 
+                    android:layout_toRightOf="@id/tv_consumer"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/accept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accept"
+                        android:textAllCaps="false">
 
-        <RadioButton
-            android:id="@+id/rb_share_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/radiobutton_centre_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:layout_weight="1"
-            android:singleLine="false"
-            android:text="@string/share_document"
-            android:textSize="10dp" />
+                    </Button>
 
+                    <ImageView
+                        android:id="@+id/iv_groups_relationships"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/groups_icon_relationship"
 
+                        />
 
-        <RadioButton
-            android:id="@+id/rb_share_matter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/radiobutton_centre_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:layout_weight="1"
-            android:singleLine="false"
-            android:text="Share Matter"
-            android:textSize="10dp" />
+                    <ImageView
+                        android:id="@+id/iv_clock_relationships"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:visibility="gone"
+                        android:src="@drawable/time_icon_relationships"
 
+                        />
 
+                    <ImageView
+                        android:id="@+id/iv_delete_relationships"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:visibility="gone"
+                        android:src="@drawable/delete_icon_relationships"
 
-        <RadioButton
-            android:id="@+id/add_entity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+                        />
+                </LinearLayout>
 
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="Chat"
-            android:textSize="10dp" />
+            </RelativeLayout>
 
-
-    </RadioGroup>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_profile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="5dp"
-        android:elevation="50dp"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/profile"
-       app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_gravity="center">
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:padding="10dp"
-           android:orientation="vertical">
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="@string/first_name">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_first_name"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-           <TextView
-               android:layout_marginTop="5dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="Email:">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_email"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:layout_marginTop="5dp"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="Country:">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_country"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:layout_marginTop="5dp"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="Contact Name:">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_contact_name"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:layout_marginTop="5dp"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="Mobile:">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_mobile"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:layout_marginTop="5dp"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="Website:">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_website"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/black"
-               android:layout_marginTop="5dp"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="Billing Currency:">
-
-           </TextView>
-           <TextView
-               android:id="@+id/tv_billing_currency"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:textColor="@color/Blue_text_color"
-               android:fontFamily="sans-serif-medium"
-               android:textSize="@dimen/Fifteen_dp"
-               android:text="">
-
-           </TextView>
-       </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        >
-
-    <RadioGroup
-        android:id="@+id/shared_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/Fifteen_dp"
-
-        android:visibility="gone"
-        android:layout_marginRight="20dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-     >
-
-        <RadioButton
-            android:id="@+id/rb_shared_with_us"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Shared with Us"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-        <RadioButton
-            android:id="@+id/rb_shared_by_us"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Shared By Us"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-    </RadioGroup>
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_share_docs"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:visibility="gone"
-           android:layout_margin="10dp"
-            android:layout_toRightOf="@id/shared_status"
-            android:src="@mipmap/share_icon_round"
-            app:shapeAppearanceOverlay="@style/Circula" />
-    </RelativeLayout>
-    <RadioGroup
-        android:id="@+id/shared_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/thirty_dp"
-        android:visibility="gone"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shared_status"
-        app:layout_constraintVertical_bias="0.0">
-
-        <RadioButton
-            android:id="@+id/rb_already_shared"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Already Shared"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-        <RadioButton
-            android:id="@+id/rb_choose_to_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Choose to Share"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/document_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/thirty_dp"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shared_type">
-
-        <RadioButton
-            android:id="@+id/rb_client_document"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_left_green_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Client Document"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-        <RadioButton
-            android:id="@+id/rb_firm_document"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/button_right_background"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="15dp"
-            android:singleLine="true"
-            android:text="Firm Document"
-            android:textSize="@dimen/Fifteen_dp" />
-
-
-    </RadioGroup>
-
-    <LinearLayout
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/document_type"
-        >
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_tm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="Search Documents"
-            android:textColorHint="@color/black"
-            app:boxBackgroundMode="none"
->
-
-            <!--this is the actual edit text which takes the input-->
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_search_documents"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:background="@drawable/rectangle_grey_background"
-                android:drawableRight="@drawable/search_groups"
-                android:gravity="start" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
         <LinearLayout
-            android:id="@id/ll_documents"
+            android:id="@+id/ll_expandable_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_relationships_details">
 
-            <androidx.cardview.widget.CardView
 
+            <RadioGroup
+                android:id="@+id/profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.771"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_relationships_details"
+                app:layout_constraintVertical_bias="0.0">
+
+                <RadioButton
+                    android:id="@+id/rb_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/button_left_green_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:singleLine="false"
+                    android:text="@string/profile"
+                    android:textSize="10dp" />
+
+
+
+                <RadioButton
+                    android:id="@+id/rb_share_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/radiobutton_centre_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:singleLine="false"
+                    android:text="@string/share_document"
+                    android:textSize="10dp" />
+
+
+
+                <RadioButton
+                    android:id="@+id/rb_share_matter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/radiobutton_centre_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:singleLine="false"
+                    android:visibility="gone"
+                    android:text="Share Matter"
+                    android:textSize="10dp" />
+
+
+
+                <RadioButton
+                    android:id="@+id/add_entity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:background="@drawable/button_right_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="Chat"
+                    android:textSize="10dp" />
+
+
+            </RadioGroup>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:cardCornerRadius="5dp"
                 android:elevation="50dp"
-                android:background="@color/dark_grey"
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:visibility="visible"
-                >
-                <ScrollView
+                app:layout_constraintTop_toBottomOf="@id/profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_gravity="center">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400dp">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/relationship_name"
+                            android:id="@+id/first_name"/>
+
+                        <TextView
+                            android:id="@+id/tv_first_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/first_name"
+                            android:text=""
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/Blue_text_color"
+                            android:textSize="@dimen/Fifteen_dp">
+
+                        </TextView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include layout="@layout/relationship_name"/>
+                        <TextView
+                            android:id="@+id/tv_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/email"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/Blue_text_color"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:text="">
+
+                        </TextView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/relationship_name"
+                            android:id="@+id/country"/>
+                        <TextView
+                            android:id="@+id/tv_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/country"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/Blue_text_color"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:text="">
+
+                        </TextView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/relationship_name"
+                            android:id="@+id/contact_name"/>
+                        <TextView
+                            android:id="@+id/tv_contact_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/contact_name"
+                            android:textColor="@color/Blue_text_color"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:text="">
+
+                        </TextView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <include
+                            android:id="@+id/mobile"
+                            layout="@layout/relationship_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tv_mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/mobile"
+                            android:textColor="@color/Blue_text_color"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:text="" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include layout="@layout/relationship_name"
+                            android:id="@+id/website"/>
+
+                        <TextView
+                            android:id="@+id/tv_website"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/website"
+                            android:textColor="@color/Blue_text_color"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:text="">
+
+                        </TextView>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_shared_documents"
+                        <include layout="@layout/relationship_name"
+                            android:id="@+id/billing_currency"/>
+                        <TextView
+                            android:id="@+id/tv_billing_currency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/billing_currency"
+                            android:textColor="@color/Blue_text_color"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/Fifteen_dp"
+                            android:text="">
+
+                        </TextView>
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+            <!--this is the actual edit text which takes the input-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/el_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+
+                android:textColorHint="@color/black"
+                app:boxBackgroundMode="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_details_2"
+                app:layout_constraintVertical_bias="0.0">
+
+                <!--this is the actual edit text which takes the input-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_search_relationships"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/rectangle_light_grey_bg"
+                    android:drawableRight="@drawable/search_groups"
+                    android:gravity="start" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                >
+
+                <RadioGroup
+                    android:id="@+id/shared_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/Fifteen_dp"
+
+                    android:visibility="gone"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/rb_shared_with_us"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_left_green_background"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:singleLine="true"
+                        android:text="Shared with Us"
+                        android:textSize="@dimen/Fifteen_dp" />
+
+
+                    <RadioButton
+                        android:id="@+id/rb_shared_by_us"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_right_background"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:singleLine="true"
+                        android:text="Shared By Us"
+                        android:textSize="@dimen/Fifteen_dp" />
+
+
+                </RadioGroup>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_share_docs"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:layout_margin="10dp"
+                    android:layout_toRightOf="@id/shared_status"
+                    android:src="@mipmap/uploadwhiteupload1"
+                    app:shapeAppearanceOverlay="@style/Circula" />
+            </RelativeLayout>
+            <RadioGroup
+                android:id="@+id/shared_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/thirty_dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shared_status"
+                app:layout_constraintVertical_bias="0.0">
+
+                <RadioButton
+                    android:id="@+id/rb_already_shared"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/button_left_green_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:singleLine="true"
+                    android:text="Already Shared"
+                    android:textSize="@dimen/Fifteen_dp" />
+
+
+                <RadioButton
+                    android:id="@+id/rb_choose_to_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/button_right_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:singleLine="true"
+                    android:text="Choose to Share"
+                    android:textSize="@dimen/Fifteen_dp" />
+
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/document_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/thirty_dp"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shared_type">
+
+                <RadioButton
+                    android:id="@+id/rb_client_document"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_left_green_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:singleLine="true"
+                    android:text="Client Document"
+                    android:textSize="@dimen/Fifteen_dp" />
+
+
+                <RadioButton
+                    android:id="@+id/rb_firm_document"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/button_right_background"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:singleLine="true"
+                    android:text="Firm Document"
+                    android:textSize="@dimen/Fifteen_dp" />
+
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/nestedScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="10dp"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/document_type"
+                >
 
-                />
-                </ScrollView>
-            </androidx.cardview.widget.CardView>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_tm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="Search Documents"
+                    android:textColorHint="@color/black"
+                    app:boxBackgroundMode="none"
+                    >
+
+                    <!--this is the actual edit text which takes the input-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_search_documents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:background="@drawable/rectangle_grey_background"
+                        android:drawableRight="@drawable/search_groups"
+                        android:gravity="start" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:id="@id/ll_documents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="5dp"
+                        android:elevation="50dp"
+                        android:background="@color/dark_grey"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:visibility="visible"
+                        >
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_shared_documents"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical"
+                                android:padding="10dp"
+                                android:scrollbars="vertical"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                            />
+                        </ScrollView>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
-
-</LinearLayout>
-</LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
