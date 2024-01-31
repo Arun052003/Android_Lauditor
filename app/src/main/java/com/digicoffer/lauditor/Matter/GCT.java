@@ -47,7 +47,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class
 GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
@@ -1163,78 +1165,62 @@ ConstraintLayout cv_details;
 
     public void GroupsPopup() {
         try {
-
             for (int i = 0; i < groupsList.size(); i++) {
                 for (int j = 0; j < selected_groups_list.size(); j++) {
-                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
+                    if (groupsList.get(i).getGroup_id().equals(selected_groups_list.get(j).getGroup_id())) {
                         GroupsModel groupsModel = groupsList.get(i);
                         groupsModel.setChecked(true);
-//                        selected_groups_list.set(j,documentsModel);
-
                     }
                 }
             }
-            selected_groups_list.clear();
+
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
             LayoutInflater inflater = getActivity().getLayoutInflater();
-//            View view = inflater.inflate(R.layout.gct_layout, null);
             AlertDialog dialog = dialogBuilder.create();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_groups_docs.setLayoutManager(layoutManager);
             rv_display_upload_groups_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Groups";
-            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
+            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
             rv_display_upload_groups_docs.setAdapter(documentsAdapter);
 
-            selected_groups_list.clear();
-
-          btn_add_groups.setOnClickListener(new View.OnClickListener() {
+            btn_add_groups.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    ArrayList<String>
+                    Set<GroupsModel> selected_groups_set = new HashSet<>();
+                    rv_display_upload_groups_docs.setVisibility(View.GONE);
                     for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-                        rv_display_upload_groups_docs.setVisibility(View.GONE);
-
                         GroupsModel groupsModel = documentsAdapter.getList_item().get(i);
                         if (groupsModel.isChecked()) {
-                            if (!selected_groups_list.contains(groupsModel)) {
-                                selected_groups_list.add(groupsModel);
-                            }
-
-
+                            selected_groups_set.add(groupsModel);
                         }
                     }
-                    if(selected_groups_list.size()>0){
+
+                    selected_groups_list.clear();
+                    selected_groups_list.addAll(selected_groups_set);
+
+                    if (selected_groups_list.size() > 0) {
                         ll_add_clients.setVisibility(View.VISIBLE);
                         ll_assign_team_members.setVisibility(View.VISIBLE);
                         ll_save_buttons.setVisibility(View.VISIBLE);
                         selected_clients.setVisibility(View.GONE);
-
-
-                    }else {
+                    } else {
                         ll_add_clients.setVisibility(View.GONE);
                         ll_assign_team_members.setVisibility(View.GONE);
                         ll_save_buttons.setVisibility(View.GONE);
                     }
 
-
-
-
                     detectListChanges();
-
-
-                   loadSelectedGroups();
-
+                    loadSelectedGroups();
                 }
-
             });
-
 
         } catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
+
     private void detectListChanges() {
         updated_groups_list.addAll(selected_groups_list);
         int originalSize = updated_groups_list.size();
@@ -1249,41 +1235,19 @@ ConstraintLayout cv_details;
             selected_clients.setVisibility(View.GONE);
             ll_assigned_team_members.removeAllViews();
             selected_tm.setVisibility(View.GONE);
-            // items have been added to the list
         } else if (newSize == originalSize) {
             // items have been removed from the list
         } else if (newSize == 0 || originalSize == 0) {
             selected_groups.setVisibility(View.GONE);
             ll_selected_groups.removeAllViews();
-        } else {
-            // the list has not changed in size
         }
         at_add_clients.setText("");
         at_assigned_team_members.setText("");
     }
 
-
-
     private void loadSelectedGroups() {
-        String[] value = new String[selected_groups_list.size()];
-        for (int i = 0; i < selected_groups_list.size(); i++) {
-//                                value += "," + family_members.get(i);
-//                               value.add(family_members.get(i));
-            value[i] = selected_groups_list.get(i).getGroup_name();
-
-        }
-
-        String str = String.join(",", value);
-        at_add_groups.setText(str);
-        selected_groups.setVisibility(View.VISIBLE);
-       // ll_selected_groups.removeAllViews();
+        ll_selected_groups.removeAllViews();
         if (selected_groups_list.size() != 0) {
-//            clientsList.clear();
-//            selected_clients_list.clear();
-//            ll_selected_clients.removeAllViews();
-//            tmList.clear();
-//            selected_tm_list.clear();
-            ll_assigned_team_members.removeAllViews();
             at_add_groups.setText("Select Groups");
             at_add_clients.setText("Select Clients");
             at_assigned_team_members.setText("Assign Team Members");
@@ -1291,28 +1255,29 @@ ConstraintLayout cv_details;
             selected_clients.setVisibility(View.VISIBLE);
             selected_tm.setVisibility(View.VISIBLE);
 
-        }
-        for (int i = 0; i < selected_groups_list.size(); i++) {
-            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-            tv_opponent_name.setText(selected_groups_list.get(i).getGroup_name());
-            ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
-            iv_remove_opponent.setTag(i);
-            iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        int position = 0;
-                        if (v.getTag() instanceof Integer) {
-                            position = (Integer) v.getTag();
-                            v = ll_selected_groups.getChildAt(position);
-                            ll_selected_groups.removeView(v);
-//                            ll_selected_groups.addView(view_opponents,position);
-                            GroupsModel groupsModel = selected_groups_list.get(position);
+            String[] value = new String[selected_groups_list.size()];
+            for (int i = 0; i < selected_groups_list.size(); i++) {
+                value[i] = selected_groups_list.get(i).getGroup_name();
+            }
+            detectListChanges();
+            String str = String.join(",", value);
+            at_add_groups.setText(str);
+
+            for (int i = 0; i < selected_groups_list.size(); i++) {
+                View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
+                TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
+                ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
+                tv_opponent_name.setText(selected_groups_list.get(i).getGroup_name());
+                ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+                iv_remove_opponent.setTag(i);
+                iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            int position = (int) v.getTag();
+                            ll_selected_groups.removeViewAt(position);
+                            GroupsModel groupsModel = selected_groups_list.remove(position);
                             groupsModel.setChecked(false);
-                            selected_groups_list.remove(position);
-//                            selected_groups_list.set(position, groupsModel);
                             String[] value = new String[selected_groups_list.size()];
                             for (int i = 0; i < selected_groups_list.size(); i++) {
                                 value[i] = selected_groups_list.get(i).getGroup_name();
@@ -1320,33 +1285,28 @@ ConstraintLayout cv_details;
                             detectListChanges();
                             String str = String.join(",", value);
                             at_add_groups.setText(str);
-                        }
-                        if (selected_groups_list.size() > 0) {
-                            ll_add_clients.setVisibility(View.VISIBLE);
-                            ll_assign_team_members.setVisibility(View.VISIBLE);
-                            ll_save_buttons.setVisibility(View.VISIBLE);
 
-                        } else {
-                            ll_add_clients.setVisibility(View.GONE);
-                            ll_assign_team_members.setVisibility(View.GONE);
-                            selected_groups.setVisibility(View.GONE);
-                            ll_save_buttons.setVisibility(View.GONE);
+                            if (selected_groups_list.size() > 0) {
+                                ll_add_clients.setVisibility(View.VISIBLE);
+                                ll_assign_team_members.setVisibility(View.VISIBLE);
+                                ll_save_buttons.setVisibility(View.VISIBLE);
+                            } else {
+                                ll_add_clients.setVisibility(View.GONE);
+                                ll_assign_team_members.setVisibility(View.GONE);
+                                selected_groups.setVisibility(View.GONE);
+                                ll_save_buttons.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            AndroidUtils.showAlert(e.getMessage(), getContext());
                         }
                     }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                        AndroidUtils.showAlert(e.getMessage(), getContext());
-                    }
-                }
-            });
-            iv_edit_opponent.setVisibility(View.GONE);
-            ll_selected_groups.addView(view_opponents);
-
-
-
+                });
+                iv_edit_opponent.setVisibility(View.GONE);
+                ll_selected_groups.addView(view_opponents);
+            }
         }
     }
-
 
 
 
