@@ -60,7 +60,7 @@
                             android:fontFamily="sans-serif-condensed-medium"
                             android:textSize="@dimen/Fifteen_dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/cancel_icon"
+                            android:background="@drawable/cancel_white_icon"
                             android:layout_margin="10dp">
 
                         </ImageView>
@@ -85,7 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:hint="Search Groups"
+
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:background="@drawable/rectangle_grey_background"
+                            android:background="@drawable/rectangle_light_grey_bg"
                             android:drawableRight="@drawable/search_groups"
                             android:gravity="start" />
 
@@ -142,33 +142,10 @@
 
                         >
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_relationships_cancel"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="20dp"
-                            android:elevation="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@drawable/cancel_button_background"
-                            android:textAllCaps="false"
-                            android:text="@string/cancel">
-
-                        </androidx.appcompat.widget.AppCompatButton>
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_send_request"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:elevation="@dimen/Fifteen_dp"
-                            android:background="@drawable/save_button_background"
-                            android:textColor="@color/white"
-                            android:textAllCaps="false"
-                            android:text="@string/send_request">
-
-                        </androidx.appcompat.widget.AppCompatButton>
+                      <include layout="@layout/cancel_button"
+                          android:id="@+id/btn_relationships_cancel"/>
+                       <include layout="@layout/submit_button"
+                           android:id="@+id/btn_send_request"/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>

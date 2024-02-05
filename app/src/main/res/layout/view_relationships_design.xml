@@ -77,7 +77,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_relationship_name"
                     android:layout_alignParentStart="true"
-                    android:layout_margin="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
@@ -235,7 +234,7 @@
                     android:layout_weight="1"
                     android:singleLine="false"
                     android:text="@string/profile"
-                    android:textSize="10dp" />
+                    android:textSize="15dp" />
 
 
 
@@ -251,7 +250,7 @@
                     android:layout_weight="1"
                     android:singleLine="false"
                     android:text="@string/share_document"
-                    android:textSize="10dp" />
+                    android:textSize="15dp" />
 
 
 
@@ -527,7 +526,7 @@
                     android:visibility="gone"
                     android:layout_margin="10dp"
                     android:layout_toRightOf="@id/shared_status"
-                    android:src="@mipmap/uploadwhiteupload1"
+                    android:src="@mipmap/circle_upload_icon"
                     app:shapeAppearanceOverlay="@style/Circula" />
             </RelativeLayout>
             <RadioGroup
@@ -639,7 +638,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:hint="Search Documents"
+
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none"
                     >
@@ -650,7 +649,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:background="@drawable/rectangle_grey_background"
+                        android:background="@drawable/rectangle_light_grey_bg"
                         android:drawableRight="@drawable/search_groups"
                         android:gravity="start" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -676,16 +675,8 @@
                             android:layout_height="400dp">
 
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_shared_documents"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:orientation="vertical"
-                                android:padding="10dp"
-                                android:scrollbars="vertical"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                         <include layout="@layout/recyclerview"
+                             android:id="@+id/rv_shared_documents"/>
 
                             />
                         </ScrollView>

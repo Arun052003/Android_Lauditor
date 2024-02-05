@@ -430,7 +430,9 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             btn_message_send_request = view.findViewById(R.id.btn_message_send_request);
             rv_relationship_groups = view.findViewById(R.id.rv_relationship_documents);
             et_search_relationships = view.findViewById(R.id.et_search_relationships);
+            et_search_relationships.setHint("Search Documents");
             btn_send_request = view.findViewById(R.id.btn_send_request);
+           btn_send_request.setText("Unshare");
             ll_buttons = view.findViewById(R.id.ll_buttons);
             tv_header_name = view.findViewById(R.id.header_name);
             String header_name = "";
@@ -466,6 +468,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 et_message.setVisibility(View.GONE);
             }
             btn_relationships_cancel = view.findViewById(R.id.btn_relationships_cancel);
+            btn_relationships_cancel.setText("Cancel");
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
             rv_relationship_groups.setLayoutManager(layoutManager);
             rv_relationship_groups.setHasFixedSize(true);
@@ -968,8 +971,13 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
         AppCompatButton btn_send_request, btn_relationships_cancel;
         rv_relationship_groups = view.findViewById(R.id.rv_relationship_groups);
         et_search_relationships = view.findViewById(R.id.et_search_relationships);
+
+        et_search_relationships.setHint("Search Groups");
         btn_send_request = view.findViewById(R.id.btn_send_request);
+        btn_send_request.setText("Send Request");
+
         btn_relationships_cancel = view.findViewById(R.id.btn_relationships_cancel);
+        btn_relationships_cancel.setText("Cancel");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
         rv_relationship_groups.setLayoutManager(layoutManager);
         rv_relationship_groups.setHasFixedSize(true);
@@ -1106,6 +1114,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             ll_documents = itemView.findViewById(R.id.ll_documents);
             rv_documents = itemView.findViewById(R.id.rv_shared_documents);
             et_Search = itemView.findViewById(R.id.et_search_documents);
+            et_Search.setHint("Search  Documents");
             ll_expandable_layout = itemView.findViewById(R.id.ll_expandable_layout);
             rb_client_document = itemView.findViewById(R.id.rb_client_document);
             rb_firm_document = itemView.findViewById(R.id.rb_firm_document);

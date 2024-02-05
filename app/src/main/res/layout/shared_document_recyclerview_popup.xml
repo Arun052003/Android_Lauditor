@@ -44,7 +44,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:background="@drawable/cancel_icon"
+                        android:background="@drawable/cancel_white_icon"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:hint="Search Documents"
+
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:background="@drawable/rectangle_grey_background"
+
+                        android:background="@drawable/rectangle_light_grey_bg"
                         android:drawableRight="@drawable/search_groups"
                         android:gravity="start" />
 
@@ -125,14 +126,8 @@
                     android:layout_height="200dp"
                     tools:context=".MainActivity">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_relationship_documents"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="vertical"
-                        android:scrollbars="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                 <include layout="@layout/recyclerview"
+                     android:id="@+id/rv_relationship_documents"/>
                 </ScrollView>
 </LinearLayout>
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -144,35 +139,11 @@
 
                     >
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_relationships_cancel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/cancel_button_background"
-                        android:elevation="20dp"
-                        android:text="@string/cancel"
-                        android:textAllCaps="false">
+                    <include layout="@layout/cancel_button"
+                        android:id="@+id/btn_relationships_cancel"/>
 
-                    </androidx.appcompat.widget.AppCompatButton>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_send_request"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/save_button_background"
-                        android:elevation="@dimen/Fifteen_dp"
-                        android:padding="5dp"
-                        android:text="@string/unshare"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white">
-
-                    </androidx.appcompat.widget.AppCompatButton>
+              <include layout="@layout/submit_button"
+                  android:id="@+id/btn_send_request"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <include
 
