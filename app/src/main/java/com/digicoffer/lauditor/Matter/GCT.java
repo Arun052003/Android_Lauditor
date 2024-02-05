@@ -54,16 +54,16 @@ import java.util.Set;
 public class
 GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
 
-    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members,add_groups,add_clients,tv_assigned_team_members,tv_selected_clients;
+    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members, add_groups, add_clients, tv_assigned_team_members, tv_selected_clients;
     boolean[] selectedLanguage;
     boolean[] selectedClients;
     boolean[] selectedTM;
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
-TextView matter_title_tv ;
-ConstraintLayout cv_details;
-    String matter_title, case_number, case_type, description, dof,start_date,end_date, court, judge, case_priority, case_status;
+    TextView matter_title_tv;
+    ConstraintLayout cv_details;
+    String matter_title, case_number, case_type, description, dof, start_date, end_date, court, judge, case_priority, case_status;
     JSONArray existing_clients;
 
     JSONArray existing_members;
@@ -79,13 +79,13 @@ ConstraintLayout cv_details;
     JSONArray existing_documents;
     JSONArray existing_documents_list;
     String ADAPTER_TAG = "Groups";
-    Button btn_add_groups, btn_add_clients, btn_assigned_team_members, btn_create,btn_cancel_save;
-    LinearLayout ll_selected_groups, ll_selected_clients, ll_assigned_team_members, selected_groups, selected_clients, selected_tm,ll_add_clients,ll_assign_team_members;
+    Button btn_add_groups, btn_add_clients, btn_assigned_team_members, btn_create, btn_cancel_save;
+    LinearLayout ll_selected_groups, ll_selected_clients, ll_assigned_team_members, selected_groups, selected_clients, selected_tm, ll_add_clients, ll_assign_team_members;
     AlertDialog progress_dialog;
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
     ArrayList<GroupsModel> updated_groups_list = new ArrayList<>();
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
-    LinearLayout upload_group_layout, upload_client_layout, upload_tm_layout ;
+    LinearLayout upload_group_layout, upload_client_layout, upload_tm_layout;
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
     ArrayList<GroupsModel> groupsList = new ArrayList<>();
     boolean ischecked_group = true;
@@ -98,7 +98,7 @@ ConstraintLayout cv_details;
     ArrayList<TeamModel> tmList = new ArrayList<>();
     Matter matter;
     Matter mattermodel;
-    RecyclerView rv_display_upload_groups_docs,rv_display_upload_client_docs,rv_display_upload_tm_docs;
+    RecyclerView rv_display_upload_groups_docs, rv_display_upload_client_docs, rv_display_upload_tm_docs;
 
 
     private JSONArray existing_opponents;
@@ -117,11 +117,11 @@ ConstraintLayout cv_details;
         ll_save_buttons = view.findViewById(R.id.ll_save_buttons);
         ll_save_buttons.setVisibility(View.GONE);
         upload_group_layout = view.findViewById(R.id.upload_group_layout);
-        upload_client_layout = view.findViewById(R.id. upload_client_layout);
+        upload_client_layout = view.findViewById(R.id.upload_client_layout);
         ll_add_clients = view.findViewById(R.id.ll_add_clients);
         tv_selected_clients = view.findViewById(R.id.tv_selected_clients);
         ll_add_clients.setVisibility(View.GONE);
-        upload_tm_layout = view.findViewById(R.id. upload_tm_layout);
+        upload_tm_layout = view.findViewById(R.id.upload_tm_layout);
         rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
         rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
         ll_add_groups = view.findViewById(R.id.ll_add_groups);
@@ -157,8 +157,7 @@ ConstraintLayout cv_details;
 
         ll_assign_team_members = view.findViewById(R.id.ll_assign_team_members);
         ll_assign_team_members.setVisibility(View.GONE);
-      //  String matter_title = tv_matter_title.getText().toString();
-
+        //  String matter_title = tv_matter_title.getText().toString();
 
 
         btn_create = view.findViewById(R.id.btn_create);
@@ -189,8 +188,8 @@ ConstraintLayout cv_details;
                 } else {
                     GroupsPopup();
                 }
-               // callGroupsWebservice();
-              //  selected_groups_list.clear();
+                // callGroupsWebservice();
+                //  selected_groups_list.clear();
 
 
                 rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
@@ -219,7 +218,7 @@ ConstraintLayout cv_details;
                     ClientssPopUp();
                 }
 
-              //  callClientsWebservice();
+                //  callClientsWebservice();
                 rv_display_upload_client_docs.setVisibility(View.VISIBLE);
                 if (clientsList.size() == 0) {
                     upload_client_layout.setVisibility(View.GONE);
@@ -246,10 +245,10 @@ ConstraintLayout cv_details;
                 callTMWebservice();
                 rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
                 if (tmList.size() == 0) {
-                   upload_tm_layout.setVisibility(View.GONE);
+                    upload_tm_layout.setVisibility(View.GONE);
                     rv_display_upload_tm_docs.setVisibility(View.GONE);
                 } else {
-                   upload_tm_layout.setVisibility(View.VISIBLE);
+                    upload_tm_layout.setVisibility(View.VISIBLE);
                     rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
                 }
 
@@ -257,7 +256,7 @@ ConstraintLayout cv_details;
                     rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
                     upload_tm_layout.setVisibility(View.VISIBLE);
                 } else {
-                    upload_tm_layout .setVisibility(View.GONE);
+                    upload_tm_layout.setVisibility(View.GONE);
                 }
                 ischecked_tm = !ischecked_tm;
             }
@@ -298,24 +297,24 @@ ConstraintLayout cv_details;
                 MatterModel matterModel = matterArraylist.get(i);
                 matter_title_tv.setText("");
                 matter_title_tv.setText(matterModel.getMatter_title());
-                if (matterModel.getGroup_acls()!=null){
-                exisiting_group_acls = matterModel.getGroup_acls();
-                try {
-                    for (int g = 0; g < exisiting_group_acls.length(); g++) {
-                        GroupsModel groupsModel = new GroupsModel();
-                        JSONObject jsonObject = exisiting_group_acls.getJSONObject(g);
-                        groupsModel.setGroup_id(jsonObject.getString("id"));
-                        groupsModel.setGroup_name(jsonObject.getString("name"));
-                        groupsModel.setChecked(jsonObject.getBoolean("isChecked"));
-                        selected_groups_list.add(groupsModel);
+                if (matterModel.getGroup_acls() != null) {
+                    exisiting_group_acls = matterModel.getGroup_acls();
+                    try {
+                        for (int g = 0; g < exisiting_group_acls.length(); g++) {
+                            GroupsModel groupsModel = new GroupsModel();
+                            JSONObject jsonObject = exisiting_group_acls.getJSONObject(g);
+                            groupsModel.setGroup_id(jsonObject.getString("id"));
+                            groupsModel.setGroup_name(jsonObject.getString("name"));
+                            groupsModel.setChecked(jsonObject.getBoolean("isChecked"));
+                            selected_groups_list.add(groupsModel);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                }
-                if(matterModel.getClients()!=null){
+                if (matterModel.getClients() != null) {
                     existing_clients = matterModel.getClients();
-                    try{
+                    try {
                         for (int p = 0; p < existing_clients.length(); p++) {
                             ClientsModel clientsModel = new ClientsModel();
                             JSONObject jsonObject = existing_clients.getJSONObject(p);
@@ -328,9 +327,9 @@ ConstraintLayout cv_details;
                         e.printStackTrace();
                     }
                 }
-                if(matterModel.getMembers()!=null) {
+                if (matterModel.getMembers() != null) {
                     existing_members = matterModel.getMembers();
-                    try{
+                    try {
                         for (int t = 0; t < existing_members.length(); t++) {
                             TeamModel teamModel = new TeamModel();
                             JSONObject jsonObject = existing_members.getJSONObject(t);
@@ -343,9 +342,9 @@ ConstraintLayout cv_details;
                         e.printStackTrace();
                     }
                 }
-                if(matterModel.getGroups_list()!=null){
+                if (matterModel.getGroups_list() != null) {
                     existing_groups_list = matterModel.getGroups_list();
-                    try{
+                    try {
                         for (int m = 0; m < existing_groups_list.length(); m++) {
                             GroupsModel groupsModel = new GroupsModel();
                             JSONObject jsonObject = existing_groups_list.getJSONObject(m);
@@ -357,9 +356,9 @@ ConstraintLayout cv_details;
                         e.printStackTrace();
                     }
                 }
-                if(matterModel.getClients_list()!=null){
+                if (matterModel.getClients_list() != null) {
                     existing_clients_list = matterModel.getClients_list();
-                    try{
+                    try {
                         for (int n = 0; n < existing_clients_list.length(); n++) {
                             ClientsModel clientsModel = new ClientsModel();
                             JSONObject jsonObject = existing_clients_list.getJSONObject(n);
@@ -372,9 +371,9 @@ ConstraintLayout cv_details;
                         e.printStackTrace();
                     }
                 }
-                if (matterModel.getMembers_list()!=null){
+                if (matterModel.getMembers_list() != null) {
                     existing_tm_list = matterModel.getMembers_list();
-                    try{
+                    try {
 
                         for (int d = 0; d < existing_tm_list.length(); d++) {
                             TeamModel teamModel = new TeamModel();
@@ -440,38 +439,38 @@ ConstraintLayout cv_details;
                     }
                 }
 
-                if (matterModel.getMatter_title()!=null){
+                if (matterModel.getMatter_title() != null) {
                     matter_title = (String) matterModel.getMatter_title();
 
                 }
-                if(matterModel.getCase_number()!=null){
+                if (matterModel.getCase_number() != null) {
                     case_number = matterModel.getCase_number();
                 }
-                if(matterModel.getCase_type()!=null){
+                if (matterModel.getCase_type() != null) {
                     case_type = matterModel.getCase_type();
                 }
-               if(matterModel.getDescription()!=null){
-                   description = matterModel.getDescription();
-               }
-                if(matterModel.getDate_of_filing()!=null){
-                    dof =matterModel.getDate_of_filing();
+                if (matterModel.getDescription() != null) {
+                    description = matterModel.getDescription();
                 }
-                if (matterModel.getStart_date()!=null){
+                if (matterModel.getDate_of_filing() != null) {
+                    dof = matterModel.getDate_of_filing();
+                }
+                if (matterModel.getStart_date() != null) {
                     start_date = matterModel.getStart_date();
                 }
-                if (matterModel.getEnd_date()!=null){
+                if (matterModel.getEnd_date() != null) {
                     end_date = matterModel.getEnd_date();
                 }
-                if (matterModel.getCourt()!=null){
+                if (matterModel.getCourt() != null) {
                     court = matterModel.getCourt();
                 }
-                 if(matterModel.getJudge()!=null){
-                     judge = matterModel.getJudge();
-                 }
-                 if(matterModel.getCase_priority()!=null){
-                     case_priority = matterModel.getCase_priority();
-                 }
-                if(matterModel.getStatus()!=null){
+                if (matterModel.getJudge() != null) {
+                    judge = matterModel.getJudge();
+                }
+                if (matterModel.getCase_priority() != null) {
+                    case_priority = matterModel.getCase_priority();
+                }
+                if (matterModel.getStatus() != null) {
                     case_status = matterModel.getStatus();
                 }
                 try {
@@ -656,7 +655,7 @@ ConstraintLayout cv_details;
                     jsonObject.put("name", documentsModel.getName());
                     documents.put(jsonObject);
                 }
-                for (int e = 0; e< documentsList.size(); e++) {
+                for (int e = 0; e < documentsList.size(); e++) {
                     DocumentsModel documentsModel = documentsList.get(e);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("docid", documentsModel.getDocid());
@@ -665,7 +664,7 @@ ConstraintLayout cv_details;
                     jsonObject.put("name", documentsModel.getName());
                     new_documents_list.put(jsonObject);
                 }
-               matterModel.setMatter_title(matter_title);
+                matterModel.setMatter_title(matter_title);
                 matterModel.setCase_number(case_number);
                 matterModel.setCase_type(case_type);
                 matterModel.setDescription(description);
@@ -715,9 +714,8 @@ ConstraintLayout cv_details;
             rv_display_upload_tm_docs.setLayoutManager(layoutManager);
             rv_display_upload_tm_docs.setHasFixedSize(true);
             ADAPTER_TAG = "TM";
-            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
+            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
             rv_display_upload_tm_docs.setAdapter(documentsAdapter);
-
 
 
             btn_assigned_team_members.setOnClickListener(new View.OnClickListener() {
@@ -731,8 +729,8 @@ ConstraintLayout cv_details;
 
 
                                 selected_tm_list.add(teamModel);
-                               // ll_assigned_team_members.setVisibility(View.VISIBLE);
-                             //   ll_add_clients.setVisibility(View.VISIBLE);
+                                // ll_assigned_team_members.setVisibility(View.VISIBLE);
+                                //   ll_add_clients.setVisibility(View.VISIBLE);
                                 //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                             }
                         }
@@ -857,7 +855,7 @@ ConstraintLayout cv_details;
                     //ll_add_clients.setVisibility(View.GONE);
                     rv_display_upload_client_docs.setVisibility(View.GONE);
                 } else {
-                   // ll_add_clients.setVisibility(View.VISIBLE);
+                    // ll_add_clients.setVisibility(View.VISIBLE);
                     rv_display_upload_client_docs.setVisibility(View.VISIBLE);
                 }
 
@@ -890,10 +888,9 @@ ConstraintLayout cv_details;
             rv_display_upload_client_docs.setLayoutManager(layoutManager);
             rv_display_upload_client_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Clients";
-            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList,new_groupsList, ADAPTER_TAG);
+            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
             rv_display_upload_client_docs.setAdapter(documentsAdapter);
             selected_clients_list.clear();
-
 
 
             btn_add_clients.setOnClickListener(new View.OnClickListener() {
@@ -907,8 +904,6 @@ ConstraintLayout cv_details;
 
 
                                 selected_clients_list.add(clientsModel);
-
-
 
 
                             }
@@ -932,11 +927,7 @@ ConstraintLayout cv_details;
 //                    }
 
 
-
-                      //  ll_save_buttons.setVisibility(View.VISIBLE);
-
-
-
+                    //  ll_save_buttons.setVisibility(View.VISIBLE);
 
 
                     loadSelectedClients();
@@ -948,13 +939,12 @@ ConstraintLayout cv_details;
             });
 
 
-
-
         } catch (Exception e) {
             e.printStackTrace();
-           AndroidUtils.showAlert(e.getMessage(), getContext());
+            AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
+
     private void ClientssPopUp() {
         try {
 
@@ -995,12 +985,12 @@ ConstraintLayout cv_details;
 
 //                  }  ischecked_client = true;
                     }
-                    if(selected_clients_list.size()==0){
+                    if (selected_clients_list.size() == 0) {
 
                         ll_assign_team_members.setVisibility(View.VISIBLE);
                         ll_save_buttons.setVisibility(View.VISIBLE);
 
-                    }else{
+                    } else {
                         selected_clients.setVisibility(View.VISIBLE);
                         ll_assign_team_members.setVisibility(View.VISIBLE);
                         ll_save_buttons.setVisibility(View.VISIBLE);
@@ -1016,6 +1006,7 @@ ConstraintLayout cv_details;
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
+
     private void loadSelectedTM() {
         String[] value = new String[selected_tm_list.size()];
         for (int i = 0; i < selected_tm_list.size(); i++) {
@@ -1033,44 +1024,69 @@ ConstraintLayout cv_details;
         ll_assigned_team_members.removeAllViews();
         for (int i = 0; i < selected_tm_list.size(); i++) {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-            tv_opponent_name.setText(selected_tm_list.get(i).getTm_name());
-            ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
-            iv_remove_opponent.setTag(i);
-            iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        int position = 0;
-                        if (v.getTag() instanceof Integer) {
-                            position = (Integer) v.getTag();
-                            v = ll_assigned_team_members.getChildAt(position);
-                            ll_assigned_team_members.removeView(v);
-//                            ll_selected_groups.addView(view_opponents,position);
-                            TeamModel teamModel = selected_tm_list.get(position);
-                            teamModel.setChecked(false);
-                            selected_tm_list.remove(position);
-//                            selected_groups_list.set(position, groupsModel);
-                            String[] value = new String[selected_tm_list.size()];
-                            for (int i = 0; i < selected_tm_list.size(); i++) {
-                                value[i] = selected_tm_list.get(i).getTm_name();
+            if (view_opponents != null) {
+                TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
+                ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+                ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
+                iv_edit_opponent.setVisibility(View.GONE);
+                if (tv_opponent_name != null && iv_remove_opponent != null) {
+                    tv_opponent_name.setText(selected_tm_list.get(i).getTm_name());
+                    iv_remove_opponent.setTag(i); // Tag each view with its position
+                    iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                int position = (int) v.getTag();
+                                // Remove the view at the specified position
+                                ll_assigned_team_members.removeViewAt(position);
+                                // Remove the corresponding item from the list
+                               TeamModel teamModel = selected_tm_list.remove(position);
+                                teamModel.setChecked(false);
+                                // Update the tags of the remaining views
+                                for (int j = 0; j < ll_assigned_team_members.getChildCount(); j++) {
+                                    ImageView iv_remove = ll_assigned_team_members.getChildAt(j).findViewById(R.id.iv_remove_opponent);
+                                    if (iv_remove != null) {
+                                        iv_remove.setTag(j);
+                                    }
+                                }
+
+                                String str = String.join(",", value);
+                                at_assigned_team_members.setText(str);
+                                // Update at_add_groups text
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (TeamModel model : selected_tm_list) {
+                                    stringBuilder.append(model.getTm_name()).append(",");
+                                }
+
+                                if (stringBuilder.length() > 0) {
+                                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                                }
+                                String strn = stringBuilder.toString();
+                                at_assigned_team_members.setText(strn);
+                            updatedtmDisplay();
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                AndroidUtils.showAlert(e.getMessage(), getContext());
                             }
-
-                            String str = String.join(",", value);
-                            at_assigned_team_members.setText(str);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        AndroidUtils.showAlert(e.getMessage(), getContext());
-                    }
+                    });
+                    iv_remove_opponent.setVisibility(View.VISIBLE); // Set visibility here
                 }
-            });
-            iv_edit_opponent.setVisibility(View.GONE);
-
-            ll_assigned_team_members.addView(view_opponents);
+                ll_assigned_team_members.addView(view_opponents);
+            }
         }
     }
+    private void updatedtmDisplay() {
+
+        if (selected_tm_list.size() > 0) {
+            selected_tm.setVisibility(View.VISIBLE);
+        } else {
+            selected_tm.setVisibility(View.GONE);
+        }
+    }
+
     private void loadSelectedClients() {
         String[] value = new String[selected_clients_list.size()];
         for (int i = 0; i < selected_clients_list.size(); i++) {
@@ -1087,59 +1103,73 @@ ConstraintLayout cv_details;
         selected_clients.setVisibility(View.VISIBLE);
         ll_save_buttons.setVisibility(View.VISIBLE);
 
-        ll_selected_clients.removeAllViews();
+
         for (int i = 0; i < selected_clients_list.size(); i++) {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-            tv_opponent_name.setText(selected_clients_list.get(i).getClient_name());
-            ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
-            iv_remove_opponent.setTag(i);
-            iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        int position = 0;
-                        if (v.getTag() instanceof Integer) {
-                            position = (Integer) v.getTag();
-                            v = ll_selected_clients.getChildAt(position);
-                            ll_selected_clients.removeView(v);
-//                            ll_selected_groups.addView(view_opponents,position);
-                            ClientsModel clientsModel = selected_clients_list.get(position);
-                            clientsModel.setChecked(false);
-                            selected_clients_list.remove(position);
+            if (view_opponents != null) {
+                TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
+                ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+                ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
+                iv_edit_opponent.setVisibility(View.GONE);
+                if (tv_opponent_name != null && iv_remove_opponent != null) {
+                    tv_opponent_name.setText(selected_clients_list.get(i).getClient_name());
+                    iv_remove_opponent.setTag(i); // Tag each view with its position
+                    iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                int position = (int) v.getTag();
+                                // Remove the view at the specified position
+                                ll_selected_clients.removeViewAt(position);
+                                // Remove the corresponding item from the list
+                                ClientsModel clientsModel = selected_clients_list.remove(position);
+                                clientsModel.setChecked(false);
+                                // Update the tags of the remaining views
+                                for (int j = 0; j < ll_selected_clients.getChildCount(); j++) {
+                                    ImageView iv_remove = ll_selected_clients.getChildAt(j).findViewById(R.id.iv_remove_opponent);
+                                    if (iv_remove != null) {
+                                        iv_remove.setTag(j);
+                                    }
+                                }
 
-//                            selected_groups_list.set(position, groupsModel);
-                            String[] value = new String[selected_clients_list.size()];
-                            for (int i = 0; i < selected_clients_list.size(); i++) {
-                                value[i] = selected_clients_list.get(i).getClient_name();
+                                String str = String.join(",", value);
+                                at_add_clients.setText(str);
+                                // Update at_add_groups text
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (ClientsModel model : selected_clients_list) {
+                                    stringBuilder.append(model.getClient_name()).append(",");
+                                }
+
+                                if (stringBuilder.length() > 0) {
+                                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                                }
+                                String strn = stringBuilder.toString();
+                                at_add_clients.setText(strn);
+updatedDisplay();
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                AndroidUtils.showAlert(e.getMessage(), getContext());
                             }
-
-                            String str = String.join(",", value);
-                            at_add_clients.setText(str);
-
                         }
-//                        if (selected_clients_list.size() > 0) {
-//
-//                            ll_assign_team_members.setVisibility(View.VISIBLE);
-//                            ll_save_buttons.setVisibility(View.VISIBLE);
-//
-//                        } else {
-//
-//                            ll_assign_team_members.setVisibility(View.VISIBLE);
-//                            selected_groups.setVisibility(View.VISIBLE);
-//                            ll_save_buttons.setVisibility(View.VISIBLE);
-//                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        AndroidUtils.showAlert(e.getMessage(), getContext());
-                    }
+                    });
+                    iv_remove_opponent.setVisibility(View.VISIBLE); // Set visibility here
                 }
-            });
-            iv_edit_opponent.setVisibility(View.GONE);
-            ll_selected_clients.addView(view_opponents);
+                ll_selected_clients.addView(view_opponents);
+            }
         }
     }
+    private void updatedDisplay() {
+
+        if (selected_clients_list.size() > 0) {
+         selected_clients.setVisibility(View.VISIBLE);
+        } else {
+            selected_clients.setVisibility(View.GONE);
+        }
+    }
+
+
 
 
 
@@ -1265,46 +1295,76 @@ ConstraintLayout cv_details;
 
             for (int i = 0; i < selected_groups_list.size(); i++) {
                 View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-                TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-                ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-                tv_opponent_name.setText(selected_groups_list.get(i).getGroup_name());
-                ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
-                iv_remove_opponent.setTag(i);
-                iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            int position = (int) v.getTag();
-                            ll_selected_groups.removeViewAt(position);
-                            GroupsModel groupsModel = selected_groups_list.remove(position);
-                            groupsModel.setChecked(false);
-                            String[] value = new String[selected_groups_list.size()];
-                            for (int i = 0; i < selected_groups_list.size(); i++) {
-                                value[i] = selected_groups_list.get(i).getGroup_name();
-                            }
-                            detectListChanges();
-                            String str = String.join(",", value);
-                            at_add_groups.setText(str);
+                if (view_opponents != null) {
+                    TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
+                    ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+                    ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
+                    iv_edit_opponent.setVisibility(View.GONE);
+                    if (tv_opponent_name != null && iv_remove_opponent != null) {
+                        tv_opponent_name.setText(selected_groups_list.get(i).getGroup_name());
+                        iv_remove_opponent.setTag(i); // Tag each view with its position
+                        iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    int position = (int) v.getTag();
+                                    // Remove the view at the specified position
+                                    ll_selected_groups.removeViewAt(position);
+                                    // Remove the corresponding item from the list
+                                    GroupsModel groupsModel = selected_groups_list.remove(position);
+                                    groupsModel.setChecked(false);
+                                    // Update the tags of the remaining views
+                                    for (int j = 0; j < ll_selected_groups.getChildCount(); j++) {
+                                        ImageView iv_remove = ll_selected_groups.getChildAt(j).findViewById(R.id.iv_remove_opponent);
+                                        if (iv_remove != null) {
+                                            iv_remove.setTag(j);
+                                        }
+                                    }
+                                    detectListChanges();
+                                    String str = String.join(",", value);
+                                    at_add_groups.setText(str);
+                                    // Update at_add_groups text
+                                    StringBuilder stringBuilder = new StringBuilder();
+                                    for (GroupsModel model : selected_groups_list) {
+                                        stringBuilder.append(model.getGroup_name()).append(",");
+                                    }
 
-                            if (selected_groups_list.size() > 0) {
-                                ll_add_clients.setVisibility(View.VISIBLE);
-                                ll_assign_team_members.setVisibility(View.VISIBLE);
-                                ll_save_buttons.setVisibility(View.VISIBLE);
-                            } else {
-                                ll_add_clients.setVisibility(View.GONE);
-                                ll_assign_team_members.setVisibility(View.GONE);
-                                selected_groups.setVisibility(View.GONE);
-                                ll_save_buttons.setVisibility(View.GONE);
+                                    if (stringBuilder.length() > 0) {
+                                        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                                    }
+                                    String strn = stringBuilder.toString();
+                                    at_add_groups.setText(strn);
+
+                                    // Update the display
+                                    updateDisplay();
+
+                                    // Update the display
+                                    updateDisplay();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    AndroidUtils.showAlert(e.getMessage(), getContext());
+                                }
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            AndroidUtils.showAlert(e.getMessage(), getContext());
-                        }
+                        });
+                        iv_remove_opponent.setVisibility(View.VISIBLE); // Set visibility here
                     }
-                });
-                iv_edit_opponent.setVisibility(View.GONE);
-                ll_selected_groups.addView(view_opponents);
+                    ll_selected_groups.addView(view_opponents);
+                }
             }
+        }
+    }
+
+    private void updateDisplay() {
+        // Update UI visibility based on the size of the selected groups list
+        if (selected_groups_list.size() > 0) {
+            ll_add_clients.setVisibility(View.VISIBLE);
+            ll_assign_team_members.setVisibility(View.VISIBLE);
+            ll_save_buttons.setVisibility(View.VISIBLE);
+        } else {
+            ll_add_clients.setVisibility(View.GONE);
+            ll_assign_team_members.setVisibility(View.GONE);
+            selected_groups.setVisibility(View.GONE);
+            ll_save_buttons.setVisibility(View.GONE);
         }
     }
 

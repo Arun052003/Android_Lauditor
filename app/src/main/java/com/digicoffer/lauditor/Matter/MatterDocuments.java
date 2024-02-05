@@ -1193,46 +1193,63 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        selected_tm.setVisibility(View.VISIBLE);
         ll_uploaded_documents.removeAllViews();
         ll_selected_documents.removeAllViews();
-        for(int i=0;i<selected_documents_list.size();i++){
+        for (int i = 0; i < selected_documents_list.size(); i++) {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-            tv_opponent_name.setText(selected_documents_list.get(i).getName());
-            ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
-            iv_remove_opponent.setTag(i);
-            iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        int position = 0;
-                        if (v.getTag() instanceof Integer) {
-                            position = (Integer) v.getTag();
-                            v = ll_selected_documents.getChildAt(position);
-                            ll_selected_documents.removeView(v);
-//                            ll_selected_groups.addView(view_opponents,position);
-                            DocumentsModel documentsModel = selected_documents_list.get(position);
-                            documentsModel.setChecked(false);
-                            selected_documents_list.remove(position);
-//                            selected_groups_list.set(position, groupsModel);
-                            String[] value = new String[selected_documents_list.size()];
-                            for (int i = 0; i < selected_documents_list.size(); i++) {
-                                value[i] = selected_documents_list.get(i).getName();
-                            }
+            if (view_opponents != null) {
+                TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
+                ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+                ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
+                iv_edit_opponent.setVisibility(View.GONE);
+                if (tv_opponent_name != null && iv_remove_opponent != null) {
+                    tv_opponent_name.setText(selected_documents_list.get(i).getName());
+                    iv_remove_opponent.setTag(i); // Tag each view with its position
+                    iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                int position = (int) v.getTag();
+                                // Remove the view at the specified position
+                                ll_selected_documents.removeViewAt(position);
+                                // Remove the corresponding item from the list
+                               DocumentsModel documentsModel = selected_documents_list.remove(position);
+                               documentsModel.setChecked(false);
+                                // Update the tags of the remaining views
+                                for (int j = 0; j < ll_selected_documents.getChildCount(); j++) {
+                                    ImageView iv_remove = ll_selected_documents.getChildAt(j).findViewById(R.id.iv_remove_opponent);
+                                    if (iv_remove != null) {
+                                        iv_remove.setTag(j);
+                                    }
+                                }
 
-                            String str = String.join(",", value);
-                            at_add_documents.setText(str);
-                            tv_selected_file.setText(str);
+                                String str = String.join(",", value);
+                                at_add_documents.setText(str);
+                                tv_selected_file.setText(str);
+
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (DocumentsModel model : selected_documents_list) {
+                                    stringBuilder.append(model.getName()).append(",");
+                                }
+
+                                if (stringBuilder.length() > 0) {
+                                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                                }
+                                String strn = stringBuilder.toString();
+                                at_add_documents.setText(strn);
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                AndroidUtils.showAlert(e.getMessage(), getContext());
+                            }
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        AndroidUtils.showAlert(e.getMessage(), getContext());
-                    }
+                    });
+                    iv_remove_opponent.setVisibility(View.VISIBLE); // Set visibility here
                 }
-            });
-            iv_edit_opponent.setVisibility(View.GONE);
-            ll_selected_documents.addView(view_opponents);
+                ll_selected_documents.addView(view_opponents);
+            }
         }
     }
+
     private void loadMattersList(JSONArray matters) {
         try {
             matterList.clear();
