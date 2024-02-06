@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHolder> implements Filterable, View.OnClickListener, AsyncTaskCompleteListener {
 
-    private static  String FLAG = "";
+    private static String FLAG = "";
     ArrayList<Events_Do> list_item = new ArrayList<Events_Do>();
     ArrayList<Events_Do> filtered_list = new ArrayList<Events_Do>();
     private Events_Adapter.EventListener context;
@@ -62,7 +62,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
     public interface EventListener {
         void onEvent(ArrayList<Event_Details_DO> event_details_list);
 
-        void delete_events(String id,boolean isrecurring);
+        void delete_events(String id, boolean isrecurring);
 
         void delete(String event_id, boolean recur);
     }
@@ -109,6 +109,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //        clients_list.clear();
         try {
             event_details_do = new Event_Details_DO();
+            event_details_do.setEvent_type(event_details.getString("event_type"));
             event_details_do.setId(event_details.getString("id"));
             event_details_do.setTitle(event_details.getString("title"));
             event_details_do.setDescription(event_details.getString("description"));
@@ -140,14 +141,14 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             event_details_do.setAttachments(event_details.getJSONArray("attachments"));
             event_details_do.setTeam_name(event_details.getJSONArray("invitees_internal"));
             event_details_do.setTm_name(event_details.getJSONArray("invitees_external"));
-            if (event_details.has("invitees_consumer_external")){
+            if (event_details.has("invitees_consumer_external")) {
                 Log.d("ArrayListLog", event_details.getJSONArray("invitees_consumer_external").toString());
                 event_details_do.setConsumer_external(event_details.getJSONArray("invitees_consumer_external"));
             }
             if (event_details.has("matter_name")) {
                 event_details_do.setMatter_name(event_details.getString("matter_name"));
             }
-            if(event_details.has("matter_id")) {
+            if (event_details.has("matter_id")) {
                 event_details_do.setMatter_id(event_details.getString("matter_id"));
             }
             if (event_details.has("matter_type")) {
@@ -159,9 +160,9 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //            for (Event_Details_DO event : event_details_list) {
 //                Log.d("ArrayListLog", event.toString());
 //            }
-            if(FLAG=="MORE") {
+            if (FLAG == "MORE") {
                 load_more_details();
-            }else {
+            } else {
                 context.onEvent(event_details_list);
             }
 //            if (event_details_do.isOwner()) {
@@ -307,7 +308,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         holder.ib_delete_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.delete_events(events_do.getEvent_id(),events_do.isRecurring());
+                context.delete_events(events_do.getEvent_id(), events_do.isRecurring());
             }
         });
         holder.ib_view_events.setOnClickListener(new View.OnClickListener() {

@@ -78,12 +78,12 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener, Vie
         tv_create_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadCreateEvent();
+                Constants.is_meeting = "Create";
+                loadCreateEvent(null);
             }
         });
         return view;
     }
-
 
     private void setViewModelData(String data) {
         mViewModel.setData(data);
@@ -141,17 +141,16 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener, Vie
         loadDayView();
     }
 
-    void loadCreateEvent() {
+    void loadCreateEvent(ArrayList<Event_Details_DO> event_details_list) {
         tv_view_event.setTextColor(getContext().getColor(R.color.black));
         tv_create_event.setTextColor(getContext().getColor(R.color.white));
         tv_view_event.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_create_event.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        CreateEvent nonSubmittedTimesheets = new CreateEvent(this);
+        CreateEvent nonSubmittedTimesheets = new CreateEvent(this, event_details_list);
         ft.replace(R.id.child_container_timesheets, nonSubmittedTimesheets);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
-
         ll_view_type.setVisibility(View.GONE);
         ft.commit();
 //        String data = "Create Event";
@@ -167,7 +166,8 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener, Vie
                 break;
             case R.id.tv_create_event:
                 ll_view_type.setVisibility(View.GONE);
-                loadCreateEvent();
+                Constants.is_meeting = "Create";
+                loadCreateEvent(null);
                 break;
         }
     }
@@ -179,12 +179,8 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener, Vie
 
     @Override
     public void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type) {
-        EditEvent editEventFragment = new EditEvent();
-        editEventFragment.setEventDetailsList(event_details_list, calendar_Type);
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.child_container_timesheets, editEventFragment)
-                .commit();
+        Constants.is_meeting = "Edit";
+        loadCreateEvent(event_details_list);
     }
 
     public void loadViewEvent(String calendar_type) {
@@ -194,7 +190,7 @@ public class Meetings extends Fragment implements AsyncTaskCompleteListener, Vie
         } else if (calendar_type == "Weekly") {
             fragment = new WeeklyCalendar();
         } else {
-            fragment = new MonthlyCalendar();
+            fragment = new WeeklyCalendar();
         }
 //        editEventFragment.setEventDetailsList(event_details_list);
         FragmentManager fragmentManager = getChildFragmentManager();
