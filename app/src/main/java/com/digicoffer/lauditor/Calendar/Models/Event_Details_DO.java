@@ -6,6 +6,16 @@ import java.util.ArrayList;
 
 public class Event_Details_DO {
     String title;
+
+    public String getEvent_type() {
+        return event_type;
+    }
+
+    public void setEvent_type(String event_type) {
+        this.event_type = event_type;
+    }
+
+    String event_type;
     String description;
     JSONArray team_name;
     JSONArray consumer_external;
@@ -123,7 +133,6 @@ public class Event_Details_DO {
     }
 
 
-
     public boolean isOwner() {
         return owner;
     }
@@ -182,7 +191,6 @@ public class Event_Details_DO {
     }
 
 
-
     public boolean isAll_day() {
         return all_day;
     }
@@ -209,7 +217,6 @@ public class Event_Details_DO {
     }
 
 
-
     public ArrayList<String> getDoc_id() {
         return doc_id;
     }
@@ -227,7 +234,6 @@ public class Event_Details_DO {
     }
 
 
-
     public JSONArray getNotifications() {
         return notifications;
     }
@@ -235,7 +241,6 @@ public class Event_Details_DO {
     public void setNotifications(JSONArray notifications) {
         this.notifications = notifications;
     }
-
 
 
     public JSONArray getTm_name() {
@@ -264,7 +269,6 @@ public class Event_Details_DO {
     }
 
 
-
     public String getEntity_name() {
         return entity_name;
     }
@@ -280,9 +284,6 @@ public class Event_Details_DO {
     public void setTmid(String tmid) {
         this.tmid = tmid;
     }
-
-
-
 
 
     public String getTitle() {
@@ -308,7 +309,6 @@ public class Event_Details_DO {
     public void setRepeat_interval(String repeat_interval) {
         this.repeat_interval = repeat_interval;
     }
-
 
 
     public String getTeam_members() {
@@ -351,8 +351,6 @@ public class Event_Details_DO {
     public void setTo_ts(String to_ts) {
         this.to_ts = to_ts;
     }
-
-
 
 
 }
