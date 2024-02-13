@@ -375,8 +375,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <include layout="@layout/group_layout"
+                        <include
                             android:id="@+id/Time_duration"
+                            layout="@layout/group_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Duration : "
@@ -921,20 +922,22 @@
                         <LinearLayout
                             android:id="@+id/ll_attach_document"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical">
 
 
                             <include
                                 android:id="@+id/tv_attach_document"
-                                layout="@layout/group_layout" />
+                                layout="@layout/group_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/left_space"
+                                android:layout_marginTop="@dimen/small_size"
+                                android:layout_marginBottom="@dimen/small_size" />
 
                             <include
                                 android:id="@+id/at_attach_document"
-                                layout="@layout/spinner_text_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp" />
+                                layout="@layout/spinner_text_view" />
 
                             <include
                                 android:id="@+id/rv_documents_view"

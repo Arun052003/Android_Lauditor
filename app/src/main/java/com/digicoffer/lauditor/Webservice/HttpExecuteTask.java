@@ -65,11 +65,11 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
         try {
 
             httpURLConnection = (HttpURLConnection) new URL(Constants.base_URL + URL).openConnection();
-            Log.d("URL",":"+Constants.base_URL + URL);
+            Log.d("URL", ":" + Constants.base_URL + URL);
 
             if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN") {
                 httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
-                Log.d("Token",":"+"Bearer " + (Constants.TOKEN )+":"+httpURLConnection);
+                Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
             }
             switch (restMethodType) {
                 case GET:
@@ -113,26 +113,26 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
             }
 
             int status_code = httpURLConnection.getResponseCode();
-            Log.i("status_code:",String.valueOf(status_code));
+            Log.i("status_code:", String.valueOf(status_code));
 //            AndroidUtils.showAlert(String.valueOf(status_code), activity.getApplicationContext());
             httpResult.setStatus_code(status_code);
-            Log.d("SCode:",String.valueOf(status_code));
+            Log.d("SCode:", String.valueOf(status_code));
             if (status_code == 200) {
                 InputStream in = httpURLConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
                 BufferedReader r = new BufferedReader(inputStreamReader);
                 StringBuilder total = new StringBuilder();
                 for (String line; (line = r.readLine()) != null; ) {
-                    total.append(line).append('\n'); }
+                    total.append(line).append('\n');
+                }
                 data = total.toString();
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
                 httpResult.setResponseContent(data);
-            }
-            else if(status_code == 401){
+            } else if (status_code == 401) {
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
                 httpResult.setResponseContent("Session expired, Login again");
-            }   else if (status_code== 404){
-                SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+            } else if (status_code == 404) {
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("isLogin", false);
                 editor.commit();
@@ -140,7 +140,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            }else if (status_code == 400) {
+            } else if (status_code == 400) {
                 try {
 //                    InputStream in = httpURLConnection.getErrorStream();
 ////                    InputStreamReader inputStreamReader = new InputStreamReader(in);
@@ -160,8 +160,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
                 httpResult.setResponseContent("Errr connection, Please try again");
             }
@@ -189,6 +188,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
     protected void onProgressUpdate(Integer... progress) {
 
     }
+
     protected void onPostExecute(HttpResultDo httpResult) {
         openCounter.decrementAndGet();
         httpResult.setRequestId(requestId);
@@ -203,9 +203,8 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 AndroidUtils.showToast("Session expired, Login agiain", activity);
             } else
                 callback.onAsyncTaskComplete(httpResult);
-        }
-        catch (Exception e) {
-//            AndroidUtils.logMsg("HttpExecuteTask.onPostExecute() : Exception " + e.getMessage());
+        } catch (Exception e) {
+            AndroidUtils.logMsg("HttpExecuteTask.onPostExecute() : Exception " + e.getMessage());
         }
     }
 

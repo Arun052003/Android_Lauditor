@@ -28,13 +28,16 @@ import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.MyViewHolder> implements Filterable {
     ArrayList<ViewMatterModel> itemsArrayList;
@@ -100,10 +103,24 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 JSONObject client_value = client.getJSONObject(i);
                 String client_name = client_value.getString("name");
                 holder.tv_client_name.setText(client_name);
-                Log.d("cleint_value_name", client_name);
+                Log.d("client_value_name", client_name);
             }
+            if (Constants.MATTER_TYPE == "Legal") {
+                holder.tv_date_of_filling.setText(viewMatterModel.getDate_of_filling());
+            } else {
+                String inputDate = viewMatterModel.getStartdate();
+                Log.d("Start_date_dof", inputDate);
+                if (inputDate.equals("")) {
+                    holder.tv_date_of_filling.setText("");
+                } else {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yy");
+                    Date date = inputFormat.parse(inputDate);
 
-            holder.tv_date_of_filling.setText(viewMatterModel.getDate_of_filling());
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy");
+                    String date_of_filling = outputFormat.format(date);
+                    holder.tv_date_of_filling.setText(date_of_filling);
+                }
+            }
 
             if (viewMatterModel.getStatus().equals("Active")) {
                 holder.tv_initiated.setText("Active");
