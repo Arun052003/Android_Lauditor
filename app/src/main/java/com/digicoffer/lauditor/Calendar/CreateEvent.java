@@ -63,6 +63,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.pgpainless.key.selection.key.util.And;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -417,19 +418,8 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         btn_cancel_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 loadClearedLists();
                 meetings.loadView();
-//                if(Constants.is_meeting=="Edit")
-//                {
-//                    loadClearedLists();
-//                    meetings.loadView();
-//                }
-//                else if(Constants.is_meeting=="Create")
-//                {
-//                    loadClearedLists();
-//                    meetings.loadView();
-//                }
             }
         });
         at_individual.setOnClickListener(new View.OnClickListener() {
@@ -660,38 +650,50 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             case R.id.add_notification:
                 NotificationPopup();
                 break;
-            case R.id.btn_cancel_timesheet:
-                AndroidUtils.showToast("Event is not Created", getContext());
-                loadClearedLists();
-                meetings.loadView();
+//            case R.id.btn_cancel_timesheet:
+//                AndroidUtils.showToast("Event is not Created", getContext());
+//                loadClearedLists();
+//                meetings.loadView();
             case R.id.btn_create_event:
-                if (!matter_legal.equals("reminders")) {
-                    if (tv_event_creation_date.getText().toString().equals("")) {
-                        tv_event_creation_date.setError("Date is required");
-                    } else if (tv_event_start_time.getText().toString().equals("")) {
-                        tv_event_start_time.setError("Start Time is required");
-                    } else if (tv_event_end_time.getText().toString().equals("")) {
-                        tv_event_end_time.setError("End time is required");
-                    } else {
-                        if (Constants.is_meeting == "Create")
-                            callCreateEventWebservice();
-                        else
-                            update_event();
-                    }
+                if (tv_sp_project.getText().toString().equals("")) {
+                    AndroidUtils.showAlert("Event Name is required", getContext());
                 } else {
-                    if (tv_event_creation_date.getText().toString().equals("")) {
-                        tv_event_creation_date.setError("Date is required");
-                    } else if (tv_event_start_time.getText().toString().equals("")) {
-                        tv_event_start_time.setError("Start Time is required");
-                    } else if (tv_event_end_time.getText().toString().equals("")) {
-                        tv_event_end_time.setError("End time is required");
-                    } else if (tv_message.getText().toString().equals("")) {
-                        tv_message.setError("Message is required");
+                    if (!matter_legal.equals("reminders")) {
+                        if (tv_sp_task_name.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Task is required", getContext());
+                        } else if (tv_event_creation_date.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Date is required", getContext());
+                        } else if (tv_event_start_time.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Start Time is required", getContext());
+                        } else if (tv_event_end_time.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("End time is required", getContext());
+                        } else if (!(selectedValues.size() == 0)) {
+                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
+                                AndroidUtils.showAlert("Please Check Notification", getContext());
+                        } else {
+                            if (Constants.is_meeting == "Create")
+                                callCreateEventWebservice();
+                            else
+                                update_event();
+                        }
                     } else {
-                        if (Constants.is_meeting == "Create")
-                            callCreateEventWebservice();
-                        else
-                            update_event();
+                        if (tv_event_creation_date.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Date is required", getContext());
+                        } else if (tv_event_start_time.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Start Time is required", getContext());
+                        } else if (tv_event_end_time.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("End time is required", getContext());
+                        } else if (tv_message.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Message is required", getContext());
+                        } else if (!(selectedValues.size() == 0)) {
+                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
+                                AndroidUtils.showAlert("Please Check Notification", getContext());
+                        } else {
+                            if (Constants.is_meeting == "Create")
+                                callCreateEventWebservice();
+                            else
+                                update_event();
+                        }
                     }
                 }
                 break;
@@ -945,7 +947,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             } else if (matter_legal.equals("overhead") || (matter_legal.equals("others"))) {
                 postData.put("title", tv_sp_task_name.getText().toString());
             } else {
-                postData.put("title", tv_sp_task_name.getText().toString());
+                postData.put("title", matter_legal);
             }
             if (!matter_legal.equals("reminders")) {
                 postData.put("dialin", tv_dialing_number.getText().toString());
