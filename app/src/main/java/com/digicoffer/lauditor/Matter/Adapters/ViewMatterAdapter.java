@@ -113,7 +113,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 if (inputDate.equals("")) {
                     holder.tv_date_of_filling.setText("");
                 } else {
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yy");
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-DD");
                     Date date = inputFormat.parse(inputDate);
 
                     SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy");

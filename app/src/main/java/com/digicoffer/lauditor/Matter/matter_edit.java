@@ -44,6 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -218,8 +219,29 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_dof.setText(viewMatterModel1.getDate_of_filling());
         tv_court.setText(viewMatterModel1.getCourtName());
         tv_judge.setText(viewMatterModel1.getJudges());
-        tv_start_date.setText(viewMatterModel1.getStartdate());
-        tv_end_date.setText(viewMatterModel1.getClosedate());
+
+        try {
+            String inputDate = viewMatterModel1.getStartdate();
+            String inputDate2 = viewMatterModel1.getClosedate();
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            if (inputDate.equals("")) {
+                tv_start_date.setText("");
+            } else {
+                Date date = inputFormat.parse(inputDate);
+                String st_date = outputFormat.format(date);
+                tv_start_date.setText(st_date);
+            }
+            if (inputDate2.equals("")) {
+                tv_start_date.setText("");
+            } else {
+                Date date2 = inputFormat.parse(inputDate2);
+                String end_date = outputFormat.format(date2);
+                tv_end_date.setText(end_date);
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         btn_create = view.findViewById(R.id.btn_create);
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
@@ -650,7 +672,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 if (closeDate.equals("")) {
                     postdata.put("closedate", "");
                 } else {
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = inputFormat.parse(closeDate);
                     SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
                     String date_of_filling = outputFormat.format(date);
@@ -659,7 +681,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 if (startDate.equals("")) {
                     postdata.put("startdate", "");
                 } else {
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = inputFormat.parse(startDate);
                     SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
                     String date_of_filling = outputFormat.format(date);
