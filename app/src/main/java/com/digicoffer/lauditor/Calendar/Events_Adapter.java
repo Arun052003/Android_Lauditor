@@ -1,8 +1,12 @@
 package com.digicoffer.lauditor.Calendar;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Calendar.Models.Event_Details_DO;
 import com.digicoffer.lauditor.Calendar.Models.Events_Do;
+import com.digicoffer.lauditor.Calendar.Models.TeamDo;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,7 +49,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
     ArrayList<Events_Do> list_item = new ArrayList<Events_Do>();
     ArrayList<Events_Do> filtered_list = new ArrayList<Events_Do>();
     private Events_Adapter.EventListener context;
-    private boolean isDetailsVisible = false;
+    private boolean isDetailsVisible = true;
     AlertDialog progress_dialog;
     ArrayList<Event_Details_DO> event_details_list = new ArrayList<Event_Details_DO>();
     Context mcontext;
@@ -160,17 +166,11 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //            for (Event_Details_DO event : event_details_list) {
 //                Log.d("ArrayListLog", event.toString());
 //            }
-            if (FLAG == "MORE") {
+            if ((FLAG == "MORE")) {
                 load_more_details();
             } else {
                 context.onEvent(event_details_list);
             }
-//            if (event_details_do.isOwner()) {
-//                Edit_events(event_details_do, event_id);
-//            } else {
-//                edit_participant_events(event_details_do, event_id);
-//            }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -196,7 +196,6 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                 }
             }
             try {
-
                 for (int a = 0; a < events_do.getTeam_name().length(); a++) {
                     Log.d("Team Members", events_do.getTeam_name().toString());
                     JSONObject att_team_obj = events_do.getTeam_name().getJSONObject(a);
@@ -286,25 +285,29 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         holder.tv_meeting_link.setText(events_do.getMeeting_link());
         holder.tv_phone_dialin.setText(events_do.getDialin());
         holder.tv_location.setText(events_do.getLocation());
+
         holder.bt_hide_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isDetailsVisible = !isDetailsVisible;
-                // Set the visibility of the view based on the state
-                holder.ll_view_more.setVisibility(isDetailsVisible ? View.VISIBLE : View.GONE);
                 if (!isDetailsVisible) {
+                    holder.ll_view_more.setVisibility(View.GONE);
                     // Clear the ArrayList here
                     event_details_list.clear();
-                    my_view_holder.ll_documents.removeAllViews();
-                    my_view_holder.ll_team_members.removeAllViews();
-                    my_view_holder.ll_clients.removeAllViews();
+                    holder.ll_documents.removeAllViews();
+                    holder.ll_team_members.removeAllViews();
+                    holder.ll_clients.removeAllViews();
+                    holder.bt_hide_details.setText("View More");
+                } else {
+                    holder.bt_hide_details.setText("View Less");
+                    holder.ll_view_more.setVisibility(View.VISIBLE);
+                    FLAG = "MORE";
+                    callEventDetailsWebservice(events_do.getEvent_id());
                 }
-                FLAG = "MORE";
-                callEventDetailsWebservice(events_do.getEvent_id());
+                isDetailsVisible = !isDetailsVisible;
             }
         });
-        holder.ll_view_more.setVisibility(isDetailsVisible ? View.VISIBLE : View.GONE);
-        holder.bt_hide_details.setText(isDetailsVisible ? "View less" : "View More");
+//        holder.ll_view_more.setVisibility(isDetailsVisible ? View.VISIBLE : View.GONE);
+//        holder.bt_hide_details.setText(isDetailsVisible ? "View less" : "View More");
         holder.ib_delete_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -341,7 +344,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView events_names, tv_meeting_link, tv_phone_dialin, tv_location, tv_yes, tv_no, tv_maybe, event_title, event_time, event_description, event_timezone;
-        TextView time;
+        TextView time, meeting_link, dialin, location, notified_before, documents, team_members, clients;
         ImageButton ib_view_events, ib_delete_events;
         ImageButton ib_view;
         ImageButton ib_delete;
@@ -353,18 +356,41 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             super(itemView);
             events_names = (TextView) itemView.findViewById(R.id.events_names);
             time = (TextView) itemView.findViewById(R.id.time);
+            meeting_link = (TextView) itemView.findViewById(R.id.meeting_name);
+            meeting_link.setText(R.string.meeting_link);
+            dialin = itemView.findViewById(R.id.dialin);
+            dialin.setText("Join by phone");
+            location = itemView.findViewById(R.id.location);
+            location.setText(R.string.location);
+            notified_before = itemView.findViewById(R.id.notified_before);
+            notified_before.setText("Notified Before");
+            documents = itemView.findViewById(R.id.documents);
+            documents.setText(R.string.documents);
+            team_members = itemView.findViewById(R.id.team_members);
+            team_members.setText(R.string.team_members);
+            clients = itemView.findViewById(R.id.clients);
+            clients.setText(R.string.client);
             event_title = (TextView) itemView.findViewById(R.id.event_title);
+            event_title.setTextColor(Color.BLACK);
+            event_title.setTypeface(null, Typeface.BOLD);
+            event_title.setTextSize(20);
             ib_view_events = (ImageButton) itemView.findViewById(R.id.ib_view_events);
             tv_yes = (TextView) itemView.findViewById(R.id.tv_yes);
             tv_no = (TextView) itemView.findViewById(R.id.tv_no);
             tv_maybe = (TextView) itemView.findViewById(R.id.tv_maybe);
             event_time = (TextView) itemView.findViewById(R.id.event_time);
+            event_time.setTextColor(Color.BLACK);
             event_timezone = (TextView) itemView.findViewById(R.id.event_timezone);
+            event_timezone.setTextColor(Color.BLACK);
             ib_delete_events = (ImageButton) itemView.findViewById(R.id.ib_delete_events);
             event_description = (TextView) itemView.findViewById(R.id.event_description);
+            event_description.setTextColor(Color.BLACK);
             tv_meeting_link = (TextView) itemView.findViewById(R.id.tv_meeting_link);
+            tv_meeting_link.setTextColor(Color.BLACK);
             tv_phone_dialin = (TextView) itemView.findViewById(R.id.tv_phone_dialin);
+            tv_phone_dialin.setTextColor(Color.BLACK);
             tv_location = (TextView) itemView.findViewById(R.id.tv_location);
+            tv_location.setTextColor(Color.BLACK);
             bt_hide_details = (AppCompatButton) itemView.findViewById(R.id.bt_hide_details);
             ll_notifications = (LinearLayout) itemView.findViewById(R.id.ll_notifications);
             ll_view_more = (LinearLayout) itemView.findViewById(R.id.ll_view_more);

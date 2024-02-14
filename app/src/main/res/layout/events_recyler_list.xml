@@ -8,409 +8,323 @@
     android:backgroundTint="@color/Blue_text_color"
     tools:context=".MainActivity">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_client_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:elevation="50dp"
-            android:padding="5dp"
-            android:visibility="visible"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_client_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_size"
+        android:elevation="50dp"
+        android:padding="5dp"
+        android:visibility="visible"
+        app:cardCornerRadius="@dimen/small_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
-            android:id="@+id/ll_event_function"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="0"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/left_space"
+            android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/ll_event_function"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/events_names"
+                android:layout_margin="@dimen/small_size"
+                android:orientation="horizontal"
+                android:weightSum="0">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="left"
-                    android:textSize="@dimen/twenty_dp"
-                    android:textColor="@color/Blue_text_color"
                     android:layout_height="wrap_content"
-                    android:text="Meeting with Vijay"
-                    android:padding="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/events_names"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:text="Meeting with Vijay"
+                        android:textColor="@color/Blue_text_color"
+                        android:textSize="@dimen/twenty_dp">
+
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/ib_view_events"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/tv_title"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_weight="0"
+                        android:background="@drawable/edit_documents_icon"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/cardview_dark_background"
+                        android:textStyle="normal" />
+
+                    <ImageButton
+                        android:id="@+id/ib_delete_events"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/tv_title"
+                        android:layout_gravity="end"
+                        android:layout_marginLeft="5dp"
+
+                        android:layout_weight="0"
+                        android:background="@drawable/delete_icon_relationships"
+                        android:gravity="end"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/cardview_dark_background"
+                        android:textStyle="normal" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_rsvp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:paddingTop="@dimen/twenty_dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/button_left_green_round_background"
                     android:fontFamily="sans-serif-condensed-medium"
-                    >
+                    android:padding="15dp"
+                    android:text="Yes"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Fifteen_dp">
 
                 </TextView>
 
+                <TextView
+                    android:id="@+id/tv_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/radiobutton_centre_background"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:padding="15dp"
+                    android:text="No"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Fifteen_dp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_maybe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_right_round_background"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:padding="15dp"
+                    android:text="Maybe"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Fifteen_dp">
+
+                </TextView>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:id="@+id/ib_view_events"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/tv_title"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp"
+                android:id="@+id/ll_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/left_space"
+                android:orientation="vertical"
+                android:weightSum="0">
+
+                <include
+                    android:id="@+id/event_title"
+                    layout="@layout/group_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/left_space" />
+
+
+                <include
+                    android:id="@+id/event_time"
+                    layout="@layout/group_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/left_space" />
+
+                <include
+                    android:id="@+id/event_timezone"
+                    layout="@layout/group_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/left_space" />
+
+                <include
+                    android:id="@+id/event_description"
+                    layout="@layout/group_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/left_space" />
+
+                <LinearLayout
+                    android:id="@+id/ll_view_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:background="@drawable/edit_documents_icon"
-                    android:layout_gravity="center"
-                    android:gravity="start"
-                    android:padding="10dp"
-                    android:text=""
-                    android:textColor="@color/cardview_dark_background"
-                    android:textStyle="normal" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageButton
-                    android:id="@+id/ib_delete_events"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/tv_title"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="5dp"
+                    <include
+                        android:id="@+id/meeting_name"
+                        layout="@layout/group_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
 
-                    android:layout_weight="0"
-                    android:background="@drawable/delete_icon_relationships"
-                    android:gravity="end"
-                    android:padding="10dp"
-                    android:text=""
-                    android:textColor="@color/cardview_dark_background"
-                    android:textStyle="normal" />
+                    <include
+                        android:id="@+id/tv_meeting_link"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+                    <include
+                        android:id="@+id/dialin"
+                        layout="@layout/group_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+                    <include
+                        android:id="@+id/tv_phone_dialin"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+                    <include
+                        android:id="@+id/location"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+                    <include
+                        android:id="@+id/tv_location"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+                    <include
+                        android:id="@+id/notified_before"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+                    <LinearLayout
+                        android:id="@id/ll_notifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/documents"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
 
 
+                    <LinearLayout
+                        android:id="@+id/ll_documents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/team_members"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_team_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"></LinearLayout>
+
+                    <include
+                        android:id="@+id/clients"
+                        layout="@layout/group_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_clients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_hide_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@drawable/button_plain_background"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/gill_sans"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="View More"
+                    android:textAllCaps="false"
+                    android:textColor="@color/green_count_color"
+                    android:textSize="@dimen/twenty_dp">
+
+                </androidx.appcompat.widget.AppCompatButton>
             </LinearLayout>
-
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_rsvp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="10dp"
-            android:gravity="left"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:paddingTop="@dimen/twenty_dp"
-
-            >
-
-            <TextView
-                android:id="@+id/tv_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-
-                android:background="@drawable/button_left_green_round_background"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="15dp"
-                android:text="Yes"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/tv_no"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/radiobutton_centre_background"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="15dp"
-                android:text="No"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/tv_maybe"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/button_right_round_background"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:padding="15dp"
-                android:text="Maybe"
-                android:textColor="@color/black"
-                android:textSize="@dimen/Fifteen_dp">
-
-            </TextView>
-        </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_events"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="0"
-        android:layout_margin="5dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/event_title"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-            android:id="@+id/event_time"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-            android:id="@+id/event_timezone"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-            android:id="@+id/event_description"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Meeting Link"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <TextView
-            android:id="@+id/tv_meeting_link"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Dialin"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <TextView
-            android:id="@+id/tv_phone_dialin"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Location"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <TextView
-            android:id="@+id/tv_location"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="@dimen/twenty_dp"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-
-            android:padding="5dp"
-            android:fontFamily="sans-serif"
-            >
-
-        </TextView>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Notified Before"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <LinearLayout
-            android:id="@id/ll_notifications"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_view_more"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:layout_weight="0">
-
-
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Documents"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <LinearLayout
-            android:id="@+id/ll_documents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Team Members"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <LinearLayout
-            android:id="@+id/ll_team_members"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="left"
-            android:textSize="25dp"
-            android:textColor="@color/Blue_text_color"
-            android:layout_height="wrap_content"
-            android:text="Clients"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            >
-
-        </TextView>
-        <LinearLayout
-            android:id="@+id/ll_clients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-        </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_hide_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View More"
-            android:background="@drawable/button_plain_background"
-            android:gravity="left"
-            android:layout_gravity="center"
-            android:padding="5dp"
-            android:textAllCaps="false"
-            android:layout_margin="5dp"
-            android:textSize="@dimen/twenty_dp"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/green_count_color">
-
-        </androidx.appcompat.widget.AppCompatButton>
-    </LinearLayout>
-</LinearLayout>
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
