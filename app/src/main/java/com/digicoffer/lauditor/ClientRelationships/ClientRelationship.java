@@ -149,17 +149,34 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
     private void callSearchEntityWebservice(String id) throws JSONException{
         JSONObject postdata = new JSONObject();
-        if (entity_id == ""){
+     if(entity_id.isEmpty()) {
             tv_response.setText(at_search_entity.getText().toString()+"-not found.Please fill the below details to invite relationship");
             tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
             disableAlpha();
+            tv_entity_name.setEnabled(true);
+            tv_entity_name.setFocusable(true);
+            tv_entity_name.setFocusableInTouchMode(true);
+            tv_entity_contact_person.setEnabled(true);
+            tv_entity_contact_person.setFocusable(true);
+            tv_entity_contact_person.setFocusableInTouchMode(true);
+            tv_individual_email.setEnabled(true);
+            tv_individual_email.setFocusable(true);
+            tv_individual_email.setFocusableInTouchMode(true);
+            tv_individual_confirm_email.setEnabled(true);
+            tv_individual_confirm_email.setFocusable(true);
+            tv_individual_confirm_email.setFocusableInTouchMode(true);
+            sp_country.setEnabled(true);
+            sp_country.setEnabled(true);
+            tv_entity_phone_number.setFocusable(true);
+            tv_entity_phone_number.setEnabled(true);
+            tv_entity_phone_number.setFocusableInTouchMode(true);
            // enableIndividualData();
-          //  clearIndividualData();
+           clearIndividualData();
         }else {
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
         }
 
-
+entity_id="";
 //        postdata.put("email", et_search_individual.getText().toString());
 
     }
@@ -1027,9 +1044,21 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             Log.i("Tag", "Info:" + searchModel.getError());
             tv_response.setText(et_search_individual.getText().toString() + "-" + "not found. Please fill in the details below to send relationship invite");
             tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-            disableAlpha();
-            enableIndividualData();
-            clearIndividualData();
+            tv_individual_email.setText(et_search_individual.getText().toString());
+            tv_individual_email.setTextColor(getResources().getColor(R.color.black));
+            tv_individual_confirm_email.setText(et_search_individual.getText().toString());
+            tv_individual_confirm_email.setTextColor(getResources().getColor(R.color.black));
+            tv_individual_firstname.setEnabled(true);
+            tv_individual_firstname.setFocusable(true);
+            tv_individual_firstname.setFocusableInTouchMode(true);
+            tv_individual_last_name.setFocusable(true);
+            tv_individual_last_name.setEnabled(true);
+            tv_individual_last_name.setFocusableInTouchMode(true);
+            sp_country.setEnabled(true);
+            sp_country.setFocusable(true);
+           // disableAlpha();
+          //  enableIndividualData();
+            //clearIndividualData();
 //                  et_search_individual.setText("");
         } else {
             Log.i("Tag", "Info:" + searchModel.getError());

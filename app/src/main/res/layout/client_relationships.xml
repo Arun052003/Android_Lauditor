@@ -193,7 +193,7 @@
                         android:textSize="20dp"
                         android:hint="Search"
                         android:background="@drawable/rectangle_grey_background"
-
+                        android:inputType="textEmailAddress"
                         android:gravity="start" />
 
 
