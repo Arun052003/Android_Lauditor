@@ -99,13 +99,14 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     String recurring_edit_choice;
     private ArrayList<Event_Details_DO> existing_events_list = new ArrayList<>();
     String event_id;
+    String time_format = "", time_value = "";
     String event_name;
     MultiAutoCompleteTextView at_family_members;
     CardView cv_meeting_details, cv_add_clients;
     int temp = 0;
     TimePickerDialog timePickerDialog;
     int end = 0;
-    String time_value, time_format;
+    private boolean is_notify_clicked = true;
     int endMinute = 0;
     int startMinute = 0;
     final ArrayList<String> Repetetions = new ArrayList<>();
@@ -115,6 +116,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     final int[] mMinute = new int[1];
     private ArrayList<String> selectedValues = new ArrayList<>();
     String selected_hour_type = "";
+    //    String selected_notify_value = "";
     private boolean timeZonesTaskCompleted = false;
     CheckBox cb_all_day, cb_add_to_timesheet;
     boolean isAllDay;
@@ -648,7 +650,10 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 break;
             case R.id.add_notification:
-                NotificationPopup();
+                is_notify_clicked = false;
+                if (!is_notify_clicked) {
+                    NotificationPopup();
+                }
                 break;
 //            case R.id.btn_cancel_timesheet:
 //                AndroidUtils.showToast("Event is not Created", getContext());
@@ -667,9 +672,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             AndroidUtils.showAlert("Start Time is required", getContext());
                         } else if (tv_event_end_time.getText().toString().equals("")) {
                             AndroidUtils.showAlert("End time is required", getContext());
-                        } else if (!(selectedValues.size() == 0)) {
-                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
-                                AndroidUtils.showAlert("Please Check Notification", getContext());
+//                        } else if (!(selectedValues.size() == 0)) {
+//                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
+//                                AndroidUtils.showAlert("Please Check Notification", getContext());
                         } else {
                             if (Constants.is_meeting == "Create")
                                 callCreateEventWebservice();
@@ -685,9 +690,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             AndroidUtils.showAlert("End time is required", getContext());
                         } else if (tv_message.getText().toString().equals("")) {
                             AndroidUtils.showAlert("Message is required", getContext());
-                        } else if (!(selectedValues.size() == 0)) {
-                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
-                                AndroidUtils.showAlert("Please Check Notification", getContext());
+//                        } else if (!(selectedValues.size() == 0)) {
+//                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
+//                                AndroidUtils.showAlert("Please Check Notification", getContext());
                         } else {
                             if (Constants.is_meeting == "Create")
                                 callCreateEventWebservice();
@@ -982,12 +987,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void NotificationPopup() {
         View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.add_calendar_notification, null);
-        tv_sp_minutes = view_opponents.findViewById(R.id.tv_sp_minutes);
-        sp_minutes = view_opponents.findViewById(R.id.sp_minutes);
-        tv_numbers = view_opponents.findViewById(R.id.tv_numbers);
+        TextView tv_sp_minutes = view_opponents.findViewById(R.id.tv_sp_minutes);
+        ListView sp_minutes = view_opponents.findViewById(R.id.sp_minutes);
+        TextInputEditText tv_numbers = view_opponents.findViewById(R.id.tv_numbers);
         ArrayList<MinutesDO> minutes_list = new ArrayList<>();
-        error_msg = view_opponents.findViewById(R.id.error_msg);
-        error_msg1 = view_opponents.findViewById(R.id.error_msg1);
+        TextView error_msg = view_opponents.findViewById(R.id.error_msg);
+        TextView error_msg1 = view_opponents.findViewById(R.id.error_msg1);
         error_msg.setTextColor(getContext().getResources().getColor(R.color.Red));
         error_msg.setTextSize(15);
         error_msg1.setTextColor(getContext().getResources().getColor(R.color.Red));
@@ -1047,6 +1052,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 tv_sp_minutes.setText(selected_hour_type);
             }
         });
+//        selected_notify_value = tv_sp_minutes.getText().toString();
         if (tv_sp_minutes.getText().toString().equals("")) {
             error_msg1.setVisibility(View.VISIBLE);
             error_msg1.setText("This field is required");
@@ -1119,9 +1125,10 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
             }
         });
-
         ll_add_notification.addView(view_opponents);
-        selectedValues.add(tv_numbers.getText().toString() + "- " + selected_hour_type.toLowerCase(Locale.ROOT));
+        if (!is_notify_clicked) {
+            selectedValues.add(tv_numbers.getText().toString() + "- " + selected_hour_type.toLowerCase(Locale.ROOT));
+        }
     }
 
     private void loadnewInput(TextInputEditText tv_numbers, View view) {
@@ -1358,12 +1365,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     }
                 }
             }
-            selected_tm_list.clear();
             if (teamList.size() == 0) {
                 rv_groups_view.setVisibility(View.GONE);
                 AndroidUtils.showToast("No Team Members to View", getContext());
                 is_clicked_team = true;
             } else {
+//                selected_tm_list.clear();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 rv_groups_view.setLayoutManager(layoutManager);
                 rv_groups_view.setHasFixedSize(true);
@@ -2660,24 +2667,24 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        try {
-//            for (int i = 0; i < existing_events_list.size(); i++) {
-//                JSONArray notification = existing_events_list.get(i).getNotifications();
-//                for (int j = 0; j < notification.length(); j++) {
-//                    selectedValues.add(notification.get(j).toString());
-//                    String value_notify = notification.getString(j);
-//                    String[] value_2 = value_notify.split("-");
-//                    time_format = value_2[0];
-//                    time_value = value_2[1];
-//                    NotificationPopup();
-//                }
-//
-//            }
-//
-////    NotificationPopup();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            for (int i = 0; i < existing_events_list.size(); i++) {
+                JSONArray notification = existing_events_list.get(i).getNotifications();
+                for (int j = 0; j < notification.length(); j++) {
+                    selectedValues.add(notification.get(j).toString());
+                    String value_notify = notification.getString(j);
+                    String[] value_2 = value_notify.split("-");
+                    time_format = value_2[0];
+                    time_value = value_2[1];
+                    NotificationPopup();
+                }
+
+            }
+
+//    NotificationPopup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        try {
 //            for (int i = 0; i < existing_events_list.size(); i++) {
 //                JSONArray team_members = existing_events_list.get(i).getConsumer_external();
