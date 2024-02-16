@@ -229,13 +229,13 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.green_circular));
 //                notifyDataSetChanged();
             } else {
-                holder.tv_initiated.setText("Not Accepted");
-                holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.red_circular));
+                holder.tv_initiated.setText("Pending");
+                holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.circular));
 //                notifyDataSetChanged();
             }
         }
         Log.i("Tag", "Relationship:" + relationshipsModel.getAdminName());
-        holder.tv_relationship_name.setText(relationshipsModel.getAdminName());
+        holder.tv_relationship_name.setText(relationshipsModel.getName());
         holder.tv_created_date.setText("Created " + relationshipsModel.getCreated());
         holder.tv_consumer.setText(relationshipsModel.getClientType());
 //                    if (relationshipsModel.isAccepted()){
