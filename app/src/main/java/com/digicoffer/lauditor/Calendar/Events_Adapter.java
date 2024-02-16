@@ -293,6 +293,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     holder.ll_view_more.setVisibility(View.GONE);
                     // Clear the ArrayList here
                     event_details_list.clear();
+                    holder.ll_notifications.removeAllViews();
                     holder.ll_documents.removeAllViews();
                     holder.ll_team_members.removeAllViews();
                     holder.ll_clients.removeAllViews();

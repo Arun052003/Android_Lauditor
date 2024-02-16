@@ -1085,7 +1085,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             @Override
             public void afterTextChanged(Editable editable) {
                 if (position >= 0 && position < selectedValues.size()) {
-                    selectedValues.set(position, editable.toString() + "- " + selected_hour_type.toLowerCase(Locale.ROOT));
+                    selectedValues.set(position, editable.toString() + "- " + tv_sp_minutes.getText().toString().toLowerCase(Locale.ROOT));
                 }
                 if (!(tv_numbers.getText().toString().equals(""))) {
                     int notify_number = Integer.parseInt(tv_numbers.getText().toString());
