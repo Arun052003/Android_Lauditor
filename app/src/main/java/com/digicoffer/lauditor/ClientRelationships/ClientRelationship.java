@@ -114,12 +114,34 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     ll_first_name.setAlpha(1.0f);
                     country_name_id.setAlpha(1.0f);
 
+                        String email = et_search_individual.getText().toString().trim();
+                    if(isValidEmail(email)) {
+
+                        tv_individual_email.setText(email);
+                        tv_individual_confirm_email.setText(email);
+                        ll_groups.setVisibility(View.VISIBLE);
+                        ll_select_all.setVisibility(View.VISIBLE);
+                    } else {
+                        et_search_individual .setError("Invalid email");
+                        tv_individual_email.setText("");
+                        tv_individual_confirm_email.setText("");
+                      ll_email.setAlpha(0.4F);
+                      ll_confirm_email.setAlpha(0.4F);
+                      ll_first_name.setAlpha(0.4F);
+                      ll_last_name.setAlpha(0.4F);
+                      country_name_id.setAlpha(0.4F);
+                      ll_groups.setVisibility(View.GONE);
+                      ll_select_all.setVisibility(View.GONE);
+
+                    }
 
 
 
 
-                    ll_groups.setVisibility(View.VISIBLE);
-                    ll_select_all.setVisibility(View.VISIBLE);
+
+
+//                    ll_groups.setVisibility(View.VISIBLE);
+//                    ll_select_all.setVisibility(View.VISIBLE);
 //                tv_response.setText("");
                     callSearchIndividualWebservice();
                 } catch (JSONException e) {
@@ -146,11 +168,15 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
         }
     }
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(emailRegex);
+    }
 
-    private void callSearchEntityWebservice(String id) throws JSONException{
+    private void callSearchEntityWebservice(String id) throws JSONException {
         JSONObject postdata = new JSONObject();
-     if(entity_id.isEmpty()) {
-            tv_response.setText(at_search_entity.getText().toString()+"-not found.Please fill the below details to invite relationship");
+        if (entity_id.isEmpty()) {
+            tv_response.setText(at_search_entity.getText().toString() + "-not found. Please fill the below details to invite relationship");
             tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
             disableAlpha();
             tv_entity_name.setEnabled(true);
@@ -167,19 +193,22 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             tv_individual_confirm_email.setFocusableInTouchMode(true);
             sp_country.setEnabled(true);
             sp_country.setEnabled(true);
-            tv_entity_phone_number.setFocusable(true);
+
             tv_entity_phone_number.setEnabled(true);
+            tv_entity_phone_number.setFocusable(true);
             tv_entity_phone_number.setFocusableInTouchMode(true);
-           // enableIndividualData();
-           clearIndividualData();
-        }else {
+
+
+            // enableIndividualData();
+            clearIndividualData();
+            unhideEntityData();
+        } else {
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
         }
-
-entity_id="";
-//        postdata.put("email", et_search_individual.getText().toString());
-
     }
+
+
+
 
 
     private void callGroupsWebservice() {
@@ -392,6 +421,7 @@ entity_id="";
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
                         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.black));
                         ll_relationships.setVisibility(View.GONE);
+                        ll_contatc_phone.setVisibility(View.GONE);
                         cv_details.setVisibility(View.VISIBLE);
                         ll_select_all.setVisibility(View.GONE);
                         ll_groups.setVisibility(View.GONE);
@@ -434,6 +464,7 @@ entity_id="";
                         ll_first_name.setAlpha(0.4F);
                         country_name_id.setAlpha(0.4F);
                         ll_select_all.setVisibility(View.GONE);
+                        ll_contatc_phone.setVisibility(View.GONE);
                         ll_groups.setVisibility(View.GONE);
                         clearIndividualData();
                         mViewModel.setData("Individual");
@@ -455,6 +486,7 @@ entity_id="";
                         ll_contatc_phone.setAlpha(0.4F);
                         ll_groups.setVisibility(View.GONE);
                         ll_select_all.setVisibility(View.GONE);
+                        at_search_entity.setText("");
                         //end new code
                         tv_response.setText("");
                         unhideEntityData();
@@ -484,6 +516,7 @@ entity_id="";
 //                            tv_individual_confirm_email.setText("");
 //                        }
                         clearIndividualData();
+                        ll_contatc_phone.setVisibility(View.GONE);
                         ll_email.setAlpha(0.4F);
                         ll_confirm_email.setAlpha(0.4F);
                         ll_last_name.setAlpha(0.4F);
@@ -933,7 +966,7 @@ entity_id="";
                         }
                     }
                 }else {
-                    if (!individualValidation()) {
+                    if (!entityValidation()) {
                         try {
 
                             callEntityRequestWebservice();
@@ -978,7 +1011,7 @@ entity_id="";
                     postdata.put("email",tv_individual_email.getText().toString());
                     postdata.put("fullname",tv_entity_name.getText().toString());
                     postdata.put("contact_person",tv_entity_contact_person.getText().toString());
-                    postdata.put("contactPhone",tv_entity_phone_number.getText().toString());
+                    postdata.put("contact_phone",tv_entity_phone_number.getText().toString());
                     postdata.put("groupAcls",groups);
                     WebServiceHelper.callHttpWebService(this,getContext(), WebServiceHelper.RestMethodType.POST,"v2/relationship/invite/entity","Send Entity Request",postdata.toString());
                 }
@@ -1057,6 +1090,17 @@ entity_id="";
             sp_country.setEnabled(true);
             sp_country.setFocusable(true);
            // disableAlpha();
+            String email = et_search_individual.getText().toString().trim();
+            if(isValidEmail(email)) {
+
+
+                tv_individual_email.setText(email);
+                tv_individual_confirm_email.setText(email);
+            } else {
+                et_search_individual.setError("Invalid email");
+                tv_individual_email.setText("");
+                tv_individual_confirm_email.setText("");
+            }
           //  enableIndividualData();
             //clearIndividualData();
 //                  et_search_individual.setText("");
@@ -1155,87 +1199,96 @@ entity_id="";
 
     private boolean individualValidation(){
         boolean status = false;
-        if(RELATIONSHIP_TAG =="INDIVIDUAL") {
-            if (tv_individual_email.getText().toString().equals("")) {
-                tv_individual_email.setError("Email is required");
-                tv_individual_email.requestFocus();
-                AndroidUtils.showToast("Email is required", getContext());
-                status = true;
-            } else if (tv_individual_confirm_email.getText().toString().equals("")) {
-                tv_individual_confirm_email.setError("Confirm email is required");
-                tv_individual_confirm_email.requestFocus();
-                AndroidUtils.showToast("Confirm email is required", getContext());
-                status = true;
-            } else if (!tv_individual_email.getText().toString().equals(tv_individual_confirm_email.getText().toString())) {
-                tv_individual_confirm_email.setError("Email and Confirm Email doesn't match");
-                AndroidUtils.showToast("Email and Confirm Email doesn't match", getContext());
-                status = true;
-            } else if (tv_individual_firstname.getText().toString().equals("")) {
-                tv_individual_firstname.setError("First Name is required");
-                tv_individual_firstname.requestFocus();
-                AndroidUtils.showToast("First Name is required", getContext());
-                status = true;
-            } else if (tv_individual_last_name.getText().toString().equals("")) {
-                tv_individual_last_name.setError("Last Name is required");
-                tv_individual_last_name.requestFocus();
-                AndroidUtils.showToast("Last Name is required", getContext());
-                status = true;
-            } else if (country_name.equals("Choose country")) {
-                AndroidUtils.showToast("Please select a country", getContext());
+
+        if (tv_individual_email.getText().toString().equals("")) {
+            tv_individual_email.setError("Email is required");
+            tv_individual_email.requestFocus();
+            AndroidUtils.showToast("Email is required", getContext());
+            status = true;
+        } else if (tv_individual_confirm_email.getText().toString().equals("")) {
+            tv_individual_confirm_email.setError("Confirm email is required");
+            tv_individual_confirm_email.requestFocus();
+            AndroidUtils.showToast("Confirm email is required", getContext());
+            status = true;
+        } else if (!tv_individual_email.getText().toString().equals(tv_individual_confirm_email.getText().toString())) {
+            tv_individual_confirm_email.setError("Email and Confirm Email don't match");
+            AndroidUtils.showToast("Email and Confirm Email don't match", getContext());
+            status = true;
+        } else if (tv_individual_firstname.getText().toString().equals("")) {
+            tv_individual_firstname.setError("First Name is required");
+            tv_individual_firstname.requestFocus();
+            AndroidUtils.showToast("First Name is required", getContext());
+            status = true;
+        } else if (tv_individual_last_name.getText().toString().equals("")) {
+            tv_individual_last_name.setError("Last Name is required");
+            tv_individual_last_name.requestFocus();
+            AndroidUtils.showToast("Last Name is required", getContext());
+            status = true;
+        } else if (country_name.equals("Choose country")) {
+            AndroidUtils.showToast("Please select a country", getContext());
+            status = true;
+        } else {
+            if (!tv_individual_email.getText().toString().equals("") && Patterns.EMAIL_ADDRESS.matcher(tv_individual_email.getText().toString()).matches()) {
+                status = false;
             } else {
-                if (!tv_individual_email.getText().toString().equals("") && Patterns.EMAIL_ADDRESS.matcher(tv_individual_email.getText().toString()).matches()) {
-                    status = false;
-                } else {
-                    tv_individual_email.setError("Enter a valid email address");
-                    AndroidUtils.showToast("Enter a valid email address", getContext());
-                    status = true;
-                }
-            }
-        }else{
-            if (tv_entity_name.getText().toString().equals("")) {
-                tv_entity_name.setError("Entity Name is required");
-                tv_entity_name.requestFocus();
-                AndroidUtils.showToast("Entity Name is required", getContext());
+                tv_individual_email.setError("Enter a valid email address");
+                AndroidUtils.showToast("Enter a valid email address", getContext());
                 status = true;
-            }else if (tv_entity_contact_person.getText().toString().equals("")) {
-                tv_entity_contact_person.setError("Contact Person is required");
-                tv_entity_contact_person.requestFocus();
-                AndroidUtils.showToast("Contact Person is required", getContext());
-                status = true;
-            }else if(tv_entity_phone_number.getText().toString().equals("")){
-                tv_entity_phone_number.setError("Contact Phone Number is required");
-                tv_entity_phone_number.requestFocus();
-                AndroidUtils.showToast("Contact Phone Number is required",getContext());
-            }
-            else if (tv_individual_email.getText().toString().equals("")) {
-                tv_individual_email.setError("Email is required");
-                tv_individual_email.requestFocus();
-                AndroidUtils.showToast("Email is required", getContext());
-                status = true;
-            } else if (tv_individual_confirm_email.getText().toString().equals("")) {
-                tv_individual_confirm_email.setError("Confirm email is required");
-                tv_individual_confirm_email.requestFocus();
-                AndroidUtils.showToast("Confirm email is required", getContext());
-                status = true;
-            } else if (!tv_individual_email.getText().toString().equals(tv_individual_confirm_email.getText().toString())) {
-                tv_individual_confirm_email.setError("Email and Confirm Email doesn't match");
-                AndroidUtils.showToast("Email and Confirm Email doesn't match", getContext());
-                status = true;
-            }   else if (country_name.equals("Choose country")) {
-                AndroidUtils.showToast("Please select a country", getContext());
-            } else {
-                if (!tv_individual_email.getText().toString().equals("") && Patterns.EMAIL_ADDRESS.matcher(tv_individual_email.getText().toString()).matches()) {
-                    status = false;
-                } else {
-                    tv_individual_email.setError("Enter a valid email address");
-                    AndroidUtils.showToast("Enter a valid email address", getContext());
-                    status = true;
-                }
             }
         }
 
         return status;
     }
+
+    private boolean entityValidation() {
+        boolean status = false;
+
+        if (tv_entity_name.getText().toString().equals("")) {
+            tv_entity_name.setError("Entity Name is required");
+            tv_entity_name.requestFocus();
+            AndroidUtils.showToast("Entity Name is required", getContext());
+            status = true;
+        } else if (tv_entity_contact_person.getText().toString().equals("")) {
+            tv_entity_contact_person.setError("Contact Person is required");
+            tv_entity_contact_person.requestFocus();
+            AndroidUtils.showToast("Contact Person is required", getContext());
+            status = true;
+//        } else if (tv_entity_phone_number.getText().toString().equals("")) {
+//            tv_entity_phone_number.setError("Contact Phone Number is required");
+//            tv_entity_phone_number.requestFocus();
+//            AndroidUtils.showToast("Contact Phone Number is required", getContext());
+//            status = true;
+//        } else if (tv_individual_email.getText().toString().equals("")) {
+            tv_individual_email.setError("Email is required");
+            tv_individual_email.requestFocus();
+            AndroidUtils.showToast("Email is required", getContext());
+            status = true;
+        } else if (tv_individual_confirm_email.getText().toString().equals("")) {
+            tv_individual_confirm_email.setError("Confirm email is required");
+            tv_individual_confirm_email.requestFocus();
+            AndroidUtils.showToast("Confirm email is required", getContext());
+            status = true;
+        } else if (!tv_individual_email.getText().toString().equals(tv_individual_confirm_email.getText().toString())) {
+            tv_individual_confirm_email.setError("Email and Confirm Email doesn't match");
+            AndroidUtils.showToast("Email and Confirm Email doesn't match", getContext());
+            status = true;
+        } else if (country_name.equals("Choose country")) {
+            AndroidUtils.showToast("Please select a country", getContext());
+            status = true;
+        } else {
+            if (!tv_individual_email.getText().toString().equals("") && Patterns.EMAIL_ADDRESS.matcher(tv_individual_email.getText().toString()).matches()) {
+                status = false;
+            } else {
+                tv_individual_email.setError("Enter a valid email address");
+                AndroidUtils.showToast("Enter a valid email address", getContext());
+                status = true;
+            }
+        }
+
+        return status;
+    }
+
+
 
     @Override
     public void RefreshViewRelationshipsData() {
