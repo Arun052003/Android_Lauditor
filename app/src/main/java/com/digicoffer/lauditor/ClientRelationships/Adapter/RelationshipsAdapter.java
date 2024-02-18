@@ -832,21 +832,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
 
     private void loadSharedWithmeDocuments(JSONObject documents)throws JSONException {
-        if (shared_tag=="withme") {
-            JSONArray identity = documents.getJSONArray("identity");
-            for (int i = 0; i < identity.length(); i++) {
-                SharedDocumentsDo sharedDocumentsDo = new SharedDocumentsDo();
-                JSONObject docs = identity.getJSONObject(i);
-                sharedDocumentsDo.setCategory(docs.getString("category"));
-                sharedDocumentsDo.setCreated(docs.getString("created"));
-                sharedDocumentsDo.setDescription(docs.getString("description"));
-                sharedDocumentsDo.setDoctype(docs.getString("doctype"));
-                sharedDocumentsDo.setId(docs.getString("id"));
-                sharedDocumentsDo.setShareOn(docs.getString("sharedOn"));
-                sharedDocumentsDo.setName(docs.getString("name"));
-                shared_list.add(sharedDocumentsDo);
-            }
-        }else {
+
             JSONArray general = documents.getJSONArray("general");
             for (int i=0;i<general.length();i++){
 
@@ -860,12 +846,35 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 sharedDocumentsDo.setShareOn(docs.getString("sharedOn"));
                 sharedDocumentsDo.setName(docs.getString("name"));
                 shared_list.add(sharedDocumentsDo);
+               DocArray(documents.getJSONArray("credential"), "credential");
+                DocArray(documents.getJSONArray("merged"), "merged");
+
+                DocArray (documents.getJSONArray("versioned"), "versioned");
+                DocArray(documents.getJSONArray("identity"), "identity");
+                DocArray(documents.getJSONArray("personal"), "personal");
+
             }
+        openSharedPopupWindow(shared_list);
         }
 
-        openSharedPopupWindow(shared_list);
+
 //        loadDocumentsRecyclerview();
+
+
+    private void DocArray(JSONArray jsonArray, String arrayName) throws JSONException {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            // Here, you can parse each object in the array according to your requirements
+            // For demonstration, let's just print the object's content
+            JSONObject object = jsonArray.getJSONObject(i);
+            System.out.println("Parsed from " + arrayName + ": " + object.toString());
+        }
     }
+
+
+
+
+
+
 
     private void loadDocumentsRecyclerview() {
         if (shared_list.size()==0){
@@ -904,8 +913,17 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             mholder.cv_Profile.setVisibility(View.VISIBLE);
             mholder.tv_first_name.setText(relationshipmodel_profile.getName());
             mholder.tv_email.setText(data.getString("email"));
-            mholder.tv_contact_name.setText(data.getString("first_name"));
-            mholder.tv_mobile.setText(data.getString("mobile"));
+//            mholder.tv_contact_name.setText(data.getString("first_name"));
+//            mholder.tv_mobile.setText(data.getString("mobile"));
+            if (data.has("contact_person") && data.has("contact_phone")) {
+                mholder.tv_contact_name.setText(data.getString("contact_person"));
+                mholder.tv_mobile.setText(data.getString("contact_phone"));
+            } else if (data.has("first_name") && data.has("mobile")) {
+                mholder.tv_contact_name.setText(data.getString("first_name"));
+                mholder.tv_mobile.setText(data.getString("mobile"));
+            } else {
+                // Handle case where required fields are not present in the data
+            }
             JSONArray citizen = data.getJSONArray("citizen");
             for (int i = 0; i < citizen.length(); i++) {
                 JSONObject jsonObject = citizen.getJSONObject(i);
