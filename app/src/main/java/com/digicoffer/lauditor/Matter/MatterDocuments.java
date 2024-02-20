@@ -130,6 +130,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     TextView tv_matter_title_btn;
     File file;
 
+    ViewMatterModel viewMatterModel1;
     ViewMatter viewmatter;
     private ArrayList<GroupsModel> groupsList = new ArrayList<>();
     private ArrayList<ClientsModel> clientsList = new ArrayList<>();
@@ -137,6 +138,10 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     private String uploaded_document_name,upload_description;
     private AbstractCollection<DocumentsModel> MergedList;
     private int changedCollection;
+
+    public MatterDocuments() {//ViewMatterModel viewMatterModel
+//        viewMatterModel1 = viewMatterModel;
+    }
 
     @Nullable
     @Override
@@ -439,9 +444,6 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         }
 
     }
-
-
-
 
     private void submitMatterInformation() {
 

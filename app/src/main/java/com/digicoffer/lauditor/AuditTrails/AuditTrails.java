@@ -3,6 +3,7 @@ package com.digicoffer.lauditor.AuditTrails;
 import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -87,7 +89,8 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
     int maxPageButtons;
     RecyclerView rv_audits;
     TextInputLayout tl_event_start_time;
-    TextInputEditText tv_event_start_time, tv_event_end_time;
+//    TextInputEditText tv_event_end_time, tv_event_start_time;
+    AppCompatButton tv_event_start_time, tv_event_end_time;
     private int currentPage = 1;
     ArrayList<AuditsModel> auditsList = new ArrayList<>();
 
@@ -133,8 +136,8 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             ib_end_mandatory = view.findViewById(R.id.mandatory_end_date);
             ib_start_mandatory.setVisibility(View.GONE);
             ib_end_mandatory.setVisibility(View.GONE);
-            ib_cancel_button.setVisibility(View.VISIBLE);
-            ib_cancel_button_end_date.setVisibility(View.VISIBLE);
+            ib_cancel_button.setVisibility(View.GONE);
+            ib_cancel_button_end_date.setVisibility(View.GONE);
             ib_cancel_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -170,6 +173,12 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                     et_search_relationships.setText("");
                     String FLAG = "Start Time";
                     DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG);
+                    new DateUtils.OnDateSelectedListener() {
+                        @Override
+                        public void onDateSelected(String selectedDate, String FLAG) {
+
+                        }
+                    };
 //                    tv_event_start_time.requestFocus();
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
                 }
@@ -648,10 +657,13 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
 //        loadPage(currentPage);
     }
 
-    private void loadPage(int page, boolean isAdvancedSearchEnabled) {
-
-        try {
-//            loadNewAuditsData(jsonArray);
+    public class MyAsyncTask extends AsyncTask<Void, Void, String> {
+        int page;
+        boolean isAdvancedSearchEnabled;
+        // Override doInBackground method to define the background task
+        @Override
+        protected String doInBackground(Void... voids) {
+            // Perform background computation here
             if (!isAdvancedSearchEnabled) {
                 sorted_list.clear();
 
@@ -714,7 +726,8 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 loadRecyclerView(page);
                 Log.d("Sorted_list", String.valueOf(sorted_list.size()));
-            } else {
+            }
+            else {
                 try {
 //
                     loadRecyclerView(page);
@@ -724,6 +737,99 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                     throw new RuntimeException(e);
                 }
             }
+            return "Background task completed";
+        }
+
+        // Override onPostExecute method to handle the result of the background task
+        @Override
+        protected void onPostExecute(String result) {
+            // Update UI or perform any post-execution tasks here
+            // For example, display a Toast message with the result
+
+        }
+    }
+
+    private void loadPage(int page, boolean isAdvancedSearchEnabled) {
+
+        try {
+//            loadNewAuditsData(jsonArray);
+            MyAsyncTask myAsyncTask = new MyAsyncTask();
+            myAsyncTask.page = page;
+            myAsyncTask.isAdvancedSearchEnabled = isAdvancedSearchEnabled;
+            myAsyncTask.execute();
+           /* if (!isAdvancedSearchEnabled) {
+                sorted_list.clear();
+
+//            if (audit_adapter!=null){
+//                audit_adapter.itemList.clear();
+//            }
+//                sorted_list.clear();
+                if (Catergory_type.equals("AUTH")) {
+                    for (int i = 0; i < autentication_list.size(); i++) {
+//                AuditsModel auditsModel = auditsList.get(i);
+//                    if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
+                        AuditsModel auditsModel1 = autentication_list.get(i);
+//                        auditsModel1.setName(auditsList.get(i).getName());
+//                        auditsModel1.setTimestamp(auditsList.get(i).getTimestamp());
+//                        auditsModel1.setMessage(auditsList.get(i).getMessage());
+                        sorted_list.add(auditsModel1);
+//                    }
+                    }
+//
+                } else if (Catergory_type.equals("GROUPS")) {
+                    for (int i = 0; i < groups_list.size(); i++) {
+                        AuditsModel auditsModel = groups_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("TEAM MEMBER")) {
+                    for (int i = 0; i < tm_list.size(); i++) {
+                        AuditsModel auditsModel = tm_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("RELATIONSHIP")) {
+                    for (int i = 0; i < relationships_list.size(); i++) {
+                        AuditsModel auditsModel = relationships_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("SHARE")) {
+                    for (int i = 0; i < share_list.size(); i++) {
+                        AuditsModel auditsModel = share_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("DOCUMENT")) {
+                    for (int i = 0; i < documents_list.size(); i++) {
+                        AuditsModel auditsModel = documents_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("MERGE PDF")) {
+                    for (int i = 0; i < merge_pdf_list.size(); i++) {
+                        AuditsModel auditsModel = merge_pdf_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("LEGAL MATTER")) {
+                    for (int i = 0; i < legal_matter_list.size(); i++) {
+                        AuditsModel auditsModel = legal_matter_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                } else if (Catergory_type.equals("GENERAL MATTER")) {
+                    for (int i = 0; i < general_matter_list.size(); i++) {
+                        AuditsModel auditsModel = general_matter_list.get(i);
+                        sorted_list.add(auditsModel);
+                    }
+                }
+                loadRecyclerView(page);
+                Log.d("Sorted_list", String.valueOf(sorted_list.size()));
+            }
+            else {
+                try {
+//
+                    loadRecyclerView(page);
+//                        }
+                } catch (Exception e) {
+                    AndroidUtils.showToast(e.getMessage(), getContext());
+                    throw new RuntimeException(e);
+                }
+            } */
 
         } catch (Exception e) {
             Log.d("LoadPageException", e.getMessage());

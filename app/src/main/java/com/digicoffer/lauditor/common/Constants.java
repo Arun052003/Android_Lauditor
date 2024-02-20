@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.common;
 
 import com.digicoffer.lauditor.Chat.Model.ChildDO;
+import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,6 +18,10 @@ public class Constants {
     public static String ENTITY_ID = "";
     public static String pdfFilePath;
     public static String is_meeting="Create";
+
+    public static String Matter_CreateOrViewDetails = "Create";
+
+    public static ArrayList<GroupsModel> groupsList_Access = new ArrayList<>();
     public static Boolean ISPRODUCTION = false;
     public static String MATTER_TYPE = "";
 

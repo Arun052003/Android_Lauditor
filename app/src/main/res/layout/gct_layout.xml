@@ -27,40 +27,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
+            <LinearLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/matter_title"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@color/white"-->
-<!--                    android:fontFamily="sans-serif-condensed-medium"-->
-<!--                    android:gravity="start|center_vertical"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:textSize="@dimen/twenty_dp"-->
-<!--                    android:enabled="false"-->
-<!--                    android:text="Matter Title"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/Blue_text_color">-->
+                <!--                <com.google.android.material.textfield.TextInputEditText-->
+                <!--                    android:id="@+id/matter_title"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:background="@color/white"-->
+                <!--                    android:fontFamily="sans-serif-condensed-medium"-->
+                <!--                    android:gravity="start|center_vertical"-->
+                <!--                    android:padding="5dp"-->
+                <!--                    android:textSize="@dimen/twenty_dp"-->
+                <!--                    android:enabled="false"-->
+                <!--                    android:text="Matter Title"-->
+                <!--                    android:textAllCaps="false"-->
+                <!--                    android:textColor="@color/Blue_text_color">-->
 
-<!--                </com.google.android.material.textfield.TextInputEditText>-->
+                <!--                </com.google.android.material.textfield.TextInputEditText>-->
                 <TextView
                     android:id="@+id/matter_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:enabled="false"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:gravity="start|center_vertical"
                     android:padding="5dp"
-                    android:textSize="@dimen/twenty_dp"
-                    android:enabled="false"
                     android:text="Matter Title"
                     android:textAllCaps="false"
-                    android:textColor="@color/Blue_text_color">
+                    android:textColor="@color/Blue_text_color"
+                    android:textSize="@dimen/twenty_dp">
 
                 </TextView>
 
@@ -69,21 +70,20 @@
                     android:id="@+id/matter_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/matter_title"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:drawableRight="@drawable/calendar_activity"
-                    android:visibility="gone"
-                    android:text="07-20-2023"
                     android:padding="5dp"
-                    android:textColor="@color/black">
+                    android:text="07-20-2023"
+                    android:textColor="@color/black"
+                    android:visibility="gone">
 
                 </TextView>
+
                 <LinearLayout
                     android:id="@+id/ll_add_groups"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_below="@id/matter_date"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -92,190 +92,191 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
-
-                       <include layout="@layout/group_layout"
-                           android:id="@+id/add_groups"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"/>
-
-                      <include layout="@layout/icon"/>
-
-                    </LinearLayout>
-
-
-                        <TextView
-                            android:id="@+id/at_add_groups"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="3dp"
-                            android:layout_marginTop="@dimen/small_size"
-                            android:layout_marginEnd="4dp"
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:drawableRight="@drawable/down_arrow"
-                            android:fontFamily="@font/gill_sans"
-                            android:padding="15dp"
-                            android:text="Select Groups"
-                            android:textColor="@color/black"
-                            android:textSize="15dp" />
-                        <LinearLayout
-                            android:id="@+id/upload_group_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:layout_below="@id/at_add_groups"
-                            android:visibility="invisible"
-                            android:orientation="vertical"/>
 
                         <include
-                            android:id="@+id/rv_display_upload_groups_docs"
-                            layout="@layout/recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_below="@id/upload_group_layout"
-                            android:layout_height="150dp"
-                            android:visibility="gone"
-                            android:background="@drawable/rectangular_white_background"
-
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="5dp" />
-
-
-
-                  <include layout="@layout/add_button"
-                      android:id="@+id/btn_add_groups"
-                      android:layout_width="80dp"
-                      android:layout_height="40dp"
-                      android:layout_marginTop="8dp"
-                      android:layout_gravity="end"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/selected_groups"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:layout_below="@id/ll_add_groups"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_name"
+                            android:id="@+id/add_groups"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="Selected Groups"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="@dimen/Fifteen_dp">
+                            android:layout_height="wrap_content" />
 
-                        </TextView>
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="10dp"
-                            android:src="@drawable/asterisk_icon">
-
-                        </ImageView>
+                        <include layout="@layout/icon" />
 
                     </LinearLayout>
 
+
+                    <TextView
+                        android:id="@+id/at_add_groups"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/rectangle_light_grey_bg"
+                        android:drawableRight="@drawable/down_arrow"
+                        android:fontFamily="@font/gill_sans"
+                        android:padding="15dp"
+                        android:text="Select Groups"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+
                     <LinearLayout
-                        android:id="@+id/ll_selected_groups"
+                        android:id="@+id/upload_group_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+
+                        android:layout_below="@id/at_add_groups"
+                        android:orientation="vertical"
+                        android:visibility="invisible" />
+
+                    <include
+                        android:id="@+id/rv_display_upload_groups_docs"
+                        layout="@layout/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_below="@id/upload_group_layout"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+
+                        android:background="@drawable/rectangular_white_background"
+                        android:visibility="gone" />
+
+
+                    <include
+                        android:id="@+id/btn_add_groups"
+                        layout="@layout/add_button"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="8dp" />
+
+                    <LinearLayout
+                        android:id="@+id/selected_groups"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed-medium"
+                                android:text="Selected Groups"
+                                android:textColor="@color/Blue_text_color"
+                                android:textSize="@dimen/Fifteen_dp">
+
+                            </TextView>
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/asterisk_icon">
+
+                            </ImageView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_selected_groups"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_add_clients"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-      android:visibility="visible"
-                    android:layout_below="@id/selected_groups"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
                     <LinearLayout
-                      android:id="@+id/line"
+                        android:id="@+id/line"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                       <include layout="@layout/group_layout"
-                           android:id="@+id/add_clients"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"/>
+                        <include
+                            android:id="@+id/add_clients"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                       <include layout="@layout/icon"/>
+                        <include layout="@layout/icon" />
 
                     </LinearLayout>
 
 
+                    <TextView
+                        android:id="@+id/at_add_clients"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginEnd="4dp"
 
-                        <TextView
-                            android:id="@+id/at_add_clients"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="3dp"
-                            android:layout_marginTop="@dimen/small_size"
-                            android:layout_marginEnd="4dp"
+                        android:background="@drawable/rectangle_light_grey_bg"
+                        android:drawableRight="@drawable/down_arrow"
+                        android:fontFamily="@font/gill_sans"
+                        android:padding="15dp"
+                        android:text="Select Clients"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
 
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:drawableRight="@drawable/down_arrow"
-                            android:fontFamily="@font/gill_sans"
-                            android:padding="15dp"
-                            android:text="Select Clients"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"  />
+                    <LinearLayout
+                        android:id="@+id/upload_client_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/at_add_clients"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical"
+                        android:visibility="invisible" />
 
-                        <LinearLayout
-                            android:id="@+id/upload_client_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/at_add_clients"
-                              android:visibility="invisible"
-                            android:layout_marginTop="5dp"
-                            android:orientation="vertical"/>
-
-                        <include
-                            android:id="@+id/rv_display_upload_client_docs"
-                            layout="@layout/recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_below="@id/upload_client_layout"
-                            android:layout_height="150dp"
-                            android:visibility="gone"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="5dp" />
-
+                    <include
+                        android:id="@+id/rv_display_upload_client_docs"
+                        layout="@layout/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_below="@id/upload_client_layout"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="5dp"
+                        android:visibility="gone" />
 
 
-
-                 <include layout="@layout/add_button"
-                     android:id="@+id/btn_add_clients"
-                     android:layout_width="80dp"
-                     android:layout_height="40dp"
-                     android:layout_marginTop="8dp"
-                     android:layout_gravity="end"/>
+                    <include
+                        android:id="@+id/btn_add_clients"
+                        layout="@layout/add_button"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/selected_clients"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
                     android:layout_weight="1"
-                    android:layout_below="@id/ll_add_clients"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
 
@@ -295,7 +296,7 @@
 
                         </TextView>
 
-                       <include layout="@layout/icon"/>
+                        <include layout="@layout/icon" />
 
                     </LinearLayout>
 
@@ -308,12 +309,12 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_assign_team_members"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_below="@id/selected_clients"
                     android:orientation="vertical"
                     android:visibility="visible">
 
@@ -324,69 +325,68 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                       <include layout="@layout/group_layout"
-                           android:id="@+id/tv_assigned_team_members"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"/>
-
+                        <include
+                            android:id="@+id/tv_assigned_team_members"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
 
 
+                    <TextView
+                        android:id="@+id/at_assigned_team_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginEnd="4dp"
+
+                        android:background="@drawable/rectangle_light_grey_bg"
+                        android:drawableRight="@drawable/down_arrow"
+                        android:fontFamily="@font/gill_sans"
+                        android:padding="15dp"
+                        android:text="Select Team Member"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+
+                    <LinearLayout
+                        android:id="@+id/upload_tm_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/at_assigned_team_members"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical" />
+
+                    <include
+                        android:id="@+id/rv_display_upload_tm_docs"
+                        layout="@layout/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_below="@id/upload_tm_layout"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="5dp"
+                        android:visibility="gone" />
 
 
-                        <TextView
-                            android:id="@+id/at_assigned_team_members"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="3dp"
-                            android:layout_marginTop="@dimen/small_size"
-                            android:layout_marginEnd="4dp"
-
-                            android:background="@drawable/rectangle_light_grey_bg"
-                            android:drawableRight="@drawable/down_arrow"
-                            android:fontFamily="@font/gill_sans"
-                            android:padding="15dp"
-                            android:text="Select Team Member"
-                            android:textColor="@color/black"
-                            android:textSize="15dp"  />
-                        <LinearLayout
-                            android:id="@+id/upload_tm_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/at_assigned_team_members"
-                            android:layout_marginTop="5dp"
-                            android:orientation="vertical"/>
-
-                        <include
-                            android:id="@+id/rv_display_upload_tm_docs"
-                            layout="@layout/recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_below="@id/upload_tm_layout"
-                            android:layout_height="150dp"
-                            android:visibility="gone"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="5dp" />
-
-
-
-                 <include layout="@layout/add_button"
-                     android:id="@+id/btn_assigned_team_members"
-                     android:layout_width="80dp"
-                     android:layout_height="40dp"
-                     android:layout_marginTop="8dp"
-                     android:layout_gravity="end"/>
+                    <include
+                        android:id="@+id/btn_assigned_team_members"
+                        layout="@layout/add_button"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/selected_tm"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:visibility="gone"
-                    android:layout_below="@id/ll_assign_team_members"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
 
@@ -410,8 +410,7 @@
                             android:id="@+id/client_img"
                             android:layout_width="15dp"
                             android:layout_height="10dp"
-                            android:src="@drawable/asterisk_icon"
-                            >
+                            android:src="@drawable/asterisk_icon">
 
                         </ImageView>
 
@@ -426,11 +425,11 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_save_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/selected_tm"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
 
@@ -439,13 +438,15 @@
                     android:orientation="horizontal"
                     android:visibility="visible">
 
-                   <include layout="@layout/cancel_button"
-                       android:id="@+id/btn_cancel_save"/>
+                    <include
+                        android:id="@+id/btn_cancel_save"
+                        layout="@layout/cancel_button" />
 
-                   <include layout="@layout/submit_button"
-                       android:id="@+id/btn_create"/>
+                    <include
+                        android:id="@+id/btn_create"
+                        layout="@layout/submit_button" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
-            </RelativeLayout>
+            </LinearLayout>
 
 
 

@@ -49,6 +49,15 @@ public class DateUtils {
                 myCalendar.get(Calendar.DAY_OF_MONTH)
         );
 
+        // Set OnClickListener for the "Cancel" button
+        datePickerDialog.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> {
+            // Handle the "Cancel" button click if needed
+            // For example, you can dismiss the dialog:
+            // dialog.dismiss();
+            textView.setText("");
+        });
+
+
         // Set the minimum date to the current date
 //        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 

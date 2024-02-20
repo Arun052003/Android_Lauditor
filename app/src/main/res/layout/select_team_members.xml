@@ -3,46 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/select_tm_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:background="@drawable/rectangle_light_grey_bg"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.029">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_tm_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/tv_title"
             android:layout_gravity="center"
 
             android:layout_margin="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="start"
             android:padding="5dp"
-            android:text="Date"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp" />
 
         <CheckBox
             android:id="@+id/chk_selected"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@color/white"
-            android:buttonTint="@color/grey_color_dark"
+            android:buttonTint="@color/blue"
             android:paddingEnd="20dp"
 
             />

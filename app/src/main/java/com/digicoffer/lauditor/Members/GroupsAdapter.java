@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,9 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull GroupsAdapter.ViewHolder holder, int position) {
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        layoutParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
+        holder.itemView.setLayoutParams(layoutParams);
                 ViewGroupModel groupModel = groupsList.get(position);
                 groupsList = list_item;
         holder.cb_team_members.setChecked(groupsList.get(position).isChecked());
@@ -61,8 +65,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
             }
         });
 //            holder.cb_team_members.setChecked(true);
-        holder.tv_tm_name.setText(groupModel.getName());
-
+        if (groupModel.getName() != null) {
+            holder.tv_tm_name.setText(groupModel.getName());
+        }else{
+            holder.tv_tm_name.setText(groupModel.getGroup_name());
+        }
+        holder.select_tm_layout.setLayoutParams(layoutParams);
     }
     public void selectOrDeselectAll(boolean isChecked)
     {
@@ -128,10 +136,13 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox cb_team_members;
         TextView tv_tm_name;
+
+        LinearLayout select_tm_layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
+            select_tm_layout = itemView.findViewById(R.id.select_tm_layout);
         }
     }
 }

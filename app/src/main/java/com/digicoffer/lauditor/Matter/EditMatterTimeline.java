@@ -36,6 +36,9 @@ public class EditMatterTimeline extends Fragment {
     ViewMatterModel viewMatterModel;
     TextView back;
     ViewMatter matter;
+    ArrayList<MatterModel> matterArraylist;
+    //   MatterModel matterModel_info = new MatterModel();
+    Matter matter_view;
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
@@ -52,15 +55,17 @@ public class EditMatterTimeline extends Fragment {
 //            fragment.setArguments(args);
 //            ViewMatterModel viewMatterModel = new ViewMatterModel();
 
-
             if (args != null ){
-                ViewMatterModel viewMatterModel = getArguments().getParcelable("viewMatterModel");
+                viewMatterModel = getArguments().getParcelable("viewMatterModel");
 //                models = (ArrayList<ViewMatterModel>) getArguments().getSerializable("viewMatterModel");
                 //AndroidUtils.showAlert(viewMatterModel.getTitle(),getContext());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
         siv_time_line = view.findViewById(R.id.siv_timeline);
         siv_groups = view.findViewById(R.id.siv_groups);
         siv_documents = view.findViewById(R.id.siv_documents);
@@ -69,18 +74,11 @@ public class EditMatterTimeline extends Fragment {
 
         loadTimeline();
 
-
-
         siv_time_line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadTimeline();
              // matter.openViewDetailsPopUp();
-
-
-
-
-
 
             }
         });
@@ -93,9 +91,8 @@ public class EditMatterTimeline extends Fragment {
         siv_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               loadGCT();
 
-
+                loadGCT();
             }
         });
         siv_documents.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +123,7 @@ public class EditMatterTimeline extends Fragment {
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
 
-//        Bundle bundle = new Bundle();
+/* //        Bundle bundle = new Bundle();
 //        bundle.putParcelable("viewMatterModel",  viewMatterModel);
 //        Fragment fragment = new matter_ca(viewMatterModel,this);
 //        fragment.setArguments(bundle);
@@ -143,10 +140,15 @@ public class EditMatterTimeline extends Fragment {
         ft.replace(R.id.parent_container, childFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
+        ft.commit(); */
+
+
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        Fragment childFragment = new GCT();
+        ft.replace(R.id.parent_container, childFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
         ft.commit();
-
-
-
 
 
 //        Fragment childFragment = new GCT();
@@ -159,7 +161,7 @@ public class EditMatterTimeline extends Fragment {
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        MatterDocuments matterInformation = new MatterDocuments();
+        MatterDocuments matterInformation = new MatterDocuments();//viewMatterModel
         cv_client_details.setVisibility(View.VISIBLE);
         ft.replace(R.id.parent_container, matterInformation);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

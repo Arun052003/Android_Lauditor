@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Matter;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,16 +20,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
+import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
+import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
+import com.digicoffer.lauditor.Webservice.HttpResultDo;
+import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class Matter extends Fragment {
+public class Matter extends Fragment implements AsyncTaskCompleteListener {
 
     com.google.android.material.imageview.ShapeableImageView siv_matter_icon, siv_groups, siv_documents;
     private HorizontalScrollView scrollView;
@@ -42,8 +52,9 @@ public class Matter extends Fragment {
     Matter matter;
     matter_edit edit_matter1;
 
+    AlertDialog progress_dialog;
     public ArrayList<MatterModel> matter_arraylist;
-    public LinearLayoutCompat create_matter_view;
+    public LinearLayoutCompat create_matter_view, ll_matter_type, ll_create_view;
 
     @Nullable
     @Override
@@ -53,6 +64,8 @@ public class Matter extends Fragment {
         mViewModel.setData("Matter");
         siv_matter_icon = view.findViewById(R.id.siv_matter_icon);
         create_matter_view = view.findViewById(R.id.create_matter_view);
+        ll_matter_type = view.findViewById(R.id.ll_matter_type);
+        ll_create_view = view.findViewById(R.id.ll_create_view);
         siv_groups = view.findViewById(R.id.siv_groups);
         siv_documents = view.findViewById(R.id.siv_documents);
         tv_legal_matter = view.findViewById(R.id.tv_legal_matter);
@@ -70,6 +83,10 @@ public class Matter extends Fragment {
 //        siv_upload = view.findViewById(R.id.upload_icon);
 //        siv_view = view.findViewById(R.id.view_icon);
         // loadViewUI();
+
+        //Call The Group List API
+        callGroupsWebservice();
+
         if (Constants.MATTER_TYPE.equals("Legal"))
             loadLegalMatter();
         else if (Constants.MATTER_TYPE.equals("General")) {
@@ -93,9 +110,8 @@ public class Matter extends Fragment {
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Constants.Matter_CreateOrViewDetails = "Create";
                 loadCreateUI();
-
-
             }
         });
 
@@ -111,7 +127,7 @@ public class Matter extends Fragment {
         siv_matter_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() != 0) {
+                if (matter_arraylist.size() != 0 && Constants.Matter_CreateOrViewDetails.equalsIgnoreCase("Create")) {
                     loadMatterInformation();
                 }
 
@@ -126,7 +142,6 @@ public class Matter extends Fragment {
                     AndroidUtils.showAlert("Please check the Matter information section", getContext());
                 } else {
                     loadGCT();
-
                 }
             }
         });
@@ -157,6 +172,8 @@ public class Matter extends Fragment {
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_view.setTextColor(Color.WHITE);
         create_matter_view.setVisibility(View.GONE);
+        ll_matter_type.setVisibility(View.VISIBLE);
+        ll_create_view.setVisibility(View.VISIBLE);
         viewMatter();
         mViewModel.setData("View Legal Matter");
     }
@@ -182,12 +199,17 @@ public class Matter extends Fragment {
 
     private void loadCreateUI() {
         create_matter_view.setVisibility(View.VISIBLE);
-        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-        tv_create.setTextColor(Color.WHITE);
-        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
-        tv_view.setTextColor(Color.BLACK);
-        loadMatterInformation();
-        mViewModel.setData("Create Legal Matter");
+        if (Constants.Matter_CreateOrViewDetails.equalsIgnoreCase("Create")) {
+            tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+            tv_create.setTextColor(Color.WHITE);
+            tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+            tv_view.setTextColor(Color.BLACK);
+            Constants.Matter_CreateOrViewDetails = "Create";
+            loadMatterInformation();
+            mViewModel.setData("Create Legal Matter");
+        }else{
+
+        }
     }
 
     private void loadgeneralUI() {
@@ -242,14 +264,14 @@ public class Matter extends Fragment {
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         Fragment childFragment = new GCT();
-//        tv_matter_title = findViewById(R.id.tv_matter_title);
-//        String text = tv_matter_title.getText().toString();
-//        matter_title.setText(text);
-        //  FragmentManager childFragmentManager = getChildFragmentManager();
         ft.replace(R.id.child_container, childFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+        //        tv_matter_title = findViewById(R.id.tv_matter_title);
+//        String text = tv_matter_title.getText().toString();
+//        matter_title.setText(text);
+        //  FragmentManager childFragmentManager = getChildFragmentManager();
         //  AndroidUtils.showAlert("Please check the Matter Information section");
 
         // cv_add_opponent_advocate.setVisibility(View.GONE);
@@ -284,5 +306,78 @@ public class Matter extends Fragment {
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
+        ll_matter_type.setVisibility(View.GONE);
+        ll_create_view.setVisibility(View.GONE);
+
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_groups.setClickable(true);
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        siv_documents.setClickable(true);
+
+        create_matter_view.setVisibility(View.VISIBLE);
+
+        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_create.setTextColor(Color.WHITE);
+        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_view.setTextColor(Color.BLACK);
+
+        matter_arraylist.add(0, viewMatterModel);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("viewMatterModel", viewMatterModel);
+        Fragment fragment = new EditMatterTimeline();
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.child_container, fragment);
+        ft.commit();
+
+    }
+    private void callGroupsWebservice() {
+        progress_dialog = AndroidUtils.get_progress(getActivity());
+        JSONObject postdata = new JSONObject();
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/groups", "Groups", postdata.toString());
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onAsyncTaskComplete(HttpResultDo httpResult) {
+        if (progress_dialog != null && progress_dialog.isShowing())
+            AndroidUtils.dismiss_dialog(progress_dialog);
+        if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
+            try {
+                JSONObject result = new JSONObject(httpResult.getResponseContent());
+                if (httpResult.getRequestType().equals("Groups")) {
+                    JSONArray data = result.getJSONArray("data");
+                    loadGroupsData(data);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadGroupsData(JSONArray data) {
+        try {
+            Constants.groupsList_Access.clear();
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject jsonObject = data.getJSONObject(i);
+                GroupsModel groupsModel = new GroupsModel();
+                groupsModel.setGroup_id(jsonObject.getString("id"));
+                groupsModel.setGroup_name(jsonObject.getString("name"));
+                Constants.groupsList_Access.add(groupsModel);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), getContext());
+        }
     }
 }

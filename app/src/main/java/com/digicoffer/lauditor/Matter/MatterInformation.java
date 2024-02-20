@@ -490,16 +490,18 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         if (tv_matter_title.getText().toString().equals("")) {
             tv_matter_title.setError("Title Required");
             tv_matter_title.requestFocus();
-
-
-        } else {
+        } else if (tv_matter_num.getText().toString().equals("")){
+            tv_matter_num.setError("Title Required");
+            tv_matter_num.requestFocus();
             String matternum = tv_matter_num.getText().toString();
-            if (!matternum.matches("[0-9]+")) {
-                tv_matter_num.setError("Numeric number is Required");
-                tv_matter_num.requestFocus();
-            } else {
-                submitMatter();
-            }
+//            if (!matternum.matches("[0-9]+")) {
+//                tv_matter_num.setError("Numeric number is Required");
+//                tv_matter_num.requestFocus();
+//            } else {
+//                submitMatter();
+//            }
+        }else{
+            submitMatter();
         }
     }
 
@@ -555,9 +557,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         // matterModel_info = matterModel;
         cv_client_details.setVisibility(View.GONE);
 
-
         matter.loadGCT();
-
 
     }
 

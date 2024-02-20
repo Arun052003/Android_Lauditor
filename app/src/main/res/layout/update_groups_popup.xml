@@ -14,10 +14,12 @@
         android:orientation="vertical"
         android:padding="5dp"
         android:paddingBottom="30dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/Blue_text_color"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
@@ -31,7 +33,7 @@
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
             </ImageView>
 
@@ -57,7 +59,7 @@
             android:id="@+id/search_tm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:hint="Search Group"
 
             android:textColorHint="@color/black"
@@ -99,21 +101,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/ll_add_tag"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="10dp">
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_add_tag"></LinearLayout>
 
         <include
-            android:id="@+id/rv_display_upload_tm_docs"
+            android:id="@+id/rv_group_update"
             layout="@layout/recyclerview"
             android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:layout_below="@id/ll_groups"
-            android:layout_height="150dp"
-            android:visibility="visible"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:visibility="visible" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_buttons_1"

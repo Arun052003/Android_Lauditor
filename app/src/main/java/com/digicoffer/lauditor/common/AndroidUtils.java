@@ -13,8 +13,10 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.system.ErrnoException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -91,10 +93,12 @@ public class AndroidUtils {
     }
 
     public static void showToast(String message, Context context) {
-
-
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-
+            }
+        });
     }
 
 

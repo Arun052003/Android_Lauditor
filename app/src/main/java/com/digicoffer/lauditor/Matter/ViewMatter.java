@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Groups.GroupModels.ActionModel;
@@ -32,6 +33,7 @@ import com.digicoffer.lauditor.Matter.Adapters.ViewMatterAdapter;
 import com.digicoffer.lauditor.Matter.Models.ClientsModel;
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.Matter.Models.HistoryModel;
+import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.Matter.Models.TeamModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.Members.GroupsAdapter;
@@ -62,13 +64,13 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     LinearLayout linear_notes;
     RecyclerView rv_matter_list;
     CardView cv_client_details;
-    RecyclerView rv_selected_member;
+    RecyclerView rv_group_update;
     TextInputEditText et_search_matter;
     public static String FLAG = "";
     AlertDialog progressDialog;
     ArrayList<ViewMatterModel> matterList = new ArrayList<>();
     ArrayList<HistoryModel> historyList = new ArrayList<>();
-    ArrayList<ViewMatterModel> groupsArrayList = new ArrayList<>();
+    ArrayList<ViewGroupModel> groupsArrayList = new ArrayList<>();
     ArrayList<ActionModel> actions_List = new ArrayList<ActionModel>();
     ArrayList<ViewMatterModel> existing_clients = new ArrayList<>();
     ArrayList<ViewMatterModel> existing_documents = new ArrayList<>();
@@ -90,10 +92,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     String Matter_Status = "";
     String Matter_Title = "";
     String Case_Number = "";
-    ViewMatterModel viewMatterModel;
+    ViewGroupModel viewMatterModel;
     GroupsModel groupsModel;
     //private ArrayList<GroupsModel> groupsList;
     private Activity v;
+    ArrayList<MatterModel> matterArraylist;
+
 
     @Nullable
     @Override
@@ -105,7 +109,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         et_search_matter.setHint("Type to Search");
         et_search_matter.setTextSize(15);
         cv_client_details = view.findViewById(R.id.cv_client_details);
-        rv_selected_member = view.findViewById(R.id.rv_selected_member);
+        rv_group_update = view.findViewById(R.id.rv_group_update);
+        matter = (Matter) getParentFragment();
         callMatterListWebservice();
         return view;
     }
@@ -214,19 +219,41 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     }
 
     private void openViewGroupsPopup() {
-
-//        groupsArrayList.clear();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.update_groups_popup, null);
         LinearLayout ll_groups = view.findViewById(R.id.ll_groups);
-        RecyclerView rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
-        //  RecyclerView rv_selected_member = view.findViewById(R.id.rv_selected_member);
+        rv_group_update = view.findViewById(R.id.rv_group_update);
         AppCompatButton btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         AppCompatButton btn_create = view.findViewById(R.id.btn_create);
         btn_create.setText("Update");
         ImageView close_details = view.findViewById(R.id.close_details);
         et_search_members = view.findViewById(R.id.et_search_members);
+
+//        rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_group_update.setLayoutManager(new LinearLayoutManager(getContext()));
+        groupsAdapter = new GroupsAdapter(groupsArrayList);
+        rv_group_update.setAdapter(groupsAdapter);
+        rv_group_update.setHasFixedSize(true);
+        et_search_members.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                groupsAdapter.getFilter().filter(et_search_members.getText().toString());
+            }
+
+        });
+//        et_search_members.setText("group");
+//        et_search_members.setText("");
+        rv_group_update.refreshDrawableState();
 
         // RecyclerView rv_groups = view.findViewById(R.id.rv_groups);
         // RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -237,8 +264,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         //  rv_groups.setAdapter(groupsAdapter);
         // rv_groups.setHasFixedSize(true);
 
+        /*
         ll_groups.removeAllViews();
-
         for (i = 0; i < groupsArrayList.size(); i++) {
             View view_groups = LayoutInflater.from(getContext()).inflate(R.layout.select_team_members, null);
             TextView tv_group_name = view_groups.findViewById(R.id.tv_tm_name);
@@ -248,14 +275,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 //            chk_selected.setId(groupsArrayList.get(i).getGroup_id());
             chk_selected.setTag(i);
 
-
             chk_selected.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = 0;
                     if (v.getTag() instanceof Integer) {
                         position = (Integer) v.getTag();
-                        // v = rv_selected_member.getChildAt(position);
                         viewMatterModel = groupsArrayList.get(position);
 
 
@@ -282,6 +307,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             });
             ll_groups.addView(view_groups);
         }
+        */
+
         final AlertDialog dialog = builder.create();
         btn_cancel_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,7 +322,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             public void onClick(View v) {
 
                 dialog.dismiss();
-                callgroupsWebservice(groupsArrayList);
+//                callgroupsWebservice(groupsArrayList);
                 callUpdateGroupsWebservice(groupsArrayList);
             }
         });
@@ -350,10 +377,10 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
 //        if (groupsList.size() != 0) {
         FLAG = "second_click";
-        rv_selected_member.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
         groupsAdapter = new GroupsAdapter(groupsList);
-        rv_selected_member.setAdapter(groupsAdapter);
-        rv_selected_member.setHasFixedSize(true);
+        rv_group_update.setAdapter(groupsAdapter);
+        rv_group_update.setHasFixedSize(true);
         et_search_members.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -386,14 +413,14 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     }
 
 
-    private void callUpdateGroupsWebservice(ArrayList<ViewMatterModel> groupsList) {
+    private void callUpdateGroupsWebservice(ArrayList<ViewGroupModel> groupsList) {
         progressDialog = AndroidUtils.get_progress(getActivity());
         try {
             JSONObject postdata = new JSONObject();
             JSONArray group_acls = new JSONArray();
             for (int i = 0; i < groupsList.size(); i++) {
-                ViewMatterModel viewMatterModel = groupsList.get(i);
-                if (viewMatterModel.isChecked()) {
+                ViewGroupModel viewGroupModel = groupsList.get(i);
+                if (viewGroupModel.isChecked()) {
                     group_acls.put(groupsList.get(i).getGroup_id());
                 }
             }
@@ -615,6 +642,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             matterList.clear();
             for (int i = 0; i < matters.length(); i++) {
                 JSONObject jsonObject = matters.getJSONObject(i);
+
                 ViewMatterModel viewMatterModel = new ViewMatterModel();
                 viewMatterModel.setId(jsonObject.getString("id"));
                 if (jsonObject.has("caseNumber")) {
@@ -623,7 +651,9 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 if (jsonObject.has("caseType")) {
                     viewMatterModel.setCasetype(jsonObject.getString("caseType"));
                 }
-                viewMatterModel.setClients(jsonObject.getJSONArray("clients"));
+//                viewMatterModel.setClients(jsonObject.getJSONArray("clients"));
+                viewMatterModel.setClients(matters.getJSONObject(i).getJSONArray("clients"));
+
                 if (jsonObject.has("courtName")) {
                     viewMatterModel.setCourtName(jsonObject.getString("courtName"));
                 }
@@ -648,8 +678,11 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 viewMatterModel.setDescription(jsonObject.getString("description"));
                 viewMatterModel.setDocuments(jsonObject.getJSONArray("documents"));
 
-                viewMatterModel.setGroupAcls(jsonObject.getJSONArray("groupAcls"));
-                viewMatterModel.setGroups(jsonObject.getJSONArray("groups"));
+//                viewMatterModel.setGroupAcls(jsonObject.getJSONArray("groupAcls"));
+//                viewMatterModel.setGroups(jsonObject.getJSONArray("groups"));
+                viewMatterModel.setGroupAcls(matters.getJSONObject(i).getJSONArray("groupAcls"));
+                viewMatterModel.setGroups(matters.getJSONObject(i).getJSONArray("groups"));
+
                 if (jsonObject.has("hearingDateDetails")) {
                     viewMatterModel.setHearingDateDetails(jsonObject.getJSONObject("hearingDateDetails"));
                 }
@@ -870,32 +903,41 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     @SuppressLint("ResourceType")
     @Override
     public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
+        Constants.Matter_CreateOrViewDetails = "View Details";
         TimeLineId = viewMatterModel.getId();
         Header_name = viewMatterModel.getTitle();
         callTimeLineWebservice();
-        Bundle bundle = new Bundle();
+        matter.View_Details(viewMatterModel, itemsArrayList);
+       /* Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
         Fragment fragment = new EditMatterTimeline();
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.id_framelayout, fragment);
-        ft.commit();
+        ft.commit(); */
 
     }
-
 
     @Override
     public void Update_Group(ViewMatterModel viewMatterModel) {
         try {
+            groupsArrayList.clear();
             Matter_id = viewMatterModel.getId();
-            for (int i = 0; i < viewMatterModel.getGroups().length(); i++) {
-                JSONObject jsonObject = viewMatterModel.getGroups().getJSONObject(i);
-                ViewMatterModel viewMatterModel1 = new ViewMatterModel();
-                viewMatterModel1.setGroup_id(jsonObject.getString("id"));
-                viewMatterModel1.setGroup_name(jsonObject.getString("name"));
-                viewMatterModel1.setChecked(true);
-                groupsArrayList.add(viewMatterModel1);
+            for (int j = 0;j<Constants.groupsList_Access.size();j++){
+                GroupsModel fullGroupList = Constants.groupsList_Access.get(j);
+                ViewGroupModel viewgroypModel = new ViewGroupModel();
+                viewgroypModel.setGroup_id(fullGroupList.getGroup_id());
+                viewgroypModel.setGroup_name(fullGroupList.getGroup_name());
+                viewgroypModel.setName(fullGroupList.getGroup_name());
+                viewgroypModel.setChecked(false);
+                for (int i = 0; i < viewMatterModel.getGroups().length(); i++) {
+                    JSONObject jsonObject = viewMatterModel.getGroups().getJSONObject(i);
+                    if (jsonObject.getString("id").equalsIgnoreCase(viewgroypModel.getGroup_id())){
+                        viewgroypModel.setChecked(true);
+                    }
+                }
+                groupsArrayList.add(viewgroypModel);
             }
             openViewGroupsPopup();
         } catch (JSONException e) {
@@ -905,7 +947,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
     }
 
-    private void callgroupsWebservice(ArrayList<ViewMatterModel> groupsArrayList) {
+    private void callgroupsWebservice(ArrayList<ViewGroupModel> groupsArrayList) {
         progressDialog = AndroidUtils.get_progress(getActivity());
         try {
             JSONObject postdata = new JSONObject();
@@ -1179,4 +1221,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
         }
     }
+
+
 }
