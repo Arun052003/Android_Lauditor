@@ -107,6 +107,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     TimePickerDialog timePickerDialog;
     int end = 0;
     private boolean is_notify_clicked = true;
+    private boolean is_timenotify;
     int endMinute = 0;
     int startMinute = 0;
     final ArrayList<String> Repetetions = new ArrayList<>();
@@ -128,8 +129,8 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     private Button btn_add_groups, btn_attach_document, btn_create_event, btn_add_clients, btn_assigned_clients, btn_individual;
     String team_member_id;
     int start_time = 0;
-    String Starttime1;
-    int end_time = 0;
+    LocalTime end_time;
+    LocalTime close_time = LocalTime.ofSecondOfDay(0);
     int adapter_position = 0;
     ArrayList<RelationshipsDO> entities_list = new ArrayList<>();
     ArrayList<RelationshipsDO> individual_list = new ArrayList<>();
@@ -515,36 +516,61 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     }
 
     private void loadcheckboxData() {
-        cb_all_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        cb_all_day.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Retrieve the checked status of the checkbox
-                if (isChecked) {
-                    // Checkbox is checked, return true
-                    // Perform any additional actions here
+            public void onClick(View view) {
+                if (cb_all_day.isChecked()) {
+                    tv_event_start_time.setVisibility(View.GONE);
+                    tv_event_end_time.setVisibility(View.GONE);
                     isAllDay = true;
                 } else {
-                    // Checkbox is not checked, return false
-                    // Perform any additional actions here
+                    tv_event_start_time.setVisibility(View.VISIBLE);
+                    tv_event_end_time.setVisibility(View.VISIBLE);
                     isAllDay = false;
                 }
             }
         });
-        cb_add_to_timesheet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_add_to_timesheet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Retrieve the checked status of the checkbox
-                if (isChecked) {
-                    // Checkbox is checked, return true
-                    // Perform any additional actions here
+            public void onClick(View view) {
+                if (cb_add_to_timesheet.isChecked()) {
                     isAddTimesheet = true;
                 } else {
-                    // Checkbox is not checked, return false
-                    // Perform any additional actions here
                     isAddTimesheet = false;
                 }
             }
         });
+        //        cb_all_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // Retrieve the checked status of the checkbox
+//                if (isChecked) {
+//                    tv_event_start_time.setVisibility(View.GONE);
+//                    tv_event_end_time.setVisibility(View.GONE);
+//                    isAllDay = true;
+//                } else {
+//                    tv_event_start_time.setVisibility(View.VISIBLE);
+//                    tv_event_end_time.setVisibility(View.VISIBLE);
+//                    isAllDay = false;
+//                }
+//            }
+//        });
+//        cb_add_to_timesheet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // Retrieve the checked status of the checkbox
+//                if (isChecked) {
+//                    // Checkbox is checked, return true
+//                    // Perform any additional actions here
+//                    isAddTimesheet = true;
+//                } else {
+//                    // Checkbox is not checked, return false
+//                    // Perform any additional actions here
+//                    isAddTimesheet = false;
+//                }
+//            }
+//        });
     }
 
     private void callTimeZoneWebservice() {
@@ -568,45 +594,33 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 if (hourOfDay < 12) {
-                    AM_PM[0] = "  AM";
+                    AM_PM[0] = " am";
                 } else {
-                    AM_PM[0] = "  PM";
+                    AM_PM[0] = " pm";
                 }
                 if (is_start) {
                     start_time = hourOfDay;
                     startMinute = minute;
-                    tv_event_start_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
+                    tv_event_start_time.setText(hourOfDay + ":" + minute + AM_PM[0]);
+                    if (tv_event_end_time.getText().toString().equals("")) {
+                        close_time = LocalTime.of(hourOfDay, minute).plusMinutes(30);
+                        tv_event_end_time.setText(close_time.toString() + AM_PM[0]);
+                    }
                 } else {
                     if (hourOfDay < start_time) {
                         AndroidUtils.showAlert("Please select End Time with in this Date", getContext());
                         tv_event_end_time.setText("");
                         Time_duration.setText("Duration : ");
                     } else {
-                        tv_event_end_time.setText(hourOfDay + ":" + minute + "" + AM_PM[0]);
-                        end_time = hourOfDay;
-                        endMinute = minute;
-                        display_duration();
+                        tv_event_end_time.setText(hourOfDay + ":" + minute + AM_PM[0]);
                     }
                 }
+                display_duration(tv_event_start_time.getText().toString(), tv_event_end_time.getText().toString());
             }
         }, hour, minute, false);
         timePickerDialog.setTitle(title);
         timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         timePickerDialog.show();
-    }
-
-    private void display_duration() {
-//        String[] value_1 = tv_event_start_time.getText().toString().split(":");
-//        String[] value_2 = tv_event_end_time.getText().toString().split(":");
-//        int e_firstString = Integer.parseInt(value_2[0]);
-//        int e_secondString = Integer.parseInt(value_2[1]);
-//
-//        int firstString = Integer.parseInt(value_1[0]);
-//        int secondString = Integer.parseInt(value_1[1]);
-        LocalTime st_time = LocalTime.of(start_time, startMinute);
-        LocalTime ed_time = LocalTime.of(end_time, endMinute);
-        Duration t_d = Duration.between(st_time, ed_time);
-        Time_duration.setText("Duration : " + t_d.toHours() + " Hours," + t_d.toMinutes() % 60 + " Minutes");
     }
 
     @Override
@@ -670,11 +684,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             AndroidUtils.showAlert("Date is required", getContext());
                         } else if (tv_event_start_time.getText().toString().equals("")) {
                             AndroidUtils.showAlert("Start Time is required", getContext());
-                        } else if (tv_event_end_time.getText().toString().equals("")) {
-                            AndroidUtils.showAlert("End time is required", getContext());
-//                        } else if (!(selectedValues.size() == 0)) {
-//                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
-//                                AndroidUtils.showAlert("Please Check Notification", getContext());
+                        } else if (tv_sp_time_zone.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Time Zone is required", getContext());
+                        } else if (!(selectedValues.size() == 0)) {
+                            if (!is_timenotify)
+                                AndroidUtils.showAlert("Please Check Notification", getContext());
                         } else {
                             if (Constants.is_meeting == "Create")
                                 callCreateEventWebservice();
@@ -686,13 +700,13 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             AndroidUtils.showAlert("Date is required", getContext());
                         } else if (tv_event_start_time.getText().toString().equals("")) {
                             AndroidUtils.showAlert("Start Time is required", getContext());
-                        } else if (tv_event_end_time.getText().toString().equals("")) {
-                            AndroidUtils.showAlert("End time is required", getContext());
+                        } else if (tv_sp_time_zone.getText().toString().equals("")) {
+                            AndroidUtils.showAlert("Time Zone is required", getContext());
                         } else if (tv_message.getText().toString().equals("")) {
                             AndroidUtils.showAlert("Message is required", getContext());
-//                        } else if (!(selectedValues.size() == 0)) {
-//                            if ((tv_numbers.getText().toString().equals("")) || (tv_sp_minutes.getText().toString().equals("")))
-//                                AndroidUtils.showAlert("Please Check Notification", getContext());
+                        } else if (!(selectedValues.size() == 0)) {
+                            if (!is_timenotify)
+                                AndroidUtils.showAlert("Please Check Notification", getContext());
                         } else {
                             if (Constants.is_meeting == "Create")
                                 callCreateEventWebservice();
@@ -703,6 +717,36 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 break;
         }//End of Switch Case...
+    }
+
+    private void display_duration(String start_time, String end_time) {
+        //start time
+        String v1 = "";
+        String v2 = "";
+        if (start_time.contains("am")) {
+            v1 = start_time.replace(" am", "");
+        } else if (start_time.contains("pm")) {
+            v1 = start_time.replace(" pm", "");
+        }
+        String[] value_1 = v1.split(":");
+        int firstString = Integer.parseInt(value_1[0]);
+        int secondString = Integer.parseInt(value_1[1]);
+        LocalTime st_time = LocalTime.of(firstString, secondString);
+        //end time
+        if (end_time.contains("am")) {
+            v2 = end_time.replace(" am", "");
+        } else if (end_time.contains("pm")) {
+            v2 = end_time.replace(" pm", "");
+        }
+        String[] value_2 = v2.split(":");
+        Log.d("vvvvvv2", "" + value_2);
+        Log.d("vvvvvv1", value_1.toString());
+        int e_firstString = Integer.parseInt(value_2[0]);
+        int e_secondString = Integer.parseInt(value_2[1]);
+        LocalTime ed_time = LocalTime.of(e_firstString, e_secondString);
+        Duration t_d = Duration.between(st_time, ed_time);
+        Log.d("Hours", firstString + ",  " + secondString + ",  " + e_firstString + e_secondString);
+        Time_duration.setText("Duration : " + t_d.toHours() + " Hours," + t_d.toMinutes() % 60 + " Minutes");
     }
 
     private void load_documents_Popup() {
@@ -1056,6 +1100,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         if (tv_sp_minutes.getText().toString().equals("")) {
             error_msg1.setVisibility(View.VISIBLE);
             error_msg1.setText("This field is required");
+            is_timenotify = false;
         }
         tv_sp_minutes.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1064,8 +1109,10 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 0)
+                if (count > 0) {
                     error_msg1.setVisibility(View.GONE);
+                    is_timenotify = false;
+                }
             }
 
             @Override
@@ -1088,6 +1135,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                     selectedValues.set(position, editable.toString() + "- " + tv_sp_minutes.getText().toString().toLowerCase(Locale.ROOT));
                 }
                 if (!(tv_numbers.getText().toString().equals(""))) {
+                    is_timenotify = false;
                     int notify_number = Integer.parseInt(tv_numbers.getText().toString());
                     if ((selected_hour_type.equals("Minutes")) && ((notify_number) > 60)) {
                         error_msg.setVisibility(View.VISIBLE);
@@ -1103,8 +1151,10 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                         error_msg.setText("Must Between 1 to 4 Weeks");
                     } else {
                         error_msg.setVisibility(View.GONE);
+                        is_timenotify = true;
                     }
                 } else {
+                    is_timenotify = false;
                     error_msg.setVisibility(View.VISIBLE);
                     error_msg.setText("This Field is Required");
                 }
@@ -2520,6 +2570,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 
     private void loadExistingData() {
 
+        btn_create_event.setText(R.string.update);
         cv_add_clients.setVisibility(View.VISIBLE);
         ll_add_entities.setVisibility(View.VISIBLE);
         ll_individual.setVisibility(View.VISIBLE);
@@ -2538,22 +2589,24 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ll_assign_clients.setVisibility(View.VISIBLE);
         if (matter_legal == "reminders")
             tv_message.setText(existing_description);
-
         ll_task.setVisibility(View.VISIBLE);
         ll_repetetion.setVisibility(View.VISIBLE);
         tv_sp_task_name.setText(existing_task);
         tv_description.setText(existing_description);
         tv_sp_repetetion.setText(existing_repetetion);
-        tv_event_start_time.setText(existing_start_time);
         tv_meeting_link.setText(existing_meeting_link);
+        tv_event_creation_date.setText(existing_date);
+        tv_event_start_time.setText(existing_start_time);
         tv_event_end_time.setText(existing_end_time);
+//        Log.d("vaaaaa1",v1);
+        display_duration(tv_event_start_time.getText().toString(), tv_event_end_time.getText().toString());
         tv_location.setText(existing_location);
         tv_dialing_number.setText(existing_dialin);
         tv_event_creation_date.setText(existing_date);
-        if (isExistingAllday) {
+        if (isAddTimesheet) {
             cb_add_to_timesheet.setChecked(true);
         }
-        if (isAllDay) {
+        if (isExistingAllday) {
             cb_all_day.setChecked(true);
         }
 //        for (int i = 0; i < legalTaksList.size(); i++) {
@@ -2561,9 +2614,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 //                sp_task.setSelection(i);
 //            }
 //        }
-        tv_event_creation_date.setText(existing_date);
-        tv_event_start_time.setText(existing_start_time);
-        tv_event_end_time.setText(existing_end_time);
         for (int i = 0; i < timeZonesList.size(); i++) {
             if (existing_time_zone.equals(timeZonesList.get(i).getNAME())) {
                 sp_time_zone.setSelection(i);
@@ -2673,9 +2723,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 for (int j = 0; j < notification.length(); j++) {
                     selectedValues.add(notification.get(j).toString());
                     String value_notify = notification.getString(j);
-                    String[] value_2 = value_notify.split("-");
-                    time_format = value_2[0];
-                    time_value = value_2[1];
+                    String[] time = value_notify.split("-");
+                    time_format = time[0];
+                    time_value = time[1];
                     NotificationPopup();
                 }
 
