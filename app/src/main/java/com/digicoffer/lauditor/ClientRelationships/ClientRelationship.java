@@ -122,7 +122,6 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         ll_groups.setVisibility(View.VISIBLE);
                         ll_select_all.setVisibility(View.VISIBLE);
                     } else {
-                        et_search_individual .setError("Invalid email");
                         tv_individual_email.setText("");
                         tv_individual_confirm_email.setText("");
                       ll_email.setAlpha(0.4F);
@@ -405,6 +404,15 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         rg_individual_entity.setVisibility(View.VISIBLE);
         viewRelationshipsData();
         callIndividualWebservice();
+
+        rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        rb_individual_relationship.setTextColor(Color.WHITE);
+        rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        rb_business_relationship.setTextColor(Color.BLACK);
+        Relationship_Type = "individuals";
+        viewRelationshipsData();
+        mViewModel.setData("View Relationships");
+
 
         rg_add_relationships.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -956,27 +964,16 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         btn_send_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (RELATIONSHIP_TAG == "INDIVIDUAL") {
-                    if (!individualValidation()) {
-                        try {
-
-                            callIndividualRequestWebservice();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }else {
-                    if (!entityValidation()) {
-                        try {
-
-                            callEntityRequestWebservice();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if (RELATIONSHIP_TAG.equals("INDIVIDUAL")) {
+                    individualValidationClick();
+                } else {
+                    entityValidationClick();
                 }
             }
         });
+
+
+
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1026,6 +1023,25 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             AndroidUtils.showToast("No groups selected",getContext());
         }
 
+    }
+    private void individualValidationClick() {
+        if (!individualValidation()) {
+            try {
+                callIndividualRequestWebservice();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void entityValidationClick() {
+        if (!entityValidation()) {
+            try {
+                callEntityRequestWebservice();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void callIndividualRequestWebservice() throws JSONException {
@@ -1089,18 +1105,9 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             tv_individual_last_name.setFocusableInTouchMode(true);
             sp_country.setEnabled(true);
             sp_country.setFocusable(true);
+           // clearIndividualData();
            // disableAlpha();
-            String email = et_search_individual.getText().toString().trim();
-            if(isValidEmail(email)) {
 
-
-                tv_individual_email.setText(email);
-                tv_individual_confirm_email.setText(email);
-            } else {
-                et_search_individual.setError("Invalid email");
-                tv_individual_email.setText("");
-                tv_individual_confirm_email.setText("");
-            }
           //  enableIndividualData();
             //clearIndividualData();
 //                  et_search_individual.setText("");

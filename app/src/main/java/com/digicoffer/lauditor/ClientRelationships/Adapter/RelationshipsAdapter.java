@@ -231,6 +231,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             } else {
                 holder.tv_initiated.setText("Pending");
                 holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.circular));
+              holder.  tv_more_details.setVisibility(View.GONE);
 //                notifyDataSetChanged();
             }
         }
@@ -286,6 +287,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 switch (i) {
                     case R.id.rb_profile:
                         unhideProfileDetails(relationshipsModel, holder);
+
 
                         break;
                     case R.id.rb_share_button:
@@ -831,31 +833,51 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
     }
 
 
-    private void loadSharedWithmeDocuments(JSONObject documents)throws JSONException {
+    private void loadSharedWithmeDocuments(JSONObject documents) {
+        try {
+            // Process general documents
+            JSONArray generalArray = documents.getJSONArray("general");
+            processDocumentArray(generalArray);
 
-            JSONArray general = documents.getJSONArray("general");
-            for (int i=0;i<general.length();i++){
+            // Process other document arrays
+            processDocumentArray(documents.getJSONArray("credential"));
+            processDocumentArray(documents.getJSONArray("merged"));
+            processDocumentArray(documents.getJSONArray("versioned"));
+            processDocumentArray(documents.getJSONArray("identity"));
+            processDocumentArray(documents.getJSONArray("personal"));
 
-                SharedDocumentsDo sharedDocumentsDo = new SharedDocumentsDo();
-                JSONObject docs = general.getJSONObject(i);
-                sharedDocumentsDo.setCategory(docs.getString("category"));
-                sharedDocumentsDo.setCreated(docs.getString("created"));
-                sharedDocumentsDo.setDescription(docs.getString("description"));
-                sharedDocumentsDo.setDoctype(docs.getString("doctype"));
-                sharedDocumentsDo.setId(docs.getString("id"));
-                sharedDocumentsDo.setShareOn(docs.getString("sharedOn"));
-                sharedDocumentsDo.setName(docs.getString("name"));
-                shared_list.add(sharedDocumentsDo);
-               DocArray(documents.getJSONArray("credential"), "credential");
-                DocArray(documents.getJSONArray("merged"), "merged");
-
-                DocArray (documents.getJSONArray("versioned"), "versioned");
-                DocArray(documents.getJSONArray("identity"), "identity");
-                DocArray(documents.getJSONArray("personal"), "personal");
-
-            }
-        openSharedPopupWindow(shared_list);
+            // Open shared popup window
+            openSharedPopupWindow(shared_list);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // Handle JSON exception
         }
+    }
+
+    private void processDocumentArray(JSONArray documentArray) {
+        try {
+            for (int i = 0; i < documentArray.length(); i++) {
+                JSONObject documentObj = documentArray.getJSONObject(i);
+                SharedDocumentsDo sharedDocumentsDo = new SharedDocumentsDo();
+                sharedDocumentsDo.setCategory(documentObj.optString("category", ""));
+                sharedDocumentsDo.setCreated(documentObj.optString("created", ""));
+                sharedDocumentsDo.setDescription(documentObj.optString("description", ""));
+                sharedDocumentsDo.setDoctype(documentObj.optString("doctype", ""));
+                sharedDocumentsDo.setId(documentObj.optString("id", ""));
+                sharedDocumentsDo.setShareOn(documentObj.optString("sharedOn", ""));
+                sharedDocumentsDo.setName(documentObj.optString("name", ""));
+                shared_list.add(sharedDocumentsDo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // Handle JSON exception
+        }
+    }
+
+
+
+    private void DocArray(JSONObject general) {
+    }
 
 
 //        loadDocumentsRecyclerview();
@@ -864,7 +886,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
     private void DocArray(JSONArray jsonArray, String arrayName) throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
             // Here, you can parse each object in the array according to your requirements
-            // For demonstration, let's just print the object's content
+            // For demonstration, leth's just print the object's content
             JSONObject object = jsonArray.getJSONObject(i);
             System.out.println("Parsed from " + arrayName + ": " + object.toString());
         }
@@ -1088,6 +1110,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             tv_consumer = itemView.findViewById(R.id.tv_consumer);
 //            cv_documents = itemView.findViewById(R.id.cv_documents);
             tv_more_details = itemView.findViewById(R.id.tv_more_details);
+
             email = itemView.findViewById(R.id.email);
             email.setText("Email:");
             first_name = itemView.findViewById(R.id.first_name);

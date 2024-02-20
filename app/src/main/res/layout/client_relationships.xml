@@ -149,7 +149,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="Entity"
+                android:text="Business"
                 android:textSize="@dimen/Fifteen_dp" />
 
 
