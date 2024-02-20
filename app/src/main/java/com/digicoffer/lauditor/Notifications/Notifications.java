@@ -38,7 +38,8 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
     ArrayList<NotificationsDo> notificationList = new ArrayList<NotificationsDo>();
     AlertDialog progress_dialog;
     private CheckBox chk_select_all;
-    private ImageView delete_all, ib_read;
+    private ImageView delete_all;
+    private TextView ib_read;
     TextInputEditText et_Search;
     TextView tv_notification_count;
     public Notifications() {
@@ -51,12 +52,13 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
         mViewModel.setData("Notifications");
         chk_select_all = (CheckBox) v.findViewById(R.id.chk_select_all);
         delete_all = (ImageView) v.findViewById(R.id.btn_delete_all);
-        ib_read = (ImageView) v.findViewById(R.id.ib_read);
+        ib_read = (TextView) v.findViewById(R.id.ib_read);
         rv_notifications = v.findViewById(R.id.rv_list1);
         rv_notifications.setHasFixedSize(true);
         tv_notification_count = v.findViewById(R.id.tv_notification_count);
         callWebservice();
         et_Search = v.findViewById(R.id.et_Search);
+        et_Search.setHint("Search");
         loadRecycleView();
         return v;
     }
@@ -65,6 +67,7 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
         rv_notifications.setLayoutManager(new GridLayoutManager(getContext(), 1));
         final NotificationsAdapter adapter = new NotificationsAdapter(notificationList, this);
         rv_notifications.setAdapter(adapter);
+     rv_notifications.setHasFixedSize(true);
         et_Search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

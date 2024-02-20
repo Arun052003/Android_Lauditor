@@ -178,7 +178,7 @@ clearIndividualData();
             if (entity_id.isEmpty()) {
                 tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
                 tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-                disableAlpha();
+              //  disableAlpha();
                 tv_entity_name.setEnabled(true);
                 tv_entity_name.setFocusable(true);
                 tv_entity_name.setFocusableInTouchMode(true);
@@ -971,8 +971,16 @@ clearIndividualData();
             public void onClick(View view) {
                 if (RELATIONSHIP_TAG.equals("INDIVIDUAL")) {
                     individualValidationClick();
+                    viewRelationshipsData();
                 } else {
+                    RELATIONSHIP_TAG = "ENTITY";
                     entityValidationClick();
+                    viewRelationshipsData();
+
+
+
+
+
                 }
             }
         });

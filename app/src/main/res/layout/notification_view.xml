@@ -30,7 +30,7 @@
                 <TextView
                     android:id="@+id/tv_messageView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:fontFamily="sans-serif-black"
                     android:gravity="start"
@@ -43,15 +43,16 @@
                 <TextView
                     android:id="@+id/tv_timestampView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/tv_title"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:gravity="start"
+
                     android:padding="2dp"
                     android:text="Date"
-                    android:textSize="12sp"
-                    android:textColor="@color/cardview_dark_background"/>
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -61,7 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="3sp"
-                android:background="@drawable/delete_icon_relationships">
+                android:background="@drawable/delete_white_icon"
+                android:visibility="gone">
             </ImageButton>
             <CheckBox
                 android:id="@+id/chk_selected"
@@ -69,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:buttonTintMode="src_atop"
-                android:buttonTint="@color/Blue_text_color"
+                android:buttonTint="@color/green_color"
                 android:bufferType="spannable"
                 android:layout_marginRight="3sp"
                 />

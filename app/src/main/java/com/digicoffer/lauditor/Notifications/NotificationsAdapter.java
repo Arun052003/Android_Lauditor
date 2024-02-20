@@ -118,11 +118,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         };
     }
     public void selectAllItems(boolean isSelected) {
-        for (NotificationsDo notification : list_item) {
-            notification.setChecked(isSelected);
+        {
+            for (int i = 0; i < list_item.size(); i++) {
+//            if (list_item.get(i).isIsenabled())
+//            if (list_item.get(i).isIsenabled()) {
+                list_item.get(i).setChecked(isSelected);
+//            }else {
+//                list_item.get(i).setChecked(false);
+//            }
+            }
+            notifyDataSetChanged();
         }
-        // Notify the adapter of the data change
-        notifyDataSetChanged();
     }
     public ArrayList<NotificationsDo> getList_item() {
         return list_item;
@@ -149,6 +155,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             tv_message = (TextView) itemView.findViewById(R.id.tv_messageView);
             ib_Delete = (ImageButton) itemView.findViewById(R.id.btn_deleteNotification);
             chkSelected = (CheckBox) itemView.findViewById(R.id.chk_selected);
+
 
         }
     }
