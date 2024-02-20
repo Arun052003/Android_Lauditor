@@ -935,8 +935,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             mholder.cv_Profile.setVisibility(View.VISIBLE);
             mholder.tv_first_name.setText(relationshipmodel_profile.getName());
             mholder.tv_email.setText(data.getString("email"));
-//            mholder.tv_contact_name.setText(data.getString("first_name"));
-//            mholder.tv_mobile.setText(data.getString("mobile"));
+
             if (data.has("contact_person") && data.has("contact_phone")) {
                 mholder.tv_contact_name.setText(data.getString("contact_person"));
                 mholder.tv_mobile.setText(data.getString("contact_phone"));
@@ -944,26 +943,37 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 mholder.tv_contact_name.setText(data.getString("first_name"));
                 mholder.tv_mobile.setText(data.getString("mobile"));
             } else {
-                // Handle case where required fields are not present in the data
+
             }
-            JSONArray citizen = data.getJSONArray("citizen");
-            for (int i = 0; i < citizen.length(); i++) {
-                JSONObject jsonObject = citizen.getJSONObject(i);
-                ProfileDo profileDo = new ProfileDo();
-                profileDo.setIndex(jsonObject.getString("index"));
-                profileDo.setCountry(jsonObject.getString("country"));
-                citizenList.add(profileDo);
-            }
-            for (int i = 0; i < citizenList.size(); i++) {
-                if (citizenList.get(i).getIndex().equals("citizen_primary")) {
-                    mholder.tv_country.setText(citizenList.get(i).getCountry());
+
+            String tv_country_name = "";
+
+
+            if (data.has("address")) {
+                JSONObject address = data.getJSONObject("address");
+              tv_country_name= address.getString("country");
+            } else {
+
+                JSONArray citizen = data.getJSONArray("citizen");
+                for (int i = 0; i < citizen.length(); i++) {
+                    JSONObject jsonObject = citizen.getJSONObject(i);
+                    if (jsonObject.getString("index").equals("citizen_primary")) {
+                      tv_country_name = jsonObject.getString("country");
+                        break;
+                    }
                 }
             }
+
+
+            mholder.tv_country.setText(tv_country_name);
+
         } catch (JSONException e) {
             e.printStackTrace();
             AndroidUtils.showToast(e.getMessage(), mcontext);
         }
     }
+
+
 
     private void loadViewGroups(JSONArray data) throws JSONException {
 

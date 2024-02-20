@@ -159,7 +159,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     ll_contatc_phone.setAlpha(1.0f);
                     ll_groups.setVisibility(View.VISIBLE);
                     ll_select_all.setVisibility(View.VISIBLE);
-
+clearIndividualData();
                     callSearchEntityWebservice(id);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -174,37 +174,40 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
     private void callSearchEntityWebservice(String id) throws JSONException {
         JSONObject postdata = new JSONObject();
-        if (entity_id.isEmpty()) {
-            tv_response.setText(at_search_entity.getText().toString() + "-not found. Please fill the below details to invite relationship");
-            tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-            disableAlpha();
-            tv_entity_name.setEnabled(true);
-            tv_entity_name.setFocusable(true);
-            tv_entity_name.setFocusableInTouchMode(true);
-            tv_entity_contact_person.setEnabled(true);
-            tv_entity_contact_person.setFocusable(true);
-            tv_entity_contact_person.setFocusableInTouchMode(true);
-            tv_individual_email.setEnabled(true);
-            tv_individual_email.setFocusable(true);
-            tv_individual_email.setFocusableInTouchMode(true);
-            tv_individual_confirm_email.setEnabled(true);
-            tv_individual_confirm_email.setFocusable(true);
-            tv_individual_confirm_email.setFocusableInTouchMode(true);
-            sp_country.setEnabled(true);
-            sp_country.setEnabled(true);
 
-            tv_entity_phone_number.setEnabled(true);
-            tv_entity_phone_number.setFocusable(true);
-            tv_entity_phone_number.setFocusableInTouchMode(true);
+            if (entity_id.isEmpty()) {
+                tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
+                tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
+                disableAlpha();
+                tv_entity_name.setEnabled(true);
+                tv_entity_name.setFocusable(true);
+                tv_entity_name.setFocusableInTouchMode(true);
+                tv_entity_contact_person.setEnabled(true);
+                tv_entity_contact_person.setFocusable(true);
+                tv_entity_contact_person.setFocusableInTouchMode(true);
+                tv_individual_email.setEnabled(true);
+                tv_individual_email.setFocusable(true);
+                tv_individual_email.setFocusableInTouchMode(true);
+                tv_individual_confirm_email.setEnabled(true);
+                tv_individual_confirm_email.setFocusable(true);
+                tv_individual_confirm_email.setFocusableInTouchMode(true);
+                sp_country.setEnabled(true);
+                sp_country.setEnabled(true);
+                tv_entity_phone_number.setFocusable(true);
+                tv_entity_phone_number.setEnabled(true);
+                tv_entity_phone_number.setFocusableInTouchMode(true);
+                // enableIndividualData();
+                //  clearIndividualData();
+                // clearIndividualData();
+            } else {
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
+            }
 
 
-            // enableIndividualData();
-            clearIndividualData();
-            unhideEntityData();
-        } else {
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
+            entity_id = "";
+
         }
-    }
+
 
 
 
@@ -401,10 +404,11 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         rb_business_relationship = view.findViewById(R.id.add_entity_relationship);
         btn_search_entity.setOnClickListener(this);
 
+
         rg_individual_entity.setVisibility(View.VISIBLE);
         viewRelationshipsData();
         callIndividualWebservice();
-
+clearIndividualData();
         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         rb_individual_relationship.setTextColor(Color.WHITE);
         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -541,6 +545,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rb_business_relationship.setTextColor(Color.WHITE);
                         mViewModel.setData("Entity");
                         viewRelationshipsData();
+                        clearIndividualData();
 
                         break;
                 }
@@ -974,6 +979,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
 
 
+
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1105,12 +1111,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             tv_individual_last_name.setFocusableInTouchMode(true);
             sp_country.setEnabled(true);
             sp_country.setFocusable(true);
-           // clearIndividualData();
-           // disableAlpha();
 
-          //  enableIndividualData();
-            //clearIndividualData();
-//                  et_search_individual.setText("");
         } else {
             Log.i("Tag", "Info:" + searchModel.getError());
             // Assuming tv_first_name is your TextView reference
@@ -1153,6 +1154,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         tv_entity_name.setText("");
         tv_entity_phone_number.setText("");
         et_search_individual.setText("");
+        at_search_entity.setText("");
 
 
         for (int i = 0; i < countriesList.size(); i++) {
