@@ -19,8 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/calender_name_layout" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view3"
             android:layout_width="match_parent"

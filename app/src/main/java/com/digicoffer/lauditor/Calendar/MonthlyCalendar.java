@@ -2,6 +2,7 @@ package com.digicoffer.lauditor.Calendar;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener,Events_Adapter.EventListener {
+public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, Events_Adapter.EventListener {
 
     com.applandeo.materialcalendarview.CalendarView calendarView;
     Context thiscontext;
@@ -77,14 +78,14 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.month_view_calendar, container, false);
-        final ImageButton create_event = (ImageButton) v.findViewById(R.id.create_event);
+//        final ImageButton create_event = (ImageButton) v.findViewById(R.id.create_event);
         thiscontext = container.getContext();
-        create_event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callTimeZoneWebservice();
-            }
-        });
+//        create_event.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                callTimeZoneWebservice();
+//            }
+//        });
         calendarView = (CalendarView) v.findViewById(R.id.prolificcalendarview);
         calendarView.setSelectionBackground(R.drawable.custom_selector);
         calendarView.setSwipeEnabled(true);
@@ -134,21 +135,24 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
     public void onClick(View view) {
 
     }
+
     public interface EventDetailsListener {
         void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type);
     }
+
     private void Updatelabel(Calendar myCalendar) {
         String myFormat = "MMM dd, yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         filter = sdf.format(myCalendar.getTime());
         callEventListwebservice(filter);
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 //        if (context instanceof EventDetailsListener) {
         try {
-            Log.d("Interface","Interface Called");
+            Log.d("Interface", "Interface Called");
             eventDetailsListener = (EventDetailsListener) getParentFragment();
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,6 +162,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 //                    + " must implement EventDetailsListener");
 //        }
     }
+
     private void callEventListwebservice(String filter) {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postData = new JSONObject();
@@ -199,23 +204,22 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
                         } else {
                             AndroidUtils.showAlert(result.getString("msg"), getContext());
                         }
-                    }
-                    else if (httpResult.getRequestType().equals("EVENT DETAILS")) {
+                    } else if (httpResult.getRequestType().equals("EVENT DETAILS")) {
                         if (!result.getBoolean("error")) {
                             event_details_list.clear();
 //                            load_event_details(result.getJSONObject("event"), event_id);
                         }
                     } else if (httpResult.getRequestType().equals("EVENT_DELETE")) {
 //                        if (!result.getBoolean("error")) {
-                            AndroidUtils.showToast("Event Deleted Successfully", getContext());
+                        AndroidUtils.showToast("Event Deleted Successfully", getContext());
 //                            if (!(ad_dialog == null)) {
-                                ad_dialog.dismiss();
+                        ad_dialog.dismiss();
 
 //                            }
-                            event_details_list.clear();
-                            events.clear();
+                        event_details_list.clear();
+                        events.clear();
 //                            rv_displayEvents.clea/
-                            callEventListwebservice(filter);
+                        callEventListwebservice(filter);
 //                        } else {
 //                            AndroidUtils.showValidationALert("Alert", result.getString("msg"), getContext());
 //                        }
@@ -228,6 +232,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             e.printStackTrace();
         }
     }
+
     private void loadEvents(JSONArray jsonArray) {
         try {
             Events_Do events_do;
@@ -244,10 +249,10 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
                 if (jsonObject.has("matter_id")) {
                     events_do.setMatter_id(jsonObject.getString("matter_id"));
                 }
-                if (jsonObject.has("matter_name")){
+                if (jsonObject.has("matter_name")) {
                     events_do.setMatter_name(jsonObject.getString("matter_name"));
                 }
-                if(jsonObject.has("matter_type")){
+                if (jsonObject.has("matter_type")) {
                     events_do.setMatter_type(jsonObject.getString("matter_type"));
                 }
                 events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
@@ -273,22 +278,22 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
                 String event_end_time = AndroidUtils.getDateToString(event_date2, "HH:mm a");
                 events_do.setCOnverted_End_time(event_end_time);
                 String converted_from_ts = AndroidUtils.getDateToString(event_date, "yyyy-MM-dd");
-                String converted_to_ts = AndroidUtils.getDateToString(event_date2,"yyyy-MM-dd");
-                String converted_day = AndroidUtils.getDateToString(event_date,"dd");
-                int year = Integer.parseInt(AndroidUtils.getDateToString(event_date,"yyyy"));
+                String converted_to_ts = AndroidUtils.getDateToString(event_date2, "yyyy-MM-dd");
+                String converted_day = AndroidUtils.getDateToString(event_date, "dd");
+                int year = Integer.parseInt(AndroidUtils.getDateToString(event_date, "yyyy"));
 //                System.out.println(events_do.getEvent_Name() + ";" + event_date.getDate() + "-" + event_date.getMonth() + "-" +year);
                 Calendar calendar = Calendar.getInstance();
-                calendar.set(year,event_date.getMonth(),event_date.getDate());
+                calendar.set(year, event_date.getMonth(), event_date.getDate());
                 events.add(new EventDay(calendar, DrawableUtils.getThreeDots(getContext())));
 //                events.add(new EventDay(calendar,DrawableUtils.getDayCircle(getContext(), R.color.blue,R.color.green )));
 //                Log.d("From Start Date", converted_from_ts);
 //                Log.d("Current Date",Currenr_date);
-                if (converted_from_ts.toString().contains(Currenr_date)||converted_to_ts.toString().contains(Currenr_date)) {
+                if (converted_from_ts.toString().contains(Currenr_date) || converted_to_ts.toString().contains(Currenr_date)) {
 //                    events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
 //                    if (events_do.isRecurring()) {
 //                        events_list.add(events_do);
 //                    } else {
-                        events_list.add(events_do);
+                    events_list.add(events_do);
 
 //                    }
                 }
@@ -307,20 +312,21 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 
             loadRecyclerView();
         } catch (Exception e) {
-            AndroidUtils.showToast(e.getMessage().toString(),getContext());
+            AndroidUtils.showToast(e.getMessage().toString(), getContext());
             e.printStackTrace();
         }
     }
+
     private void loadRecyclerView() throws Exception {
         try {
             rv_displayEvents.setLayoutManager(new GridLayoutManager(getContext(), 1));
             for (Events_Do event : events_list) {
-                Log.d("Event List",event.getEvent_Name());
+                Log.d("Event List", event.getEvent_Name());
             }
-            events_adapter = new Events_Adapter(events_list, this,getContext(),getActivity());
+            events_adapter = new Events_Adapter(events_list, this, getContext(), getActivity());
             rv_displayEvents.setAdapter(events_adapter);
         } catch (Exception e) {
-            AndroidUtils.showToast(e.getMessage(),getContext());
+            AndroidUtils.showToast(e.getMessage(), getContext());
             e.printStackTrace();
         }
     }
@@ -527,57 +533,47 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
     public void onEvent(ArrayList<Event_Details_DO> event_details_list) {
 
         if (eventDetailsListener != null) {
-            String Calendar_Type ="Monthly";
-            Log.d("EventsList",event_details_list.toString());
-            eventDetailsListener.onEventDetailsPassed(event_details_list,Calendar_Type);
+            String Calendar_Type = "Monthly";
+            Log.d("EventsList", event_details_list.toString());
+            eventDetailsListener.onEventDetailsPassed(event_details_list, Calendar_Type);
         }
     }
 
     @Override
-    public void delete_events(String event_id, boolean recur) {
+    public void delete_events(String event_id, boolean recur, String event_name) {
         if (recur) {
-            delete_event(event_id);
+            delete_event(event_id, event_name);
         } else {
             callDeleteEventwebservice(event_id, recurring_edit_choice);
         }
     }
 
-    private void delete_event(final String event_id) {
+    private void delete_event(final String event_id, String event_name) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getLayoutInflater();
-            final View dialogLayout = inflater.inflate(R.layout.delete_events, null);
-            final RadioGroup radioGroup = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup);
-            final RadioButton delete_only_this = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_only_this);
-            final RadioButton delete_all = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_all);
-            final RadioButton delete_following = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_ts_fe);
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    if (delete_only_this.isChecked()) {
-                        recurring_edit_choice = "this";
-                    } else if (delete_all.isChecked()) {
-                        recurring_edit_choice = String.valueOf("all");
-                    } else if (delete_following.isChecked()) {
-                        recurring_edit_choice = String.valueOf("forward");
-                    }
-                }
-            });
+            final View dialogLayout = inflater.inflate(R.layout.alert_dialog_delete, null);
+            final TextView delete_event_msg = dialogLayout.findViewById(R.id.delete_event_msg);
+            delete_event_msg.setText("Are you Sure do you want to delete " + event_name + " ?");
+            delete_event_msg.setTextSize(20);
+            delete_event_msg.setTextColor(Color.BLACK);
+            final Button delete = dialogLayout.findViewById(R.id.delete_event);
+            final Button btn_close_event = dialogLayout.findViewById(R.id.btn_close_event);
+            btn_close_event.setTextColor(Color.RED);
+            btn_close_event.setText(R.string.cancel);
+
             final AlertDialog dialog = builder.create();
             ad_dialog = dialog;
-            Button delete = (Button) dialogLayout.findViewById(R.id.delete_event);
-
-                ImageButton btn_close_event = (ImageButton)dialogLayout.findViewById(R.id.btn_close_event);
-                btn_close_event.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ad_dialog.dismiss();
-                    }
-                });
+            btn_close_event.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ad_dialog.dismiss();
+                }
+            });
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    recurring_edit_choice = "this";
                     callDeleteEventwebservice(event_id, recurring_edit_choice);
                 }
             });
@@ -604,10 +600,12 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 
 
     }
+
     @Override
     public void delete(String event_id, boolean recur) {
 
     }
+
     private void callEventDetailsWebservice(String id) {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postData = new JSONObject();

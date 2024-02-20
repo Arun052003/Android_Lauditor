@@ -1,115 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rectangular_white_background"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="@dimen/left_space"
+    android:clickable="true"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/left_space"
+    app:cardElevation="@dimen/thirty_dp">
 
-    android:orientation="vertical"
-    >
-
-
-
-
-    <!--   Default RadioButtons  -->
-
-
-    <LinearLayout
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:layout_margin="10dp"
-        android:background="@color/Blue_text_color"
-        android:orientation="horizontal">
+        android:background="@drawable/background_transparent"
 
-        <ImageButton
-            android:id="@+id/btn_close_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:gravity="center"
-            android:padding="10dp"
-            android:src="@drawable/ic_arrow_left"
-            android:text="Close"
-            android:textColor="@color/cardview_dark_background"
-            android:textStyle="normal" />
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_addReminder"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
 
-            android:fontFamily="sans-serif-black"
-            android:gravity="center_vertical"
-            android:text="Back"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
+        <!--   Default RadioButtons  -->
+
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/btn_close_event"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="#00000000"-->
+        <!--            android:gravity="center"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:src="@drawable/ic_arrow_left"-->
+        <!--            android:text="Close"-->
+        <!--            android:textColor="@color/cardview_dark_background"-->
+        <!--            android:textStyle="normal" />-->
 
         <TextView
-
+            android:id="@+id/edit_event_dialog"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center_vertical"
-            android:text=""
+            android:layout_height="@dimen/Fifty_dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectangular_button_green_count"
+            android:fontFamily="@font/gill_sans"
+            android:gravity="center"
+            android:textFontWeight="500"
+            android:text="Edit Recurring Event"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/twenty_dp" />
 
-        <Button
-            android:id="@+id/delete_event"
+        <!--        <Button-->
+        <!--            android:id="@+id/delete_event"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="#00000000"-->
+        <!--            android:fontFamily="sans-serif-black"-->
+        <!--            android:gravity="center"-->
+        <!--            android:textAllCaps="false"-->
+        <!--            android:text="Update"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:textSize="15dp"-->
+        <!--            android:textStyle="normal" />-->
+
+
+        <!--   Customized RadioButtons  -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:textAllCaps="false"
-            android:text="Update"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:textStyle="normal" />
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/radio_delete_only_this"
+                layout="@layout/check_select_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+
+            <include
+                android:id="@+id/radio_delete_ts_fe"
+                layout="@layout/check_select_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false" />
+
+            <include
+                android:id="@+id/radio_delete_all"
+                layout="@layout/check_select_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/small_size">
+
+            <include
+                layout="@layout/dialog_save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/thirty_dp" />
+
+            <include
+                android:id="@+id/btn_close_event"
+                layout="@layout/dialog_save_button" />
+        </LinearLayout>
 
     </LinearLayout>
-
-
-    <!--   Customized RadioButtons  -->
-
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/radioGroup">
-
-        <RadioButton
-            android:id="@+id/radio_delete_only_this"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Update only this event"
-            android:layout_marginTop="10dp"
-            android:checked="false"
-            android:textSize="20dp" />
-
-        <RadioButton
-            android:id="@+id/radio_delete_all"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Update all events"
-            android:layout_marginTop="20dp"
-            android:checked="false"
-
-            android:textSize="20dp" />
-        <RadioButton
-            android:id="@+id/radio_delete_ts_fe"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Update this and following events"
-            android:layout_marginTop="20dp"
-            android:checked="false"
-
-            android:textSize="20dp" />
-    </RadioGroup>
-
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -2,6 +2,8 @@ package com.digicoffer.lauditor.Calendar;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,12 +86,6 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         tv_from_date_timesheet = (TextView) v.findViewById(R.id.tv_from_date_timesheet);
         tv_to_date_timesheet = (TextView) v.findViewById(R.id.tv_to_date_timesheet);
 
-        CurrentWeek();
-        adapter = new WeeklyCalendarAdapter(days, this::onDaySelected);
-        rv_week_dates.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rv_week_dates.setAdapter(adapter);
-        iv_previous_week.setOnClickListener(view -> showPreviousWeek());
-        iv_next_week.setOnClickListener(view -> showNextWeek());
 //        iv_next_week.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -133,6 +129,12 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 //            }
 //        });
         callEventListwebservice(filter);
+        CurrentWeek();
+        adapter = new WeeklyCalendarAdapter(days, this::onDaySelected);
+        rv_week_dates.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rv_week_dates.setAdapter(adapter);
+        iv_previous_week.setOnClickListener(view -> showPreviousWeek());
+        iv_next_week.setOnClickListener(view -> showNextWeek());
         return v;
     }
 
@@ -338,6 +340,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                         AndroidUtils.showToast("Event Deleted Successfully", getContext());
 //                            if (!(ad_dialog == null)) {
                         ad_dialog.dismiss();
+                        progress_dialog.dismiss();
 
 //                            }
                         event_details_list.clear();
@@ -473,9 +476,9 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     }
 
     @Override
-    public void delete_events(String event_id, boolean recur) {
+    public void delete_events(String event_id, boolean recur, String event_name) {
         if (recur) {
-            delete_event(event_id);
+            delete_event(event_id, event_name);
         } else {
             callDeleteEventwebservice(event_id, recurring_edit_choice);
         }
@@ -497,32 +500,23 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 
     }
 
-    private void delete_event(final String event_id) {
+    private void delete_event(final String event_id, String event_name) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getLayoutInflater();
-            final View dialogLayout = inflater.inflate(R.layout.delete_events, null);
-            final RadioGroup radioGroup = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup);
-            final RadioButton delete_only_this = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_only_this);
-            final RadioButton delete_all = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_all);
-            final RadioButton delete_following = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_ts_fe);
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    if (delete_only_this.isChecked()) {
-                        recurring_edit_choice = "this";
-                    } else if (delete_all.isChecked()) {
-                        recurring_edit_choice = String.valueOf("all");
-                    } else if (delete_following.isChecked()) {
-                        recurring_edit_choice = String.valueOf("forward");
-                    }
-                }
-            });
+            final View dialogLayout = inflater.inflate(R.layout.alert_dialog_delete, null);
+            final TextView delete_event_msg = dialogLayout.findViewById(R.id.delete_event_msg);
+            delete_event_msg.setText("Are you Sure do you want to delete " + event_name + " ?");
+            delete_event_msg.setTextSize(20);
+            delete_event_msg.setTextColor(Color.BLACK);
+            delete_event_msg.setTypeface(null, Typeface.NORMAL);
+            final Button delete = dialogLayout.findViewById(R.id.delete_event);
+            final Button btn_close_event = dialogLayout.findViewById(R.id.btn_close_event);
+            btn_close_event.setTextColor(Color.RED);
+            btn_close_event.setText(R.string.cancel);
+
             final AlertDialog dialog = builder.create();
             ad_dialog = dialog;
-            Button delete = (Button) dialogLayout.findViewById(R.id.delete_event);
-
-            ImageButton btn_close_event = (ImageButton) dialogLayout.findViewById(R.id.btn_close_event);
             btn_close_event.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -532,7 +526,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    recurring_edit_choice = "this";
                     callDeleteEventwebservice(event_id, recurring_edit_choice);
                 }
             });
@@ -552,6 +546,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     @Override
     public void onDaySelected(Day day) {
         String selectedDate = day.getDate();
+        Log.d("TRUE_VALUE", "" + day.hasEvents());
 
         // Update the calendar's date with the selected date
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);

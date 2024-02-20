@@ -255,7 +255,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
 //       isAllDay = cb_all_day.isChecked();
         cv_meeting_details = view.findViewById(R.id.cv_meeting_details);
         cv_add_clients = view.findViewById(R.id.cv_add_clients);
-        cv_add_clients.setVisibility(View.VISIBLE);
+        cv_add_clients.setVisibility(View.GONE);
 
         cb_add_to_timesheet = view.findViewById(R.id.cb_add_to_timesheet);
         cb_add_to_timesheet.setText("Add To Timesheet");
@@ -345,6 +345,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ll_assign_clients = view.findViewById(R.id.ll_assign_clients);
         ll_assign_clients.setVisibility(View.GONE);
         ll_add_entities = view.findViewById(R.id.ll_add_entities);
+
+//        display_check_list();
+//        cv_add_clients.setVisibility(View.VISIBLE);
 //        ll_assign_clients = view.findViewById(R.id.ll_assign_team_members);
 
         ll_documents_view = view.findViewById(R.id.ll_documents_view);
@@ -454,11 +457,8 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             @Override
             public void onClick(View v) {
                 if (is_clicked_documents) {
-                    if (!(matterList.size() == 0)) {
-                        load_documents_Popup();
-                    } else {
-                        rv_documents_view.setVisibility(View.VISIBLE);
-                    }
+                    rv_documents_view.setVisibility(View.VISIBLE);
+                    load_documents_Popup();
                 } else {
                     rv_documents_view.setVisibility(View.GONE);
                 }
@@ -594,9 +594,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 if (hourOfDay < 12) {
-                    AM_PM[0] = " am";
+                    AM_PM[0] = " AM";
                 } else {
-                    AM_PM[0] = " pm";
+                    AM_PM[0] = " PM";
                 }
                 if (is_start) {
                     start_time = hourOfDay;
@@ -686,9 +686,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             AndroidUtils.showAlert("Start Time is required", getContext());
                         } else if (tv_sp_time_zone.getText().toString().equals("")) {
                             AndroidUtils.showAlert("Time Zone is required", getContext());
-                        } else if (!(selectedValues.size() == 0)) {
-                            if (!is_timenotify)
-                                AndroidUtils.showAlert("Please Check Notification", getContext());
+//                        } else if (!(selectedValues.size() == 0)) {
+//                            if (!is_timenotify)
+//                                AndroidUtils.showAlert("Please Check Notification", getContext());
                         } else {
                             if (Constants.is_meeting == "Create")
                                 callCreateEventWebservice();
@@ -704,9 +704,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                             AndroidUtils.showAlert("Time Zone is required", getContext());
                         } else if (tv_message.getText().toString().equals("")) {
                             AndroidUtils.showAlert("Message is required", getContext());
-                        } else if (!(selectedValues.size() == 0)) {
-                            if (!is_timenotify)
-                                AndroidUtils.showAlert("Please Check Notification", getContext());
+//                        } else if (!(selectedValues.size() == 0)) {
+//                            if (!is_timenotify)
+//                                AndroidUtils.showAlert("Please Check Notification", getContext());
                         } else {
                             if (Constants.is_meeting == "Create")
                                 callCreateEventWebservice();
@@ -723,20 +723,20 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         //start time
         String v1 = "";
         String v2 = "";
-        if (start_time.contains("am")) {
-            v1 = start_time.replace(" am", "");
-        } else if (start_time.contains("pm")) {
-            v1 = start_time.replace(" pm", "");
+        if (start_time.contains("AM")) {
+            v1 = start_time.replace(" AM", "");
+        } else if (start_time.contains("PM")) {
+            v1 = start_time.replace(" PM", "");
         }
         String[] value_1 = v1.split(":");
         int firstString = Integer.parseInt(value_1[0]);
         int secondString = Integer.parseInt(value_1[1]);
         LocalTime st_time = LocalTime.of(firstString, secondString);
         //end time
-        if (end_time.contains("am")) {
-            v2 = end_time.replace(" am", "");
-        } else if (end_time.contains("pm")) {
-            v2 = end_time.replace(" pm", "");
+        if (end_time.contains("AM")) {
+            v2 = end_time.replace(" AM", "");
+        } else if (end_time.contains("PM")) {
+            v2 = end_time.replace(" PM", "");
         }
         String[] value_2 = v2.split(":");
         Log.d("vvvvvv2", "" + value_2);
@@ -1698,6 +1698,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 loadRepetetions();
                 matter_legal = "legal";
                 callProjectWebservice(matter_legal);
+                hide_documents();
 //                callClientsWebservice();
 //                TaskDo caseFilling = new TaskDo("Case Filling");
 //                TaskDo consultation = new TaskDo("Consultation");
@@ -1718,6 +1719,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 loadRepetetions();
                 matter_legal = "general";
                 callProjectWebservice(matter_legal);
+                hide_documents();
 //                TaskDo consultation_general = new TaskDo("Consultation");
 //                TaskDo draft_agreements = new TaskDo("Draft agreements");
 //                TaskDo fwa = new TaskDo("Filling with authorities");
@@ -1736,8 +1738,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 loadClearedLists();
                 loadRepetetions();
                 callTeamMemberWebservice();
-
+                display_members();
                 matter_legal = "overhead";
+                hide_documents();
 //                matter_legal = ""
 //                TaskDo conference = new TaskDo("Conference");
 //                TaskDo holidays = new TaskDo("Holidays");
@@ -1757,8 +1760,11 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 loadClearedLists();
                 loadRepetetions();
                 callTeamMemberWebservice();
+                display_members();
+                ll_documents_view.setVisibility(View.GONE);
 //                display_check_list();
                 matter_legal = "others";
+                hide_documents();
                 TaskDo business_development = new TaskDo("Business Development");
                 TaskDo personal = new TaskDo("Personal");
                 TaskDo doctor_appointment = new TaskDo("Doctor Appointment");
@@ -1778,6 +1784,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 loadRepetetions();
                 loadClearedLists();
                 callTeamMemberWebservice();
+                display_members();
 //                display_check_list();
                 matter_legal = "reminders";
                 break;
@@ -1796,12 +1803,25 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     }
 
     private void load_clear_list() {
+        at_add_groups.setText("");
+        at_assigned_client.setText("");
+        at_individual.setText("");
+        at_attach_document.setText("");
+        tv_sp_entities.setText("");
+
         entity_client_list.clear();
         individual_list.clear();
         documents_list.clear();
         entities_list.clear();
         selectedValues.clear();
         teamList.clear();
+    }
+
+    private void display_members() {
+        cv_add_clients.setVisibility(View.VISIBLE);
+        ll_add_groups.setVisibility(View.VISIBLE);
+        ll_add_entities.setVisibility(View.VISIBLE);
+        ll_individual.setVisibility(View.VISIBLE);
     }
 
     private void loadRepetetions() {
@@ -1849,6 +1869,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ll_message.setVisibility(View.GONE);
         ll_task.setVisibility(View.VISIBLE);
         ll_documents_view.setVisibility(View.VISIBLE);
+        cv_add_clients.setVisibility(View.GONE);
     }
 
     private void loadTaskList(ArrayList<TaskDo> legalTaksList) {
@@ -2323,18 +2344,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 tv_sp_matter_name.setText(matter_name);
                 ll_assign_clients.setVisibility(View.GONE);
 
-                at_add_groups.setText("");
-                at_assigned_client.setText("");
-                at_individual.setText("");
-                at_attach_document.setText("");
-                tv_sp_entities.setText("");
-
-                selected_documents_list.clear();
                 selected_individual_list.clear();
                 selected_tm_list.clear();
                 selected_entity_client_list.clear();
                 selected_documents_list.clear();
                 load_clear_list();
+                display_members();
 
                 selected_groups.setVisibility(View.GONE);//team members
                 selected_tm.setVisibility(View.GONE);//clients
@@ -2349,15 +2364,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 ischecked_matter = true;
             }
         });
-        {
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-//        callClientsWebservice();
-//            callTeamMemberWebservice();
-        }
     }
 
     private void display_listview(boolean ischecked, ListView listView) {
@@ -2527,27 +2533,54 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getLayoutInflater();
             final View dialogLayout = inflater.inflate(R.layout.edit_recurring_choice, null);
-            final RadioGroup radioGroup = (RadioGroup) dialogLayout.findViewById(R.id.radioGroup);
-            final RadioButton delete_only_this = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_only_this);
-            final RadioButton delete_all = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_all);
-            final RadioButton delete_following = (RadioButton) dialogLayout.findViewById(R.id.radio_delete_ts_fe);
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            final CheckBox delete_only_this = dialogLayout.findViewById(R.id.radio_delete_only_this);
+            delete_only_this.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            delete_only_this.setText("This event");
+            delete_only_this.setTextSize(20);
+            final CheckBox delete_all = dialogLayout.findViewById(R.id.radio_delete_all);
+            delete_all.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            delete_all.setText("All events");
+            delete_all.setTextSize(20);
+            final CheckBox delete_following = dialogLayout.findViewById(R.id.radio_delete_ts_fe);
+            delete_following.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            delete_following.setText("This and following events");
+            delete_following.setTextSize(20);
+            final Button delete = dialogLayout.findViewById(R.id.delete_event);
+            final Button btn_close_event = dialogLayout.findViewById(R.id.btn_close_event);
+            btn_close_event.setTextColor(Color.RED);
+            btn_close_event.setText(R.string.cancel);
+
+            delete_only_this.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    if (delete_only_this.isChecked()) {
-                        recurring_edit_choice = "this";
-                    } else if (delete_all.isChecked()) {
-                        recurring_edit_choice = String.valueOf("all");
-                    } else if (delete_following.isChecked()) {
-                        recurring_edit_choice = String.valueOf("forward");
-                    }
+                public void onClick(View v) {
+                    delete_only_this.setChecked(true);
+                    recurring_edit_choice = "this";
+                    delete_all.setChecked(false);
+                    delete_following.setChecked(false);
                 }
             });
+            delete_following.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delete_following.setChecked(true);
+                    recurring_edit_choice = "forward";
+                    delete_all.setChecked(false);
+                    delete_only_this.setChecked(false);
+                }
+            });
+            delete_all.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delete_all.setChecked(true);
+                    recurring_edit_choice = "all";
+                    delete_only_this.setChecked(false);
+                    delete_following.setChecked(false);
+                }
+            });
+
             final AlertDialog dialog = builder.create();
             progressDialog = dialog;
-            Button delete = (Button) dialogLayout.findViewById(R.id.delete_event);
 
-            ImageButton btn_close_event = (ImageButton) dialogLayout.findViewById(R.id.btn_close_event);
             btn_close_event.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2557,8 +2590,12 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    progressDialog.dismiss();
-                    callCreateEventWebservice_edit(recurring_edit_choice);
+                    if (delete_only_this.isChecked() || delete_following.isChecked() || delete_all.isChecked()) {
+                        progressDialog.dismiss();
+                        callCreateEventWebservice_edit(recurring_edit_choice);
+                    } else {
+                        AndroidUtils.showAlert("Please choose one of the edit recurring event", getContext());
+                    }
                 }
             });
             dialog.setView(dialogLayout);
@@ -2575,11 +2612,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         ll_add_entities.setVisibility(View.VISIBLE);
         ll_individual.setVisibility(View.VISIBLE);
         ll_add_groups.setVisibility(View.VISIBLE);
-        if ((matter_legal.equals("legal")) || (matter_legal.equals("general"))) {
-            ll_documents_view.setVisibility(View.VISIBLE);
-        } else {
-            ll_documents_view.setVisibility(View.GONE);
-        }
+        hide_documents();
         ll_project.setVisibility(View.VISIBLE);
         ll_matter_name.setVisibility(View.VISIBLE);
         tv_sp_project.setClickable(false);
@@ -2826,6 +2859,14 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
             ll_individual.setVisibility(View.GONE);
         } else {
             ll_individual.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hide_documents() {
+        if ((matter_legal.equals("legal")) || (matter_legal.equals("general"))) {
+            ll_documents_view.setVisibility(View.VISIBLE);
+        } else {
+            ll_documents_view.setVisibility(View.GONE);
         }
     }
 }

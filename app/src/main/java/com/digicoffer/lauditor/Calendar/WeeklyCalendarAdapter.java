@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.Calendar;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
     private List<Day> days;
     private OnDaySelectedListener listener;
     private int selectedPosition = RecyclerView.NO_POSITION;
+
     public WeeklyCalendarAdapter(List<Day> days, OnDaySelectedListener listener) {
         this.days = days;
         this.listener = listener;
@@ -49,8 +51,8 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        // Set a background drawable to indicate that the day has events
+        Log.d("Event_list_size", "" + day.getEvents().size());
+        //Set a background drawable to indicate that the day has events
 //        if (day.getEvents().size() > 0) {
 //            holder.dot.setVisibility(View.VISIBLE); // Show the dot
 //        } else {
@@ -65,26 +67,26 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
 
         // Change the background color to blue if it is today's date
         if (day.isToday()) {
-            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_blue_background));
+            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_complete_blue_background));
             holder.textDay.setTextColor(Color.WHITE);
         } else {
             // Reset the background color for other days
-            holder.itemView.setBackgroundResource(R.drawable.rectangular_white_background);
-            holder.textDay.setTextColor(Color.BLUE);
+            holder.itemView.setBackgroundResource(R.drawable.rectangle_light_grey_bg);
+            holder.textDay.setTextColor(Color.BLACK);
         }
 
         holder.itemView.setOnClickListener(view -> {
-
-                int previousSelectedPosition = selectedPosition;
-                selectedPosition = holder.getAdapterPosition();
-                notifyItemChanged(previousSelectedPosition);
-                notifyItemChanged(selectedPosition);
+            int previousSelectedPosition = selectedPosition;
+            selectedPosition = holder.getAdapterPosition();
+            notifyItemChanged(previousSelectedPosition);
+            notifyItemChanged(selectedPosition);
             if (listener != null) {
                 listener.onDaySelected(day);
             }
         });
         if (selectedPosition == position) {
-            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_green_background));
+            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_button_green_count));
+            holder.textDay.setTextColor(Color.WHITE);
         }
     }
 

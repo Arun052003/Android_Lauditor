@@ -68,7 +68,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
     public interface EventListener {
         void onEvent(ArrayList<Event_Details_DO> event_details_list);
 
-        void delete_events(String id, boolean isrecurring);
+        void delete_events(String id, boolean isrecurring, String event_name);
 
         void delete(String event_id, boolean recur);
     }
@@ -167,7 +167,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //                Log.d("ArrayListLog", event.toString());
 //            }
             if ((FLAG == "MORE")) {
-                load_more_details();
+                load_more_details(event_details_list);
             } else {
                 context.onEvent(event_details_list);
             }
@@ -176,14 +176,15 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         }
     }
 
-    private void load_more_details() {
+    private void load_more_details(ArrayList<Event_Details_DO> event_details_list1) {
+        event_details_list1 = event_details_list;
         my_view_holder.ll_documents.removeAllViews();
         my_view_holder.ll_team_members.removeAllViews();
         my_view_holder.ll_clients.removeAllViews();
         my_view_holder.ll_notifications.removeAllViews();
 
-        for (int i = 0; i < event_details_list.size(); i++) {
-            Event_Details_DO events_do = event_details_list.get(i);
+        for (int i = 0; i < event_details_list1.size(); i++) {
+            Event_Details_DO events_do = event_details_list1.get(i);
 
 
             for (int j = 0; j < events_do.getNotifications().length(); j++) {
@@ -213,12 +214,12 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             }
             try {
                 for (int a = 0; a < events_do.getTeam_name().length(); a++) {
-                    Log.d("Team Members", events_do.getTeam_name().toString());
                     JSONObject att_team_obj = events_do.getTeam_name().getJSONObject(a);
                     View view = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
                     final TextView team_list = (TextView) view.findViewById(R.id.tv_event_notifications);
                     team_list.setText(att_team_obj.getString("name"));
                     my_view_holder.ll_team_members.addView(view);
+                    Log.d("Team Members", (att_team_obj.getString("name")));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -249,7 +250,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
     public void onBindViewHolder(@NonNull Events_Adapter.MyViewHolder holder, int position) {
         my_view_holder = holder;
         for (Events_Do event : filtered_list) {
-            Log.d("Event List", event.getEvent_Name());
+            Log.d("Event List1", event.getEvent_Name());
         }
         final Events_Do events_do = filtered_list.get(position);
 //        AndroidUtils.showToast(events_do.toString(),mcontext);
@@ -328,7 +329,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         holder.ib_delete_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.delete_events(events_do.getEvent_id(), events_do.isRecurring());
+                context.delete_events(events_do.getEvent_id(), events_do.isRecurring(), events_do.getEvent_Name());
             }
         });
         holder.ib_view_events.setOnClickListener(new View.OnClickListener() {
