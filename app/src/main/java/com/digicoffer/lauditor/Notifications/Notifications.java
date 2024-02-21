@@ -84,14 +84,19 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
             }
 
         });
-        chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chk_select_all.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                adapter.selectAllItems(isChecked); // Notify the adapter to select/deselect all items
+            public void onClick(View view) {
+                if (chk_select_all.isChecked()) {
+                    adapter.selectOrDeselectAlls(true);
+                } else {
+                    adapter.selectOrDeselectAlls(false);
+                }
             }
         });
 
     }
+
 
 
     private void callWebservice() {
@@ -104,6 +109,7 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
     }
+
 
     public void callDeleteNotificationsWebservice(String str_id) {
 

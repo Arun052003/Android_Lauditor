@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:buttonTintMode="src_atop"
-                android:buttonTint="@color/green_color"
+                android:buttonTint="@color/Blue_text_color"
                 android:bufferType="spannable"
                 android:layout_marginRight="3sp"
                 />

@@ -43,31 +43,36 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return new NotificationsAdapter.MyViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(final NotificationsAdapter.MyViewHolder holder, int i) {
         final NotificationsDo notifications = filtered_list.get(i);
-        holder.chkSelected.setChecked(filtered_list.get(i).isSelected());
+
+
+        holder.chkSelected.setChecked(notifications.isChecked());
+
         holder.chkSelected.setTag(i);
+
+
         holder.chkSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Integer pos = (Integer) holder.chkSelected.getTag();
-                if (filtered_list.get(pos).isChecked()) {
-                    filtered_list.get(pos).setChecked(false);
-                } else {
-                    filtered_list.get(pos).setChecked(true);
-                }
+                filtered_list.get(pos).setChecked(!filtered_list.get(pos).isChecked());
+                notifyDataSetChanged();
+                holder.chkSelected.setChecked(areAllItemsSelected());
             }
-
         });
+
 
         holder.tv_timestamp.setText(notifications.getTimestamp());
         holder.tv_message.setText(notifications.getMessage());
         if (notifications.getStatus().toLowerCase().equals("unread")) {
             holder.tv_message.setTypeface(null, Typeface.BOLD);
-        } else
+        } else {
             holder.tv_message.setTypeface(null, Typeface.NORMAL);
+        }
+
         holder.ib_Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +80,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             }
         });
     }
+    public boolean areAllItemsSelected() {
+        for (NotificationsDo notification : filtered_list) {
+            if (!notification.isChecked()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public int getItemCount() {
@@ -93,8 +107,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                     ArrayList<NotificationsDo> filteredList = new ArrayList<>();
                     for (NotificationsDo row : list_item) {
 
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
+
                         if (AndroidUtils.isNull(row.getMessage()).toLowerCase().contains(charString.toLowerCase()) || AndroidUtils.isNull(row.getTimestamp()).toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
@@ -117,19 +130,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             }
         };
     }
-    public void selectAllItems(boolean isSelected) {
-        {
-            for (int i = 0; i < list_item.size(); i++) {
-//            if (list_item.get(i).isIsenabled())
-//            if (list_item.get(i).isIsenabled()) {
-                list_item.get(i).setChecked(isSelected);
-//            }else {
-//                list_item.get(i).setChecked(false);
-//            }
-            }
-            notifyDataSetChanged();
+    public void selectOrDeselectAlls(boolean isChecked) {
+        for (NotificationsDo notification : filtered_list) {
+            notification.setChecked(isChecked);
         }
+        notifyDataSetChanged();
+
+
+        notifyDataSetChanged();
     }
+
     public ArrayList<NotificationsDo> getList_item() {
         return list_item;
     }

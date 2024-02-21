@@ -92,24 +92,22 @@ android:layout_weight="1"
             android:contentDescription="@string/app_name"/>
 
 
-
         <CheckBox
             android:id="@+id/chk_select_all"
             android:layout_width="40dp"
             android:layout_height="40dp"
-           android:layout_weight="1"
-            android:outlineSpotShadowColor="@color/green_color"
-            android:buttonTint="@color/white"
-            android:buttonTintMode="src_atop"
-            android:bufferType="spannable"
-
-            android:shadowColor="@color/white"
-android:outlineAmbientShadowColor="@color/Blue_text_color"
-            android:background="@color/Blue_text_color"
             android:layout_marginRight="10dp"
-            android:visibility="visible"
+            android:layout_weight="1"
+            android:background="@color/Blue_text_color"
+            android:bufferType="spannable"
+            android:buttonTint="@color/white"
+
+            android:buttonTintMode="src_atop"
+            android:outlineAmbientShadowColor="@color/Blue_text_color"
+            android:outlineSpotShadowColor="@color/green_color"
+            android:shadowColor="@color/white"
             android:textSize="22dp"
-            />
+            android:visibility="visible" />
     </LinearLayout>
     </LinearLayout>
 
