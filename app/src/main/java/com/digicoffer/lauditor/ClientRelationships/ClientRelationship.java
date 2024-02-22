@@ -493,6 +493,28 @@ clearIndividualData();
                         relationshipsList.clear();
                         rv_relationships.removeAllViews();
                         mViewModel.setData("Add Relationship");
+                        RELATIONSHIP_TAG = "INDIVIDUAL";
+                        tv_response.setText("");
+                        hideEntityData();
+                        ll_search_individual.setVisibility(View.VISIBLE);
+                        ll_search_entity.setVisibility(View.GONE);
+                        ll_first_name.setVisibility(View.VISIBLE);
+                        ll_last_name.setVisibility(View.VISIBLE);
+                        rb_individual.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+                        rb_entity.setTextColor(getContext().getResources().getColor(R.color.white));
+                        rb_entity.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+                        rb_individual.setTextColor(getContext().getResources().getColor(R.color.white));
+                        rb_entity.setTextColor(getContext().getResources().getColor(R.color.black));
+                        ll_email.setAlpha(0.4F);
+                        ll_confirm_email.setAlpha(0.4F);
+                        ll_last_name.setAlpha(0.4F);
+                        ll_first_name.setAlpha(0.4F);
+                        country_name_id.setAlpha(0.4F);
+                        ll_select_all.setVisibility(View.GONE);
+                        ll_contatc_phone.setVisibility(View.GONE);
+                        ll_groups.setVisibility(View.GONE);
+                        clearIndividualData();
+                        mViewModel.setData("Individual");
                         break;
                     case R.id.view_relationship:
                         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -987,13 +1009,12 @@ clearIndividualData();
     }
 
     private void loadGroupsRecylerview() {
-
-//        if (groupsList.size() != 0) {
-
         rv_relationship_groups.setLayoutManager(new GridLayoutManager(getContext(), 1));
         groupsAdapter = new GroupsAdapter(groupsList);
         rv_relationship_groups.setAdapter(groupsAdapter);
         rv_relationship_groups.setHasFixedSize(true);
+
+        // TextWatcher for filtering groups based on search input
         et_search_relationships.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -1001,15 +1022,15 @@ clearIndividualData();
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 groupsAdapter.getFilter().filter(s);
             }
-
         });
+
+        // Button click listener to clear search input and reload groups
         btn_relationships_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1019,26 +1040,19 @@ clearIndividualData();
                 callGroupsWebservice();
             }
         });
+
+        // Button click listener to send request based on relationship type
         btn_send_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (RELATIONSHIP_TAG.equals("INDIVIDUAL")) {
                     individualValidationClick();
-
                 } else {
                     RELATIONSHIP_TAG = "ENTITY";
                     entityValidationClick();
-
-
-
-
-
-
                 }
             }
         });
-
-
 
 
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1048,11 +1062,17 @@ clearIndividualData();
             }
         });
 
-//        }
-//        else {
-////            cv_members_details.setVisibility(View.GONE);
-//        }
+        // Listener for individual group checkbox changes
+        groupsAdapter.setOnGroupCheckedChangeListener(new GroupsAdapter.OnGroupCheckedChangeListener() {
+
+            public void onGroupCheckedChanged(boolean isChecked) {
+                if (!isChecked) {
+                    chk_select_all.setChecked(false);
+                }
+            }
+        });
     }
+
 
     private void callEntityRequestWebservice() throws JSONException{
         Log.i("Tag","Country_Name:"+country_name);

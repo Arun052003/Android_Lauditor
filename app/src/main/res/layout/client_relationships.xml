@@ -34,7 +34,9 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
+                android:layout_marginRight="1dp"
                 android:padding="15dp"
+                android:textStyle="bold"
                 android:singleLine="true"
                 android:text="@string/add_relationships"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -52,6 +54,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:padding="15dp"
+                android:textStyle="bold"
                 android:singleLine="true"
                 android:text="@string/view_relationships"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -79,11 +82,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
+                android:layout_marginRight="1dp"
                 android:background="@drawable/button_left_green_background"
                 android:button="@android:color/transparent"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:padding="15dp"
+                android:textStyle="bold"
                 android:singleLine="true"
                 android:text="Individual"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -100,6 +105,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:padding="15dp"
+                android:textStyle="bold"
                 android:singleLine="true"
                 android:text="Entity"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -125,12 +131,13 @@
                 android:id="@+id/add_individiual_relationship"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_marginRight="1dp"
                 android:background="@drawable/button_left_green_background"
                 android:button="@android:color/transparent"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:padding="15dp"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:singleLine="true"
                 android:text="Individual"
@@ -148,6 +155,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
                 android:padding="15dp"
+                android:textStyle="bold"
                 android:singleLine="true"
                 android:text="Business"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -491,7 +499,7 @@
                     <LinearLayout
                         android:id="@+id/country_name_id"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         tools:ignore="ExtraText">
@@ -502,18 +510,16 @@
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <include
                                 android:id="@+id/country"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="@string/country"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
-
-                            </TextView>
+                                android:layout_height="wrap_content" />
 
                             <include layout="@layout/icon"/>
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
 
 
                         </LinearLayout>
@@ -521,7 +527,8 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tl_individual_country"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:background="@drawable/rectangle_light_grey_bg"
                             app:boxBackgroundMode="none"
                             android:textColorHint="@color/black">
@@ -532,8 +539,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
 
-                                android:spinnerMode="dropdown"
-                                />
+                                android:spinnerMode="dropdown" />
                         </com.google.android.material.textfield.TextInputLayout>
 
 
