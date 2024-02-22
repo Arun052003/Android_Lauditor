@@ -229,6 +229,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         btn_create.setText("Update");
         ImageView close_details = view.findViewById(R.id.close_details);
         et_search_members = view.findViewById(R.id.et_search_members);
+        et_search_members.setHint("Search");
 
 //        rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rv_group_update.setLayoutManager(new LinearLayoutManager(getContext()));
