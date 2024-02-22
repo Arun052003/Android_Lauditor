@@ -22,18 +22,19 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+
             <ImageView
                 android:id="@+id/close_details"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:background="@drawable/cancel_icon"
+                android:background="@drawable/cancel_white_icon"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
             </ImageView>
 
@@ -60,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="Search Group"
+
 
             android:textColorHint="@color/black"
             app:boxBackgroundMode="none"
@@ -72,16 +73,8 @@
             app:layout_constraintVertical_bias="0.0">
 
             <!--this is the actual edit text which takes the input-->
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_search_members"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/rectangle_light_grey_bg"
-                android:drawableRight="@drawable/search_groups"
-                android:gravity="start" />
+            <include layout="@layout/group_name_layout"
+                android:id="@+id/et_search_members"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,20 +89,13 @@
 
         </TextView>
 
-        <LinearLayout
-            android:id="@+id/ll_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_add_tag"></LinearLayout>
+
 
         <include
             android:id="@+id/rv_group_update"
             layout="@layout/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/ll_groups"
             android:layout_marginEnd="5dp"
             android:visibility="visible" />
