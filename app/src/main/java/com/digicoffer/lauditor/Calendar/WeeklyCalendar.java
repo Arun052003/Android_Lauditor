@@ -54,6 +54,8 @@ import java.util.concurrent.TimeUnit;
 public class WeeklyCalendar extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener, Events_Adapter.EventListener, WeeklyCalendarAdapter.OnDaySelectedListener {
     Calendar calendar = Calendar.getInstance();
     WeekDateInfo weekDateInfo;
+    String start_date;
+    String end_date;
     String filter = "";
     Calendar cal;
     String recurring_edit_choice;
@@ -65,6 +67,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     private EventDetailsListener eventDetailsListener;
     AlertDialog ad_dialog;
     String event_creation_date = "";
+    String event_end_date = "";
     String Currenr_date = "";
     RecyclerView rv_displayEvents;
     String Current_day = "";
@@ -128,8 +131,8 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 //                callEventListwebservice(filter);
 //            }
 //        });
-        callEventListwebservice(filter);
         CurrentWeek();
+        callEventListwebservice(filter);
         adapter = new WeeklyCalendarAdapter(days, this::onDaySelected);
         rv_week_dates.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv_week_dates.setAdapter(adapter);
@@ -150,6 +153,12 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         // Update the 'days' list with dates of the current week
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         String fromDate = dateFormat.format(cal.getTime());
+
+        //Getting first date and last date for current week
+        SimpleDateFormat d1 = new SimpleDateFormat("ddMMyyyy", Locale.US);
+        start_date = d1.format(cal.getTime());
+        Log.d("F_date", "" + start_date);
+
         days.clear();
         for (int i = 0; i < 7; i++) {
             String date = dateFormat.format(cal.getTime());
@@ -160,6 +169,8 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         // Find the end date (last day) of the current week
         cal.add(Calendar.DATE, -1);
         String toDate = dateFormat.format(cal.getTime());
+        end_date = d1.format(cal.getTime());
+        Log.d("L_date", "" + end_date);
 
         // Update the 'tv_from_date_timesheet' and 'tv_to_date_timesheet' TextViews
         tv_from_date_timesheet.setText(fromDate);
@@ -173,13 +184,18 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 
     private void showPreviousWeek() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        SimpleDateFormat d1 = new SimpleDateFormat("ddMMyyyy", Locale.US);
         cal = Calendar.getInstance();
         String fromDate;
         String toDate;
+
+
         try {
             Date currentDate = dateFormat.parse(days.get(0).getDate());
             cal.setTime(currentDate);
             cal.add(Calendar.WEEK_OF_YEAR, -1);
+            start_date = d1.format(cal.getTime());
+            Log.d("pf_date", "" + start_date);
 
             // Update the 'days' list with dates of the previous week
             days.clear();
@@ -188,10 +204,18 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                 days.add(new Day(date));
                 cal.add(Calendar.DATE, 1);
             }
+            end_date = d1.format(cal.getTime());
+            Log.d("pl_date", "" + end_date);
 
             // Calculate the new 'fromDate' and 'toDate' for the TextViews
             fromDate = days.get(0).getDate();
             toDate = days.get(days.size() - 1).getDate();
+//            String st_date= d1.format(days.get(0).getDate());
+            Log.d("Frommmm", "" + start_date);
+
+//                SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy");
+//                String date_of_filling = outputFormat.format(fromDate);
+
 
             // Notify the adapter of the data changes
             adapter.notifyDataSetChanged();
@@ -201,6 +225,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             String myFormat = "MMM dd, yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
             filter = sdf.format(cal.getTime());
+            Log.d("Filterrr", filter);
             callEventListwebservice(filter);
 
         } catch (ParseException e) {
@@ -216,6 +241,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 
     private void showNextWeek() {
         // Calculate the first date of the next week
+        SimpleDateFormat d1 = new SimpleDateFormat("ddMMyyyy", Locale.US);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         cal = Calendar.getInstance();
         String fromDate;
@@ -224,6 +250,8 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             Date currentDate = dateFormat.parse(days.get(0).getDate());
             cal.setTime(currentDate);
             cal.add(Calendar.WEEK_OF_YEAR, 1);
+            start_date = d1.format(cal.getTime());
+            Log.d("ff_date", "" + start_date);
 
             // Update the 'days' list with dates of the next week
             days.clear();
@@ -232,7 +260,8 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                 days.add(new Day(date));
                 cal.add(Calendar.DATE, 1);
             }
-
+            end_date = d1.format(cal.getTime());
+            Log.d("pf_date", "" + end_date);
             // Calculate the new 'fromDate' and 'toDate' for the TextViews
             fromDate = days.get(0).getDate();
             toDate = days.get(days.size() - 1).getDate();
@@ -255,6 +284,8 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         // Update the 'tv_from_date_timesheet' and 'tv_to_date_timesheet' TextViews
         tv_from_date_timesheet.setText(fromDate);
         tv_to_date_timesheet.setText(toDate);
+//        from_date=fromDate;
+//        to_date=toDate;
     }
 
     public interface EventDetailsListener {
@@ -291,7 +322,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             int offset = timeZone.getRawOffset();
             long hours = TimeUnit.MILLISECONDS.toMinutes(offset);
             long timezoneoffset = (-1) * (hours);
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/events/" + timezoneoffset + "/" + "M" + event_creation_date, "Events_List", postData.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/events/" + timezoneoffset + "/" + "W" + start_date + "-" + end_date, "Events_List", postData.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
