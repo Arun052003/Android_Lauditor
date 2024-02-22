@@ -167,7 +167,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //                Log.d("ArrayListLog", event.toString());
 //            }
             if ((FLAG == "MORE")) {
-                load_more_details(event_details_list);
+                load_more_details();
             } else {
                 context.onEvent(event_details_list);
             }
@@ -176,15 +176,14 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         }
     }
 
-    private void load_more_details(ArrayList<Event_Details_DO> event_details_list1) {
-        event_details_list1 = event_details_list;
+    private void load_more_details() {
         my_view_holder.ll_documents.removeAllViews();
         my_view_holder.ll_team_members.removeAllViews();
         my_view_holder.ll_clients.removeAllViews();
         my_view_holder.ll_notifications.removeAllViews();
 
-        for (int i = 0; i < event_details_list1.size(); i++) {
-            Event_Details_DO events_do = event_details_list1.get(i);
+        for (int i = 0; i < event_details_list.size(); i++) {
+            Event_Details_DO events_do = event_details_list.get(i);
 
 
             for (int j = 0; j < events_do.getNotifications().length(); j++) {
@@ -316,10 +315,10 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //                    holder.ll_clients.removeAllViews();
                     holder.bt_hide_details.setText("View More");
                 } else {
-                    holder.bt_hide_details.setText("View Less");
-                    holder.ll_view_more.setVisibility(View.VISIBLE);
                     FLAG = "MORE";
                     callEventDetailsWebservice(events_do.getEvent_id());
+                    holder.bt_hide_details.setText("View Less");
+                    holder.ll_view_more.setVisibility(View.VISIBLE);
                 }
                 isDetailsVisible = !isDetailsVisible;
             }

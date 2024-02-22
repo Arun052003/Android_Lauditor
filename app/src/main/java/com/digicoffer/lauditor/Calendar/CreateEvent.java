@@ -495,20 +495,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 tv_sp_task_name.setText("");
                 matter_name = "";
                 tv_sp_matter_name.setText("");
-                sp_task.setVisibility(View.GONE);
-                sp_project.setVisibility(View.GONE);
-
-                at_add_groups.setText("");
-                at_assigned_client.setText("");
-                at_individual.setText("");
-                at_attach_document.setText("");
-                tv_sp_entities.setText("");
-
-                selected_documents_list.clear();
-                selected_individual_list.clear();
-                selected_tm_list.clear();
-                selected_entity_client_list.clear();
-                selected_documents_list.clear();
+                load_clear_list();
+                hide_all_list();
+                clear_selected_list();
                 loadProjectData(selected_project);
             }
         });
@@ -783,7 +772,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                         }
                     }
                 }
-                selected_documents_list.clear();
 //            selected_tm_list.clear();
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 rv_documents_view.setLayoutManager(layoutManager);
@@ -1817,6 +1805,13 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         teamList.clear();
     }
 
+    private void clear_selected_list() {
+        selected_individual_list.clear();
+        selected_tm_list.clear();
+        selected_entity_client_list.clear();
+        selected_documents_list.clear();
+    }
+
     private void display_members() {
         cv_add_clients.setVisibility(View.VISIBLE);
         ll_add_groups.setVisibility(View.VISIBLE);
@@ -2344,10 +2339,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 tv_sp_matter_name.setText(matter_name);
                 ll_assign_clients.setVisibility(View.GONE);
 
-                selected_individual_list.clear();
-                selected_tm_list.clear();
-                selected_entity_client_list.clear();
-                selected_documents_list.clear();
                 load_clear_list();
                 display_members();
 
@@ -2360,7 +2351,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                sp_matter_name.setVisibility(View.GONE);
+                hide_all_list();
                 ischecked_matter = true;
             }
         });
@@ -2868,5 +2859,29 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         } else {
             ll_documents_view.setVisibility(View.GONE);
         }
+    }
+
+    private void hide_all_list() {
+        ischecked_project = true;
+        ischecked_matter = true;
+        ischecked_task = true;
+        ischecked_repetetion = true;
+        ischecked_time = true;
+        is_clicked_team = true;
+        is_clicked_clients = true;
+        is_clicked_documents = true;
+        is_clicked_individuals = true;
+        is_entities = true;
+
+        sp_time_zone.setVisibility(View.GONE);
+        sp_repetetion.setVisibility(View.GONE);
+        sp_project.setVisibility(View.GONE);
+        sp_task.setVisibility(View.GONE);
+        sp_matter_name.setVisibility(View.GONE);
+        rv_groups_view.setVisibility(View.GONE);
+        rv_clients_view.setVisibility(View.GONE);
+        sp_entities.setVisibility(View.GONE);
+        rv_individuals_view.setVisibility(View.GONE);
+        rv_documents_view.setVisibility(View.GONE);
     }
 }
