@@ -185,6 +185,13 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         for (int i = 0; i < event_details_list.size(); i++) {
             Event_Details_DO events_do = event_details_list.get(i);
 
+            my_view_holder.event_description.setText(events_do.getDescription());
+            if(!events_do.getOwner_name().equals("")) {
+                View view1 = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
+                final TextView owner_name = (TextView) view1.findViewById(R.id.tv_event_notifications);
+                owner_name.setText(event_details_list.get(i).getOwner_name()+" (Organizer)");
+                my_view_holder.ll_team_members.addView(view1);
+            }
 
             for (int j = 0; j < events_do.getNotifications().length(); j++) {
                 View view = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
@@ -196,7 +203,6 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                 }
                 my_view_holder.ll_notifications.addView(view);
             }
-
             for (int a = 0; a < events_do.getAttachments().length(); a++) {
                 try {
 
@@ -235,6 +241,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+//            notifyItemChanged(i);
         }
     }
 
@@ -258,16 +265,16 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         Date event_date = AndroidUtils.stringToDateTimeDefault(from_ts, "yyyy-MM-dd'T'HH:mm:ss");
         SimpleDateFormat amPmFormat = new SimpleDateFormat("a", Locale.US);
         String amPm_from_ts = amPmFormat.format(event_date);
-        for (int j = 0; j < events_do.getNotifications().length(); j++) {
-            View view = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
-            final TextView tv_notifications = (TextView) view.findViewById(R.id.tv_event_notifications);
-            try {
-                tv_notifications.setText(events_do.getNotifications().get(j).toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            holder.ll_notifications.addView(view);
-        }
+//        for (int j = 0; j < events_do.getNotifications().length(); j++) {
+//            View view = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
+//            final TextView tv_notifications = (TextView) view.findViewById(R.id.tv_event_notifications);
+//            try {
+//                tv_notifications.setText(events_do.getNotifications().get(j).toString());
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            holder.ll_notifications.addView(view);
+//        }
 
         final String converted_date = AndroidUtils.getDateToString(event_date, "yyyy-MM-dd");
         String converted_time = AndroidUtils.getDateToString(event_date, "hh:mm");
@@ -297,7 +304,6 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         }
 
         holder.event_timezone.setText(events_do.getTimezone_location());
-        holder.event_description.setText(events_do.getDescription());
         holder.tv_meeting_link.setText(events_do.getMeeting_link());
         holder.tv_phone_dialin.setText(events_do.getDialin());
         holder.tv_location.setText(events_do.getLocation());
@@ -305,10 +311,11 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         holder.bt_hide_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callEventDetailsWebservice(events_do.getEvent_id());
                 if (!isDetailsVisible) {
                     holder.ll_view_more.setVisibility(View.GONE);
                     // Clear the ArrayList here
-                    event_details_list.clear();
+//                    event_details_list.clear();
 //                    holder.ll_notifications.removeAllViews();
 //                    holder.ll_documents.removeAllViews();
 //                    holder.ll_team_members.removeAllViews();
@@ -316,7 +323,6 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     holder.bt_hide_details.setText("View More");
                 } else {
                     FLAG = "MORE";
-                    callEventDetailsWebservice(events_do.getEvent_id());
                     holder.bt_hide_details.setText("View Less");
                     holder.ll_view_more.setVisibility(View.VISIBLE);
                 }
@@ -402,6 +408,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             ib_delete_events = (ImageButton) itemView.findViewById(R.id.ib_delete_events);
             event_description = (TextView) itemView.findViewById(R.id.event_description);
             event_description.setTextColor(Color.BLACK);
+            event_description.setText("");
             tv_meeting_link = (TextView) itemView.findViewById(R.id.tv_meeting_link);
             tv_meeting_link.setTextColor(Color.BLACK);
             tv_phone_dialin = (TextView) itemView.findViewById(R.id.tv_phone_dialin);
@@ -411,6 +418,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             bt_hide_details = (AppCompatButton) itemView.findViewById(R.id.bt_hide_details);
             ll_notifications = (LinearLayout) itemView.findViewById(R.id.ll_notifications);
             ll_view_more = (LinearLayout) itemView.findViewById(R.id.ll_view_more);
+            ll_view_more.setVisibility(View.GONE);
             ll_documents = (LinearLayout) itemView.findViewById(R.id.ll_documents);
             ll_team_members = (LinearLayout) itemView.findViewById(R.id.ll_team_members);
             ll_clients = (LinearLayout) itemView.findViewById(R.id.ll_clients);

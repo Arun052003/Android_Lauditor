@@ -1063,14 +1063,14 @@ clearIndividualData();
         });
 
         // Listener for individual group checkbox changes
-        groupsAdapter.setOnGroupCheckedChangeListener(new GroupsAdapter.OnGroupCheckedChangeListener() {
-
-            public void onGroupCheckedChanged(boolean isChecked) {
-                if (!isChecked) {
-                    chk_select_all.setChecked(false);
-                }
-            }
-        });
+//        groupsAdapter.setOnGroupCheckedChangeListener(new GroupsAdapter.OnGroupCheckedChangeListener() {
+//
+//            public void onGroupCheckedChanged(boolean isChecked) {
+//                if (!isChecked) {
+//                    chk_select_all.setChecked(false);
+//                }
+//            }
+//        });
     }
 
 

@@ -51,7 +51,7 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/sp_project"
+                android:id="@+id/sp_project1"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"

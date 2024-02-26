@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.system.ErrnoException;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -58,8 +59,9 @@ public class AndroidUtils {
                     }
                 });
     }
-    public static  void showDialog(final String msg, final Context context,
-                           final String permission) {
+
+    public static void showDialog(final String msg, final Context context,
+                                  final String permission) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
         alertBuilder.setCancelable(true);
         alertBuilder.setTitle("Permission necessary");
@@ -75,6 +77,7 @@ public class AndroidUtils {
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }
+
     public static void showAlert(String message, Context context) {
         AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
 
@@ -165,8 +168,7 @@ public class AndroidUtils {
     }
 
 
-    public static void dismiss_dialog(AlertDialog dialog)
-    {
+    public static void dismiss_dialog(AlertDialog dialog) {
         dialog.dismiss();
     }
 
@@ -198,6 +200,7 @@ public class AndroidUtils {
         }
         return result;
     }
+
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager objConnectivityManager;
         boolean isNetworkAvailable = false;
@@ -217,6 +220,7 @@ public class AndroidUtils {
         }
         return isNetworkAvailable;
     }
+
     public static String getDateSelectedFormt(String original_format, String selected_formate, String date) {
         Date converted_date = AndroidUtils.stringToDateTimeDefault(date, original_format);
         return AndroidUtils.getDateToString(converted_date, selected_formate);
@@ -275,16 +279,15 @@ public class AndroidUtils {
         return affiliation_type;
     }
 
-    public static String getemailpattern()
-    {
+    public static String getemailpattern() {
         return "[a-zA-Z0-9._-]+@[a-z-]+\\.+[a-z]+";
     }
-    public  static  String getmobilepattern(){
-        return  "[0-9]";
+
+    public static String getmobilepattern() {
+        return "[0-9]";
     }
 
-    public static void remove_credential_preference(Context context)
-    {
+    public static void remove_credential_preference(Context context) {
 //        SharedPreferences mySPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 //        SharedPreferences.Editor editor = mySPrefs.edit();
 //        editor.remove("emial");
@@ -331,36 +334,29 @@ public class AndroidUtils {
             final int finalAttempts = attempts;
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    if(finalAttempts < 5) {
+                    if (finalAttempts < 5) {
                         send_notification(context, UID, msg, subject);
-                    }
-                    else
+                    } else
                         attempts = 0;
                 }
             }, 5000);
         }
     }
 
-    public static String getFileType(String filename)
-    {
+    public static String getFileType(String filename) {
         String type = "";
-        String name = filename.substring(filename.lastIndexOf(".")+1, filename.length());
-        if(name.toLowerCase().equals("png") || name.toLowerCase().equals("jpg") || name.toLowerCase().equals("JPEG"))
-        {
+        String name = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
+        if (name.toLowerCase().equals("png") || name.toLowerCase().equals("jpg") || name.toLowerCase().equals("JPEG")) {
             type = "image/jpeg";
-        }
-        else if(name.toLowerCase().equals("pdf"))
-        {
+        } else if (name.toLowerCase().equals("pdf")) {
             type = "image/pdf";
-        }
-        else if(name.toLowerCase().equals("docx")){
+        } else if (name.toLowerCase().equals("docx")) {
             type = "image/docx";
         }
         return type;
     }
 
-    public static void reconnecXMPPServer(final Context context)
-    {
+    public static void reconnecXMPPServer(final Context context) {
         Intent i1 = new Intent(context, ChatConnectionService.class);
         context.stopService(i1);
         Handler handler = new Handler();
@@ -369,6 +365,15 @@ public class AndroidUtils {
                 context.startService(new Intent(context, ChatConnectionService.class));
             }
         }, 5000);
+    }
+
+    //Displaying a List view when we clicked their textview....
+    public static void display_listview(boolean ischecked, ListView listView) {
+        if (ischecked) {
+            listView.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.GONE);
+        }
     }
 
 

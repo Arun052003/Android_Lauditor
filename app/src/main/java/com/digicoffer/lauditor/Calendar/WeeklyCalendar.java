@@ -83,11 +83,14 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.weekly_calendar, container, false);
         ImageButton iv_next_week = v.findViewById(R.id.iv_next_week);
+        iv_next_week.setImageDrawable(getContext().getDrawable(R.drawable.baseline_arrow_forward_ios_24));
         ImageButton iv_previous_week = v.findViewById(R.id.iv_previous_week);
         rv_displayEvents = (RecyclerView) v.findViewById(R.id.rv_events);
         rv_week_dates = (RecyclerView) v.findViewById(R.id.rv_week_dates);
         tv_from_date_timesheet = (TextView) v.findViewById(R.id.tv_from_date_timesheet);
         tv_to_date_timesheet = (TextView) v.findViewById(R.id.tv_to_date_timesheet);
+        tv_to_date_timesheet.setTextColor(getContext().getColor(R.color.Blue_text_color));
+        tv_from_date_timesheet.setTextColor(getContext().getColor(R.color.Blue_text_color));
 
 //        iv_next_week.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -454,6 +457,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                         break;
                     }
                 }
+
                 if (converted_from_ts.toString().contains(Currenr_date) || converted_to_ts.toString().contains(Currenr_date)) {
 //                    events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
 //                    if (events_do.isRecurring()) {
