@@ -1,38 +1,35 @@
 package com.digicoffer.lauditor;
 
+import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.digicoffer.lauditor.AuditTrails.AuditTrails;
@@ -45,7 +42,6 @@ import com.digicoffer.lauditor.Chat.Chat;
 import com.digicoffer.lauditor.ClientRelationships.ClientRelationship;
 import com.digicoffer.lauditor.Dashboard.DahboardModels.MenuModels;
 import com.digicoffer.lauditor.Dashboard.Dashboard;
-import com.digicoffer.lauditor.Dashboard.MenuAdapter;
 import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Groups.Groups;
 import com.digicoffer.lauditor.LoginActivity.LoginActivity;
@@ -54,9 +50,13 @@ import com.digicoffer.lauditor.Members.Members;
 import com.digicoffer.lauditor.Notifications.Notifications;
 import com.digicoffer.lauditor.TimeSheets.TimeSheets;
 import com.digicoffer.lauditor.common.Constants;
+import com.digicoffer.lauditor.email.Email;
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -64,6 +64,7 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MonthlyCalendar.EventDetailsListener, WeeklyCalendar.EventDetailsListener, View.OnClickListener {
+    private static final int RC_SIGN_IN = 9001;
     ExtendedFloatingActionButton mAddFab;
     AppBarLayout header_layout;
     ImageView iv_logo_dashboard;
@@ -74,12 +75,20 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     private NewModel viewModel;
     TextView tv_pageName;
     ActionBarDrawerToggle dtoggle;
+    private BeginSignInRequest signUpRequest;
     //    Animation fabOpen, fabClose, rotateForward, rotateBackward;
     DrawerLayout dLayout;
     AppBarLayout appbar;
     ImageView iv_digilogo;
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+    MenuItem email_sm;
+
     ImageView iv_Drawer;
     ImageView menu_open;
+    SignInClient  oneTapClient;
+
+
     FloatingActionMenu center_menu;
     com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton;
     TextView tv_headerName, tv_digilogo, tv_header_firm_name;
@@ -88,11 +97,15 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //    TextView tv_relations, tv_documents, tv_timesheet, tv_matter, tv_more;
     ImageView matters_bm, timesheets_bm, relationships_bm, groups_bm, team_members_bm, audit_bm, more_bm, firm_profile_bm, documents_bm;
     Menu nav_Menu;
-    MenuItem team_member_sm, audits_sm, meetings_sm, messages_sm, notifications_sm, email_sm, logout_sm;
+    MenuItem team_member_sm, audits_sm, meetings_sm, messages_sm, notifications_sm, logout_sm;
     NavigationView navView;
     int itemId;
+    private  static final int REQ_ONE_TAP =2;
+    private boolean showOneTapUI= true;
+    private SignInClient OneTapClient;
     public androidx.appcompat.widget.LinearLayoutCompat ll_bottom_menu;
     Boolean isAllFabsVisible;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -549,6 +562,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         }
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            /** @noinspection InstantiationOfUtilityClass*/
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 hide_un_chosen_menu();
@@ -589,12 +603,34 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     notifications_sm.setTitle(spannableString1);
                     frag = new Notifications();
                 } else if (itemId == R.id.email) {
-                    //6th option
+
+//                   gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+//                   gsc = GoogleSignIn.getClient(MainActivity.this,gso);
+
+
+
+
+
+
+                    email_sm.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(@NonNull MenuItem item) {
+                          String url = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read%20https%3A%2F%2Fmail.google.com%2F&state=ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFhV1FpT2lKQlEwSXhNRUUyUWpVelJqbEVNamRFSWl3aVlXUnRhVzRpT21aaGJITmxMQ0p3YkdGdUlqb2liR0YxWkdsMGIzSWlMQ0p5YjJ4bElqb2lVMVVpTENKdVlXMWxJam9pVTI5MWJtUmhjbmxoSUVSTVJpQlRWU0lzSW5WelpYSmZhV1FpT2lJMk0ySm1aRGxpTjJFeFpHSTNNakJtTW1Rek9HUTBaRElpTENKbGVIQWlPakUzTURrd01qZ3lPVGw5LlUtdjIyWjhSQUVfcmNWQ05ZZEpvdjFOQ2ttM3hsVWVHd0hvdHc0bXY1QWc%3D&response_type=code&client_id=1074057396282-o970s9o11m4g3dla4g0lokc5k4e7o8g5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdev.utils.mail.digicoffer.com%2Foauth2callback&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow";
+                          Intent intent = new Intent(Intent.ACTION_VIEW);
+                          intent.setData(Uri.parse(url));
+                          startActivity(intent);
+                            return false;
+                        }
+                    });
+
                     SpannableString spannableString1 = new SpannableString(email_sm.getTitle());
                     spannableString1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getApplicationContext(), R.color.green_count_color)), 0, spannableString1.length(), 0);
                     email_sm.setTitle(spannableString1);
-                    frag = new Dashboard();
-                } else if (itemId == R.id.logout) {
+                    frag = new Email();
+
+                }
+
+                else if (itemId == R.id.logout) {
                     confirmLogout();
                 } else if (itemId == R.id.matter) {
                     frag = new Matter();
@@ -613,59 +649,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 } else if (itemId == R.id.Version) {
                     frag = new Dashboard();
                 }
-//                else if (itemId == R.id.CredentialDocuments) {
-//                    frag = new Credential_Docs();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                } else if (itemId == R.id.ClientRelationships) {
-//                    frag = new Client_Relationships();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                } else if (itemId == R.id.ProfessionalDocuments) {
-//                    frag = new Professional_Docs();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                } else if (itemId == R.id.relationship_contacts) {
-//                    frag = new Relationship_Contacts();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                } else if (itemId == R.id.team_members) {
-//                    frag = new Team_Members();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                } else if (itemId == R.id.Notifications) {
-//                    frag = new Notifications();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                } else if (itemId == R.id.Reminders) {
-//                    frag = new Reminders();
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.id_framelayout, frag);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-//                }
-//                else if (itemId == R.id.Logout) {
-//                    logout();
-//                }
+
                 if (frag != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.id_framelayout, frag);
@@ -678,81 +662,10 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         });
     }
 
-//    private void closeMenu() {
-//        loadRecyclerview();
-//        iv_open_menu.setVisibility(View.VISIBLE);
-//        iv_close_menu.setVisibility(View.GONE);
-////            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.down_arrow));
-//        fab_relationships.setVisibility(View.GONE);
-//        fab_relationships.startAnimation(fabClose);
-//        fab_documents.setVisibility(View.GONE);
-//        fab_documents.startAnimation(fabClose);
-//        fab_matter.setVisibility(View.GONE);
-//        fab_matter.startAnimation(fabClose);
-//        fab_timesheet.setVisibility(View.GONE);
-//        fab_timesheet.startAnimation(fabClose);
-//        fab_more.setVisibility(View.GONE);
-//        fab_more.startAnimation(fabClose);
-//    }
-
-//    private void openMenu() {
-//        loadRecyclerview();
-//        iv_close_menu.setVisibility(View.VISIBLE);
-//        iv_open_menu.setVisibility(View.GONE);
-////            mAddFab.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.up_arrow));
-////                    mAddFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_full_sad));
-//        fab_relationships.setVisibility(View.VISIBLE);
-//        fab_relationships.startAnimation(fabOpen);
-//        fab_documents.setVisibility(View.VISIBLE);
-//        fab_documents.startAnimation(fabOpen);
-//        fab_matter.setVisibility(View.VISIBLE);
-//        fab_matter.startAnimation(fabOpen);
-//        fab_timesheet.setVisibility(View.VISIBLE);
-//        fab_timesheet.startAnimation(fabOpen);
-//        fab_more.setVisibility(View.VISIBLE);
-//        fab_more.startAnimation(fabOpen);
-//    }
-
-//    private void animateFab() {
-////        LinearLayout.LayoutParams lp = new
-////                LinearLayout.LayoutParams(tv_relations.getWidth(),tv_relations.getHeight());
-////        lp.setMargins(0,0,165,15);
-//        if (!isAllFabsVisible) {
-////            iv_open_menu.startAnimation(rotateForward);
-//
-////            tv_more.startAnimation(fabOpen);
-////                    mAddFab.extend();
-//            isAllFabsVisible = true;
-//        } else {
-////            iv_open_menu.startAnimation(rotateBackward);
-//        }
-//    }
 
 
-//    private void logout() {
-//        new AlertDialog.Builder(this)
-//                .setTitle("Alert")
-//                .setMessage("Are you sure you want to logout?")
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-////                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-////                        prefs.edit().remove("current_fragment");
-//////                        SharedPreferences crend_Prefs = getSharedPreferences(Constants.BIOMETIRCSharedPrefsKey, MODE_PRIVATE);
-////                        crend_Prefs.edit().putString(Constants.TOKEN_key,"");
-////                        crend_Prefs.edit().putString(Constants.PK_key,"");
-////                        crend_Prefs.edit().apply();
-////
-////                        FragmentManager fragmentManager = getSupportFragmentManager();
-////                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//
-//                        finish();
-//
-//                    }
-//                })
-//                .setNegativeButton("No", null)
-//                .show();
-//    }
+
+
 
     @Override
     public void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type) {

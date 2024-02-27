@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/matter_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@color/white"
+        android:enabled="false"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="start|center_vertical"
+        android:padding="5dp"
+        android:text="New Message"
+        android:textAllCaps="false"
+        android:textColor="@color/Blue_text_color"
+        android:textSize="@dimen/twenty_dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="7dp">
+
+    </TextView>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/client_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="50dp"
+        android:paddingTop="@dimen/twenty_dp"
+        android:paddingEnd="50dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="55dp">
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:aapt="http://schemas.android.com/aapt"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tv_create_members"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_left_background"
+            android:fontFamily="@font/gill_sans"
+            android:padding="10dp"
+            android:shadowRadius="10"
+            android:text="Client"
+            android:textColor="@color/black"
+            android:textFontWeight="700"
+            android:textSize="@dimen/Fifteen_dp"
+
+            android:translationZ="12dp"
+            app:cardCornerRadius="10dp"></TextView>
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:aapt="http://schemas.android.com/aapt"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tv_view_members"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_right_background"
+            android:fontFamily="@font/gill_sans"
+            android:padding="10dp"
+            android:shadowRadius="10"
+            android:text="Firm"
+            android:textColor="@color/black"
+            android:textFontWeight="700"
+            android:textSize="@dimen/Fifteen_dp"
+            android:translationZ="12dp"
+            app:cardCornerRadius="10dp"></TextView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:id="@+id/ll_client_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/client_type">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_size"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/tv_name"
+                layout="@layout/group_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/small_size" />
+            <!--                            android:text="Client Name"-->
+
+            <include layout="@layout/astrick_layout" />
+
+        </LinearLayout>
+
+
+        <include layout="@layout/spinner_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_margin="6dp"/>
+
+        <ScrollView
+            android:id="@+id/list_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:fillViewport="true"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <include
+                layout="@layout/spinner_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </ScrollView>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangular_grey_background"
+            android:drawableEnd="@drawable/search_groups"
+
+            android:imeOptions="actionDone"
+            android:inputType="textFilter"
+            android:padding="15dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <!--                            <include-->
+        <!--                                android:id="@+id/at_search_client"-->
+        <!--                                layout="@layout/spinner_layout" />-->
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_buttons_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+
+        tools:layout_editor_absoluteX="65dp"
+        tools:layout_editor_absoluteY="511dp"
+        tools:ignore="MissingConstraints">
+
+        <include
+            android:id="@+id/btn_cancel_save"
+
+            layout="@layout/cancel_button" />
+
+        <include
+            android:id="@+id/btn_create"
+
+
+            layout="@layout/submit_button" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <!-- This is the actual edit text which takes the input -->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
