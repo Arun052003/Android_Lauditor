@@ -24,6 +24,21 @@
             android:orientation="vertical"
             android:layout_margin="5dp"
             android:padding="16dp">
+            <TextView
+                android:id="@+id/history_act"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:enabled="false"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="start|center_vertical"
+                android:padding="5dp"
+                android:text="History of Actions"
+                android:textAllCaps="false"
+                android:textColor="@color/Blue_text_color"
+                android:textSize="@dimen/twenty_dp">
+
+            </TextView>
             <include layout="@layout/common_spinner" />
             <!-- Search bar -->
             <include layout="@layout/common_search" />
@@ -35,6 +50,7 @@
                 android:gravity="left"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Advanced Search"
                 android:padding="2dp"
@@ -82,14 +98,8 @@
             android:background="@color/Blue_text_color"
             android:layout_marginTop="5dp"
             android:layout_weight="1">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_audits"
-                android:layout_width="match_parent"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-
-                />
+          <include layout="@layout/recyclerview"
+              android:id="@+id/rv_audits"/>
             <LinearLayout
                 android:id="@+id/ll_page_navigaiton"
                 android:layout_width="match_parent"

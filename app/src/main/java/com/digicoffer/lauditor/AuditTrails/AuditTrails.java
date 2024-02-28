@@ -3,6 +3,7 @@ package com.digicoffer.lauditor.AuditTrails;
 import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.ParseException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -57,6 +58,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -168,27 +170,40 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                 @Override
                 public void onClick(View v) {
                     sorted_list.clear();
-//                    rv_audits.removeAllViews();
-//                    rv_audits.setAdapter(null);
                     et_search_relationships.setText("");
                     String FLAG = "Start Time";
-                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG);
-                    new DateUtils.OnDateSelectedListener() {
+                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
                         @Override
                         public void onDateSelected(String selectedDate, String FLAG) {
+                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
+                            try {
+                                Date date = originalFormat.parse(selectedDate);
+                                String formattedDate = desiredFormat.format(date);
+                                // Use formattedDate as needed, for example:
+                                tv_event_start_time.setText(formattedDate);
+                            } catch (ParseException | java.text.ParseException e) {
+                                e.printStackTrace();
+                                // Handle parsing exception here
+                            }
                         }
-                    };
-//                    tv_event_start_time.requestFocus();
-//                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
+                    });
                 }
             });
+            int i;
+
+
+//                    tv_event_start_time.requestFocus();
+//                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
+
             tv_event_end_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     sorted_list.clear();
-//                    rv_audits.removeAllViews();
-//                    rv_audits.setAdapter(null);
+                    rv_audits.removeAllViews();
+                    rv_audits.setAdapter(null);
+
                     et_search_relationships.setText("");
                     String FLAG = "End Time";
                     DateUtilsEndDate.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG);
@@ -204,7 +219,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                 @Override
                 public void onClick(View v) {
                     if (maxPageButtons < 5) {
-//                      pageNumberLayout.removeAllViews();
+                     pageNumberLayout.removeAllViews();
                         setupPagination();
 
                     } else {
@@ -245,6 +260,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             });
             pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
             et_search_relationships = view.findViewById(R.id.et_search_relationships);
+            et_search_relationships.setHint("Search");
             loadSearchTextData();
             tv_name.setText("Category");
 //            tv_advanced_search.setOnClickListener(new View.OnClickListener() {

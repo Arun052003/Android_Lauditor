@@ -1,8 +1,5 @@
 package com.digicoffer.lauditor.Matter;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-import static com.digicoffer.lauditor.common.DateUtils.showDatePickerDialog;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -21,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import androidx.arch.core.executor.ArchTaskExecutor;
+//
+//import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.fragment.app.Fragment;
 
 import java.text.SimpleDateFormat;
@@ -33,10 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.digicoffer.lauditor.Calendar.Models.Event;
 import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.R;
@@ -48,11 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class MatterInformation extends Fragment implements View.OnClickListener {
     TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;

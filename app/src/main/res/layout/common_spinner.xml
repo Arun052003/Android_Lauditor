@@ -42,9 +42,10 @@
         <RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginRight="3dp"
             android:gravity="center"
+            android:layout_margin="10dp"
             android:layout_alignParentTop="true"
             android:layout_weight=".28"
             android:background="@drawable/rectangular_light_grey_background"
@@ -53,7 +54,7 @@
             <Spinner
                 android:id="@+id/sp_project"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"

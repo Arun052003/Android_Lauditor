@@ -17,7 +17,7 @@
         android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search Documents"
+
         android:textColorHint="@color/black"
         app:boxBackgroundMode="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,9 @@
             android:id="@+id/et_search_relationships"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:layout_margin="10dp"
             android:layout_gravity="start"
+
             android:background="@drawable/rectangular_light_grey_background"
             android:drawableRight="@drawable/search_groups"
             android:gravity="start" />
