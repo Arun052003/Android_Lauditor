@@ -366,7 +366,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         tv_sp_project.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                display_listview(ischecked_project, sp_project);
+                AndroidUtils.display_listview(ischecked_project, sp_project);
                 ischecked_project = !ischecked_project;
             }
         });
@@ -374,21 +374,21 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         tv_sp_time_zone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                display_listview(ischecked_time, sp_time_zone);
+                AndroidUtils.display_listview(ischecked_time, sp_time_zone);
                 ischecked_time = !ischecked_time;
             }
         });
         tv_sp_repetetion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                display_listview(ischecked_repetetion, sp_repetetion);
+                AndroidUtils.display_listview(ischecked_repetetion, sp_repetetion);
                 ischecked_repetetion = !ischecked_repetetion;
             }
         });
         tv_sp_matter_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                display_listview(ischecked_matter, sp_matter_name);
+                AndroidUtils.display_listview(ischecked_matter, sp_matter_name);
                 ischecked_matter = !ischecked_matter;
             }
         });
@@ -2355,14 +2355,6 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
                 ischecked_matter = true;
             }
         });
-    }
-
-    private void display_listview(boolean ischecked, ListView listView) {
-        if (ischecked) {
-            listView.setVisibility(View.VISIBLE);
-        } else {
-            listView.setVisibility(View.GONE);
-        }
     }
 
     public CreateEvent(Meetings meetings1, ArrayList<Event_Details_DO> event_details_list) {

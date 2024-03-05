@@ -50,6 +50,7 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
 //        AndroidUtils.showAlert(date,getContext());
         rv_time_sheets = view.findViewById(R.id.rv_time_sheets);
         et_search_matter = view.findViewById(R.id.et_search_matter);
+        et_search_matter.setHint(R.string.search_team_members);
         try {
             callTeamMembersWebservice();
         } catch (ParseException e) {

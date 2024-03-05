@@ -42,6 +42,14 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
         Day day = days.get(position);
+        Log.d("Days_size", "" + days.size() + "...." + day.hasEvents());
+        for (int i = 0; i < days.size(); i++) {
+            if (day.getEvents().size() > 0) {
+                holder.dot.setVisibility(View.VISIBLE); // Show the dot
+            } else {
+                holder.dot.setVisibility(View.GONE); // Hide the dot
+            }
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date parsedDate = dateFormat.parse(day.getDate());
@@ -53,27 +61,13 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
         }
         Log.d("Event_list_size", "" + day.getEvents().size());
         //Set a background drawable to indicate that the day has events
-//        if (day.getEvents().size() > 0) {
-//            holder.dot.setVisibility(View.VISIBLE); // Show the dot
-//        } else {
-//            holder.dot.setVisibility(View.INVISIBLE); // Hide the dot
-//        }
+
 //        if (day.getEvents().size() > 0) {
 //            holder.textDay.setBackgroundResource(R.drawable.dot_background);
 //        } else {
 //            // Reset the background drawable for other days
 //            holder.textDay.setBackgroundResource(0);
 //        }
-
-        // Change the background color to blue if it is today's date
-        if (day.isToday()) {
-            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_complete_blue_background));
-            holder.textDay.setTextColor(Color.WHITE);
-        } else {
-            // Reset the background color for other days
-            holder.itemView.setBackgroundResource(R.drawable.rectangle_light_grey_bg);
-            holder.textDay.setTextColor(Color.BLACK);
-        }
 
         holder.itemView.setOnClickListener(view -> {
             int previousSelectedPosition = selectedPosition;
@@ -84,9 +78,18 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
                 listener.onDaySelected(day);
             }
         });
-        if (selectedPosition == position) {
-            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_button_green_count));
+        // Change the background color to blue if it is today's date
+        if (day.isToday()) {
+            holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_complete_blue_background));
             holder.textDay.setTextColor(Color.WHITE);
+        } else {
+            // Reset the background color for other days
+            holder.itemView.setBackgroundResource(R.drawable.rectangle_light_grey_bg);
+            holder.textDay.setTextColor(Color.BLACK);
+            if (selectedPosition == position) {
+                holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_button_green_count));
+                holder.textDay.setTextColor(Color.WHITE);
+            }
         }
     }
 

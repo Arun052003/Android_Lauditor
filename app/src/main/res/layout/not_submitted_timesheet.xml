@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
@@ -9,6 +9,7 @@
     android:background="@color/Blue_text_color"
     android:backgroundTint="@color/Blue_text_color"
     tools:context=".MainActivity">
+    .
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,11 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:padding="10dp"
             android:layout_marginBottom="100dp"
-            app:cardCornerRadius="4dp"
-            android:visibility="visible"
             android:elevation="@dimen/Fifty_dp"
+            android:padding="10dp"
+            android:visibility="visible"
+            app:cardCornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -41,422 +42,248 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/left_space"
+                    android:layout_marginBottom="@dimen/small_size"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <include
+                        android:id="@+id/project_id"
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/project"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
+                        android:layout_height="wrap_content" />
 
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
-
-                    </ImageView>
+                    <include layout="@layout/astrick_layout" />
 
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/spinnerLayout"
+                <include
+                    android:id="@+id/tv_sp_project"
+                    layout="@layout/spinner_text_view" />
+
+                <include
+                    android:id="@+id/sp_project"
+                    layout="@layout/spinner_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="5dp" />
+
+
+                <LinearLayout
+                    android:id="@+id/task_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:gravity="center"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_grey_background"
+                    android:layout_marginLeft="@dimen/left_space"
+                    android:layout_marginTop="@dimen/small_size"
+                    android:layout_marginBottom="@dimen/small_size"
                     android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/sp_project"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:spinnerMode="dropdown"/>
-
-                    <ImageView
+                    <include
+                        android:id="@+id/task_id"
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/down_arrow" />
+                        android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+                    <include layout="@layout/astrick_layout" />
 
+                </LinearLayout>
 
+                <include
+                    android:id="@+id/tv_sp_task"
+                    layout="@layout/spinner_text_view" />
 
+                <include
+                    android:id="@+id/sp_task"
+                    layout="@layout/spinner_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="@dimen/left_space"
+                    android:layout_marginTop="@dimen/small_size"
+                    android:layout_marginBottom="@dimen/small_size"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <include
+                        android:id="@+id/status_id"
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/task"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
+                        android:layout_height="wrap_content" />
 
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
-
-                    </ImageView>
+                    <include layout="@layout/astrick_layout" />
 
                 </LinearLayout>
-                <RelativeLayout
-                    android:id="@+id/spinnerLayout2"
+
+                <include
+                    android:id="@+id/tv_sp_status"
+                    layout="@layout/spinner_text_view" />
+
+                <include
+                    android:id="@+id/sp_status"
+                    layout="@layout/spinner_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:gravity="center"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:orientation="horizontal">
+                    android:layout_height="150dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="5dp" />
 
-                    <Spinner
-                        android:id="@+id/sp_task"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:spinnerMode="dropdown"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/down_arrow" />
-
-                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="@dimen/left_space"
+                    android:layout_marginTop="@dimen/small_size"
+                    android:layout_marginBottom="@dimen/small_size"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <include
+                        android:id="@+id/date_id"
+                        layout="@layout/group_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/status"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
+                        android:layout_height="wrap_content" />
 
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
-
-                    </ImageView>
+                    <include layout="@layout/astrick_layout" />
 
                 </LinearLayout>
-                <RelativeLayout
-                    android:id="@+id/rl_status"
+
+                <include
+                    android:id="@+id/tv_sp_date"
+                    layout="@layout/spinner_text_view" />
+
+                <include
+                    android:id="@+id/sp_date"
+                    layout="@layout/spinner_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:gravity="center"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:orientation="horizontal">
+                    android:layout_height="150dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="5dp" />
 
-                    <Spinner
-                        android:id="@+id/sp_status"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:spinnerMode="dropdown"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/down_arrow" />
-
-                </RelativeLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/date"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
-
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
-
-                    </ImageView>
-
-                </LinearLayout>
-                <RelativeLayout
-                    android:id="@+id/rl_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:gravity="center"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/sp_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:spinnerMode="dropdown"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/down_arrow" />
-
-                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="@dimen/left_space"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <include
+                                android:id="@+id/hours_id"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="@string/hours"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
+                                android:layout_height="wrap_content" />
 
-                            </TextView>
+                            <include layout="@layout/astrick_layout" />
 
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="10dp"
-                                android:src="@drawable/asterisk_icon">
-
-                            </ImageView>
                         </LinearLayout>
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/tt_hours"
-                            android:padding="3dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/rectangle_grey_background"
-                            android:textColorHint="@color/black"
-                            app:boxBackgroundMode="none">
 
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/tv_hours"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:enabled="true"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:hint="Hours"
-                                android:inputType="number|numberDecimal"
-                                android:padding="5dp"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <include
+                            android:id="@+id/tv_hours"
+                            layout="@layout/group_name_layout" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="@dimen/left_space"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <include
+                                android:id="@+id/minutes_id"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="@string/minutes"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
+                                android:layout_height="wrap_content" />
 
-                            </TextView>
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="10dp"
-                                android:src="@drawable/asterisk_icon">
-
-                            </ImageView>
+                            <include layout="@layout/astrick_layout" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
-                            android:background="@drawable/rectangular_white_background"
+                            android:layout_marginTop="@dimen/small_size"
+                            android:background="@drawable/background_transparent"
                             android:orientation="horizontal">
+
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/bt_fifteen_minutes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/_15"
                                 android:layout_weight="1"
-                                android:background="@drawable/rectangle_grey_background"
-                                >
+                                android:background="@drawable/rectangle_light_grey_bg"
+                                android:text="@string/_15">
 
                             </androidx.appcompat.widget.AppCompatButton>
+
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/bt_thirty_minutes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/_30"
                                 android:layout_weight="1"
-                                android:background="@drawable/rectangle_grey_background"/>
+                                android:background="@drawable/rectangle_light_grey_bg"
+                                android:text="@string/_30" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/bt_forty_five_minutes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/_45"
                                 android:layout_weight="1"
-                                android:background="@drawable/rectangle_grey_background"
-                               >
-
-                            </androidx.appcompat.widget.AppCompatButton>
-
+                                android:background="@drawable/rectangle_light_grey_bg"
+                                android:text="@string/_45"></androidx.appcompat.widget.AppCompatButton>
                         </LinearLayout>
-                        </LinearLayout>
+                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="@dimen/left_space"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <include
+                                android:id="@+id/tot_hours_id"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="@string/total_hours"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
+                                android:layout_marginBottom="@dimen/small_size" />
 
-                            </TextView>
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="10dp"
-                                android:src="@drawable/asterisk_icon">
-
-                            </ImageView>
+                            <include layout="@layout/astrick_layout" />
 
                         </LinearLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/tt_total_hours"
-
+                        <include
+                            android:id="@+id/tv_total_hours"
+                            layout="@layout/group_name_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="3dp"
-                            android:background="@drawable/rectangle_grey_background"
-                            android:textColorHint="@color/black"
-                            app:boxBackgroundMode="none">
-
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/tv_total_hours"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:enabled="true"
-
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:hint="00:00"
-                                android:padding="5dp"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="15dp" />
-
-                        </com.google.android.material.textfield.TextInputLayout> </LinearLayout>
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -464,42 +291,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:visibility="visible"
                     android:orientation="horizontal"
+                    android:visibility="visible">
 
-                    >
-
-                    <androidx.appcompat.widget.AppCompatButton
+                    <include
                         android:id="@+id/btn_cancel_timesheet"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="20dp"
-                        android:elevation="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/cancel_button_background"
-                        android:textAllCaps="false"
-                        android:text="@string/cancel">
+                        layout="@layout/cancel_button" />
 
-                    </androidx.appcompat.widget.AppCompatButton>
-                    <androidx.appcompat.widget.AppCompatButton
+                    <include
                         android:id="@+id/btn_save_timesheet"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:elevation="@dimen/Fifteen_dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:background="@drawable/save_button_background"
-                        android:textColor="@color/white"
-                        android:textAllCaps="false"
-                        android:backgroundTint="@color/Blue_text_color"
-                        android:text="Save">
-
-                    </androidx.appcompat.widget.AppCompatButton>
+                        layout="@layout/submit_button" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/search_message"
                     android:layout_width="match_parent"
@@ -507,8 +310,8 @@
                     android:layout_margin="10dp"
 
                     android:textColorHint="@color/black"
-                    app:boxBackgroundMode="none"
                     android:visibility="gone"
+                    app:boxBackgroundMode="none"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -527,47 +330,38 @@
                         android:gravity="start" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content"
-    android:layout_margin="3dp">
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        android:background="@color/Blue_text_color"
-        android:backgroundTint="@color/Blue_text_color"
-        tools:context=".MainActivity">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_non_submitted_timesheets"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:orientation="vertical">
 
-                    android:background="@color/white"
-                     />
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
 
-    </androidx.core.widget.NestedScrollView>
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_submit_timesheet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:elevation="@dimen/Fifteen_dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@drawable/save_button_background"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/Blue_text_color"
-        android:text="Submit"/>
-</LinearLayout>
+                        android:background="@color/Blue_text_color"
+                        android:backgroundTint="@color/Blue_text_color"
+                        tools:context=".MainActivity">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_non_submitted_timesheets"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+
+                            android:orientation="vertical" />
+
+                    </androidx.core.widget.NestedScrollView>
+
+                    <include
+                        android:id="@+id/btn_submit_timesheet"
+                        layout="@layout/submit_button" />
+                </LinearLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
