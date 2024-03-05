@@ -166,31 +166,31 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
             tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
 //            tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
-            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sorted_list.clear();
-                    et_search_relationships.setText("");
-                    String FLAG = "Start Time";
-                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
-                        @Override
-                        public void onDateSelected(String selectedDate, String FLAG) {
-                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-                            try {
-                                Date date = originalFormat.parse(selectedDate);
-                                String formattedDate = desiredFormat.format(date);
-                                // Use formattedDate as needed, for example:
-                                tv_event_start_time.setText(formattedDate);
-                            } catch (ParseException | java.text.ParseException e) {
-                                e.printStackTrace();
-                                // Handle parsing exception here
-                            }
-                        }
-                    });
-                }
-            });
+//            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    sorted_list.clear();
+//                    et_search_relationships.setText("");
+//                    String FLAG = "Start Time";
+//                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
+//                        @Override
+//                        public void onDateSelected(String selectedDate, String FLAG) {
+//                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//
+//                            try {
+//                                Date date = originalFormat.parse(selectedDate);
+//                                String formattedDate = desiredFormat.format(date);
+//                                // Use formattedDate as needed, for example:
+//                                tv_event_start_time.setText(formattedDate);
+//                            } catch (ParseException | java.text.ParseException e) {
+//                                e.printStackTrace();
+//                                // Handle parsing exception here
+//                            }
+//                        }
+//                    });
+//                }
+//            });
             int i;
 
 
