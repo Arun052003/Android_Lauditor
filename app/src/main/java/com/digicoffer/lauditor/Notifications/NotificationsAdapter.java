@@ -34,8 +34,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     public interface EventListener {
         void onEvent(String id);
+        void onSelectAllChanged(boolean allSelected);
 
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -60,9 +62,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                 Integer pos = (Integer) holder.chkSelected.getTag();
                 filtered_list.get(pos).setChecked(!filtered_list.get(pos).isChecked());
                 notifyDataSetChanged();
-                holder.chkSelected.setChecked(areAllItemsSelected());
+                if (context != null) {
+                    context.onSelectAllChanged(areAllItemsSelected());
+                }
             }
         });
+
+
+
 
 
         holder.tv_timestamp.setText(notifications.getTimestamp());
@@ -144,12 +151,38 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return list_item;
     }
 
-    public void selectOrDeselectAll(boolean isChecked) {
-        for (NotificationsDo notification : filtered_list) {
-            notification.setChecked(isChecked);
-        }
-        notifyDataSetChanged();
+//    public void selectOrDeselectAll(boolean isChecked) {
+//        boolean hasChanged = false; // Flag to check if any change occurred
+//        for (NotificationsDo notification : filtered_list) {
+//            if (notification.isChecked() != isChecked) { // Check if the current state differs from the desired state
+//                notification.setChecked(isChecked);
+//                hasChanged = true; // Set the flag to true if there's any change
+//            }
+//        }
+//        if (hasChanged) { // Only notify if there's a change
+//            notifyDataSetChanged();
+//        }
+//    }
+public void selectOrDeselectAll(boolean isChecked) {
+    for (NotificationsDo notification : filtered_list) {
+        notification.setChecked(isChecked);
     }
+    notifyDataSetChanged();
+    notifySelectAllStateChanged();
+}
+
+
+    // Method to notify the activity/fragment about the change in the "Select All" checkbox state
+    private void notifySelectAllStateChanged() {
+        boolean allSelected = areAllItemsSelected();
+        if (context != null) {
+            context.onSelectAllChanged(allSelected);
+        }
+    }
+
+
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 

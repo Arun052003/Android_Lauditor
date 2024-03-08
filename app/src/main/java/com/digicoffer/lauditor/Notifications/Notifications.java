@@ -85,15 +85,16 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
 
         });
         chk_select_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (chk_select_all.isChecked()) {
-                    adapter.selectOrDeselectAlls(true);
-                } else {
-                    adapter.selectOrDeselectAlls(false);
-                }
+        @Override
+        public void onClick(View view) {
+            if (chk_select_all.isChecked()) {
+                adapter.selectOrDeselectAll(true);
+            } else {
+                adapter.selectOrDeselectAll(false);
             }
-        });
+        }
+    });
+
 
     }
 
@@ -263,6 +264,12 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
 
     public void onEvent(String notifications_id) {
         confirmations(notifications_id);
+    }
+
+    @Override
+    public void onSelectAllChanged(boolean allSelected) {
+        chk_select_all.setChecked(allSelected);
+
     }
 
     private void confirmations(final String notifications_id) {

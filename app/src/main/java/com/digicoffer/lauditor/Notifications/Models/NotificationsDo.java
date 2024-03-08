@@ -10,6 +10,15 @@ public class NotificationsDo {
     public boolean isChecked() {
         return isChecked;
     }
+    boolean isenabled;
+
+    public boolean isIsenabled() {
+        return isenabled;
+    }
+
+    public void setIsenabled(boolean isenabled) {
+        this.isenabled = isenabled;
+    }
 
     public void setChecked(boolean checked) {
         isChecked = checked;
