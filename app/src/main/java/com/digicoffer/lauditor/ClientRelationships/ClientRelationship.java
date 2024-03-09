@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.ClientRelationships;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -114,7 +115,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     ll_first_name.setAlpha(1.0f);
                     country_name_id.setAlpha(1.0f);
 
-                        String email = et_search_individual.getText().toString().trim();
+                    String email = et_search_individual.getText().toString().trim();
                     if(isValidEmail(email)) {
 
                         tv_individual_email.setText(email);
@@ -124,13 +125,13 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     } else {
                         tv_individual_email.setText("");
                         tv_individual_confirm_email.setText("");
-                      ll_email.setAlpha(0.4F);
-                      ll_confirm_email.setAlpha(0.4F);
-                      ll_first_name.setAlpha(0.4F);
-                      ll_last_name.setAlpha(0.4F);
-                      country_name_id.setAlpha(0.4F);
-                      ll_groups.setVisibility(View.GONE);
-                      ll_select_all.setVisibility(View.GONE);
+                        ll_email.setAlpha(0.4F);
+                        ll_confirm_email.setAlpha(0.4F);
+                        ll_first_name.setAlpha(0.4F);
+                        ll_last_name.setAlpha(0.4F);
+                        country_name_id.setAlpha(0.4F);
+                        ll_groups.setVisibility(View.GONE);
+                        ll_select_all.setVisibility(View.GONE);
 
                     }
 
@@ -142,9 +143,13 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 //                    ll_groups.setVisibility(View.VISIBLE);
 //                    ll_select_all.setVisibility(View.VISIBLE);
 //                tv_response.setText("");
+                    tv_individual_firstname.setText("");
+                    tv_individual_last_name.setText("");
+
                     callSearchIndividualWebservice();
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                     AndroidUtils.showToast(e.getMessage(), getContext());
                 }
                 break;
@@ -157,9 +162,12 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     ll_contact_person.setAlpha(1.0f);
                     country_name_id.setAlpha(1.0f);
                     ll_contatc_phone.setAlpha(1.0f);
+                    tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
+
+                    tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
                     ll_groups.setVisibility(View.VISIBLE);
                     ll_select_all.setVisibility(View.VISIBLE);
-clearIndividualData();
+                    // clearIndividualData();
                     callSearchEntityWebservice(id);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -167,6 +175,9 @@ clearIndividualData();
 
         }
     }
+
+
+
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email.matches(emailRegex);
@@ -175,38 +186,51 @@ clearIndividualData();
     private void callSearchEntityWebservice(String id) throws JSONException {
         JSONObject postdata = new JSONObject();
 
-            if (entity_id.isEmpty()) {
+        if (entity_id.isEmpty()) {
+            // Check if tv_response is not null and context is not null
+            if (tv_response != null && getContext() != null) {
+                // Set the text of tv_response to the text from at_search_entity
                 tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
                 tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-              //  disableAlpha();
+            }
+
+            // Enable other UI elements
+            if (tv_entity_name != null) {
                 tv_entity_name.setEnabled(true);
                 tv_entity_name.setFocusable(true);
                 tv_entity_name.setFocusableInTouchMode(true);
+            }
+            if (tv_entity_contact_person != null) {
                 tv_entity_contact_person.setEnabled(true);
                 tv_entity_contact_person.setFocusable(true);
                 tv_entity_contact_person.setFocusableInTouchMode(true);
+            }
+            if (tv_individual_email != null) {
                 tv_individual_email.setEnabled(true);
                 tv_individual_email.setFocusable(true);
                 tv_individual_email.setFocusableInTouchMode(true);
+            }
+            if (tv_individual_confirm_email != null) {
                 tv_individual_confirm_email.setEnabled(true);
                 tv_individual_confirm_email.setFocusable(true);
                 tv_individual_confirm_email.setFocusableInTouchMode(true);
+            }
+            if (sp_country != null) {
                 sp_country.setEnabled(true);
                 sp_country.setEnabled(true);
+            }
+            if (tv_entity_phone_number != null) {
                 tv_entity_phone_number.setFocusable(true);
                 tv_entity_phone_number.setEnabled(true);
                 tv_entity_phone_number.setFocusableInTouchMode(true);
-                // enableIndividualData();
-                //  clearIndividualData();
-                // clearIndividualData();
-            } else {
-                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
             }
-
-
-            entity_id = "";
-
+        } else {
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
         }
+
+        entity_id = "";
+    }
+
 
 
 
@@ -406,9 +430,6 @@ clearIndividualData();
 
 
         rg_individual_entity.setVisibility(View.VISIBLE);
-        viewRelationshipsData();
-        callIndividualWebservice();
-clearIndividualData();
         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         rb_individual_relationship.setTextColor(Color.WHITE);
         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -416,6 +437,16 @@ clearIndividualData();
         Relationship_Type = "individuals";
         viewRelationshipsData();
         mViewModel.setData("View Relationships");
+//        viewRelationshipsData();
+//        callIndividualWebservice();
+//        clearIndividualData();
+//        rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+//        rb_individual_relationship.setTextColor(Color.WHITE);
+//        rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
+//        rb_business_relationship.setTextColor(Color.BLACK);
+//        Relationship_Type = "individuals";
+//        viewRelationshipsData();
+//        mViewModel.setData("View Relationships");
 
 
         rg_add_relationships.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -428,7 +459,7 @@ clearIndividualData();
                         rg_relationship.setVisibility(View.GONE);
                         rb_add_relationship.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
-
+                        rg_individual_entity.check(R.id.add_individiual);
                         rb_view_relationships.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
                         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.black));
@@ -441,6 +472,8 @@ clearIndividualData();
                         rv_relationships.removeAllViews();
                         mViewModel.setData("Add Relationship");
                         break;
+
+
                     case R.id.view_relationship:
                         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                         rb_individual_relationship.setTextColor(Color.WHITE);
@@ -976,6 +1009,7 @@ clearIndividualData();
                     RELATIONSHIP_TAG = "ENTITY";
                     entityValidationClick();
                     viewRelationshipsData();
+                    clearIndividualData();
 
 
 
