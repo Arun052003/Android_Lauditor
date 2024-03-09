@@ -1,336 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/Blue_text_color">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_details_activity_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:backgroundTint="@color/Blue_text_color">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="@dimen/small_size"
+        android:elevation="@dimen/Fifty_dp"
+        android:padding="10dp"
+        android:visibility="visible"
+        app:cardCornerRadius="4dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_details_activity_log"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:elevation="@dimen/Fifty_dp"
-            android:padding="10dp"
-            android:visibility="visible"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/rv_projects"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginBottom="@dimen/small_size"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <include
+                    android:id="@+id/project_id"
+                    layout="@layout/group_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/project"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
+                <include layout="@layout/astrick_layout" />
 
-                    </TextView>
+            </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
+            <include
+                android:id="@+id/tv_sp_project"
+                layout="@layout/spinner_text_view" />
 
-                    </ImageView>
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/spinnerLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="3dp"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/sp_ags_project"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:spinnerMode="dropdown" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/down_arrow" />
-
-                </RelativeLayout>
+            <include
+                android:id="@+id/sp_ags_project"
+                layout="@layout/spinner_list"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="5dp" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/team_member_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginTop="@dimen/small_size"
+                android:layout_marginBottom="@dimen/small_size"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="@string/task"
-                        android:textColor="@color/Blue_text_color"
-                        android:textSize="@dimen/Fifteen_dp">
+                <include
+                    android:id="@+id/team_member_id"
+                    layout="@layout/group_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-                    </TextView>
+                <include layout="@layout/astrick_layout" />
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/asterisk_icon">
+            </LinearLayout>
 
-                    </ImageView>
+            <include
+                android:id="@+id/tv_sp_team_member"
+                layout="@layout/spinner_text_view" />
 
-                </LinearLayout>
+            <include
+                android:id="@+id/sp_ags_tm"
+                layout="@layout/spinner_list"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="5dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_matter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:hint="Search Project"
+                android:textColorHint="@color/black"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--this is the actual edit text which takes the input-->
+            <include
+                android:id="@+id/et_search_matter"
+                layout="@layout/searchelement_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginEnd="@dimen/left_space" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
-                <RelativeLayout
-                    android:id="@+id/spinnerLayout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="3dp"
-                    android:layout_weight=".28"
-                    android:background="@drawable/rectangle_grey_background"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+    <!-- down the cardview-->
+    <LinearLayout
+        android:id="@+id/linear_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cv_details_activity_log"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/round_shadow"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="@dimen/small_size">
 
-                    <Spinner
-                        android:id="@+id/sp_ags_tm"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:spinnerMode="dropdown" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/down_arrow" />
-
-                </RelativeLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/search_matter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="5dp"
-                    android:hint="Search Project"
-                    android:textColorHint="@color/black"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <!--this is the actual edit text which takes the input-->
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_search_matter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:background="@drawable/rectangle_grey_background"
-                        android:drawableRight="@drawable/search_groups"
-                        android:gravity="start" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/round_shadow"
-                    android:elevation="4dp"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="Billable"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
-
-                            </TextView>
-
-                            <TextView
-                                android:id="@+id/tv_billable_hours"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="00:00"
-                                android:textColor="@color/green_count_color"
-                                android:textSize="@dimen/twenty_dp">
-
-                            </TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="Hours"
-                                android:textColor="@color/green_count_color"
-                                android:textSize="@dimen/twenty_dp">
-
-                            </TextView>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="Billable"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
-
-                            </TextView>
-
-                            <TextView
-                                android:id="@+id/tv_non_billable_hours"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="00:00"
-                                android:textColor="@color/green_count_color"
-                                android:textSize="@dimen/twenty_dp">
-
-                            </TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="Hours"
-                                android:textColor="@color/green_count_color"
-                                android:textSize="@dimen/twenty_dp">
-
-                            </TextView>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/black">
-
-                    </View>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="Total Hours"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="@dimen/Fifteen_dp">
-
-                        </TextView>
-
-                        <TextView
-                            android:id="@+id/tv_total_project_hours"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="00:00 Hours"
-                            android:textColor="@color/green_count_color"
-                            android:textSize="@dimen/twenty_dp">
-
-                        </TextView>
-                    </LinearLayout>
-                </LinearLayout>
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_projects"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            android:padding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_margin="15dp"
-           />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <include
+                    android:id="@+id/non_billable_id"
+                    layout="@layout/from_date_week" />
+
+                <include
+                    android:id="@+id/tv_non_billable_hours"
+                    layout="@layout/from_date_week" />
+
+                <include
+                    android:id="@+id/hours_id1"
+                    layout="@layout/from_date_week" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/billable_id"
+                    layout="@layout/from_date_week" />
+
+                <include
+                    android:id="@+id/tv_billable_hours"
+                    layout="@layout/from_date_week" />
+
+                <include
+                    android:id="@+id/hours_id2"
+                    layout="@layout/from_date_week" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/left_space"
+            android:layout_marginBottom="@dimen/left_space"
+            android:background="@color/black"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="start"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <include
+                    android:id="@+id/total_hours_id"
+                    layout="@layout/from_date_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <include
+                    android:id="@+id/tv_total_project_hours"
+                    layout="@layout/from_date_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <!--close the layout-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_projects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_down"
+        android:layout_marginStart="@dimen/small_size"
+        android:layout_marginTop="@dimen/small_size"
+        android:layout_marginEnd="@dimen/small_size"
+        android:layout_marginBottom="@dimen/small_size"
+        android:background="@drawable/background_transparent"
+        android:orientation="vertical"
+        android:padding="5dp" />
+
+</RelativeLayout>

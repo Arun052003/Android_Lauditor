@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/left_space"
-    android:layout_marginTop="@dimen/Fifteen_dp">
+    android:layout_margin="@dimen/small_size"
+    android:gravity="center_horizontal">
 
     <!--this is the actual edit text which takes the input-->
     <!--        <com.google.android.material.textfield.TextInputEditText-->
@@ -27,18 +27,14 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <include
         android:id="@+id/rv_time_sheets"
+        layout="@layout/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_size"
-        android:background="@color/Blue_text_color"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_search_matter"
-        app:layout_constraintVertical_bias="0.03" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@id/et_search_matter"
+        android:layout_marginStart="@dimen/small_size"
+        android:layout_marginTop="@dimen/small_size"
+        android:layout_marginEnd="@dimen/small_size"
+        android:layout_marginBottom="@dimen/small_size" />
+</RelativeLayout>
