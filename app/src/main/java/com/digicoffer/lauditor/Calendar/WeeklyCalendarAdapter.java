@@ -43,13 +43,13 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
         Day day = days.get(position);
         Log.d("Days_size", "" + days.size() + "...." + day.hasEvents());
-        for (int i = 0; i < days.size(); i++) {
-            if (day.getEvents().size() > 0) {
-                holder.dot.setVisibility(View.VISIBLE); // Show the dot
-            } else {
-                holder.dot.setVisibility(View.GONE); // Hide the dot
-            }
-        }
+//        for (int i = 0; i < days.size(); i++) {
+//            if (day.getEvents().size() > 0) {
+//                holder.dot.setVisibility(View.VISIBLE); // Show the dot
+//            } else {
+//                holder.dot.setVisibility(View.GONE); // Hide the dot
+//            }
+//        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date parsedDate = dateFormat.parse(day.getDate());

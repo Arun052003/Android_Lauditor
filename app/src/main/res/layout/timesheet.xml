@@ -11,26 +11,28 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:visibility="visible"
         android:orientation="horizontal"
         android:padding="5dp"
         android:paddingTop="@dimen/twenty_dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
         >
 
-        <include layout="@layout/createmember_layout"
+        <include
+            android:id="@+id/tv_aggregated_ts"
+            layout="@layout/createmember_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_aggregated_ts"/>
+            android:layout_height="wrap_content" />
 
-        <include layout="@layout/viewmember_layout"
+        <include
+            android:id="@+id/tv_my_ts"
+            layout="@layout/viewmember_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:id="@+id/tv_my_ts"/>
+            android:layout_marginLeft="1dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -50,15 +52,18 @@
         app:layout_constraintTop_toBottomOf="@id/ll_timesheet_type"
         app:layout_constraintVertical_bias="0.03">
 
-        <include layout="@layout/createmember_layout"
+        <include
+            android:id="@+id/tv_ns_timesheet"
+            layout="@layout/createmember_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/tv_submitted"
+            layout="@layout/viewmember_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_ns_timesheet"/>
-
-        <include layout="@layout/viewmember_layout"
-            android:id="@+id/tv_submitted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_marginLeft="1dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.cardview.widget.CardView
@@ -103,10 +108,11 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <include layout="@layout/from_date_week"
-                        android:id="@+id/from_id"/>
+                    <include
+                        android:id="@+id/from_id"
+                        layout="@layout/from_date_week" />
 
-                    <include layout="@layout/from_date_week"/>
+                    <include layout="@layout/from_date_week" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,11 +123,13 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <include layout="@layout/from_date_week"
-                        android:id="@+id/to_id"/>
+                    <include
+                        android:id="@+id/to_id"
+                        layout="@layout/from_date_week" />
 
-                    <include layout="@layout/from_date_week"
-                        android:id="@+id/tv_to_date_timesheet"/>
+                    <include
+                        android:id="@+id/tv_to_date_timesheet"
+                        layout="@layout/from_date_week" />
                 </LinearLayout>
 
 
@@ -132,8 +140,9 @@
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:padding="@dimen/left_space">
 
-                    <include layout="@layout/previous_week_img"
-                        android:id="@+id/iv_next_week"/>
+                    <include
+                        android:id="@+id/iv_next_week"
+                        layout="@layout/previous_week_img" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -155,15 +164,18 @@
                 app:layout_constraintTop_toBottomOf="@id/ll_matter_type"
                 app:layout_constraintVertical_bias="0.03">
 
-                <include layout="@layout/createmember_layout"
+                <include
                     android:id="@+id/tv_week"
+                    layout="@layout/createmember_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
-                <include layout="@layout/viewmember_layout"
+                <include
                     android:id="@+id/tv_month"
+                    layout="@layout/viewmember_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </LinearLayout>

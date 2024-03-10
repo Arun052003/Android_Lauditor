@@ -432,6 +432,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                 events_do.setEvent_end_time(jsonObject.getString("to_ts"));
                 events_do.setAll_day(jsonObject.getBoolean("allday"));
                 events_do.setEvent_id(jsonObject.getString("id"));
+                events_do.setOwner(jsonObject.getBoolean("owner"));
                 String from_ts = events_do.getEvent_start_time();
                 String to_ts = events_do.getEvent_end_time();
                 Date event_date = AndroidUtils.stringToDateTimeDefault(from_ts, "yyyy-MM-dd'T'HH:mm:ss");

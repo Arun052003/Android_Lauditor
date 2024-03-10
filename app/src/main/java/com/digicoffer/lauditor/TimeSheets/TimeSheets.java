@@ -90,8 +90,8 @@ public class TimeSheets extends Fragment {
         }
 
         if (Constants.ROLE.equals("SU")) {
-            main_button_status = "Aggregated";
-            non_main_button_status = "TM";
+//            main_button_status = "Aggregated";
+//            non_main_button_status = "TM";
             ll_timesheet_type.setVisibility(View.VISIBLE);
             loadFragment(s, weekDateInfo);
         } else {

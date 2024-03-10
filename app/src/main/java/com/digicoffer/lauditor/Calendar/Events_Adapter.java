@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +56,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
     ArrayList<Event_Details_DO> event_details_list = new ArrayList<Event_Details_DO>();
     Context mcontext;
     String event_id;
+    String rsvp_value;
     Activity activity;
     MyViewHolder my_view_holder;
 
@@ -91,6 +94,9 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                             event_details_list.clear();
                             load_event_details(result.getJSONObject("event"), event_id);
                         }
+                    } else if (httpResult.getRequestType().equals("Event_rsvp")) {
+                        String rsvp_msg = result.getString("msg");
+                        AndroidUtils.showToast(rsvp_msg, mcontext);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -186,10 +192,10 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             Event_Details_DO events_do = event_details_list.get(i);
 
             my_view_holder.event_description.setText(events_do.getDescription());
-            if(!events_do.getOwner_name().equals("")) {
+            if (!events_do.getOwner_name().equals("")) {
                 View view1 = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
                 final TextView owner_name = (TextView) view1.findViewById(R.id.tv_event_notifications);
-                owner_name.setText(event_details_list.get(i).getOwner_name()+" (Organizer)");
+                owner_name.setText(event_details_list.get(i).getOwner_name() + " (Organizer)");
                 my_view_holder.ll_team_members.addView(view1);
             }
 
@@ -289,7 +295,8 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             converted_end_time = "12:00";
         }
         holder.events_names.setText(converted_date);
-        if (events_do.isOwner()) {
+        Log.d("Owner_name..", "" + events_do.isOwner());
+        if (!events_do.isOwner()) {
             holder.ib_view_events.setVisibility(View.GONE);
             holder.ll_rsvp.setVisibility(View.VISIBLE);
         } else {
@@ -337,6 +344,45 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                 context.delete_events(events_do.getEvent_id(), events_do.isRecurring(), events_do.getEvent_Name());
             }
         });
+        holder.tv_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rsvp_value = "Yes";
+                call_choosen_rsvp(events_do.getEvent_id());
+                holder.tv_yes.setTextColor(Color.WHITE);
+                holder.tv_no.setTextColor(Color.BLACK);
+                holder.tv_maybe.setTextColor(Color.BLACK);
+                holder.tv_yes.setBackgroundDrawable(mcontext.getDrawable(R.drawable.button_left_green_round_background));
+                holder.tv_no.setBackgroundDrawable(mcontext.getDrawable(R.drawable.radiobutton_centre_background));
+                holder.tv_maybe.setBackgroundDrawable(mcontext.getDrawable(R.drawable.button_right_round_background));
+            }
+        });
+        holder.tv_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rsvp_value = "No";
+                call_choosen_rsvp(events_do.getEvent_id());
+                holder.tv_yes.setTextColor(Color.BLACK);
+                holder.tv_no.setTextColor(Color.WHITE);
+                holder.tv_maybe.setTextColor(Color.BLACK);
+                holder.tv_yes.setBackgroundDrawable(mcontext.getDrawable(R.drawable.button_left_round_background));
+                holder.tv_no.setBackgroundDrawable(mcontext.getDrawable(R.drawable.radiobutton_centre_green_background));
+                holder.tv_maybe.setBackgroundDrawable(mcontext.getDrawable(R.drawable.button_right_round_background));
+            }
+        });
+        holder.tv_maybe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rsvp_value = "Maybe";
+                call_choosen_rsvp(events_do.getEvent_id());
+                holder.tv_yes.setTextColor(Color.BLACK);
+                holder.tv_no.setTextColor(Color.BLACK);
+                holder.tv_maybe.setTextColor(Color.WHITE);
+                holder.tv_yes.setBackgroundDrawable(mcontext.getDrawable(R.drawable.button_left_round_background));
+                holder.tv_no.setBackgroundDrawable(mcontext.getDrawable(R.drawable.radiobutton_centre_background));
+                holder.tv_maybe.setBackgroundDrawable(mcontext.getDrawable(R.drawable.button_right_green_round_background));
+            }
+        });
         holder.ib_view_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -345,6 +391,19 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //                context.onEvent(filtered_list,events_do);
             }
         });
+    }
+
+    private void call_choosen_rsvp(String id) {
+//        https://apidev2.digicoffer.com/professional/v3/event/response/64350c56a1db720af526caf8
+        progress_dialog = AndroidUtils.get_progress(activity);
+        try {
+            JSONObject postdata = new JSONObject();
+            postdata.put("rsvp_response", rsvp_value);
+            WebServiceHelper.callHttpWebService(this, mcontext, WebServiceHelper.RestMethodType.PUT, "v3/event/response/" + id, "Event_rsvp", postdata.toString());
+            Log.d("Event_rsvp", postdata.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void callEventDetailsWebservice(String id) {
@@ -399,6 +458,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             event_title.setTextSize(20);
             ib_view_events = (ImageButton) itemView.findViewById(R.id.ib_view_events);
             tv_yes = (TextView) itemView.findViewById(R.id.tv_yes);
+            tv_yes.setTextColor(Color.WHITE);
             tv_no = (TextView) itemView.findViewById(R.id.tv_no);
             tv_maybe = (TextView) itemView.findViewById(R.id.tv_maybe);
             event_time = (TextView) itemView.findViewById(R.id.event_time);

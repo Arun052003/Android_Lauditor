@@ -1,25 +1,6 @@
 package com.digicoffer.lauditor.TimeSheets.Models;
 
 public class Month_Model {
-    String Start_date;
-    String End_date;
-
-    public String getStart_date() {
-        return Start_date;
-    }
-
-    public void setStart_date(String start_date) {
-        Start_date = start_date;
-    }
-
-    public String getEnd_date() {
-        return End_date;
-    }
-
-    public void setEnd_date(String end_date) {
-        End_date = end_date;
-    }
-
     String billable_week_1;
     String billable_week_2;
     String billable_week_3;

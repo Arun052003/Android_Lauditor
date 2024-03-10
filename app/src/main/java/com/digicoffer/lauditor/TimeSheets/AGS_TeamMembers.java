@@ -42,6 +42,7 @@ import java.util.Locale;
 public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListener {
 
     private AlertDialog progress_dialog;
+    String month;
     private ArrayList<TMModel> teamList = new ArrayList<>();
     private ArrayList<Month_Model> monthlist = new ArrayList<>();
     private RecyclerView rv_time_sheets;
@@ -165,7 +166,22 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
 //        AndroidUtils.showAlert(teamList.toString(),getContext());
         String status = "Team Members";
         rv_time_sheets.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        MonthlyTSAdapter teamMembersTSAdapter = new MonthlyTSAdapter(monthlist, status);
+        try {
+            if (date.equals("") || date.equals(null)) {
+                Date new_date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("MMMM", Locale.getDefault());
+                month = sdf.format(new_date);
+            } else {
+                SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                Date new_date = inputFormat.parse(date);
+                SimpleDateFormat sdf = new SimpleDateFormat("MMMM", Locale.getDefault());
+                month = sdf.format(new_date);
+                Log.d("Month_name.", month);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        MonthlyTSAdapter teamMembersTSAdapter = new MonthlyTSAdapter(monthlist, status, month);
         rv_time_sheets.setAdapter(teamMembersTSAdapter);
         rv_time_sheets.setHasFixedSize(true);
         et_search_matter.addTextChangedListener(new TextWatcher() {

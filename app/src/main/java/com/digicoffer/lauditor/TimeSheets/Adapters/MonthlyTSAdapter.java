@@ -20,18 +20,19 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.digicoffer.lauditor.TimeSheets.Models.Month_Model;
-import com.digicoffer.lauditor.TimeSheets.Models.TMModel;
 import com.digicoffer.lauditor.common.AndroidUtils;
 
 public class MonthlyTSAdapter extends RecyclerView.Adapter<MonthlyTSAdapter.MyViewHolder> implements Filterable {
     ArrayList<Month_Model> teamList = new ArrayList<>();
     ArrayList<Month_Model> itemsList = new ArrayList<>();
     String status;
+    String choosen_month;
 
-    public MonthlyTSAdapter(ArrayList<Month_Model> teamList, String sStatus) {
+    public MonthlyTSAdapter(ArrayList<Month_Model> teamList, String sStatus, String month) {
         this.teamList = teamList;
         this.itemsList = teamList;
         this.status = sStatus;
+        this.choosen_month=month;
     }
 
     @NonNull
@@ -125,7 +126,7 @@ public class MonthlyTSAdapter extends RecyclerView.Adapter<MonthlyTSAdapter.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             timeheets_month = itemView.findViewById(R.id.timeheets_month);
-            timeheets_month.setText("Month of Year");
+            timeheets_month.setText("Month of "+choosen_month);
             week1 = itemView.findViewById(R.id.week1);
             week1.setText("Week 1");
             week2 = itemView.findViewById(R.id.week2);

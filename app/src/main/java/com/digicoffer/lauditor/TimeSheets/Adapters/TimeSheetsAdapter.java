@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.TimeSheets.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -348,7 +349,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_date, tv_total_hours;
+        TextView tv_date, tv_total_hours, total_hours_id;
         RecyclerView rv_time_sheets;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -356,6 +357,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
             tv_date = itemView.findViewById(R.id.tv_date);
             rv_time_sheets = itemView.findViewById(R.id.rv_time_sheets);
             tv_total_hours = itemView.findViewById(R.id.tv_total_hours);
+            total_hours_id = itemView.findViewById(R.id.total_hours_id);
+
+            tv_date.setTextColor(Color.parseColor("#004D87"));
+            total_hours_id.setTextColor(Color.parseColor("#004D87"));
+
+            tv_total_hours.setTextColor(Color.parseColor("#00B3A7"));
         }
     }
 }
