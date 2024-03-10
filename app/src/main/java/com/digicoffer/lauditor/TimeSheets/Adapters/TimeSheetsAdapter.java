@@ -361,7 +361,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
 
             tv_date.setTextColor(Color.parseColor("#004D87"));
             total_hours_id.setTextColor(Color.parseColor("#004D87"));
-
+            total_hours_id.setText(R.string.total_hours);
             tv_total_hours.setTextColor(Color.parseColor("#00B3A7"));
         }
     }

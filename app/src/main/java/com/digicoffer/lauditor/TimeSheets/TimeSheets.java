@@ -262,6 +262,7 @@ public class TimeSheets extends Fragment {
         tv_month.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_month.setTextColor(Color.BLACK);
         isweek = "week";
+        Calendar calendar = Calendar.getInstance();
         if (isweek == "month") {
             month_range(calendar);
             tv_from_date_timesheet.setText(startDate);
@@ -290,6 +291,7 @@ public class TimeSheets extends Fragment {
         tv_month.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_month.setTextColor(Color.WHITE);
         isweek = "month";
+        Calendar calendar = Calendar.getInstance();
         if (isweek == "month") {
             month_range(calendar);
             tv_from_date_timesheet.setText(startDate);
