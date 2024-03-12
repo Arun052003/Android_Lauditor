@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,16 +41,19 @@ import java.util.Locale;
 public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteListener {
     private View view;
     String date = "";
+    boolean issubmitted = true;
     String current_date = "";
+    private CardView cv_details_activity_log;
     private AlertDialog progressDialog;
     private ArrayList<TimeSheetModel> timeSheetsList = new ArrayList<>();
     private ArrayList<TSMatterModel> matterList = new ArrayList<>();
     private ArrayList<TasksModel> tasksList = new ArrayList<>();
-    private ArrayList<EventsModel>eventsList = new ArrayList<>();
+    private ArrayList<EventsModel> eventsList = new ArrayList<>();
     private ArrayList<StatusModel> statusList = new ArrayList<>();
     private ArrayList<WeekTotalModel> weektotalList = new ArrayList<>();
     private ArrayList<WeekModel> weeksList = new ArrayList<>();
     RecyclerView rv_submitted_timesheets;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,13 +63,14 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
         ArrayList<String> weekDates = bundle.getStringArrayList("weekDates");
         current_date = weekDates.get(0);
         rv_submitted_timesheets = view.findViewById(R.id.rv_submitted_timesheets);
+        cv_details_activity_log = view.findViewById(R.id.cv_details_activity_log);
 //        AndroidUtils.showAlert(date,getContext());
         if (date.isEmpty()) {
 //             date_status = false;
             callCurrentDateTimeSheetsWebservice(date);
-        } else if(date==null){
+        } else if (date == null) {
             callCurrentDateTimeSheetsWebservice(date);
-        }else {
+        } else {
             callTimeSheetsWebservice(date);
         }
 
@@ -89,6 +94,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
 
         return view;
     }
+
     private void callCurrentDateTimeSheetsWebservice(String date) {
         try {
             clearList();
@@ -103,6 +109,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
             e.printStackTrace();
         }
     }
+
     private void callTimeSheetsWebservice(String date) {
         try {
             clearList();
@@ -131,6 +138,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
 
 //        weeksList.clear();
     }
+
     @Override
     public void onClick(View view) {
 
@@ -148,13 +156,14 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
                     JSONObject dates = result.getJSONObject("dates");
 //                    AndroidUtils.showAlert(data.toString(),getContext());
                     timeSheetsList.clear();
-                    loadTimesheetData(dates,result);
+                    loadTimesheetData(dates, result);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
     private void loadTimesheetData(JSONObject dates, JSONObject result) throws JSONException {
         timeSheetsList.clear();
         TimeSheetModel timeSheetModel = new TimeSheetModel();
@@ -211,12 +220,18 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
                 eventsList.add(eventsModel);
             }
         }
-        loadTimesheetsRecyclerview();
+        if (timeSheetModel.isFrozen()) {
+            cv_details_activity_log.setVisibility(View.VISIBLE);
+            loadTimesheetsRecyclerview();
+        } else {
+            cv_details_activity_log.setVisibility(View.GONE);
+        }
     }
+
     private void loadTimesheetsRecyclerview() {
 //        AndroidUtils.showAlert(weeksList.toString(),getContext());
-        rv_submitted_timesheets.setLayoutManager(new GridLayoutManager(getContext(),1));
-        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList,eventsList,weektotalList,getContext());
+        rv_submitted_timesheets.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext(), issubmitted);
         rv_submitted_timesheets.setAdapter(timeSheetsAdapter);
         rv_submitted_timesheets.setHasFixedSize(true);
         if (timeSheetsAdapter != null && timeSheetsAdapter.getItemCount() > 0) {
@@ -225,4 +240,4 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
         }
         timeSheetsAdapter.notifyDataSetChanged();
     }
-    }
+}

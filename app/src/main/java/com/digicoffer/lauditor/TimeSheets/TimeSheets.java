@@ -77,6 +77,8 @@ public class TimeSheets extends Fragment {
         tv_from_date_timesheet = view.findViewById(R.id.tv_from_date_timesheet);
         tv_to_date_timesheet = view.findViewById(R.id.tv_to_date_timesheet);
 
+
+        //Check is the month view or week view and assign start date an end date accordingly...
         if (isweek == "month") {
             month_range(calendar);
             tv_from_date_timesheet.setText(startDate);
@@ -92,13 +94,15 @@ public class TimeSheets extends Fragment {
         if (Constants.ROLE.equals("SU")) {
 //            main_button_status = "Aggregated";
 //            non_main_button_status = "TM";
+            main_button_status = "MyTimeSheets";
+            non_main_button_status = "NS";
             ll_timesheet_type.setVisibility(View.VISIBLE);
-            loadFragment(s, weekDateInfo);
+            loadFragment(tv_from_date_timesheet.getText().toString(), weekDateInfo);
         } else {
             ll_timesheet_type.setVisibility(View.GONE);
 //            main_button_status = "MyTimeSheets";
             non_main_button_status = "NS";
-            loadFragment(s, weekDateInfo);
+            loadFragment(tv_from_date_timesheet.getText().toString(), weekDateInfo);
         }
         ImageButton iv_next_week = view.findViewById(R.id.iv_next_week);
         iv_next_week.setImageDrawable(getContext().getDrawable(R.drawable.baseline_arrow_forward_ios_24));
@@ -112,14 +116,15 @@ public class TimeSheets extends Fragment {
                     month_range(calendar);
                 else
                     weekDateInfo = getWeekDateRange(calendar);
-                loadAggregatedTimesheets(s, weekDateInfo);
+                loadAggregatedTimesheets(tv_from_date_timesheet.getText().toString(), weekDateInfo);
+//                loadWeek();.
             }
         });
         tv_my_ts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 main_button_status = "MyTS";
-                loadMyTimeSheets(s, weekDateInfo);
+                loadMyTimeSheets(tv_from_date_timesheet.getText().toString(), weekDateInfo);
             }
         });
         tv_submitted.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +137,7 @@ public class TimeSheets extends Fragment {
                     non_main_button_status = "Submitted";
 
                 }
-                loadSubmittedTimesheets(s, weekDateInfo);
+                loadSubmittedTimesheets(tv_from_date_timesheet.getText().toString(), weekDateInfo);
             }
         });
         tv_ns_timesheet.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +148,7 @@ public class TimeSheets extends Fragment {
                 } else {
                     non_main_button_status = "NS";
                 }
-                loadNsTimesheets(s, weekDateInfo);
+                loadNsTimesheets(tv_from_date_timesheet.getText().toString(), weekDateInfo);
             }
         });
         tv_week.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +167,7 @@ public class TimeSheets extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
+                    //Check is the month view or week view and assign start date an end date accordingly...
                     if (isweek == "month") {
                         calendar.add(Calendar.MONTH, 1);
                         month_range(calendar);
@@ -185,6 +191,7 @@ public class TimeSheets extends Fragment {
         iv_previous_week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Check is the month view or week view and assign start date an end date accordingly...
                 if (isweek == "month") {
                     calendar.add(Calendar.MONTH, -1);
                     month_range(calendar);
@@ -201,12 +208,13 @@ public class TimeSheets extends Fragment {
                 loadFragment(tv_from_date_timesheet.getText().toString(), weekDateInfo);
             }
         });
-        main_button_status = "MyTS";
-        loadMyTimeSheets(s, weekDateInfo);
+//        main_button_status = "MyTS";
+//        loadMyTimeSheets(s, weekDateInfo);
         return view;
     }
 
     private void loadAggregatedTimesheets(String s, WeekDateInfo weekDateInfo) {
+        tv_month.setEnabled(true);
         tv_aggregated_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_aggregated_ts.setTextColor(Color.WHITE);
         tv_my_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -214,32 +222,48 @@ public class TimeSheets extends Fragment {
         tv_ns_timesheet.setText("Team Members");
         tv_submitted.setText("Projects");
         mViewModel.setData("Time Sheets");
-        non_main_button_status = "TM";
-        if (tv_ns_timesheet.getText().toString().equals("Not Submitted")) {
-            loadNsFragment(s, weekDateInfo);
+//        non_main_button_status = "TM";
+        if ((non_main_button_status.equals("TM")) || (non_main_button_status.equals("NS"))) {
+            loadTMFragment(s, isweek);
+            Log.d("ssssss", s);
         } else {
-            if (non_main_button_status != null && non_main_button_status == "TM") {
-                loadTMFragment(s, isweek);
-            } else {
-                loadProjectFragment(s, weekDateInfo);
-            }
+            loadProjectFragment(s, weekDateInfo);
         }
     }
+//    private void loadMyTimeSheets(String s, WeekDateInfo weekDateInfo) {
+//        tv_aggregated_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+//        tv_my_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
+//        tv_ns_timesheet.setText("Not Submitted");
+//        tv_submitted.setText("Submitted");
+//        if (non_main_button_status.equals("NS")){
+//            loadNsTimesheets(s,weekDateInfo);
+//        }else {
+//            loadSubmittedTimesheets(s, weekDateInfo);
+//        }
+////        if (non_main_button_status)
+//    }
 
     private void loadMyTimeSheets(String s, WeekDateInfo weekDateInfo) {
-        non_main_button_status = "NS";
+//        non_main_button_status = "NS";
+        tv_month.setEnabled(false);
         tv_aggregated_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_aggregated_ts.setTextColor(Color.BLACK);
         tv_my_ts.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_my_ts.setTextColor(Color.WHITE);
         tv_ns_timesheet.setText("Not Submitted");
         tv_submitted.setText("Submitted");
-        if (non_main_button_status.equals("NS")) {
+//        loadNsTimesheets(s,weekDateInfo);
+        if ((non_main_button_status.equals("NS")) || ((non_main_button_status.equals("TM")))) {
             loadNsTimesheets(s, weekDateInfo);
+            Log.d("ssssss", s);
         } else {
             loadSubmittedTimesheets(s, weekDateInfo);
         }
-        loadWeek();
+        tv_week.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_week.setTextColor(Color.WHITE);
+        tv_month.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_month.setTextColor(Color.BLACK);
+//        loadWeek();
 //        if (non_main_button_status)
     }
 
@@ -263,6 +287,7 @@ public class TimeSheets extends Fragment {
         tv_month.setTextColor(Color.BLACK);
         isweek = "week";
         Calendar calendar = Calendar.getInstance();
+//        Check is the month view or week view and assign start date an end date accordingly...
         if (isweek == "month") {
             month_range(calendar);
             tv_from_date_timesheet.setText(startDate);
@@ -275,10 +300,11 @@ public class TimeSheets extends Fragment {
             }
         }
         if (tv_ns_timesheet.getText().toString().equals("Not Submitted")) {
-            loadNsFragment(s, weekDateInfo);
+//            loadNsTimesheets(s,weekDateInfo);
         } else {
-            if (non_main_button_status != null && non_main_button_status == "TM") {
+            if ((non_main_button_status.equals("TM")) || (non_main_button_status.equals("NS"))) {
                 loadTMFragment(s, isweek);
+                Log.d("ssssss", s);
             } else {
                 loadProjectFragment(s, weekDateInfo);
             }
@@ -290,6 +316,7 @@ public class TimeSheets extends Fragment {
         tv_week.setTextColor(Color.BLACK);
         tv_month.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
         tv_month.setTextColor(Color.WHITE);
+//        Check is the month view or week view and assign start date an end date accordingly...
         isweek = "month";
         Calendar calendar = Calendar.getInstance();
         if (isweek == "month") {
@@ -303,14 +330,11 @@ public class TimeSheets extends Fragment {
                 tv_to_date_timesheet.setText(weekDateInfo.getWeekDates().get(weekDateInfo.getWeekDates().size() - 1));
             }
         }
-        if (tv_ns_timesheet.getText().toString().equals("Not Submitted")) {
-            loadNsFragment(s, weekDateInfo);
+        if ((non_main_button_status.equals("TM")) || (non_main_button_status.equals("NS"))) {
+            loadTMFragment(s, isweek);
+            Log.d("ssssss", s);
         } else {
-            if (non_main_button_status != null && non_main_button_status == "TM") {
-                loadTMFragment(s, isweek);
-            } else {
-                loadProjectFragment(s, weekDateInfo);
-            }
+            loadProjectFragment(s, weekDateInfo);
         }
     }
 
@@ -326,9 +350,8 @@ public class TimeSheets extends Fragment {
         if (tv_submitted.getText().toString().equals("Submitted")) {
             Bundle bundle = new Bundle();
             bundle.putString("date", s);
-            AndroidUtils.showToast(s, getContext());
+//            AndroidUtils.showToast(s, getContext());
             bundle.putStringArrayList("weekDates", weekDateInfo.getWeekDates());
-//        AndroidUtils.showToast(s,getContext());
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             SubmittedTimeSheets nonSubmittedTimesheets = new SubmittedTimeSheets();
             nonSubmittedTimesheets.setArguments(bundle);
@@ -357,7 +380,6 @@ public class TimeSheets extends Fragment {
             bundle.putString("date", s);
 //        bundle.putStringArrayList("weekDates", weekDateInfo.getWeekDates());
 
-//        AndroidUtils.showToast(s,getContext());
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             AGS_TeamMembers nonSubmittedTimesheets = new AGS_TeamMembers();
             nonSubmittedTimesheets.setArguments(bundle);
@@ -400,7 +422,7 @@ public class TimeSheets extends Fragment {
         ft.commit();
     }
 
-    private void loadProjectFragment(String s, WeekDateInfo weekDateInfo) {
+    public void loadProjectFragment(String s, WeekDateInfo weekDateInfo) {
         Bundle bundle = new Bundle();
         bundle.putString("date", s);
         bundle.putStringArrayList("weekDates", weekDateInfo.getWeekDates());
@@ -457,6 +479,8 @@ public class TimeSheets extends Fragment {
 //    return startDate + " - " + endDate;
 //}
 
+
+    //Method to get the start and end date of chosen month
     private void month_range(Calendar month_calendar) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         month_calendar.set(Calendar.DAY_OF_MONTH, 1);

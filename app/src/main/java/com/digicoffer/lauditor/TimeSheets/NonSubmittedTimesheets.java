@@ -85,6 +85,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     private String minutesString;
     private TextView project_id, tv_sp_project, task_id, tv_sp_task, status_id, tv_sp_status, date_id, tv_sp_date, hours_id, minutes_id, tot_hours_id;
     String date = "";
+    private boolean issubmitted = false;
     private boolean ischecked_project = true, ischecked_status = true, ischecked_task = true, ischecked_date = true;
 
     @SuppressLint("WrongViewCast")
@@ -604,13 +605,14 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 //            AndroidUtils.showToast(String.valueOf(timeSheetsList.get(i).isFrozen()),getContext());
             if (timeSheetsList.get(i).isFrozen()) {
                 view.setAlpha(0.5f);
-
+                issubmitted = true;
 //
                 disableAllViews(view);
                 AndroidUtils.showAlert("TimeSheet already submitted,please select other week", getContext());
 
 //
             } else {
+                issubmitted = false;
 //                loadTimesheetsRecyclerview();
 
                 final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) getContext(), matterList);
@@ -677,7 +679,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     private void loadTimesheetsRecyclerview() {
 //        AndroidUtils.showAlert(weeksList.toString(),getContext());
         rv_non_submitted_timesheets.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext());
+        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext(), issubmitted);
         rv_non_submitted_timesheets.setAdapter(timeSheetsAdapter);
         rv_non_submitted_timesheets.setHasFixedSize(true);
         if (timeSheetsAdapter != null && timeSheetsAdapter.getItemCount() > 0) {

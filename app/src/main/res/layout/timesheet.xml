@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,12 +14,7 @@
         android:orientation="horizontal"
         android:padding="5dp"
         android:paddingTop="@dimen/twenty_dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        >
+        android:visibility="visible">
 
         <include
             android:id="@+id/tv_aggregated_ts"
@@ -39,18 +34,13 @@
         android:id="@+id/ll_submitted_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ll_timesheet_type"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dp"
-        android:paddingTop="@dimen/twenty_dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@id/ll_timesheet_type"
-        app:layout_constraintVertical_bias="0.03">
+        android:paddingTop="@dimen/twenty_dp">
 
         <include
             android:id="@+id/tv_ns_timesheet"
@@ -63,14 +53,15 @@
             layout="@layout/viewmember_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"/>
+            android:layout_marginLeft="1dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_week_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_below="@id/ll_submitted_type"
+        android:layout_margin="@dimen/Fifteen_dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/Fifteen_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,7 +166,7 @@
                     layout="@layout/viewmember_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"/>
+                    android:layout_marginLeft="1dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </LinearLayout>
@@ -186,30 +177,22 @@
         android:id="@+id/sv_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarStyle="insideInset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cv_week_month"
-        app:layout_constraintVertical_bias="0.016">
+        android:layout_below="@id/cv_week_month"
+        android:layout_marginTop="@dimen/left_space"
+        android:scrollbarStyle="insideInset">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/child_container_timesheets"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:paddingBottom="250dp"
-
-                />
-
+                android:layout_height="wrap_content"
+                android:paddingBottom="250dp" />
         </LinearLayout>
 
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

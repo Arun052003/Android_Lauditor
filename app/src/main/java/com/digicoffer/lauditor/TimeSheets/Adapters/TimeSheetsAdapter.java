@@ -5,9 +5,11 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,12 +38,14 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
     ArrayList<TaskModel> sunday = new ArrayList<>();
 
     Context context;
+    private boolean issubmitted;
 
-    public TimeSheetsAdapter(ArrayList<WeekModel> weeksList, ArrayList<EventsModel> eventsModels, ArrayList<WeekTotalModel> weektotalList, Context cContext) {
+    public TimeSheetsAdapter(ArrayList<WeekModel> weeksList, ArrayList<EventsModel> eventsModels, ArrayList<WeekTotalModel> weektotalList, Context cContext, boolean issubmitted) {
         this.weeksList = weeksList;
         this.eventsList = eventsModels;
         this.weekTotalList = weektotalList;
         this.context = cContext;
+        this.issubmitted = issubmitted;
     }
 
     @NonNull
@@ -248,9 +252,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Mon")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (monday.size() != 0)
-
-                    loadRecyclerview(holder, monday);
+                if (monday.size() != 0) {
+                    loadRecyclerview(holder, monday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.timesheet_layout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -260,8 +267,11 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Tue")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (tuesday.size() != 0)
-                    loadRecyclerview(holder, tuesday);
+                if (tuesday.size() != 0) {
+                    loadRecyclerview(holder, tuesday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else
+                    holder.timesheet_layout.setVisibility(View.GONE);
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -271,8 +281,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Wed")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (wednessday.size() != 0)
-                    loadRecyclerview(holder, wednessday);
+                if (wednessday.size() != 0) {
+                    loadRecyclerview(holder, wednessday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.timesheet_layout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -282,8 +296,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Thu")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (thursday.size() != 0)
-                    loadRecyclerview(holder, thursday);
+                if (thursday.size() != 0) {
+                    loadRecyclerview(holder, thursday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.timesheet_layout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -293,8 +311,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Fri")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (friday.size() != 0)
-                    loadRecyclerview(holder, friday);
+                if (friday.size() != 0) {
+                    loadRecyclerview(holder, friday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.timesheet_layout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -304,8 +326,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Sat")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (saturday.size() != 0)
-                    loadRecyclerview(holder, saturday);
+                if (saturday.size() != 0) {
+                    loadRecyclerview(holder, saturday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.timesheet_layout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -315,8 +341,12 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         if (dayOfWeek.equals("Sun")) {
 //        AndroidUtils.showAlert(eventsList.toString(),context);
             try {
-                if (sunday.size() != 0)
-                    loadRecyclerview(holder, sunday);
+                if (sunday.size() != 0) {
+                    loadRecyclerview(holder, sunday, issubmitted);
+                    holder.timesheet_layout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.timesheet_layout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
                 e.printStackTrace();
@@ -331,9 +361,9 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
 
     }
 
-    private void loadRecyclerview(MyViewHolder holder, ArrayList<TaskModel> list) throws Exception {
+    private void loadRecyclerview(MyViewHolder holder, ArrayList<TaskModel> list, boolean issubmitted) throws Exception {
         holder.rv_time_sheets.setLayoutManager(new GridLayoutManager(context, 1));
-        WeeklyTSAdapter weeklyTSAdapter = new WeeklyTSAdapter(list);
+        WeeklyTSAdapter weeklyTSAdapter = new WeeklyTSAdapter(list, issubmitted, context);
         holder.rv_time_sheets.setAdapter(weeklyTSAdapter);
         holder.rv_time_sheets.setHasFixedSize(true);
         if (weeklyTSAdapter != null && weeklyTSAdapter.getItemCount() > 0) {
@@ -350,11 +380,13 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_date, tv_total_hours, total_hours_id;
+        LinearLayout timesheet_layout;
         RecyclerView rv_time_sheets;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_date = itemView.findViewById(R.id.tv_date);
+            timesheet_layout = itemView.findViewById(R.id.ll_documents);
             rv_time_sheets = itemView.findViewById(R.id.rv_time_sheets);
             tv_total_hours = itemView.findViewById(R.id.tv_total_hours);
             total_hours_id = itemView.findViewById(R.id.total_hours_id);

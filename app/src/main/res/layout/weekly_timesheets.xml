@@ -18,67 +18,104 @@
             android:id="@+id/tv_matter_name"
             layout="@layout/group_layout"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/left_space"
-            android:layout_marginBottom="@dimen/left_space"
             android:orientation="horizontal">
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/left_space"
+                android:layout_marginBottom="@dimen/left_space"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/tv_matter_hours"
+                        layout="@layout/from_date_week" />
+
+                    <include
+                        android:id="@+id/tv_matter_minutes"
+                        layout="@layout/from_date_week" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/side_line" />
+
+                    <include layout="@layout/side_line" />
+
+                    <include layout="@layout/side_line" />
+
+                    <include layout="@layout/side_line" />
+
+                    <include layout="@layout/side_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/tv_matter_billable"
+                        layout="@layout/from_date_week" />
+
+                    <include
+                        android:id="@+id/tv_matter_task_name"
+                        layout="@layout/from_date_week" />
+                </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
             <LinearLayout
+                android:id="@+id/edit_del_timesheets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="end"
+                android:layout_marginStart="@dimen/small_size"
+                android:layout_marginTop="@dimen/small_size"
+                android:layout_marginBottom="@dimen/small_size"
+                android:layout_marginEnd="@dimen/left_space"
+                android:visibility="gone">
 
-                <include
-                    android:id="@+id/tv_matter_hours"
-                    layout="@layout/from_date_week" />
+                <ImageView
+                    android:id="@+id/edit_timesheets"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginBottom="@dimen/left_space"
+                    android:src="@drawable/edit_documents_icon" />
 
-                <include
-                    android:id="@+id/tv_matter_minutes"
-                    layout="@layout/from_date_week" />
+                <ImageView
+                    android:id="@+id/delete_timesheets"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginBottom="@dimen/left_space"
+                    android:src="@drawable/delete_icon" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <include layout="@layout/side_line" />
-
-                <include layout="@layout/side_line" />
-
-                <include layout="@layout/side_line" />
-
-                <include layout="@layout/side_line" />
-
-                <include layout="@layout/side_line" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:orientation="vertical">
-
-                <include
-                    android:id="@+id/tv_matter_billable"
-                    layout="@layout/from_date_week" />
-
-                <include
-                    android:id="@+id/tv_matter_task_name"
-                    layout="@layout/from_date_week" />
-            </LinearLayout>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_total_hours"
