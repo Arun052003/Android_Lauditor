@@ -242,19 +242,19 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
         String dayOfWeek = parts[0];
         for (int i = 0; i < weekTotalList.size(); i++) {
             if (dayOfWeek.equals("Mon")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getMon());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getMon()+" Hours");
             } else if (dayOfWeek.equals("Tue")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getTue());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getTue()+" Hours");
             } else if (dayOfWeek.equals("Wed")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getWed());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getWed()+" Hours");
             } else if (dayOfWeek.equals("Thu")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getThu());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getThu()+" Hours");
             } else if (dayOfWeek.equals("Fri")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getFri());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getFri()+" Hours");
             } else if (dayOfWeek.equals("Sat")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getSat());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getSat()+" Hours");
             } else if (dayOfWeek.equals("Sun")) {
-                holder.tv_total_hours.setText(weekTotalList.get(i).getSun());
+                holder.tv_total_hours.setText(weekTotalList.get(i).getSun()+" Hours");
             }
         }
 

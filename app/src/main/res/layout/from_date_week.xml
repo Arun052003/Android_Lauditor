@@ -3,8 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_weight="1"
+    android:fontFamily="@font/gill_sans"
     android:gravity="center"
     android:text="19-03-2023"
     android:textColor="@android:color/black"
-    android:textSize="18sp"
-    android:textStyle="bold" />
+    android:textFontWeight="600"
+    android:textSize="16sp" />

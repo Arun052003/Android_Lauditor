@@ -99,8 +99,6 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.not_submitted_timesheet, container, false);
-//        if()
-
         sp_project = view.findViewById(R.id.sp_project);
         sp_project.setVisibility(View.GONE);
         sp_task = view.findViewById(R.id.sp_task);
@@ -185,7 +183,10 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     tv_hours.requestFocus();
                 } else {
                     try {
-                        callSaveTimeSheetWebservice();
+                        if(btn_save_timesheet.getText().equals("Update"))
+                            callEditTimesheetwebservice();
+                        else
+                            callSaveTimeSheetWebservice();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -297,8 +298,6 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 
     private void callSubmitTimeSheetWebService() {
         try {
-
-
             progressDialog = AndroidUtils.get_progress(getActivity());
             JSONObject postdata = new JSONObject();
             SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
@@ -317,16 +316,6 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     private void callEditTimesheetwebservice() {
         try {
             progressDialog = AndroidUtils.get_progress(getActivity());
-//            action:"hours"
-//        billing:"billable"
-//        date:"Mar 8, 2024"
-//        duration_hours:"2"
-//        duration_minutes:"00"
-//        id:"65f14ecfa1db7204262d10cd"
-//        matter_id:"65cb535ca1db72042a368f7d"
-//        matter_type:"general"
-//        title:"Consultation"
-//            progressDialog = AndroidUtils.get_progress(getActivity());
             JSONObject postdata = new JSONObject();
             postdata.put("id", event_name);
             postdata.put("action", "hours");
@@ -352,7 +341,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 //            } else {
 //                postdata.put("matter_type", matter_name);
 //            }
-            postdata.put("matter_type", "general");
+            postdata.put("matter_type", matter_name);
             postdata.put("title", task_name);
 //            AndroidUtils.showAlert(postdata.toString(),getContext());
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/user/timesheets", "Edit Timesheet", postdata.toString());
@@ -470,6 +459,20 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
         }
     }
 
+    private void clear_date()
+    {
+        btn_save_timesheet.setText(R.string.save);
+        tv_sp_project.setEnabled(true);
+        tv_sp_task.setEnabled(true);
+        task_layout.setVisibility(View.GONE);
+        tv_sp_task.setVisibility(View.GONE);
+        tv_sp_project.setText("");
+        tv_sp_task.setText("");
+        tv_sp_status.setText("");
+        tv_sp_date.setText("");
+        tv_hours.setText("");
+        tv_total_hours.setText("");
+    }
     private void clearList() {
         timeSheetsList.clear();
         weektotalList.clear();
@@ -567,6 +570,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     } else {
                         callTimeSheetsWebservice(date);
                     }
+                    clear_date();
                 } else if (httpResult.getRequestType().equals("Submit TimeSheet")) {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     if (date.isEmpty()) {
@@ -581,6 +585,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     } else {
                         callTimeSheetsWebservice(date);
                     }
+                    clear_date();
                 } else if (httpResult.getRequestType().equals("Edit Timesheet")) {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     if (date.isEmpty()) {
@@ -588,10 +593,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     } else {
                         callTimeSheetsWebservice(date);
                     }
-                    tv_sp_status.setText("");
-                    tv_sp_date.setText("");
-                    tv_hours.setText("");
-                    tv_total_hours.setText("");
+                    clear_date();
                     AndroidUtils.dismiss_dialog(progressDialog);
                 }
             } catch (Exception e) {
@@ -846,6 +848,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 
     @Override
     public void Edit_Matter_Info(TaskModel eventsModels, String selected_date1, String matter_type) {
+        task_layout.setVisibility(View.VISIBLE);
         tv_sp_task.setVisibility(View.VISIBLE);
         event_name = eventsModels.getTaskid();
         status = eventsModels.getTask_billing();
@@ -871,6 +874,8 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
         } catch (Exception e) {
             e.printStackTrace();
         }
+        tv_sp_task.setText(task_name);
+        tv_sp_project.setText(matter_name);
         tv_sp_date.setText(selected_date);
         btn_save_timesheet.setText(R.string.update);
         tv_sp_status.setText(status);
@@ -880,17 +885,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
         tv_sp_project.setEnabled(false);
         tv_sp_task.setEnabled(false);
 
-        Log.d("Edit11_timesheet", matter_name + "..." + event_name + "......" + status + "......" + task_name + "......" + event_task_id + "......" + event_id + "......" + hours + "......" + minutes + "......" + date);
-        btn_save_timesheet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    callEditTimesheetwebservice();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Log.d("Edit11_timesheet", matter_name + "..." + event_name + "......" + status + "......" + task_name + "......" + event_task_id + "......" + event_id + "......" + hours + "......" + minutes + "......" + selected_date);
     }
 
 }
