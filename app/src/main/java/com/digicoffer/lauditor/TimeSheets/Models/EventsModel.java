@@ -14,8 +14,17 @@ public class EventsModel {
     JSONObject fri;
     JSONObject sat;
     JSONObject sun;
+    String matter_type;
     String matter_name;
     String matter_id;
+
+    public String getMatter_type() {
+        return matter_type;
+    }
+
+    public void setMatter_type(String matter_type) {
+        this.matter_type = matter_type;
+    }
 
     public String getMatter_name() {
         return matter_name;

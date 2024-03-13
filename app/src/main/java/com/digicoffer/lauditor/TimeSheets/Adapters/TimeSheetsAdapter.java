@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.Matter.Adapters.ViewMatterAdapter;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.TimeSheets.Models.EventsModel;
 import com.digicoffer.lauditor.TimeSheets.Models.TaskModel;
@@ -38,14 +39,17 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
     ArrayList<TaskModel> sunday = new ArrayList<>();
 
     Context context;
+    String date = "", matter_type;
     private boolean issubmitted;
+    WeeklyTSAdapter.InterfaceListener interfaceListener;
 
-    public TimeSheetsAdapter(ArrayList<WeekModel> weeksList, ArrayList<EventsModel> eventsModels, ArrayList<WeekTotalModel> weektotalList, Context cContext, boolean issubmitted) {
+    public TimeSheetsAdapter(ArrayList<WeekModel> weeksList, ArrayList<EventsModel> eventsModels, ArrayList<WeekTotalModel> weektotalList, Context cContext, boolean issubmitted, WeeklyTSAdapter.InterfaceListener interfaceListener1) {
         this.weeksList = weeksList;
         this.eventsList = eventsModels;
         this.weekTotalList = weektotalList;
         this.context = cContext;
         this.issubmitted = issubmitted;
+        this.interfaceListener = interfaceListener1;
     }
 
     @NonNull
@@ -71,6 +75,9 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
             sunday.clear();
             for (int e = 0; e < eventsList.size(); e++) {
                 EventsModel eventsModel = eventsList.get(e);
+
+                //Check matter type value
+                matter_type = eventsModel.getMatter_type();
 //                for (int i = 0; i < eventsModel.getMon().length(); i++) {
                 TaskModel taskModel = new TaskModel();
                 if (eventsModel.getMon().has("taskId")) {
@@ -226,6 +233,9 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
 
 
         holder.tv_date.setText(weekModel.getValue());
+
+        date = weekModel.getValue();
+
 //        holder.tv_total_hours.setText();
         String inputString = weekModel.getValue();
         String[] parts = inputString.split(" "); // Split the string by whitespace
@@ -363,7 +373,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
 
     private void loadRecyclerview(MyViewHolder holder, ArrayList<TaskModel> list, boolean issubmitted) throws Exception {
         holder.rv_time_sheets.setLayoutManager(new GridLayoutManager(context, 1));
-        WeeklyTSAdapter weeklyTSAdapter = new WeeklyTSAdapter(list, issubmitted, context);
+        WeeklyTSAdapter weeklyTSAdapter = new WeeklyTSAdapter(list, issubmitted, context, interfaceListener, date, matter_type);
         holder.rv_time_sheets.setAdapter(weeklyTSAdapter);
         holder.rv_time_sheets.setHasFixedSize(true);
         if (weeklyTSAdapter != null && weeklyTSAdapter.getItemCount() > 0) {

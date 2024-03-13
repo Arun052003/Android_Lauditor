@@ -36,10 +36,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyviewHo
         this.projectTmList = projectTmList;
         this.itemsList = projectTmList;
         this.context = cContext;
-        this.new_selected_project = selected_project;
         this.totalItemCount = projectList.size();
+        this.new_selected_project = selected_project;
         this.itemsToLoad = 5;
-        selected_project = selected_project;
     }
 
     @NonNull

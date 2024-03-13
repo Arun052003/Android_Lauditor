@@ -13,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,13 +25,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.digicoffer.lauditor.Calendar.CreateEvent;
-import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.TimeSheets.Adapters.TimeSheetsAdapter;
+import com.digicoffer.lauditor.TimeSheets.Adapters.WeeklyTSAdapter;
 import com.digicoffer.lauditor.TimeSheets.Models.EventsModel;
 import com.digicoffer.lauditor.TimeSheets.Models.StatusModel;
 import com.digicoffer.lauditor.TimeSheets.Models.TSMatterModel;
+import com.digicoffer.lauditor.TimeSheets.Models.TaskModel;
 import com.digicoffer.lauditor.TimeSheets.Models.TasksModel;
 import com.digicoffer.lauditor.TimeSheets.Models.TimeSheetModel;
 import com.digicoffer.lauditor.TimeSheets.Models.WeekModel;
@@ -46,8 +46,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.minidns.record.A;
-import org.pgpainless.key.selection.key.util.And;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,7 +54,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-public class NonSubmittedTimesheets extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener {
+public class NonSubmittedTimesheets extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, WeeklyTSAdapter.InterfaceListener {
     private AlertDialog progressDialog;
     private LinearLayout task_layout;
     private ArrayList<TimeSheetModel> timeSheetsList = new ArrayList<>();
@@ -70,6 +68,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     private String selected_matter_id = "";
     private String selected_matter_type = "";
     String current_date = "";
+    String matter_name;
     private boolean isMatterTypeExists = false;
     private String selected_task = "";
     private String selected_status = "";
@@ -85,8 +84,15 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     private String minutesString;
     private TextView project_id, tv_sp_project, task_id, tv_sp_task, status_id, tv_sp_status, date_id, tv_sp_date, hours_id, minutes_id, tot_hours_id;
     String date = "";
+    String event_name = "", status = "", task_name = "", chosen_date = "", hours = "", minutes = "", event_task_id, event_id;
     private boolean issubmitted = false;
+    ArrayList<TaskModel> timesheet_eventsModels;
     private boolean ischecked_project = true, ischecked_status = true, ischecked_task = true, ischecked_date = true;
+
+    public NonSubmittedTimesheets(ArrayList<TaskModel> eventsModels) {
+        this.timesheet_eventsModels = eventsModels;
+        // Required empty public constructor
+    }
 
     @SuppressLint("WrongViewCast")
     @Nullable
@@ -142,7 +148,6 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
         bt_fifteen_minutes.setOnClickListener(minutesButtonClickListener);
         bt_thirty_minutes.setOnClickListener(minutesButtonClickListener);
         bt_forty_five_minutes.setOnClickListener(minutesButtonClickListener);
-
 
         tv_sp_project.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,6 +281,20 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
         return view;
     }
 
+    private void callDeleteTimesheetwebservice(String timesheet_id) {
+        try {
+            progressDialog = AndroidUtils.get_progress(getActivity());
+            JSONObject postdata = new JSONObject();
+            postdata.put("id", timesheet_id);
+//            https://apidev2.digicoffer.com/professional/v3/user/timesheets
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.DELETE, "v3/user/timesheets", "Delete TimeSheet", postdata.toString());
+        } catch (Exception e) {
+            if (progressDialog.isShowing() && progressDialog != null) {
+                AndroidUtils.dismiss_dialog(progressDialog);
+            }
+        }
+    }
+
     private void callSubmitTimeSheetWebService() {
         try {
 
@@ -291,6 +310,58 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             if (progressDialog.isShowing() && progressDialog != null) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
+        }
+
+    }
+
+    private void callEditTimesheetwebservice() {
+        try {
+            progressDialog = AndroidUtils.get_progress(getActivity());
+//            action:"hours"
+//        billing:"billable"
+//        date:"Mar 8, 2024"
+//        duration_hours:"2"
+//        duration_minutes:"00"
+//        id:"65f14ecfa1db7204262d10cd"
+//        matter_id:"65cb535ca1db72042a368f7d"
+//        matter_type:"general"
+//        title:"Consultation"
+//            progressDialog = AndroidUtils.get_progress(getActivity());
+            JSONObject postdata = new JSONObject();
+            postdata.put("id", event_name);
+            postdata.put("action", "hours");
+            postdata.put("billing", selected_status);
+            SimpleDateFormat inputformat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat outputformat = new SimpleDateFormat("MMM d, yyyy");
+            try {
+                Date date = inputformat.parse(selected_date);
+                String formattedDate = outputformat.format(date);
+                postdata.put("date", formattedDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            postdata.put("duration_hours", hoursString);
+            if (Objects.equals(minutesString, "0")) {
+                postdata.put("duration_minutes", "00");
+            } else {
+                postdata.put("duration_minutes", minutesString);
+            }
+            postdata.put("matter_id", event_id);
+//            if ((selected_matter_type.equals("legal")) || (selected_matter_type.equals("general"))) {
+//                postdata.put("matter_type", selected_matter_type);
+//            } else {
+//                postdata.put("matter_type", matter_name);
+//            }
+            postdata.put("matter_type", "general");
+            postdata.put("title", task_name);
+//            AndroidUtils.showAlert(postdata.toString(),getContext());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/user/timesheets", "Edit Timesheet", postdata.toString());
+            Log.d("Edit_tt", postdata.toString());
+        } catch (Exception e) {
+            if (!progressDialog.equals(null) && progressDialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progressDialog);
+            }
+            e.printStackTrace();
         }
 
     }
@@ -378,6 +449,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             minutes = 45;
         }
         hoursString = String.valueOf(hours);
+        hours = Integer.parseInt(hoursString);
         minutesString = String.valueOf(minutes);
         String totalTimeText = hours + "h " + minutes + "m";
         tv_total_hours.setText(totalTimeText);
@@ -502,6 +574,25 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     } else {
                         callTimeSheetsWebservice(date);
                     }
+                } else if (httpResult.getRequestType().equals("Delete TimeSheet")) {
+                    AndroidUtils.showToast(result.getString("msg"), getContext());
+                    if (date.isEmpty()) {
+                        callCurrentDateTimeSheetsWebservice(date, date_status);
+                    } else {
+                        callTimeSheetsWebservice(date);
+                    }
+                } else if (httpResult.getRequestType().equals("Edit Timesheet")) {
+                    AndroidUtils.showToast(result.getString("msg"), getContext());
+                    if (date.isEmpty()) {
+                        callCurrentDateTimeSheetsWebservice(date, date_status);
+                    } else {
+                        callTimeSheetsWebservice(date);
+                    }
+                    tv_sp_status.setText("");
+                    tv_sp_date.setText("");
+                    tv_hours.setText("");
+                    tv_total_hours.setText("");
+                    AndroidUtils.dismiss_dialog(progressDialog);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -534,7 +625,8 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 
     }
 
-    private boolean containsMatterType(ArrayList<TSMatterModel> matterList, String matterTypeToCheck) {
+    private boolean containsMatterType(ArrayList<TSMatterModel> matterList, String
+            matterTypeToCheck) {
         for (TSMatterModel matter : matterList) {
             if (matter.getMatter_type() != null && matter.getMatter_type().equals(matterTypeToCheck)) {
                 return true;
@@ -595,7 +687,10 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                 eventsModel.setSun(jsonObject.getJSONObject("Sun"));
                 eventsModel.setMatter_id(matterList.get(j).getMatterid());
                 eventsModel.setMatter_name(matterList.get(j).getMattername());
-
+                //check matter type
+                if (jsonObject.has("matterType")) {
+                    eventsModel.setMatter_type(jsonObject.getString("matterType"));
+                }
                 eventsList.add(eventsModel);
             }
         }
@@ -661,6 +756,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         selected_status = statusList.get(position).getName();
+                        status = selected_status;
                         ischecked_status = true;
                         tv_sp_status.setText(selected_status);
                         sp_status.setVisibility(View.GONE);
@@ -679,7 +775,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
     private void loadTimesheetsRecyclerview() {
 //        AndroidUtils.showAlert(weeksList.toString(),getContext());
         rv_non_submitted_timesheets.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext(), issubmitted);
+        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext(), issubmitted, this);
         rv_non_submitted_timesheets.setAdapter(timeSheetsAdapter);
         rv_non_submitted_timesheets.setHasFixedSize(true);
         if (timeSheetsAdapter != null && timeSheetsAdapter.getItemCount() > 0) {
@@ -698,4 +794,103 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void DeleteMatter(String timesheet_id) {
+        //..
+        try {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.delete_relationship, null);
+            LinearLayout ll_documents = view.findViewById(R.id.ll_documents);
+            ll_documents.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
+            ImageView close_details = view.findViewById(R.id.close_documents);
+
+            tv_confirmation.setText("Are you sure you want to Delete task ?");
+//                Matter_Status = "Closed";
+
+
+            AppCompatButton bt_yes = view.findViewById(R.id.btn_yes);
+            AppCompatButton btn_no = view.findViewById(R.id.btn_No);
+            final AlertDialog dialog = dialogBuilder.create();
+            close_details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+//            ad_dialog_delete = dialog;
+            btn_no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            bt_yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    callDeleteTimesheetwebservice(timesheet_id);
+//                    callCloseMatterWebService(viewMatterModel,Matter_Status);
+                }
+            });
+
+            dialog.setView(view);
+            dialog.show();
+        } catch (Exception e) {
+            AndroidUtils.showToast(e.getMessage(), getContext());
+        }
+        //..
+    }
+
+    @Override
+    public void Edit_Matter_Info(TaskModel eventsModels, String selected_date1, String matter_type) {
+        tv_sp_task.setVisibility(View.VISIBLE);
+        event_name = eventsModels.getTaskid();
+        status = eventsModels.getTask_billing();
+        task_name = eventsModels.getTask_name();
+        matter_name = eventsModels.getTask_matter_name();
+        event_task_id = eventsModels.getTask_matter_id();
+        event_id = eventsModels.getMatterid();
+        hours = eventsModels.getHours();
+        minutes = eventsModels.getMinutes();
+        hoursString = hours;
+        minutesString = minutes;
+        //...
+        selected_matter_type = matter_type;
+        selected_status = status;
+        String value = selected_date1.substring(4);
+        Log.d("Splitted_v", date + "./././" + value);
+        SimpleDateFormat inputformat = new SimpleDateFormat("MMMM dd,yyyy");
+        SimpleDateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = inputformat.parse(value);
+            String formattedDate = outputformat.format(date);
+            selected_date = formattedDate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tv_sp_date.setText(selected_date);
+        btn_save_timesheet.setText(R.string.update);
+        tv_sp_status.setText(status);
+        tv_hours.setText(hours);
+        String totalTimeText = hours + "h " + minutes + "m";
+        tv_total_hours.setText(totalTimeText);
+        tv_sp_project.setEnabled(false);
+        tv_sp_task.setEnabled(false);
+
+        Log.d("Edit11_timesheet", matter_name + "..." + event_name + "......" + status + "......" + task_name + "......" + event_task_id + "......" + event_id + "......" + hours + "......" + minutes + "......" + date);
+        btn_save_timesheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    callEditTimesheetwebservice();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }

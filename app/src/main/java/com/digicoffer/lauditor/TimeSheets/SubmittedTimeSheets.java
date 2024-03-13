@@ -63,7 +63,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
         ArrayList<String> weekDates = bundle.getStringArrayList("weekDates");
         current_date = weekDates.get(0);
         rv_submitted_timesheets = view.findViewById(R.id.rv_submitted_timesheets);
-        cv_details_activity_log = view.findViewById(R.id.cv_details_activity_log);
+//        cv_details_activity_log = view.findViewById(R.id.cv_details_activity_log);
 //        AndroidUtils.showAlert(date,getContext());
         if (date.isEmpty()) {
 //             date_status = false;
@@ -221,17 +221,17 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
             }
         }
         if (timeSheetModel.isFrozen()) {
-            cv_details_activity_log.setVisibility(View.VISIBLE);
+//            cv_details_activity_log.setVisibility(View.VISIBLE);
             loadTimesheetsRecyclerview();
         } else {
-            cv_details_activity_log.setVisibility(View.GONE);
+//            cv_details_activity_log.setVisibility(View.GONE);
         }
     }
 
     private void loadTimesheetsRecyclerview() {
 //        AndroidUtils.showAlert(weeksList.toString(),getContext());
         rv_submitted_timesheets.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext(), issubmitted);
+        TimeSheetsAdapter timeSheetsAdapter = new TimeSheetsAdapter(weeksList, eventsList, weektotalList, getContext(), issubmitted, null);
         rv_submitted_timesheets.setAdapter(timeSheetsAdapter);
         rv_submitted_timesheets.setHasFixedSize(true);
         if (timeSheetsAdapter != null && timeSheetsAdapter.getItemCount() > 0) {

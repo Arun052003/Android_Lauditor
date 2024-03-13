@@ -227,7 +227,7 @@ public class TimeSheets extends Fragment {
             loadTMFragment(s, isweek);
             Log.d("ssssss", s);
         } else {
-            loadProjectFragment(s, weekDateInfo);
+            loadProjectFragment(s, weekDateInfo, isweek);
         }
     }
 //    private void loadMyTimeSheets(String s, WeekDateInfo weekDateInfo) {
@@ -306,7 +306,7 @@ public class TimeSheets extends Fragment {
                 loadTMFragment(s, isweek);
                 Log.d("ssssss", s);
             } else {
-                loadProjectFragment(s, weekDateInfo);
+                loadProjectFragment(s, weekDateInfo, isweek);
             }
         }
     }
@@ -334,7 +334,7 @@ public class TimeSheets extends Fragment {
             loadTMFragment(s, isweek);
             Log.d("ssssss", s);
         } else {
-            loadProjectFragment(s, weekDateInfo);
+            loadProjectFragment(s, weekDateInfo, isweek);
         }
     }
 
@@ -361,7 +361,7 @@ public class TimeSheets extends Fragment {
             ft.commit();
 //            loadSubmittedFragment(s,weekDateInfo);
         } else {
-            loadProjectFragment(s, weekDateInfo);
+            loadProjectFragment(s, weekDateInfo, isweek);
         }
     }
 
@@ -414,7 +414,7 @@ public class TimeSheets extends Fragment {
 
 //        AndroidUtils.showToast(s,getContext());
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        NonSubmittedTimesheets nonSubmittedTimesheets = new NonSubmittedTimesheets();
+        NonSubmittedTimesheets nonSubmittedTimesheets = new NonSubmittedTimesheets(null);
         nonSubmittedTimesheets.setArguments(bundle);
         ft.replace(R.id.child_container_timesheets, nonSubmittedTimesheets);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -422,9 +422,10 @@ public class TimeSheets extends Fragment {
         ft.commit();
     }
 
-    public void loadProjectFragment(String s, WeekDateInfo weekDateInfo) {
+    public void loadProjectFragment(String s, WeekDateInfo weekDateInfo, String isweek) {
         Bundle bundle = new Bundle();
         bundle.putString("date", s);
+        bundle.putString("isweek", isweek);
         bundle.putStringArrayList("weekDates", weekDateInfo.getWeekDates());
 
 //        AndroidUtils.showToast(s,getContext());

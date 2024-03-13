@@ -45,7 +45,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
     private ListView sp_ags_project, sp_ags_tm;
     private TextInputEditText et_search_matter;
     private TextView tv_sp_project, tv_sp_team_member, project_id, team_member_id;
-    private String date;
+    private String date, isweek;
     private LinearLayout team_member_layout;
     private boolean ischecked_project = true, ischecked_team_member = true;
     private RecyclerView rv_projects;
@@ -55,6 +55,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
     private ArrayList<ProjectsModel> updated_projectList = new ArrayList<>();
     private String selected_project;
     private ArrayList<ProjectTMModel> projectTmList = new ArrayList<>();
+    private ArrayList<ProjectTMModel> updated_projectTmList = new ArrayList<>();
     private String selected_tm;
 
     @Nullable
@@ -63,6 +64,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
         View view = inflater.inflate(R.layout.ags_projects, container, false);
         Bundle bundle = getArguments();
         date = bundle.getString("date");
+        isweek = bundle.getString("isweek");
         sp_ags_project = view.findViewById(R.id.sp_ags_project);
         sp_ags_tm = view.findViewById(R.id.sp_ags_tm);
         sp_ags_project.setVisibility(View.GONE);
@@ -119,27 +121,40 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
 
 
         try {
-            callProjectsWebService();
+            callProjectsWebService(isweek);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return view;
     }
 
-    private void callProjectsWebService() throws ParseException {
+    private void callProjectsWebService(String isweek) throws ParseException {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
 
-        if (date.equals("") || date.equals(null)) {
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/timesheets/project-all-weekly", "Projects", postdata.toString());
-        } else {
+        if (isweek.equals("week")) {
+            if (date.equals("") || date.equals(null)) {
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/timesheets/project-all-weekly", "Projects", postdata.toString());
+            } else {
 //            AndroidUtils.showToast(String.valueOf(date_status),getContext());
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-            SimpleDateFormat outputFormat = new SimpleDateFormat("ddMMyyyy", Locale.US);
-            Date new_date = inputFormat.parse(date);
-            String outputDate = outputFormat.format(new_date);
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/timesheets/project-all-weekly" + "-" + outputDate, "Projects", postdata.toString());
+                SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("ddMMyyyy", Locale.US);
+                Date new_date = inputFormat.parse(date);
+                String outputDate = outputFormat.format(new_date);
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/timesheets/project-all-weekly" + "-" + outputDate, "Projects", postdata.toString());
 
+            }
+        } else {
+            if (date.equals("") || date.equals(null)) {
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/timesheets/project-all-monthly", "Projects", postdata.toString());
+            } else {
+//            AndroidUtils.showToast(String.valueOf(date_status),getContext());
+                SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("ddMMyyyy", Locale.US);
+                Date new_date = inputFormat.parse(date);
+                String outputDate = outputFormat.format(new_date);//https://apidev2.digicoffer.com/professional/matter/timesheets/tms-all-weekly
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/timesheets/project-all-monthly" + "-" + outputDate, "Projects", postdata.toString());
+            }
         }
     }
 
@@ -185,6 +200,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
             projectsList.add(projectsModel);
         }
         loadProjectsRecyclerview();
+//        loadRecyclerview(projectsList,null);
     }
 
     private void loadProjectsRecyclerview() throws JSONException {
@@ -232,6 +248,13 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
 //                            loadRecyclerview();
                             sp_ags_tm.setVisibility(View.GONE);
                             ischecked_team_member = true;
+                            for (int i = 0; i < projectTmList.size(); i++) {
+                                if (projectTmList.get(i).getName().equals(selected_tm)) {
+                                    ProjectTMModel projectsModel = projectTmList.get(i);
+                                    updated_projectTmList.add(projectsModel);
+                                }
+                            }
+                            loadRecyclerview();
                         }
                     });
 //                    AndroidUtils.showAlert(updated_projectList.toArray().toString(),getContext());
