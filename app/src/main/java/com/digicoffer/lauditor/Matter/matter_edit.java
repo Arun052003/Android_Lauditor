@@ -220,27 +220,35 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_court.setText(viewMatterModel1.getCourtName());
         tv_judge.setText(viewMatterModel1.getJudges());
 
-        try {
-            String inputDate = viewMatterModel1.getStartdate();
-            String inputDate2 = viewMatterModel1.getClosedate();
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-            if (inputDate.equals("")) {
-                tv_start_date.setText("");
-            } else {
-                Date date = inputFormat.parse(inputDate);
-                String st_date = outputFormat.format(date);
-                tv_start_date.setText(st_date);
+        //Checking a matter type is legal or general and filling date.
+        if (Constants.MATTER_TYPE.equals("Legal")) {
+            if (viewMatterModel1.getDate_of_filling().equals(""))
+                tv_dof.setText("");
+            else
+                tv_dof.setText(viewMatterModel1.getDate_of_filling());
+        } else {
+            try {
+                String inputDate = viewMatterModel1.getStartdate();
+                String inputDate2 = viewMatterModel1.getClosedate();
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+                if (inputDate.equals("")) {
+                    tv_start_date.setText("");
+                } else {
+                    Date date = inputFormat.parse(inputDate);
+                    String st_date = outputFormat.format(date);
+                    tv_start_date.setText(st_date);
+                }
+                if (inputDate2.equals(""))
+                    tv_end_date.setText("");
+                else {
+                    Date date2 = inputFormat.parse(inputDate2);
+                    String end_date = outputFormat.format(date2);
+                    tv_end_date.setText(end_date);
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
-            if (inputDate2.equals("")) {
-                tv_start_date.setText("");
-            } else {
-                Date date2 = inputFormat.parse(inputDate2);
-                String end_date = outputFormat.format(date2);
-                tv_end_date.setText(end_date);
-            }
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
 
         btn_create = view.findViewById(R.id.btn_create);

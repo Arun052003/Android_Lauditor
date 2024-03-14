@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,13 +181,27 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
                     tv_total_project_hours.setText(grandtotal.getString("total"));
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
                     loadProjects(jsonArray);
+//                    loadtmProjects();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
+//    private void loadtmProjects() throws JSONException {
+//        for (int i = 0; i < projectsList.size(); i++) {
+//            for (int j = 0; j < projectsList.get(i).getTeamMembers().length(); j++) {
+//                JSONObject jsonObject = projectsList.get(i).getTeamMembers().getJSONObject(j);
+//                ProjectTMModel projectTMModel = new ProjectTMModel();
+//                projectTMModel.setBillableHours(jsonObject.getString("billableHours"));
+//                projectTMModel.setName(jsonObject.getString("name"));
+//                projectTMModel.setNonBillablehours(jsonObject.getString("nonBillablehours"));
+//                projectTMModel.setTotal(jsonObject.getString("total"));
+//                projectTmList.add(projectTMModel);
+//            }
+//        }
+//        loadRecyclerview(projectsList, projectTmList);
+//    }
 
     private void loadProjects(JSONArray jsonArray) throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -200,11 +215,9 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
             projectsList.add(projectsModel);
         }
         loadProjectsRecyclerview();
-//        loadRecyclerview(projectsList,null);
     }
 
     private void loadProjectsRecyclerview() throws JSONException {
-
         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) getContext(), projectsList);
         sp_ags_project.setAdapter(spinner_adapter);
         sp_ags_project.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -215,6 +228,8 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
                 selected_project = projectsList.get(position).getMatterId();
                 String selected_project_name = projectsList.get(position).getProjectName();
                 tv_sp_project.setText(selected_project_name);
+                selected_tm = "";
+                tv_sp_team_member.setText(selected_tm);
                 try {
                     for (int i = 0; i < projectsList.size(); i++) {
                         if (projectsList.get(i).getMatterId().equals(selected_project)) {
@@ -235,7 +250,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
                             updated_projectList.add(projectsModel);
                         }
                     }
-                    loadRecyclerview();
+                    loadRecyclerview(updated_projectList, projectTmList);
 
                     final CommonSpinnerAdapter status_adapter = new CommonSpinnerAdapter((Activity) getContext(), projectTmList);
                     sp_ags_tm.setAdapter(status_adapter);
@@ -243,6 +258,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             selected_tm = projectTmList.get(position).getName();
+                            updated_projectTmList.clear();
                             tv_sp_team_member.setText(selected_tm);
 //                          AndroidUtils.showToast(selected_project,getContext());
 //                            loadRecyclerview();
@@ -254,7 +270,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
                                     updated_projectTmList.add(projectsModel);
                                 }
                             }
-                            loadRecyclerview();
+                            loadRecyclerview(updated_projectList, updated_projectTmList);
                         }
                     });
 //                    AndroidUtils.showAlert(updated_projectList.toArray().toString(),getContext());
@@ -325,9 +341,9 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
 
     }
 
-    private void loadRecyclerview() {
+    private void loadRecyclerview(ArrayList<ProjectsModel> updated_projectlist, ArrayList<ProjectTMModel> updated_projecttmList) {
         rv_projects.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        ProjectAdapter projectAdapter = new ProjectAdapter(updated_projectList, projectTmList, getContext(), selected_project);
+        ProjectAdapter projectAdapter = new ProjectAdapter(updated_projectlist, updated_projecttmList, getContext(), selected_project);
         rv_projects.setAdapter(projectAdapter);
         rv_projects.setHasFixedSize(true);
 //        rv_projects.addOnScrollListener(new RecyclerView.OnScrollListener() {
