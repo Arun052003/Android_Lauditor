@@ -32,7 +32,7 @@
                 android:layout_marginStart="@dimen/small_size"
                 android:layout_marginEnd="@dimen/small_size"
                 android:gravity="end"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/edit_timesheets"
