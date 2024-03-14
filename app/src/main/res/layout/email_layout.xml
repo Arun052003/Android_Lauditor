@@ -30,7 +30,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginStart="220dp"
+        android:layout_marginStart="284dp"
         android:layout_marginTop="12dp"
 
         android:background="@drawable/rounder_button_green"
@@ -42,17 +42,17 @@
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@+id/et_Search"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="137dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/et_Search"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp">
 
 
         <ImageView
-            android:id="@+id/close_documents"
+            android:id="@+id/compose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -92,13 +92,12 @@
                     android:layout_marginStart="8dp"
                     android:text="Indox 0"
                     android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -125,6 +124,7 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="4dp"
             tools:layout_editor_absoluteY="125dp" />
+
         <ImageView
             android:id="@+id/arrow_right"
             android:layout_width="40dp"
@@ -137,9 +137,20 @@
             tools:layout_editor_absoluteY="125dp" />
 
 
-
-
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

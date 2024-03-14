@@ -1,14 +1,12 @@
 package com.digicoffer.lauditor;
 
-import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
@@ -21,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -32,7 +29,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import com.digicoffer.lauditor.AuditTrails.AuditTrails;
 import com.digicoffer.lauditor.AuditTrails.AuditTrails;
 import com.digicoffer.lauditor.Calendar.Meetings;
 import com.digicoffer.lauditor.Calendar.Models.Event_Details_DO;
@@ -61,6 +57,14 @@ import com.google.android.material.navigation.NavigationView;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MonthlyCalendar.EventDetailsListener, WeeklyCalendar.EventDetailsListener, View.OnClickListener {
@@ -69,10 +73,15 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     AppBarLayout header_layout;
     ImageView iv_logo_dashboard;
     TextView person_icon;
+    Email email;
     ArrayList<MenuModels> menuList = new ArrayList<>();
     RecyclerView recyclerView;
     //    ImageButton iv_open_menu, iv_close_menu;
     private NewModel viewModel;
+    private static final int AUTH_REQUEST_CODE = 1001;
+
+    // Create a boolean flag to track if authentication is in progress
+    private boolean isAuthInProgress = false;
     TextView tv_pageName;
     ActionBarDrawerToggle dtoggle;
     private BeginSignInRequest signUpRequest;
@@ -99,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     Menu nav_Menu;
     MenuItem team_member_sm, audits_sm, meetings_sm, messages_sm, notifications_sm, logout_sm;
     NavigationView navView;
+    String token_id;
     int itemId;
     private  static final int REQ_ONE_TAP =2;
     private boolean showOneTapUI= true;
@@ -106,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     public androidx.appcompat.widget.LinearLayoutCompat ll_bottom_menu;
     Boolean isAllFabsVisible;
     GoogleSignInClient mGoogleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -562,7 +573,9 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         }
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            /** @noinspection InstantiationOfUtilityClass*/
+            /**
+             * @noinspection InstantiationOfUtilityClass
+             */
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 hide_un_chosen_menu();
@@ -603,34 +616,31 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     notifications_sm.setTitle(spannableString1);
                     frag = new Notifications();
                 } else if (itemId == R.id.email) {
+//                    if (!isAuthInProgress) {
+//
+//                        isAuthInProgress = true;
+//
+//
+//                        String url = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read%20https%3A%2F%2Fmail.google.com%2F&state=ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFhV1FpT2lKQlEwSXhNRUUyUWpVelJqbEVNamRFSWl3aVlXUnRhVzRpT21aaGJITmxMQ0p3YkdGdUlqb2liR0YxWkdsMGIzSWlMQ0p5YjJ4bElqb2lVMVVpTENKdVlXMWxJam9pVTI5MWJtUmhjbmxoSUVSTVJpQlRWU0lzSW5WelpYSmZhV1FpT2lJMk0ySm1aRGxpTjJFeFpHSTNNakJtTW1Rek9HUTBaRElpTENKbGVIQWlPakUzTURrd01qZ3lPVGw5LlUtdjIyWjhSQUVfcmNWQ05ZZEpvdjFOQ2ttM3hsVWVHd0hvdHc0bXY1QWc%3D&response_type=code&client_id=1074057396282-o970s9o11m4g3dla4g0lokc5k4e7o8g5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdev.utils.mail.digicoffer.com%2Foauth2callback&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow";
+//
+//
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        intent.setData(Uri.parse(url));
+//                        startActivityForResult(intent, AUTH_REQUEST_CODE);
+//
+//
+//                    }
 
-//                   gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-//                   gsc = GoogleSignIn.getClient(MainActivity.this,gso);
-
-
-
-
-
-
-                    email_sm.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(@NonNull MenuItem item) {
-                          String url = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read%20https%3A%2F%2Fmail.google.com%2F&state=ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFhV1FpT2lKQlEwSXhNRUUyUWpVelJqbEVNamRFSWl3aVlXUnRhVzRpT21aaGJITmxMQ0p3YkdGdUlqb2liR0YxWkdsMGIzSWlMQ0p5YjJ4bElqb2lVMVVpTENKdVlXMWxJam9pVTI5MWJtUmhjbmxoSUVSTVJpQlRWU0lzSW5WelpYSmZhV1FpT2lJMk0ySm1aRGxpTjJFeFpHSTNNakJtTW1Rek9HUTBaRElpTENKbGVIQWlPakUzTURrd01qZ3lPVGw5LlUtdjIyWjhSQUVfcmNWQ05ZZEpvdjFOQ2ttM3hsVWVHd0hvdHc0bXY1QWc%3D&response_type=code&client_id=1074057396282-o970s9o11m4g3dla4g0lokc5k4e7o8g5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdev.utils.mail.digicoffer.com%2Foauth2callback&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow";
-                          Intent intent = new Intent(Intent.ACTION_VIEW);
-                          intent.setData(Uri.parse(url));
-                          startActivity(intent);
-                            return false;
-                        }
-                    });
 
                     SpannableString spannableString1 = new SpannableString(email_sm.getTitle());
                     spannableString1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getApplicationContext(), R.color.green_count_color)), 0, spannableString1.length(), 0);
                     email_sm.setTitle(spannableString1);
                     frag = new Email();
-
                 }
 
-                else if (itemId == R.id.logout) {
+
+
+                if (itemId == R.id.logout) {
                     confirmLogout();
                 } else if (itemId == R.id.matter) {
                     frag = new Matter();
@@ -661,6 +671,85 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
             }
         });
     }
+
+  //  @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == AUTH_REQUEST_CODE) {
+//
+//            isAuthInProgress = false;
+//
+//
+//            if (resultCode == RESULT_OK)
+//                email.callLegalMatter();
+//            else {
+//
+//
+//            }
+//        }
+//    }
+
+
+
+
+
+    // Method to fetch emails after successful authentication
+    public class GMAILLABLEL extends AsyncTask<Void, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(Void... voids) {
+            try {
+                String apiUrl = Constants.EMAIL_BASE_URL + "gmail/label/" + token_id + "?labelid=INBOX";
+
+                URL url = new URL(apiUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+                    return new JSONObject(response.toString());
+                } else {
+                    throw new IOException("Error: " + responseCode);
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            if (jsonObject != null) {
+
+                try {
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    String id = data.getString("id");
+                    String type = data.getString("type");
+                    int messagesTotal = data.getInt("messagesTotal");
+                    int messagesUnread = data.getInt("messagesUnread");
+                    int threadsTotal = data.getInt("threadsTotal");
+                    int threadsUnread = data.getInt("threadsUnread");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // Handle null response
+            }
+        }
+    }
+
+
+
 
 
 

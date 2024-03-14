@@ -1,59 +1,46 @@
 package com.digicoffer.lauditor.email;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.FragmentManager;
 
-import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
-import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
-import com.digicoffer.lauditor.Webservice.HttpResultDo;
 
-public abstract class compose extends Fragment implements AsyncTaskCompleteListener {
-    private NewModel mViewModel;
-    ImageView close_documents;
+class ComposeFragment extends Fragment {
 
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.compose, container, false);
-        mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
-        mViewModel.setData("Emails");
 
-        close_documents.setOnClickListener(new View.OnClickListener() {
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView closeDocuments = view.findViewById(R.id.compose);
+        closeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                View composeView = LayoutInflater.from(getContext()).inflate(R.layout.compose, null);
-
-
-                ViewGroup parentLayout = (ViewGroup) view.getParent();
-                parentLayout.addView(composeView);
-
-
+                try {
+                    // Replace the current fragment with a new instance of ComposeFragment
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.child_container, new ComposeFragment())
+                            .addToBackStack(null) // Adds the transaction to the back stack
+                            .commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle the exception gracefully, for example, by showing an error message
+                    Toast.makeText(getActivity(), "Failed to open compose fragment", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-
-
-
-
-
-
-
-
         return view;
     }
-
-    @Override
-    public void onAsyncTaskComplete(HttpResultDo httpResult) {
-
-    }
-
-
 }

@@ -1,66 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/compose_root_layout_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp">
-    <LinearLayout
-        android:id="@+id/new_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#EBE4E4"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_message"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints,NotSibling"
-        tools:layout_editor_absoluteX="16dp">
 
-        <!-- ImageView for Attachment -->
-        <ImageView
-            android:id="@+id/attachments"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="8dp"
-            android:src="@drawable/attachment"
-            app:layout_constraintEnd_toStartOf="@+id/send_button"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="600dp" />
+    <!-- Your UI elements here -->
 
-        <!-- Send Button with Corner Radius -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="265dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/rounder_button_blue"
-            android:padding="10dp"
-            android:text="Send"
-            android:alpha="0.5"
-            android:textColor="@color/white"
-            tools:ignore="MissingConstraints,TouchTargetSizeCheck"
-            tools:layout_editor_absoluteX="281dp"
-            tools:layout_editor_absoluteY="68dp" />
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/new_messagess"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="596dp"
-        android:background="#EBE4E4"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
 
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-16dp">
-    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/new_messagesss"
@@ -153,6 +106,49 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="204dp" />
     </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:id="@+id/new_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EBE4E4"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints,NotSibling"
+        tools:layout_editor_absoluteX="16dp">
+
+        <!-- ImageView for Attachment -->
+        <ImageView
+            android:id="@+id/attachments"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:padding="8dp"
+            android:src="@drawable/attachment"
+            app:layout_constraintEnd_toStartOf="@+id/send_button"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="600dp" />
+
+        <!-- Send Button with Corner Radius -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="265dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/rounder_button_blue"
+            android:padding="10dp"
+            android:text="Send"
+            android:alpha="0.5"
+            android:textColor="@color/white"
+            tools:ignore="MissingConstraints,TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="281dp"
+            tools:layout_editor_absoluteY="68dp" />
+
+    </LinearLayout>
+
 
 
 

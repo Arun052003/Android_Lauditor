@@ -4,7 +4,6 @@ import com.digicoffer.lauditor.Chat.Model.ChildDO;
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +27,8 @@ public class Constants {
     //    public static String MyDay_KPI =
     public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
     public static String BIZ_URL = ISPRODUCTION ? "https://api.digicoffer.com/business/" : "https://apidev.digicoffer.com/business/";
+    public static final String EMAIL_BASE_URL= "https://dev.utils.mail.digicoffer.com/api/v1/";
+
     //    public static String PROF_URL = "http://10.0.2.2:8011/professional/";
 //    public static String BIZ_URL = "http://10.0.2.2:8011/business/";
 //    public static String PROF_URL = "http://10.0.2.2:8011/professional/";
