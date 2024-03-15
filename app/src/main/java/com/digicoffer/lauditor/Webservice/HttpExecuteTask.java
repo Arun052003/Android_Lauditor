@@ -63,14 +63,28 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 //            return httpResult;
 //        }
         try {
+            if(requestType.equals("Label")|| (requestType.equals("auth"))){
+                try {
+                    httpURLConnection = (HttpURLConnection) new URL(URL).openConnection();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else{
+                httpURLConnection = (HttpURLConnection) new URL(Constants.base_URL + URL).openConnection();
+            }
 
-            httpURLConnection = (HttpURLConnection) new URL(Constants.base_URL + URL).openConnection();
-            Log.d("URL", ":" + Constants.base_URL + URL);
+
+            Log.d("URL", ":"  +httpURLConnection.getURL());
+
 
             if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN") {
                 httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
                 Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
             }
+
+
+
             switch (restMethodType) {
                 case GET:
                     httpURLConnection.setRequestMethod("GET");

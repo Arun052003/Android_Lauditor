@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,19 +31,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Email extends Fragment {
+public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     private static final int AUTH_REQUEST_CODE = 1001;
 
-    boolean isAuthInProgress = false;
+    private String URL = "";
 
-    AlertDialog progress_dialog;
-    String GoogleSignInAccount ;
+    boolean ISCHECK_EMAIL = false;
+    boolean ISCHECK_AUTH = false;
+    boolean ischeck_label, ischeck_auth;
+
+
+    static AlertDialog progress_dialog;
+
+    boolean emailcheck;
     private List<MessageModel> messages;
-
+    private String requestType = null;
+    HttpURLConnection httpURLConnection = null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,116 +73,60 @@ public class Email extends Fragment {
                 }
             }
         });
-       // makeApiCall();
-        callLabel();
-       // emaiauth();
 
-        // onResume();
-        emailAPI("Label","GET");
+//        emaiAPI();
+      callLabel();
 
 
         return view;
     }
 
 
-
-    public boolean emaiauth() {
+    public void emaiauth() {
         try {
-            String authUrl = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read%20https%3A%2F%2Fmail.google.com%2F&state=ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFhV1FpT2lKQlEwSXhNRUUyUWpVelJqbEVNamRFSWl3aVlXUnRhVzRpT21aaGJITmxMQ0p3YkdGdUlqb2liR0YxWkdsMGIzSWlMQ0p5YjJ4bElqb2lVMVVpTENKdVlXMWxJam9pVTI5MWJtUmhjbmxoSUVSTVJpQlRWU0lzSW5WelpYSmZhV1FpT2lJMk0ySm1aRGxpTjJFeFpHSTNNakJtTW1Rek9HUTBaRElpTENKbGVIQWlPakUzTVRBek5ERXpNemg5LnJjR0xFWTJ5dmk4YlB4R2R1REFJTzZQa1JPWlMxQlA0aUxudV85c0RmOXc%3D&response_type=code&client_id=1074057396282-o970s9o11m4g3dla4g0lokc5k4e7o8g5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdev.utils.mail.digicoffer.com%2Foauth2callback";
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(authUrl));
-            startActivityForResult(intent, AUTH_REQUEST_CODE);
+
 
             progress_dialog = AndroidUtils.get_progress(getActivity());
 
 
             JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("authtoken",Constants.TOKEN);
 
 
-            WebServiceHelper.callHttpWebService((AsyncTaskCompleteListener) this,
+            WebServiceHelper.callHttpWebService(this,
                     getContext(),
                     WebServiceHelper.RestMethodType.GET,
                     Constants.EMAIL_BASE_URL + "gmail/authurl?authtoken=" + Constants.TOKEN,
                     "auth",
                     jsonObject.toString());
-return true;
+            Log.d("C12Token", Constants.EMAIL_BASE_URL + "gmail/authurl?authtoken=" + Constants.TOKEN);
         } catch (Exception e) {
-
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-
             e.printStackTrace();
         }
-        return false;
+
     }
-
-
-    public void onResume() {
-        super.onResume();
-
-        if (isAuthInProgress && isAuthenticationSuccessful()) {
-            callauth();
-            isAuthInProgress = false;
-        }
-    }
-    private boolean isAuthenticationSuccessful() {
-
-        return false;
-    }
-
-
-
-
-    public void callauth() {
+    public void callMessageList() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
 
-            WebServiceHelper.callHttpWebService((AsyncTaskCompleteListener) this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + "gmail/messages/" + Constants.TOKEN + "?rows=10", "rows", jsonObject.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + "gmail/messages/" + Constants.TOKEN + "?rows=10", "rows", jsonObject.toString());
 
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
             e.printStackTrace();
-            // Add log statement to identify the issue
+
             Log.e("API Error", "Failed to call API: " + e.getMessage());
         }
     }
-////void makeApiCall() {
-////    new Thread(new Runnable() {
-////        @Override
-////        public void run() {
-////            try {
-////
-////                OkHttpClient client = new OkHttpClient();
-////                MediaType mediaType = MediaType.parse("text/plain");
-////                RequestBody body = RequestBody.create(mediaType, "");
-////                Request request =new Request.Builder()
-////                        .url("https://dev.utils.mail.digicoffer.com/api/v1/gmail/messages/"+Constants.TOKEN+"?rows=10")
-////                        .method("GET", body)
-////                        .build();
-////                Response response = client.newCall(request).execute();
-////                final String responseData = response.body().string();
-////
-////                // Update UI with response data (e.g., using runOnUiThread)
-////                getActivity().runOnUiThread(new Runnable() {
-////                    @Override
-////                    public void run() {
-////
-////                    }
-////                });
-////
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////            }
-////        }
-////    }).start();
-////}
-//
-//
-    private void loadGroupsDatas(JSONObject jsonObject) throws JSONException {
+
+
+    private void loadRowDatas(JSONObject jsonObject) throws JSONException {
 
         JSONArray messagesArray = jsonObject.getJSONArray("messages");
         List<MessageModel> messages = new ArrayList<>();
@@ -226,50 +180,52 @@ return true;
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+    }
+
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
         if (progress_dialog != null && progress_dialog.isShowing()) {
             AndroidUtils.dismiss_dialog(progress_dialog);
         }
+        String success = String.valueOf(httpResult.getResult());
+        Log.d("Succ", success);
         if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
             try {
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
 
                 if (httpResult.getRequestType().equals("Label")) {
-
                     JSONObject data = new JSONObject();
                     loadGroupsData(data);
-
+                    ISCHECK_EMAIL = true;
+                  callMessageList();
                 } else if (httpResult.getRequestType().equals("rows")) {
-                    loadGroupsDatas(result);
+                    loadRowDatas(result);
                     updateRecyclerView(messages);
-                }    else if (httpResult.getRequestType().equals("auth")) {
+                } else if (httpResult.getRequestType().equals("auth")) {
+                    String url = result.getString("url");
+                    Log.d("Value_token", url);
+                    ISCHECK_AUTH = true;
+                   emaiAPI();
+                    launchAuthUrl(url);
+                } else {
 
-                    String authUrl = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read%20https%3A%2F%2Fmail.google.com%2F&state=ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFhV1FpT2lKQlEwSXhNRUUyUWpVelJqbEVNamRFSWl3aVlXUnRhVzRpT21aaGJITmxMQ0p3YkdGdUlqb2liR0YxWkdsMGIzSWlMQ0p5YjJ4bElqb2lVMVVpTENKdVlXMWxJam9pVTI5MWJtUmhjbmxoSUVSTVJpQlRWU0lzSW5WelpYSmZhV1FpT2lJMk0ySm1aRGxpTjJFeFpHSTNNakJtTW1Rek9HUTBaRElpTENKbGVIQWlPakUzTVRBek5ERXpNemg5LnJjR0xFWTJ5dmk4YlB4R2R1REFJTzZQa1JPWlMxQlA0aUxudV85c0RmOXc%3D&response_type=code&client_id=1074057396282-o970s9o11m4g3dla4g0lokc5k4e7o8g5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdev.utils.mail.digicoffer.com%2Foauth2callback";
-
-
-                    if (authUrl != null && !authUrl.isEmpty()) {
-
-                        launchAuthUrl(authUrl);
-                    } else {
-
-                        Toast.makeText(getActivity(), "Failed to obtain authentication URL", Toast.LENGTH_SHORT).show();
-                    }
+                    System.out.println("Failed to obtain authentication URL");
                 }
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+        else{
+            if (httpResult.getRequestType().equals("Label") || (httpResult.getRequestType().equals("auth")) ){
+             emaiAPI();
+
+            }
+
+
+       }
     }
-    private void launchAuthUrl(String authUrl) {
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(authUrl));
-        startActivityForResult(intent, AUTH_REQUEST_CODE);
-    }
-
-
-
 
     private void loadGroupsData(JSONObject data) {
         try {
@@ -293,51 +249,65 @@ return true;
         }
     }
 
+    private void launchAuthUrl(String authUrl) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(authUrl));
+        startActivityForResult(intent, AUTH_REQUEST_CODE);
+        ischeck_auth = true;
+    }
+
+
+
+
 
     public void callLabel() {
         try {
-            progress_dialog = AndroidUtils.get_progress(getActivity());
+
+         //   progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
 
-            WebServiceHelper.callHttpWebService((AsyncTaskCompleteListener) this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + "gmail/label/" +Constants.TOKEN+ "?labelid=INBOX", "Label", jsonObject.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + "gmail/label/" + Constants.TOKEN + "?labelid=INBOX", "Label", jsonObject.toString());
+            Log.d("Label_value", Constants.EMAIL_BASE_URL + "gmail/label/" + Constants.TOKEN + "?labelid=INBOX");
 
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
             e.printStackTrace();
+
         }
     }
 
-    public void emailAPI(String actionType, String requestMethod) {
 
-        if (actionType.equals("Label") && requestMethod.equals("GET")) {
+    public void emaiAPI() {
 
-          emaiauth();
+        if (!ISCHECK_AUTH ) {
+
+            emaiauth();
         } else {
 
-            if (emaiauth()) {
-              //  makeApiCall();
-//                try {
-//                    callauth(com.google.android.gms.auth.api.signin.GoogleSignInAccount.zab(GoogleSignInAccount));
-//                } catch (JSONException e) {
-//                    throw new RuntimeException(e);
-//                }
-                callauth();
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-            } else {
-                // emailAuth was not successful
-                // Handle the failure case as needed
-            }
+                    //Do something here
+                    if (!ISCHECK_EMAIL) {
+                              callLabel();
+                    }
+
+                }
+            }, 100000);
         }
+
     }
+
     private void updateRecyclerView(List<MessageModel> messages) {
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
-       emailadapter adapter = new emailadapter(messages);
+        emailadapter adapter = new emailadapter(messages);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
 
 }
-
