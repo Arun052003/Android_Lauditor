@@ -63,7 +63,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 //            return httpResult;
 //        }
         try {
-            if(requestType.equals("Label")|| (requestType.equals("auth"))){
+            if(requestType.equals("Label")|| (requestType.equals("auth")) || (requestType.equals("messages_rows"))){
                 try {
                     httpURLConnection = (HttpURLConnection) new URL(URL).openConnection();
                 } catch (IOException e) {
@@ -75,10 +75,11 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
             }
 
 
-            Log.d("URL", ":"  +httpURLConnection.getURL());
+            Log.e("URL", ":"  +httpURLConnection.getURL());
 
 
-            if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN") {
+            if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN"
+            && requestType.equals("Label") && (requestType.equals("auth")) && (requestType.equals("messages_rows"))) {
                 httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
                 Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
             }
@@ -130,7 +131,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
             Log.i("status_code:", String.valueOf(status_code));
 //            AndroidUtils.showAlert(String.valueOf(status_code), activity.getApplicationContext());
             httpResult.setStatus_code(status_code);
-            Log.d("SCode:", String.valueOf(status_code));
+            Log.e("SCode:", String.valueOf(status_code));
             if (status_code == 200) {
                 InputStream in = httpURLConnection.getInputStream();
                 InputStreamReader inputStreamReader = new InputStreamReader(in);
@@ -210,7 +211,8 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 //        AndroidUtils.logMsg("HttpExecuteTask.onPostExecute() " + httpResult);
         super.onPostExecute(httpResult);
         try {
-            if (httpResult.getStatus_code() == 401) {
+            if (httpResult.getStatus_code() == 401 && !(requestType.equals("Label")) && !(requestType.equals("auth"))
+                    && !(requestType.equals("messages_rows"))) {
                 Intent in = new Intent(activity, LoginActivity.class);
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(in);

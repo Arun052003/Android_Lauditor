@@ -20,6 +20,12 @@ public class WebServiceHelper  {
         return requestId;
     }
 
+    public static String callEmailHttpWebService(AsyncTaskCompleteListener callback, Context activity, RestMethodType restMethodType, String url, String requestType, String... formParams) {
+        String requestId = "";
+        new HttpExecuteTask(requestId, false, restMethodType, url, callback, activity, requestType).execute(formParams);
+        return requestId;
+    }
+
     public static String callHttpUploadWebService(AsyncTaskCompleteListener callback, Context activity, RestMethodType restMethodType, String url, String requestType, File file, String... formParams) {
         String requestId = "";
         new UploadImageTask(file, false, restMethodType, url, callback, activity, requestType).execute(formParams);

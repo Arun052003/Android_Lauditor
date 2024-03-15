@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,12 +53,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private List<MessageModel> messages;
     private String requestType = null;
     HttpURLConnection httpURLConnection = null;
+    TextView inbox_textViews;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_layout, container, false);
 
         ImageView closeDocuments = view.findViewById(R.id.compose);
+        inbox_textViews = view.findViewById(R.id.inbox_textViews);
         closeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,52 +83,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
         return view;
     }
-
-
-    public void emaiauth() {
-        try {
-
-
-            progress_dialog = AndroidUtils.get_progress(getActivity());
-
-
-            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("authtoken",Constants.TOKEN);
-
-
-            WebServiceHelper.callHttpWebService(this,
-                    getContext(),
-                    WebServiceHelper.RestMethodType.GET,
-                    Constants.EMAIL_BASE_URL + "gmail/authurl?authtoken=" + Constants.TOKEN,
-                    "auth",
-                    jsonObject.toString());
-            Log.d("C12Token", Constants.EMAIL_BASE_URL + "gmail/authurl?authtoken=" + Constants.TOKEN);
-        } catch (Exception e) {
-            if (progress_dialog != null && progress_dialog.isShowing()) {
-                AndroidUtils.dismiss_dialog(progress_dialog);
-            }
-            e.printStackTrace();
-        }
-
-    }
-    public void callMessageList() {
-        try {
-            progress_dialog = AndroidUtils.get_progress(getActivity());
-            JSONObject jsonObject = new JSONObject();
-
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + "gmail/messages/" + Constants.TOKEN + "?rows=10", "rows", jsonObject.toString());
-
-        } catch (Exception e) {
-            if (progress_dialog != null && progress_dialog.isShowing()) {
-                AndroidUtils.dismiss_dialog(progress_dialog);
-            }
-            e.printStackTrace();
-
-            Log.e("API Error", "Failed to call API: " + e.getMessage());
-        }
-    }
-
-
     private void loadRowDatas(JSONObject jsonObject) throws JSONException {
 
         JSONArray messagesArray = jsonObject.getJSONArray("messages");
@@ -175,7 +132,9 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         // Access other fields like nextPageToken and resultSizeEstimate
         String nextPageToken = jsonObject.optString("nextPageToken");
         int resultSizeEstimate = jsonObject.optInt("resultSizeEstimate");
-
+        if (messages.size() > 0){
+//            updateRecyclerView(messages);
+        }
         // Do something with parsed data
     }
 
@@ -196,13 +155,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
 
                 if (httpResult.getRequestType().equals("Label")) {
-                    JSONObject data = new JSONObject();
-                    loadGroupsData(data);
-                    ISCHECK_EMAIL = true;
-                  callMessageList();
-                } else if (httpResult.getRequestType().equals("rows")) {
+                    JSONObject data = result.getJSONObject("data");
+                    if (data.length() > 0) {
+                        loadLabelData(data);
+                        ISCHECK_EMAIL = true;
+                        callMessageList();
+                    }
+                } else if (httpResult.getRequestType().equals("messages_rows")) {
                     loadRowDatas(result);
-                    updateRecyclerView(messages);
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);
@@ -219,30 +179,28 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         }
         else{
             if (httpResult.getRequestType().equals("Label") || (httpResult.getRequestType().equals("auth")) ){
-             emaiAPI();
-
+                 emaiAPI();
             }
 
 
        }
     }
 
-    private void loadGroupsData(JSONObject data) {
+    private void loadLabelData(JSONObject data) {
         try {
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject jsonObject = data.getJSONObject(String.valueOf(i));
+//            for (int i = 0; i < data.length(); i++) {
+//                JSONObject jsonObject = data.getJSONObject(String.valueOf(i));
                 EmailModel emailModel = new EmailModel();
-                emailModel.setId(jsonObject.getString("id"));
-                emailModel.setName(jsonObject.getString("name"));
-                emailModel.setType(jsonObject.getString("type"));
-                emailModel.setMessagesTotal(jsonObject.getInt("messagesTotal"));
-                emailModel.setMessagesUnread(jsonObject.getInt("messagesUnread"));
-                emailModel.setThreadsTotal(jsonObject.getInt("threadsTotal"));
-                emailModel.setThreadsUnread(jsonObject.getInt("threadsUnread"));
-
-
-            }
-
+                emailModel.setId(data.getString("id"));
+                emailModel.setName(data.getString("name"));
+                emailModel.setType(data.getString("type"));
+                emailModel.setMessagesTotal(data.getInt("messagesTotal"));
+                emailModel.setMessagesUnread(data.getInt("messagesUnread"));
+                emailModel.setThreadsTotal(data.getInt("threadsTotal"));
+                emailModel.setThreadsUnread(data.getInt("threadsUnread"));
+                Log.e("Email Inbox", String.valueOf(emailModel.getMessagesTotal()));
+            inbox_textViews.setText("Indox "+String.valueOf(emailModel.getMessagesTotal()));
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -259,15 +217,50 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
 
 
+    public void emaiauth() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("authtoken",Constants.TOKEN);
+            WebServiceHelper.callHttpWebService(this,
+                    getContext(),
+                    WebServiceHelper.RestMethodType.GET,
+                    Constants.EMAIL_BASE_URL + "gmail/authurl?authtoken=" + Constants.TOKEN,
+                    "auth",
+                    jsonObject.toString());
+            Log.d("C12Token", Constants.EMAIL_BASE_URL + "gmail/authurl?authtoken=" + Constants.TOKEN);
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+            e.printStackTrace();
+        }
+    }
+    public void callMessageList() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_LISTING_URL + Constants.gmail_messages + Constants.TOKEN + "?rows=10", "messages_rows", jsonObject.toString());
+
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+            e.printStackTrace();
+
+            Log.e("API Error", "Failed to call API: " + e.getMessage());
+        }
+    }
 
 
     public void callLabel() {
         try {
 
-         //   progress_dialog = AndroidUtils.get_progress(getActivity());
+            progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
 
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + "gmail/label/" + Constants.TOKEN + "?labelid=INBOX", "Label", jsonObject.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "https://mailapi.digicoffer.com/api/v1/gmail/label/"+ Constants.TOKEN +"?labelid=INBOX", "Label", jsonObject.toString());
             Log.d("Label_value", Constants.EMAIL_BASE_URL + "gmail/label/" + Constants.TOKEN + "?labelid=INBOX");
 
         } catch (Exception e) {
@@ -283,7 +276,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     public void emaiAPI() {
 
         if (!ISCHECK_AUTH ) {
-
             emaiauth();
         } else {
 
@@ -293,11 +285,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
                     //Do something here
                     if (!ISCHECK_EMAIL) {
-                              callLabel();
+                        callLabel();
                     }
 
                 }
-            }, 100000);
+            }, 10000);
         }
 
     }

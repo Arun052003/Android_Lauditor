@@ -243,6 +243,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             save_xmpp_preference();
                         }
+                        Log.e("Constants.TOKEN",Constants.TOKEN);
                         AndroidUtils.showToast("Login Successful", this);
                         startActivity(new Intent(this, MainActivity.class));
                         if (ad_dialog != null && ad_dialog.isShowing())

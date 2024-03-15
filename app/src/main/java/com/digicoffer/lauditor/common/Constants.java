@@ -28,6 +28,10 @@ public class Constants {
     public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
     public static String BIZ_URL = ISPRODUCTION ? "https://api.digicoffer.com/business/" : "https://apidev.digicoffer.com/business/";
     public static final String EMAIL_BASE_URL= "https://dev.utils.mail.digicoffer.com/api/v1/";
+    public static final String EMAIL_LISTING_URL = "https://mailapi.digicoffer.com/api/v1/";
+
+    public static final String gmail_label = "gmail/label/";
+    public static final String gmail_messages = "gmail/messages/";
 
     //    public static String PROF_URL = "http://10.0.2.2:8011/professional/";
 //    public static String BIZ_URL = "http://10.0.2.2:8011/business/";
@@ -50,7 +54,7 @@ public class Constants {
     public static String DOWNLOAD_VIEWFILE_TAG = "DOWNLOAD_VIEWFILE";
 
     //public static String email = "akhilaTM2@mailinator.com";
-    public static String email = "soundaryavembaiyan@yahoo.com";
+    public static String email = "akhila.bs@lauditor.com";//akhila.bs@lauditor.com, soundaryavembaiyan@yahoo.com
     public static String password = "Test@123";
 
     public static JSONArray teamResArray = new JSONArray();
