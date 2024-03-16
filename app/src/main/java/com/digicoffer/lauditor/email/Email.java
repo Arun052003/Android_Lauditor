@@ -100,40 +100,43 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             for (int j = 0; j < attachmentsArray.length(); j++) {
                 JSONObject attachmentObject = attachmentsArray.getJSONObject(j);
                 AttachmentModel attachment = new AttachmentModel();
-                attachment.setPartId(attachmentObject.getString("partId"));
-                attachment.setMimeType(attachmentObject.getString("mimeType"));
-                attachment.setFilename(attachmentObject.getString("filename"));
+                if (attachmentObject.getString("filename").isEmpty()) {
+                    attachment.setPartId(attachmentObject.getString("partId"));
+                    attachment.setMimeType(attachmentObject.getString("mimeType"));
+                    attachment.setFilename(attachmentObject.getString("filename"));
 
 
-                JSONArray headersArray = attachmentObject.getJSONArray("headers");
-                List<Header> headers = new ArrayList<>();
-                for (int k = 0; k < headersArray.length(); k++) {
-                    JSONObject headerObject = headersArray.getJSONObject(k);
-                    Header header = new Header();
-                    header.setName(headerObject.getString("name"));
-                    header.setValue(headerObject.getString("value"));
-                    headers.add(header);
+                    JSONArray headersArray = attachmentObject.getJSONArray("headers");
+                    List<Header> headers = new ArrayList<>();
+                    for (int k = 0; k < headersArray.length(); k++) {
+                        JSONObject headerObject = headersArray.getJSONObject(k);
+                        Header header = new Header();
+                        header.setName(headerObject.getString("name"));
+                        header.setValue(headerObject.getString("value"));
+                        headers.add(header);
+                    }
+                    attachment.setHeaders(headers);
+
+
+                    JSONObject bodyObject = attachmentObject.getJSONObject("body");
+                    Body body = new Body();
+                    body.setSize(bodyObject.getInt("size"));
+                    attachment.setBody(body);
+
+                    attachments.add(attachment);
+                    message.setAttachments(attachments);
                 }
-                attachment.setHeaders(headers);
 
-
-                JSONObject bodyObject = attachmentObject.getJSONObject("body");
-                Body body = new Body();
-                body.setSize(bodyObject.getInt("size"));
-                attachment.setBody(body);
-
-                attachments.add(attachment);
             }
-            message.setAttachments(attachments);
-
             messages.add(message);
-        }
+            }
+
 
         // Access other fields like nextPageToken and resultSizeEstimate
         String nextPageToken = jsonObject.optString("nextPageToken");
         int resultSizeEstimate = jsonObject.optInt("resultSizeEstimate");
         if (messages.size() > 0){
-//            updateRecyclerView(messages);
+            updateRecyclerView(messages);
         }
         // Do something with parsed data
     }
@@ -163,6 +166,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     }
                 } else if (httpResult.getRequestType().equals("messages_rows")) {
                     loadRowDatas(result);
+                   // updateRecyclerView(messages);
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);
@@ -241,7 +245,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
 
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_LISTING_URL + Constants.gmail_messages + Constants.TOKEN + "?rows=10", "messages_rows", jsonObject.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + Constants.gmail_messages + Constants.TOKEN + "?rows=10", "messages_rows", jsonObject.toString());
 
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
@@ -260,7 +264,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
 
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "https://mailapi.digicoffer.com/api/v1/gmail/label/"+ Constants.TOKEN +"?labelid=INBOX", "Label", jsonObject.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + Constants.gmail_label + Constants.TOKEN + "?labelid=INBOX", "Label", jsonObject.toString());
             Log.d("Label_value", Constants.EMAIL_BASE_URL + "gmail/label/" + Constants.TOKEN + "?labelid=INBOX");
 
         } catch (Exception e) {
@@ -295,6 +299,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     }
 
     private void updateRecyclerView(List<MessageModel> messages) {
+
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
         emailadapter adapter = new emailadapter(messages);
         recyclerView.setAdapter(adapter);
