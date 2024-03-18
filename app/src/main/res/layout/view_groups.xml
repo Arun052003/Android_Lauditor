@@ -68,11 +68,16 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <include layout="@layout/owner_layout" />
+                        <include
+                            layout="@layout/owner_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
                         <include
                             android:id="@+id/tv_group_head"
-                            layout="@layout/owner_layout" />
+                            layout="@layout/owner_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
 
@@ -90,7 +95,9 @@
 
                         <include
                             android:id="@+id/tv_date"
-                            layout="@layout/owner_layout" />
+                            layout="@layout/owner_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
 
