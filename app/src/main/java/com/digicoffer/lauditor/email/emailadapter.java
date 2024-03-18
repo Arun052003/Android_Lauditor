@@ -33,6 +33,7 @@ public class emailadapter extends RecyclerView.Adapter<emailadapter.MyViewHolder
         MessageModel email = messages.get(position);
         //holder.tvEmail.setText(email.getMessage());
         holder.tvEmail.setText(email.from);
+     //   holder.sender_name.setText(email.from);
 
     }
 
@@ -48,9 +49,9 @@ public class emailadapter extends RecyclerView.Adapter<emailadapter.MyViewHolder
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-           sender_name = itemView.findViewById(R.id.sender_name);
+        //   sender_name = itemView.findViewById(R.id.sender_name);
             tvEmail = itemView.findViewById(R.id.tv_email_get);
-            subject =itemView.findViewById(R.id.subject);
+         //  subject =itemView.findViewById(R.id.subject);
             attachment = itemView.findViewById(R.id.attachment);
 
 
