@@ -111,6 +111,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     int count_file = 0;
     private NewModel mViewModel;
     RelativeLayout spinnerLayout;
+    private boolean ismatter_chosen = true;
 
     BottomSheetUploadFile bottommSheetUploadDocument;
     private Bitmap mSelectedBitmap;
@@ -1038,7 +1039,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             JSONObject jsonObject = new JSONObject();
                             JSONArray clients = new JSONArray();
                             JSONObject clients_jobject = new JSONObject();
-                            JSONArray matter = new JSONArray();
 //                JSONArray tags = new JSONArray();
                             String docname = "";
                             DocumentsModel documentsModel = docsList.get(i);
@@ -1060,13 +1060,17 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                                     clients.put(clients_jobject);
                                 }
                             }
-                            matter.put(matter_id);
+                            //When the matter is chosen by the user.....
+                            if (!matter_id.equals("")) {
+                                JSONArray matter = new JSONArray();
+                                matter.put(matter_id);
+                                jsonObject.put("matters", matter);
+                            }
                             jsonObject.put("name", docsList.get(i).getName());
                             jsonObject.put("description", docsList.get(i).getDescription());
                             jsonObject.put("filename", docname);
                             jsonObject.put("category", "client");
                             jsonObject.put("clients", clients);
-                            jsonObject.put("matters", matter);
                             jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
                             if (docsList.get(i).getTags() == null) {
                                 jsonObject.put("tags", "");
@@ -1590,7 +1594,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     loadGroupsData(data);
                 } else if (httpResult.getRequestType().equals("Display clientDocuments")) {
                     JSONArray data = result.getJSONArray("data");
-                    callLegalMatter();
+                    if (ismatter_chosen) {
+                        callLegalMatter();
+                    }
                     load_view_doc(data);
                     Log.d("TAG_VIEW_CLIENT", data.toString());
                 } else if (httpResult.getRequestType().equals("Display firmDocuments")) {
@@ -2010,6 +2016,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //        sp_matter.setAdapter(adapter);
         list_matter.setAdapter(adapter);
         custom_spinner2.setText("");
+        custom_spinner4.setText("");
         list_matter_view.setAdapter(adapter);
 
         list_matter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -2057,6 +2064,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 custom_spinner4.setText(matter_name);
                 list_scroll4.setVisibility(View.GONE);
                 ischecked_matter2 = true;
+                ismatter_chosen = false;
                 callfilter_client_webservices();
                 cv_view_documents.setVisibility(View.VISIBLE);
                 rv_display_view_docs.setVisibility(View.VISIBLE);
@@ -2102,6 +2110,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 Log.d("Client_value_name", client_name);
                 custom_spinner.setText(client_name);
                 ll_matter.setVisibility(View.VISIBLE);
+                matter_id = "";
                 matterlist.clear();
                 callLegalMatter();
                 Log.d("Matter_list_number", "" + matterlist.size());
@@ -2123,6 +2132,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 custom_spinner4.setText("");
                 matterlist.clear();
                 matter_id = "";
+                ismatter_chosen = true;
                 callfilter_client_webservices();
                 cv_view_documents.setVisibility(View.VISIBLE);
                 rv_display_view_docs.setVisibility(View.VISIBLE);
@@ -2535,9 +2545,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             if (CATEGORY_TAG == "client") {
                 jsonObject.put("category", "client");
                 jsonObject.put("clients", client_id);
-                jsonObject.put("matters", matter_id);
                 jsonObject.put("showPdfDocs", false);
                 jsonObject.put("groups", null);
+                //When the matter is chosen by the user.....
+                if (!matter_id.equals("")) {
+                    jsonObject.put("matters", matter_id);
+                }
 
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
                 Log.d("Group_doc_view1", jsonObject.toString());
