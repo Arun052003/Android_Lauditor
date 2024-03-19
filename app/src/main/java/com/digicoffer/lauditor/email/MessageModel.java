@@ -1,5 +1,7 @@
 package com.digicoffer.lauditor.email;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 public class MessageModel {
@@ -7,6 +9,7 @@ public class MessageModel {
     String subject;
     String from;
     String to;
+    List<AttachmentModel> attachments;
     public String getMsgId() {
         return msgId;
     }
@@ -40,9 +43,20 @@ public class MessageModel {
     }
 
     public void setAttachments(List<AttachmentModel> attachments) {
+        this.attachments = attachments;
     }
+
+
 
     public int getMessage() {
         return 0;
+    }
+
+    public boolean isAttachment() {
+        return this.attachments.isEmpty();
+    }
+
+    public List<AttachmentModel> getAttachment() {
+        return this.attachments;
     }
 }

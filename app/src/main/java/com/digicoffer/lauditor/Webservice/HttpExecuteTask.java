@@ -79,7 +79,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 
 
             if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN"
-            && requestType.equals("Label") && (requestType.equals("auth")) && (requestType.equals("messages_rows"))) {
+          ) {
                 httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
                 Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
             }

@@ -31,6 +31,7 @@ import com.digicoffer.lauditor.common.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.minidns.record.A;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -45,22 +46,29 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     boolean ISCHECK_EMAIL = false;
     boolean ISCHECK_AUTH = false;
     boolean ischeck_label, ischeck_auth;
+    ImageView arrow_left;
+    private int currentPosition = 1;
 
 
     static AlertDialog progress_dialog;
 
     boolean emailcheck;
-    private List<MessageModel> messages;
+    private  List<MessageModel> messages = new ArrayList<>();
+    private List<List<MessageModel>> totalMessageArray = new ArrayList<>();
+    Integer pre_next_position = 0;
     private String requestType = null;
     HttpURLConnection httpURLConnection = null;
     TextView inbox_textViews;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_layout, container, false);
 
         ImageView closeDocuments = view.findViewById(R.id.compose);
+        ImageView arrow_left = view.findViewById(R.id.arrow_left);
         inbox_textViews = view.findViewById(R.id.inbox_textViews);
+
         closeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,13 +84,25 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 }
             }
         });
+        arrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadNextMessages();
+            }
+        });
 
 //        emaiAPI();
-      callLabel();
+        callLabel();
 
 
         return view;
     }
+
+    private void loadNextMessages() {
+        totalMessageArray.add( pre_next_position, messages);
+    }
+
+
     private void loadRowDatas(JSONObject jsonObject) throws JSONException {
 
         JSONArray messagesArray = jsonObject.getJSONArray("messages");
@@ -100,7 +120,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             for (int j = 0; j < attachmentsArray.length(); j++) {
                 JSONObject attachmentObject = attachmentsArray.getJSONObject(j);
                 AttachmentModel attachment = new AttachmentModel();
-                if (attachmentObject.getString("filename").isEmpty()) {
+                if (!attachmentObject.getString("filename").isEmpty() && !attachmentObject.getString("partId").isEmpty()) {
                     attachment.setPartId(attachmentObject.getString("partId"));
                     attachment.setMimeType(attachmentObject.getString("mimeType"));
                     attachment.setFilename(attachmentObject.getString("filename"));
@@ -129,13 +149,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
             }
             messages.add(message);
-            }
-
-
-        // Access other fields like nextPageToken and resultSizeEstimate
-        String nextPageToken = jsonObject.optString("nextPageToken");
+        }
+        totalMessageArray.add( pre_next_position, messages);
+        // Access other fields like nextPageToken and resultSizeEstimation
+         String nextPageToken = jsonObject.optString("nextPageToken");
         int resultSizeEstimate = jsonObject.optInt("resultSizeEstimate");
-        if (messages.size() > 0){
+        if (messages.size() > 0) {
             updateRecyclerView(messages);
         }
         // Do something with parsed data
@@ -166,12 +185,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     }
                 } else if (httpResult.getRequestType().equals("messages_rows")) {
                     loadRowDatas(result);
-                   // updateRecyclerView(messages);
+                    // updateRecyclerView(messages);
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);
                     ISCHECK_AUTH = true;
-                   emaiAPI();
+                    emaiAPI();
                     launchAuthUrl(url);
                 } else {
 
@@ -180,30 +199,29 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        else{
-            if (httpResult.getRequestType().equals("Label") || (httpResult.getRequestType().equals("auth")) ){
-                 emaiAPI();
+        } else {
+            if (httpResult.getRequestType().equals("Label") || (httpResult.getRequestType().equals("auth"))) {
+                emaiAPI();
             }
 
 
-       }
+        }
     }
 
     private void loadLabelData(JSONObject data) {
         try {
 //            for (int i = 0; i < data.length(); i++) {
 //                JSONObject jsonObject = data.getJSONObject(String.valueOf(i));
-                EmailModel emailModel = new EmailModel();
-                emailModel.setId(data.getString("id"));
-                emailModel.setName(data.getString("name"));
-                emailModel.setType(data.getString("type"));
-                emailModel.setMessagesTotal(data.getInt("messagesTotal"));
-                emailModel.setMessagesUnread(data.getInt("messagesUnread"));
-                emailModel.setThreadsTotal(data.getInt("threadsTotal"));
-                emailModel.setThreadsUnread(data.getInt("threadsUnread"));
-                Log.e("Email Inbox", String.valueOf(emailModel.getMessagesTotal()));
-            inbox_textViews.setText("Indox "+String.valueOf(emailModel.getMessagesTotal()));
+            EmailModel emailModel = new EmailModel();
+            emailModel.setId(data.getString("id"));
+            emailModel.setName(data.getString("name"));
+            emailModel.setType(data.getString("type"));
+            emailModel.setMessagesTotal(data.getInt("messagesTotal"));
+            emailModel.setMessagesUnread(data.getInt("messagesUnread"));
+            emailModel.setThreadsTotal(data.getInt("threadsTotal"));
+            emailModel.setThreadsUnread(data.getInt("threadsUnread"));
+            Log.e("Email Inbox", String.valueOf(emailModel.getMessagesTotal()));
+            inbox_textViews.setText("Indox " + String.valueOf(emailModel.getMessagesTotal()));
 //            }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -218,7 +236,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         startActivityForResult(intent, AUTH_REQUEST_CODE);
         ischeck_auth = true;
     }
-
 
 
     public void emaiauth() {
@@ -240,6 +257,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             e.printStackTrace();
         }
     }
+
     public void callMessageList() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
@@ -279,7 +297,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     public void emaiAPI() {
 
-        if (!ISCHECK_AUTH ) {
+        if (!ISCHECK_AUTH) {
             emaiauth();
         } else {
 
@@ -299,12 +317,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     }
 
     private void updateRecyclerView(List<MessageModel> messages) {
-
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
-        emailadapter adapter = new emailadapter(messages);
+        EmailAdapter adapter = new EmailAdapter(messages);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.notifyDataSetChanged();
+
+
+
     }
-
-
 }
+
+
