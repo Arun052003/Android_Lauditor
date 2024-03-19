@@ -229,6 +229,9 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     View view = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
                     final TextView team_list = (TextView) view.findViewById(R.id.tv_event_notifications);
                     team_list.setText(att_team_obj.getString("name"));
+                    //Rsvp value...
+                    String rsvp = att_team_obj.getString("rsvp");
+                    rsvp_value = rsvp;
                     my_view_holder.ll_team_members.addView(view);
                     Log.d("Team Members", (att_team_obj.getString("name")));
                 }
@@ -237,11 +240,14 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             }
             try {
                 for (int c = 0; c < events_do.getTm_name().length(); c++) {
-                    Log.d("Tm Name", events_do.getTeam_name().toString());
+                    Log.d("Tm Name", events_do.getTm_name().toString());
                     JSONObject att_client_obj = events_do.getTm_name().getJSONObject(c);
                     View view = LayoutInflater.from(mcontext).inflate(R.layout.event_details_notifications, null);
                     final TextView clien_list = (TextView) view.findViewById(R.id.tv_event_notifications);
                     clien_list.setText(att_client_obj.getString("tmName"));
+                    //Rsvp value...
+                    String rsvp = att_client_obj.getString("rsvp");
+                    rsvp_value = rsvp;
                     my_view_holder.ll_clients.addView(view);
                 }
             } catch (JSONException e) {

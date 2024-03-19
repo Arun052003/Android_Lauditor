@@ -484,6 +484,10 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 if (httpResult.getStatus_code() == 200) {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     ViewMembersData();
+                    //After Member is updated..
+                    ll_new_buttons.setVisibility(View.GONE);
+                    tv_assign_groups.setVisibility(View.VISIBLE);
+                    ll_save_buttons.setVisibility(View.VISIBLE);
                 } else {
                     AndroidUtils.showToast(result.getString("msg"), getContext());
 
@@ -611,7 +615,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
     private void loadRecylcerview() {
         rv_view_members.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this,Members.this);
+        MembersAdapter adapter = new MembersAdapter(members_list, getContext(), this, Members.this);
         // rv_view_members.setAdapter(adapter);
         // rv_view_members.setHasFixedSize(true);
         // membersApdater = new MembersAdapter(members_list);
@@ -697,14 +701,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 if (!validation()) {
                     String tag = "Update";
                     String id = membersModel.getId();
-                    et_search_members.setText("");
                     callCreateMemberWebservice(tv_member_name.getText().toString().trim(), tv_designation.getText().toString().trim(), tv_default_rate.getText().toString().trim(), tv_email.getText().toString().trim(), tv_confirm_email.getText().toString().trim(), tag, id);
-//                    tv_create_members.setBackgroundResource(R.drawable.button_left_background);
-//                    tv_assign_groups.setVisibility(View.VISIBLE);
-//                    tv_create_members.setTextColor(Color.BLACK);
-//                    tv_view_members.setBackgroundResource(R.drawable.button_right_green_background);
-//                    tv_view_members.setTextColor(Color.WHITE);
-
                 }
             }
         });
@@ -714,12 +711,15 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
 //                ll_confirm_email.setVisibility(View.GONE);
 //                membersModel.
-                tv_assign_groups.setVisibility(View.VISIBLE);
                 unhide();
                 ViewMembersData();
+                ////Edit Member is Cancelled..
+                tv_assign_groups.setVisibility(View.VISIBLE);
+                ll_save_buttons.setVisibility(View.VISIBLE);
             }
         });
     }
+
     public void edit_member() {
 
         MembersModel membersModel = new MembersModel();
@@ -803,6 +803,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         });
         bt_save_members.setText("Add");
     }
+
     @Override
     public void ResetPassword(MembersModel membersModel) {
         String tag = "RP";
