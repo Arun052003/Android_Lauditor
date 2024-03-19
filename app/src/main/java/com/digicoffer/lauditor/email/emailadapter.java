@@ -1,5 +1,8 @@
 package com.digicoffer.lauditor.email;
 
+import static android.app.PendingIntent.getActivity;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +20,14 @@ import java.util.List;
 class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_EMAIL = 0;
     private static final int VIEW_TYPE_ATTACHMENT = 1 ;
+    static Context  context_type;
 
     private List<MessageModel> messages;
 
 
 
-    public EmailAdapter(List<MessageModel> messages) {
+    public EmailAdapter(List<MessageModel> messages,Email email) {
+        this.context_type=email.getContext();
         this.messages = messages;
     }
 
@@ -60,6 +65,9 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case VIEW_TYPE_EMAIL:
                 ((EmailViewHolder) holder).bindEmail(message);
                 break;
+            case VIEW_TYPE_ATTACHMENT:
+                ((EmailViewHolder) holder).bindEmail(message);
+                break;
 
         }
     }
@@ -74,7 +82,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView senderName;
         TextView subject;
         GridView gridView;
-        Attachmentadapter attachmentAdapter;
+
         TextView tvEmail;
 
         public EmailViewHolder(@NonNull View itemView) {
@@ -82,19 +90,23 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             senderName = itemView.findViewById(R.id.sender_name);
             subject = itemView.findViewById(R.id.subject);
             // Set up the GridView
-            gridView = itemView.findViewById(R.id.gridViewAttachments);
-            //   attachmentAdapter =  List<AttachmentModel> attachments;
-            gridView.setAdapter(attachmentAdapter);
+            gridView = itemView.findViewById(R.id.gridView);
+
+
             gridView.setNumColumns(2);
         }
         public void bindEmail(MessageModel email) {
             senderName.setText(email.getFrom());
             subject.setText(email.getSubject());
 
+            GridAdapter adapter = new GridAdapter(context_type, email.attachments);
+            gridView.setAdapter(adapter);
             gridView.setNumColumns(2);
 
+        }
 
-            //   tvEmail.setText(email.getMessage());
+        private Context getActivity() {
+            return getActivity();
         }
     }
 

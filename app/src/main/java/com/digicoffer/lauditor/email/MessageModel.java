@@ -1,7 +1,5 @@
 package com.digicoffer.lauditor.email;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
 public class MessageModel {

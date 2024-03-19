@@ -318,7 +318,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     private void updateRecyclerView(List<MessageModel> messages) {
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
-        EmailAdapter adapter = new EmailAdapter(messages);
+        EmailAdapter adapter = new EmailAdapter(messages,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.notifyDataSetChanged();
