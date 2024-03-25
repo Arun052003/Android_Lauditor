@@ -4,19 +4,26 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,7 +51,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,33 +65,39 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
     TextInputEditText tet_email, tet_password;
     String firm_name;
+    String firm_list_name = "";
     boolean ischecked = true;
-    TextView spinner_firm_view;
+    boolean is_bio;
+    TextView spinner_firm_view, tv_sign_in;
     AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
     Dialog ad_dialog;
+    String filename = "user_data.txt";
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
-    Button bt_login;
+    CheckBox checkBox;
     TextView tv_forgot_password;
-    boolean isRecursionEnable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        checkBox = findViewById(R.id.checkBox);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
+        tv_sign_in = findViewById(R.id.tv_sign_in);
+        tv_sign_in.setText("Sign In");
+        tv_sign_in.setTextSize(20);
+        tv_sign_in.setTextColor(getColor(R.color.black));
 
         bt_submit = findViewById(R.id.Submit);
         tv_forgot_password = findViewById(R.id.textView);
 //        tet_email.setText("soundarya.v@digicoffer.com");
+//        tet_email.setText("rajendra.sai@digicoffer.com");
 //        tet_email.setText("soundaryavembaiyan@yahoo.com");
 //        tet_password.setText("Test@123");
 //        Login();
-
 
         tv_forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,20 +108,16 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 try {
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked) {
-                        // Reset();
-                        //Login();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
 
-        // Initialize the button state
-        bt_submit.setEnabled(false);
-        bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dullBlueColor)));// Initially disabled
+        check_Bio_metric();
+        // Initialize the button state  // Initially disabled
+        checkFieldsNotEmpty();
 
         // TextWatcher for email and password EditTexts
         TextWatcher textWatcher = new TextWatcher() {
@@ -135,16 +148,51 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     if (isAllFieldsChecked) {
                         Login();
                         checkFieldsNotEmpty();
-                        // Reset();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
 
-        // Rest of your code...
-        // Initialize your views and other functionality
+    //checking the the Bio-Metric Check Box is Clicked or not
+    private void Bio_metric_access() {
+        //when the Check Box is checked then the data is stored in Internal Storage for the Bio-Metric Authentication.
+        if (checkBox.isChecked()) {
+            String Token = Constants.TOKEN;
+            String email = tet_email.getText().toString().trim();
+            String password = tet_password.getText().toString().trim();
+            // Get the SharedPreferences object
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+// Get an editor to modify SharedPreferences
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+// Store data
+            editor.putString("email", email);
+            editor.putString("password", password);
+            editor.putString("Token", Token);
+
+// Commit changes
+            editor.apply();
+//            try {
+//                //To Store the data in Internal Storage....
+//                FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+//                outputStream.write(email.getBytes());
+//                outputStream.write("\n".getBytes());
+//                outputStream.write(password.getBytes());
+//                outputStream.write("\n".getBytes());
+//                outputStream.write(Token.getBytes());
+//            } catch (FileNotFoundException e) {
+//                throw new RuntimeException(e);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+            Constants.is_biometric = true;
+        } else {
+            Constants.is_biometric = false;
+        }
     }
 
     private void checkFieldsNotEmpty() {
@@ -165,11 +213,46 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         }
     }
 
-    // You can add validation functions for email and password
-    // private boolean isValidEmail(String email) {
+    public void check_Bio_metric() {
+        //When the Bio-Metric is Checked Successfully.
+        String email, password, Token1;
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences_bio = getSharedPreferences("BIO", Context.MODE_PRIVATE);
+        is_bio = sharedPreferences_bio.getBoolean("IS_Bio", false);
 
-    //  return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    // }
+        email = sharedPreferences.getString("email", "email");
+        password = sharedPreferences.getString("password", "password");
+        Token1 = sharedPreferences.getString("Token", "Token");
+//            try {
+//                FileInputStream inputStream = openFileInput(filename);
+//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//
+//                //The data is retrieving from the Internal Storage of the app and store it in Array..
+//                String[] user_value = new String[2];
+//                user_value[0] = bufferedReader.readLine();
+//                user_value[1] = bufferedReader.readLine();
+//                bufferedReader.close();
+//
+//                //If the Data is retrieved from the Storage and Assign to the Respective field.
+        Log.d("Bio-metric", "  " + email + "     " + password + "   " + Token1);
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+        if (is_bio) {
+            Constants.Old_Token = Token1;
+            checkBox.setChecked(true);
+            Constants.Biometric_checked = true;
+            tet_email.setText(email);
+            tet_password.setText(password);
+            Login();
+        } else {
+            Constants.Biometric_checked = false;
+            checkBox.setChecked(false);
+            tet_email.setText("");
+            tet_password.setText("");
+        }
+    }
 
     private boolean isValidPassword(String password) {
 
@@ -213,9 +296,17 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
     private void firm_login(final ArrayList<FirmsDo> list) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(LoginActivity.this, R.style.MaterialAlertDialog_Rounded);
-        LayoutInflater inflater = getLayoutInflater();
-        final View dialogLayout = inflater.inflate(R.layout.firm_login, null);
+//        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(LoginActivity.this, com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar_Fullscreen);
+//        builder.setBackground(getDrawable(R.drawable.rectangular_complete_blue_background));
+//        LayoutInflater inflater = getLayoutInflater();
+
+        final Dialog dialogLayout = new Dialog(this);
+        dialogLayout.setContentView(R.layout.firm_login);
+        TextView textview_firm = dialogLayout.findViewById(R.id.textview_firm);
+        textview_firm.setTextColor(getColor(R.color.orange_color));
+        textview_firm.setTextSize(12);
+        textview_firm.setTypeface(Typeface.DEFAULT_BOLD);
+        textview_firm.setText("This email address is associated with multiple firms. Please select a firm to sign-in");
         ListView sp_firm = dialogLayout.findViewById(R.id.sp_firm);
         sp_firm.setBackground(getDrawable(R.drawable.rectangular_white_background));
         spinner_firm_view = dialogLayout.findViewById(R.id.spinner_firm_view);
@@ -228,18 +319,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         spinner_firm_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ischecked)
-                    sp_firm.setVisibility(View.VISIBLE);
-                else
-                    sp_firm.setVisibility(View.GONE);
-                ischecked = !ischecked;
+                AndroidUtils.display_listview(ischecked, sp_firm);
             }
         });
         sp_firm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 firm_name = list.get(position).getValue();
-                String firm_list_name = list.get(position).getName();
+                firm_list_name = list.get(position).getName();
                 Log.d("FIRM_NAME_ID", firm_name);
                 spinner_firm_view.setText(firm_list_name);
                 sp_firm.setVisibility(View.GONE);
@@ -250,13 +337,10 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        et_firm_password.setText("Test@123");
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.Submit);
 
-        //Reset password---
+        //Update password---
         TextView forget_psd = (TextView) dialogLayout.findViewById(R.id.forgetpassword);
 
         Button bt_cancel = (Button) dialogLayout.findViewById(R.id.Cancel);
-//        Button bt_cancel = (Button) dialogLayout.findViewById(R.id.btn_cancel);
-        final androidx.appcompat.app.AlertDialog dialog = builder.create();
-        ad_dialog = dialog;
         JSONObject postData = new JSONObject();
 //
         bt_cancel.setOnClickListener(new View.OnClickListener() {
@@ -265,18 +349,35 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 startActivity(new Intent(LoginActivity.this, LoginActivity.class));
             }
         });
-//        bt_cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
+        bt_submit.setEnabled(false);
+        bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dullBlueColor)));
 
-        //reseting password---
+        et_firm_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isValidPassword(String.valueOf(s)) && (!firm_list_name.equals(""))) {
+                    bt_submit.setEnabled(true);
+                    bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
+                } else {
+                    bt_submit.setEnabled(false);
+                    bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.dullBlueColor)));
+                }
+            }
+        });
+        //Update password---
         forget_psd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to ForgetPasswordActivity
+                // Navigate to Forget Password Page
                 Intent intent = new Intent(LoginActivity.this, ForgetPassword.class);
                 startActivity(intent);
             }
@@ -285,13 +386,16 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-
                 try {
-                    if (Objects.requireNonNull(et_firm_password.getText()).toString().trim().equals("")) {
-                        AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
-                    } else {
+                    String password = "";
+                    password = et_firm_password.getText().toString().trim();
+                    if (firm_list_name.equals("")) {
+                        AndroidUtils.showToast("Firm is mandatory", LoginActivity.this);
+                    }
+                    if (!password.equals("") && isValidPassword(password)) {
                         callfirmloginWebservice(postData, sp_firm, list, et_firm_password, tet_email);
-
+                    } else {
+                        AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
                     }
                 } catch (Exception e) {
                     if (progress_dialog != null && progress_dialog.isShowing())
@@ -300,9 +404,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             }
         });
 
-
-        dialog.setView(dialogLayout);
-        dialog.show();
+        //Display a Firm Login Page to Full Screen page.
+        Window window = dialogLayout.getWindow();
+        if (window != null) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            window.setBackgroundDrawable(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+        }
+        dialogLayout.show();
     }
 
     private void callfirmloginWebservice(JSONObject postData, ListView sp_firm, ArrayList<FirmsDo> list, TextInputEditText et_firm_password, TextInputEditText tet_email) throws JSONException {
@@ -376,10 +484,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                                 .putString("proBizType", Constants.PROBIZ_TYPE)
                                 .apply();
 
-
-                        Intent in = new Intent();
-//                        in.putExtra("email", probiz_data.getString("email"));
-
                         Constants.TOKEN = result.getString("token");
                         Constants.NAME = probiz_data.getString("name");
                         Constants.USER_ID = probiz_data.getString("user_id");
@@ -397,6 +501,9 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         {
                             AndroidUtils.showToast("Login Successful", this);
                             startActivity(new Intent(this, MainActivity.class));
+
+                            //After clicking the submit Button Checking if the Bio-Metric Check box is Enabled or Disabled.
+                            Bio_metric_access();
                             if (ad_dialog != null && ad_dialog.isShowing())
                                 ad_dialog.dismiss();
                         } else {

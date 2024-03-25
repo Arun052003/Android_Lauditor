@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,10 +11,9 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="508dp"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:padding="@dimen/small_size"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +24,7 @@
         <!-- Main Content -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="672dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:orientation="vertical">
@@ -35,32 +33,18 @@
 
             <!-- TextView for Sign In -->
 
-            <ImageView
+            <include
                 android:id="@+id/imageView"
-                android:layout_width="180dp"
-                android:layout_height="49dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/logo"
-                android:contentDescription="TODO"
-                android:paddingStart="20dp"
-                tools:ignore="ContentDescription,HardcodedText" />
+                layout="@layout/logo_layout" />
 
-            <TextView
+            <include
                 android:id="@+id/tv_sign_in"
+                layout="@layout/dialog_save_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/gill_sans"
-                android:gravity="center"
-                android:text="Sign In"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-
+                android:layout_marginTop="@dimen/Fifteen_dp"
+                android:layout_marginBottom="@dimen/small_size" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -117,57 +101,12 @@
             </androidx.cardview.widget.CardView>
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/left_shadow"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="0"
-                    app:boxCornerRadiusBottomEnd="24dp"
-                    app:boxCornerRadiusBottomStart="24dp"
-                    app:boxCornerRadiusTopEnd="24dp"
-                    app:boxCornerRadiusTopStart="24dp"
-
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/black">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_login_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_weight="0"
-                        android:autoLink="none"
-                        android:background="@android:color/transparent"
-                        android:drawableLeft="@drawable/lock_password"
-                        android:drawablePadding="5dp"
-                        android:fontFamily="@font/gill_sans"
-                        android:hint="Password"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPassword"
-
-
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/material_dynamic_neutral30"
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
+            <include layout="@layout/password_layout" />
             <!-- Password Confirmation TextInputLayout -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="horizontal">
 
 
@@ -175,11 +114,9 @@
                 <!-- CheckBox CardView -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/checkbox_cardview"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_margin="@dimen/left_space"
                     android:background="@drawable/left_shadow"
                     android:paddingBottom="8dp"
                     app:cardCornerRadius="8dp"
@@ -192,12 +129,11 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gill_sans"
                         android:padding="8dp"
-
                         android:textColor="@color/black"
                         android:textColorHighlight="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/green_count_color"
                         android:textColorLink="@color/white"
-                        app:buttonTint="@color/white"
+                        app:buttonTint="@color/dark_grey"
                         tools:ignore="TouchTargetSizeCheck" />
                 </androidx.cardview.widget.CardView>
 
@@ -225,24 +161,24 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_margin="@dimen/small_size"
                 android:clickable="true"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="left"
-
                 android:minHeight="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/underline"
-
                 android:textStyle="bold"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <include layout="@layout/layout_button" />
+            <include
+                layout="@layout/layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/thirty_dp" />
             <!-- Enable Biometric Autentication Text -->
 
         </LinearLayout>

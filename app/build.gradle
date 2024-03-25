@@ -40,6 +40,7 @@ configurations {
     all*.exclude group: 'xpp3', module: 'xpp3'
 }
 dependencies {
+    implementation "androidx.biometric:biometric:1.0.1"
 //    implementation 'com.sa90.materialarcmenu:library:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.oguzdev:CircularFloatingActionMenu:1.0.2'

@@ -253,7 +253,6 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            notifyItemChanged(i);
         }
     }
 
@@ -340,6 +339,9 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     holder.ll_view_more.setVisibility(View.VISIBLE);
                 }
                 isDetailsVisible = !isDetailsVisible;
+
+                //Refresh the Recycler View After Clicking the View More
+                notifyDataSetChanged();
             }
         });
 //        holder.ll_view_more.setVisibility(isDetailsVisible ? View.VISIBLE : View.GONE);

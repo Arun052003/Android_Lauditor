@@ -62,12 +62,6 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
         Log.d("Event_list_size", "" + day.getEvents().size());
         //Set a background drawable to indicate that the day has events
 
-//        if (day.getEvents().size() > 0) {
-//            holder.textDay.setBackgroundResource(R.drawable.dot_background);
-//        } else {
-//            // Reset the background drawable for other days
-//            holder.textDay.setBackgroundResource(0);
-//        }
 
         holder.itemView.setOnClickListener(view -> {
             int previousSelectedPosition = selectedPosition;
@@ -90,6 +84,13 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
                 holder.itemView.setBackgroundDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.rectangular_button_green_count));
                 holder.textDay.setTextColor(Color.WHITE);
             }
+        }
+        //Check for Event Status
+        if (day.hasEvents()) {
+            holder.dot.setVisibility(View.VISIBLE); // Show the dot
+        } else {
+            // Reset the background drawable for other days
+            holder.dot.setVisibility(View.GONE); // Show the dot
         }
     }
 

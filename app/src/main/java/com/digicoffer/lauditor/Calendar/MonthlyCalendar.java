@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -308,9 +310,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
                     return eventDay.getConverted_Start_time().compareTo(t1.getConverted_Start_time());
                 }
             });
-
             calendarView.setEvents(events);
-
             loadRecyclerView();
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage().toString(), getContext());

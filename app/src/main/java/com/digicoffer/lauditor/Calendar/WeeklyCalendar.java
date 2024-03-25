@@ -32,6 +32,7 @@ import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common.DrawableUtils;
 
 import org.json.JSONArray;
@@ -452,12 +453,6 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 //                events.add(new EventDay(calendar,DrawableUtils.getDayCircle(getContext(), R.color.blue,R.color.green )));
 //                Log.d("From Start Date", converted_from_ts);
 //                Log.d("Current Date",Currenr_date);
-                for (Day day : days) {
-                    if (day.getDate().equals(Currenr_date)) {
-                        day.setEvents(events);
-                        break;
-                    }
-                }
 
                 if (converted_from_ts.toString().contains(Currenr_date) || converted_to_ts.toString().contains(Currenr_date)) {
 //                    events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
@@ -478,9 +473,31 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
                     return eventDay.getConverted_Start_time().compareTo(t1.getConverted_Start_time());
                 }
             });
+            for (Day day : days) {
+                if (day.getDate().equals(Currenr_date)) {
+                    day.setEvents(events);
+                    break;
+                }
+            }
 
-//            calendarView.setEvents(events);
-
+            //Check for Event Status
+            for (int i = 1; i <= days.size(); i++) {
+                if (events_list.size() > 0) {
+                    days.get(i).setHasEvents(true);
+                } else {
+                    days.get(i).setHasEvents(false);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            }
+//            for(Day day:days) {
+//                if (events_list.size() > 0) {
+//                    day.setHasEvents(true);
+//                } else {
+//                    day.setHasEvents(false);
+//                }
+//                break;
+//            }
             loadRecyclerView();
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage().toString(), getContext());
@@ -494,6 +511,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             for (Events_Do event : events_list) {
                 Log.d("Event List", event.getEvent_Name());
             }
+            Log.d("Event_size.", "" + events_list.size());
             events_adapter = new Events_Adapter(events_list, this, getContext(), getActivity());
             rv_displayEvents.setAdapter(events_adapter);
         } catch (Exception e) {

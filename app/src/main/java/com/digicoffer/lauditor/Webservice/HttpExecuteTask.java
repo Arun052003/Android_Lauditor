@@ -84,7 +84,14 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
             }
 
+            if(Constants.Biometric_checked)
+                httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.Old_Token);
+            else
+                httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
 
+            Log.d("Access_Token_check"," "+Constants.Biometric_checked+"  "+httpURLConnection);
+            Log.d("Acc_Token.1",Constants.Old_Token);
+            Log.d("Acc_Token.2",Constants.TOKEN);
 
             switch (restMethodType) {
                 case GET:

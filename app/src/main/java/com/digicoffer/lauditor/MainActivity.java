@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ import com.digicoffer.lauditor.Dashboard.Dashboard;
 import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Groups.Groups;
 import com.digicoffer.lauditor.LoginActivity.LoginActivity;
+import com.digicoffer.lauditor.LoginActivity.biometric_page;
 import com.digicoffer.lauditor.Matter.Matter;
 import com.digicoffer.lauditor.Members.Members;
 import com.digicoffer.lauditor.Notifications.Notifications;
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
     ImageView iv_Drawer;
     ImageView menu_open;
-    SignInClient  oneTapClient;
+    SignInClient oneTapClient;
 
 
     FloatingActionMenu center_menu;
@@ -110,8 +112,8 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     NavigationView navView;
     String token_id;
     int itemId;
-    private  static final int REQ_ONE_TAP =2;
-    private boolean showOneTapUI= true;
+    private static final int REQ_ONE_TAP = 2;
+    private boolean showOneTapUI = true;
     private SignInClient OneTapClient;
     public androidx.appcompat.widget.LinearLayoutCompat ll_bottom_menu;
     Boolean isAllFabsVisible;
@@ -639,7 +641,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                 }
 
 
-
                 if (itemId == R.id.logout) {
                     confirmLogout();
                 } else if (itemId == R.id.matter) {
@@ -672,7 +673,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         });
     }
 
-  //  @Override
+    //  @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
 //        if (requestCode == AUTH_REQUEST_CODE) {
@@ -688,9 +689,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //            }
 //        }
 //    }
-
-
-
 
 
     // Method to fetch emails after successful authentication
@@ -749,13 +747,6 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     }
 
 
-
-
-
-
-
-
-
     @Override
     public void onEventDetailsPassed(ArrayList<Event_Details_DO> event_details_list, String calendar_Type) {
 
@@ -794,17 +785,13 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
     }
 
     private void confirmLogout() {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to log out?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        performLogout();
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
+        Log.d("is_biometric", "" + Constants.is_biometric);
+        if (Constants.is_biometric) {
+            Intent intent = new Intent(MainActivity.this, biometric_page.class);
+            startActivity(intent);
+        } else {
+            performLogout();
+        }
     }
 
     private void performLogout() {
