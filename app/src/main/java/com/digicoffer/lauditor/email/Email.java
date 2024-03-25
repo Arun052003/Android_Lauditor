@@ -1,21 +1,25 @@
 package com.digicoffer.lauditor.email;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,15 +31,16 @@ import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.minidns.record.A;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Email extends Fragment implements AsyncTaskCompleteListener {
 
@@ -46,50 +51,69 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     boolean ISCHECK_EMAIL = false;
     boolean ISCHECK_AUTH = false;
     boolean ischeck_label, ischeck_auth;
+    String nextPageToken = "";
     ImageView arrow_left;
+    ImageView clear_search;
     private int currentPosition = 1;
+    TextInputEditText et_Search;
 
 
-    static AlertDialog progress_dialog;
+    public static AlertDialog progress_dialog;
+    Stack<List<MessageModel>> pageStack = new Stack<>();
 
     boolean emailcheck;
-    private  List<MessageModel> messages = new ArrayList<>();
+    private List<MessageModel> messages = new ArrayList<>();
     private List<List<MessageModel>> totalMessageArray = new ArrayList<>();
+    List<List<MessageModel>> nextMessages = new ArrayList<>();
     Integer pre_next_position = 0;
     private String requestType = null;
     HttpURLConnection httpURLConnection = null;
     TextView inbox_textViews;
+    AppCompatButton first_button, search_email,sends_button;
+    EditText to_input;
 
+
+
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_layout, container, false);
 
         ImageView closeDocuments = view.findViewById(R.id.compose);
+        ImageView arrow_right = view.findViewById(R.id.arrow_right);
         ImageView arrow_left = view.findViewById(R.id.arrow_left);
+        clear_search = view.findViewById(R.id.clear_search);
+        clear_search.setVisibility(View.GONE);
         inbox_textViews = view.findViewById(R.id.inbox_textViews);
+        first_button = view.findViewById(R.id.first_button);
+        first_button.setAlpha(0);
+        et_Search = view.findViewById(R.id.et_Search);
+        search_email = view.findViewById(R.id.search_email);
+        sends_button = view.findViewById(R.id.sends_button);
 
         closeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.child_container, new ComposeFragment())
-                            .addToBackStack(null) // Adds the transaction to the back stack
-                            .commit();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), "Failed to open compose fragment", Toast.LENGTH_SHORT).show();
-                }
+                openComposePopup();
+            }
+        });
+
+
+
+        arrow_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callMessageListnext();
             }
         });
         arrow_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadNextMessages();
+                callMessageListnext();
             }
         });
+
 
 //        emaiAPI();
         callLabel();
@@ -98,9 +122,52 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         return view;
     }
 
-    private void loadNextMessages() {
-        totalMessageArray.add( pre_next_position, messages);
+
+    private void openComposePopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.compose, null);
+
+
+
+        ImageView attachmentImageView = view.findViewById(R.id.attachments);
+        ImageView cross_icon = view.findViewById(R.id.attachment);
+
+
+
+        // Set OnClickListener for the attachment ImageView
+        attachmentImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create and display AlertDialog for attaching documents
+                AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
+                View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
+                attachmentDialogBuilder.setView(attachmentView);
+                AlertDialog attachmentDialog = attachmentDialogBuilder.create();
+                attachmentDialog.show();
+            }
+        });
+
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+       cross_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dismiss the AlertDialog
+                dialog.dismiss();
+            }
+        });
+
+
     }
+
+
+
+
+
+
 
 
     private void loadRowDatas(JSONObject jsonObject) throws JSONException {
@@ -150,14 +217,17 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             }
             messages.add(message);
         }
-        totalMessageArray.add( pre_next_position, messages);
+        totalMessageArray.add(pre_next_position, messages);
         // Access other fields like nextPageToken and resultSizeEstimation
-         String nextPageToken = jsonObject.optString("nextPageToken");
+        nextPageToken = jsonObject.optString("nextPageToken");
+        Log.d("Nextpagetoken", nextPageToken);
         int resultSizeEstimate = jsonObject.optInt("resultSizeEstimate");
         if (messages.size() > 0) {
             updateRecyclerView(messages);
+
+
         }
-        // Do something with parsed data
+
     }
 
 
@@ -184,8 +254,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         callMessageList();
                     }
                 } else if (httpResult.getRequestType().equals("messages_rows")) {
+                    // Parse the response for messages
                     loadRowDatas(result);
-                    // updateRecyclerView(messages);
+
+
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);
@@ -275,6 +347,23 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
+    public void callMessageListnext() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, Constants.EMAIL_BASE_URL + Constants.gmail_messages + Constants.TOKEN + "?rows=10&nextpagetoken=" + nextPageToken, "messages_rows", jsonObject.toString());
+
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+            e.printStackTrace();
+
+            Log.e("API Error", "Failed to call API: " + e.getMessage());
+        }
+    }
+
 
     public void callLabel() {
         try {
@@ -316,15 +405,45 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     }
 
+
     private void updateRecyclerView(List<MessageModel> messages) {
         RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
-        EmailAdapter adapter = new EmailAdapter(messages,this);
+        EmailAdapter adapter = new EmailAdapter(messages, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.notifyDataSetChanged();
 
+        search_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.getFilter().filter(et_Search.getText().toString());
+            }
+        });
+        et_Search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0)
+                    clear_search.setVisibility(View.GONE);
+                else
+                    clear_search.setVisibility(View.VISIBLE);
+            }
+        });
+        clear_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_Search.setText("");
+                adapter.getFilter().filter(et_Search.getText().toString());
+            }
+        });
     }
 }
 

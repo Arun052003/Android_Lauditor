@@ -8,40 +8,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="@drawable/rectangle_light_grey_bg"
-        android:orientation="horizontal">
-
+        android:layout_gravity="start"
+        android:nextFocusRight="@id/search_btn"
+        android:layout_margin="@dimen/small_size"
+        android:background="@drawable/rectangle_light_grey_bg">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_layout"
+            android:orientation="horizontal">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Search"
-            android:layout_width="288dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
-            android:background="@drawable/rectangle_light_grey_bg"
+            android:layout_margin="@dimen/left_space"
+            android:background="@drawable/background_transparent"
             android:hint="Search"
             android:imeOptions="actionDone"
             android:inputType="textFilter"
-            android:padding="@dimen/small_size"
-            tools:ignore="MissingConstraints,NotSibling,SpeakableTextPresentCheck" />
+            android:padding="@dimen/small_size" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_btn"
+            android:gravity="right">
 
+            <include layout="@layout/clear_search"
+                android:id="@+id/clear_search"/>
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="100dp"
+            android:id="@+id/search_email"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-
-            android:layout_gravity="center"
+            android:layout_margin="@dimen/left_space"
             android:background="@drawable/rounder_button_green"
             android:text="Search"
+            android:gravity="center"
             android:textColor="@color/white"
             tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
-    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -100,6 +114,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/first_button"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"

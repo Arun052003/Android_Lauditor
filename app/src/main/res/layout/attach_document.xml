@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent">
 
     <TextView
@@ -35,13 +36,13 @@
         android:paddingTop="@dimen/twenty_dp"
         android:paddingEnd="50dp"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="55dp">
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:aapt="http://schemas.android.com/aapt"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/tv_create_members"
+            android:id="@+id/client_nameee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -65,7 +66,7 @@
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:aapt="http://schemas.android.com/aapt"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/tv_view_members"
+            android:id="@+id/firm_nameee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
@@ -101,7 +102,7 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/tv_name"
+                android:id="@+id/client_name"
                 layout="@layout/group_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,12 +115,13 @@
 
 
         <include layout="@layout/spinner_text_view"
+            android:id="@+id/custom_client"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_margin="6dp"/>
 
         <ScrollView
-            android:id="@+id/list_scroll"
+            android:id="@+id/list_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:fillViewport="true"
@@ -129,8 +131,47 @@
                 layout="@layout/spinner_list"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:visibility="visible" />
+
         </ScrollView>
+        <LinearLayout
+            android:id="@+id/ll_select_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ll_client_name"
+            android:layout_marginTop="@dimen/small_size">
+
+            <!-- TextView for selecting groups -->
+            <TextView
+                android:id="@+id/tv_select_groups"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="@dimen/small_size"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/rectangle_light_grey_bg"
+                android:drawableRight="@drawable/down_arrow"
+                android:fontFamily="@font/gill_sans"
+                android:padding="15dp"
+                android:text="Select Groups"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintTop_toBottomOf="@id/rv_display_upload_groups_docs" />
+
+            <!-- RecyclerView for displaying groups -->
+            <include
+                android:id="@+id/rv_display_upload_groups_docs"
+                layout="@layout/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_groups" />
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Search"
@@ -146,36 +187,28 @@
             android:padding="15dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_buttons_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/btn_cancel_save"
+                layout="@layout/cancel_button" />
+
+            <include
+                android:id="@+id/btn_create"
+                layout="@layout/submit_button" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <!--                            <include-->
         <!--                                android:id="@+id/at_search_client"-->
         <!--                                layout="@layout/spinner_layout" />-->
 
     </LinearLayout>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/ll_buttons_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="511dp"
-        tools:ignore="MissingConstraints">
-
-        <include
-            android:id="@+id/btn_cancel_save"
-
-            layout="@layout/cancel_button" />
-
-        <include
-            android:id="@+id/btn_create"
-
-
-            layout="@layout/submit_button" />
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     <!-- This is the actual edit text which takes the input -->

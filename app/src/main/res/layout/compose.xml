@@ -5,28 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/compose_root_layout_id"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp">
-
-    <!-- Your UI elements here -->
-
-
-
-
-
 
     <LinearLayout
         android:id="@+id/new_messagesss"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginBottom="900dp"
         android:background="#EBE4E4"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subject_input"
-        app:layout_constraintVertical_bias="0.29"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,12 +24,9 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- ImageView for Attachment -->
-
-
             <!-- TextView for Text -->
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -48,8 +35,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@color/black"
-                android:textSize="28dp"
-                tools:ignore="MissingConstraints" />
+                android:textSize="28sp" />
             <ImageView
                 android:id="@+id/attachment"
                 android:layout_width="50dp"
@@ -58,42 +44,46 @@
                 android:padding="8dp"
                 android:src="@drawable/simple_icons"
                 tools:ignore="MissingConstraints" />
+
         </LinearLayout>
 
     </LinearLayout>
 
     <EditText
-        android:id="@+id/subject_input"
-
-        android:layout_width="match_parent"
+        android:id="@+id/to_input"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="To:"
-        tools:ignore="MissingConstraints,TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="82dp" />
+        app:layout_constraintTop_toBottomOf="@id/new_messagesss"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.5" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/message_input"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Subject:"
-
-        android:layout_gravity="center"
-        tools:ignore="MissingConstraints,TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="127dp" />
-
+        app:layout_constraintTop_toBottomOf="@id/to_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/message_inputs"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:inputType="textMultiLine"
-        android:maxLines="5"
-        app:boxBackgroundMode="none"
-        tools:ignore="MissingConstraints,TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="204dp" >
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/message_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/message_inputss"
@@ -101,24 +91,21 @@
             android:layout_height="250dp"
             android:background="@color/white"
             android:inputType="textMultiLine"
-            android:maxLines="5"
-            tools:ignore="MissingConstraints,TouchTargetSizeCheck,SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="204dp" />
+            android:maxLines="5" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <LinearLayout
         android:id="@+id/new_message"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#EBE4E4"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message_inputs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
 
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints,NotSibling"
-        tools:layout_editor_absoluteX="16dp">
-
-        <!-- ImageView for Attachment -->
+      >
         <ImageView
             android:id="@+id/attachments"
             android:layout_width="40dp"
@@ -133,24 +120,21 @@
 
         <!-- Send Button with Corner Radius -->
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sends_button"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="265dp"
+            android:layout_marginLeft="170dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
+            android:alpha="0.5"
             android:background="@drawable/rounder_button_blue"
             android:padding="10dp"
             android:text="Send"
-            android:alpha="0.5"
             android:textColor="@color/white"
             tools:ignore="MissingConstraints,TouchTargetSizeCheck"
             tools:layout_editor_absoluteX="281dp"
             tools:layout_editor_absoluteY="68dp" />
 
+
     </LinearLayout>
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

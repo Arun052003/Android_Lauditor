@@ -13,7 +13,7 @@ import com.digicoffer.lauditor.R;
 
 import java.util.List;
 
-class GridAdapter extends BaseAdapter {
+ class GridAdapter extends BaseAdapter {
     private Context mContext;
     private List<AttachmentModel> mAttachments;
 

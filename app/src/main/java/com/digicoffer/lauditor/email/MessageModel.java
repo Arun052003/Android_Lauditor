@@ -7,7 +7,7 @@ public class MessageModel {
     String subject;
     String from;
     String to;
-    List<AttachmentModel> attachments;
+    public List<AttachmentModel> attachments;
     public String getMsgId() {
         return msgId;
     }
@@ -24,8 +24,29 @@ public class MessageModel {
         this.subject =subject;
     }
     public String getFrom() {
+
+        String[] parts = from.split("<");
+
+        if (parts.length >= 2) {
+
+            String namePart = parts[0].trim();
+
+
+            int atIndex = namePart.indexOf('@');
+            if (atIndex != -1) {
+                namePart = namePart.substring(0, atIndex).trim();
+            }
+
+            return namePart;
+        }
+
+
         return from;
     }
+
+
+
+
 
     public void setFrom(String from
     ){
