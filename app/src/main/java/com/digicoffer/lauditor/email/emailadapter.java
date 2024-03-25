@@ -251,26 +251,26 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     ll_select_groups.setVisibility(View.VISIBLE);
                 }
             });
-            custom_client.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clientsList.clear();
-                    callClientWebservice(view.getContext());
+//            custom_client.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    clientsList.clear();
+//                    callClientWebservice(view.getContext());
+//
+//                }
 
-                }
-
-                private void callClientWebservice(Context context) {
-                    try {
-                        progress_dialog = AndroidUtils.get_progress((Activity) context);
-                        JSONObject jsonObject = new JSONObject();
-                        WebServiceHelper.callHttpWebService(this, context, WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
-                    } catch (Exception e) {
-//                        if (progress_dialog != null && progress_dialog.isShowing()) {
-//                            AndroidUtils.dismiss_dialog(progress_dialog);
-//                        }
-                    }
-                }
-            });
+//                private void callClientWebservice(Context context) {
+//                    try {
+//                        progress_dialog = AndroidUtils.get_progress((Activity) context);
+//                        JSONObject jsonObject = new JSONObject();
+//                        WebServiceHelper.callHttpWebService(this, context, WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
+//                    } catch (Exception e) {
+////                        if (progress_dialog != null && progress_dialog.isShowing()) {
+////                            AndroidUtils.dismiss_dialog(progress_dialog);
+////                        }
+//                    }
+//                }
+        //    });
         }
     }
 
