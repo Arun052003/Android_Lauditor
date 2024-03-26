@@ -4,6 +4,7 @@ import com.digicoffer.lauditor.Chat.Model.ChildDO;
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +66,7 @@ public class Constants {
     public static Map<String, ArrayList<ChildDO>> teamMapChatList = new HashMap<String, ArrayList<ChildDO>>();
 
     public static String chat_SENT = "SENT";
+    public static JSONObject jsonObject_dashboard;
     public static String chat_RECEIVE = "RECEIVE";
     public static String meetingApiEndpoint = "v3/dashboard/meeting/-330";
     public static String chatRelationshipApiEndpoint = "v3/dashboard/otherapi";

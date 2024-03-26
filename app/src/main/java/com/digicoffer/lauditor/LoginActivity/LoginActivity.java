@@ -555,6 +555,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 if (httpResult.getRequestType().equals("LOGIN")) {
                     if (!result.getBoolean("error")) {
                         JSONObject probiz_data = new JSONObject(result.getString("data"));
+                        Constants.jsonObject_dashboard=probiz_data;
                         if (!probiz_data.getString("plan").toLowerCase().equals("lauditor")) {
 //                            AndroidUtils.showToast("Account not found", this);
                             AndroidUtils.showToast("Account not found", LoginActivity.this);
@@ -644,6 +645,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     JSONArray Dasboard_array = result.getJSONArray("cards");
                     Dashboard_data(Dasboard_array);
                 }
+                Log.d("Response_Data",""+Constants.jsonObject_dashboard);
             } catch (Exception e) {
                 AndroidUtils.showToast(e.getMessage(), LoginActivity.this);
             }
