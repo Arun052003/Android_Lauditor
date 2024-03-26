@@ -13,9 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,12 +28,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.Documents.models.ClientsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
+import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -50,13 +55,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     boolean ISCHECK_EMAIL = false;
     boolean ISCHECK_AUTH = false;
+    boolean ischecked = true;
     boolean ischeck_label, ischeck_auth;
     String nextPageToken = "";
     ImageView arrow_left;
     ImageView clear_search;
+    TextView custom_spinner;
     private int currentPosition = 1;
     TextInputEditText et_Search;
-
+    ArrayList<ClientsModel> clientsList = new ArrayList<>();
 
     public static AlertDialog progress_dialog;
     Stack<List<MessageModel>> pageStack = new Stack<>();
@@ -71,6 +78,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     TextView inbox_textViews;
     AppCompatButton first_button, search_email,sends_button;
     EditText to_input;
+    ListView list_client;
+    String client_id = "";
 
 
 
@@ -83,11 +92,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         ImageView closeDocuments = view.findViewById(R.id.compose);
         ImageView arrow_right = view.findViewById(R.id.arrow_right);
         ImageView arrow_left = view.findViewById(R.id.arrow_left);
+        arrow_left.setAlpha(0.3f);
         clear_search = view.findViewById(R.id.clear_search);
         clear_search.setVisibility(View.GONE);
         inbox_textViews = view.findViewById(R.id.inbox_textViews);
         first_button = view.findViewById(R.id.first_button);
-        first_button.setAlpha(0);
+        first_button.setAlpha(0.3f);
         et_Search = view.findViewById(R.id.et_Search);
         search_email = view.findViewById(R.id.search_email);
         sends_button = view.findViewById(R.id.sends_button);
@@ -98,21 +108,58 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 openComposePopup();
             }
         });
+        first_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!totalMessageArray.isEmpty()) {
+                    pre_next_position = 0;
+                    updateRecyclerView(totalMessageArray.get(pre_next_position));
+                    arrow_left.setAlpha(0.3f);
+                    first_button.setAlpha(0.3f);
+                    arrow_right.setAlpha(1.0f);
+                }
+            }
+        });
 
 
 
         arrow_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callMessageListnext();
-            }
+
+                    if (isMorePagesAvailable()) {
+
+                        pre_next_position++;
+                        callMessageListnext();
+                        arrow_left.setAlpha(1.0f);
+                        first_button.setAlpha(1.0f);
+
+                    } else {
+
+                        Toast.makeText(getContext(), "No more pages available", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
         });
+
+
         arrow_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callMessageListnext();
+                if (pre_next_position  > 0) {
+                    pre_next_position--;
+                    List<MessageModel> previousPageMessages = totalMessageArray.get(pre_next_position);
+                    updateRecyclerView(previousPageMessages);
+                } else {
+
+                    Toast.makeText(getContext(), "You are already on the first page", Toast.LENGTH_SHORT).show();
+                    first_button.setAlpha(0.3f);
+                    arrow_left.setAlpha(0.3f);
+                }
             }
         });
+
 
 
 //        emaiAPI();
@@ -121,6 +168,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
         return view;
     }
+    private boolean isMorePagesAvailable() {
+        // Check if there's a next page token or any other indicator that more pages are available
+        // For example, if nextPageToken is not null, you can assume there are more pages available
+        return nextPageToken != null && !nextPageToken.isEmpty();
+    }
+
 
 
     private void openComposePopup() {
@@ -258,7 +311,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     loadRowDatas(result);
 
 
-                } else if (httpResult.getRequestType().equals("auth")) {
+                }   else if (httpResult.getRequestType().equals("Clients List")) {
+                    JSONObject data = result.getJSONObject("data");
+                    try {
+                        loadClients(data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);
                     ISCHECK_AUTH = true;
@@ -346,6 +407,43 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             Log.e("API Error", "Failed to call API: " + e.getMessage());
         }
     }
+    private void loadClients(JSONObject data) throws JSONException {
+        JSONArray relationships = data.getJSONArray("relationships");
+        //Adding a list first value as empty...
+//        clientsList.add(0, new ClientsModel());
+        for (int i = 0; i < relationships.length(); i++) {
+            JSONObject jsonObject = relationships.getJSONObject(i);
+            ClientsModel clientsModel = new ClientsModel();
+            clientsModel.setId(jsonObject.getString("id"));
+            clientsModel.setName(jsonObject.getString("name"));
+            clientsModel.setType(jsonObject.getString("type"));
+            clientsList.add(clientsModel);
+//                    updatedClients.add(clientsModel);
+        }
+        initUI(clientsList);
+        // intUI(clientsList);
+    }
+    private void initUI(ArrayList<ClientsModel> clientsList) {
+        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
+        list_client.setAdapter(adapter);
+
+//        tv_search_client.setAdapter(adapter);
+
+
+        list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                matter_name = Documents.this.clientsList.get(position).getName();
+                client_id = clientsList.get(position).getId();
+                String client_name = clientsList.get(position).getName();
+                Log.d("Client_value_name", client_name);
+                custom_spinner.setText(client_name);
+
+
+                ischecked = true;
+            }
+        });
+    }
 
     public void callMessageListnext() {
         try {
@@ -403,6 +501,17 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             }, 10000);
         }
 
+    }
+    private void callClientWebservice() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+        }
     }
 
 
