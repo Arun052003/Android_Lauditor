@@ -68,6 +68,7 @@ public class Constants {
     public static String chat_RECEIVE = "RECEIVE";
     public static String meetingApiEndpoint = "v3/dashboard/meeting/-330";
     public static String chatRelationshipApiEndpoint = "v3/dashboard/otherapi";
+    public static String Dashboard="v3/dashboard/layout";
     public static String clientTeamApiEndpoint = "v3/dashboard/chat-team";
     public static String emailApiEndpoint = "v3/dashboard/email";
     public static String hoursEndpoint = "v3/dashboard/hours";

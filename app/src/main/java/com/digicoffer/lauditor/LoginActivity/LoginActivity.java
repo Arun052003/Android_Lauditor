@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.digicoffer.lauditor.MainActivity;
+import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     String firm_list_name = "";
     boolean ischecked = true;
     boolean is_bio;
+    ArrayList<Dashboard_Model> dashboardModels = new ArrayList<>();
     TextView spinner_firm_view, tv_sign_in;
     AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
@@ -260,6 +262,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
 
+    private void Dashboard() {
+//        https://apidev2.digicoffer.com/professional/v3/dashboard/layout
+        JSONObject jsonObject = new JSONObject();
+        Constants.base_URL = Constants.PROF_URL;
+        WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.GET, Constants.Dashboard, "Dashboard", jsonObject.toString());
+    }
+
     private void Login() {
         try {
             Constants.PROBIZ_TYPE = "PROFESSIONAL";
@@ -422,6 +431,89 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
     }
 
+    private void Dashboard_data(JSONArray jsonArray_Dashboard) throws JSONException {
+        for (int i = 0; i < jsonArray_Dashboard.length(); i++) {
+            JSONObject jsonObject = jsonArray_Dashboard.getJSONObject(i);
+            String type = jsonObject.getString("type");
+            JSONArray jsonArray_myday = jsonObject.getJSONArray("options");
+            for (int j = 0; j < jsonArray_myday.length(); j++) {
+                JSONObject jsonObject1 = jsonArray_myday.getJSONObject(j);
+                Dashboard_Model dashboardModel = new Dashboard_Model();
+                dashboardModel.setName(jsonObject1.getString("name"));
+                dashboardModel.setSequence(jsonObject1.getString("sequence"));
+                dashboardModels.add(dashboardModel);
+            }
+            Log.d("Dashboard_page", "" + type + dashboardModels);
+        }
+//        {
+//            "cards": [
+//            {
+//                "type": "MYDAY",
+//                    "options": [
+//                {
+//                    "name": "meeting",
+//                        "sequence": 0
+//                },
+//                {
+//                    "name": "clientChat",
+//                        "sequence": 1
+//                },
+//                {
+//                    "name": "teamChat",
+//                        "sequence": 2
+//                },
+//                {
+//                    "name": "notifications",
+//                        "sequence": 3
+//                }
+//            ]
+//            },
+//            {
+//                "type": "KPI",
+//                    "options": [
+//                {
+//                    "name": "billable",
+//                        "sequence": 0
+//                },
+//                {
+//                    "name": "nonBillable",
+//                        "sequence": 1
+//                },
+//                {
+//                    "name": "approxRevenue",
+//                        "sequence": 2
+//                },
+//                {
+//                    "name": "avgBillingRate",
+//                        "sequence": 3
+//                },
+//                {
+//                    "name": "timesheets",
+//                        "sequence": 4
+//                },
+//                {
+//                    "name": "matters",
+//                        "sequence": 5
+//                },
+//                {
+//                    "name": "newClients",
+//                        "sequence": 6
+//                },
+//                {
+//                    "name": "newHires",
+//                        "sequence": 7
+//                },
+//                {
+//                    "name": "storage",
+//                        "sequence": 8
+//                }
+//            ]
+//            }
+//    ]
+//        }
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void save_xmpp_preference() {
 //        String email = Objects.requireNonNull(et_Prof_Biz.getText()).toString().trim();
@@ -500,10 +592,11 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         if (Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
                         {
                             AndroidUtils.showToast("Login Successful", this);
-                            startActivity(new Intent(this, MainActivity.class));
-
-                            //After clicking the submit Button Checking if the Bio-Metric Check box is Enabled or Disabled.
+                            Dashboard();
+                            //After Successfully Login, Checking if the Bio-Metric Check box is Checked or Not.
                             Bio_metric_access();
+
+                            startActivity(new Intent(this, MainActivity.class));
                             if (ad_dialog != null && ad_dialog.isShowing())
                                 ad_dialog.dismiss();
                         } else {
@@ -547,8 +640,10 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //                            AndroidUtils.showToast(error_msg, this);
                         }
                     }
+                } else if (httpResult.getRequestType().equals("Dashboard")) {
+                    JSONArray Dasboard_array = result.getJSONArray("cards");
+                    Dashboard_data(Dasboard_array);
                 }
-
             } catch (Exception e) {
                 AndroidUtils.showToast(e.getMessage(), LoginActivity.this);
             }
