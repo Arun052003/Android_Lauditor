@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.net.ParseException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -166,31 +168,31 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
             tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
 //            tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
-//            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    sorted_list.clear();
-//                    et_search_relationships.setText("");
-//                    String FLAG = "Start Time";
-//                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
-//                        @Override
-//                        public void onDateSelected(String selectedDate, String FLAG) {
-//                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-//
-//                            try {
-//                                Date date = originalFormat.parse(selectedDate);
-//                                String formattedDate = desiredFormat.format(date);
-//                                // Use formattedDate as needed, for example:
-//                                tv_event_start_time.setText(formattedDate);
-//                            } catch (ParseException | java.text.ParseException e) {
-//                                e.printStackTrace();
-//                                // Handle parsing exception here
-//                            }
-//                        }
-//                    });
-//                }
-//            });
+            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sorted_list.clear();
+                    et_search_relationships.setText("");
+                    String FLAG = "Start Time";
+                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
+                        @Override
+                        public void onDateSelected(String selectedDate, String FLAG) {
+                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+                            try {
+                                Date date = originalFormat.parse(selectedDate);
+                                String formattedDate = desiredFormat.format(date);
+                                // Use formattedDate as needed, for example:
+                                tv_event_start_time.setText(formattedDate);
+                            } catch (ParseException | java.text.ParseException e) {
+                                e.printStackTrace();
+                                // Handle parsing exception here
+                            }
+                        }
+                    });
+                }
+            });
             int i;
 
 
@@ -201,12 +203,25 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                 @Override
                 public void onClick(View v) {
                     sorted_list.clear();
-                    rv_audits.removeAllViews();
-                    rv_audits.setAdapter(null);
-
                     et_search_relationships.setText("");
-                    String FLAG = "End Time";
-                    DateUtilsEndDate.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG);
+                    String FLAG = "Start Time";
+                    DateUtils.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
+                        @Override
+                        public void onDateSelected(String selectedDate, String FLAG) {
+                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+                            try {
+                                Date date = originalFormat.parse(selectedDate);
+                                String formattedDate = desiredFormat.format(date);
+                                // Use formattedDate as needed, for example:
+                                tv_event_end_time.setText(formattedDate);
+                            } catch (ParseException | java.text.ParseException e) {
+                                e.printStackTrace();
+                                // Handle parsing exception here
+                            }
+                        }
+                    });
                 }
             });
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_end_time,getContext());
@@ -218,46 +233,27 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             iv_forward_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (maxPageButtons < 5) {
-                     pageNumberLayout.removeAllViews();
-                        setupPagination();
 
-                    } else {
-                        maxPageButtons = maxPageButtons + 5;
-//                      pageNumberLayout.removeAllViews();
-                        setupPagination();
-//                  currentPage = pageNumber;
-                    }
-//                    scrollView.post(new Runnable() {
-//                        public void run() {
-//                            scrollView.smoothScrollTo(0, scrollView.getBottom());
-//                        }
-//                    });
+                    maxPageButtons += 5;
+
+                    setupPagination();
+
                     scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-//                  loadPage(currentPage);
                 }
             });
+
             iv_backward_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (maxPageButtons < 5) {
-//                      pageNumberLayout.removeAllViews();
-                        setupPagination();
 
-                    } else {
-                        maxPageButtons = maxPageButtons - 5;
-//                      pageNumberLayout.removeAllViews();
-                        setupPagination();
-//                  currentPage = pageNumber;
-                    }
+                    maxPageButtons -= 5;
+
+                    setupPagination();
+
                     scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-//                    scrollView.post(new Runnable() {
-//                        public void run() {
-//                            scrollView.smoothScrollTo(0, 0);
-//                        }
-//                    });
                 }
             });
+
             pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
             et_search_relationships = view.findViewById(R.id.et_search_relationships);
             et_search_relationships.setHint("Search");
@@ -765,93 +761,88 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
         }
     }
 
-    private void loadPage(int page, boolean isAdvancedSearchEnabled) {
-
-        try {
-//            loadNewAuditsData(jsonArray);
-            MyAsyncTask myAsyncTask = new MyAsyncTask();
-            myAsyncTask.page = page;
-            myAsyncTask.isAdvancedSearchEnabled = isAdvancedSearchEnabled;
-            myAsyncTask.execute();
-           /* if (!isAdvancedSearchEnabled) {
-                sorted_list.clear();
-
-//            if (audit_adapter!=null){
-//                audit_adapter.itemList.clear();
-//            }
-//                sorted_list.clear();
-                if (Catergory_type.equals("AUTH")) {
-                    for (int i = 0; i < autentication_list.size(); i++) {
-//                AuditsModel auditsModel = auditsList.get(i);
-//                    if (auditsList.get(i).getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
-                        AuditsModel auditsModel1 = autentication_list.get(i);
-//                        auditsModel1.setName(auditsList.get(i).getName());
-//                        auditsModel1.setTimestamp(auditsList.get(i).getTimestamp());
-//                        auditsModel1.setMessage(auditsList.get(i).getMessage());
-                        sorted_list.add(auditsModel1);
-//                    }
-                    }
-//
-                } else if (Catergory_type.equals("GROUPS")) {
-                    for (int i = 0; i < groups_list.size(); i++) {
-                        AuditsModel auditsModel = groups_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("TEAM MEMBER")) {
-                    for (int i = 0; i < tm_list.size(); i++) {
-                        AuditsModel auditsModel = tm_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("RELATIONSHIP")) {
-                    for (int i = 0; i < relationships_list.size(); i++) {
-                        AuditsModel auditsModel = relationships_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("SHARE")) {
-                    for (int i = 0; i < share_list.size(); i++) {
-                        AuditsModel auditsModel = share_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("DOCUMENT")) {
-                    for (int i = 0; i < documents_list.size(); i++) {
-                        AuditsModel auditsModel = documents_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("MERGE PDF")) {
-                    for (int i = 0; i < merge_pdf_list.size(); i++) {
-                        AuditsModel auditsModel = merge_pdf_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("LEGAL MATTER")) {
-                    for (int i = 0; i < legal_matter_list.size(); i++) {
-                        AuditsModel auditsModel = legal_matter_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                } else if (Catergory_type.equals("GENERAL MATTER")) {
-                    for (int i = 0; i < general_matter_list.size(); i++) {
-                        AuditsModel auditsModel = general_matter_list.get(i);
-                        sorted_list.add(auditsModel);
-                    }
-                }
-                loadRecyclerView(page);
-                Log.d("Sorted_list", String.valueOf(sorted_list.size()));
-            }
-            else {
+    private void loadPage(final int page, final boolean isAdvancedSearchEnabled) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 try {
-//
-                    loadRecyclerView(page);
-//                        }
-                } catch (Exception e) {
-                    AndroidUtils.showToast(e.getMessage(), getContext());
-                    throw new RuntimeException(e);
+                    // Clear the sorted list
+                    sorted_list.clear();
+
+                    // Add data based on category type
+                    if (!isAdvancedSearchEnabled) {
+                        if (Catergory_type.equals("AUTH")) {
+                            for (int i = 0; i < autentication_list.size(); i++) {
+                                AuditsModel auditsModel1 = autentication_list.get(i);
+                                sorted_list.add(auditsModel1);
+                            }
+                        } else if (Catergory_type.equals("GROUPS")) {
+                            for (int i = 0; i < groups_list.size(); i++) {
+                                AuditsModel auditsModel = groups_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("TEAM MEMBER")) {
+                            for (int i = 0; i < tm_list.size(); i++) {
+                                AuditsModel auditsModel = tm_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("RELATIONSHIP")) {
+                            for (int i = 0; i < relationships_list.size(); i++) {
+                                AuditsModel auditsModel = relationships_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("SHARE")) {
+                            for (int i = 0; i < share_list.size(); i++) {
+                                AuditsModel auditsModel = share_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("DOCUMENT")) {
+                            for (int i = 0; i < documents_list.size(); i++) {
+                                AuditsModel auditsModel = documents_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("MERGE PDF")) {
+                            for (int i = 0; i < merge_pdf_list.size(); i++) {
+                                AuditsModel auditsModel = merge_pdf_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("LEGAL MATTER")) {
+                            for (int i = 0; i < legal_matter_list.size(); i++) {
+                                AuditsModel auditsModel = legal_matter_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        } else if (Catergory_type.equals("GENERAL MATTER")) {
+                            for (int i = 0; i < general_matter_list.size(); i++) {
+                                AuditsModel auditsModel = general_matter_list.get(i);
+                                sorted_list.add(auditsModel);
+                            }
+                        }
+                    }
+
+                    // Load RecyclerView on the UI thread
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadRecyclerView(page);
+                        }
+                    });
+
+                } catch (final Exception e) {
+                    // Handle any exceptions
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AndroidUtils.showToast(e.getMessage(), getContext());
+                            Log.e("LoadPageException", e.getMessage());
+                        }
+                    });
                 }
-            } */
+            }
+        }).start();
+    }
 
-        } catch (Exception e) {
-            Log.d("LoadPageException", e.getMessage());
-            throw new RuntimeException(e);
-        }
-
+    private void runOnUiThread(Runnable loadPageException) {
     }
 
     private void loadNewAuditsData(JSONArray jsonArray) {
