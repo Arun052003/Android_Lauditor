@@ -2,6 +2,8 @@ package com.digicoffer.lauditor.Notifications;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +38,7 @@ import java.util.ArrayList;
 public class Notifications extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, NotificationsAdapter.EventListener {
     RecyclerView rv_notifications;
     private NewModel mViewModel;
+    LinearLayout message_list;
     ArrayList<NotificationsDo> notificationList = new ArrayList<NotificationsDo>();
     AlertDialog progress_dialog;
     private CheckBox chk_select_all;
@@ -58,6 +62,7 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
         tv_notification_count = v.findViewById(R.id.tv_notification_count);
         callWebservice();
         et_Search = v.findViewById(R.id.et_Search);
+        message_list = v.findViewById(R.id.message_list);
         et_Search.setHint("Search");
         loadRecycleView();
         return v;
@@ -170,9 +175,13 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
                 @Override
                 public void onClick(View view) {
                     read_all_notifications(adapter.getList_item());
+
                 }
             });
             loadRecycleView();
+
+
+
         } catch (Exception e) {
 
         }

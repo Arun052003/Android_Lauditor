@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.Notifications;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,8 +78,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.tv_message.setText(notifications.getMessage());
         if (notifications.getStatus().toLowerCase().equals("unread")) {
             holder.tv_message.setTypeface(null, Typeface.BOLD);
+
         } else {
             holder.tv_message.setTypeface(null, Typeface.NORMAL);
+           holder. message_list.setBackgroundColor(Color.WHITE);
         }
 
         holder.ib_Delete.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +194,7 @@ public void selectOrDeselectAll(boolean isChecked) {
         private ImageButton ib_Delete;
         private TextView tv_message;
         public CheckBox chkSelected;
+        private LinearLayout    message_list;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -198,6 +203,7 @@ public void selectOrDeselectAll(boolean isChecked) {
             tv_message = (TextView) itemView.findViewById(R.id.tv_messageView);
             ib_Delete = (ImageButton) itemView.findViewById(R.id.btn_deleteNotification);
             chkSelected = (CheckBox) itemView.findViewById(R.id.chk_selected);
+            message_list = itemView.findViewById(R.id.message_list);
 
 
         }
