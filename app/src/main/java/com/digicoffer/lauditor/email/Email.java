@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.email;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Documents.models.ClientsModel;
+import com.digicoffer.lauditor.Documents.models.ViewDocumentsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -54,13 +57,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private String URL = "";
 
     boolean ISCHECK_EMAIL = false;
+    ArrayList<ViewDocumentsModel> view_docs_list = new ArrayList<>();
     boolean ISCHECK_AUTH = false;
     boolean ischecked = true;
     boolean ischeck_label, ischeck_auth;
     String nextPageToken = "";
     ImageView arrow_left;
     ImageView clear_search;
-    TextView custom_spinner;
+    TextView custom_client;
     private int currentPosition = 1;
     TextInputEditText et_Search;
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
@@ -78,7 +82,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     TextView inbox_textViews;
     AppCompatButton first_button, search_email,sends_button;
     EditText to_input;
-    ListView list_client;
+    ListView client_list_view;
     String client_id = "";
 
 
@@ -90,6 +94,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         View view = inflater.inflate(R.layout.email_layout, container, false);
 
         ImageView closeDocuments = view.findViewById(R.id.compose);
+
         ImageView arrow_right = view.findViewById(R.id.arrow_right);
         ImageView arrow_left = view.findViewById(R.id.arrow_left);
         arrow_left.setAlpha(0.3f);
@@ -100,7 +105,9 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         first_button.setAlpha(0.3f);
         et_Search = view.findViewById(R.id.et_Search);
         search_email = view.findViewById(R.id.search_email);
+        search_email.setAlpha(0.3f);
         sends_button = view.findViewById(R.id.sends_button);
+        ListView client_list_view = view.findViewById(R.id.client_list_view);
 
         closeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,8 +176,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         return view;
     }
     private boolean isMorePagesAvailable() {
-        // Check if there's a next page token or any other indicator that more pages are available
-        // For example, if nextPageToken is not null, you can assume there are more pages available
+
         return nextPageToken != null && !nextPageToken.isEmpty();
     }
 
@@ -181,31 +187,48 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.compose, null);
 
-
-
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
         ImageView cross_icon = view.findViewById(R.id.attachment);
-
-
-
-        // Set OnClickListener for the attachment ImageView
-        attachmentImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create and display AlertDialog for attaching documents
-                AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
-                View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
-                attachmentDialogBuilder.setView(attachmentView);
-                AlertDialog attachmentDialog = attachmentDialogBuilder.create();
-                attachmentDialog.show();
-            }
-        });
 
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.show();
-       cross_icon.setOnClickListener(new View.OnClickListener() {
+
+        attachmentImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
+                View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
+
+                TextView custom_client = attachmentView.findViewById(R.id.custom_client);
+                ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
+                ListView client_list_view = attachmentView.findViewById(R.id.client_list_view);
+//                initUI(client_list_view, clientsList);
+                custom_client.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callClientWebservice();
+                        if (ischecked) {
+                            list_scroll_view.setVisibility(View.VISIBLE);
+                        } else {
+                            list_scroll_view.setVisibility(View.VISIBLE);
+                        }
+                        ischecked = !ischecked;
+                    }
+                });
+                // Initialize custom_client here
+
+                attachmentDialogBuilder.setView(attachmentView);
+                AlertDialog attachmentDialog = attachmentDialogBuilder.create();
+                attachmentDialog.show();
+
+
+            }
+        });
+
+
+        cross_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Dismiss the AlertDialog
@@ -213,8 +236,43 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             }
         });
 
-
     }
+
+
+
+    private void load_view_doc(JSONArray docs) throws JSONException {
+        try {
+            view_docs_list.clear();
+            for (int i = 0; i < docs.length(); i++) {
+                ViewDocumentsModel viewDocumentsModel = new ViewDocumentsModel();
+                JSONObject jsonObject = docs.getJSONObject(i);
+                viewDocumentsModel.setCreated(jsonObject.getString("created"));
+                viewDocumentsModel.setContent_type(jsonObject.getString("content_type"));
+                viewDocumentsModel.setDescription(jsonObject.getString("description"));
+                viewDocumentsModel.setExpiration_date(jsonObject.getString("expiration_date"));
+                viewDocumentsModel.setFilename(jsonObject.getString("filename"));
+                viewDocumentsModel.setId(jsonObject.getString("id"));
+                viewDocumentsModel.setIs_disabled(jsonObject.getBoolean("is_disabled"));
+                viewDocumentsModel.setIs_encrypted(jsonObject.getBoolean("is_encrypted"));
+                viewDocumentsModel.setIs_password(jsonObject.getBoolean("is_password"));
+                viewDocumentsModel.setName(jsonObject.getString("name"));
+//                viewDocumentsModel.setOrigin(jsonObject.getString("origin"));
+                viewDocumentsModel.setUploaded_by(jsonObject.getString("uploaded_by"));
+                view_docs_list.add(viewDocumentsModel);
+                Log.d("VIEW_POSITION", view_docs_list.get(i).toString());
+            }
+           // loadViewDocumentsRecyclerview();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), getContext());
+        }
+    }
+
+
+
+
+
+
 
 
 
@@ -420,31 +478,26 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             clientsList.add(clientsModel);
 //                    updatedClients.add(clientsModel);
         }
-        initUI(clientsList);
+        initUI( clientsList);
         // intUI(clientsList);
     }
-    private void initUI(ArrayList<ClientsModel> clientsList) {
-        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), this.clientsList);
-        list_client.setAdapter(adapter);
-
-//        tv_search_client.setAdapter(adapter);
+    private void initUI( ArrayList<ClientsModel> clientsList) {
 
 
-        list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), clientsList);
+       client_list_view.setAdapter(adapter);
+
+       client_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                matter_name = Documents.this.clientsList.get(position).getName();
                 client_id = clientsList.get(position).getId();
                 String client_name = clientsList.get(position).getName();
                 Log.d("Client_value_name", client_name);
-                custom_spinner.setText(client_name);
-
-
+                custom_client.setText(client_name);
                 ischecked = true;
             }
         });
     }
-
     public void callMessageListnext() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
@@ -544,12 +597,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     clear_search.setVisibility(View.GONE);
                 else
                     clear_search.setVisibility(View.VISIBLE);
+                search_email.setAlpha(1.0f);
             }
         });
         clear_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 et_Search.setText("");
+                search_email.setAlpha(0.3f);
                 adapter.getFilter().filter(et_Search.getText().toString());
             }
         });

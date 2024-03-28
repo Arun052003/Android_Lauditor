@@ -135,6 +135,7 @@
 
         <include
             layout="@layout/spinner_list"
+            android:id="@+id/list_client_email"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:visibility="visible" />
@@ -194,7 +195,7 @@
          />
 
         <include
-            android:id="@+id/btn_create"
+            android:id="@+id/btn_upload_new"
             layout="@layout/submit_button"
           />
 

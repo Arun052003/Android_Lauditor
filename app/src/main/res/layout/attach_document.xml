@@ -112,28 +112,46 @@
             <include layout="@layout/astrick_layout" />
 
         </LinearLayout>
-
-
-        <include layout="@layout/spinner_text_view"
-            android:id="@+id/custom_client"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_margin="6dp"/>
-
-        <ScrollView
-            android:id="@+id/list_scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:fillViewport="true"
-            tools:ignore="SpeakableTextPresentCheck">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <include
-                layout="@layout/spinner_list"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:visibility="visible" />
+                layout="@layout/spinner_text_view"
+                android:id="@+id/custom_client"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="6dp"/>
 
-        </ScrollView>
+            <!-- attach_document.xml -->
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Your other views here -->
+
+                <ScrollView
+                    android:id="@+id/list_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ListView
+                        android:id="@+id/client_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </ScrollView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
         <LinearLayout
             android:id="@+id/ll_select_groups"
             android:layout_width="match_parent"
@@ -186,6 +204,9 @@
             android:inputType="textFilter"
             android:padding="15dp"
             tools:ignore="SpeakableTextPresentCheck" />
+
+
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_buttons_1"

@@ -27,6 +27,7 @@ import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.digicoffer.lauditor.email.Email;
 import com.digicoffer.lauditor.email.GridAdapter;
@@ -46,18 +47,51 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     private List<MessageModel> messages;
     TextView tv_client_name;
-    TextView custom_client;
+
     List<MessageModel> itemsList = new ArrayList<>();
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     boolean ischecked = true;
 
     ListView list_client;
     String client_id = "";
+    String msg_id = " ";
+    private TextView custom_client;
 
     public EmailAdapter(List<MessageModel> messages, Email email) {
         this.context_type = email.getContext();
         this.messages = messages;
         this.itemsList = messages;
+        this.custom_client = custom_client;
+
+
+    }
+    private void callClientWebservice() {
+        try {
+            progress_dialog = AndroidUtils.get_progress((Activity) context_type);
+            JSONObject jsonObject = new JSONObject();
+            WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+        }
+    }
+    public void callUploadDocument(String msg_id) {
+        try {
+            progress_dialog = AndroidUtils.get_progress((Activity) context_type);
+
+
+
+            JSONObject jsonObject = new JSONObject();
+
+            WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + msg_id + "?partid=1" , "uploadedfile", jsonObject.toString());
+
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -153,6 +187,16 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         e.printStackTrace();
                     }
                 }
+                else if (httpResult.getRequestType().equals("uploadedfile")) {
+                    try {
+                        JSONObject responseJson = new JSONObject(httpResult.getResponseContent());
+                        String message = responseJson.getString("msg");
+                        // Handle the message here as needed
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
@@ -173,7 +217,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     }
 
     private void initUI(ArrayList<ClientsModel> clientsList) {
-        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter((Activity) getActivity(), this.clientsList);
+        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter((Activity) context_type, this.clientsList);
         list_client.setAdapter(adapter);
         list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -192,16 +236,18 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         GridView gridView;
         TextView tvEmail;
         ListView list_client;
-
         ScrollView list_scroll_client;
+        LinearLayout ll_select_groups;
+        LinearLayout ll_client_name;
+        boolean ischecked = true; // Ensure this variable is properly initialized
 
         public EmailViewHolder(@NonNull View itemView) {
             super(itemView);
             senderName = itemView.findViewById(R.id.sender_name);
             subject = itemView.findViewById(R.id.subject);
             gridView = itemView.findViewById(R.id.gridView);
-            list_scroll_client = itemView.findViewById(R.id.list_scroll_client);
-            list_client = itemView.findViewById(R.id.list_client);
+            list_scroll_client = itemView.findViewById(R.id.list_scroll_client); // Ensure this line is correct
+            list_client = itemView.findViewById(R.id.list_client_email);
 
             gridView.setNumColumns(2);
         }
@@ -211,14 +257,15 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             subject.setText(email.getSubject());
             GridAdapter adapter = new GridAdapter(context_type, email.attachments);
             gridView.setAdapter(adapter);
-            list_client = itemView.findViewById(R.id.list_client);
-            list_scroll_client = itemView.findViewById(R.id.list_scroll_client);
+
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                     GridviewPopup(itemView);
                 }
             });
+
         }
 
         private void GridviewPopup(View view) {
@@ -228,15 +275,14 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             TextView tv_client_name = popupView.findViewById(R.id.client_name);
             TextView client_namee = popupView.findViewById(R.id.client_nameee);
             TextView firm_namee = popupView.findViewById(R.id.firm_nameee);
-            LinearLayout ll_select_groups = popupView.findViewById(R.id.ll_select_groups);
-            LinearLayout ll_client_name = popupView.findViewById(R.id.ll_client_name);
             TextView custom_client = popupView.findViewById(R.id.custom_client);
-            if (tv_client_name != null) {
-                tv_client_name.setText("Client Name");
-                builder.setView(popupView);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+            ScrollView list_scroll_client  = popupView.findViewById(R.id.list_scroll_client);
+
+            tv_client_name.setText("Client Name");
+            builder.setView(popupView);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
             client_namee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -251,32 +297,29 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     ll_select_groups.setVisibility(View.VISIBLE);
                 }
             });
-//            custom_client.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    clientsList.clear();
-//                    callClientWebservice(view.getContext());
-//
-//                }
+            custom_client.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-//                private void callClientWebservice(Context context) {
-//                    try {
-//                        progress_dialog = AndroidUtils.get_progress((Activity) context);
-//                        JSONObject jsonObject = new JSONObject();
-//                        WebServiceHelper.callHttpWebService(this, context, WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
-//                    } catch (Exception e) {
-////                        if (progress_dialog != null && progress_dialog.isShowing()) {
-////                            AndroidUtils.dismiss_dialog(progress_dialog);
-////                        }
-//                    }
-//                }
-        //    });
+                    callClientWebservice();
+
+
+                    if (ischecked) {
+                        list_scroll_client.setVisibility(View.VISIBLE);
+                    } else {
+                        list_scroll_client.setVisibility(View.GONE);
+                    }
+                    ischecked = !ischecked;
+                }
+            });
         }
+
     }
 
-    private Context getActivity() {
-        return getActivity();
-    }
+
+
+
+
 }
 
 
