@@ -13,17 +13,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +29,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.digicoffer.lauditor.MainActivity;
-import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -42,7 +38,6 @@ import com.digicoffer.lauditor.chatservice.ChatConnectionService;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
 import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jivesoftware.smack.SmackException;
@@ -52,11 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -65,16 +56,20 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity implements AsyncTaskCompleteListener {
 
     TextInputEditText tet_email, tet_password;
-    String firm_name;
+    String firm_name, firm_password;
+    ListView sp_firm;
+    JSONObject firm_postData = new JSONObject();
     String firm_list_name = "";
     boolean ischecked = true;
-    boolean is_bio;
+    boolean has_firm;
     ArrayList<Dashboard_Model> dashboardModels = new ArrayList<>();
     TextView spinner_firm_view, tv_sign_in;
     AppCompatButton bt_submit;
     boolean isAllFieldsChecked = false;
     AlertDialog progress_dialog;
     Dialog ad_dialog;
+    TextInputEditText et_firm_password;
+    boolean response_true;
     String filename = "user_data.txt";
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
@@ -165,32 +160,18 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             String Token = Constants.TOKEN;
             String email = tet_email.getText().toString().trim();
             String password = tet_password.getText().toString().trim();
-            // Get the SharedPreferences object
             SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-// Get an editor to modify SharedPreferences
             SharedPreferences.Editor editor = sharedPreferences.edit();
-
-// Store data
             editor.putString("email", email);
             editor.putString("password", password);
             editor.putString("Token", Token);
-
-// Commit changes
+            editor.putString("firm_id", firm_name);
+            editor.putString("firm_password", firm_password);
+            editor.putString("firm_list_name", firm_list_name);
+            editor.putBoolean("has_firm", has_firm);
+            editor.putString("Json_key", String.valueOf(Constants.jsonObject_dashboard));
+            editor.putBoolean("Check_box", true);
             editor.apply();
-//            try {
-//                //To Store the data in Internal Storage....
-//                FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-//                outputStream.write(email.getBytes());
-//                outputStream.write("\n".getBytes());
-//                outputStream.write(password.getBytes());
-//                outputStream.write("\n".getBytes());
-//                outputStream.write(Token.getBytes());
-//            } catch (FileNotFoundException e) {
-//                throw new RuntimeException(e);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
             Constants.is_biometric = true;
         } else {
             Constants.is_biometric = false;
@@ -220,11 +201,15 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         String email, password, Token1;
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences sharedPreferences_bio = getSharedPreferences("BIO", Context.MODE_PRIVATE);
-        is_bio = sharedPreferences_bio.getBoolean("IS_Bio", false);
-
-        email = sharedPreferences.getString("email", "email");
-        password = sharedPreferences.getString("password", "password");
-        Token1 = sharedPreferences.getString("Token", "Token");
+        Constants.Biometric_checked = sharedPreferences_bio.getBoolean("IS_Bio", false);
+        firm_name = sharedPreferences.getString("firm_id", "");
+        firm_list_name = sharedPreferences.getString("firm_list_name", "");
+        firm_password = sharedPreferences.getString("firm_password", "");
+        has_firm = sharedPreferences.getBoolean("has_firm", false);
+        email = sharedPreferences.getString("email", "");
+        password = sharedPreferences.getString("password", "");
+        Token1 = sharedPreferences.getString("Token", "");
+        String respose_v = sharedPreferences.getString("Json_key", "");
 //            try {
 //                FileInputStream inputStream = openFileInput(filename);
 //                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -236,18 +221,41 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //                user_value[1] = bufferedReader.readLine();
 //                bufferedReader.close();
 //
+        Constants.is_biometric = sharedPreferences.getBoolean("Check_box", false);
 //                //If the Data is retrieved from the Storage and Assign to the Respective field.
-        Log.d("Bio-metric", "  " + email + "     " + password + "   " + Token1);
+        Log.d("Bio-metric", "  " + firm_name + "     " + firm_password + "   " + Token1);
 //            } catch (Exception e) {
 //                throw new RuntimeException(e);
 //            }
-        if (is_bio) {
-            Constants.Old_Token = Token1;
-            checkBox.setChecked(true);
-            Constants.Biometric_checked = true;
-            tet_email.setText(email);
-            tet_password.setText(password);
-            Login();
+        if (Constants.is_biometric) {
+            if (Constants.Biometric_checked) {
+                try {
+                    JSONObject probiz_data = new JSONObject(respose_v);
+                    Constants.NAME = probiz_data.getString("name");
+                    Constants.USER_ID = probiz_data.getString("user_id");
+                    Constants.UID = probiz_data.getString("uid");
+                    Constants.OLD_PASSWORD = tet_password.getText().toString();
+                    Constants.PK = probiz_data.getString("pk");
+                    Constants.PASSWORD_MODE = probiz_data.getString("password_mode");
+                    Constants.IS_ADMIN = probiz_data.getBoolean("admin");
+                    Constants.FIRM_NAME = probiz_data.getString("firm_name");
+                    Constants.ROLE = probiz_data.getString("role");
+                    Log.d("Response_value..", respose_v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Constants.TOKEN = Token1;
+                checkBox.setChecked(true);
+                tet_email.setText(email);
+                tet_password.setText(password);
+                if (Constants.Valid_Token)
+                    Dashboard();
+                else {
+                    Login();
+                }
+            } else {
+                startActivity(new Intent(this, biometric_page.class));
+            }
         } else {
             Constants.Biometric_checked = false;
             checkBox.setChecked(false);
@@ -260,7 +268,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         return password.length() >= 6;
     }
-
 
     private void Dashboard() {
 //        https://apidev2.digicoffer.com/professional/v3/dashboard/layout
@@ -308,7 +315,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(LoginActivity.this, com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar_Fullscreen);
 //        builder.setBackground(getDrawable(R.drawable.rectangular_complete_blue_background));
 //        LayoutInflater inflater = getLayoutInflater();
-
         final Dialog dialogLayout = new Dialog(this);
         dialogLayout.setContentView(R.layout.firm_login);
         TextView textview_firm = dialogLayout.findViewById(R.id.textview_firm);
@@ -316,7 +322,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         textview_firm.setTextSize(12);
         textview_firm.setTypeface(Typeface.DEFAULT_BOLD);
         textview_firm.setText("This email address is associated with multiple firms. Please select a firm to sign-in");
-        ListView sp_firm = dialogLayout.findViewById(R.id.sp_firm);
+        sp_firm = dialogLayout.findViewById(R.id.sp_firm);
         sp_firm.setBackground(getDrawable(R.drawable.rectangular_white_background));
         spinner_firm_view = dialogLayout.findViewById(R.id.spinner_firm_view);
         spinner_firm_view.setBackground(getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
@@ -342,7 +348,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 ischecked = true;
             }
         });
-        final TextInputEditText et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
+
+        et_firm_password = (TextInputEditText) dialogLayout.findViewById(R.id.et_login_password);
 //        et_firm_password.setText("Test@123");
         Button bt_submit = (Button) dialogLayout.findViewById(R.id.Submit);
 
@@ -351,7 +358,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         Button bt_cancel = (Button) dialogLayout.findViewById(R.id.Cancel);
         JSONObject postData = new JSONObject();
+        firm_postData = postData;
 //
+        if ((Constants.is_biometric) && (Constants.Biometric_checked) && (has_firm)) {
+            et_firm_password.setText(firm_password);
+            spinner_firm_view.setText(firm_list_name);
+            submit_firm_login();
+        }
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,21 +408,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                try {
-                    String password = "";
-                    password = et_firm_password.getText().toString().trim();
-                    if (firm_list_name.equals("")) {
-                        AndroidUtils.showToast("Firm is mandatory", LoginActivity.this);
-                    }
-                    if (!password.equals("") && isValidPassword(password)) {
-                        callfirmloginWebservice(postData, sp_firm, list, et_firm_password, tet_email);
-                    } else {
-                        AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
-                    }
-                } catch (Exception e) {
-                    if (progress_dialog != null && progress_dialog.isShowing())
-                        AndroidUtils.dismiss_dialog(progress_dialog);
-                }
+                submit_firm_login();
             }
         });
 
@@ -422,8 +421,28 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         dialogLayout.show();
     }
 
-    private void callfirmloginWebservice(JSONObject postData, ListView sp_firm, ArrayList<FirmsDo> list, TextInputEditText et_firm_password, TextInputEditText tet_email) throws JSONException {
+    private void submit_firm_login() {
+        try {
+            String password = "";
+            password = et_firm_password.getText().toString().trim();
+            firm_password = password;
+            if (firm_list_name.equals("")) {
+                AndroidUtils.showToast("Firm is mandatory", LoginActivity.this);
+            }
+            if (!password.equals("") && isValidPassword(password)) {
+                callfirmloginWebservice(et_firm_password, tet_email);
+            } else {
+                AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
+            }
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing())
+                AndroidUtils.dismiss_dialog(progress_dialog);
+        }
+    }
+
+    private void callfirmloginWebservice(TextInputEditText et_firm_password, TextInputEditText tet_email) throws JSONException {
         progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
+        JSONObject postData = new JSONObject();
 //        int firm_position = Integer.parseInt(firm_name);
         postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
         postData.put("userid", firm_name);
@@ -445,73 +464,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             }
             Log.d("Dashboard_page", "" + type + dashboardModels);
         }
-//        {
-//            "cards": [
-//            {
-//                "type": "MYDAY",
-//                    "options": [
-//                {
-//                    "name": "meeting",
-//                        "sequence": 0
-//                },
-//                {
-//                    "name": "clientChat",
-//                        "sequence": 1
-//                },
-//                {
-//                    "name": "teamChat",
-//                        "sequence": 2
-//                },
-//                {
-//                    "name": "notifications",
-//                        "sequence": 3
-//                }
-//            ]
-//            },
-//            {
-//                "type": "KPI",
-//                    "options": [
-//                {
-//                    "name": "billable",
-//                        "sequence": 0
-//                },
-//                {
-//                    "name": "nonBillable",
-//                        "sequence": 1
-//                },
-//                {
-//                    "name": "approxRevenue",
-//                        "sequence": 2
-//                },
-//                {
-//                    "name": "avgBillingRate",
-//                        "sequence": 3
-//                },
-//                {
-//                    "name": "timesheets",
-//                        "sequence": 4
-//                },
-//                {
-//                    "name": "matters",
-//                        "sequence": 5
-//                },
-//                {
-//                    "name": "newClients",
-//                        "sequence": 6
-//                },
-//                {
-//                    "name": "newHires",
-//                        "sequence": 7
-//                },
-//                {
-//                    "name": "storage",
-//                        "sequence": 8
-//                }
-//            ]
-//            }
-//    ]
-//        }
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -555,7 +507,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 if (httpResult.getRequestType().equals("LOGIN")) {
                     if (!result.getBoolean("error")) {
                         JSONObject probiz_data = new JSONObject(result.getString("data"));
-                        Constants.jsonObject_dashboard=probiz_data;
+                        Constants.jsonObject_dashboard = probiz_data;
                         if (!probiz_data.getString("plan").toLowerCase().equals("lauditor")) {
 //                            AndroidUtils.showToast("Account not found", this);
                             AndroidUtils.showToast("Account not found", LoginActivity.this);
@@ -593,17 +545,15 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         if (Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
                         {
                             AndroidUtils.showToast("Login Successful", this);
-                            Dashboard();
                             //After Successfully Login, Checking if the Bio-Metric Check box is Checked or Not.
                             Bio_metric_access();
-
-                            startActivity(new Intent(this, MainActivity.class));
+                            Dashboard();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             if (ad_dialog != null && ad_dialog.isShowing())
                                 ad_dialog.dismiss();
                         } else {
                             startActivity(new Intent(LoginActivity.this, reset_password_file.class));
                         }
-
                     } else {
                         if (result.has("firms")) {
                             ArrayList<FirmsDo> list = new ArrayList<>();
@@ -622,6 +572,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                                     firmsDo.setValue(obj.getString("id"));
                                     list.add(firmsDo);
                                 }
+                                has_firm = true;
                                 firm_login(list);
                             } else {
                                 JSONObject obj = adminJsonArray.getJSONObject(0);
@@ -643,9 +594,16 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     }
                 } else if (httpResult.getRequestType().equals("Dashboard")) {
                     JSONArray Dasboard_array = result.getJSONArray("cards");
+                    response_true = true;
+                    Constants.Valid_Token = true;
                     Dashboard_data(Dasboard_array);
+                    if (Constants.Biometric_checked) {
+                        if (response_true) {
+                            startActivity(new Intent(this, MainActivity.class));
+                        }
+                    }
                 }
-                Log.d("Response_Data",""+Constants.jsonObject_dashboard);
+                Log.d("Response_Data", "" + Constants.jsonObject_dashboard);
             } catch (Exception e) {
                 AndroidUtils.showToast(e.getMessage(), LoginActivity.this);
             }

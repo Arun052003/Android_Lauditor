@@ -86,12 +86,12 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
             }
         }
         //Check for Event Status
-        if (day.hasEvents()) {
-            holder.dot.setVisibility(View.VISIBLE); // Show the dot
-        } else {
-            // Reset the background drawable for other days
-            holder.dot.setVisibility(View.GONE); // Show the dot
-        }
+//        if (day.hasEvents()) {
+//            holder.dot.setVisibility(View.VISIBLE); // Show the dot
+//        } else {
+//            // Reset the background drawable for other days
+//            holder.dot.setVisibility(View.GONE); // Show the dot
+//        }
     }
 
     @Override

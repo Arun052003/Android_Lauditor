@@ -94,7 +94,7 @@ public class biometric_page extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("IS_Bio", true);
                 editor.apply();
-                Intent intent = new Intent(biometric_page.this, MainActivity.class);
+                Intent intent = new Intent(biometric_page.this, LoginActivity.class);
                 startActivity(intent);
             }
 
@@ -116,10 +116,16 @@ public class biometric_page extends AppCompatActivity {
     }
 
     private void performLogout() {
-        SharedPreferences sharedPreferences = getSharedPreferences("BIO", Context.MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor1 = sharedPreferences.edit();
-        editor1.putBoolean("IS_Bio", false);
+        editor1.clear();
         editor1.apply();
+        SharedPreferences sharedPreferences_bio = getSharedPreferences("BIO", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences_bio.edit();
+        editor.putBoolean("IS_Bio", false);
+        editor.apply();
+        Constants.is_biometric = false;
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();

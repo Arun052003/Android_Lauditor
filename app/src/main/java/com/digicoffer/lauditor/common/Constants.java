@@ -46,6 +46,7 @@ public class Constants {
     public static String USER_ID = "";
     public static String FIRM_NAME = "";
     public static boolean IS_ADMIN = true;
+    public static boolean Valid_Token = true;
     public static String UID = "";
     public static String ROLE = "";
     public static String PASSWORD_MODE = "";
@@ -71,7 +72,7 @@ public class Constants {
     public static String chat_RECEIVE = "RECEIVE";
     public static String meetingApiEndpoint = "v3/dashboard/meeting/-330";
     public static String chatRelationshipApiEndpoint = "v3/dashboard/otherapi";
-    public static String Dashboard="v3/dashboard/layout";
+    public static String Dashboard = "v3/dashboard/layout";
     public static String clientTeamApiEndpoint = "v3/dashboard/chat-team";
     public static String emailApiEndpoint = "v3/dashboard/email";
     public static String hoursEndpoint = "v3/dashboard/hours";

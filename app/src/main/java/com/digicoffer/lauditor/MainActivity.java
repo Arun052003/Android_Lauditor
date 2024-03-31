@@ -2,6 +2,7 @@ package com.digicoffer.lauditor;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -514,13 +515,15 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         View header = navView.getHeaderView(0);
         header_layout = (AppBarLayout) header.findViewById(R.id.header_layout);
         header_layout.setVisibility(View.GONE);
-        tv_headerName = (TextView) header.findViewById(R.id.tv_headerName);
-        tv_headerName.setText(Constants.NAME);
+//        tv_headerName = (TextView) header.findViewById(R.id.tv_headerName);
+//        tv_headerName.setText(Constants.NAME);
         person_icon = (TextView) findViewById(R.id.person_icon);
-        String person_name = Constants.NAME.substring(0, 2);
-        person_icon.setText(person_name);
-        tv_header_firm_name = (TextView) header.findViewById(R.id.tv_firm_name);
-        tv_header_firm_name.setText(Constants.FIRM_NAME);
+        if (!Constants.NAME.equals("")) {
+            String person_name = Constants.NAME.substring(0, 2);
+            person_icon.setText(person_name);
+        }
+//        tv_header_firm_name = (TextView) header.findViewById(R.id.tv_firm_name);
+//        tv_header_firm_name.setText(Constants.FIRM_NAME);
         iv_digilogo = (ImageView) header.findViewById(R.id.tv_digicofferlogo_header);
         iv_digilogo.setAlpha(127);
         iv_digilogo.setOnClickListener(new View.OnClickListener() {
@@ -796,10 +799,15 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
     private void performLogout() {
         // Clear SharedPreferences or any other session data here
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear(); // This will clear all data in SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = sharedPreferences.edit();
+        editor1.clear();
+        editor1.apply();
+        SharedPreferences sharedPreferences_bio = getSharedPreferences("BIO", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences_bio.edit();
+        editor.clear();
         editor.apply();
+        Constants.is_biometric = false;
         // Optionally, redirect the user to the LoginActivity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);

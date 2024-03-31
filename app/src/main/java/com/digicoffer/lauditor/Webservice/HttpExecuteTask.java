@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.digicoffer.lauditor.LoginActivity.LoginActivity;
+import com.digicoffer.lauditor.LoginActivity.biometric_page;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
 
@@ -63,23 +64,17 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 //            return httpResult;
 //        }
         try {
-            if(requestType.equals("Label")|| (requestType.equals("auth")) || (requestType.equals("messages_rows"))){
+            if (requestType.equals("Label") || (requestType.equals("auth")) || (requestType.equals("messages_rows"))) {
                 try {
                     httpURLConnection = (HttpURLConnection) new URL(URL).openConnection();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }
-            else{
+            } else {
                 httpURLConnection = (HttpURLConnection) new URL(Constants.base_URL + URL).openConnection();
             }
-
-
-            Log.e("URL", ":"  +httpURLConnection.getURL());
-
-
-            if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN"
-          ) {
+            Log.e("URL", ":" + httpURLConnection.getURL());
+            if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN") {
                 httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
                 Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
             }
@@ -186,7 +181,6 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
                 httpResult.setResponseContent("Errr connection, Please try again");
             }
-
         } catch (ConnectTimeoutException e) {
             httpResult.setResult(WebServiceHelper.ServiceCallStatus.Exception);
             httpResult.setErrorMessage("Exception: Connection Timeout " + e.getMessage());
@@ -219,16 +213,25 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
         super.onPostExecute(httpResult);
         try {
             if (httpResult.getStatus_code() == 401 && !(requestType.equals("Label")) && !(requestType.equals("auth"))
-                    && !(requestType.equals("messages_rows"))) {
+                    && !(requestType.equals("messages_rows")) && !(requestType.equals("Dashboard"))) {
                 Intent in = new Intent(activity, LoginActivity.class);
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(in);
-                AndroidUtils.showToast("Session expired, Login agiain", activity);
+                AndroidUtils.showToast("Session expired, Login again", activity);
+            } else if ((requestType.equals("Dashboard")) && (httpResult.getStatus_code() == 401)) {
+                Constants.Valid_Token = false;
+                Intent nav_bio;
+                if (Constants.Biometric_checked) {
+                    nav_bio = new Intent(activity, biometric_page.class);
+                } else {
+                    nav_bio = new Intent(activity, LoginActivity.class);
+                }
+                activity.startActivity(nav_bio);
             } else
-                callback.onAsyncTaskComplete(httpResult);
+                Constants.Valid_Token = true;
+            callback.onAsyncTaskComplete(httpResult);
         } catch (Exception e) {
             AndroidUtils.logMsg("HttpExecuteTask.onPostExecute() : Exception " + e.getMessage());
         }
     }
-
 }
