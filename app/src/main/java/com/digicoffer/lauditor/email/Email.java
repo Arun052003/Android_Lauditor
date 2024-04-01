@@ -1,7 +1,8 @@
 package com.digicoffer.lauditor.email;
 
+import static com.digicoffer.lauditor.email.EmailAdapter.context_type;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,12 +28,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.Documents.Documents;
+import com.digicoffer.lauditor.Documents.DocumentsListAdpater.GroupsListAdapter;
+import com.digicoffer.lauditor.Documents.DocumentsListAdpater.View_documents_adapter;
 import com.digicoffer.lauditor.Documents.models.ClientsModel;
+import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.Documents.models.ViewDocumentsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -57,17 +65,26 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private String URL = "";
 
     boolean ISCHECK_EMAIL = false;
+    boolean ischecked_group = true;
+    boolean[] selectedLanguage;
+    Button btn_group_cancel,btn_group_submit;
+    LinearLayout upload_group_layout;
+    TextInputEditText et_Search_email_document;
+    TextView tv_select_groups;
+    ArrayList<DocumentsModel> selected_groups_list = new ArrayList<DocumentsModel>();
     ArrayList<ViewDocumentsModel> view_docs_list = new ArrayList<>();
     boolean ISCHECK_AUTH = false;
     boolean ischecked = true;
     boolean ischeck_label, ischeck_auth;
     String nextPageToken = "";
+    ArrayList<DocumentsModel> groupsList = new ArrayList<>();
     ImageView arrow_left;
     ImageView clear_search;
     TextView custom_client;
     private int currentPosition = 1;
     TextInputEditText et_Search;
-    ArrayList<ClientsModel> clientsList = new ArrayList<>();
+    RecyclerView rv_documents_email ;
+    ArrayList<ClientsModel> clientsList = new ArrayList<>() ;
 
     public static AlertDialog progress_dialog;
     Stack<List<MessageModel>> pageStack = new Stack<>();
@@ -84,7 +101,9 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     EditText to_input;
     ListView client_list_view;
     String client_id = "";
-
+    RecyclerView rv_display_upload_groups_docs;
+    String CATEGORY_TAG = "";
+    JSONArray array_group = new JSONArray();
 
 
     @SuppressLint("MissingInflatedId")
@@ -107,7 +126,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         search_email = view.findViewById(R.id.search_email);
         search_email.setAlpha(0.3f);
         sends_button = view.findViewById(R.id.sends_button);
-        ListView client_list_view = view.findViewById(R.id.client_list_view);
+
 
         closeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,20 +220,75 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
                 View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
 
-                TextView custom_client = attachmentView.findViewById(R.id.custom_client);
+            custom_client = attachmentView.findViewById(R.id.custom_client);
+TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
+               compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+
+               compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
+
+
                 ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
-                ListView client_list_view = attachmentView.findViewById(R.id.client_list_view);
-//                initUI(client_list_view, clientsList);
-                custom_client.setOnClickListener(new View.OnClickListener() {
+                client_list_view = attachmentView.findViewById(R.id.client_list_view);
+                rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
+                btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
+                upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
+                btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
+                tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
+                et_Search_email_document  = attachmentView.findViewById(R.id.et_Search_email_document);
+                LinearLayout ll_select_groups = attachmentView.findViewById(R.id. ll_select_groups);
+                LinearLayout  ll_client_name = attachmentView.findViewById(R.id. ll_client_name);
+                compose_client_name .setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("SuspiciousIndentation")
                     @Override
                     public void onClick(View v) {
+                        ll_select_groups.setVisibility(View.GONE);
+                        ll_client_name.setVisibility(View.VISIBLE);
+                        // Set background color
+                       compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                        // Set text color
+                       compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                        // Set text color
+                       compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+
+                    }
+                });
+
+
+                compose_firm_name.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        ll_client_name.setVisibility(View.GONE);
+                        ll_select_groups.setVisibility(View.VISIBLE);
+
+
+                       compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                        // Set text color
+                     compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                     compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                        // Set text color
+                       compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+                    }
+                });
+
+
+//                initUI(client_list_view, clientsList);
+                custom_client.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("SuspiciousIndentation")
+                    @Override
+                    public void onClick(View v) {
+                        clientsList.clear();
                         callClientWebservice();
-                        if (ischecked) {
+                        if (ischecked)
                             list_scroll_view.setVisibility(View.VISIBLE);
-                        } else {
-                            list_scroll_view.setVisibility(View.VISIBLE);
-                        }
-                        ischecked = !ischecked;
+                         else
+                            list_scroll_view.setVisibility(View.GONE);
+
+                            ischecked = !ischecked;
+
                     }
                 });
                 // Initialize custom_client here
@@ -236,6 +310,43 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             }
         });
 
+
+
+
+
+    }
+    public void callfilter_client_webservices() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+//            JSONArray groups1 = new JSONArray();
+            if (CATEGORY_TAG == "client") {
+                jsonObject.put("category", "client");
+                jsonObject.put("clients", client_id);
+                jsonObject.put("showPdfDocs", false);
+                jsonObject.put("groups", null);
+                //When the matter is chosen by the user.....
+//                if (!matter_id.equals("")) {
+//                    jsonObject.put("matters", matter_id);
+//                }
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
+                Log.d("Group_doc_view1", jsonObject.toString());
+            } else if (CATEGORY_TAG == "firm") {
+                jsonObject.put("category", "firm");
+                jsonObject.put("clients", "");
+                jsonObject.put("matters", "");
+                jsonObject.put("showPdfDocs", false);
+                jsonObject.put("groups", array_group);
+                Log.d("Group_value_num", array_group.toString());
+
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display firmDocuments", jsonObject.toString());
+                Log.d("Group_doc_view1", jsonObject.toString());
+            }
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+        }
     }
 
 
@@ -261,10 +372,40 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 view_docs_list.add(viewDocumentsModel);
                 Log.d("VIEW_POSITION", view_docs_list.get(i).toString());
             }
-           // loadViewDocumentsRecyclerview();
+           loadViewDocumentsRecyclerview();
         } catch (JSONException e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
+        }
+    }
+    private void loadViewDocumentsRecyclerview() {
+        try {
+            if (view_docs_list.size() == 0) {
+                rv_documents_email.removeAllViews();
+                AndroidUtils.showToast("No documents to display", getContext());
+            } else {
+                rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                View_documents_adapter adapter = new View_documents_adapter(view_docs_list, (View_documents_adapter.Eventlistner) this, getContext());
+                rv_documents_email.setAdapter(adapter);
+                rv_documents_email.setHasFixedSize(true);
+                et_Search_email_document.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                        adapter.getFilter().filter(et_Search_email_document.getText().toString());
+                    }
+                });
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -289,6 +430,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             JSONObject messageObject = messagesArray.getJSONObject(i);
             MessageModel message = new MessageModel();
             message.setMsgId(messageObject.getString("msgId"));
+            Constants.msg_id=messageObject.getString("msgId");
             message.setSubject(messageObject.getString("subject"));
             message.setFrom(messageObject.getString("from"));
             message.setTo(messageObject.getString("to"));
@@ -369,7 +511,17 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     loadRowDatas(result);
 
 
-                }   else if (httpResult.getRequestType().equals("Clients List")) {
+                } else if (httpResult.getRequestType().equals("Display clientDocuments")) {
+                    JSONArray data = result.getJSONArray("data");
+                    //The Matter list must be call only we choose the client in view documents page.
+
+                    load_view_doc(data);
+                    Log.d("TAG_VIEW_CLIENT", data.toString());
+                }   else if (httpResult.getRequestType().equals("Groups")) {
+                    JSONArray data = result.getJSONArray("data");
+                    loadGroupsData(data);
+                }
+                else if (httpResult.getRequestType().equals("Clients List")) {
                     JSONObject data = result.getJSONObject("data");
                     try {
                         loadClients(data);
@@ -396,6 +548,17 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             }
 
 
+        }
+    }
+    private void callGroupsWebservice() {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/groups", "Groups", jsonObject.toString());
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
         }
     }
 
@@ -469,19 +632,20 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         JSONArray relationships = data.getJSONArray("relationships");
         //Adding a list first value as empty...
 //        clientsList.add(0, new ClientsModel());
+        clientsList=new ArrayList<>();
         for (int i = 0; i < relationships.length(); i++) {
             JSONObject jsonObject = relationships.getJSONObject(i);
-            ClientsModel clientsModel = new ClientsModel();
+           ClientsModel clientsModel = new ClientsModel();
             clientsModel.setId(jsonObject.getString("id"));
             clientsModel.setName(jsonObject.getString("name"));
             clientsModel.setType(jsonObject.getString("type"));
             clientsList.add(clientsModel);
 //                    updatedClients.add(clientsModel);
         }
-        initUI( clientsList);
+        initUI(clientsList);
         // intUI(clientsList);
     }
-    private void initUI( ArrayList<ClientsModel> clientsList) {
+    private void initUI(ArrayList<ClientsModel> clientsList) {
 
 
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), clientsList);
@@ -493,11 +657,149 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 client_id = clientsList.get(position).getId();
                 String client_name = clientsList.get(position).getName();
                 Log.d("Client_value_name", client_name);
-                custom_client.setText(client_name);
+               custom_client.setText(client_name);
+
                 ischecked = true;
             }
         });
     }
+
+    private void loadGroupsData(JSONArray data) {
+        try {
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject jsonObject = data.getJSONObject(i);
+                DocumentsModel documentsModel = new DocumentsModel();
+                documentsModel.setGroup_id(jsonObject.getString("id"));
+                documentsModel.setGroup_name(jsonObject.getString("name"));
+                groupsList.add(documentsModel);
+            }
+            selectedLanguage = new boolean[groupsList.size()];
+//            GroupsAlert();
+           // GroupsPopup();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), getContext());
+        }
+    }
+
+//    @SuppressLint("MissingInflatedId")
+//    private void GroupsPopup() {
+//        try {
+//            for (int i = 0; i < groupsList.size(); i++) {
+//                for (int j = 0; j < selected_groups_list.size(); j++) {
+//                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
+//                        DocumentsModel documentsModel = groupsList.get(i);
+//                        documentsModel.setChecked(true);
+////                        selected_groups_list.set(j,documentsModel);
+//
+//                    }
+//                }
+//            }
+//            selected_groups_list.clear();
+//
+//            //Upload Documents Group Selection
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+//            rv_display_upload_groups_docs.setHasFixedSize(true);
+//
+//            GroupsListAdapter documentsAdapter;
+//            documentsAdapter = new GroupsListAdapter(groupsList, Documents.this);
+//
+//            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+//
+//            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    upload_group_layout.setVisibility(View.GONE);
+//                    ischecked_group = true;
+//                }
+//            });
+//
+//            btn_group_submit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+//                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+//                        if (documentsModel.isGroupChecked()) {
+//                            selected_groups_list.add(documentsModel);
+//                        }
+//                    }
+//                    String[] value = new String[selected_groups_list.size()];
+//                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                        value[i] = selected_groups_list.get(i).getGroup_name();
+//
+//                    }
+//                    String str = String.join(",", value);
+//                    tv_select_groups.setText(str);
+////                    dialog.dismiss();
+//                    upload_group_layout.setVisibility(View.GONE);
+//                    ischecked_group = true;
+//                }
+//            });
+//
+//            //...View Documents Group Selection
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            AndroidUtils.showAlert(e.getMessage(), getContext());
+//        }
+//    }
+
+//    private void GroupsPopup() {
+//        try {
+//            for (int i = 0; i < groupsList.size(); i++) {
+//                for (int j = 0; j < selected_groups_list.size(); j++) {
+//                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
+//                        DocumentsModel documentsModel = groupsList.get(i);
+//                        documentsModel.setChecked(true);
+////                        selected_groups_list.set(j,documentsModel);
+//
+//                    }
+//                }
+//            }
+//            selected_groups_list.clear();
+//
+//            //Upload Documents Group Selection
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+//            rv_display_upload_groups_docs.setHasFixedSize(true);
+//
+//          //  GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.this);
+//            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+//
+//            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    upload_group_layout.setVisibility(View.GONE);
+//                    ischecked_group = true;
+//                }
+//            });
+//
+//            btn_group_submit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+//                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+//                        if (documentsModel.isGroupChecked()) {
+//                            selected_groups_list.add(documentsModel);
+//                        }
+//                    }
+//                    String[] value = new String[selected_groups_list.size()];
+//                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                        value[i] = selected_groups_list.get(i).getGroup_name();
+//
+//                    }
+//                    String str = String.join(",", value);
+//                    tv_select_groups.setText(str);
+////                    dialog.dismiss();
+//                    upload_group_layout.setVisibility(View.GONE);
+//                    ischecked_group = true;
+//                }
+//            });
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     public void callMessageListnext() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());

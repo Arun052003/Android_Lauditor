@@ -22,6 +22,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,7 +72,6 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.itemsList = messages;
 
 
-
     }
 
 
@@ -85,7 +86,6 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             }
         }
     }
-
 
 
     @Override
@@ -168,7 +168,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     @Override
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
-        
+
     }
 
 
@@ -185,13 +185,14 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         LinearLayout ll_client_name, upload_group_layout;
         boolean ischecked = true;
         private TextView custom_client;
-        AppCompatButton btn_upload_new;
+        AppCompatButton btn_upload_new,btn_cancel_save;
         TextView tv_select_groups;
         LinearLayout linearLayout2;
         ArrayList<DocumentsModel> groupsList = new ArrayList<>();
         boolean ischecked_group = true;
         Button btn_group_submit;
         ArrayList<ClientsModel> clientsList = new ArrayList<>();
+        ConstraintLayout constraint_root;
 
         boolean[] selectedLanguage;
         ArrayList<DocumentsModel> selected_groups_list = new ArrayList<>();
@@ -228,52 +229,81 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             View popupView = inflater.inflate(R.layout.document_upload, null);
             TextView tv_client_name = popupView.findViewById(R.id.client_name);
             TextView client_namee = popupView.findViewById(R.id.client_nameee);
+
+            client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+
+            client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
             TextView firm_namee = popupView.findViewById(R.id.firm_nameee);
-         custom_client = popupView.findViewById(R.id.custom_client);
-            ScrollView list_scroll_client  = popupView.findViewById(R.id.list_scroll_client);
+            firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+
+         firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+            custom_client = popupView.findViewById(R.id.custom_client);
+            ScrollView list_scroll_client = popupView.findViewById(R.id.list_scroll_client);
             list_client = popupView.findViewById(R.id.list_client_email);
             btn_upload_new = popupView.findViewById(R.id.btn_upload_new);
             tv_select_groups = popupView.findViewById(R.id.tv_select_groups);
             rv_display_upload_groups_docs = popupView.findViewById(R.id.rv_display_upload_groups_docs);
 
-            btn_group_cancel = popupView.findViewById(R.id.   btn_group_cancel);
-            btn_group_submit = popupView.findViewById(R.id.  btn_group_submit);
+            btn_group_cancel = popupView.findViewById(R.id.btn_group_cancel);
+            btn_cancel_save = popupView.findViewById(R.id.btn_cancel_save);
+            btn_group_submit = popupView.findViewById(R.id.btn_group_submit);
             ll_select_groups = popupView.findViewById(R.id.ll_select_groups);
-            ll_client_name = popupView.findViewById(R.id.  ll_client_name);
-            linearLayout2 =popupView.findViewById(R.id.linearLayout2);
+            ll_client_name = popupView.findViewById(R.id.ll_client_name);
+            linearLayout2 = popupView.findViewById(R.id.linearLayout2);
+            constraint_root = popupView.findViewById(R.id.constraint_root);
+           TextView document_upload = popupView.findViewById(R.id.document_upload);
 
             btn_upload_new.setText("Upload");
             rv_display_upload_groups_docs.setBackground(context_type.getDrawable(R.drawable.rectangle_light_grey_bg));
-
 
 
             tv_client_name.setText("Client Name");
             builder.setView(popupView);
             AlertDialog dialog = builder.create();
             dialog.show();
-          btn_upload_new.setOnClickListener(new View.OnClickListener() {
+            btn_upload_new.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     callUploadDocument();
                 }
             });
+            btn_cancel_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    constraint_root.setVisibility(View.GONE);
+                    document_upload .setVisibility(View.GONE);
+
+                }
+            });
+
 
             client_namee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ll_select_groups.setVisibility(View.GONE);
                     ll_client_name.setVisibility(View.VISIBLE);
-//                    client_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_left_green_background));
-//                    client_namee.setTextColor(context_type.getResources().getColor(R.color.white));
-//                    firm_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_right_background));
-//                    firm_namee.setTextColor(context_type.getResources().getColor(R.color.black));
+                    // Set background color
+                    client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                    // Set text color
+                    client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                   firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                    // Set text color
+                firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));// Assuming "black" is the desired color resource
+
                 }
             });
+
             firm_namee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ll_client_name.setVisibility(View.GONE);
                     ll_select_groups.setVisibility(View.VISIBLE);
+                    firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                    // Set text color
+                 firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                    client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                    // Set text color
+                    client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
 
                 }
             });
@@ -286,7 +316,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
                     if (ischecked)
                         list_scroll_client.setVisibility(View.VISIBLE);
-                     else
+                    else
                         list_scroll_client.setVisibility(View.GONE);
 
                     ischecked = !ischecked;
@@ -297,7 +327,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 public void onClick(View view) {
                     if (ischecked_group) {
                         callGroupsWebservice();
-                        rv_display_upload_groups_docs .setVisibility(View.VISIBLE);
+                        rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
                         linearLayout2.setVisibility(View.VISIBLE);
                     } else {
                         rv_display_upload_groups_docs.setVisibility(View.GONE);
@@ -308,7 +338,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             });
 
 
-            }
+        }
 
         public void callUploadDocument() {
             try {
@@ -316,7 +346,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 JSONObject jsonObject = new JSONObject();
 
 //                https://dev.utils.mail.digicoffer.com/api/v1/gmail/message/attachment/upload/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIERMRiBTMSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTE5ODU1OTZ9.6p4-HGnsNJ-ylO5AFBNoxMCscu1uRdS6HqvnDPfkATA/18e3b36d01f3a5ac?partid=1
-                WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + Constants.msg_id + "?partid=1" , "uploadedfile", jsonObject.toString());
+                WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + Constants.msg_id + "?partid=1", "uploadedfile", jsonObject.toString());
             } catch (Exception e) {
                 if (progress_dialog != null && progress_dialog.isShowing()) {
                     AndroidUtils.dismiss_dialog(progress_dialog);
@@ -324,6 +354,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 e.printStackTrace();
             }
         }
+
         private void callClientWebservice() {
             try {
                 progress_dialog = AndroidUtils.get_progress((Activity) context_type);
@@ -335,6 +366,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 }
             }
         }
+
         private void callGroupsWebservice() {
             try {
                 progress_dialog = AndroidUtils.get_progress((Activity) context_type);
@@ -346,11 +378,12 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 }
             }
         }
+
         private void loadClients(JSONObject data) throws JSONException {
             JSONArray relationships = data.getJSONArray("relationships");
             for (int i = 0; i < relationships.length(); i++) {
                 JSONObject jsonObject = relationships.getJSONObject(i);
-               ClientsModel clientsModel = new ClientsModel();
+                ClientsModel clientsModel = new ClientsModel();
                 clientsModel.setId(jsonObject.getString("id"));
                 clientsModel.setName(jsonObject.getString("name"));
                 clientsModel.setType(jsonObject.getString("type"));
@@ -403,8 +436,8 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 btn_group_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      rv_display_upload_groups_docs.setVisibility(View.GONE);
-                      linearLayout2.setVisibility(View.GONE);
+                        rv_display_upload_groups_docs.setVisibility(View.GONE);
+                        linearLayout2.setVisibility(View.GONE);
                         ischecked_group = true;
                     }
                 });
@@ -440,6 +473,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 AndroidUtils.showAlert(e.getMessage(), context_type);
             }
         }
+
         private void initUI(ArrayList<ClientsModel> clientsList) {
             CommonSpinnerAdapter adapter = new CommonSpinnerAdapter((Activity) context_type, clientsList);
             list_client.setAdapter(adapter);
@@ -456,51 +490,46 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
         @Override
         public void onClick(View view) {
-            
+
         }
 
         public void onAsyncTaskComplete(HttpResultDo httpResult) {
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
+
             if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
                 try {
                     JSONObject result = new JSONObject(httpResult.getResponseContent());
-                    if (httpResult.getRequestType().equals("Clients List")) {
+                    String requestType = httpResult.getRequestType();
+
+                    if ("Clients List".equals(requestType)) {
                         JSONObject data = result.getJSONObject("data");
                         try {
                             loadClients(data);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if (httpResult.getRequestType().equals("Groups")) {
+                    } else if ("Groups".equals(requestType)) {
                         JSONArray data = result.getJSONArray("data");
                         loadGroupsData(data);
-                    }
-
-                    else if (httpResult.getRequestType().equals("uploadedfile")) {
+                    } else if ("uploadedfile".equals(requestType)) {
                         try {
-
                             String message = result.getString("msg");
-                            AndroidUtils.showToast(message,context_type);
+                            AndroidUtils.showToast(message, context_type);
                             // Handle the message here as needed
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                    // Properly handle the JSON parsing exception here, perhaps by logging it or showing an error message
                 }
             }
         }
 
 
     }
-
-
-
-
-
 }
 
 
