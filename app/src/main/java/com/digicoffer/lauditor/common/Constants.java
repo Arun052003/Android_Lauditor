@@ -21,11 +21,13 @@ public class Constants {
     public static String pdfFilePath;
     public static String is_meeting = "Create";
 
+
     public static String Matter_CreateOrViewDetails = "Create";
 
     public static ArrayList<GroupsModel> groupsList_Access = new ArrayList<>();
     public static Boolean ISPRODUCTION = false;
     public static String MATTER_TYPE = "";
+    public static String msg_id = "";
 
     //    public static String MyDay_KPI =
     public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
