@@ -4,6 +4,7 @@ import static android.app.PendingIntent.getActivity;
 
 import static com.digicoffer.lauditor.email.Email.progress_dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -19,9 +21,14 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.Documents.Documents;
+import com.digicoffer.lauditor.Documents.DocumentsListAdpater.GroupsListAdapter;
 import com.digicoffer.lauditor.Documents.models.ClientsModel;
+import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -49,23 +56,25 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     TextView tv_client_name;
 
     List<MessageModel> itemsList = new ArrayList<>();
-    ArrayList<ClientsModel> clientsList = new ArrayList<>();
+
     boolean ischecked = true;
 
-    ListView list_client;
+
     String client_id = "";
     String msg_id = " ";
-    private TextView custom_client;
+
 
     public EmailAdapter(List<MessageModel> messages, Email email) {
         this.context_type = email.getContext();
         this.messages = messages;
         this.itemsList = messages;
-        this.custom_client = custom_client;
+
 
 
     }
-    private void callClientWebservice() {
+
+
+    private void callClientWebservicelist() {
         try {
             progress_dialog = AndroidUtils.get_progress((Activity) context_type);
             JSONObject jsonObject = new JSONObject();
@@ -76,23 +85,8 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             }
         }
     }
-    public void callUploadDocument(String msg_id) {
-        try {
-            progress_dialog = AndroidUtils.get_progress((Activity) context_type);
 
 
-
-            JSONObject jsonObject = new JSONObject();
-
-            WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + msg_id + "?partid=1" , "uploadedfile", jsonObject.toString());
-
-        } catch (Exception e) {
-            if (progress_dialog != null && progress_dialog.isShowing()) {
-                AndroidUtils.dismiss_dialog(progress_dialog);
-            }
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public int getItemViewType(int position) {
@@ -174,80 +168,40 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     @Override
     public void onAsyncTaskComplete(HttpResultDo httpResult) {
-        if (progress_dialog != null && progress_dialog.isShowing())
-            AndroidUtils.dismiss_dialog(progress_dialog);
-        if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
-            try {
-                JSONObject result = new JSONObject(httpResult.getResponseContent());
-                if (httpResult.getRequestType().equals("Clients List")) {
-                    JSONObject data = result.getJSONObject("data");
-                    try {
-                        loadClients(data);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                else if (httpResult.getRequestType().equals("uploadedfile")) {
-                    try {
-                        JSONObject responseJson = new JSONObject(httpResult.getResponseContent());
-                        String message = responseJson.getString("msg");
-                        // Handle the message here as needed
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        
     }
 
-    private void loadClients(JSONObject data) throws JSONException {
-        JSONArray relationships = data.getJSONArray("relationships");
-        for (int i = 0; i < relationships.length(); i++) {
-            JSONObject jsonObject = relationships.getJSONObject(i);
-            ClientsModel clientsModel = new ClientsModel();
-            clientsModel.setId(jsonObject.getString("id"));
-            clientsModel.setName(jsonObject.getString("name"));
-            clientsModel.setType(jsonObject.getString("type"));
-            clientsList.add(clientsModel);
-        }
-        initUI(clientsList);
-    }
 
-    private void initUI(ArrayList<ClientsModel> clientsList) {
-        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter((Activity) context_type, this.clientsList);
-        list_client.setAdapter(adapter);
-        list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                client_id = clientsList.get(position).getId();
-                String client_name = clientsList.get(position).getName();
-                Log.d("Client_value_name", client_name);
-                custom_client.setText(client_name);
-            }
-        });
-    }
-
-    class EmailViewHolder extends RecyclerView.ViewHolder {
+    class EmailViewHolder extends RecyclerView.ViewHolder implements AsyncTaskCompleteListener {
         TextView senderName;
         TextView subject;
         GridView gridView;
         TextView tvEmail;
+        RecyclerView rv_display_upload_groups_docs;
         ListView list_client;
         ScrollView list_scroll_client;
         LinearLayout ll_select_groups;
-        LinearLayout ll_client_name;
-        boolean ischecked = true; // Ensure this variable is properly initialized
+        Button btn_group_cancel;
+        LinearLayout ll_client_name, upload_group_layout;
+        boolean ischecked = true;
+        private TextView custom_client;
+        AppCompatButton btn_upload_new;
+        TextView tv_select_groups;
+        LinearLayout linearLayout2;
+        ArrayList<DocumentsModel> groupsList = new ArrayList<>();
+        boolean ischecked_group = true;
+        Button btn_group_submit;
+        ArrayList<ClientsModel> clientsList = new ArrayList<>();
+
+        boolean[] selectedLanguage;
+        ArrayList<DocumentsModel> selected_groups_list = new ArrayList<>();
 
         public EmailViewHolder(@NonNull View itemView) {
             super(itemView);
             senderName = itemView.findViewById(R.id.sender_name);
             subject = itemView.findViewById(R.id.subject);
             gridView = itemView.findViewById(R.id.gridView);
-            list_scroll_client = itemView.findViewById(R.id.list_scroll_client); // Ensure this line is correct
-            list_client = itemView.findViewById(R.id.list_client_email);
+
 
             gridView.setNumColumns(2);
         }
@@ -275,19 +229,44 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             TextView tv_client_name = popupView.findViewById(R.id.client_name);
             TextView client_namee = popupView.findViewById(R.id.client_nameee);
             TextView firm_namee = popupView.findViewById(R.id.firm_nameee);
-            TextView custom_client = popupView.findViewById(R.id.custom_client);
+         custom_client = popupView.findViewById(R.id.custom_client);
             ScrollView list_scroll_client  = popupView.findViewById(R.id.list_scroll_client);
+            list_client = popupView.findViewById(R.id.list_client_email);
+            btn_upload_new = popupView.findViewById(R.id.btn_upload_new);
+            tv_select_groups = popupView.findViewById(R.id.tv_select_groups);
+            rv_display_upload_groups_docs = popupView.findViewById(R.id.rv_display_upload_groups_docs);
+
+            btn_group_cancel = popupView.findViewById(R.id.   btn_group_cancel);
+            btn_group_submit = popupView.findViewById(R.id.  btn_group_submit);
+            ll_select_groups = popupView.findViewById(R.id.ll_select_groups);
+            ll_client_name = popupView.findViewById(R.id.  ll_client_name);
+            linearLayout2 =popupView.findViewById(R.id.linearLayout2);
+
+            btn_upload_new.setText("Upload");
+            rv_display_upload_groups_docs.setBackground(context_type.getDrawable(R.drawable.rectangle_light_grey_bg));
+
+
 
             tv_client_name.setText("Client Name");
             builder.setView(popupView);
             AlertDialog dialog = builder.create();
             dialog.show();
+          btn_upload_new.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callUploadDocument();
+                }
+            });
 
             client_namee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ll_select_groups.setVisibility(View.GONE);
                     ll_client_name.setVisibility(View.VISIBLE);
+//                    client_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_left_green_background));
+//                    client_namee.setTextColor(context_type.getResources().getColor(R.color.white));
+//                    firm_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_right_background));
+//                    firm_namee.setTextColor(context_type.getResources().getColor(R.color.black));
                 }
             });
             firm_namee.setOnClickListener(new View.OnClickListener() {
@@ -295,6 +274,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 public void onClick(View v) {
                     ll_client_name.setVisibility(View.GONE);
                     ll_select_groups.setVisibility(View.VISIBLE);
+
                 }
             });
             custom_client.setOnClickListener(new View.OnClickListener() {
@@ -304,15 +284,216 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     callClientWebservice();
 
 
-                    if (ischecked) {
+                    if (ischecked)
                         list_scroll_client.setVisibility(View.VISIBLE);
-                    } else {
+                     else
                         list_scroll_client.setVisibility(View.GONE);
-                    }
+
                     ischecked = !ischecked;
                 }
             });
+            tv_select_groups.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (ischecked_group) {
+                        callGroupsWebservice();
+                        rv_display_upload_groups_docs .setVisibility(View.VISIBLE);
+                        linearLayout2.setVisibility(View.VISIBLE);
+                    } else {
+                        rv_display_upload_groups_docs.setVisibility(View.GONE);
+                        linearLayout2.setVisibility(View.GONE);
+                    }
+                    ischecked_group = !ischecked_group;
+                }
+            });
+
+
+            }
+
+        public void callUploadDocument() {
+            try {
+                progress_dialog = AndroidUtils.get_progress((Activity) context_type);
+                JSONObject jsonObject = new JSONObject();
+
+//                https://dev.utils.mail.digicoffer.com/api/v1/gmail/message/attachment/upload/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIERMRiBTMSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTE5ODU1OTZ9.6p4-HGnsNJ-ylO5AFBNoxMCscu1uRdS6HqvnDPfkATA/18e3b36d01f3a5ac?partid=1
+                WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + Constants.msg_id + "?partid=1" , "uploadedfile", jsonObject.toString());
+            } catch (Exception e) {
+                if (progress_dialog != null && progress_dialog.isShowing()) {
+                    AndroidUtils.dismiss_dialog(progress_dialog);
+                }
+                e.printStackTrace();
+            }
         }
+        private void callClientWebservice() {
+            try {
+                progress_dialog = AndroidUtils.get_progress((Activity) context_type);
+                JSONObject jsonObject = new JSONObject();
+                WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
+            } catch (Exception e) {
+                if (progress_dialog != null && progress_dialog.isShowing()) {
+                    AndroidUtils.dismiss_dialog(progress_dialog);
+                }
+            }
+        }
+        private void callGroupsWebservice() {
+            try {
+                progress_dialog = AndroidUtils.get_progress((Activity) context_type);
+                JSONObject jsonObject = new JSONObject();
+                WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.GET, "v3/groups", "Groups", jsonObject.toString());
+            } catch (Exception e) {
+                if (progress_dialog != null && progress_dialog.isShowing()) {
+                    AndroidUtils.dismiss_dialog(progress_dialog);
+                }
+            }
+        }
+        private void loadClients(JSONObject data) throws JSONException {
+            JSONArray relationships = data.getJSONArray("relationships");
+            for (int i = 0; i < relationships.length(); i++) {
+                JSONObject jsonObject = relationships.getJSONObject(i);
+               ClientsModel clientsModel = new ClientsModel();
+                clientsModel.setId(jsonObject.getString("id"));
+                clientsModel.setName(jsonObject.getString("name"));
+                clientsModel.setType(jsonObject.getString("type"));
+                clientsList.add(clientsModel);
+            }
+            initUI(clientsList);
+        }
+
+        private void loadGroupsData(JSONArray data) {
+            try {
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject jsonObject = data.getJSONObject(i);
+                    DocumentsModel documentsModel = new DocumentsModel();
+                    documentsModel.setGroup_id(jsonObject.getString("id"));
+                    documentsModel.setGroup_name(jsonObject.getString("name"));
+                    groupsList.add(documentsModel);
+                }
+                selectedLanguage = new boolean[groupsList.size()];
+//            GroupsAlert();
+                GroupsPopup();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                AndroidUtils.showAlert(e.getMessage(), context_type);
+            }
+        }
+
+        @SuppressLint("MissingInflatedId")
+        private void GroupsPopup() {
+            try {
+                for (int i = 0; i < groupsList.size(); i++) {
+                    for (int j = 0; j < selected_groups_list.size(); j++) {
+                        if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
+                            DocumentsModel documentsModel = groupsList.get(i);
+                            documentsModel.setChecked(true);
+//                        selected_groups_list.set(j,documentsModel);
+
+                        }
+                    }
+                }
+                selected_groups_list.clear();
+
+                //Upload Documents Group Selection
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context_type, LinearLayoutManager.VERTICAL, false);
+                rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+                rv_display_upload_groups_docs.setHasFixedSize(true);
+
+                GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance());
+                rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+
+                btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                      rv_display_upload_groups_docs.setVisibility(View.GONE);
+                      linearLayout2.setVisibility(View.GONE);
+                        ischecked_group = true;
+                    }
+                });
+
+                btn_group_submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+                            DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+                            if (documentsModel.isGroupChecked()) {
+                                selected_groups_list.add(documentsModel);
+                            }
+                        }
+                        String[] value = new String[selected_groups_list.size()];
+                        for (int i = 0; i < selected_groups_list.size(); i++) {
+                            value[i] = selected_groups_list.get(i).getGroup_name();
+
+                        }
+                        String str = String.join(",", value);
+                        tv_select_groups.setText(str);
+//                    dialog.dismiss();
+                        rv_display_upload_groups_docs.setVisibility(View.GONE);
+                        linearLayout2.setVisibility(View.GONE);
+                        ischecked_group = true;
+                    }
+                });
+
+                //...View Documents Group Selection
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                AndroidUtils.showAlert(e.getMessage(), context_type);
+            }
+        }
+        private void initUI(ArrayList<ClientsModel> clientsList) {
+            CommonSpinnerAdapter adapter = new CommonSpinnerAdapter((Activity) context_type, clientsList);
+            list_client.setAdapter(adapter);
+            list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    client_id = clientsList.get(position).getId();
+                    String client_name = clientsList.get(position).getName();
+                    Log.d("Client_value_name", client_name);
+                    custom_client.setText(client_name);
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View view) {
+            
+        }
+
+        public void onAsyncTaskComplete(HttpResultDo httpResult) {
+            if (progress_dialog != null && progress_dialog.isShowing())
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
+                try {
+                    JSONObject result = new JSONObject(httpResult.getResponseContent());
+                    if (httpResult.getRequestType().equals("Clients List")) {
+                        JSONObject data = result.getJSONObject("data");
+                        try {
+                            loadClients(data);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else if (httpResult.getRequestType().equals("Groups")) {
+                        JSONArray data = result.getJSONArray("data");
+                        loadGroupsData(data);
+                    }
+
+                    else if (httpResult.getRequestType().equals("uploadedfile")) {
+                        try {
+
+                            String message = result.getString("msg");
+                            AndroidUtils.showToast(message,context_type);
+                            // Handle the message here as needed
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
 
     }
 

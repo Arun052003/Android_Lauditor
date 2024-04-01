@@ -128,17 +128,16 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:fillViewport="true"
+android:visibility="gone"
 
-
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="310dp">
+      >
 
         <include
             layout="@layout/spinner_list"
             android:id="@+id/list_client_email"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:visibility="visible" />
+       />
     </ScrollView>
     </LinearLayout>
     <LinearLayout
@@ -154,7 +153,7 @@
         <TextView
             android:id="@+id/tv_select_groups"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="3dp"
             android:layout_marginTop="@dimen/small_size"
@@ -180,6 +179,23 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/ll_select_groups">
+
+        <include
+            android:id="@+id/btn_group_cancel"
+            layout="@layout/cancel_button" />
+
+        <include
+            android:id="@+id/btn_group_submit"
+            layout="@layout/submit_button" />
+    </LinearLayout>
+
     <!-- Buttons -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_buttons_1"
@@ -187,17 +203,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/ll_select_groups">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="10dp">
 
         <include
             android:id="@+id/btn_cancel_save"
-            layout="@layout/cancel_button"
-         />
+            layout="@layout/cancel_button" />
 
         <include
             android:id="@+id/btn_upload_new"
-            layout="@layout/submit_button"
-          />
+            layout="@layout/submit_button" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

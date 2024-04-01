@@ -173,7 +173,8 @@
                             android:layout_height="150dp"
                             android:fillViewport="true">
 
-                            <include layout="@layout/spinner_list" />
+                            <include layout="@layout/spinner_list"
+                                />
                         </ScrollView>
 
                         <!--                            <include-->
@@ -245,7 +246,7 @@
                         <TextView
                             android:id="@+id/tv_select_groups"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="3dp"
                             android:layout_marginTop="@dimen/small_size"
