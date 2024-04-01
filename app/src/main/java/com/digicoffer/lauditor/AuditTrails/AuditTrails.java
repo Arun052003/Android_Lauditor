@@ -93,7 +93,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
     int maxPageButtons;
     RecyclerView rv_audits;
     TextInputLayout tl_event_start_time;
-//    TextInputEditText tv_event_end_time, tv_event_start_time;
+    //    TextInputEditText tv_event_end_time, tv_event_start_time;
     AppCompatButton tv_event_start_time, tv_event_end_time;
     private int currentPage = 1;
     ArrayList<AuditsModel> auditsList = new ArrayList<>();
@@ -155,7 +155,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                 public void onClick(View v) {
                     tv_event_end_time.setText("");
 //                    tv_event_start_time.setText("");
-                   clearDates();
+                    clearDates();
                 }
             });
             et_search.setHint(R.string.search);
@@ -168,62 +168,62 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
             tv_event_start_time = view.findViewById(R.id.tv_event_start_time);
             tv_event_end_time = view.findViewById(R.id.tv_event_end_time);
 //            tl_event_start_time = view.findViewById(R.id.tl_event_start_time);
-            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sorted_list.clear();
-                    et_search_relationships.setText("");
-                    String FLAG = "Start Time";
-                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
-                        @Override
-                        public void onDateSelected(String selectedDate, String FLAG) {
-                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-                            try {
-                                Date date = originalFormat.parse(selectedDate);
-                                String formattedDate = desiredFormat.format(date);
-                                // Use formattedDate as needed, for example:
-                                tv_event_start_time.setText(formattedDate);
-                            } catch (ParseException | java.text.ParseException e) {
-                                e.printStackTrace();
-                                // Handle parsing exception here
-                            }
-                        }
-                    });
-                }
-            });
+//            tv_event_start_time.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    sorted_list.clear();
+//                    et_search_relationships.setText("");
+//                    String FLAG = "Start Time";
+//                    DateUtils.showDatePickerDialog(getContext(), tv_event_start_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
+//                        @Override
+//                        public void onDateSelected(String selectedDate, String FLAG) {
+//                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//
+//                            try {
+//                                Date date = originalFormat.parse(selectedDate);
+//                                String formattedDate = desiredFormat.format(date);
+//                                // Use formattedDate as needed, for example:
+//                                tv_event_start_time.setText(formattedDate);
+//                            } catch (ParseException | java.text.ParseException e) {
+//                                e.printStackTrace();
+//                                // Handle parsing exception here
+//                            }
+//                        }
+//                    });
+//                }
+//            });
             int i;
 
 
 //                    tv_event_start_time.requestFocus();
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_start_time, getContext());
 
-            tv_event_end_time.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sorted_list.clear();
-                    et_search_relationships.setText("");
-                    String FLAG = "Start Time";
-                    DateUtils.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
-                        @Override
-                        public void onDateSelected(String selectedDate, String FLAG) {
-                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-                            try {
-                                Date date = originalFormat.parse(selectedDate);
-                                String formattedDate = desiredFormat.format(date);
-                                // Use formattedDate as needed, for example:
-                                tv_event_end_time.setText(formattedDate);
-                            } catch (ParseException | java.text.ParseException e) {
-                                e.printStackTrace();
-                                // Handle parsing exception here
-                            }
-                        }
-                    });
-                }
-            });
+//            tv_event_end_time.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    sorted_list.clear();
+//                    et_search_relationships.setText("");
+//                    String FLAG = "Start Time";
+//                    DateUtils.showDatePickerDialog(getContext(), tv_event_end_time, getContext(), FLAG, new DateUtils.OnDateSelectedListener() {
+//                        @Override
+//                        public void onDateSelected(String selectedDate, String FLAG) {
+//                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                            SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//
+//                            try {
+//                                Date date = originalFormat.parse(selectedDate);
+//                                String formattedDate = desiredFormat.format(date);
+//                                // Use formattedDate as needed, for example:
+//                                tv_event_end_time.setText(formattedDate);
+//                            } catch (ParseException | java.text.ParseException e) {
+//                                e.printStackTrace();
+//                                // Handle parsing exception here
+//                            }
+//                        }
+//                    });
+//                }
+//            });
 //                    DateUtils.showDatePickerDialog(getContext(),tv_event_end_time,getContext());
 //
 //            });
@@ -506,33 +506,32 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                             audit_adapter.clearData();
                         }
 //
-                         if (startDate != null || endDate != null) {
-                             sorted_list.clear();
-                             et_search_relationships.setText("");
-                             String FLAG = "End Time";
-                             loadnewPage(null, FLAG);
-                             fetchpagedata();
-                         }
-                         else {
-                        pageNumberLayout.removeAllViews();
-                        isAdvancedSearchEnabled = false;
-                        tv_event_start_time.setText("");
-                        tv_event_end_time.setText("");
-                        et_search_relationships.setText("");
-                        cv_list.setVisibility(View.VISIBLE);
+                        if (startDate != null || endDate != null) {
+                            sorted_list.clear();
+                            et_search_relationships.setText("");
+                            String FLAG = "End Time";
+                            loadnewPage(null, FLAG);
+                            fetchpagedata();
+                        } else {
+                            pageNumberLayout.removeAllViews();
+                            isAdvancedSearchEnabled = false;
+                            tv_event_start_time.setText("");
+                            tv_event_end_time.setText("");
+                            et_search_relationships.setText("");
+                            cv_list.setVisibility(View.VISIBLE);
 //                     setupPagination();
-                        currentPage = 1;
+                            currentPage = 1;
 //                             String FLAG = "";
 //                         loadnewPage(null, FLAG);
-                        loadPage(currentPage, isAdvancedSearchEnabled);
-                        setupPagination();
+                            loadPage(currentPage, isAdvancedSearchEnabled);
+                            setupPagination();
 //                        }
 //                        else{
 //
                         }
 //                    }
 //                     }
-                     }
+                    }
 
                 } catch (Exception e) {
                     Log.d("Exception", e.getMessage());
@@ -672,6 +671,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
     public class MyAsyncTask extends AsyncTask<Void, Void, String> {
         int page;
         boolean isAdvancedSearchEnabled;
+
         // Override doInBackground method to define the background task
         @Override
         protected String doInBackground(Void... voids) {
@@ -738,8 +738,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                 }
                 loadRecyclerView(page);
                 Log.d("Sorted_list", String.valueOf(sorted_list.size()));
-            }
-            else {
+            } else {
                 try {
 //
                     loadRecyclerView(page);
@@ -939,8 +938,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
 //                    loadnewPage(null,"");
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.d("Recyclervie_Exception", e.getMessage());
             throw new RuntimeException(e);
         }
@@ -971,8 +969,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
 //            ArrayList<AuditsModel> advanced_list = new ArrayList<>();
             if (Catergory_type.equals("AUTH")) {
                 loadAdvancedData(autentication_list);
-            }
-            else if (Catergory_type.equals("GROUPS")) {
+            } else if (Catergory_type.equals("GROUPS")) {
                 loadAdvancedData(groups_list);
             } else if (Catergory_type.equals("TEAM MEMBER")) {
                 loadAdvancedData(tm_list);
@@ -994,7 +991,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
         }
     }
 
-//private void loadnewPage(String selectedDate, String FLAG) {
+    //private void loadnewPage(String selectedDate, String FLAG) {
 //    sorted_list.clear();
 //    rv_audits.removeAllViews();
 //    rv_audits.setAdapter(null);
@@ -1031,7 +1028,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
         for (int i = 0; i < advanced_list.size(); i++) {
             try {
                 AuditsModel auditsModel = advanced_list.get(i);
-                Log.d("Advanced_DATA",auditsModel.getName());
+                Log.d("Advanced_DATA", auditsModel.getName());
                 String timestamp = auditsModel.getTimestamp();
                 Date formatted_date = AndroidUtils.stringToDateTimeDefault(timestamp, "MMM dd,yyyy, hh:mm a");
                 if (startDate != null && endDate != null) {
@@ -1056,8 +1053,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
                             sorted_list.add(auditsModel);
                         }
                     }
-                }
-                else {
+                } else {
                     if (auditsModel.getName().startsWith(Catergory_type.toUpperCase(Locale.ROOT))) {
                         sorted_list.add(auditsModel);
                     }

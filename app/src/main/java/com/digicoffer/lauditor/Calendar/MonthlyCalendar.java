@@ -27,6 +27,7 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.digicoffer.lauditor.AuditTrails.Model.AuditsModel;
 import com.digicoffer.lauditor.Calendar.Models.Event_Details_DO;
 import com.digicoffer.lauditor.Calendar.Models.Events_Do;
 import com.digicoffer.lauditor.R;
@@ -236,86 +237,114 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
     }
 
     private void loadEvents(JSONArray jsonArray) {
-        try {
-            Events_Do events_do;
-            events_list.clear();
+        //..
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Clear the sorted list
+                    Events_Do events_do;
+                    events_list.clear();
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                events_do = new Events_Do();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        events_do = new Events_Do();
 //                events_do.setDescription(jsonObject.getString("description"));
-                events_do.setEvent_Name(jsonObject.getString("title"));
-                events_do.setDialin(jsonObject.getString("dialin"));
-                events_do.setEvent_type(jsonObject.getString("event_type"));
-                events_do.setLocation(jsonObject.getString("location"));
-                if (jsonObject.has("matter_id")) {
-                    events_do.setMatter_id(jsonObject.getString("matter_id"));
-                }
-                if (jsonObject.has("matter_name")) {
-                    events_do.setMatter_name(jsonObject.getString("matter_name"));
-                }
-                if (jsonObject.has("matter_type")) {
-                    events_do.setMatter_type(jsonObject.getString("matter_type"));
-                }
-                events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
-                events_do.setMeeting_link(jsonObject.getString("meeting_link"));
-                events_do.setNotes(jsonObject.getString("notes"));
-                events_do.setRepeat_interval(jsonObject.getString("repeat_interval"));
-                events_do.setTimezone_location(jsonObject.getString("timezone_location"));
-                events_do.setTimezone_offset(jsonObject.getString("timezone_offset"));
-                events_do.setAttachments(jsonObject.getJSONArray("attachments"));
-                events_do.setInvitees_internal(jsonObject.getJSONArray("invitees_external"));
-                events_do.setInvitees_internal(jsonObject.getJSONArray("invitees_internal"));
-                events_do.setNotifications(jsonObject.getJSONArray("notifications"));
-                events_do.setEvent_start_time(jsonObject.getString("from_ts"));
-                events_do.setEvent_end_time(jsonObject.getString("to_ts"));
-                events_do.setAll_day(jsonObject.getBoolean("allday"));
-                events_do.setEvent_id(jsonObject.getString("id"));
-                events_do.setOwner(jsonObject.getBoolean("owner"));
-                String from_ts = events_do.getEvent_start_time();
-                String to_ts = events_do.getEvent_end_time();
-                Date event_date = AndroidUtils.stringToDateTimeDefault(from_ts, "yyyy-MM-dd'T'HH:mm:ss");
-                String event_start_time = AndroidUtils.getDateToString(event_date, "HH:mm a");
-                events_do.setConverted_Start_time(event_start_time);
-                Date event_date2 = AndroidUtils.stringToDateTimeDefault(to_ts, "yyyy-MM-dd'T'HH:mm:ss");
-                String event_end_time = AndroidUtils.getDateToString(event_date2, "HH:mm a");
-                events_do.setCOnverted_End_time(event_end_time);
-                String converted_from_ts = AndroidUtils.getDateToString(event_date, "yyyy-MM-dd");
-                String converted_to_ts = AndroidUtils.getDateToString(event_date2, "yyyy-MM-dd");
-                String converted_day = AndroidUtils.getDateToString(event_date, "dd");
-                int year = Integer.parseInt(AndroidUtils.getDateToString(event_date, "yyyy"));
+                        events_do.setEvent_Name(jsonObject.getString("title"));
+                        events_do.setDialin(jsonObject.getString("dialin"));
+                        events_do.setEvent_type(jsonObject.getString("event_type"));
+                        events_do.setLocation(jsonObject.getString("location"));
+                        if (jsonObject.has("matter_id")) {
+                            events_do.setMatter_id(jsonObject.getString("matter_id"));
+                        }
+                        if (jsonObject.has("matter_name")) {
+                            events_do.setMatter_name(jsonObject.getString("matter_name"));
+                        }
+                        if (jsonObject.has("matter_type")) {
+                            events_do.setMatter_type(jsonObject.getString("matter_type"));
+                        }
+                        events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
+                        events_do.setMeeting_link(jsonObject.getString("meeting_link"));
+                        events_do.setNotes(jsonObject.getString("notes"));
+                        events_do.setRepeat_interval(jsonObject.getString("repeat_interval"));
+                        events_do.setTimezone_location(jsonObject.getString("timezone_location"));
+                        events_do.setTimezone_offset(jsonObject.getString("timezone_offset"));
+                        events_do.setAttachments(jsonObject.getJSONArray("attachments"));
+                        events_do.setInvitees_internal(jsonObject.getJSONArray("invitees_external"));
+                        events_do.setInvitees_internal(jsonObject.getJSONArray("invitees_internal"));
+                        events_do.setNotifications(jsonObject.getJSONArray("notifications"));
+                        events_do.setEvent_start_time(jsonObject.getString("from_ts"));
+                        events_do.setEvent_end_time(jsonObject.getString("to_ts"));
+                        events_do.setAll_day(jsonObject.getBoolean("allday"));
+                        events_do.setEvent_id(jsonObject.getString("id"));
+                        events_do.setOwner(jsonObject.getBoolean("owner"));
+                        String from_ts = events_do.getEvent_start_time();
+                        String to_ts = events_do.getEvent_end_time();
+                        Date event_date = AndroidUtils.stringToDateTimeDefault(from_ts, "yyyy-MM-dd'T'HH:mm:ss");
+                        String event_start_time = AndroidUtils.getDateToString(event_date, "HH:mm a");
+                        events_do.setConverted_Start_time(event_start_time);
+                        Date event_date2 = AndroidUtils.stringToDateTimeDefault(to_ts, "yyyy-MM-dd'T'HH:mm:ss");
+                        String event_end_time = AndroidUtils.getDateToString(event_date2, "HH:mm a");
+                        events_do.setCOnverted_End_time(event_end_time);
+                        String converted_from_ts = AndroidUtils.getDateToString(event_date, "yyyy-MM-dd");
+                        String converted_to_ts = AndroidUtils.getDateToString(event_date2, "yyyy-MM-dd");
+                        String converted_day = AndroidUtils.getDateToString(event_date, "dd");
+                        int year = Integer.parseInt(AndroidUtils.getDateToString(event_date, "yyyy"));
 //                System.out.println(events_do.getEvent_Name() + ";" + event_date.getDate() + "-" + event_date.getMonth() + "-" +year);
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, event_date.getMonth(), event_date.getDate());
-                events.add(new EventDay(calendar, DrawableUtils.getThreeDots(getContext())));
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, event_date.getMonth(), event_date.getDate());
+                        events.add(new EventDay(calendar, DrawableUtils.getThreeDots(getContext())));
 //                events.add(new EventDay(calendar,DrawableUtils.getDayCircle(getContext(), R.color.blue,R.color.green )));
 //                Log.d("From Start Date", converted_from_ts);
 //                Log.d("Current Date",Currenr_date);
-                if (converted_from_ts.toString().contains(Currenr_date) || converted_to_ts.toString().contains(Currenr_date)) {
+                        if (converted_from_ts.toString().contains(Currenr_date) || converted_to_ts.toString().contains(Currenr_date)) {
 //                    events_do.setRecurring(jsonObject.getBoolean("isrecurring"));
 //                    if (events_do.isRecurring()) {
 //                        events_list.add(events_do);
 //                    } else {
-                    events_list.add(events_do);
+                            events_list.add(events_do);
 
 //                    }
+                        }
+                    }
+                    // Load RecyclerView on the UI thread
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Collections.sort(events_list, new Comparator<Events_Do>() {
+                                    @Override
+                                    public int compare(Events_Do eventDay, Events_Do t1) {
+                                        if (eventDay.getConverted_Start_time() == null || t1.getConverted_Start_time() == null)
+                                            return 0;
+                                        return eventDay.getConverted_Start_time().compareTo(t1.getConverted_Start_time());
+                                    }
+                                });
+                                calendarView.setEvents(events);
+                                loadRecyclerView();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+
+                } catch (final Exception e) {
+                    // Handle any exceptions
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AndroidUtils.showToast(e.getMessage(), getContext());
+                            Log.e("LoadPageException", e.getMessage());
+                        }
+                    });
                 }
             }
+        }).start();
+        //..
+    }
 
-            Collections.sort(events_list, new Comparator<Events_Do>() {
-                @Override
-                public int compare(Events_Do eventDay, Events_Do t1) {
-                    if (eventDay.getConverted_Start_time() == null || t1.getConverted_Start_time() == null)
-                        return 0;
-                    return eventDay.getConverted_Start_time().compareTo(t1.getConverted_Start_time());
-                }
-            });
-            calendarView.setEvents(events);
-            loadRecyclerView();
-        } catch (Exception e) {
-            AndroidUtils.showToast(e.getMessage().toString(), getContext());
-            e.printStackTrace();
-        }
+    private void runOnUiThread(Runnable loadPageException) {
     }
 
     private void loadRecyclerView() throws Exception {

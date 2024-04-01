@@ -114,8 +114,9 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         check_Bio_metric();
         // Initialize the button state  // Initially disabled
+//        tet_email.setText("soundaryavembaiyan@yahoo.com");
+//        tet_password.setText("Test@123");
         checkFieldsNotEmpty();
-
         // TextWatcher for email and password EditTexts
         TextWatcher textWatcher = new TextWatcher() {
             @Override

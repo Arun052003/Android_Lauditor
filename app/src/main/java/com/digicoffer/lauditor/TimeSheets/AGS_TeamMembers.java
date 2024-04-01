@@ -3,6 +3,8 @@ package com.digicoffer.lauditor.TimeSheets;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applandeo.materialcalendarview.EventDay;
+import com.digicoffer.lauditor.Calendar.Models.Events_Do;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.TimeSheets.Adapters.MonthlyTSAdapter;
 import com.digicoffer.lauditor.TimeSheets.Adapters.TeamMembersTSAdapter;
@@ -25,6 +29,7 @@ import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.DrawableUtils;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -35,6 +40,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -113,20 +121,12 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
         if (httpResult.getResult() == WebServiceHelper.ServiceCallStatus.Success) {
             try {
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
-
                 if (httpResult.getRequestType().equals("Team Members")) {
-                    try {
                         JSONArray jsonArray = result.getJSONArray("timesheets");
                         loadTmData(jsonArray);
-                    } catch (Exception e) {
-
-                    }
                 } else if (httpResult.getRequestType().equals("Team Members month")) {
-                    try {
                         JSONArray jsonArray = result.getJSONArray("timesheets");
                         loadTm_month_Data(jsonArray);
-                    } catch (Exception e) {
-                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -136,30 +136,66 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
 
     //Team_member_Month_view
     private void loadTm_month_Data(JSONArray jsonArray) throws JSONException {
-        for (int i = 1; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            Month_Model tmModel = new Month_Model();
-            tmModel.setName(jsonObject.getString("name"));
+        //...
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Clear the sorted list
+                    for (int i = 1; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Month_Model tmModel = new Month_Model();
+                        tmModel.setName(jsonObject.getString("name"));
 //            tmModel.setId(jsonObject.getString("id"));
-            tmModel.setBillable_week_1(jsonObject.getString("bw1"));
-            tmModel.setBillable_week_2(jsonObject.getString("bw2"));
-            tmModel.setBillable_week_3(jsonObject.getString("bw3"));
-            tmModel.setBillable_week_4(jsonObject.getString("bw4"));
-            tmModel.setBillable_week_5(jsonObject.getString("bw5"));
-            tmModel.setBillable_week_tot(jsonObject.getString("tb"));
+                        tmModel.setBillable_week_1(jsonObject.getString("bw1"));
+                        tmModel.setBillable_week_2(jsonObject.getString("bw2"));
+                        tmModel.setBillable_week_3(jsonObject.getString("bw3"));
+                        tmModel.setBillable_week_4(jsonObject.getString("bw4"));
+                        tmModel.setBillable_week_5(jsonObject.getString("bw5"));
+                        tmModel.setBillable_week_tot(jsonObject.getString("tb"));
 
-            tmModel.setNon_billable_week_1(jsonObject.getString("nbw1"));
-            tmModel.setNon_billable_week_2(jsonObject.getString("nbw2"));
-            tmModel.setNon_billable_week_3(jsonObject.getString("nbw3"));
-            tmModel.setNon_billable_week_4(jsonObject.getString("nbw4"));
-            tmModel.setNon_billable_week_5(jsonObject.getString("nbw5"));
-            tmModel.setNon_billable_week_tot(jsonObject.getString("tnb"));
+                        tmModel.setNon_billable_week_1(jsonObject.getString("nbw1"));
+                        tmModel.setNon_billable_week_2(jsonObject.getString("nbw2"));
+                        tmModel.setNon_billable_week_3(jsonObject.getString("nbw3"));
+                        tmModel.setNon_billable_week_4(jsonObject.getString("nbw4"));
+                        tmModel.setNon_billable_week_5(jsonObject.getString("nbw5"));
+                        tmModel.setNon_billable_week_tot(jsonObject.getString("tnb"));
 
-            tmModel.setTotal(jsonObject.getString("total"));
-            monthlist.add(tmModel);
-            Log.d("Month_view1", String.valueOf(jsonArray.length()));
-        }
-        loadRecyclerview_month();
+                        tmModel.setTotal(jsonObject.getString("total"));
+                        monthlist.add(tmModel);
+                        Log.d("Month_view1", String.valueOf(jsonArray.length()));
+                    }
+                    // Load RecyclerView on the UI thread
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                loadRecyclerview_month();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+
+                } catch (final Exception e) {
+                    // Handle any exceptions
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AndroidUtils.showToast(e.getMessage(), getContext());
+                            Log.e("LoadPageException", e.getMessage());
+                        }
+                    });
+                }
+            }
+        }).start();
+
+
+        //...
+    }
+
+    private void runOnUiThread(Runnable loadPageException) {
     }
 
     private void loadRecyclerview_month() {
