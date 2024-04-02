@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rv_doc_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="464dp"
+        android:background="@drawable/rectangle_light_grey_bg"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_display_name"
+        app:layout_constraintVertical_bias="0.024">
+
+
+
+
+        <ImageView
+            android:id="@+id/iv_doc_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/flower_image"
+            android:visibility="invisible" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/tv_image_name"
+                    layout="@layout/uploadtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/gill_sans"
+                    android:textStyle="bold" />
+
+                <include
+                    android:id="@+id/tv_client_name"
+                    layout="@layout/uploadtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_image_name"
+                    android:fontFamily="@font/gill_sans"
+                    android:textSize="12sp" />
+
+                <include
+                    android:id="@+id/tv_doc_description"
+                    layout="@layout/uploadtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_client_name"
+                    android:fontFamily="@font/gill_sans"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rv_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_doc_image"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/rectangular_button_green_count"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <include layout="@layout/createdocument" />
+
+            <include
+                android:id="@+id/tv_created_date"
+                layout="@layout/createdocument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_created"
+                android:text="Date" />
+
+            <include
+                android:id="@+id/tv_Expiration"
+                layout="@layout/createdocument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_created"
+                android:text="Expiration:"
+                android:textColor="@color/white" />
+
+            <include
+                android:id="@+id/tv_Expiration_date"
+                layout="@layout/createdocument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_created_date"
+                android:layout_toRightOf="@id/tv_Expiration"
+                android:text="Expiration" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
