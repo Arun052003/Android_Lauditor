@@ -92,7 +92,22 @@
             android:background="@color/white"
             android:inputType="textMultiLine"
             android:maxLines="5" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Add other attributes as needed -->
+    <GridView
+        android:id="@+id/your_gridview_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/new_message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:numColumns="2"/>
+
+
+
 
     <LinearLayout
         android:id="@+id/new_message"

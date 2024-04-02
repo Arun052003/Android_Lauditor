@@ -342,11 +342,32 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
         public void callUploadDocument() {
             try {
+                JSONArray clients=new JSONArray();
+                JSONObject jsonObject_client=new JSONObject();
+                for (int j = 0; j < clientsList.size(); j++) {
+                    if (clientsList.get(j).getId().matches(client_id)) {
+                        ClientsModel clientsModel = clientsList.get(j);
+                        jsonObject_client.put("id", clientsModel.getId());
+                        jsonObject_client.put("type", clientsModel.getType());
+                        clients.put(jsonObject_client);
+                    }
+                }
+                JSONArray groups =new JSONArray();
+                for (int k = 0; k < selected_groups_list.size(); k++) {
+                    DocumentsModel documentsModel1 = selected_groups_list.get(k);
+                    groups.put(documentsModel1.getGroup_id());
+                }
                 progress_dialog = AndroidUtils.get_progress((Activity) context_type);
                 JSONObject jsonObject = new JSONObject();
-
+                jsonObject.put("category","client");
+                jsonObject.put("clientids",clients);
+                jsonObject.put("groupids", groups);
+                jsonObject.put("enableDownload",true);
+//                Log.d("Client_id_list",clients);
+//                {"category":"client","clientids":[{"id":"642a648ea1db720b5a293efc","type":"consumer"}],"groupids":[],"enableDownload":true}
 //                https://dev.utils.mail.digicoffer.com/api/v1/gmail/message/attachment/upload/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIERMRiBTMSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTE5ODU1OTZ9.6p4-HGnsNJ-ylO5AFBNoxMCscu1uRdS6HqvnDPfkATA/18e3b36d01f3a5ac?partid=1
                 WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + Constants.msg_id + "?partid=1", "uploadedfile", jsonObject.toString());
+                Log.d("json_value",jsonObject.toString());
             } catch (Exception e) {
                 if (progress_dialog != null && progress_dialog.isShowing()) {
                     AndroidUtils.dismiss_dialog(progress_dialog);
@@ -480,6 +501,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    client_id="";
                     client_id = clientsList.get(position).getId();
                     String client_name = clientsList.get(position).getName();
                     Log.d("Client_value_name", client_name);
@@ -516,14 +538,14 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         try {
                             String message = result.getString("msg");
                             AndroidUtils.showToast(message, context_type);
-                            // Handle the message here as needed
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    // Properly handle the JSON parsing exception here, perhaps by logging it or showing an error message
+
                 }
             }
         }

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
     <TextView
@@ -28,71 +32,26 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/client_type"
-        android:layout_width="243dp"
-        android:layout_height="94dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:paddingStart="50dp"
         android:paddingTop="@dimen/twenty_dp"
-        android:paddingEnd="50dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="16dp">
+        android:paddingEnd="50dp">
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:aapt="http://schemas.android.com/aapt"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/compose_client_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_left_background"
-            android:fontFamily="@font/gill_sans"
-            android:padding="10dp"
-            android:shadowRadius="10"
-            android:text="Client"
-            android:textColor="@color/black"
-            android:textFontWeight="700"
-            android:textSize="@dimen/Fifteen_dp"
+        <include layout="@layout/createmember_layout"
+            android:id="@+id/compose_client_name" />
 
-            android:translationZ="12dp"
-            app:cardCornerRadius="10dp"></TextView>
-
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:aapt="http://schemas.android.com/aapt"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/compose_firm_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_right_background"
-            android:fontFamily="@font/gill_sans"
-            android:padding="10dp"
-            android:shadowRadius="10"
-            android:text="Firm"
-            android:textColor="@color/black"
-            android:textFontWeight="700"
-            android:textSize="@dimen/Fifteen_dp"
-            android:translationZ="12dp"
-            app:cardCornerRadius="10dp"></TextView>
+        <include layout="@layout/viewmember_layout"
+            android:id="@+id/compose_firm_name"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <LinearLayout
         android:id="@+id/ll_client_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/client_type">
+        android:orientation="vertical">
 
         <LinearLayout
 
@@ -151,6 +110,7 @@
             </LinearLayout>
 
         </LinearLayout>
+    </LinearLayout>
 
 
 
@@ -159,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/ll_client_name"
             android:layout_marginTop="@dimen/small_size">
 
@@ -191,7 +151,6 @@
                 android:layout_marginEnd="5dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_select_groups" />
 
-        </LinearLayout>
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
@@ -208,34 +167,28 @@
                 android:id="@+id/btn_group_submit"
                 layout="@layout/submit_button" />
         </LinearLayout>
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Search_email_document"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="1"
             android:background="@drawable/rectangular_grey_background"
             android:drawableEnd="@drawable/search_groups"
-
             android:imeOptions="actionDone"
             android:inputType="textFilter"
             android:padding="15dp"
             tools:ignore="SpeakableTextPresentCheck" />
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_documents_email"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="150dp"
                 android:layout_margin="@dimen/small_size"
-                android:orientation="vertical" />
-        </ScrollView>
-
-
-
+                android:orientation="vertical"
+                android:visibility="visible"/>
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -260,9 +213,8 @@
         <!--                                layout="@layout/spinner_layout" />-->
 
     </LinearLayout>
+</ScrollView>
 
 
     <!-- This is the actual edit text which takes the input -->
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>

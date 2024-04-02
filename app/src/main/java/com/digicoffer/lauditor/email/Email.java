@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Documents.DocumentsListAdpater.GroupsListAdapter;
 import com.digicoffer.lauditor.Documents.DocumentsListAdpater.View_documents_adapter;
+import com.digicoffer.lauditor.Documents.DocumentsListAdpater.view_document_emailadapter;
 import com.digicoffer.lauditor.Documents.models.ClientsModel;
 import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.Documents.models.ViewDocumentsModel;
@@ -103,7 +105,9 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     String client_id = "";
     RecyclerView rv_display_upload_groups_docs;
     String CATEGORY_TAG = "";
+    LinearLayout  linearLayout2;
     JSONArray array_group = new JSONArray();
+    GridView  yourGridView;
 
 
     @SuppressLint("MissingInflatedId")
@@ -208,7 +212,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
         ImageView cross_icon = view.findViewById(R.id.attachment);
-
+        yourGridView = view.findViewById(R.id. your_gridview_id);
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -219,15 +223,18 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
                 View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
+                TextView client_name = attachmentView.findViewById(R.id.client_name);
+                client_name.setText("Client Name");
 
             custom_client = attachmentView.findViewById(R.id.custom_client);
 TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
+                compose_client_name.setText("Client");
                compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
                compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
                 TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
-
-
+compose_firm_name.setText("Firm");
+                rv_documents_email=attachmentView.findViewById(R.id.rv_documents_email);
                 ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
                 client_list_view = attachmentView.findViewById(R.id.client_list_view);
                 rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
@@ -238,18 +245,20 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
                 et_Search_email_document  = attachmentView.findViewById(R.id.et_Search_email_document);
                 LinearLayout ll_select_groups = attachmentView.findViewById(R.id. ll_select_groups);
                 LinearLayout  ll_client_name = attachmentView.findViewById(R.id. ll_client_name);
+                linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
+
                 compose_client_name .setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("SuspiciousIndentation")
                     @Override
                     public void onClick(View v) {
                         ll_select_groups.setVisibility(View.GONE);
                         ll_client_name.setVisibility(View.VISIBLE);
-                        // Set background color
+
                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
-                        // Set text color
+
                        compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
                         compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
-                        // Set text color
+
                        compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
 
                     }
@@ -266,11 +275,25 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
 
 
                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
-                        // Set text color
+
                      compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
                      compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
-                        // Set text color
+
                        compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+                    }
+                });
+                tv_select_groups.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ischecked_group) {
+                            callGroupsWebservice();
+                            rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
+                            linearLayout2.setVisibility(View.VISIBLE);
+                        } else {
+                            rv_display_upload_groups_docs.setVisibility(View.GONE);
+                            linearLayout2.setVisibility(View.GONE);
+                        }
+                        ischecked_group = !ischecked_group;
                     }
                 });
 
@@ -384,8 +407,9 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
                 rv_documents_email.removeAllViews();
                 AndroidUtils.showToast("No documents to display", getContext());
             } else {
+                // Set adapter for rv_documents_email
                 rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                View_documents_adapter adapter = new View_documents_adapter(view_docs_list, (View_documents_adapter.Eventlistner) this, getContext());
+                view_document_emailadapter adapter = new view_document_emailadapter(view_docs_list, context_type);
                 rv_documents_email.setAdapter(adapter);
                 rv_documents_email.setHasFixedSize(true);
                 et_Search_email_document.addTextChangedListener(new TextWatcher() {
@@ -399,15 +423,18 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-
                         adapter.getFilter().filter(et_Search_email_document.getText().toString());
                     }
                 });
+
+
+
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
 
 
@@ -513,11 +540,16 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
 
                 } else if (httpResult.getRequestType().equals("Display clientDocuments")) {
                     JSONArray data = result.getJSONArray("data");
-                    //The Matter list must be call only we choose the client in view documents page.
+
 
                     load_view_doc(data);
                     Log.d("TAG_VIEW_CLIENT", data.toString());
-                }   else if (httpResult.getRequestType().equals("Groups")) {
+                }  else if (httpResult.getRequestType().equals("Display firmDocuments")) {
+                    JSONArray data = result.getJSONArray("data");
+                    load_view_doc(data);
+                    Log.d("TAG_VIEW_CLIENT", data.toString());
+                }
+                else if (httpResult.getRequestType().equals("Groups")) {
                     JSONArray data = result.getJSONArray("data");
                     loadGroupsData(data);
                 }
@@ -658,7 +690,8 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
                 String client_name = clientsList.get(position).getName();
                 Log.d("Client_value_name", client_name);
                custom_client.setText(client_name);
-
+                CATEGORY_TAG = "client";
+               callfilter_client_webservices();
                 ischecked = true;
             }
         });
@@ -675,131 +708,91 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
             }
             selectedLanguage = new boolean[groupsList.size()];
 //            GroupsAlert();
-           // GroupsPopup();
+            GroupsPopup();
         } catch (JSONException e) {
             e.printStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
 
-//    @SuppressLint("MissingInflatedId")
-//    private void GroupsPopup() {
-//        try {
-//            for (int i = 0; i < groupsList.size(); i++) {
-//                for (int j = 0; j < selected_groups_list.size(); j++) {
-//                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
-//                        DocumentsModel documentsModel = groupsList.get(i);
-//                        documentsModel.setChecked(true);
-////                        selected_groups_list.set(j,documentsModel);
-//
-//                    }
-//                }
-//            }
-//            selected_groups_list.clear();
-//
-//            //Upload Documents Group Selection
-//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-//            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
-//            rv_display_upload_groups_docs.setHasFixedSize(true);
-//
-//            GroupsListAdapter documentsAdapter;
-//            documentsAdapter = new GroupsListAdapter(groupsList, Documents.this);
-//
-//            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
-//
-//            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    upload_group_layout.setVisibility(View.GONE);
-//                    ischecked_group = true;
-//                }
-//            });
-//
-//            btn_group_submit.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-//                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
-//                        if (documentsModel.isGroupChecked()) {
-//                            selected_groups_list.add(documentsModel);
-//                        }
-//                    }
-//                    String[] value = new String[selected_groups_list.size()];
-//                    for (int i = 0; i < selected_groups_list.size(); i++) {
-//                        value[i] = selected_groups_list.get(i).getGroup_name();
-//
-//                    }
-//                    String str = String.join(",", value);
-//                    tv_select_groups.setText(str);
-////                    dialog.dismiss();
-//                    upload_group_layout.setVisibility(View.GONE);
-//                    ischecked_group = true;
-//                }
-//            });
-//
-//            //...View Documents Group Selection
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            AndroidUtils.showAlert(e.getMessage(), getContext());
-//        }
-//    }
 
-//    private void GroupsPopup() {
-//        try {
-//            for (int i = 0; i < groupsList.size(); i++) {
-//                for (int j = 0; j < selected_groups_list.size(); j++) {
-//                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
-//                        DocumentsModel documentsModel = groupsList.get(i);
-//                        documentsModel.setChecked(true);
-////                        selected_groups_list.set(j,documentsModel);
-//
-//                    }
-//                }
-//            }
-//            selected_groups_list.clear();
-//
-//            //Upload Documents Group Selection
-//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-//            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
-//            rv_display_upload_groups_docs.setHasFixedSize(true);
-//
-//          //  GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.this);
-//            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
-//
-//            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    upload_group_layout.setVisibility(View.GONE);
-//                    ischecked_group = true;
-//                }
-//            });
-//
-//            btn_group_submit.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-//                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
-//                        if (documentsModel.isGroupChecked()) {
-//                            selected_groups_list.add(documentsModel);
-//                        }
-//                    }
-//                    String[] value = new String[selected_groups_list.size()];
-//                    for (int i = 0; i < selected_groups_list.size(); i++) {
-//                        value[i] = selected_groups_list.get(i).getGroup_name();
-//
-//                    }
-//                    String str = String.join(",", value);
-//                    tv_select_groups.setText(str);
-////                    dialog.dismiss();
-//                    upload_group_layout.setVisibility(View.GONE);
-//                    ischecked_group = true;
-//                }
-//            });
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+
+    private void GroupsPopup() {
+        try {
+            for (int i = 0; i < groupsList.size(); i++) {
+                for (int j = 0; j < selected_groups_list.size(); j++) {
+                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
+                        DocumentsModel documentsModel = groupsList.get(i);
+                        documentsModel.setChecked(true);
+//                        selected_groups_list.set(j,documentsModel);
+
+                    }
+                }
+            }
+            selected_groups_list.clear();
+
+            //Upload Documents Group Selection
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+            rv_display_upload_groups_docs.setHasFixedSize(true);
+
+           GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance());
+            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+
+            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rv_display_upload_groups_docs.setVisibility(View.GONE);
+                    linearLayout2.setVisibility(View.GONE);
+                    ischecked_group = true;
+                }
+            });
+
+            btn_group_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    ArrayList<String>
+                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
+                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+                        if (documentsModel.isGroupChecked()) {
+                            selected_groups_list.add(documentsModel);
+                         linearLayout2.setVisibility(View.VISIBLE);
+                          rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
+//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                        }
+                    }
+                    String[] value = new String[selected_groups_list.size()];
+                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                                value += "," + family_members.get(i);
+//                               value.add(family_members.get(i));
+                        value[i] = selected_groups_list.get(i).getGroup_name();
+
+                    }
+
+                    String[] value_id = new String[selected_groups_list.size()];
+                    for (int i = 0; i < selected_groups_list.size(); i++) {
+//                                value += "," + family_members.get(i);
+//                               value.add(family_members.get(i));
+                        value_id[i] = selected_groups_list.get(i).getGroup_id();
+                    }
+                    try {
+                        array_group = new JSONArray(value_id);
+                        callfilter_client_webservices();
+                        CATEGORY_TAG = "firm";
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String str = String.join(",", value);
+                    tv_select_groups.setText(str);
+//                    dialog.dismiss();
+                   linearLayout2.setVisibility(View.GONE);
+                    ischecked_group= true;
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void callMessageListnext() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
