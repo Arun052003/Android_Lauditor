@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/compose_root_layout_id"
@@ -13,16 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#EBE4E4"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <!-- TextView for Text -->
             <TextView
@@ -30,10 +25,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="New Message"
                 android:gravity="start"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:text="New Message"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
             <ImageView
@@ -49,107 +44,108 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/to_input"
-        android:layout_width="0dp"
+    <!-- To EditText -->
+    <LinearLayout
+        android:id="@+id/to_linearlayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="To:"
-        app:layout_constraintTop_toBottomOf="@id/new_messagesss"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/new_messagesss"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:alpha="0.5" />
+        android:layout_marginEnd="16dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/message_input"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Subject:"
-        app:layout_constraintTop_toBottomOf="@id/to_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/message_inputs"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/message_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/message_inputss"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/white"
-            android:inputType="textMultiLine"
-            android:maxLines="5" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Add other attributes as needed -->
-    <GridView
-        android:id="@+id/your_gridview_id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/new_message"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:numColumns="2"/>
-
-
-
-
-    <LinearLayout
-        android:id="@+id/new_message"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#EBE4E4"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/message_inputs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-
-      >
-        <ImageView
-            android:id="@+id/attachments"
-            android:layout_width="40dp"
+        <!-- TextView for "To:" -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:padding="8dp"
-            android:src="@drawable/attachment"
-            app:layout_constraintEnd_toStartOf="@+id/send_button"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="600dp" />
+            android:text="To:"/>
 
-        <!-- Send Button with Corner Radius -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sends_button"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="170dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="60dp"
-            android:alpha="0.5"
-            android:background="@drawable/rounder_button_blue"
-            android:padding="10dp"
-            android:text="Send"
-            android:textColor="@color/white"
-            tools:ignore="MissingConstraints,TouchTargetSizeCheck"
-            tools:layout_editor_absoluteX="281dp"
-            tools:layout_editor_absoluteY="68dp" />
-
+        <!-- EditText for recipient -->
+        <EditText
+            android:id="@+id/to_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/subject_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/to_linearlayout"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subject:"/>
+
+
+        <!-- Subject EditText -->
+        <EditText
+            android:id="@+id/message_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/to_linearlayout"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            />
+    </LinearLayout>
+
+    <!-- Message Input EditText -->
+    <EditText
+        android:id="@+id/message_inputss"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/subject_linearlayout"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/white"
+        android:inputType="textMultiLine"
+        android:maxLines="5" />
+
+    <GridView
+        android:id="@+id/grid_View"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/message_inputss"
+        android:nestedScrollingEnabled="true"
+        android:numColumns="2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Attachment icon -->
+    <ImageView
+        android:id="@+id/attachments"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grid_View"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/attachment" />
+
+    <!-- Send Button with Corner Radius -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sends_button"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/grid_View"
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/attachments"
+        android:alpha="0.5"
+        android:background="@drawable/rounder_button_blue"
+        android:padding="10dp"
+        android:text="Send"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

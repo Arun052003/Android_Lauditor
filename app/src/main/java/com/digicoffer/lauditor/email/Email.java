@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -212,10 +213,20 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
         ImageView cross_icon = view.findViewById(R.id.attachment);
-        yourGridView = view.findViewById(R.id. your_gridview_id);
+       to_input = view.findViewById(R.id.to_input);
+//        yourGridView = view.findViewById(R.id. your_gridview_id);
         builder.setView(view);
         AlertDialog dialog = builder.create();
+
         dialog.show();
+        to_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    validateEmail(to_input.getText().toString());
+                }
+            }
+        });
 
         attachmentImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +257,8 @@ compose_firm_name.setText("Firm");
                 LinearLayout ll_select_groups = attachmentView.findViewById(R.id. ll_select_groups);
                 LinearLayout  ll_client_name = attachmentView.findViewById(R.id. ll_client_name);
                 linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
+                AppCompatButton btn_create = attachmentView.findViewById(R.id.btn_create);
+                btn_create.setText("Attach");
 
                 compose_client_name .setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("SuspiciousIndentation")
@@ -253,6 +266,9 @@ compose_firm_name.setText("Firm");
                     public void onClick(View v) {
                         ll_select_groups.setVisibility(View.GONE);
                         ll_client_name.setVisibility(View.VISIBLE);
+                        custom_client.setText("");
+                        list_scroll_view.setVisibility(View.GONE);
+                        rv_documents_email.clearFocus();
 
                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
@@ -269,9 +285,16 @@ compose_firm_name.setText("Firm");
                     @Override
                     public void onClick(View v) {
 
-
+CATEGORY_TAG = "firm";
                         ll_client_name.setVisibility(View.GONE);
                         ll_select_groups.setVisibility(View.VISIBLE);
+                        view_docs_list.clear();
+                        groupsList.clear();
+
+                        ischecked_group= true;
+                        selected_groups_list.clear();
+                        tv_select_groups.setText("");
+                        rv_documents_email.clearFocus();
 
 
                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
@@ -338,6 +361,20 @@ compose_firm_name.setText("Firm");
 
 
     }
+    private void validateEmail(String email) {
+          if (isValidEmail(email)) {
+        AndroidUtils.showToast("Valid Email", getContext());
+
+    } else {
+
+        AndroidUtils.showToast("Invalid Email", getContext());
+    }
+}
+
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     public void callfilter_client_webservices() {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
