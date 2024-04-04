@@ -70,7 +70,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     Dialog ad_dialog;
     TextInputEditText et_firm_password;
     boolean response_true;
-    String filename = "user_data.txt";
     private static ChatConnection mConnection;
     private static ChatConnectionService chatConnectionService;
     CheckBox checkBox;
@@ -90,11 +89,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
         bt_submit = findViewById(R.id.Submit);
         tv_forgot_password = findViewById(R.id.textView);
-//        tet_email.setText("soundarya.v@digicoffer.com");
-//        tet_email.setText("rajendra.sai@digicoffer.com");
-//        tet_email.setText("soundaryavembaiyan@yahoo.com");
-//        tet_password.setText("Test@123");
-//        Login();
 
         tv_forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,18 +98,22 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 startActivity(intent);
                 try {
                     isAllFieldsChecked = Validate();
-                    if (isAllFieldsChecked) {
-                    }
+//                    if (isAllFieldsChecked) {
+//                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         });
 
         check_Bio_metric();
-        // Initialize the button state  // Initially disabled
+//        tet_email.setText("soundarya.v@digicoffer.com");
+//        tet_email.setText("rajendra.sai@digicoffer.com");
 //        tet_email.setText("soundaryavembaiyan@yahoo.com");
 //        tet_password.setText("Test@123");
+//        Login();
+
+        // Initialize the button state  // Initially disabled
         checkFieldsNotEmpty();
         // TextWatcher for email and password EditTexts
         TextWatcher textWatcher = new TextWatcher() {
@@ -148,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         checkFieldsNotEmpty();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         });
@@ -159,8 +157,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         //when the Check Box is checked then the data is stored in Internal Storage for the Bio-Metric Authentication.
         if (checkBox.isChecked()) {
             String Token = Constants.TOKEN;
-            String email = tet_email.getText().toString().trim();
-            String password = tet_password.getText().toString().trim();
+            String email = Objects.requireNonNull(tet_email.getText()).toString().trim();
+            String password = Objects.requireNonNull(tet_password.getText()).toString().trim();
             SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("email", email);
@@ -180,8 +178,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
     private void checkFieldsNotEmpty() {
-        String email = tet_email.getText().toString().trim();
-        String password = tet_password.getText().toString().trim();
+        String email = Objects.requireNonNull(tet_email.getText()).toString().trim();
+        String password = Objects.requireNonNull(tet_password.getText()).toString().trim();
 
         // Check if both email and password are not empty
         boolean bothFieldsNotEmpty = !email.isEmpty() && !password.isEmpty();
@@ -235,7 +233,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     Constants.NAME = probiz_data.getString("name");
                     Constants.USER_ID = probiz_data.getString("user_id");
                     Constants.UID = probiz_data.getString("uid");
-                    Constants.OLD_PASSWORD = tet_password.getText().toString();
+                    Constants.OLD_PASSWORD = Objects.requireNonNull(tet_password.getText()).toString();
                     Constants.PK = probiz_data.getString("pk");
                     Constants.PASSWORD_MODE = probiz_data.getString("password_mode");
                     Constants.IS_ADMIN = probiz_data.getBoolean("admin");
@@ -243,7 +241,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     Constants.ROLE = probiz_data.getString("role");
                     Log.d("Response_value..", respose_v);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
                 Constants.TOKEN = Token1;
                 checkBox.setChecked(true);
@@ -284,8 +282,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             JSONObject postData = new JSONObject();
 
             progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
-            postData.put("email", tet_email.getText().toString());
-            postData.put("password", tet_password.getText().toString());
+            postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
+            postData.put("password", Objects.requireNonNull(tet_password.getText()).toString());
             WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing())
@@ -295,11 +293,11 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
 
     private boolean Validate() {
-        if (tet_email.getText().toString().trim().length() == 0) {
+        if (Objects.requireNonNull(tet_email.getText()).toString().trim().isEmpty()) {
             tet_email.setError("Email is required");
             return false;
         }
-        if (tet_password.getText().toString().trim().length() == 0) {
+        if (Objects.requireNonNull(tet_password.getText()).toString().trim().isEmpty()) {
             tet_password.setError("Password is required");
             return false;
         }
@@ -322,7 +320,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         textview_firm.setTextColor(getColor(R.color.orange_color));
         textview_firm.setTextSize(12);
         textview_firm.setTypeface(Typeface.DEFAULT_BOLD);
-        textview_firm.setText("This email address is associated with multiple firms. Please select a firm to sign-in");
+        textview_firm.setText(R.string.multi_firm_text);
         sp_firm = dialogLayout.findViewById(R.id.sp_firm);
         sp_firm.setBackground(getDrawable(R.drawable.rectangular_white_background));
         spinner_firm_view = dialogLayout.findViewById(R.id.spinner_firm_view);
@@ -387,7 +385,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (isValidPassword(String.valueOf(s)) && (!firm_list_name.equals(""))) {
+                if (isValidPassword(String.valueOf(s)) && (!firm_list_name.isEmpty())) {
                     bt_submit.setEnabled(true);
                     bt_submit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
                 } else {
@@ -406,7 +404,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             }
         });
         bt_submit.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 submit_firm_login();
@@ -425,12 +422,12 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     private void submit_firm_login() {
         try {
             String password = "";
-            password = et_firm_password.getText().toString().trim();
+            password = Objects.requireNonNull(et_firm_password.getText()).toString().trim();
             firm_password = password;
-            if (firm_list_name.equals("")) {
+            if (firm_list_name.isEmpty()) {
                 AndroidUtils.showToast("Firm is mandatory", LoginActivity.this);
             }
-            if (!password.equals("") && isValidPassword(password)) {
+            if (!password.isEmpty() && isValidPassword(password)) {
                 callfirmloginWebservice(et_firm_password, tet_email);
             } else {
                 AndroidUtils.showToast("Password is mandatory", LoginActivity.this);
@@ -463,11 +460,10 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 dashboardModel.setSequence(jsonObject1.getString("sequence"));
                 dashboardModels.add(dashboardModel);
             }
-            Log.d("Dashboard_page", "" + type + dashboardModels);
+            Log.d("Dashboard_page", type + dashboardModels);
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void save_xmpp_preference() {
 //        String email = Objects.requireNonNull(et_Prof_Biz.getText()).toString().trim();
 
@@ -509,19 +505,15 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     if (!result.getBoolean("error")) {
                         JSONObject probiz_data = new JSONObject(result.getString("data"));
                         Constants.jsonObject_dashboard = probiz_data;
-                        if (!probiz_data.getString("plan").toLowerCase().equals("lauditor")) {
+                        if (!probiz_data.getString("plan").equalsIgnoreCase("lauditor")) {
 //                            AndroidUtils.showToast("Account not found", this);
                             AndroidUtils.showToast("Account not found", LoginActivity.this);
                             return;
                         }
                         String email = null;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            email = Objects.requireNonNull(tet_email.getText()).toString().trim();
-                        }
+                        email = Objects.requireNonNull(tet_email.getText()).toString().trim();
                         String password = null;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            password = Objects.requireNonNull(tet_password.getText()).toString().trim();
-                        }
+                        password = Objects.requireNonNull(tet_password.getText()).toString().trim();
                         SharedPreferences prefs = getDefaultSharedPreferences(getApplicationContext());
                         prefs.edit()
                                 .putString("email", email)
@@ -540,9 +532,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         Constants.IS_ADMIN = probiz_data.getBoolean("admin");
                         Constants.FIRM_NAME = probiz_data.getString("firm_name");
                         Constants.ROLE = probiz_data.getString("role");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            save_xmpp_preference();
-                        }
+                        save_xmpp_preference();
                         if (Constants.PASSWORD_MODE.equals("normal")) //Checking for password_mode
                         {
                             AndroidUtils.showToast("Login Successful", this);
@@ -580,9 +570,9 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                                 String user = obj.getString("id");
                                 Iterator<String> iter = obj.keys();
                                 JSONObject postData = new JSONObject();
-                                postData.put("email", tet_email.getText().toString());
+                                postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
                                 postData.put("userid", user);
-                                postData.put("password", tet_password.getText().toString());
+                                postData.put("password", Objects.requireNonNull(tet_password.getText()).toString());
                                 WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
                             }
                         } else {
@@ -633,7 +623,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
             } catch (IOException | SmackException | XMPPException e) {
                 Log.d("Chat Error", "Something went wrong while connecting ,make sure the credentials are right and try again");
-                e.printStackTrace();
+                e.fillInStackTrace();
                 //Stop the service all together.
                 chatConnectionService.stopSelf();
             }

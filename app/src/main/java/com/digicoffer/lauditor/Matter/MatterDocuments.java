@@ -75,40 +75,42 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Objects;
 
-public class MatterDocuments extends Fragment implements AsyncTaskCompleteListener,View.OnClickListener ,BottomSheetUploadFile.OnPhotoSelectedListner{
+public class MatterDocuments extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, BottomSheetUploadFile.OnPhotoSelectedListner {
 
-    private TextView tv_tag_document_name,matter_date,tv_document_library,tv_device_drive,at_add_documents,tv_selected_file,add_groups,select_all;
-    private LinearLayout ll_added_tags, ll_add_documents,ll_selected_documents,ll_select_doc,ll_uploaded_documents;
-    private Button btn_browse,btn_add_documents;
+    private TextView tv_tag_document_name, matter_date, tv_document_library, tv_device_drive, at_add_documents, tv_selected_file, add_groups, select_all;
+    private LinearLayout ll_added_tags, ll_add_documents, ll_selected_documents, ll_select_doc, ll_uploaded_documents;
+    private Button btn_browse, btn_add_documents;
     RecyclerView rv_matter_list;
     AlertDialog progressDialog;
     private NewModel mViewModel;
-    CardView cv_client_details,cv_add_opponent_advocate;
+    CardView cv_client_details, cv_add_opponent_advocate;
     Matter matter;
     ArrayList<ViewMatterModel> matterList = new ArrayList<>();
-    String matter_title, case_number, case_type, description, dof,start_date,end_date, court, judge, case_priority, case_status;
+    String matter_title, case_number, case_type, description, dof, start_date, end_date, court, judge, case_priority, case_status;
     private JSONArray existing_opponents;
     TextInputEditText tv_tag_type, tv_tag_name;
     TextInputLayout search_matter;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
     private ImageView imageView;
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
-    LinearLayout  upload_doc_layout;
-    RecyclerView  rv_display_upload_doc;
+    LinearLayout upload_doc_layout;
+    RecyclerView rv_display_upload_doc;
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
     ArrayList<DocumentsModel> tags_list = new ArrayList<>();
     BottomSheetUploadFile bottommSheetUploadDocument;
-    AppCompatButton btn_cancel_save,btn_create;
-    boolean [] selectedDocument;
+    AppCompatButton btn_cancel_save, btn_create;
+    boolean[] selectedDocument;
     private Bitmap mSelectedBitmap;
-    ArrayList<MatterModel> matterArraylist ;
+    ArrayList<MatterModel> matterArraylist;
     private File mSelectedUri;
     String ADAPTER_TAG = "Documents";
     ArrayList<DocumentsModel> documentsList = new ArrayList<>();
@@ -135,7 +137,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     private ArrayList<GroupsModel> groupsList = new ArrayList<>();
     private ArrayList<ClientsModel> clientsList = new ArrayList<>();
     private ArrayList<TeamModel> tmList = new ArrayList<>();
-    private String uploaded_document_name,upload_description;
+    private String uploaded_document_name, upload_description;
     private AbstractCollection<DocumentsModel> MergedList;
     private int changedCollection;
 
@@ -150,22 +152,22 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         Calendar myCalendar = Calendar.getInstance();
         matter_date = view.findViewById(R.id.matter_date);
         tv_document_library = view.findViewById(R.id.tv_document_library);
-        tv_document_library.setText("Document Library");
+        tv_document_library.setText(R.string.document_library);
         tv_document_library.setOnClickListener(this);
-       et_search_matter = view.findViewById(R.id.et_search_matter);
+        et_search_matter = view.findViewById(R.id.et_search_matter);
         cv_client_details = view.findViewById(R.id.cv_client_details);
         cv_add_opponent_advocate = view.findViewById(R.id.cv_add_opponent_advocate);
         tv_device_drive = view.findViewById(R.id.tv_device_drive);
-        tv_device_drive.setText("Device/Drive");
+        tv_device_drive.setText(R.string.device_drive);
         add_groups = view.findViewById(R.id.add_groups);
-        add_groups.setText("Add Documents");
+        add_groups.setText(R.string.add_documents);
         select_all = view.findViewById(R.id.select_all);
-        select_all.setText("Select Document(s)");
+        select_all.setText(R.string.select_document);
         rv_matter_list = view.findViewById(R.id.rv_matter_list);
         search_matter = view.findViewById(R.id.search_matter);
         tv_device_drive.setOnClickListener(this);
         at_add_documents = view.findViewById(R.id.at_add_documents);
-        at_add_documents.setHint("Select Document(s)");
+        at_add_documents.setHint(R.string.select_document);
         at_add_documents.setOnClickListener(this);
         tv_selected_file = view.findViewById(R.id.tv_selected_file);
         tv_selected_file.setText(R.string.select_document);
@@ -178,13 +180,13 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         ll_uploaded_documents = view.findViewById(R.id.ll_uploaded_documents);
         ll_select_doc = view.findViewById(R.id.ll_select_doc);
         btn_browse = view.findViewById(R.id.btn_browse);
-        btn_browse.setText("BROWSE");
+        btn_browse.setText(R.string.browse);
         btn_browse.setOnClickListener(this);
         btn_add_documents = view.findViewById(R.id.btn_add_documents);
         btn_add_documents.setOnClickListener(this);
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         btn_create = view.findViewById(R.id.btn_submit);
-        btn_create.setText("Submit");
+        btn_create.setText(R.string.submit);
         tv_matter_title_btn = view.findViewById(R.id.matter_title);
         upload_doc_layout = view.findViewById(R.id.upload_doc_layout);
         rv_display_upload_doc = view.findViewById(R.id.rv_display_upload_doc);
@@ -193,19 +195,16 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             @Override
             public void onClick(View v) {
                 submitMatter();
-              //  matter.loadViewUI();
-               // callMatterListWebservice();
+                //  matter.loadViewUI();
+                // callMatterListWebservice();
             }
         });
-
-
-
 
 
         at_add_documents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //   documentsList.clear();
+                //   documentsList.clear();
                 callDocumentsWebService();
                 rv_display_upload_doc.setVisibility(View.VISIBLE);
                 selected_documents_list.clear();
@@ -213,15 +212,16 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     rv_display_upload_doc.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
                     rv_display_upload_doc.setVisibility(View.VISIBLE);
                 } else {
-                    rv_display_upload_doc .setVisibility(View.GONE);
+                    rv_display_upload_doc.setVisibility(View.GONE);
                 }
                 ischecked_doc = !ischecked_doc;
             }
         });
         loadDocumentLibraryUI();
         matter = (Matter) getParentFragment();
-        matterArraylist  = matter.getMatter_arraylist();
-        if (matterArraylist.size()!=0) {
+        assert matter != null;
+        matterArraylist = matter.getMatter_arraylist();
+        if (!matterArraylist.isEmpty()) {
             for (int i = 0; i < matterArraylist.size(); i++) {
                 MatterModel matterModel = matterArraylist.get(i);
                 tv_matter_title_btn.setText("");
@@ -249,10 +249,10 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                             groupsModel.setChecked(jsonObject.getBoolean("isChecked"));
                             selected_groups_list.add(groupsModel);
                         }
-                        if (existing_documents!=null){
-                            for (int d=0;d<existing_documents.length();d++){
+                        if (existing_documents != null) {
+                            for (int d = 0; d < existing_documents.length(); d++) {
                                 DocumentsModel documentsModel = new DocumentsModel();
-                                JSONObject jsonObject =existing_documents.getJSONObject(d);
+                                JSONObject jsonObject = existing_documents.getJSONObject(d);
                                 documentsModel.setDocid(jsonObject.getString("docid"));
                                 documentsModel.setName(jsonObject.getString("name"));
                                 documentsModel.setUser_id(jsonObject.getString("user_id"));
@@ -260,11 +260,10 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                 selected_documents_list.add(documentsModel);
                             }
                         }
-                        if(existing_documents_list!=null)
-                        {
-                            for (int ed=0;ed<existing_documents_list.length();ed++){
+                        if (existing_documents_list != null) {
+                            for (int ed = 0; ed < existing_documents_list.length(); ed++) {
                                 DocumentsModel documentsModel = new DocumentsModel();
-                                JSONObject jsonObject =existing_documents_list.getJSONObject(ed);
+                                JSONObject jsonObject = existing_documents_list.getJSONObject(ed);
                                 documentsModel.setDocid(jsonObject.getString("docid"));
                                 documentsModel.setName(jsonObject.getString("name"));
                                 documentsModel.setUser_id(jsonObject.getString("user_id"));
@@ -272,7 +271,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                 documentsList.add(documentsModel);
                             }
 
-                            for (int k=0;k<existing_groups_list.length();k++){
+                            for (int k = 0; k < existing_groups_list.length(); k++) {
                                 GroupsModel groupsModel = new GroupsModel();
                                 JSONObject jsonObject = existing_groups_list.getJSONObject(k);
                                 groupsModel.setGroup_id(jsonObject.getString("id"));
@@ -280,7 +279,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                 groupsList.add(groupsModel);
                             }
 
-                            for (int m=0;m<existing_clients.length();m++){
+                            for (int m = 0; m < existing_clients.length(); m++) {
                                 ClientsModel clientsModel = new ClientsModel();
                                 JSONObject jsonObject = existing_clients.getJSONObject(m);
                                 clientsModel.setClient_id(jsonObject.getString("id"));
@@ -288,7 +287,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                 clientsModel.setClient_type(jsonObject.getString("type"));
                                 selected_clients_list.add(clientsModel);
                             }
-                            for (int c=0;c<existing_clients_list.length();c++){
+                            for (int c = 0; c < existing_clients_list.length(); c++) {
                                 ClientsModel clientsModel = new ClientsModel();
                                 JSONObject jsonObject = existing_clients_list.getJSONObject(c);
                                 clientsModel.setClient_id(jsonObject.getString("id"));
@@ -298,9 +297,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                             }
 //
                         }
-                        if(matterModel.getMembers()!=null) {
+                        if (matterModel.getMembers() != null) {
                             existing_members = matterModel.getMembers();
-                            try{
+                            try {
                                 for (int t = 0; t < existing_members.length(); t++) {
                                     TeamModel teamModel = new TeamModel();
                                     JSONObject jsonObject = existing_members.getJSONObject(t);
@@ -310,12 +309,12 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                     selected_tm_list.add(teamModel);
                                 }
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                             }
                         }
-                        if (matterModel.getMembers_list()!=null){
+                        if (matterModel.getMembers_list() != null) {
                             existing_tm_list = matterModel.getMembers_list();
-                            try{
+                            try {
 
                                 for (int d = 0; d < existing_tm_list.length(); d++) {
                                     TeamModel teamModel = new TeamModel();
@@ -326,7 +325,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                     tmList.add(teamModel);
                                 }
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                             }
                         }
                         if (matterArraylist.get(i).getOpponent_advocate() != null) {
@@ -341,51 +340,51 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                         advocateModel.setEmail(jsonObject.getString("email"));
                                         advocates_list.add(advocateModel);
                                     } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        e.fillInStackTrace();
                                     }
                                 }
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                             }
                         }
-                        if (matterModel.getMatter_title()!=null){
+                        if (matterModel.getMatter_title() != null) {
                             matter_title = (String) matterModel.getMatter_title();
                         }
-                        if(matterModel.getCase_number()!=null){
+                        if (matterModel.getCase_number() != null) {
                             case_number = matterModel.getCase_number();
                         }
-                        if(matterModel.getCase_type()!=null){
+                        if (matterModel.getCase_type() != null) {
                             case_type = matterModel.getCase_type();
                         }
-                        if(matterModel.getDescription()!=null){
+                        if (matterModel.getDescription() != null) {
                             description = matterModel.getDescription();
                         }
-                        if(matterModel.getDate_of_filing()!=null){
-                            dof =matterModel.getDate_of_filing();
+                        if (matterModel.getDate_of_filing() != null) {
+                            dof = matterModel.getDate_of_filing();
                         }
-                        if (matterModel.getStart_date()!=null){
+                        if (matterModel.getStart_date() != null) {
                             start_date = matterModel.getStart_date();
                         }
-                        if (matterModel.getEnd_date()!=null){
+                        if (matterModel.getEnd_date() != null) {
                             end_date = matterModel.getEnd_date();
                         }
-                        if (matterModel.getCourt()!=null){
+                        if (matterModel.getCourt() != null) {
                             court = matterModel.getCourt();
                         }
-                        if(matterModel.getJudge()!=null){
+                        if (matterModel.getJudge() != null) {
                             judge = matterModel.getJudge();
                         }
-                        if(matterModel.getCase_priority()!=null){
+                        if (matterModel.getCase_priority() != null) {
                             case_priority = matterModel.getCase_priority();
                         }
-                        if(matterModel.getStatus()!=null){
+                        if (matterModel.getStatus() != null) {
                             case_status = matterModel.getStatus();
                         }
-                        if (selected_documents_list.size()!=0){
+                        if (!selected_documents_list.isEmpty()) {
                             loadSelectedDocuments();
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
             }
@@ -414,12 +413,12 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 datePickerDialog.show();
             }
         });
-        return  view;
+        return view;
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_document_library:
                 loadDocumentLibraryUI();
                 break;
@@ -427,10 +426,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 loadDeviceDriveUI();
                 break;
             case R.id.btn_add_documents:
-                if(documentsList.size()==0) {
+                if (documentsList.size() == 0) {
                     callDocumentsWebService();
-                }else
-                {
+                } else {
                     DocumentsPopUp();
                 }
                 break;
@@ -447,12 +445,12 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
     private void submitMatterInformation() {
 
-        if(selected_documents_list.size()==0&&upload_documents_list.size()==0){
-           // AndroidUtils.showToast("Please add atleast one document from existing documents or upload a new one",getContext());
-        }else{
+        if (selected_documents_list.isEmpty() && upload_documents_list.isEmpty()) {
+            // AndroidUtils.showToast("Please add atleast one document from existing documents or upload a new one",getContext());
+        } else {
             try {
-                if (upload_documents_list.size()!=0){
-                    try{
+                if (!upload_documents_list.isEmpty()) {
+                    try {
 //                            changedCollection = upload_documents_list.size();
                         for (int i = 0; i < upload_documents_list.size(); i++) {
 //                            changedCollection--;
@@ -482,7 +480,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                 clients_jobject.put("type", clientsModel.getClient_type());
                                 new_clients.put(clients_jobject);
                             }
-                            for(int g=0;g<selected_groups_list.size();g++){
+                            for (int g = 0; g < selected_groups_list.size(); g++) {
                                 GroupsModel groupsModel = selected_groups_list.get(g);
                                 new_groups.put(groupsModel.getGroup_id());
                             }
@@ -496,8 +494,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                             jsonObject.put("filename", docname);
                             jsonObject.put("category", "client");
                             jsonObject.put("clients", new_clients);
-                            jsonObject.put("groups",new_groups);
-                            jsonObject.put("downloadDisabled","false");
+                            jsonObject.put("groups", new_groups);
+                            jsonObject.put("downloadDisabled", "false");
                             if (upload_documents_list.get(i).getTags_list() == null) {
                                 jsonObject.put("tags", "");
                             } else {
@@ -517,9 +515,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     } catch (JSONException e) {
                         if (progress_dialog != null && progress_dialog.isShowing())
                             AndroidUtils.dismiss_dialog(progress_dialog);
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
-                }else{
+                } else {
 
                     submitMatter();
 
@@ -528,11 +526,10 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
 //                matter.loadDocuments();
 
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 if (progress_dialog != null && progress_dialog.isShowing())
                     AndroidUtils.dismiss_dialog(progress_dialog);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -566,8 +563,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             return true;
         }
     }
+
     private void callDocumentsWebService() {
-        try{
+        try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONArray group_acls = new JSONArray();
             JSONObject postdata = new JSONObject();
@@ -578,9 +576,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             }
             postdata.put("group_acls", group_acls);
             postdata.put("attachment_type", "documents");
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Documents",postdata.toString());
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Documents", postdata.toString());
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -599,7 +597,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         ll_select_doc.setVisibility(View.VISIBLE);
 //        ll_selected_documents.removeAllViews();
 //        documentsList.clear();
-        at_add_documents.setText("Select Document");
+        at_add_documents.setText(R.string.select_document);
     }
 
     private void loadDocumentLibraryUI() {
@@ -616,6 +614,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         ll_add_documents.setVisibility(View.VISIBLE);
         ll_select_doc.setVisibility(View.GONE);
     }
+
     private void BottomSheetUploadfile() {
         bottommSheetUploadDocument = new BottomSheetUploadFile();
         bottommSheetUploadDocument.show(getParentFragmentManager(), "");
@@ -630,30 +629,32 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             mSelectedUri = imagepath;
             String uri = imagepath.toString();
             ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
+            imageLoader.init(ImageLoaderConfiguration.createDefault(requireActivity()));
             imageLoader.displayImage(String.valueOf(Uri.fromFile(new File(uri))), imageView);
             file = imagepath;
-            Cursor c = getContext().getContentResolver().query(ImageURI, null, null, null, null);
+            Cursor c = requireContext().getContentResolver().query(ImageURI, null, null, null, null);
+            assert c != null;
             c.moveToFirst();
             String[] content_type = file.getName().split(".");
             String file_name = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
             tv_selected_file.setText(file_name);
 
-            load_documents( file_name, file);
+            load_documents(file_name, file);
         } else {
-            file = getFile(getContext(), ImageURI);
+            file = getFile(requireContext(), ImageURI);
             Log.i("FILE", "Info:" + file.toString());
             String file_name = file.getName();
             tv_selected_file.setText(file_name);
 //            DocumentsModel documentsModel = new DocumentsModel();
 //            documentsModel.setName(file.getName());
 //            docsList.add(documentsModel);
-            load_documents( file_name, file);
+            load_documents(file_name, file);
 //            docsList.add()
         }
 
     }
-    private void load_documents( String file_name, File file) {
+
+    private void load_documents(String file_name, File file) {
 //        for (int i = 0; i < docsList.size(); i++) {
 //            View view = LayoutInflater.from(getContext()).inflate(R.layout.displays_documents_list, null);
 //            TextView tv_docname = view.findViewById(R.id.tv_document_name);
@@ -688,18 +689,20 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //            ll_documents.addView(view);
 //        }
     }
+
     public static File getFile(Context context, Uri uri) throws IOException {
         File destinationFilename = new File(context.getFilesDir().getPath() + File.separatorChar + queryName(context, uri));
         try (InputStream ins = context.getContentResolver().openInputStream(uri)) {
             createFileFromStream(ins, destinationFilename);
         } catch (Exception ex) {
-            Log.e("Save File", ex.getMessage());
-            ex.printStackTrace();
+            Log.e("Save File", Objects.requireNonNull(ex.getMessage()));
+            ex.fillInStackTrace();
         }
         return destinationFilename;
     }
+
     public static void createFileFromStream(InputStream ins, File destination) {
-        try (OutputStream os = new FileOutputStream(destination)) {
+        try (OutputStream os = Files.newOutputStream(destination.toPath())) {
             byte[] buffer = new byte[4096];
             int length;
             while ((length = ins.read(buffer)) > 0) {
@@ -707,8 +710,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             }
             os.flush();
         } catch (Exception ex) {
-            Log.e("Save File", ex.getMessage());
-            ex.printStackTrace();
+            Log.e("Save File", Objects.requireNonNull(ex.getMessage()));
+            ex.fillInStackTrace();
         }
     }
 
@@ -729,11 +732,11 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         mSelectedBitmap = bitmap;
         mSelectedUri = null;
 //        tv_upload_file.setEnabled(false);
-        File filesDir = getContext().getFilesDir();
+        File filesDir = requireContext().getFilesDir();
         File imageFile = new File(filesDir, "bitmap" + ".jpg");
         OutputStream os;
         try {
-            os = new FileOutputStream(imageFile);
+            os = Files.newOutputStream(imageFile.toPath());
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
             os.flush();
             os.close();
@@ -754,7 +757,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContext().getContentResolver().query(selectedImage,
+            Cursor cursor = requireContext().getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -796,11 +799,11 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     JSONArray data = result.getJSONArray("documents");
 //                    AndroidUtils.showAlert(data.toString(),getContext());
                     loadDocumentsData(data);
-                }else if (httpResult.getRequestType().equals("Upload Document")) {
+                } else if (httpResult.getRequestType().equals("Upload Document")) {
                     boolean error = result.getBoolean("error");
-                    if (error){
-                        AndroidUtils.showAlert(result.getString("msg"),getContext());
-                    }else{
+                    if (error) {
+                        AndroidUtils.showAlert(result.getString("msg"), getContext());
+                    } else {
                         String docid = result.getString("docid");
 //                        AndroidUtils.showAlert(result.getString("msg"),getContext());
                         addDocsToMatter(docid);
@@ -820,19 +823,17 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                         try {
                             loadMattersList(matters);
                         } catch (Exception e) {
-                            AndroidUtils.showAlert(e.getMessage(),getContext());
+                            AndroidUtils.showAlert(e.getMessage(), getContext());
                             e.printStackTrace();
                         }
                     }
-                }else if(httpResult.getRequestType()=="Create Matter"){
+                } else if (httpResult.getRequestType() == "Create Matter") {
                     boolean error = result.getBoolean("error");
                     String msg = result.getString("msg");
-                    if (error){
-                        AndroidUtils.showToast(msg,getContext());
-                    }
-                    else
-                    {
-                        AndroidUtils.showToast(msg,getContext());
+                    if (error) {
+                        AndroidUtils.showToast(msg, getContext());
+                    } else {
+                        AndroidUtils.showToast(msg, getContext());
 
                         matterArraylist.clear();
                     }
@@ -842,6 +843,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             }
         }
     }
+
     public void callMatterListWebservice() {
         try {
             progressDialog = AndroidUtils.get_progress(getActivity());
@@ -858,7 +860,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     private void submitMatter() {
         try {
 
-            if(upload_documents_list.size()==0) {
+            if (upload_documents_list.size() == 0) {
                 String Matter_type = "legal";
                 JSONObject postdata = new JSONObject();
                 JSONArray clients = new JSONArray();
@@ -904,7 +906,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     jsonObject.put("phone", advocateModel.getNumber());
                     opponent_advocates.put(jsonObject);
                 }
-               postdata.put("title", matter_title);
+                postdata.put("title", matter_title);
 
 
                 postdata.put("affidavit_filing_date", "");
@@ -920,7 +922,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 postdata.put("group_acls", group_acls);
                 postdata.put("members", members);
                 postdata.put("opponent_advocates", opponent_advocates);
-                if (Constants.MATTER_TYPE=="Legal") {
+                if (Constants.MATTER_TYPE == "Legal") {
                     postdata.put("judges", judge);
                     postdata.put("date_of_filling", dof);
                     postdata.put("court_name", court);
@@ -928,24 +930,20 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     postdata.put("case_type", case_type);
                     Matter_type = "legal";
                     matter.loadViewUI();
-                }else{
-                    postdata.put("startdate",start_date);
-                    postdata.put("closedate",end_date);
+                } else {
+                    postdata.put("startdate", start_date);
+                    postdata.put("closedate", end_date);
                     postdata.put("matter_number", case_number);
                     postdata.put("matter_type", case_type);
                     Matter_type = "general";
-                    matter. loadGeneralMatter();
+                    matter.loadGeneralMatter();
                 }
 
 
-                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "matter/"+Matter_type+"/create", "Create Matter", postdata.toString());
-
-
+                WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "matter/" + Matter_type + "/create", "Create Matter", postdata.toString());
 
 
             }
-
-
 
 
         } catch (JSONException e) {
@@ -953,6 +951,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
         }
     }
+
     public void View_Matter_Page() {
         try {
 
@@ -961,7 +960,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             View view = inflater.inflate(R.layout.delete_relationship, null);
             TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
 
-            tv_confirmation.setText(" Do you want to go viewmatter page" );
+            tv_confirmation.setText(" Do you want to go viewmatter page");
 //                Matter_Status = "Closed";
 
 
@@ -1039,7 +1038,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     }
 
     private void DocumentsPopUp() {
-        try{
+        try {
             for (int i = 0; i < documentsList.size(); i++) {
                 for (int j = 0; j < selected_documents_list.size(); j++) {
                     if (documentsList.get(i).getDocid().matches(selected_documents_list.get(j).getDocid())) {
@@ -1058,7 +1057,6 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //            ADAPTER_TAG = "Documents";
             DocumentsAdapter documentsAdapter = new DocumentsAdapter(documentsList);
             rv_display_upload_doc.setAdapter(documentsAdapter);
-
 
 
             btn_add_documents.setOnClickListener(new View.OnClickListener() {
@@ -1093,7 +1091,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
-    private void loadUploadedDocuments(){
+
+    private void loadUploadedDocuments() {
         String[] value = new String[upload_documents_list.size()];
         for (int i = 0; i < upload_documents_list.size(); i++) {
 //                                value += "," + family_members.get(i);
@@ -1108,7 +1107,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        selected_tm.setVisibility(View.VISIBLE);
         ll_uploaded_documents.removeAllViews();
         ll_selected_documents.removeAllViews();
-        for(int i=0;i<upload_documents_list.size();i++){
+        for (int i = 0; i < upload_documents_list.size(); i++) {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.document_tag, null);
             TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
             tv_opponent_name.setText(upload_documents_list.get(i).getName());
@@ -1149,10 +1148,10 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             iv_edit_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position  = 0;
-                    if (v.getTag() instanceof Integer){
+                    int position = 0;
+                    if (v.getTag() instanceof Integer) {
                         position = (Integer) v.getTag();
-                        v= ll_uploaded_documents.getChildAt(position);
+                        v = ll_uploaded_documents.getChildAt(position);
                         DocumentsModel documentsModel = upload_documents_list.get(position);
                         try {
                             open_add_tags_popup(documentsModel);
@@ -1168,11 +1167,11 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 @Override
                 public void onClick(View v) {
                     int position = 0;
-                    if (v.getTag() instanceof Integer);
+                    if (v.getTag() instanceof Integer) ;
                     position = (Integer) v.getTag();
-                    v= ll_uploaded_documents.getChildAt(position);
+                    v = ll_uploaded_documents.getChildAt(position);
                     DocumentsModel documentsModel1 = upload_documents_list.get(position);
-                    EditDocuments(documentsModel1.getName(),documentsModel1.getDescription(),documentsModel1.getFile(),position,v);
+                    EditDocuments(documentsModel1.getName(), documentsModel1.getDescription(), documentsModel1.getFile(), position, v);
 
                 }
             });
@@ -1180,6 +1179,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             ll_uploaded_documents.addView(view_opponents);
         }
     }
+
     private void loadSelectedDocuments() {
         String[] value = new String[selected_documents_list.size()];
         for (int i = 0; i < selected_documents_list.size(); i++) {
@@ -1213,8 +1213,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                 // Remove the view at the specified position
                                 ll_selected_documents.removeViewAt(position);
                                 // Remove the corresponding item from the list
-                               DocumentsModel documentsModel = selected_documents_list.remove(position);
-                               documentsModel.setChecked(false);
+                                DocumentsModel documentsModel = selected_documents_list.remove(position);
+                                documentsModel.setChecked(false);
                                 // Update the tags of the remaining views
                                 for (int j = 0; j < ll_selected_documents.getChildCount(); j++) {
                                     ImageView iv_remove = ll_selected_documents.getChildAt(j).findViewById(R.id.iv_remove_opponent);
@@ -1262,29 +1262,29 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 if (jsonObject.has("caseNumber")) {
                     viewMatterModel.setCaseNumber(jsonObject.getString("caseNumber"));
                 }
-                if(jsonObject.has("caseType")) {
+                if (jsonObject.has("caseType")) {
                     viewMatterModel.setCasetype(jsonObject.getString("caseType"));
                 }
                 viewMatterModel.setClients(jsonObject.getJSONArray("clients"));
-                if(jsonObject.has("courtName")){
+                if (jsonObject.has("courtName")) {
                     viewMatterModel.setCourtName(jsonObject.getString("courtName"));
                 }
-                if (jsonObject.has("date_of_filling")){
+                if (jsonObject.has("date_of_filling")) {
                     viewMatterModel.setDate_of_filling(jsonObject.getString("date_of_filling"));
                 }
-                if(jsonObject.has("closedate")){
+                if (jsonObject.has("closedate")) {
                     viewMatterModel.setClosedate(jsonObject.getString("closedate"));
                 }
-                if(jsonObject.has("matterNumber")){
+                if (jsonObject.has("matterNumber")) {
                     viewMatterModel.setMatterNumber(jsonObject.getString("matterNumber"));
                 }
-                if(jsonObject.has("matterType")){
+                if (jsonObject.has("matterType")) {
                     viewMatterModel.setMatterType(jsonObject.getString("matterType"));
                 }
-                if (jsonObject.has("startdate")){
+                if (jsonObject.has("startdate")) {
                     viewMatterModel.setStartdate(jsonObject.getString("startdate"));
                 }
-                if(jsonObject.has("timesheets")){
+                if (jsonObject.has("timesheets")) {
                     viewMatterModel.setTimesheets(jsonObject.getJSONArray("timesheets"));
                 }
                 viewMatterModel.setDescription(jsonObject.getString("description"));
@@ -1292,31 +1292,31 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
                 viewMatterModel.setGroupAcls(jsonObject.getJSONArray("groupAcls"));
                 viewMatterModel.setGroups(jsonObject.getJSONArray("groups"));
-                if(jsonObject.has("hearingDateDetails")){
+                if (jsonObject.has("hearingDateDetails")) {
                     viewMatterModel.setHearingDateDetails(jsonObject.getJSONObject("hearingDateDetails"));
                 }
                 viewMatterModel.setIs_editable(jsonObject.getBoolean("is_editable"));
                 if (jsonObject.has("judges")) {
                     viewMatterModel.setJudges(jsonObject.getString("judges"));
                 }
-                if (jsonObject.has("matterClosedDate")){
+                if (jsonObject.has("matterClosedDate")) {
                     viewMatterModel.setMatterClosedDate(jsonObject.getString("matterClosedDate"));
                 }
                 viewMatterModel.setMembers(jsonObject.getJSONArray("members"));
-                if(jsonObject.has("nextHearingDate")) {
+                if (jsonObject.has("nextHearingDate")) {
                     viewMatterModel.setNextHearingDate(jsonObject.getString("nextHearingDate"));
                 }
-                if(jsonObject.has("opponentAdvocates")) {
+                if (jsonObject.has("opponentAdvocates")) {
                     viewMatterModel.setOpponentAdvocates(jsonObject.getJSONArray("opponentAdvocates"));
                 }
                 viewMatterModel.setOwner(jsonObject.getJSONObject("owner"));
                 viewMatterModel.setPriority(jsonObject.getString("priority"));
                 viewMatterModel.setStatus(jsonObject.getString("status"));
                 viewMatterModel.setTags(jsonObject.getJSONObject("tags"));
-                if (jsonObject.has("tempClients")){
+                if (jsonObject.has("tempClients")) {
                     viewMatterModel.setTempClients(jsonObject.getJSONArray("tempClients"));
                 }
-                if(jsonObject.has("timesheets")){
+                if (jsonObject.has("timesheets")) {
                     viewMatterModel.setTimesheets(jsonObject.getJSONArray("timesheets"));
                 }
 
@@ -1328,13 +1328,13 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             }
 
 
-
             loadMatterRecyclerview();
         } catch (JSONException e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
             e.printStackTrace();
         }
     }
+
     public void loadMatterRecyclerview() {
         try {
             if (getContext() != null && rv_matter_list != null) {
@@ -1373,7 +1373,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
     private void open_add_tags_popup(DocumentsModel documentsModel) throws JSONException {
         tags_list.clear();
-        if (documentsModel.getTags_list()!=null) {
+        if (documentsModel.getTags_list() != null) {
 //            int i=0;
 //            for (int i=0;i<tags_list.size();i++) {
             JSONArray jsonArray = new JSONArray();
@@ -1418,13 +1418,13 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tv_tag_type.getText().toString().equals("")){
+                if (tv_tag_type.getText().toString().equals("")) {
                     tv_tag_type.setError("Please enter tag type");
                     tv_tag_type.requestFocus();
-                }else if(tv_tag_name.getText().toString().equals("")){
+                } else if (tv_tag_name.getText().toString().equals("")) {
                     tv_tag_name.setError("Please enter tag name");
                     tv_tag_name.requestFocus();
-                }else{
+                } else {
                     add_tags_listing();
                 }
 
@@ -1492,7 +1492,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
     private void add_tags_listing() {
         ll_added_tags.removeAllViews();
-        if(!(tv_tag_name.getText().toString().equals(""))&&(!(tv_tag_type.getText().toString().equals("")))){
+        if (!(tv_tag_name.getText().toString().equals("")) && (!(tv_tag_type.getText().toString().equals("")))) {
             DocumentsModel documentsModel = new DocumentsModel();
             documentsModel.setTag_type(tv_tag_type.getText().toString());
             documentsModel.setTag_name(tv_tag_name.getText().toString());
@@ -1542,6 +1542,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             ll_added_tags.addView(view_added_tags);
         }
     }
+
     private void edit_tags(String tag_type, String tag_name, int position, View view_tag, TextView tv_tag_document_name) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -1592,7 +1593,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         }
     }
 
-    private void EditDocuments(String name, String description,File file, int position, View v) {
+    private void EditDocuments(String name, String description, File file, int position, View v) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view_edit_documents = inflater.inflate(R.layout.edit_meta_data, null);

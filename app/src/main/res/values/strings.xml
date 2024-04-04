@@ -4,7 +4,7 @@
     <string name="my_day">My Day</string>
     <string name="kpis">KPIs</string>
     <string name="meeting">Meetings</string>
-    <string name="underline"><u>Forget Password ?</u></string>
+    <string name="underline"><u>Forgot Password ?</u></string>
     <string name="_09_00_to_09_30">09:00 to 09:30</string>
     <string name="meeting_with_tripathi">Meeting with Tripathi</string>
     <string name="todo">TODO</string>
@@ -29,6 +29,8 @@
     <string name="client_name">"Client Name"</string>
     <string name="select_document">"Select Document(s)"</string>
     <string name="sub_categories">Sub Categories</string>
+    <string name="browse">"BROWSE"</string>
+    <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
@@ -124,4 +126,11 @@
     <string name="chat_cnt_lost">Chat Connection lost, Please try again later</string>
     <string name="chat_loading">Chat Loading..,</string>
     <string name="note_text">Note: Contact Admin for Team Member password reset </string>
+    <string name="select_clients">Select Clients</string>
+    <string name="selected_tm">Selected Team Members</string>
+    <string name="selected_groups">Selected Groups</string>
+    <string name="selected_clients">Selected Clients</string>
+    <string name="multi_firm_text">This email address is associated with multiple firms. Please select a firm to sign-in</string>
+    <string name="group_head">Group Head :</string>
+    <string name="matter_information">Matter Information</string>
 </resources>

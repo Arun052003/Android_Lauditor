@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:fontFamily="@font/gill_sans"
-    android:padding="5dp"
-    android:text="Group Head :"
+    android:padding="@dimen/left_space"
+    android:text="@string/group_head"
     android:textColor="@color/orange_color"
     android:textFontWeight="500"
     android:textSize="@dimen/Twelve_dp" />
