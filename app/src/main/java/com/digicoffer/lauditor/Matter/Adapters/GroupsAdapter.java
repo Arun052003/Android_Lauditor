@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -163,11 +164,20 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
     public class Viewholder extends RecyclerView.ViewHolder {
         private TextView tv_tm_name;
         private CheckBox cb_documents;
+        private View list_line;
+        private LinearLayout select_tm_layout;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             cb_documents = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
+            select_tm_layout=itemView.findViewById(R.id.select_tm_layout);
+            list_line = itemView.findViewById(R.id.list_line);
+            list_line.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 0);
+            select_tm_layout.setLayoutParams(params);
+            select_tm_layout.setBackgroundResource(com.applandeo.materialcalendarview.R.drawable.background_transparent);
         }
     }
 }

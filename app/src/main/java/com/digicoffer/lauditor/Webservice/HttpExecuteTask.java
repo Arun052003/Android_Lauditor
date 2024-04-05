@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
@@ -231,6 +232,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 Constants.Valid_Token = true;
             callback.onAsyncTaskComplete(httpResult);
         } catch (Exception e) {
+            Log.d("Error_mg", Objects.requireNonNull(e.getMessage()));
             AndroidUtils.logMsg("HttpExecuteTask.onPostExecute() : Exception " + e.getMessage());
         }
     }

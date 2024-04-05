@@ -44,14 +44,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     private HorizontalScrollView scrollView;
     private TextView tv_legal_matter, tv_general_matter;
     private TextView tv_create, tv_view;
-    private TextInputEditText tv_matter_title;
-    private AppCompatButton matter_title;
     private NewModel mViewModel;
-    MatterInformation matterInformation;
-    CardView cv_add_opponent_advocate;
-    Matter matter;
-    matter_edit edit_matter1;
-
     AlertDialog progress_dialog;
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view, ll_matter_type, ll_create_view;
@@ -70,16 +63,14 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         siv_documents = view.findViewById(R.id.siv_documents);
         tv_legal_matter = view.findViewById(R.id.tv_legal_matter);
 
-        tv_matter_title = view.findViewById(R.id.tv_matter_title);
-
-        tv_legal_matter.setText("Legal Matter");
+        tv_legal_matter.setText(R.string.legal_matter);
         tv_general_matter = view.findViewById(R.id.tv_general_matter);
-        tv_general_matter.setText("General Matter");
+        tv_general_matter.setText(R.string.general_matter);
         tv_create = view.findViewById(R.id.tv_create_matter);
 
-        tv_create.setText("Create");
+        tv_create.setText(R.string.create);
         tv_view = view.findViewById(R.id.tv_view_matter);
-        tv_view.setText("View");
+        tv_view.setText(R.string.view);
 //        siv_upload = view.findViewById(R.id.upload_icon);
 //        siv_view = view.findViewById(R.id.view_icon);
         // loadViewUI();
@@ -127,7 +118,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         siv_matter_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() != 0 && Constants.Matter_CreateOrViewDetails.equalsIgnoreCase("Create")) {
+                if (!matter_arraylist.isEmpty() && Constants.Matter_CreateOrViewDetails.equalsIgnoreCase("Create")) {
                     loadMatterInformation();
                 }
 
@@ -138,7 +129,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         siv_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() == 0) {
+                if (matter_arraylist.isEmpty()) {
                     AndroidUtils.showAlert("Please check the Matter information section", getContext());
                 } else {
                     loadGCT();
@@ -148,11 +139,18 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         siv_documents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (matter_arraylist.size() == 0) {
-
-                    AndroidUtils.showAlert("Please check the Matter information,Groups,clients,team member section", getContext());
+                //Checking Required information is filled in Matter Information page and if the One of the Groups are chosen in Gct page.
+                if (!matter_arraylist.isEmpty()) {
+                    for (int i = 0; i < matter_arraylist.size(); i++) {
+                        MatterModel matterModel = matter_arraylist.get(i);
+                        if (matterModel.getGroup_acls() != null) {
+                            loadDocuments();
+                        } else {
+                            AndroidUtils.showAlert("Please check Groups,clients,team member section", getContext());
+                        }
+                    }
                 } else {
-                    loadDocuments();
+                    AndroidUtils.showAlert("Please check the Matter information section", getContext());
                 }
             }
         });
@@ -207,7 +205,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             Constants.Matter_CreateOrViewDetails = "Create";
             loadMatterInformation();
             mViewModel.setData("Create Legal Matter");
-        }else{
+        } else {
 
         }
     }
@@ -337,6 +335,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ft.commit();
 
     }
+
     private void callGroupsWebservice() {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();

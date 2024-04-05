@@ -323,6 +323,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
         holder.bt_hide_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callEventDetailsWebservice(events_do.getEvent_id());
                 if (!isDetailsVisible) {
                     holder.ll_view_more.setVisibility(View.GONE);
                     // Clear the ArrayList here
@@ -333,7 +334,6 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //                    holder.ll_clients.removeAllViews();
                     holder.bt_hide_details.setText("View More");
                 } else {
-                    callEventDetailsWebservice(events_do.getEvent_id());
                     FLAG = "MORE";
                     holder.bt_hide_details.setText("View Less");
                     holder.ll_view_more.setVisibility(View.VISIBLE);

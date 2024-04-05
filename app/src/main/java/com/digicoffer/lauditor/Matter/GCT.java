@@ -49,19 +49,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 public class
 GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
 
-    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members, add_groups, add_clients, tv_assigned_team_members, tv_selected_clients;
+    TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members, add_groups, add_clients, tv_assigned_team_members;
     boolean[] selectedLanguage;
     boolean[] selectedClients;
     boolean[] selectedTM;
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
-    TextView matter_title_tv;
+    TextView matter_title_tv, tv_name, tv_selected_clients, tv_selected_tm;
     ConstraintLayout cv_details;
     String matter_title, case_number, case_type, description, dof, start_date, end_date, court, judge, case_priority, case_status;
     JSONArray existing_clients;
@@ -85,7 +86,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
     ArrayList<GroupsModel> updated_groups_list = new ArrayList<>();
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
-    LinearLayout upload_group_layout, upload_client_layout, upload_tm_layout;
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
     ArrayList<GroupsModel> groupsList = new ArrayList<>();
     boolean ischecked_group = true;
@@ -110,30 +110,36 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         View view = inflater.inflate(R.layout.gct_layout, container, false);
         matter_date = view.findViewById(R.id.matter_date);
         at_add_groups = view.findViewById(R.id.at_add_groups);
+//        at_add_groups.setHint(R.string.select_groups);
+        tv_selected_clients = view.findViewById(R.id.tv_selected_clients);
+        tv_selected_clients.setText(R.string.selected_clients);
+        tv_selected_tm = view.findViewById(R.id.tv_selected_tm);
+        tv_selected_tm.setText(R.string.selected_tm);
+        tv_name = view.findViewById(R.id.tv_name);
+        tv_name.setText(R.string.selected_groups);
         at_add_groups.setOnClickListener(this);
         add_groups = view.findViewById(R.id.add_groups);
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         cv_details = view.findViewById(R.id.cv_details);
         ll_save_buttons = view.findViewById(R.id.ll_save_buttons);
         ll_save_buttons.setVisibility(View.GONE);
-        upload_group_layout = view.findViewById(R.id.upload_group_layout);
-        upload_client_layout = view.findViewById(R.id.upload_client_layout);
         ll_add_clients = view.findViewById(R.id.ll_add_clients);
-        tv_selected_clients = view.findViewById(R.id.tv_selected_clients);
         ll_add_clients.setVisibility(View.GONE);
-        upload_tm_layout = view.findViewById(R.id.upload_tm_layout);
-        rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
-        rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
-        ll_add_groups = view.findViewById(R.id.ll_add_groups);
         rv_display_upload_groups_docs = view.findViewById(R.id.rv_display_upload_groups_docs);
-        add_groups.setText("Add Groups");
+        rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
+        rv_display_upload_client_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
+        rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        ll_add_groups = view.findViewById(R.id.ll_add_groups);
+        add_groups.setText(R.string.add_groups);
         add_clients = view.findViewById(R.id.add_clients);
-        add_clients.setText("Add Clients");
+        add_clients.setText(R.string.add_clients);
         cv_client_details = view.findViewById(R.id.cv_client_details);
         tv_assigned_team_members = view.findViewById(R.id.tv_assigned_team_members);
-        tv_assigned_team_members.setText("Assign Team Members");
+        tv_assigned_team_members.setText(R.string.assign_team_members);
         at_add_clients = view.findViewById(R.id.at_add_clients);
-        at_add_clients.setText("Select Clients");
+//        at_add_clients.setHint(R.string.select_clients);
 //        tv_matter_title = view.findViewById(R.id.tv_matter_title);
 //        String text = tv_matter_title.getText().toString();
 //        matter_title.setText(text);
@@ -142,9 +148,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         at_add_clients.setOnClickListener(this);
         at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
         at_assigned_team_members.setOnClickListener(this);
-        at_assigned_team_members.setText("Select Team Members");
+//        at_assigned_team_members.setHint(R.string.select_team_member);
         btn_add_groups = view.findViewById(R.id.btn_add_groups);
-        btn_add_groups.setText("Add");
+        btn_add_groups.setText(R.string.add);
         selected_groups = view.findViewById(R.id.selected_groups);
         selected_clients = view.findViewById(R.id.selected_clients);
         selected_clients.setVisibility(View.GONE);
@@ -152,7 +158,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         selected_tm.setVisibility(View.GONE);
         btn_add_groups.setOnClickListener(this);
         btn_add_clients = view.findViewById(R.id.btn_add_clients);
-        btn_add_clients.setText("Add");
+        btn_add_clients.setText(R.string.add);
         btn_add_clients.setOnClickListener(this);
 
         ll_assign_team_members = view.findViewById(R.id.ll_assign_team_members);
@@ -163,7 +169,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         btn_create = view.findViewById(R.id.btn_create);
         btn_create.setOnClickListener(this);
         btn_assigned_team_members = view.findViewById(R.id.btn_assigned_team_members);
-        btn_assigned_team_members.setText("Add");
+        btn_assigned_team_members.setText(R.string.add);
         btn_assigned_team_members.setOnClickListener(this);
         ll_selected_groups = view.findViewById(R.id.ll_selected_groups);
         ll_assigned_team_members = view.findViewById(R.id.ll_assigned_team_members);
@@ -183,27 +189,19 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         at_add_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (groupsList.size() == 0) {
+                if (groupsList.isEmpty()) {
                     callGroupsWebservice();
                 } else {
                     GroupsPopup();
                 }
-                // callGroupsWebservice();
-                //  selected_groups_list.clear();
-
-
-                rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
                 if (ischecked_group) {
-                    rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
-                    upload_group_layout.setVisibility(View.VISIBLE);
-
-
+                    rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
+                    btn_add_groups.setEnabled(true);
                 } else {
-                    upload_group_layout.setVisibility(View.GONE);
+                    rv_display_upload_groups_docs.setVisibility(View.GONE);
+                    btn_add_groups.setEnabled(false);
                 }
                 ischecked_group = !ischecked_group;
-
-
             }
 
         });
@@ -211,28 +209,17 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         at_add_clients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clientsList.clear();
-                if (clientsList.size() == 0) {
-                    callClientsWebservice();
-                } else {
-                    ClientssPopUp();
-                }
-
-                //  callClientsWebservice();
-                rv_display_upload_client_docs.setVisibility(View.VISIBLE);
-                if (clientsList.size() == 0) {
-                    upload_client_layout.setVisibility(View.GONE);
-                    rv_display_upload_client_docs.setVisibility(View.GONE);
-                } else {
-                    upload_client_layout.setVisibility(View.VISIBLE);
-                    rv_display_upload_client_docs.setVisibility(View.VISIBLE);
-                }
                 if (ischecked_client) {
-                    rv_display_upload_client_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
-                    upload_client_layout.setVisibility(View.VISIBLE);
+                    if (clientsList.isEmpty()) {
+                        callClientsWebservice();
+                    } else {
+                        rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+                        ClientssPopUp();
+                    }
                 } else {
-                    upload_client_layout.setVisibility(View.GONE);
+                    rv_display_upload_client_docs.setVisibility(View.GONE);
                 }
+                //  callClientsWebservice();
                 ischecked_client = !ischecked_client;
             }
         });
@@ -241,23 +228,18 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         at_assigned_team_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tmList.clear();
-                callTMWebservice();
-                rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
-                if (tmList.size() == 0) {
-                    upload_tm_layout.setVisibility(View.GONE);
-                    rv_display_upload_tm_docs.setVisibility(View.GONE);
-                } else {
-                    upload_tm_layout.setVisibility(View.VISIBLE);
-                    rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
-                }
-
+//                tmList.clear();
                 if (ischecked_tm) {
-                    rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
-                    upload_tm_layout.setVisibility(View.VISIBLE);
+                    if (tmList.isEmpty()) {
+                        callTMWebservice();
+                    } else {
+                        rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
+                        TeamPopUp();
+                    }
                 } else {
-                    upload_tm_layout.setVisibility(View.GONE);
+                    rv_display_upload_tm_docs.setVisibility(View.GONE);
                 }
+                //  callClientsWebservice();
                 ischecked_tm = !ischecked_tm;
             }
         });
@@ -280,7 +262,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         matter_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
@@ -291,8 +273,10 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         String formattedDate = df.format(c);
         matter_date.setText(formattedDate);
         matter = (Matter) getParentFragment();
+        assert matter != null;
         matterArraylist = matter.getMatter_arraylist();
-        if (matterArraylist.size() != 0) {
+//        detectListChanges();
+        if (!matterArraylist.isEmpty()) {
             for (int i = 0; i < matterArraylist.size(); i++) {
                 MatterModel matterModel = matterArraylist.get(i);
                 matter_title_tv.setText("");
@@ -309,7 +293,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             selected_groups_list.add(groupsModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (matterModel.getClients() != null) {
@@ -324,7 +308,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             selected_clients_list.add(clientsModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (matterModel.getMembers() != null) {
@@ -339,7 +323,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             selected_tm_list.add(teamModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (matterModel.getGroups_list() != null) {
@@ -384,7 +368,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             tmList.add(teamModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (matterArraylist.get(i).getOpponent_advocate() != null) {
@@ -399,11 +383,11 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 advocateModel.setEmail(jsonObject.getString("email"));
                                 advocates_list.add(advocateModel);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (matterModel.getDocuments() != null) {
@@ -419,7 +403,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             selected_documents_list.add(documentsModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (matterModel.getDocuments_list() != null) {
@@ -435,7 +419,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             documentsList.add(documentsModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
 
@@ -474,23 +458,23 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     case_status = matterModel.getStatus();
                 }
                 try {
-
-                    if (selected_groups_list.size() != 0) {
+                    updateDisplay();
+                    if (!selected_groups_list.isEmpty()) {
 //                    callGroupsWebservice();
                         loadSelectedGroups();
                     }
-                    if (selected_clients_list.size() != 0) {
+                    if (!selected_clients_list.isEmpty()) {
 //                    callClientsWebservice();
                         loadSelectedClients();
                     }
-                    if (selected_tm_list.size() != 0) {
+                    if (!selected_tm_list.isEmpty()) {
 //                    callTMWebservice();
 
                         loadSelectedTM();
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
 
@@ -507,42 +491,21 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.at_add_groups:
-
-                break;
-            case R.id.at_add_clients:
-                if (clientsList.size() == 0) {
-                    callClientsWebservice();
-                } else {
-                    ClientssPopUp();
-                }
-
-                break;
-            case R.id.at_assigned_team_members:
-//                if (tmList.size() == 0) {
-//                    callTMWebservice();
-//
-//                } else {
-//                    TeamPopUp();
-//                }
-                break;
-            case R.id.btn_create:
-                cv_client_details.setVisibility(View.VISIBLE);
-                cv_details.setVisibility(View.VISIBLE);
-                saveGCTinformation();
+        if (v.getId() == R.id.btn_create) {
+            cv_client_details.setVisibility(View.VISIBLE);
+            cv_details.setVisibility(View.VISIBLE);
+            saveGCTinformation();
 //
 //                ll_add_clients.setVisibility(View.VISIBLE);
 //                ll_assign_team_members.setVisibility(View.VISIBLE);
 //                ll_save_buttons.setVisibility(View.VISIBLE);
-                break;
         }
     }
 
     private void saveGCTinformation() {
-        if (selected_groups_list.size() == 0) {
+        if (selected_groups_list.isEmpty()) {
             AndroidUtils.showToast("Please select atealst one group", getContext());
-        } else if (selected_clients_list.size() == 0) {
+        } else if (selected_clients_list.isEmpty()) {
 
             AndroidUtils.showAlert("Please check  the add client", getContext());
 
@@ -569,7 +532,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         group_acls.put(jsonObject);
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 for (int i = 0; i < groupsList.size(); i++) {
@@ -581,7 +544,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         new_groups_list.put(jsonObject);
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
 
@@ -594,7 +557,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         jsonObject.put("name", clientsModel.getClient_name());
                         clients.put(jsonObject);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
 
                 }
@@ -616,7 +579,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                        team_object.put("")
                         members.put(team_object);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 for (int i = 0; i < tmList.size(); i++) {
@@ -629,7 +592,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                        team_object.put("")
                         new_tm_list.put(team_object);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 JSONArray jsonArray = new JSONArray();
@@ -644,7 +607,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
                 for (int d = 0; d < selected_documents_list.size(); d++) {
                     DocumentsModel documentsModel = selected_documents_list.get(d);
@@ -688,7 +651,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 matter.loadDocuments();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
 
@@ -735,21 +698,18 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             }
                         }
                     }
-                    upload_tm_layout.setVisibility(View.GONE);
+                    if (selected_tm_list.isEmpty()) {
+                        selected_tm.setVisibility(View.GONE);
+                    } else {
+                        loadSelectedTM();
+                    }
                     rv_display_upload_tm_docs.setVisibility(View.GONE);
-
-
-                    loadSelectedTM();
-//                    loadSelectedClients();
-//                    loadSelectedGroups();
-
-
+                    ischecked_tm = true;
                 }
-
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -768,7 +728,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             postdata.put("attachment_type", "members");
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Members", postdata.toString());
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -789,7 +749,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Clients", postdata.toString());
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -812,7 +772,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     loadMembers(members);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -838,7 +798,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             }
             TeamPopUp();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -865,83 +825,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             }
             ClientssPopUp();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void ClientsPopUp() {
-        try {
-
-            for (int i = 0; i < clientsList.size(); i++) {
-                for (int j = 0; j < selected_clients_list.size(); j++) {
-                    if (clientsList.get(i).getClient_id().matches(selected_clients_list.get(j).getClient_id())) {
-                        ClientsModel clientsModel = clientsList.get(i);
-                        clientsModel.setChecked(true);
-//                        selected_groups_list.set(j,documentsModel);
-
-                    }
-                }
-            }
-            selected_clients_list.clear();
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rv_display_upload_client_docs.setLayoutManager(layoutManager);
-            rv_display_upload_client_docs.setHasFixedSize(true);
-            ADAPTER_TAG = "Clients";
-            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
-            rv_display_upload_client_docs.setAdapter(documentsAdapter);
-            selected_clients_list.clear();
-
-
-            btn_add_clients.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    ArrayList<String>
-                    for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
-                        ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
-                        if (clientsModel.isChecked()) {
-                            if (!selected_clients_list.contains(clientsModel)) {
-
-
-                                selected_clients_list.add(clientsModel);
-
-
-                            }
-                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                        }
-                        upload_client_layout.setVisibility(View.GONE);
-                        rv_display_upload_client_docs.setVisibility(View.GONE);
-
-                    }
-
-
-//                    if(selected_clients_list.size()==0){
-//
-//                        ll_assign_team_members.setVisibility(View.VISIBLE);
-//                        ll_save_buttons.setVisibility(View.VISIBLE);
-//
-//                    }else{
-//                        selected_clients.setVisibility(View.VISIBLE);
-//                        ll_assign_team_members.setVisibility(View.VISIBLE);
-//                        ll_save_buttons.setVisibility(View.VISIBLE);
-//                    }
-
-
-                    //  ll_save_buttons.setVisibility(View.VISIBLE);
-
-
-                    loadSelectedClients();
-
-//                    loadSelectedGroups();
-
-                }
-
-            });
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            AndroidUtils.showAlert(e.getMessage(), getContext());
+            e.fillInStackTrace();
         }
     }
 
@@ -979,30 +863,21 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
                             }
                         }
-
-                        //upload_client_layout.setVisibility(View.GONE);
-                        rv_display_upload_client_docs.setVisibility(View.GONE);
-
-//                  }  ischecked_client = true;
                     }
-                    if (selected_clients_list.size() == 0) {
-
-                        ll_assign_team_members.setVisibility(View.VISIBLE);
-                        ll_save_buttons.setVisibility(View.VISIBLE);
-
+                    ll_assign_team_members.setVisibility(View.VISIBLE);
+                    ll_save_buttons.setVisibility(View.VISIBLE);
+                    rv_display_upload_client_docs.setVisibility(View.GONE);
+                    if (selected_clients_list.isEmpty()) {
+                        selected_clients.setVisibility(View.GONE);
                     } else {
-                        selected_clients.setVisibility(View.VISIBLE);
-                        ll_assign_team_members.setVisibility(View.VISIBLE);
-                        ll_save_buttons.setVisibility(View.VISIBLE);
+                        loadSelectedClients();
                     }
-                    loadSelectedClients();
+                    ischecked_client = true;
 //                    loadSelectedGroups();
                 }
-
             });
-
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1040,7 +915,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 // Remove the view at the specified position
                                 ll_assigned_team_members.removeViewAt(position);
                                 // Remove the corresponding item from the list
-                               TeamModel teamModel = selected_tm_list.remove(position);
+                                TeamModel teamModel = selected_tm_list.remove(position);
                                 teamModel.setChecked(false);
                                 // Update the tags of the remaining views
                                 for (int j = 0; j < ll_assigned_team_members.getChildCount(); j++) {
@@ -1063,11 +938,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 }
                                 String strn = stringBuilder.toString();
                                 at_assigned_team_members.setText(strn);
-                            updatedtmDisplay();
-
-
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                                 AndroidUtils.showAlert(e.getMessage(), getContext());
                             }
                         }
@@ -1078,9 +950,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             }
         }
     }
-    private void updatedtmDisplay() {
 
-        if (selected_tm_list.size() > 0) {
+    private void updatedtmDisplay() {
+        if (!selected_tm_list.isEmpty()) {
             selected_tm.setVisibility(View.VISIBLE);
         } else {
             selected_tm.setVisibility(View.GONE);
@@ -1088,19 +960,20 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     }
 
     private void loadSelectedClients() {
+        selected_clients.setVisibility(View.VISIBLE);
+        //views get cleared after clicking the add client.
+        ll_selected_clients.removeAllViews();
         String[] value = new String[selected_clients_list.size()];
         for (int i = 0; i < selected_clients_list.size(); i++) {
 //                                value += "," + family_members.get(i);
 //                               value.add(family_members.get(i));
             value[i] = selected_clients_list.get(i).getClient_name();
-
         }
 
         String str = String.join(",", value);
         at_add_clients.setText(str);
         ll_add_clients.setVisibility(View.VISIBLE);
         ll_assign_team_members.setVisibility(View.VISIBLE);
-        selected_clients.setVisibility(View.VISIBLE);
         ll_save_buttons.setVisibility(View.VISIBLE);
 
 
@@ -1145,11 +1018,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 }
                                 String strn = stringBuilder.toString();
                                 at_add_clients.setText(strn);
-updatedDisplay();
-
-
+//                                updatedDisplay();
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                                 AndroidUtils.showAlert(e.getMessage(), getContext());
                             }
                         }
@@ -1160,19 +1031,14 @@ updatedDisplay();
             }
         }
     }
-    private void updatedDisplay() {
 
-        if (selected_clients_list.size() > 0) {
-         selected_clients.setVisibility(View.VISIBLE);
+    private void updatedDisplay() {
+        if (!selected_clients_list.isEmpty()) {
+            selected_clients.setVisibility(View.VISIBLE);
         } else {
             selected_clients.setVisibility(View.GONE);
         }
     }
-
-
-
-
-
 
 
     private void loadGroupsData(JSONArray data) {
@@ -1188,7 +1054,7 @@ updatedDisplay();
 //            GroupsAlert();
             GroupsPopup();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1205,7 +1071,7 @@ updatedDisplay();
             }
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             AlertDialog dialog = dialogBuilder.create();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_groups_docs.setLayoutManager(layoutManager);
@@ -1229,24 +1095,23 @@ updatedDisplay();
                     selected_groups_list.clear();
                     selected_groups_list.addAll(selected_groups_set);
 
-                    if (selected_groups_list.size() > 0) {
-                        ll_add_clients.setVisibility(View.VISIBLE);
-                        ll_assign_team_members.setVisibility(View.VISIBLE);
-                        ll_save_buttons.setVisibility(View.VISIBLE);
-                        selected_clients.setVisibility(View.GONE);
-                    } else {
-                        ll_add_clients.setVisibility(View.GONE);
-                        ll_assign_team_members.setVisibility(View.GONE);
-                        ll_save_buttons.setVisibility(View.GONE);
-                    }
-
                     detectListChanges();
-                    loadSelectedGroups();
+                    updateDisplay();
+                    if (selected_groups_list.isEmpty()) {
+                        at_add_groups.setText("");
+                        selected_groups.setVisibility(View.GONE);
+                        selected_clients.setVisibility(View.GONE);
+                        selected_tm.setVisibility(View.GONE);
+                    } else {
+                        loadSelectedGroups();
+                    }
+                    ischecked_group = true;
+                    btn_add_groups.setEnabled(false);
                 }
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1277,97 +1142,90 @@ updatedDisplay();
 
     private void loadSelectedGroups() {
         ll_selected_groups.removeAllViews();
-        if (selected_groups_list.size() != 0) {
-            at_add_groups.setText("Select Groups");
-            at_add_clients.setText("Select Clients");
-            at_assigned_team_members.setText("Assign Team Members");
-            selected_groups.setVisibility(View.VISIBLE);
-            selected_clients.setVisibility(View.VISIBLE);
-            selected_tm.setVisibility(View.VISIBLE);
+        selected_groups.setVisibility(View.VISIBLE);
 
-            String[] value = new String[selected_groups_list.size()];
-            for (int i = 0; i < selected_groups_list.size(); i++) {
-                value[i] = selected_groups_list.get(i).getGroup_name();
-            }
-            detectListChanges();
-            String str = String.join(",", value);
-            at_add_groups.setText(str);
+        String[] value = new String[selected_groups_list.size()];
+        for (int i = 0; i < selected_groups_list.size(); i++) {
+            value[i] = selected_groups_list.get(i).getGroup_name();
+        }
+//            detectListChanges();
+        String str = String.join(",", value);
+        at_add_groups.setText(str);
 
-            for (int i = 0; i < selected_groups_list.size(); i++) {
-                View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-                if (view_opponents != null) {
-                    TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-                    ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
-                    ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-                    iv_edit_opponent.setVisibility(View.GONE);
-                    if (tv_opponent_name != null && iv_remove_opponent != null) {
-                        tv_opponent_name.setText(selected_groups_list.get(i).getGroup_name());
-                        iv_remove_opponent.setTag(i); // Tag each view with its position
-                        iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    int position = (int) v.getTag();
-                                    // Remove the view at the specified position
-                                    ll_selected_groups.removeViewAt(position);
-                                    // Remove the corresponding item from the list
-                                    GroupsModel groupsModel = selected_groups_list.remove(position);
-                                    groupsModel.setChecked(false);
-                                    // Update the tags of the remaining views
-                                    for (int j = 0; j < ll_selected_groups.getChildCount(); j++) {
-                                        ImageView iv_remove = ll_selected_groups.getChildAt(j).findViewById(R.id.iv_remove_opponent);
-                                        if (iv_remove != null) {
-                                            iv_remove.setTag(j);
-                                        }
+        for (int i = 0; i < selected_groups_list.size(); i++) {
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
+            if (view_opponents != null) {
+                TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
+                ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+                ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
+                iv_edit_opponent.setVisibility(View.GONE);
+                if (tv_opponent_name != null && iv_remove_opponent != null) {
+                    tv_opponent_name.setText(selected_groups_list.get(i).getGroup_name());
+                    iv_remove_opponent.setTag(i); // Tag each view with its position
+                    iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                int position = (int) v.getTag();
+                                // Remove the view at the specified position
+                                ll_selected_groups.removeViewAt(position);
+                                // Remove the corresponding item from the list
+                                GroupsModel groupsModel = selected_groups_list.remove(position);
+                                groupsModel.setChecked(false);
+                                // Update the tags of the remaining views
+                                for (int j = 0; j < ll_selected_groups.getChildCount(); j++) {
+                                    ImageView iv_remove = ll_selected_groups.getChildAt(j).findViewById(R.id.iv_remove_opponent);
+                                    if (iv_remove != null) {
+                                        iv_remove.setTag(j);
                                     }
-                                    detectListChanges();
-                                    String str = String.join(",", value);
-                                    at_add_groups.setText(str);
-                                    // Update at_add_groups text
-                                    StringBuilder stringBuilder = new StringBuilder();
-                                    for (GroupsModel model : selected_groups_list) {
-                                        stringBuilder.append(model.getGroup_name()).append(",");
-                                    }
-
-                                    if (stringBuilder.length() > 0) {
-                                        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                                    }
-                                    String strn = stringBuilder.toString();
-                                    at_add_groups.setText(strn);
-
-                                    // Update the display
-                                    updateDisplay();
-
-                                    // Update the display
-                                    updateDisplay();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    AndroidUtils.showAlert(e.getMessage(), getContext());
                                 }
+                                detectListChanges();
+                                String str = String.join(",", value);
+                                at_add_groups.setText(str);
+                                // Update at_add_groups text
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (GroupsModel model : selected_groups_list) {
+                                    stringBuilder.append(model.getGroup_name()).append(",");
+                                }
+
+                                if (stringBuilder.length() > 0) {
+                                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                                }
+                                String strn = stringBuilder.toString();
+                                at_add_groups.setText(strn);
+                                // Update the display
+                                updateDisplay();
+                            } catch (Exception e) {
+                                e.fillInStackTrace();
+                                AndroidUtils.showAlert(e.getMessage(), getContext());
                             }
-                        });
-                        iv_remove_opponent.setVisibility(View.VISIBLE); // Set visibility here
-                    }
-                    ll_selected_groups.addView(view_opponents);
+                        }
+                    });
+                    iv_remove_opponent.setVisibility(View.VISIBLE); // Set visibility here
                 }
+                ll_selected_groups.addView(view_opponents);
             }
         }
     }
 
     private void updateDisplay() {
         // Update UI visibility based on the size of the selected groups list
-        if (selected_groups_list.size() > 0) {
+        if (!selected_groups_list.isEmpty()) {
             ll_add_clients.setVisibility(View.VISIBLE);
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
         } else {
+            clientsList.clear();
+            tmList.clear();
+            ll_selected_groups.removeAllViews();
+            ll_selected_clients.removeAllViews();
+            ll_assigned_team_members.removeAllViews();
             ll_add_clients.setVisibility(View.GONE);
             ll_assign_team_members.setVisibility(View.GONE);
             selected_groups.setVisibility(View.GONE);
+            selected_clients.setVisibility(View.GONE);
+            selected_tm.setVisibility(View.GONE);
             ll_save_buttons.setVisibility(View.GONE);
         }
     }
-
-
-
 }

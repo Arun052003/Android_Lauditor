@@ -205,9 +205,12 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             @Override
             public void onClick(View view) {
                 //   documentsList.clear();
-                callDocumentsWebService();
-                rv_display_upload_doc.setVisibility(View.VISIBLE);
                 selected_documents_list.clear();
+                if (documentsList.isEmpty()) {
+                    callDocumentsWebService();
+                } else {
+                    DocumentsPopUp();
+                }
                 if (ischecked_doc) {
                     rv_display_upload_doc.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
                     rv_display_upload_doc.setVisibility(View.VISIBLE);
@@ -425,13 +428,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             case R.id.tv_device_drive:
                 loadDeviceDriveUI();
                 break;
-            case R.id.btn_add_documents:
-                if (documentsList.size() == 0) {
-                    callDocumentsWebService();
-                } else {
-                    DocumentsPopUp();
-                }
-                break;
+//            case R.id.btn_add_documents:
+//                ischecked_doc=true;
+//                break;
             case R.id.btn_browse:
                 checkPermissionREAD_EXTERNAL_STORAGE(getContext());
                 break;
@@ -604,7 +603,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        selected_documents_list.clear();
 //        documentsList.clear();
         ll_uploaded_documents.removeAllViews();
-        loadSelectedDocuments();
+//        loadSelectedDocuments();
 //        at_add_documents.setText("");
 //        tv_selected_file.setText("");
         tv_document_library.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -824,7 +823,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                             loadMattersList(matters);
                         } catch (Exception e) {
                             AndroidUtils.showAlert(e.getMessage(), getContext());
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
                 } else if (httpResult.getRequestType() == "Create Matter") {
@@ -839,7 +838,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     }
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -853,7 +852,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //            if (progressDialog != null && progressDialog.isShowing()) {
 //                AndroidUtils.dismiss_dialog(progressDialog);
 //            }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -947,7 +946,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
 
         }
     }
@@ -1014,7 +1013,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             documentsModel.setDescription(upload_description);
             selected_documents_list.add(documentsModel);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1033,7 +1032,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             }
             DocumentsPopUp();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1081,13 +1080,13 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     loadSelectedDocuments();
 //                    loadSelectedClients();
 //                    loadSelectedGroups();
-
+                    ischecked_doc = true;
                 }
 
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1139,7 +1138,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                             tv_selected_file.setText(str);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -1156,7 +1155,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                         try {
                             open_add_tags_popup(documentsModel);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
 //                    edit_tags();
                     }
@@ -1240,7 +1239,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
 
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                                 AndroidUtils.showAlert(e.getMessage(), getContext());
                             }
                         }
@@ -1331,7 +1330,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             loadMatterRecyclerview();
         } catch (JSONException e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1452,7 +1451,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
 //                                            selected_documents_list.add(documentsModel);
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    e.fillInStackTrace();
                                 }
                             }
 
@@ -1588,14 +1587,14 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             tv_edit_tag_document_name.setText(documentsModel.getTag_type() + " - " + documentsModel.getTag_name());
             dialog.dismiss();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
 
     private void EditDocuments(String name, String description, File file, int position, View v) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view_edit_documents = inflater.inflate(R.layout.edit_meta_data, null);
         ImageView iv_cancel_edit_doc = view_edit_documents.findViewById(R.id.close_edit_docs);
         AppCompatButton btn_close_edit_docs = view_edit_documents.findViewById(R.id.btn_cancel_edit_docs);
@@ -1632,7 +1631,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     dialog.dismiss();
                     loadUploadedDocuments();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                     AndroidUtils.showAlert(e.getMessage(), getContext());
                 }
             }

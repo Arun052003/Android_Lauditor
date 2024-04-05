@@ -133,4 +133,18 @@
     <string name="multi_firm_text">This email address is associated with multiple firms. Please select a firm to sign-in</string>
     <string name="group_head">Group Head :</string>
     <string name="matter_information">Matter Information</string>
+    <string name="add_notification">Add Notification</string>
+    <string name="add_individuals">Add Individuals</string>
+    <string name="selected_entities">Selected Entities</string>
+    <string name="selected_individuals">Selected Individuals</string>
+    <string name="selected_documents">Selected Documents</string>
+    <string name="add_to_timesheet">Add To Timesheet</string>
+    <string name="dial_in_number">Dial-In Number</string>
+    <string name="repetition">Repetition</string>
+    <string name="event_type">Event Type</string>
+    <string name="duration">"Duration : "</string>
+    <string name="all_day">All Day</string>
+    <string name="message">Message</string>
+    <string name="none">None</string>
+    <string name="create">Create</string>
 </resources>

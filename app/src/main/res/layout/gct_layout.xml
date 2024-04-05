@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/Blue_text_color"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cv_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_client_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="20dp"
-            android:elevation="50dp"
-            android:padding="5dp"
+            android:layout_margin="@dimen/small_size"
+            android:elevation="@dimen/Fifty_dp"
+            android:padding="@dimen/left_space"
             android:visibility="visible"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -31,7 +28,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="vertical">
 
                 <!--                <com.google.android.material.textfield.TextInputEditText-->
@@ -49,35 +46,14 @@
                 <!--                    android:textColor="@color/Blue_text_color">-->
 
                 <!--                </com.google.android.material.textfield.TextInputEditText>-->
-                <TextView
+                <include
                     android:id="@+id/matter_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:enabled="false"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:gravity="start|center_vertical"
-                    android:padding="5dp"
-                    android:text="Matter Title"
-                    android:textAllCaps="false"
-                    android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/twenty_dp">
+                    layout="@layout/group_layout" />
 
-                </TextView>
-
-
-                <TextView
+                <include
                     android:id="@+id/matter_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle_light_grey_bg"
-                    android:drawableRight="@drawable/calendar_activity"
-                    android:padding="5dp"
-                    android:text="07-20-2023"
-                    android:textColor="@color/black"
-                    android:visibility="gone">
-
-                </TextView>
+                    layout="@layout/group_layout"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_add_groups"
@@ -90,7 +66,9 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginBottom="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -103,59 +81,41 @@
 
                     </LinearLayout>
 
-
-                    <TextView
+                    <include
                         android:id="@+id/at_add_groups"
+                        layout="@layout/spinner_text_view"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="@dimen/small_size"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:drawableRight="@drawable/down_arrow"
-                        android:fontFamily="@font/gill_sans"
-                        android:padding="15dp"
-                        android:text="Select Groups"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
 
                     <LinearLayout
                         android:id="@+id/upload_group_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:layout_below="@id/at_add_groups"
+                        android:layout_marginStart="@dimen/left_space"
                         android:orientation="vertical"
-                        android:visibility="invisible" />
+                        android:visibility="gone" />
 
                     <include
                         android:id="@+id/rv_display_upload_groups_docs"
                         layout="@layout/recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_below="@id/upload_group_layout"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-
-                        android:background="@drawable/rectangular_white_background"
+                        android:layout_height="@dimen/one_fifty_dp"
+                        android:layout_margin="@dimen/left_space"
                         android:visibility="gone" />
-
 
                     <include
                         android:id="@+id/btn_add_groups"
                         layout="@layout/add_button"
                         android:layout_width="80dp"
-                        android:layout_height="40dp"
+                        android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="8dp" />
+                        android:layout_margin="@dimen/left_space" />
 
                     <LinearLayout
                         android:id="@+id/selected_groups"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -163,26 +123,16 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <include
                                 android:id="@+id/tv_name"
+                                layout="@layout/group_layout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:text="Selected Groups"
-                                android:textColor="@color/Blue_text_color"
-                                android:textSize="@dimen/Fifteen_dp">
+                                android:layout_height="wrap_content" />
 
-                            </TextView>
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="10dp"
-                                android:src="@drawable/asterisk_icon">
-
-                            </ImageView>
+                            <include layout="@layout/astrick_layout" />
 
                         </LinearLayout>
 
@@ -210,7 +160,9 @@
                         android:id="@+id/line"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginBottom="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -224,40 +176,27 @@
                     </LinearLayout>
 
 
-                    <TextView
+                    <include
                         android:id="@+id/at_add_clients"
+                        layout="@layout/spinner_text_view"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="@dimen/small_size"
-                        android:layout_marginEnd="4dp"
-
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:drawableRight="@drawable/down_arrow"
-                        android:fontFamily="@font/gill_sans"
-                        android:padding="15dp"
-                        android:text="Select Clients"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
 
                     <LinearLayout
                         android:id="@+id/upload_client_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/at_add_clients"
-                        android:layout_marginTop="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:orientation="vertical"
-                        android:visibility="invisible" />
+                        android:visibility="gone" />
 
                     <include
                         android:id="@+id/rv_display_upload_client_docs"
                         layout="@layout/recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_below="@id/upload_client_layout"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_height="@dimen/one_fifty_dp"
+                        android:layout_margin="@dimen/left_space"
                         android:visibility="gone" />
 
 
@@ -265,9 +204,9 @@
                         android:id="@+id/btn_add_clients"
                         layout="@layout/add_button"
                         android:layout_width="80dp"
-                        android:layout_height="40dp"
+                        android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="8dp" />
+                        android:layout_margin="@dimen/left_space" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -282,19 +221,14 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <include
                             android:id="@+id/tv_selected_clients"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="Selected Clients"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="@dimen/Fifteen_dp">
-
-                        </TextView>
+                            android:layout_height="wrap_content" />
 
                         <include layout="@layout/icon" />
 
@@ -322,7 +256,9 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginBottom="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -335,39 +271,27 @@
                     </LinearLayout>
 
 
-                    <TextView
+                    <include
                         android:id="@+id/at_assigned_team_members"
+                        layout="@layout/spinner_text_view"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="@dimen/small_size"
-                        android:layout_marginEnd="4dp"
-
-                        android:background="@drawable/rectangle_light_grey_bg"
-                        android:drawableRight="@drawable/down_arrow"
-                        android:fontFamily="@font/gill_sans"
-                        android:padding="15dp"
-                        android:text="Select Team Member"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
 
                     <LinearLayout
                         android:id="@+id/upload_tm_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/at_assigned_team_members"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical" />
+                        android:layout_margin="@dimen/left_space"
+                        android:orientation="vertical"
+                        android:visibility="gone" />
 
                     <include
                         android:id="@+id/rv_display_upload_tm_docs"
                         layout="@layout/recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_below="@id/upload_tm_layout"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_height="@dimen/one_fifty_dp"
+                        android:layout_margin="@dimen/left_space"
                         android:visibility="gone" />
 
 
@@ -375,9 +299,9 @@
                         android:id="@+id/btn_assigned_team_members"
                         layout="@layout/add_button"
                         android:layout_width="80dp"
-                        android:layout_height="40dp"
+                        android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="8dp" />
+                        android:layout_margin="@dimen/left_space" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -392,27 +316,16 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <include
                             android:id="@+id/tv_selected_tm"
+                            layout="@layout/group_layout"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="@string/assign_team_member"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="@dimen/Fifteen_dp">
+                            android:layout_height="wrap_content" />
 
-                        </TextView>
-
-                        <ImageView
-                            android:id="@+id/client_img"
-                            android:layout_width="15dp"
-                            android:layout_height="10dp"
-                            android:src="@drawable/asterisk_icon">
-
-                        </ImageView>
+                        <include layout="@layout/astrick_layout" />
 
                     </LinearLayout>
 
@@ -430,11 +343,7 @@
                     android:id="@+id/ll_save_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
@@ -447,9 +356,6 @@
                         layout="@layout/submit_button" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </LinearLayout>
-
-
-
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
