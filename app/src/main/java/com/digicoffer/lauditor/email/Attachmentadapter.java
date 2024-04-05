@@ -51,9 +51,12 @@ import java.util.List;
             holder.attachmentImage = gridView.findViewById(R.id.attachmentImage);
             holder.attachmentFilename = gridView.findViewById(R.id.attachmentFilename);
 
+
             // Set the ViewHolder as a tag for the convertView
             gridView.setTag(holder);
-        } else {
+
+        }
+        else {
             // If convertView is not null, retrieve the ViewHolder from its tag
             holder = (ViewHolder) convertView.getTag();
         }
@@ -61,9 +64,22 @@ import java.util.List;
 
         AttachmentModel attachment = mAttachments.get(position);
 
-        // Set data to views using ViewHolder
-       // holder.attachmentImage.setImageResource(attachment.getImageResource());
+
         holder.attachmentFilename.setText(attachment.getFilename());
+        if (attachment.getFilename().toLowerCase().endsWith(".pdf") ||
+                attachment.getFilename().toLowerCase().endsWith(".ics")) {
+
+            holder.attachmentImage.setImageResource(R.drawable.pdf_icon2);
+            holder.attachmentImage.setVisibility(View.VISIBLE);
+        }
+        else if (attachment.getFilename().toLowerCase().endsWith(".png") ||
+                attachment.getFilename().toLowerCase().endsWith(".jpg") ||
+                attachment.getFilename().toLowerCase().endsWith(".jpeg")) {
+
+            holder.attachmentImage.setImageResource(R.drawable.attachment_icons);
+            holder.attachmentImage.setVisibility(View.VISIBLE);
+        }
+
 
         return gridView;
     }

@@ -54,6 +54,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     private static final int VIEW_TYPE_ATTACHMENT = 1;
     static Context context_type;
 
+
     private List<MessageModel> messages;
     TextView tv_client_name;
 
@@ -72,19 +73,6 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.itemsList = messages;
 
 
-    }
-
-
-    private void callClientWebservicelist() {
-        try {
-            progress_dialog = AndroidUtils.get_progress((Activity) context_type);
-            JSONObject jsonObject = new JSONObject();
-            WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.GET, "v3/client/all/list", "Clients List", jsonObject.toString());
-        } catch (Exception e) {
-            if (progress_dialog != null && progress_dialog.isShowing()) {
-                AndroidUtils.dismiss_dialog(progress_dialog);
-            }
-        }
     }
 
 
@@ -180,12 +168,12 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         RecyclerView rv_display_upload_groups_docs;
         ListView list_client;
         ScrollView list_scroll_client;
-        LinearLayout ll_select_groups;
+        LinearLayout ll_select_groups, ll_select_grp;
         Button btn_group_cancel;
         LinearLayout ll_client_name, upload_group_layout;
         boolean ischecked = true;
         private TextView custom_client;
-        AppCompatButton btn_upload_new,btn_cancel_save;
+        AppCompatButton btn_upload_new, btn_cancel_save;
         TextView tv_select_groups;
         LinearLayout linearLayout2;
         ArrayList<DocumentsModel> groupsList = new ArrayList<>();
@@ -228,15 +216,19 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             LayoutInflater inflater = LayoutInflater.from(view.getContext());
             View popupView = inflater.inflate(R.layout.document_upload, null);
             TextView tv_client_name = popupView.findViewById(R.id.client_name);
-            TextView client_namee = popupView.findViewById(R.id.client_nameee);
 
+            TextView group_name = popupView.findViewById(R.id.group_name);
+            group_name.setText("Select Group");
+            TextView client_namee = popupView.findViewById(R.id.client_nameee);
+            client_namee.setText("Client");
             client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
             client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
             TextView firm_namee = popupView.findViewById(R.id.firm_nameee);
+            firm_namee.setText("Firm");
             firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
 
-         firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+            firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
             custom_client = popupView.findViewById(R.id.custom_client);
             ScrollView list_scroll_client = popupView.findViewById(R.id.list_scroll_client);
             list_client = popupView.findViewById(R.id.list_client_email);
@@ -250,8 +242,9 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             ll_select_groups = popupView.findViewById(R.id.ll_select_groups);
             ll_client_name = popupView.findViewById(R.id.ll_client_name);
             linearLayout2 = popupView.findViewById(R.id.linearLayout2);
-            constraint_root = popupView.findViewById(R.id.constraint_root);
-           TextView document_upload = popupView.findViewById(R.id.document_upload);
+            ll_select_grp = popupView.findViewById(R.id.ll_select_grp);
+            // constraint_root = popupView.findViewById(R.id.constraint_root);
+            TextView document_upload = popupView.findViewById(R.id.document_upload);
 
             btn_upload_new.setText("Upload");
             rv_display_upload_groups_docs.setBackground(context_type.getDrawable(R.drawable.rectangle_light_grey_bg));
@@ -271,7 +264,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 @Override
                 public void onClick(View v) {
                     constraint_root.setVisibility(View.GONE);
-                    document_upload .setVisibility(View.GONE);
+                    document_upload.setVisibility(View.GONE);
 
                 }
             });
@@ -282,13 +275,14 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 public void onClick(View v) {
                     ll_select_groups.setVisibility(View.GONE);
                     ll_client_name.setVisibility(View.VISIBLE);
+                    ll_select_grp.setVisibility(View.GONE);
                     // Set background color
                     client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
                     // Set text color
                     client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                   firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                    firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
                     // Set text color
-                firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));// Assuming "black" is the desired color resource
+                    firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));// Assuming "black" is the desired color resource
 
                 }
             });
@@ -298,9 +292,10 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 public void onClick(View v) {
                     ll_client_name.setVisibility(View.GONE);
                     ll_select_groups.setVisibility(View.VISIBLE);
+                    ll_select_grp.setVisibility(View.VISIBLE);
                     firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
                     // Set text color
-                 firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                    firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
                     client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
                     // Set text color
                     client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
@@ -342,39 +337,60 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
         public void callUploadDocument() {
             try {
-                JSONArray clients=new JSONArray();
-                JSONObject jsonObject_client=new JSONObject();
-                for (int j = 0; j < clientsList.size(); j++) {
-                    if (clientsList.get(j).getId().matches(client_id)) {
-                        ClientsModel clientsModel = clientsList.get(j);
-                        jsonObject_client.put("id", clientsModel.getId());
-                        jsonObject_client.put("type", clientsModel.getType());
-                        clients.put(jsonObject_client);
-                    }
-                }
-                JSONArray groups =new JSONArray();
-                for (int k = 0; k < selected_groups_list.size(); k++) {
-                    DocumentsModel documentsModel1 = selected_groups_list.get(k);
-                    groups.put(documentsModel1.getGroup_id());
-                }
                 progress_dialog = AndroidUtils.get_progress((Activity) context_type);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("category","client");
-                jsonObject.put("clientids",clients);
-                jsonObject.put("groupids", groups);
-                jsonObject.put("enableDownload",true);
-//                Log.d("Client_id_list",clients);
-//                {"category":"client","clientids":[{"id":"642a648ea1db720b5a293efc","type":"consumer"}],"groupids":[],"enableDownload":true}
-//                https://dev.utils.mail.digicoffer.com/api/v1/gmail/message/attachment/upload/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIERMRiBTMSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTE5ODU1OTZ9.6p4-HGnsNJ-ylO5AFBNoxMCscu1uRdS6HqvnDPfkATA/18e3b36d01f3a5ac?partid=1
-                WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.gmail_document + Constants.TOKEN + "/" + Constants.msg_id + "?partid=1", "uploadedfile", jsonObject.toString());
-                Log.d("json_value",jsonObject.toString());
+                try {
+                    // Create the JSON array for client ids
+                    JSONArray clients = new JSONArray();
+                    for (ClientsModel clientsModel : clientsList) {
+                        if (clientsModel.getId().equals(client_id)) {
+                            JSONObject jsonObject_client = new JSONObject();
+                            jsonObject_client.put("id", clientsModel.getId());
+                            jsonObject_client.put("type", clientsModel.getType());
+                            clients.put(jsonObject_client);
+                        }
+                    }
+
+                    // Create the JSON array for group ids
+                    JSONArray groups = new JSONArray();
+                    for (DocumentsModel documentsModel : selected_groups_list) {
+                        String groupId = documentsModel.getGroup_id();
+                        if (groupId != null && !groupId.isEmpty()) {
+                            groups.put(groupId);
+                        }
+                    }
+
+                    // Construct the main JSON object
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("category", "client");
+                    jsonObject.put("clientids", clients);
+                    jsonObject.put("groupids", groups);
+                    jsonObject.put("enableDownload", true);
+
+                    // Print the generated JSON for verification
+                    Log.d("Generated JSON", jsonObject.toString());
+
+                    // Construct the request URL with dynamic token and message ID from constants
+                    String baseUrl = Constants.EMAIL_BASE_URL + Constants.gmail_document + "/" + Constants.TOKEN + "/" + Constants.msg_id;
+                    String urlWithQueryParams = baseUrl + "?partid=1";
+
+                    // Call the web service
+                    WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, urlWithQueryParams, "uploaded file", jsonObject.toString());
+                    Log.d("json_value", urlWithQueryParams);
+
+                } catch (Exception e) {
+                    Log.e("callUploadDocument", "Error occurred while constructing request or sending request: " + e.getMessage());
+                    e.printStackTrace();
+                }
             } catch (Exception e) {
+                Log.e("callUploadDocument", "Error occurred while executing callUploadDocument: " + e.getMessage());
                 if (progress_dialog != null && progress_dialog.isShowing()) {
                     AndroidUtils.dismiss_dialog(progress_dialog);
                 }
                 e.printStackTrace();
             }
         }
+
+
 
         private void callClientWebservice() {
             try {
@@ -501,7 +517,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    client_id="";
+                    client_id = "";
                     client_id = clientsList.get(position).getId();
                     String client_name = clientsList.get(position).getName();
                     Log.d("Client_value_name", client_name);
@@ -534,24 +550,21 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     } else if ("Groups".equals(requestType)) {
                         JSONArray data = result.getJSONArray("data");
                         loadGroupsData(data);
-                    } else if ("uploadedfile".equals(requestType)) {
-                        try {
-                            String message = result.getString("msg");
-                            AndroidUtils.showToast(message, context_type);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } else if (httpResult.getRequestType().equals("uploaded file")) {
+                        String msg = result.getString("msg");
+                        AndroidUtils.showToast(msg, context_type);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-
+                    throw new RuntimeException(e);
                 }
             }
+
+
         }
-
-
     }
 }
+
+
 
 

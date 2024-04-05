@@ -71,6 +71,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     boolean ischecked_group = true;
     boolean[] selectedLanguage;
     Button btn_group_cancel,btn_group_submit;
+    AppCompatButton btn_create;
     LinearLayout upload_group_layout;
     TextInputEditText et_Search_email_document;
     TextView tv_select_groups;
@@ -80,6 +81,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     boolean ischecked = true;
     boolean ischeck_label, ischeck_auth;
     String nextPageToken = "";
+    LinearLayout ll_attach_grp;
     ArrayList<DocumentsModel> groupsList = new ArrayList<>();
     ImageView arrow_left;
     ImageView clear_search;
@@ -103,12 +105,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     AppCompatButton first_button, search_email,sends_button;
     EditText to_input;
     ListView client_list_view;
+    TextView grp_name;
     String client_id = "";
     RecyclerView rv_display_upload_groups_docs;
     String CATEGORY_TAG = "";
     LinearLayout  linearLayout2;
     JSONArray array_group = new JSONArray();
     GridView  yourGridView;
+    ImageView closeDocuments;
 
 
     @SuppressLint("MissingInflatedId")
@@ -117,7 +121,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_layout, container, false);
 
-        ImageView closeDocuments = view.findViewById(R.id.compose);
+         closeDocuments = view.findViewById(R.id.compose);
+        closeDocuments.setAlpha(0.3f);
 
         ImageView arrow_right = view.findViewById(R.id.arrow_right);
         ImageView arrow_left = view.findViewById(R.id.arrow_left);
@@ -128,6 +133,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         first_button = view.findViewById(R.id.first_button);
         first_button.setAlpha(0.3f);
         et_Search = view.findViewById(R.id.et_Search);
+
         search_email = view.findViewById(R.id.search_email);
         search_email.setAlpha(0.3f);
         sends_button = view.findViewById(R.id.sends_button);
@@ -243,6 +249,7 @@ TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_n
                compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
                compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+
                 TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
 compose_firm_name.setText("Firm");
                 rv_documents_email=attachmentView.findViewById(R.id.rv_documents_email);
@@ -253,12 +260,16 @@ compose_firm_name.setText("Firm");
                 upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
                 btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
                 tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
+                ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
+                grp_name = attachmentView.findViewById(R.id.grp_name);
+                grp_name.setText("Select Group");
                 et_Search_email_document  = attachmentView.findViewById(R.id.et_Search_email_document);
                 LinearLayout ll_select_groups = attachmentView.findViewById(R.id. ll_select_groups);
                 LinearLayout  ll_client_name = attachmentView.findViewById(R.id. ll_client_name);
                 linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
-                AppCompatButton btn_create = attachmentView.findViewById(R.id.btn_create);
+            btn_create = attachmentView.findViewById(R.id.btn_create);
                 btn_create.setText("Attach");
+                btn_create.setAlpha(0.5f);
 
                 compose_client_name .setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("SuspiciousIndentation")
@@ -269,7 +280,7 @@ compose_firm_name.setText("Firm");
                         custom_client.setText("");
                         list_scroll_view.setVisibility(View.GONE);
                         rv_documents_email.clearFocus();
-
+                        ll_attach_grp.setVisibility(View.GONE);
                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
                        compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
@@ -295,7 +306,8 @@ CATEGORY_TAG = "firm";
                         selected_groups_list.clear();
                         tv_select_groups.setText("");
                         rv_documents_email.clearFocus();
-
+                        ll_attach_grp.setVisibility(View.VISIBLE);
+                        linearLayout2.setVisibility(View.GONE);
 
                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
@@ -328,6 +340,7 @@ CATEGORY_TAG = "firm";
                     public void onClick(View v) {
                         clientsList.clear();
                         callClientWebservice();
+                       list_scroll_view.setVisibility(View.GONE);
                         if (ischecked)
                             list_scroll_view.setVisibility(View.VISIBLE);
                          else
@@ -443,8 +456,9 @@ CATEGORY_TAG = "firm";
             if (view_docs_list.size() == 0) {
                 rv_documents_email.removeAllViews();
                 AndroidUtils.showToast("No documents to display", getContext());
+                rv_documents_email.setVisibility(View.GONE);
             } else {
-                // Set adapter for rv_documents_email
+                rv_documents_email.setVisibility(View.VISIBLE);
                 rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
                 view_document_emailadapter adapter = new view_document_emailadapter(view_docs_list, context_type);
                 rv_documents_email.setAdapter(adapter);
@@ -645,6 +659,8 @@ CATEGORY_TAG = "firm";
             emailModel.setThreadsUnread(data.getInt("threadsUnread"));
             Log.e("Email Inbox", String.valueOf(emailModel.getMessagesTotal()));
             inbox_textViews.setText("Indox " + String.valueOf(emailModel.getMessagesTotal()));
+            closeDocuments.setAlpha(1.0f);
+
 //            }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -729,6 +745,7 @@ CATEGORY_TAG = "firm";
                custom_client.setText(client_name);
                 CATEGORY_TAG = "client";
                callfilter_client_webservices();
+                btn_create.setAlpha(1.0f);
                 ischecked = true;
             }
         });
@@ -816,6 +833,7 @@ CATEGORY_TAG = "firm";
                         array_group = new JSONArray(value_id);
                         callfilter_client_webservices();
                         CATEGORY_TAG = "firm";
+                        btn_create.setAlpha(1.0f);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
@@ -823,6 +841,7 @@ CATEGORY_TAG = "firm";
                     tv_select_groups.setText(str);
 //                    dialog.dismiss();
                    linearLayout2.setVisibility(View.GONE);
+                   rv_display_upload_groups_docs.setVisibility(View.GONE);
                     ischecked_group= true;
                 }
             });
@@ -916,6 +935,7 @@ CATEGORY_TAG = "firm";
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                search_email.setAlpha(0.3f);
             }
 
             @Override
@@ -925,11 +945,13 @@ CATEGORY_TAG = "firm";
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 0)
+                if (s.length() == 0) {
                     clear_search.setVisibility(View.GONE);
-                else
+                    search_email.setAlpha(0.3f);
+                } else {
                     clear_search.setVisibility(View.VISIBLE);
-                search_email.setAlpha(1.0f);
+                    search_email.setAlpha(1.0f);
+                }
             }
         });
         clear_search.setOnClickListener(new View.OnClickListener() {

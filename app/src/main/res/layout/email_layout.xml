@@ -18,7 +18,7 @@
         android:layout_gravity="start"
         android:nextFocusRight="@id/search_btn"
         android:layout_margin="@dimen/small_size"
-        android:background="@drawable/rectangle_light_grey_bg">
+        android:background="@drawable/rectangle_grey_background">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/left_space"
-            android:background="@drawable/background_transparent"
+            android:background="@drawable/rectangle_grey_background"
             android:hint="Search"
             android:imeOptions="actionDone"
             android:inputType="textFilter"

@@ -10,7 +10,7 @@
         android:id="@+id/new_messagesss"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#EBE4E4"
+        android:background="@drawable/rectangle_light_grey_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -44,12 +44,15 @@
 
     </LinearLayout>
 
-    <!-- To EditText -->
-    <LinearLayout
+   <LinearLayout
+       android:id="@+id/linear_layout3"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/new_messagesss">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/to_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/new_messagesss"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
@@ -57,9 +60,13 @@
 
         <!-- TextView for "To:" -->
         <TextView
+            android:id="@+id/text_to_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="To:"/>
+            android:text="To:"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <!-- EditText for recipient -->
         <EditText
@@ -67,34 +74,55 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            />
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@id/text_to_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+        <!-- Underline -->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+   </LinearLayout>
     <LinearLayout
+        android:id="@+id/linear_layout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout3">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/subject_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/to_linearlayout"
+        android:layout_below="@id/linear_layout3"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
         <TextView
+            android:id="@+id/sub_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subject:"/>
+            android:text="Subject:"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         <!-- Subject EditText -->
         <EditText
             android:id="@+id/message_input"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/to_linearlayout"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@id/sub_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <!-- Message Input EditText -->
@@ -102,7 +130,7 @@
         android:id="@+id/message_inputss"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_below="@id/subject_linearlayout"
+        android:layout_below="@id/linear_layout4"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -120,7 +148,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        android:background="@drawable/rectangle_light_grey_bg">
 
     <!-- Attachment icon -->
     <ImageView
@@ -147,5 +177,6 @@
         android:padding="10dp"
         android:text="Send"
         android:textColor="@color/white" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class Constants {
 
     public static final String gmail_label = "gmail/label/";
     public static final String gmail_messages = "gmail/messages/";
-    public static final String gmail_document = "gmail/messages/attachment/upload/";
+    public static final String gmail_document = "gmail/message/attachment/upload/";
 
     //    public static String PROF_URL = "http://10.0.2.2:8011/professional/";
 //    public static String BIZ_URL = "http://10.0.2.2:8011/business/";
