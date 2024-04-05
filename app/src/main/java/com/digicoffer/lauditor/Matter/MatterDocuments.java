@@ -1594,7 +1594,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
     private void EditDocuments(String name, String description, File file, int position, View v) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view_edit_documents = inflater.inflate(R.layout.edit_meta_data, null);
         ImageView iv_cancel_edit_doc = view_edit_documents.findViewById(R.id.close_edit_docs);
         AppCompatButton btn_close_edit_docs = view_edit_documents.findViewById(R.id.btn_cancel_edit_docs);
