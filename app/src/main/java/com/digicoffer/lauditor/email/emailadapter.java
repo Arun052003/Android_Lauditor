@@ -177,6 +177,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         LinearLayout ll_client_name, upload_group_layout;
         boolean ischecked = true;
         private TextView custom_client;
+        String category="";
         AppCompatButton btn_upload_new, btn_cancel_save;
         TextView tv_select_groups;
         LinearLayout linearLayout2;
@@ -184,7 +185,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         boolean ischecked_group = true;
         Button btn_group_submit;
         ArrayList<ClientsModel> clientsList = new ArrayList<>();
-        ConstraintLayout constraint_root;
+        LinearLayout constraint_root;
 
         boolean[] selectedLanguage;
         ArrayList<DocumentsModel> selected_groups_list = new ArrayList<>();
@@ -208,7 +209,22 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//         Log.e("msgId",":" +senderName .getTag().toString());
+//         Log.e("msgId",":" +email.getAttachment().get(position).filename);
+                    if (senderName.getTag() != null) {
+                        Constants.msg_id = senderName.getTag().toString();
+                    } else {
+                        // Handle the case where the tag is null, possibly by assigning a default value to Constants.msg_id
+                    }
+                    if (email != null && email.getAttachment() != null && email.getAttachment().size() > position && email.getAttachment().get(position) != null) {
+                        Constants.part_id = email.getAttachment().get(position).getPartId();
+                    } else {
+                        // Handle the case where any part of the chain is null, possibly by assigning a default value to Constants.part_id
+                    }
 
+
+                    Constants.part_id = email.getAttachment().get(position).getPartId();
+                    Log.e("msgId",":" +email.getAttachment().get(position).partId);
                     GridviewPopup(itemView);
                 }
             });
@@ -247,7 +263,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             ll_client_name = popupView.findViewById(R.id.ll_client_name);
             linearLayout2 = popupView.findViewById(R.id.linearLayout2);
             ll_select_grp = popupView.findViewById(R.id.ll_select_grp);
-            // constraint_root = popupView.findViewById(R.id.constraint_root);
+             constraint_root = popupView.findViewById(R.id.constraint_root);
             TextView document_upload = popupView.findViewById(R.id.document_upload);
 
             btn_upload_new.setText("Upload");
@@ -362,14 +378,20 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     }
 
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("category", "client");
+                    String category = "";
+                    if (clients.length() > 0){
+                        category = "client";
+                    }else{
+                        category = "firm";
+                    }
+                    jsonObject.put("category", "category");
                     jsonObject.put("clientids", clients);
                     jsonObject.put("groupids", groups);
                     jsonObject.put("enableDownload", true);
 
                     Log.d("Generated JSON", jsonObject.toString());
 
-                    String url = uploadUrl  + token + "/" + msgId + "?" + partId;
+                    String url = uploadUrl + Constants.gmail_document  + token + "/" + msgId + "?partId=" + partId ;
 
                     // Make the web service call with the dynamically generated URL
                     WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, url, "uploaded file", jsonObject.toString());

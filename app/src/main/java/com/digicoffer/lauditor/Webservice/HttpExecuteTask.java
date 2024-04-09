@@ -65,7 +65,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 //            return httpResult;
 //        }
         try {
-            if (requestType.equals("Label") || (requestType.equals("auth")) || (requestType.equals("messages_rows"))) {
+            if (requestType.equals("Label") || (requestType.equals("auth")) || (requestType.equals("messages_rows")) || (URL.contains(Constants.EMAIL_UPLOAD_URL))) {
                 try {
                     httpURLConnection = (HttpURLConnection) new URL(URL).openConnection();
                 } catch (IOException e) {
@@ -158,6 +158,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+
             } else if (status_code == 400) {
                 try {
 //                    InputStream in = httpURLConnection.getErrorStream();
@@ -214,7 +215,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
         super.onPostExecute(httpResult);
         try {
             if (httpResult.getStatus_code() == 401 && !(requestType.equals("Label")) && !(requestType.equals("auth"))
-                    && !(requestType.equals("messages_rows")) && !(requestType.equals("Dashboard"))) {
+                    && !(requestType.equals("messages_rows"))  &&! (URL.contains(Constants.EMAIL_UPLOAD_URL)) && !(requestType.equals("Dashboard"))) {
                 Intent in = new Intent(activity, LoginActivity.class);
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(in);

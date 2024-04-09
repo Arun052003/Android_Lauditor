@@ -552,7 +552,6 @@ public void send_email(){
             JSONObject messageObject = messagesArray.getJSONObject(i);
             MessageModel message = new MessageModel();
             message.setMsgId(messageObject.getString("msgId"));
-            Constants.msg_id=messageObject.getString("msgId");
             message.setSubject(messageObject.getString("subject"));
             message.setFrom(messageObject.getString("from"));
             message.setTo(messageObject.getString("to"));
@@ -564,12 +563,8 @@ public void send_email(){
                 AttachmentModel attachment = new AttachmentModel();
                 if (!attachmentObject.getString("filename").isEmpty() && !attachmentObject.getString("partId").isEmpty()) {
                     attachment.setPartId(attachmentObject.getString("partId"));
-                    Constants.part_id = attachmentObject.getString("partId");
-                    Log.d("part_id",attachmentObject.getString("partId"));
                     attachment.setMimeType(attachmentObject.getString("mimeType"));
                     attachment.setFilename(attachmentObject.getString("filename"));
-
-
                     JSONArray headersArray = attachmentObject.getJSONArray("headers");
                     List<Header> headers = new ArrayList<>();
                     for (int k = 0; k < headersArray.length(); k++) {
