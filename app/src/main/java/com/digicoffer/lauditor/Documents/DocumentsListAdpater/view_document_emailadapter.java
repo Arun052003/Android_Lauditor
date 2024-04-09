@@ -23,6 +23,9 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
     //ArrayList<ViewDocumentsModel> docsList = new ArrayList<>();
     ArrayList<ViewDocumentsModel> list_item;
     ArrayList<ViewDocumentsModel> itemsArrayList;
+    private ArrayList<String> selectedDocumentNames = new ArrayList<>();
+    private ArrayList<String> selectedDocumentIds = new ArrayList<>();
+    private ArrayList<String> selectedDocumentPaths = new ArrayList<>();
 
     Context cContext;
 
@@ -82,6 +85,19 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
             holder.tv_doc_description.setText(viewDocumentsModel.getDescription());
 //            holder.tv_document_display_name.setText(viewDocumentsModel.getName());
             holder.tv_image_name.setText(viewDocumentsModel.getName());
+            holder.checkbox_id.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    // Checkbox is checked, add document details to selected lists
+                    selectedDocumentNames.add(viewDocumentsModel.getName());
+                    selectedDocumentIds.add(viewDocumentsModel.getId());
+
+                } else {
+                    // Checkbox is unchecked, remove document details from selected lists
+                    selectedDocumentNames.remove(viewDocumentsModel.getName());
+                    selectedDocumentIds.remove(viewDocumentsModel.getId());
+
+                }
+            });
 //            Log.d("IMage_name", viewDocumentsModel.getName());
             holder.tv_created_date.setText(viewDocumentsModel.getCreated());
             holder.tv_Expiration_date.setText(viewDocumentsModel.getExpiration_date());

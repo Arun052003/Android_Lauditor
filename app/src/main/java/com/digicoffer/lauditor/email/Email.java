@@ -220,6 +220,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
         ImageView cross_icon = view.findViewById(R.id.attachment);
        to_input = view.findViewById(R.id.to_input);
+       AppCompatButton sends_button = view.findViewById(R.id.sends_button);
+
 //        yourGridView = view.findViewById(R.id. your_gridview_id);
         builder.setView(view);
         AlertDialog dialog = builder.create();
@@ -231,6 +233,13 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 if (!hasFocus) {
                     validateEmail(to_input.getText().toString());
                 }
+            }
+        });
+      sends_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               send_email();
+
             }
         });
 
@@ -287,6 +296,14 @@ compose_firm_name.setText("Firm");
                         compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
 
                        compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+
+                    }
+                });
+              btn_create.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String doc_id = "";
+                        view_document(doc_id);
 
                     }
                 });
@@ -387,6 +404,33 @@ CATEGORY_TAG = "firm";
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+    public void view_document(String doc_id) {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+            String url = "v3/document/" + doc_id;
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, url, "view_document", jsonObject.toString());
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+        }
+    }
+public void send_email(){
+    try {
+        progress_dialog = AndroidUtils.get_progress(getActivity());
+        JSONObject jsonObject = new JSONObject();
+
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.sending_email +  Constants.TOKEN, "sending_email", jsonObject.toString());
+    } catch (Exception e) {
+        if (progress_dialog != null && progress_dialog.isShowing()) {
+            AndroidUtils.dismiss_dialog(progress_dialog);
+        }
+    }
+}
+
+
+
 
     public void callfilter_client_webservices() {
         try {
@@ -520,6 +564,8 @@ CATEGORY_TAG = "firm";
                 AttachmentModel attachment = new AttachmentModel();
                 if (!attachmentObject.getString("filename").isEmpty() && !attachmentObject.getString("partId").isEmpty()) {
                     attachment.setPartId(attachmentObject.getString("partId"));
+                    Constants.part_id = attachmentObject.getString("partId");
+                    Log.d("part_id",attachmentObject.getString("partId"));
                     attachment.setMimeType(attachmentObject.getString("mimeType"));
                     attachment.setFilename(attachmentObject.getString("filename"));
 
@@ -612,6 +658,17 @@ CATEGORY_TAG = "firm";
                         e.printStackTrace();
                     }
                 }
+                else if (httpResult.getRequestType().equals("view_document")) {
+                    String url = result.getString("url");
+                    Log.d("Value_token", url);
+
+                }
+                else if (httpResult.getRequestType().equals("sending_email")) {
+                    String msg = result.getString("msg");
+                    Log.d("msg_details", msg);
+
+                }
+
                 else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);

@@ -28,16 +28,19 @@ public class Constants {
     public static Boolean ISPRODUCTION = false;
     public static String MATTER_TYPE = "";
     public static String msg_id = "";
+    public static String  part_id = "";
 
     //    public static String MyDay_KPI =
     public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
     public static String BIZ_URL = ISPRODUCTION ? "https://api.digicoffer.com/business/" : "https://apidev.digicoffer.com/business/";
     public static final String EMAIL_BASE_URL = "https://dev.utils.mail.digicoffer.com/api/v1/";
+    public static final String EMAIL_UPLOAD_URL = "https://mailapi.digicoffer.com/api/v1/";
     public static final String EMAIL_LISTING_URL = "https://mailapi.digicoffer.com/api/v1/";
 
     public static final String gmail_label = "gmail/label/";
     public static final String gmail_messages = "gmail/messages/";
     public static final String gmail_document = "gmail/message/attachment/upload/";
+    public static final String sending_email = "gmail/sendmail/attach/documents/";
 
     //    public static String PROF_URL = "http://10.0.2.2:8011/professional/";
 //    public static String BIZ_URL = "http://10.0.2.2:8011/business/";

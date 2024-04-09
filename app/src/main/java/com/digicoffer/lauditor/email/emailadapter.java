@@ -65,6 +65,10 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     String client_id = "";
     String msg_id = " ";
+    String baseUrl = Constants.EMAIL_UPLOAD_URL;
+    String token = Constants.TOKEN;
+    String msgId = Constants.msg_id;
+    String partId = Constants.part_id;
 
 
     public EmailAdapter(List<MessageModel> messages, Email email) {
@@ -257,7 +261,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             btn_upload_new.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callUploadDocument();
+                    callUploadDocument(baseUrl, token, msgId, partId);
                 }
             });
             btn_cancel_save.setOnClickListener(new View.OnClickListener() {
@@ -335,11 +339,10 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
         }
 
-        public void callUploadDocument() {
+        public void callUploadDocument(String uploadUrl, String token, String msgId, String partId) {
             try {
                 progress_dialog = AndroidUtils.get_progress((Activity) context_type);
                 try {
-                    // Create the JSON array for client ids
                     JSONArray clients = new JSONArray();
                     for (ClientsModel clientsModel : clientsList) {
                         if (clientsModel.getId().equals(client_id)) {
@@ -350,7 +353,6 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         }
                     }
 
-                    // Create the JSON array for group ids
                     JSONArray groups = new JSONArray();
                     for (DocumentsModel documentsModel : selected_groups_list) {
                         String groupId = documentsModel.getGroup_id();
@@ -359,23 +361,19 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         }
                     }
 
-                    // Construct the main JSON object
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("category", "client");
                     jsonObject.put("clientids", clients);
                     jsonObject.put("groupids", groups);
                     jsonObject.put("enableDownload", true);
 
-                    // Print the generated JSON for verification
                     Log.d("Generated JSON", jsonObject.toString());
 
-                    // Construct the request URL with dynamic token and message ID from constants
-                    String baseUrl = Constants.EMAIL_BASE_URL + Constants.gmail_document + "/" + Constants.TOKEN + "/" + Constants.msg_id;
-                    String urlWithQueryParams = baseUrl + "?partid=1";
+                    String url = uploadUrl  + token + "/" + msgId + "?" + partId;
 
-                    // Call the web service
-                    WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, urlWithQueryParams, "uploaded file", jsonObject.toString());
-                    Log.d("json_value", urlWithQueryParams);
+                    // Make the web service call with the dynamically generated URL
+                    WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, url, "uploaded file", jsonObject.toString());
+                    Log.d("json_value", url);
 
                 } catch (Exception e) {
                     Log.e("callUploadDocument", "Error occurred while constructing request or sending request: " + e.getMessage());
@@ -389,6 +387,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                 e.printStackTrace();
             }
         }
+
 
 
 
