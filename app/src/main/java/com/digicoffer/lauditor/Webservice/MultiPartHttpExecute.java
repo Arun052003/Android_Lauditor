@@ -24,11 +24,20 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+
+public class MultiPartHttpExecute extends AsyncTask<String, Integer, HttpResultDo> {
 
     public static AtomicInteger openCounter = new AtomicInteger(0);
     public static final int MAX_CONCURRENCY = 1;
-    private HttpResultDo httpResult = null;
+//    private HttpResultDo httpResult = null;
     private String requestId = null;
     private String requestType = null;
     private boolean sslFlag = false;
@@ -37,7 +46,9 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
     private AsyncTaskCompleteListener callback;
     private Context activity = null;
 
-    public HttpExecuteTask(String requestId, boolean sslFlag, WebServiceHelper.RestMethodType restMethodType, String baseURL,
+    HttpResultDo httpResult = new HttpResultDo();
+
+    public MultiPartHttpExecute(String requestId, boolean sslFlag, WebServiceHelper.RestMethodType restMethodType, String baseURL,
                            AsyncTaskCompleteListener callback, Context activity, String requestType) {
         super();
         this.requestId = requestId;
@@ -56,66 +67,75 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 
     protected HttpResultDo doInBackground(String... params) {
         String data = "";
-        HttpURLConnection httpURLConnection = null;
-        HttpResultDo httpResult = new HttpResultDo();
+        String fullUrl = "";
+
+
         try {
             if (requestType.equals("Label") || (requestType.equals("auth")) || (requestType.equals("messages_rows")) || (URL.contains(Constants.EMAIL_UPLOAD_URL))) {
-                try {
-                    httpURLConnection = (HttpURLConnection) new URL(URL).openConnection();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                fullUrl = URL;
             } else {
-                httpURLConnection = (HttpURLConnection) new URL(Constants.base_URL + URL).openConnection();
+                fullUrl = Constants.base_URL + URL;
             }
-            Log.e("URL", ":" + httpURLConnection.getURL());
-            if (requestType != "LOGIN" && requestType != "SIGNUP" && requestType != "FORGET_PASSWORD" && requestType != "VERIFY_TOKEN") {
-                httpURLConnection.setRequestProperty("Authorization", "Bearer " + Constants.TOKEN);
-                Log.d("Token", ":" + "Bearer " + (Constants.TOKEN) + ":" + httpURLConnection);
-            }
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, params[0]);
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .method(this.restMethodType.toString(), body)
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer " + Constants.TOKEN)
+                    .build();
+            // Perform the request asynchronously
+            Response response = client.newCall(request).execute();
 
-            switch (restMethodType) {
-                case GET:
-                    httpURLConnection.setRequestMethod("GET");
-                    break;
-                case POST:
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoInput(true);
-                    DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                    wr.writeBytes("" + params[0]);
-                    wr.flush();
-                    wr.close();
-                    break;
-                case PATCH:
-                    httpURLConnection.setRequestMethod("PATCH");
-                    httpURLConnection.setDoInput(true);
-                    DataOutputStream wr_patch = new DataOutputStream(httpURLConnection.getOutputStream());
-                    wr_patch.writeBytes("" + params[0]);
-                    wr_patch.flush();
-                    wr_patch.close();
-//                    httpURLConnection.connect();
-                    break;
-                case PUT:
-                    httpURLConnection.setRequestMethod("PUT");
-                    httpURLConnection.setDoInput(true);
-                    DataOutputStream wr1 = new DataOutputStream(httpURLConnection.getOutputStream());
-                    wr1.writeBytes("" + params[0]);
-                    wr1.flush();
-                    wr1.close();
-                    break;
-                case DELETE:
-                    httpURLConnection.setRequestMethod("DELETE");
-                    if (params[0].length() != 0) {
-                        httpURLConnection.setDoInput(true);
-                        DataOutputStream dos = new DataOutputStream(httpURLConnection.getOutputStream());
-                        dos.writeBytes("" + params[0]);
-                        dos.flush();
-                        dos.close();
+            int status_code = response.code();
+            Log.i("status_code:", String.valueOf(status_code));
+            httpResult.setStatus_code(status_code);
+            // Check if the response is successful
+            if (response.isSuccessful()) {
+                // Handle successful response
+                String responseData = response.body().string();
+                Log.d("Response", responseData);
+                httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
+                httpResult.setResponseContent(response.body().string());
+                return httpResult;
+            } else {
+                // Handle unsuccessful response
+                String responseData = response.body().string();
+                Log.e("Response", "Error: " + response.code());
+                Log.e("Response", "Body: " + responseData);
+                httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
+                httpResult.setResponseContent(responseData);
+                return httpResult;
+            }
+           /* client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        // Handle successful response
+                        String responseData = response.body().string();
+                        Log.d("Response", responseData);
+                        httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
+                        httpResult.setResponseContent(response.body().string());
+                    } else {
+                        // Handle unsuccessful response
+                        Log.e("Response", "Error: " + response.code());
+                        Log.e("Response", "Error: " + response.body().string());
+                        httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
+                        httpResult.setResponseContent(response.body().string());
+                        return httpResult;
                     }
-                    break;
-            }
-
-            int status_code = httpURLConnection.getResponseCode();
+                }
+            }); */
+        }
+        /*    int status_code = httpURLConnection.getResponseCode();
             Log.i("status_code:", String.valueOf(status_code));
 //            AndroidUtils.showAlert(String.valueOf(status_code), activity.getApplicationContext());
             httpResult.setStatus_code(status_code);
@@ -168,28 +188,16 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
                 httpResult.setResponseContent("Errr connection, Please try again");
             }
-        } catch (ConnectTimeoutException e) {
-            httpResult.setResult(WebServiceHelper.ServiceCallStatus.Exception);
-            httpResult.setErrorMessage("Exception: Connection Timeout " + e.getMessage());
-        } catch (IOException e) {
-            httpResult.setResult(WebServiceHelper.ServiceCallStatus.Exception);
-            httpResult.setErrorMessage("Exception: " + e.getMessage());
-            AndroidUtils.logMsg("WebServiceHelper.callWebService(): IO Exception " + e.getMessage());
-        } catch (Exception e) {
+        }*/
+        catch (Exception e) {
             AndroidUtils.logMsg("HttpExecuteTask.doInBackground(): Exception " + e.getMessage());
             httpResult = new HttpResultDo();
             httpResult.setResult(WebServiceHelper.ServiceCallStatus.Exception);
             httpResult.setResponseContent(e.getMessage());
+            return httpResult;
         } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
+
         }
-        return httpResult;
-    }
-
-    protected void onProgressUpdate(Integer... progress) {
-
     }
 
     protected void onPostExecute(HttpResultDo httpResult) {
@@ -224,5 +232,3 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
         }
     }
 }
-
-

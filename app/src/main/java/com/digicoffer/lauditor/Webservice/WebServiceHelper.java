@@ -22,7 +22,7 @@ public class WebServiceHelper  {
 
     public static String callEmailHttpWebService(AsyncTaskCompleteListener callback, Context activity, RestMethodType restMethodType, String url, String requestType, String... formParams) {
         String requestId = "";
-        new HttpExecuteTask(requestId, false, restMethodType, url, callback, activity, requestType).execute(formParams);
+        new MultiPartHttpExecute(requestId, false, restMethodType, url, callback, activity, requestType).execute(formParams);
         return requestId;
     }
 

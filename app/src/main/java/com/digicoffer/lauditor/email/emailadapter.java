@@ -185,6 +185,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         boolean ischecked_group = true;
         Button btn_group_submit;
         ArrayList<ClientsModel> clientsList = new ArrayList<>();
+        ArrayList<ClientsModel> selectedClients = new ArrayList<>();
         LinearLayout constraint_root;
 
         boolean[] selectedLanguage;
@@ -203,28 +204,17 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         public void bindEmail(MessageModel email) {
             senderName.setText(email.getFrom());
             subject.setText(email.getSubject());
+            senderName.setTag(email.getMsgId());
             GridAdapter adapter = new GridAdapter(context_type, email.attachments);
             gridView.setAdapter(adapter);
 
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//         Log.e("msgId",":" +senderName .getTag().toString());
-//         Log.e("msgId",":" +email.getAttachment().get(position).filename);
-                    if (senderName.getTag() != null) {
-                        Constants.msg_id = senderName.getTag().toString();
-                    } else {
-                        // Handle the case where the tag is null, possibly by assigning a default value to Constants.msg_id
-                    }
-                    if (email != null && email.getAttachment() != null && email.getAttachment().size() > position && email.getAttachment().get(position) != null) {
-                        Constants.part_id = email.getAttachment().get(position).getPartId();
-                    } else {
-                        // Handle the case where any part of the chain is null, possibly by assigning a default value to Constants.part_id
-                    }
-
-
-                    Constants.part_id = email.getAttachment().get(position).getPartId();
+                    Log.e("msgId",":" +senderName.getTag().toString());
                     Log.e("msgId",":" +email.getAttachment().get(position).partId);
+                    Constants.msg_id = senderName.getTag().toString();
+                    Constants.part_id = email.getAttachment().get(position).partId;
                     GridviewPopup(itemView);
                 }
             });
@@ -269,6 +259,8 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             btn_upload_new.setText("Upload");
             rv_display_upload_groups_docs.setBackground(context_type.getDrawable(R.drawable.rectangle_light_grey_bg));
 
+            //Refresh Selected Client List
+            selectedClients = new ArrayList<>();
 
             tv_client_name.setText("Client Name");
             builder.setView(popupView);
@@ -277,7 +269,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             btn_upload_new.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callUploadDocument(baseUrl, token, msgId, partId);
+                    callUploadDocument(baseUrl, token, Constants.msg_id, Constants.part_id);
                 }
             });
             btn_cancel_save.setOnClickListener(new View.OnClickListener() {
@@ -357,11 +349,11 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
         public void callUploadDocument(String uploadUrl, String token, String msgId, String partId) {
             try {
-                progress_dialog = AndroidUtils.get_progress((Activity) context_type);
+//                progress_dialog = AndroidUtils.get_progress((Activity) context_type);
                 try {
                     JSONArray clients = new JSONArray();
-                    for (ClientsModel clientsModel : clientsList) {
-                        if (clientsModel.getId().equals(client_id)) {
+                    for (ClientsModel clientsModel : selectedClients) {
+                        if (clientsModel.getId().equals(client_id) ) {
                             JSONObject jsonObject_client = new JSONObject();
                             jsonObject_client.put("id", clientsModel.getId());
                             jsonObject_client.put("type", clientsModel.getType());
@@ -384,17 +376,17 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     }else{
                         category = "firm";
                     }
-                    jsonObject.put("category", "category");
+                    jsonObject.put("category", category);
                     jsonObject.put("clientids", clients);
                     jsonObject.put("groupids", groups);
                     jsonObject.put("enableDownload", true);
 
-                    Log.d("Generated JSON", jsonObject.toString());
+                    Log.e("Generated JSON", jsonObject.toString());
 
-                    String url = uploadUrl + Constants.gmail_document  + token + "/" + msgId + "?partId=" + partId ;
+                    String url = uploadUrl + Constants.gmail_document  + token + "/" + msgId + "?partid=" + partId ;
 
                     // Make the web service call with the dynamically generated URL
-                    WebServiceHelper.callHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, url, "uploaded file", jsonObject.toString());
+                    WebServiceHelper.callEmailHttpWebService(this, context_type, WebServiceHelper.RestMethodType.POST, url, "uploaded file", jsonObject.toString());
                     Log.d("json_value", url);
 
                 } catch (Exception e) {
@@ -543,6 +535,9 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     String client_name = clientsList.get(position).getName();
                     Log.d("Client_value_name", client_name);
                     custom_client.setText(client_name);
+                    if(!selectedClients.contains(clientsList.get(position))){
+                        selectedClients.add(clientsList.get(position));
+                    }
                 }
             });
         }
@@ -577,6 +572,17 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         AndroidUtils.showToast(msg, context_type);
                     }
                 } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                try {
+                    JSONObject result = new JSONObject(httpResult.getResponseContent());
+                    String requestType = httpResult.getRequestType();
+                    if (httpResult.getRequestType().equals("uploaded file")) {
+                        String msg = result.getString("msg");
+                        AndroidUtils.showToast(msg, context_type);
+                    }
+                }catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
             }

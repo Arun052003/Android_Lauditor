@@ -562,6 +562,7 @@ public void send_email(){
                 JSONObject attachmentObject = attachmentsArray.getJSONObject(j);
                 AttachmentModel attachment = new AttachmentModel();
                 if (!attachmentObject.getString("filename").isEmpty() && !attachmentObject.getString("partId").isEmpty()) {
+                   Log.e("Email_Res","File-"+attachmentObject.getString("filename")+": Partid-"+attachmentObject.getString("partId"));
                     attachment.setPartId(attachmentObject.getString("partId"));
                     attachment.setMimeType(attachmentObject.getString("mimeType"));
                     attachment.setFilename(attachmentObject.getString("filename"));
