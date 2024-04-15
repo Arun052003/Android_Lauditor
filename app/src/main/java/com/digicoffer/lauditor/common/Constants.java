@@ -25,15 +25,33 @@ public class Constants {
     public static String Matter_CreateOrViewDetails = "Create";
 
     public static ArrayList<GroupsModel> groupsList_Access = new ArrayList<>();
-    public static Boolean ISPRODUCTION = true;
+    public static Boolean ISPRODUCTION = false;
+    public static boolean IS_STAGING = true;
     public static String MATTER_TYPE = "";
     public static String msg_id = "";
-    public static String  part_id = "";
+    public static String part_id = "";
 
     //    public static String MyDay_KPI =
-    public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
+    public static String PROF_URL;
+
+    public static void check_url() {
+        if (ISPRODUCTION) {
+            PROF_URL = "https://api.digicoffer.com/professional/";
+        } else if (IS_STAGING) {
+            PROF_URL = "https://api.staging.digicoffer.com/professional/";
+        } else {
+            PROF_URL = "https://apidev2.digicoffer.com/professional/";
+        }
+    }
+
+    //https://api.digicoffer.com/professional/login
+
+//    https://apidev2.digicoffer.com/professional/login
+
+    //    https://api.staging.digicoffer.com/professional/login
+//    public static String PROF_URL = ISPRODUCTION ? "https://api.digicoffer.com/professional/" : "https://apidev2.digicoffer.com/professional/";
     public static String BIZ_URL = ISPRODUCTION ? "https://api.digicoffer.com/business/" : "https://apidev.digicoffer.com/business/";
-    public static final String EMAIL_BASE_URL = ISPRODUCTION ? "https://mailapi.digicoffer.com/api/v1/":"https://dev.utils.mail.digicoffer.com/api/v1/";
+    public static final String EMAIL_BASE_URL = ISPRODUCTION ? "https://mailapi.digicoffer.com/api/v1/" : "https://dev.utils.mail.digicoffer.com/api/v1/";
     public static final String EMAIL_UPLOAD_URL = "https://mailapi.digicoffer.com/api/v1/";
     public static final String EMAIL_LISTING_URL = "https://mailapi.digicoffer.com/api/v1/";
 

@@ -6,7 +6,9 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -43,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MatterInformation extends Fragment implements View.OnClickListener {
     TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;
@@ -377,10 +380,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             month = month + 1;
             Log.d(TAG, "onDataSet : mm/dd/yy : " + month + "/" + dayOfMonth + "/" + year);
             updateDateInViews(year, month, dayOfMonth);
-//
         };
-
-
     }
 
     private void updateDateInViews(int year, int month, int dayOfMonth) {
@@ -388,30 +388,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         Calendar selectedCalendar = Calendar.getInstance();
         selectedCalendar.set(year, month - 1, dayOfMonth);
         String formattedDate = df.format(selectedCalendar.getTime());
-
-
         tv_end_date.setText(formattedDate);
     }
-
-
-//        tv_end_date.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-//                datePickerDialog.show();
-//            }
-//        });
-//
-//        Date c = Calendar.getInstance().getTime();
-//        System.out.println("Current time => " + c);
-//        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-//        String formattedDate = df.format(c);
-////        tv_dof.setText(formattedDate);
-////        tv_start_date.setText(formattedDate);
-//        tv_end_date.setText(formattedDate);
-//    }
-
 
     private void datePickerData() {
         final DatePickerDialog.OnDateSetListener mDateSetListener = (view, year, month, dayOfMonth) -> {
@@ -462,13 +440,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 loadActiveUI();
                 break;
             case R.id.btn_add_advocate:
-
                 loadAdvocateUI();
                 break;
             case R.id.btn_create:
                 saveMatterInformation();
-
-
                 break;
             case R.id.btn_cancel_save:
                 matter.loadViewUI();
@@ -477,33 +452,27 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     }
 
     public void saveMatterInformation() {
-        if (tv_matter_title.getText().toString().equals("")) {
-            tv_matter_title.setError("Title Required");
+        String msg = "Please check the Title";
+
+        if ((Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_matter_num.getText()).toString().isEmpty())) {
+            AndroidUtils.showAlert(msg + " Case Number", getContext());
+        } else if (Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) {
+            AndroidUtils.showAlert(msg);
             tv_matter_title.requestFocus();
-        } else if (tv_matter_num.getText().toString().equals("")){
-            tv_matter_num.setError("Title Required");
+        } else if (Objects.requireNonNull(tv_matter_num.getText()).toString().trim().isEmpty()) {
+            AndroidUtils.showAlert(msg.replace("Title", "Case Number"), getContext());
             tv_matter_num.requestFocus();
-            String matternum = tv_matter_num.getText().toString();
+//            String matternum = tv_matter_num.getText().toString();
 //            if (!matternum.matches("[0-9]+")) {
 //                tv_matter_num.setError("Numeric number is Required");
 //                tv_matter_num.requestFocus();
 //            } else {
 //                submitMatter();
 //            }
-        }else{
+        } else {
             submitMatter();
         }
     }
-
-
-    // else{
-    // submitMatter();
-    //  }
-    //  }else {
-    // submitMatter();
-//
-    // }
-    //  }
 
     void submitMatter() {
         JSONArray group_acls = new JSONArray();
@@ -536,10 +505,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         matterModel.setOpponent_advocate(jsonArray);
-        if (matterArraylist.size() == 0) {
+        if (matterArraylist.isEmpty()) {
             matterArraylist.add(matterModel);
         } else {
             matterArraylist.set(0, matterModel);
@@ -560,7 +529,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             tv_advocate_name.setHint("Name");
             tv_advocate_name.setTextSize(15);
-
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             tv_advocate_email.setHint("Email");
             tv_advocate_email.setTextSize(15);
@@ -572,6 +540,66 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             final AlertDialog dialog = builder.create();
             loadHighPriorityUI();
             loadActiveUI();
+//            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                    if (s.toString().trim().isEmpty()) {
+//                        tv_advocate_name.setError("Please Enter the name.");
+//                        tv_advocate_name.requestFocus();
+//                    }
+//                }
+//            });
+//            tv_advocate_email.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                    if (s.toString().matches(String.valueOf(Patterns.EMAIL_ADDRESS.toString().trim().isEmpty()))) {
+//                        tv_advocate_email.setError("Please enter the Email.");
+//                        tv_advocate_email.requestFocus();
+//                    }
+//                }
+//            });
+//            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                    if (s.toString().trim().isEmpty()) {
+//                        tv_advocate_phone.setError("Please enter the Email.");
+//                        tv_advocate_phone.requestFocus();
+//                    }
+//                }
+//            });
+
+
+//            (s.toString().isEmpty()&&(s.length()>10))
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -582,21 +610,18 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tv_advocate_name.getText().toString().equals("")) {
-                        tv_advocate_name.setError("Name is required");
+                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
-                    } else if (tv_advocate_email.getText().toString().equals("")) {
-                        tv_advocate_email.setError("Email is required");
+                    } else if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString())) && (tv_advocate_email.getText().toString().trim().isEmpty())) {
+                        tv_advocate_email.setError("Please enter the Email.");
                         tv_advocate_email.requestFocus();
-                    } else if (!(tv_advocate_email.getText().toString().matches(Patterns.EMAIL_ADDRESS.toString()))) {
-                        tv_advocate_email.setError("Please enter a valid");
-                        tv_advocate_email.requestFocus();
-                    } else if (tv_advocate_phone.getText().toString().equals("")) {
-                        tv_advocate_phone.setError("Phone is required");
+                    } else if (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty()) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
                         tv_advocate_phone.requestFocus();
-                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
-                        tv_advocate_phone.setError("Please enter a valid phone number");
-                        tv_advocate_phone.requestFocus();
+//                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
+//                        tv_advocate_phone.setError("Please enter a valid phone number");
+//                        tv_advocate_phone.requestFocus();
                     } else {
                         AdvocateModel advocateModel = new AdvocateModel();
                         advocateModel.setAdvocate_name(tv_advocate_name.getText().toString());
@@ -608,16 +633,13 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                     }
                 }
             });
-
-
             dialog.setCancelable(false);
             dialog.setView(view);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
-
     }
 
     private void loadEditedData(String adv_name, String adv_email, String adv_phone, int position, View view_advocate, TextView tv_opponent_name) {
@@ -658,7 +680,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 //                                    ll_added_tags.removeAllViews();
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }

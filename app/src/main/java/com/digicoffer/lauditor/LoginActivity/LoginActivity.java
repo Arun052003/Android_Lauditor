@@ -107,9 +107,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         });
 
         check_Bio_metric();
+
 //        tet_email.setText("soundarya.v@digicoffer.com");
 //        tet_email.setText("rajendra.sai@digicoffer.com");
 //        tet_email.setText("soundaryavembaiyan@yahoo.com");
+
+//        tet_email.setText("ragifi5243@jalunaki.com"); -- Only Dev2
+//        tet_email.setText("vengadeshwaran82@gmail.com"); -- Only Staging
 //        tet_password.setText("Test@123");
 //        Login();
 
@@ -143,7 +147,6 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked) {
                         Login();
-                        checkFieldsNotEmpty();
                     }
                 } catch (Exception e) {
                     e.fillInStackTrace();
@@ -269,6 +272,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     }
 
     private void Dashboard() {
+        Constants.check_url();
 //        https://apidev2.digicoffer.com/professional/v3/dashboard/layout
         JSONObject jsonObject = new JSONObject();
         Constants.base_URL = Constants.PROF_URL;
@@ -277,6 +281,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
     private void Login() {
         try {
+            Constants.check_url();
             Constants.PROBIZ_TYPE = "PROFESSIONAL";
             Constants.base_URL = Constants.PROF_URL;
             JSONObject postData = new JSONObject();

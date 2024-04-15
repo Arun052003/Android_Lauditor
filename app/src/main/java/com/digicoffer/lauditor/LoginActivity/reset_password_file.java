@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.LoginActivity;
 
 import static com.digicoffer.lauditor.LoginActivity.ValidationUtils.isValidPassword;
+import static com.digicoffer.lauditor.common.Constants.check_url;
 import static com.digicoffer.lauditor.common.Constants.password;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,14 +27,16 @@ import com.digicoffer.lauditor.common.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
+
 import java.util.Objects;
 
 
 public class reset_password_file extends AppCompatActivity implements AsyncTaskCompleteListener {
     private AlertDialog progressDialog;
-    private TextInputEditText password1,password2;
+    private TextInputEditText password1, password2;
 
-    private Button submit,cancel;
+    private Button submit, cancel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,31 +74,30 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String password_check1=password1.getText().toString();
-                String password_check2=password2.getText().toString();
-                if(isValidPassword(password_check1)) {
+                String password_check1 = password1.getText().toString();
+                String password_check2 = password2.getText().toString();
+                if (isValidPassword(password_check1)) {
                     if (password_check1.equals(password_check2)) {
                         reset_pwd();
                     } else {
                         showPopupMessage("Password Mismatch! Please check it");
                     }
-                }else
+                } else
                     showPopupMessage("Password is not Valid");
             }
         });
-
-
 
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(reset_password_file.this,LoginActivity.class));
+                startActivity(new Intent(reset_password_file.this, LoginActivity.class));
 
             }
         });
     }
+
     private void checkFields() {
         String password1Text = password1.getText().toString().trim();
         String password2Text = password2.getText().toString().trim();
@@ -127,7 +129,7 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
                         String message = result.getString("msg");
                         showPopupMessage(message);
                         navigateToLoginActivity();
-                    }else {
+                    } else {
                         // Handle the case where the reset request was not successful
                         AndroidUtils.showToast("Password reset failed", reset_password_file.this);
                     }
@@ -140,32 +142,35 @@ public class reset_password_file extends AppCompatActivity implements AsyncTaskC
             AndroidUtils.showToast(httpResult.getResponseContent(), reset_password_file.this);
         }
     }
-    private void navigateToLoginActivity()
-    {
-        startActivity(new Intent(this,LoginActivity.class));
+
+    private void navigateToLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
-    private void reset_pwd()
-    {
+
+    private void reset_pwd() {
         try {
+            check_url();
             Constants.PROBIZ_TYPE = "PROFESSIONAL";
             Constants.base_URL = Constants.PROF_URL;
             JSONObject postData = new JSONObject();
 
-            progressDialog=AndroidUtils.get_progress(reset_password_file.this);
-            postData.put("old_password",Constants.OLD_PASSWORD);
-            postData.put("password",Objects.requireNonNull(password1.getText().toString()));
+            progressDialog = AndroidUtils.get_progress(reset_password_file.this);
+            postData.put("old_password", Constants.OLD_PASSWORD);
+            postData.put("password", Objects.requireNonNull(password1.getText().toString()));
             //showPopupMessage("valid");
-            String urlpath = "password/"+Constants.PK+"/user/"+Constants.USER_ID+"/update";
+            String urlpath = "password/" + Constants.PK + "/user/" + Constants.USER_ID + "/update";
             WebServiceHelper.callHttpWebService(reset_password_file.this, reset_password_file.this, WebServiceHelper.RestMethodType.PUT, urlpath, "UPDATE", postData.toString());
-            Log.e("Reset Password path Success",":"+urlpath);
+            Log.e("Reset Password path Success", ":" + urlpath);
         } catch (Exception e) {
             if (progressDialog != null && progressDialog.isShowing())
                 AndroidUtils.dismiss_dialog(progressDialog);
         }
     }
+
     private void showPopupMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
     private boolean isValidPassword(String password) {
 
         return password.length() >= 8;

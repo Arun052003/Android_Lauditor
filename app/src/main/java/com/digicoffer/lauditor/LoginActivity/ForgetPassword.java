@@ -1,5 +1,6 @@
 
 package com.digicoffer.lauditor.LoginActivity;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.PatternsCompat;
+
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
@@ -22,10 +24,11 @@ import com.digicoffer.lauditor.common.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class ForgetPassword extends AppCompatActivity implements AsyncTaskCompleteListener {
-    private Button submitButton,cancel;
+    private Button submitButton, cancel;
     private TextInputEditText tetEmail;
     private AlertDialog progressDialog;
 
@@ -96,7 +99,7 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(ForgetPassword.this,LoginActivity.class));
+                startActivity(new Intent(ForgetPassword.this, LoginActivity.class));
 
             }
         });
@@ -121,8 +124,7 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
                         String message = result.getString("msg");
                         showPopupMessage(message);
                         navigateToLoginActivity();
-                    }
-                    else {
+                    } else {
                         // Handle the case where the reset request was not successful
                         // You can display an error message to the user
                         AndroidUtils.showToast("Password reset failed", ForgetPassword.this);
@@ -162,6 +164,7 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
 
     private void resetPassword() {
         try {
+            Constants.check_url();
             Constants.PROBIZ_TYPE = "PROFESSIONAL";
             Constants.base_URL = Constants.PROF_URL;
             JSONObject postData = new JSONObject();
@@ -189,6 +192,7 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
         }
         return true;
     }
+
     private void showPopupMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

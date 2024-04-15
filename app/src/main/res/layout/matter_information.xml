@@ -16,12 +16,9 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/edit_matter_page_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="@dimen/Fifty_dp"
+            android:layout_height="@dimen/Fifty_dp"
+            android:layout_margin="@dimen/small_size"
             android:layout_weight="1"
             android:background="@color/green_count_color"
             android:fontFamily="@font/gill_sans"
@@ -44,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edit_matter_page_icon"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/small_size"
+            android:layout_marginEnd="@dimen/small_size"
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/gill_sans"
             android:gravity="center_horizontal"
@@ -62,11 +59,11 @@
             android:id="@+id/cv_client_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:elevation="50dp"
-            android:padding="5dp"
+            android:layout_margin="@dimen/left_space"
+            android:elevation="@dimen/Fifty_dp"
+            android:padding="@dimen/left_space"
             android:visibility="visible"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="@dimen/left_space"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,20 +72,19 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_margin="@dimen/small_size">
 
                 <LinearLayout
                     android:id="@+id/ll_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -104,19 +100,14 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/search_client"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none">
-
-                        >
 
                         <include
                             android:id="@+id/tv_matter_title"
                             layout="@layout/group_name_layout" />
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -126,14 +117,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_title"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -143,26 +132,18 @@
                             android:layout_height="wrap_content" />
 
                         <include layout="@layout/icon" />
-
                     </LinearLayout>
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_matter_num"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none">
-
-                        >
 
                         <include
                             android:id="@+id/tv_matter_num"
                             layout="@layout/group_name_layout" />
-
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -174,33 +155,21 @@
                     android:layout_below="@id/ll_case_num"
                     android:orientation="vertical">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
                             android:id="@+id/m_c_type"
                             layout="@layout/group_layout" />
-
-                        <!--                <ImageView-->
-                        <!--                    android:layout_width="15dp"-->
-                        <!--                    android:layout_height="10dp"-->
-                        <!--                    android:src="@drawable/asterisk_icon">-->
-
-                        <!--                </ImageView>-->
-
                     </LinearLayout>
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_case_type"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none">
 
@@ -217,14 +186,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_case_type"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -232,29 +199,22 @@
                             layout="@layout/group_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
-
-
                     </LinearLayout>
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none"
                         app:counterEnabled="true"
                         app:counterMaxLength="300">
-
-                        >
 
                         <include
                             android:id="@+id/tv_matter_description"
                             layout="@layout/group_name_layout"
                             android:layout_width="match_parent"
                             android:layout_height="200dp" />
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -264,14 +224,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_description"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -279,31 +238,24 @@
                             layout="@layout/group_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
-
-
                     </LinearLayout>
 
                     <include
                         android:id="@+id/tv_dof"
                         layout="@layout/button_calender" />
-
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_start_date"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_dof"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -323,16 +275,13 @@
                     android:id="@+id/ll_end_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_below="@id/ll_start_date"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -341,9 +290,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
-
                     </LinearLayout>
-
 
                     <include
                         android:id="@+id/tv_end_date"
@@ -355,14 +302,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_end_date"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -378,32 +323,28 @@
 
                     </LinearLayout>
 
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_court"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:background="@drawable/rectangle_light_grey_bg"
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none">
-
-                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_court"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="top"
-
-                            android:drawableRight="@drawable/court"
+                            android:drawableEnd="@drawable/court"
                             android:enabled="true"
                             android:fontFamily="@font/gill_sans"
                             android:gravity="top"
                             android:maxLines="4"
-                            android:padding="5dp"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15sp" />
+                            android:padding="@dimen/left_space"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/small_size" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -414,55 +355,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_court"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
                             android:id="@+id/judge"
                             layout="@layout/group_layout" />
 
-                        <!--                <ImageView-->
-                        <!--                    android:layout_width="15dp"-->
-                        <!--                    android:layout_height="10dp"-->
-                        <!--                    android:src="@drawable/asterisk_icon">-->
-
-                        <!--                </ImageView>-->
-
                     </LinearLayout>
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tl_judge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:background="@drawable/rectangle_light_grey_bg"
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none">
-
-                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_judge"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="top"
-                            android:layout_marginBottom="10dp"
-                            android:drawableRight="@drawable/framejudge"
+                            android:layout_marginBottom="@dimen/small_size"
+                            android:drawableEnd="@drawable/framejudge"
                             android:enabled="true"
                             android:fontFamily="@font/gill_sans"
                             android:gravity="top"
                             android:maxLines="4"
                             android:padding="5dp"
-                            android:textColor="@color/Blue_text_color"
-                            android:textSize="15dp" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Fifteen_dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -473,50 +402,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_judge"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
                             android:id="@+id/priority"
                             layout="@layout/group_layout" />
 
-                        <!--                <ImageView-->
-                        <!--                    android:layout_width="15dp"-->
-                        <!--                    android:layout_height="10dp"-->
-                        <!--                    android:src="@drawable/asterisk_icon">-->
-
-                        <!--                </ImageView>-->
-
                     </LinearLayout>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:layout_marginTop="10dp"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:orientation="horizontal"
                         android:padding="5dp"
-                        android:paddingTop="@dimen/twenty_dp"
-
-                        >
+                        android:paddingTop="@dimen/twenty_dp">
 
                         <TextView
                             android:id="@+id/tv_high_priority"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_left_green_round_background"
                             android:fontFamily="@font/gill_sans"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
                             android:text="@string/high"
                             android:textColor="@color/white"
                             android:textSize="@dimen/Fifteen_dp">
@@ -527,11 +445,11 @@
                             android:id="@+id/tv_medium_priority"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@drawable/radiobutton_centre_background"
                             android:fontFamily="@font/gill_sans"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
                             android:text="@string/medium"
                             android:textColor="@color/black"
                             android:textSize="@dimen/Fifteen_dp">
@@ -542,11 +460,11 @@
                             android:id="@+id/tv_low_priority"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_right_round_background"
                             android:fontFamily="@font/gill_sans"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
                             android:text="@string/low"
                             android:textColor="@color/black"
                             android:textSize="@dimen/Fifteen_dp">
@@ -560,25 +478,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_case_priority"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
                             android:id="@+id/status"
                             layout="@layout/group_layout" />
-
-                        <!--                <ImageView-->
-                        <!--                    android:layout_width="15dp"-->
-                        <!--                    android:layout_height="10dp"-->
-                        <!--                    android:src="@drawable/asterisk_icon">-->
-
-                        <!--                </ImageView>-->
 
                     </LinearLayout>
 
@@ -586,41 +496,35 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:layout_marginTop="10dp"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:orientation="horizontal"
                         android:padding="5dp"
-                        android:paddingTop="@dimen/twenty_dp"
-
-                        >
+                        android:paddingTop="@dimen/twenty_dp">
 
                         <TextView
                             android:id="@+id/tv_status_active"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_left_green_round_background"
                             android:fontFamily="@font/gill_sans"
-                            android:padding="10dp"
-
+                            android:padding="@dimen/small_size"
                             android:text="@string/active"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/Fifteen_dp">
-
-                        </TextView>
-
+                            android:textSize="@dimen/Fifteen_dp"></TextView>
 
                         <TextView
                             android:id="@+id/tv_status_pending"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_right_round_background"
                             android:fontFamily="@font/gill_sans"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
                             android:text="@string/pending"
                             android:textColor="@color/black"
                             android:textSize="@dimen/Fifteen_dp">
@@ -635,12 +539,11 @@
             android:id="@+id/cv_add_opponent_advocate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:elevation="50dp"
-            android:padding="5dp"
-
+            android:layout_margin="@dimen/left_space"
+            android:elevation="@dimen/Fifty_dp"
+            android:padding="@dimen/left_space"
             android:visibility="visible"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="@dimen/left_space"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -654,10 +557,7 @@
                     android:id="@+id/ll_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="@dimen/left_space"
                     android:orientation="horizontal">
 
                     <include
@@ -681,14 +581,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_header"
-                    android:orientation="vertical"
-
-                    >
+                    android:orientation="vertical">
 
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
+                    android:layout_width="@dimen/small_size"
                     android:layout_height="match_parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -696,26 +594,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/ll_add_advocate"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
                     android:visibility="visible">
-
 
                     <include
                         android:id="@+id/btn_cancel_save"
                         layout="@layout/cancel_button" />
-
 
                     <include
                         android:id="@+id/btn_create"
                         layout="@layout/submit_button" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

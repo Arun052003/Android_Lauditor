@@ -87,15 +87,17 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_legal_matter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Filled Data will be cleared when we click the legal matter view.
+                matter_arraylist.clear();
                 loadLegalMatter();
             }
         });
         tv_general_matter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Filled Data will be cleared when we click the general matter view.
+                matter_arraylist.clear();
                 loadGeneralMatter();
-
-
             }
         });
         tv_create.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +111,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 loadViewUI();
 //                loadgeneralUI();
             }
@@ -121,9 +122,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
                 if (!matter_arraylist.isEmpty() && Constants.Matter_CreateOrViewDetails.equalsIgnoreCase("Create")) {
                     loadMatterInformation();
                 }
-
-//                FragmentManager childFragmentManager = getChildFragmentManager();
-//                childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
             }
         });
         siv_groups.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +153,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             }
         });
         matter_arraylist = new ArrayList<>();
-
         return view;
     }
 
@@ -174,16 +171,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ll_create_view.setVisibility(View.VISIBLE);
         viewMatter();
         mViewModel.setData("View Legal Matter");
-    }
-
-    private void loadViewgeneralUI() {
-        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        tv_create.setTextColor(Color.BLACK);
-        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
-        tv_view.setTextColor(Color.WHITE);
-        create_matter_view.setVisibility(View.GONE);
-        viewMatter();
-        mViewModel.setData("View General Matter");
     }
 
     private void viewMatter() {
@@ -205,8 +192,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             Constants.Matter_CreateOrViewDetails = "Create";
             loadMatterInformation();
             mViewModel.setData("Create Legal Matter");
-        } else {
-
         }
     }
 
@@ -239,14 +224,12 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_general_matter.setTextColor(Color.WHITE);
         loadMatterInformation();
         loadViewUI();
-
-        mViewModel.setData("    View General Matter");
+        mViewModel.setData(" View General Matter");
     }
 
     public void loadDocuments() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
-
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MatterDocuments matterInformation = new MatterDocuments();
@@ -266,15 +249,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
-        //        tv_matter_title = findViewById(R.id.tv_matter_title);
-//        String text = tv_matter_title.getText().toString();
-//        matter_title.setText(text);
-        //  FragmentManager childFragmentManager = getChildFragmentManager();
-        //  AndroidUtils.showAlert("Please check the Matter Information section");
-
-        // cv_add_opponent_advocate.setVisibility(View.GONE);
-
-        // childFragmentManager.beginTransaction().add(R.id.child_container, childFragment).commit();
     }
 
     void loadMatterInformation() {
@@ -291,40 +265,20 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ft.commit();
     }
 
-    public void loadMatterInformmation() {
-        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
-        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
-        siv_groups.setClickable(true);
-        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
-        siv_documents.setClickable(true);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        MatterInformation matterInformation = new MatterInformation();
-        ft.replace(R.id.child_container, matterInformation);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.addToBackStack(null);
-        ft.commit();
-
-    }
-
     public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
         ll_matter_type.setVisibility(View.GONE);
         ll_create_view.setVisibility(View.GONE);
-
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_groups.setClickable(true);
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         siv_documents.setClickable(true);
-
         create_matter_view.setVisibility(View.VISIBLE);
-
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_create.setTextColor(Color.WHITE);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_view.setTextColor(Color.BLACK);
-
         matter_arraylist.add(0, viewMatterModel);
-
         Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
         Fragment fragment = new EditMatterTimeline();
@@ -333,7 +287,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.child_container, fragment);
         ft.commit();
-
     }
 
     private void callGroupsWebservice() {
@@ -359,7 +312,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
                     loadGroupsData(data);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -375,7 +328,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
                 Constants.groupsList_Access.add(groupsModel);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
