@@ -72,6 +72,8 @@
     <string name="title">Title</string>
     <string name="case_number">Case Number</string>
     <string name="matter_num">Matter Num</string>
+    <string name="matter_number">Matter Number</string>
+    <string name="matter_type">Matter Type</string>
     <string name="matter_title">Matter Title</string>
     <string name="case_type">Case Type</string>
     <string name="date_of_filing">Date of Filing</string>
@@ -147,4 +149,9 @@
     <string name="message">Message</string>
     <string name="none">None</string>
     <string name="create">Create</string>
+    <string name="next">Next</string>
+    <string name="priority">Priority</string>
+    <string name="close_date">Close Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="case_title">" Case Title"</string>
 </resources>

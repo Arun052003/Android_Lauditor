@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -50,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -133,12 +136,12 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 //        mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
 //        mViewModel.setData("Edit Matter Info");
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
-        tv_matter_title.setHint("Case Title");
+        tv_matter_title.setHint(R.string.case_title);
         tv_matter_title.setTextSize(15);
         tv_view_matter = view.findViewById(R.id.tv_view_matter);
 
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
-        tv_matter_num.setHint("Case Number");
+        tv_matter_num.setHint(R.string.case_number);
         tv_matter_num.setTextSize(15);
 
         edit_matter_page_icon = view.findViewById(R.id.edit_matter_page_icon);
@@ -158,58 +161,58 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_status_active = view.findViewById(R.id.tv_status_active);
 
         tv_case_type = view.findViewById(R.id.tv_case_type);
-        tv_case_type.setHint("Case Type");
+        tv_case_type.setHint(R.string.case_type);
         tv_case_type.setTextSize(15);
         description_name = view.findViewById(R.id.description_name);
-        description_name.setText("Description");
+        description_name.setText(R.string.description);
 
         Title = view.findViewById(R.id.Title_name);
-        Title.setText(" Case Title");
+        Title.setText(R.string.case_title);
 
         datefill = view.findViewById(R.id.datefill);
-        datefill.setText("Date of Filling");
+        datefill.setText(R.string.date_of_filing);
         start_date = view.findViewById(R.id.start_date);
-        start_date.setText("Start Date");
+        start_date.setText(R.string.start_date);
         closedate = view.findViewById(R.id.closedate);
-        closedate.setText("Close Date");
+        closedate.setText(R.string.close_date);
         court = view.findViewById(R.id.court);
-        court.setText("Court");
+        court.setText(R.string.court);
         judge = view.findViewById(R.id.judge);
-        judge.setText("Judge(s)");
+        judge.setText(R.string.judge_s);
         priority = view.findViewById(R.id.priority);
-        priority.setText("Priority");
+        priority.setText(R.string.priority);
         status = view.findViewById(R.id.status);
-        status.setText("Status");
+        status.setText(R.string.status);
         addopponentadvocate = view.findViewById(R.id.addopponentadvocate);
-        addopponentadvocate.setText("Add Opponent Advocate ");
+        addopponentadvocate.setText(R.string.add_opponent_advocate);
         ll_court = view.findViewById(R.id.ll_court);
         ll_judge = view.findViewById(R.id.ll_judge);
         ll_dof = view.findViewById(R.id.ll_dof);
         m_c_number = view.findViewById(R.id.m_c_number);
-        m_c_number.setText("Case Number");
+        m_c_number.setText(R.string.case_number);
         m_c_type = view.findViewById(R.id.m_c_type);
-        m_c_type.setText("Case Type");
+        m_c_type.setText(R.string.case_type);
         ll_end_date = view.findViewById(R.id.ll_end_date);
         ll_start_date = view.findViewById(R.id.ll_start_date);
         tv_start_date = view.findViewById(R.id.tv_start_date);
-        tv_start_date.setHint("Start Date");
+        tv_start_date.setHint(R.string.start_date);
         tv_start_date.setTextSize(15);
         tv_end_date = view.findViewById(R.id.tv_end_date);
-        tv_end_date.setHint("Close Date");
+        tv_end_date.setHint(R.string.close_date);
         tv_end_date.setTextSize(15);
         cv_client_details = view.findViewById(R.id.cv_client_details);
 
         tv_matter_description = view.findViewById(R.id.tv_matter_description);
-        tv_matter_description.setHint("Description");
+        tv_matter_description.setHint(R.string.description);
         tv_matter_description.setTextSize(15);
         tv_dof = view.findViewById(R.id.tv_dof);
-        tv_dof.setHint("Date of filling");
+        tv_dof.setHint(R.string.date_of_filing);
         tv_dof.setTextSize(15);
         tv_court = view.findViewById(R.id.tv_court);
-        tv_court.setHint("Court");
+        tv_court.setHint(R.string.court);
         tv_court.setTextSize(15);
         tv_judge = view.findViewById(R.id.tv_judge);
-        tv_judge.setHint("judge");
+        tv_judge.setHint(R.string.judge);
         tv_judge.setTextSize(15);
 //        tv_matter_title=view.findViewById(R.id.tv_matter_title);
         tv_matter_title.setText(viewMatterModel1.getTitle());
@@ -222,7 +225,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
         //Checking a matter type is legal or general and filling date.
         if (Constants.MATTER_TYPE.equals("Legal")) {
-            if (viewMatterModel1.getDate_of_filling().equals(""))
+            if (viewMatterModel1.getDate_of_filling().trim().isEmpty())
                 tv_dof.setText("");
             else
                 tv_dof.setText(viewMatterModel1.getDate_of_filling());
@@ -232,17 +235,19 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 String inputDate2 = viewMatterModel1.getClosedate();
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-                if (inputDate.equals("")) {
+                if (inputDate.trim().isEmpty()) {
                     tv_start_date.setText("");
                 } else {
                     Date date = inputFormat.parse(inputDate);
+                    assert date != null;
                     String st_date = outputFormat.format(date);
                     tv_start_date.setText(st_date);
                 }
-                if (inputDate2.equals(""))
+                if (inputDate2.trim().isEmpty())
                     tv_end_date.setText("");
                 else {
                     Date date2 = inputFormat.parse(inputDate2);
+                    assert date2 != null;
                     String end_date = outputFormat.format(date2);
                     tv_end_date.setText(end_date);
                 }
@@ -282,7 +287,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             ll_end_date.setVisibility(View.VISIBLE);
             ll_dof.setVisibility(View.GONE);
             ll_header.setVisibility(View.GONE);
-            btn_create.setText("Next");
+            btn_create.setText(R.string.next);
             datePickerendData();
             datePickerstartData();
         }
@@ -416,7 +421,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                             advocates_list.remove(position);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -441,7 +446,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private void EditAdvocateUI(String advocate_name, String email, String number, int position, TextView tv_opponent_name, View view_advocate) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
@@ -449,33 +454,91 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
+            tv_advocate_name.setText(advocate_name);
+            tv_advocate_email.setText(email);
+            tv_advocate_phone.setText(number);
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
                 }
             });
-            tv_advocate_name.setText(advocate_name);
-            tv_advocate_email.setText(email);
-            tv_advocate_phone.setText(number);
+            tv_advocate_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_name.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_email.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString()))) {
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_email.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty() || (s.length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                        tv_advocate_phone.requestFocus();
+                    }
+                }
+            });
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tv_advocate_name.getText().toString().equals("")) {
-                        tv_advocate_name.setError("Name is required");
+                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty() && (Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty())) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                    } else if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
-                    } else if (tv_advocate_email.getText().toString().equals("")) {
-                        tv_advocate_email.setError("Email is required");
+                    } else if ((!(Objects.requireNonNull(tv_advocate_email.getText()).toString().matches(Patterns.EMAIL_ADDRESS.toString()))) || (tv_advocate_email.getText().toString().trim().isEmpty())) {
+                        tv_advocate_email.setError("Please enter the Email.");
                         tv_advocate_email.requestFocus();
-                    } else if (!(tv_advocate_email.getText().toString().matches(Patterns.EMAIL_ADDRESS.toString()))) {
-                        tv_advocate_email.setError("Please enter a valid");
-                        tv_advocate_email.requestFocus();
-                    } else if (tv_advocate_phone.getText().toString().equals("")) {
-                        tv_advocate_phone.setError("Phone is required");
+                    } else if (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty() || (tv_advocate_phone.getText().length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
                         tv_advocate_phone.requestFocus();
-                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
-                        tv_advocate_phone.setError("Please enter a valid phone number");
-                        tv_advocate_phone.requestFocus();
+//                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
+//                        tv_advocate_phone.setError("Please enter a valid phone number");
+//                        tv_advocate_phone.requestFocus();
                     } else {
                         dialog.dismiss();
                         loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
@@ -487,7 +550,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             dialog.setView(view);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -498,14 +561,14 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
-            tv_advocate_name.setHint("Name");
+            tv_advocate_name.setHint(R.string.name);
             tv_advocate_name.setTextSize(15);
 
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
-            tv_advocate_email.setHint("Email");
+            tv_advocate_email.setHint(R.string.email);
             tv_advocate_email.setTextSize(15);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
-            tv_advocate_phone.setHint("Phone Number");
+            tv_advocate_phone.setHint(R.string.phone_number);
             tv_advocate_phone.setTextSize(15);
 
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
@@ -518,24 +581,82 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 }
             });
 
+            tv_advocate_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_name.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_email.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString()))) {
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_email.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty() || (s.length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                        tv_advocate_phone.requestFocus();
+                    }
+                }
+            });
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tv_advocate_name.getText().toString().equals("")) {
-                        tv_advocate_name.setError("Name is required");
+                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty() && (Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty())) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                    } else if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
-                    } else if (tv_advocate_email.getText().toString().equals("")) {
-                        tv_advocate_email.setError("Email is required");
+                    } else if ((!(Objects.requireNonNull(tv_advocate_email.getText()).toString().matches(Patterns.EMAIL_ADDRESS.toString()))) || (tv_advocate_email.getText().toString().trim().isEmpty())) {
+                        tv_advocate_email.setError("Please enter the Email.");
                         tv_advocate_email.requestFocus();
-                    } else if (!(tv_advocate_email.getText().toString().matches(Patterns.EMAIL_ADDRESS.toString()))) {
-                        tv_advocate_email.setError("Please enter a valid");
-                        tv_advocate_email.requestFocus();
-                    } else if (tv_advocate_phone.getText().toString().equals("")) {
-                        tv_advocate_phone.setError("Phone is required");
+                    } else if (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty() || (tv_advocate_phone.getText().length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
                         tv_advocate_phone.requestFocus();
-                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
-                        tv_advocate_phone.setError("Please enter a valid phone number");
-                        tv_advocate_phone.requestFocus();
+//                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
+//                        tv_advocate_phone.setError("Please enter a valid phone number");
+//                        tv_advocate_phone.requestFocus();
                     } else {
                         AdvocateModel advocateModel = new AdvocateModel();
                         advocateModel.setAdvocate_name(tv_advocate_name.getText().toString());
@@ -552,10 +673,9 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             dialog.setView(view);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
-
     }
 
     @Override
@@ -582,7 +702,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             } catch (Exception e) {
                 if (progress_dialog != null && progress_dialog.isShowing())
                     AndroidUtils.dismiss_dialog(progress_dialog);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -653,7 +773,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 String inputDate = tv_dof.getText().toString();
                 SimpleDateFormat inputFormat = new SimpleDateFormat("MMM dd, yyyy");
                 //Rectify the un Parseable date.......
-                if (inputDate.equals("")) {
+                if (inputDate.trim().isEmpty()) {
                     postdata.put("case_number", tv_matter_num.getText().toString());
                     postdata.put("judges", tv_judge.getText().toString());
                     postdata.put("case_type", tv_case_type.getText().toString());
@@ -677,7 +797,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 String closeDate = tv_end_date.getText().toString();
                 String startDate = tv_start_date.getText().toString();
 
-                if (closeDate.equals("")) {
+                if (closeDate.trim().isEmpty()) {
                     postdata.put("closedate", "");
                 } else {
                     SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -686,7 +806,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     String date_of_filling = outputFormat.format(date);
                     postdata.put("closedate", date_of_filling);
                 }
-                if (startDate.equals("")) {
+                if (startDate.trim().isEmpty()) {
                     postdata.put("startdate", "");
                 } else {
                     SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -719,13 +839,13 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 progress_dialog.dismiss();
                 AndroidUtils.showToast(e.getMessage(), getContext());
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
     private void nav_view_matter() {
         Fragment fragment = new Matter();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.id_framelayout, fragment);
         ft.commit();
@@ -778,7 +898,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                         mDateSetListener,
                         selectedYear, selectedMonth, selectedDay);
 
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
@@ -807,7 +927,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                             mDateSetListener,
                             selectedYear, selectedMonth, selectedDay);
 
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.show();
                 }
             }
@@ -835,7 +955,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                         mDateSetListener,
                         selectedYear, selectedMonth, selectedDay);
 
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });

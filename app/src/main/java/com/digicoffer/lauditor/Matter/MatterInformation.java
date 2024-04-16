@@ -81,48 +81,48 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matter_information, container, false);
         tv_matter_title = view.findViewById(R.id.tv_matter_title);
-        tv_matter_title.setHint("Case Title");
+        tv_matter_title.setHint(R.string.case_title);
         tv_matter_title.setTextSize(15);
         cv_add_opponent_advocate = view.findViewById(R.id.cv_add_opponent_advocate);
 
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
-        tv_matter_num.setHint("Case Number");
+        tv_matter_num.setHint(R.string.case_number);
         tv_matter_num.setTextSize(15);
         btn_cancel_edit = view.findViewById(R.id.btn_cancel_edit);
 
 
         tv_case_type = view.findViewById(R.id.tv_case_type);
-        tv_case_type.setHint("Case Type");
+        tv_case_type.setHint(R.string.case_type);
         tv_case_type.setTextSize(15);
         description_name = view.findViewById(R.id.description_name);
-        description_name.setText("Description");
+        description_name.setText(R.string.description);
 
         Title = view.findViewById(R.id.Title_name);
-        Title.setText(" Case Title");
+        Title.setText(R.string.case_title);
 
         datefill = view.findViewById(R.id.datefill);
-        datefill.setText("Date of Filling");
+        datefill.setText(R.string.date_of_filing);
         start_date = view.findViewById(R.id.start_date);
-        start_date.setText("Start Date");
+        start_date.setText(R.string.start_date);
         closedate = view.findViewById(R.id.closedate);
-        closedate.setText("Close Date");
+        closedate.setText(R.string.close_date);
         court = view.findViewById(R.id.court);
-        court.setText("Court");
+        court.setText(R.string.court);
         judge = view.findViewById(R.id.judge);
-        judge.setText("Judge(s)");
+        judge.setText(R.string.judge_s);
         priority = view.findViewById(R.id.priority);
-        priority.setText("Priority");
+        priority.setText(R.string.priority);
         status = view.findViewById(R.id.status);
-        status.setText("Status");
+        status.setText(R.string.status);
         addopponentadvocate = view.findViewById(R.id.addopponentadvocate);
-        addopponentadvocate.setText("Add Opponent Advocate ");
+        addopponentadvocate.setText(R.string.add_opponent_advocate);
         ll_court = view.findViewById(R.id.ll_court);
         ll_judge = view.findViewById(R.id.ll_judge);
         ll_dof = view.findViewById(R.id.ll_dof);
         m_c_number = view.findViewById(R.id.m_c_number);
-        m_c_number.setText("Case Number");
+        m_c_number.setText(R.string.case_number);
         m_c_type = view.findViewById(R.id.m_c_type);
-        m_c_type.setText("Case Type");
+        m_c_type.setText(R.string.case_type);
         ll_end_date = view.findViewById(R.id.ll_end_date);
         ll_start_date = view.findViewById(R.id.ll_start_date);
         tv_start_date = view.findViewById(R.id.tv_start_date);
@@ -134,16 +134,16 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         cv_client_details = view.findViewById(R.id.cv_client_details);
 
         tv_matter_description = view.findViewById(R.id.tv_matter_description);
-        tv_matter_description.setHint("Description");
+        tv_matter_description.setHint(R.string.description);
         tv_matter_description.setTextSize(15);
         tv_dof = view.findViewById(R.id.tv_dof);
-        tv_dof.setHint("Date of filling");
+        tv_dof.setHint(R.string.date_of_filing);
         tv_dof.setTextSize(15);
         tv_court = view.findViewById(R.id.tv_court);
-        tv_court.setHint("Court");
+        tv_court.setHint(R.string.court);
         tv_court.setTextSize(15);
         tv_judge = view.findViewById(R.id.tv_judge);
-        tv_judge.setHint("judge");
+        tv_judge.setHint(R.string.judge);
         tv_judge.setTextSize(15);
         tv_high_priority = view.findViewById(R.id.tv_high_priority);
         tv_high_priority.setOnClickListener(this);
@@ -166,9 +166,9 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_start_date.setInputType(InputType.TYPE_NULL);
         tv_end_date.setInputType(InputType.TYPE_NULL);
         tv_dof.setInputType(InputType.TYPE_NULL);
-        if (Constants.MATTER_TYPE == "Legal") {
-            m_c_number.setText("Case Number");
-            m_c_type.setText("Case Type");
+        if (Objects.equals(Constants.MATTER_TYPE, "Legal")) {
+            m_c_number.setText(R.string.case_number);
+            m_c_type.setText(R.string.case_type);
             ll_court.setVisibility(View.VISIBLE);
             ll_judge.setVisibility(View.VISIBLE);
             ll_dof.setVisibility(View.VISIBLE);
@@ -176,8 +176,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             ll_end_date.setVisibility(View.GONE);
             datePickerData();
         } else {
-            m_c_number.setText("Matter Number");
-            m_c_type.setText("Matter Type");
+            m_c_number.setText(R.string.matter_number);
+            m_c_type.setText(R.string.matter_type);
             ll_court.setVisibility(View.GONE);
             ll_judge.setVisibility(View.GONE);
             ll_dof.setVisibility(View.GONE);
@@ -189,7 +189,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
         matterArraylist = matter.getMatter_arraylist();
 
-        if (matterArraylist.size() != 0) {
+        if (!matterArraylist.isEmpty()) {
             for (int i = 0; i < matterArraylist.size(); i++) {
                 MatterModel matterModel = matterArraylist.get(i);
                 if (matterModel.getMatter_title() != null) {
@@ -540,63 +540,63 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             final AlertDialog dialog = builder.create();
             loadHighPriorityUI();
             loadActiveUI();
-//            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    if (s.toString().trim().isEmpty()) {
-//                        tv_advocate_name.setError("Please Enter the name.");
-//                        tv_advocate_name.requestFocus();
-//                    }
-//                }
-//            });
-//            tv_advocate_email.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    if (s.toString().matches(String.valueOf(Patterns.EMAIL_ADDRESS.toString().trim().isEmpty()))) {
-//                        tv_advocate_email.setError("Please enter the Email.");
-//                        tv_advocate_email.requestFocus();
-//                    }
-//                }
-//            });
-//            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    if (s.toString().trim().isEmpty()) {
-//                        tv_advocate_phone.setError("Please enter the Email.");
-//                        tv_advocate_phone.requestFocus();
-//                    }
-//                }
-//            });
+            tv_advocate_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_name.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_email.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString()))) {
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_email.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty() || (s.length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                        tv_advocate_phone.requestFocus();
+                    }
+                }
+            });
 
 
 //            (s.toString().isEmpty()&&(s.length()>10))
@@ -610,13 +610,17 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
+                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty() && (Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty())) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                    } else if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
                         tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
-                    } else if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString())) && (tv_advocate_email.getText().toString().trim().isEmpty())) {
+                    } else if ((!(Objects.requireNonNull(tv_advocate_email.getText()).toString().matches(Patterns.EMAIL_ADDRESS.toString()))) || (tv_advocate_email.getText().toString().trim().isEmpty())) {
                         tv_advocate_email.setError("Please enter the Email.");
                         tv_advocate_email.requestFocus();
-                    } else if (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty()) {
+                    } else if (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty() || (tv_advocate_phone.getText().length() < 10)) {
                         tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
                         tv_advocate_phone.requestFocus();
 //                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
@@ -716,6 +720,65 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
+
+            tv_advocate_name.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
+                        tv_advocate_name.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_email.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString()))) {
+                        tv_advocate_email.setError("Please enter the Email.");
+                        tv_advocate_email.requestFocus();
+                    }
+                }
+            });
+            tv_advocate_phone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().trim().isEmpty() || (s.length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
+                        tv_advocate_phone.requestFocus();
+                    }
+                }
+            });
+
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -729,37 +792,30 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tv_advocate_name.getText().toString().equals("")) {
-                        tv_advocate_name.setError("Name is required");
+                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
+                        tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
-                    } else if (tv_advocate_email.getText().toString().equals("")) {
-                        tv_advocate_email.setError("Email is required");
+                    } else if ((!(Objects.requireNonNull(tv_advocate_email.getText()).toString().matches(Patterns.EMAIL_ADDRESS.toString()))) || (tv_advocate_email.getText().toString().trim().isEmpty())) {
+                        tv_advocate_email.setError("Please enter the Email.");
                         tv_advocate_email.requestFocus();
-                    } else if (!(tv_advocate_email.getText().toString().matches(Patterns.EMAIL_ADDRESS.toString()))) {
-                        tv_advocate_email.setError("Please enter a valid");
-                        tv_advocate_email.requestFocus();
-                    } else if (tv_advocate_phone.getText().toString().equals("")) {
-                        tv_advocate_phone.setError("Phone is required");
+                    } else if (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty() || (tv_advocate_phone.getText().length() < 10)) {
+                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
                         tv_advocate_phone.requestFocus();
-                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
-                        tv_advocate_phone.setError("Please enter a valid phone number");
-                        tv_advocate_phone.requestFocus();
+//                    } else if (!(tv_advocate_phone.getText().toString().matches(Patterns.PHONE.toString()))) {
+//                        tv_advocate_phone.setError("Please enter a valid phone number");
+//                        tv_advocate_phone.requestFocus();
                     } else {
                         dialog.dismiss();
                         loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
-
-
 //                        loadOpponentsList(advocates_list);
                     }
                 }
             });
-
-
             dialog.setCancelable(false);
             dialog.setView(view);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }

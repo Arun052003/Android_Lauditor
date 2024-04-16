@@ -510,8 +510,8 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
         // initiate a DrawerLayout
         navView = (NavigationView) findViewById(R.id.navigation);
         nav_Menu = navView.getMenu();
-        MenuItem version = nav_Menu.findItem(R.id.Version);
-        version.setTitle("Version" + "(" + "v" + Constants.VERSION + ")");
+//        MenuItem version = nav_Menu.findItem(R.id.Version);
+//        version.setTitle("Version" + "(" + "v" + Constants.VERSION + ")");
         View header = navView.getHeaderView(0);
         header_layout = (AppBarLayout) header.findViewById(R.id.header_layout);
         header_layout.setVisibility(View.GONE);
