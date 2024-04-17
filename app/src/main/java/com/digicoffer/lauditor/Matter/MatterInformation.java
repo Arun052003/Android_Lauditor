@@ -453,11 +453,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
     public void saveMatterInformation() {
         String msg = "Please check the Title";
-
         if ((Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_matter_num.getText()).toString().isEmpty())) {
-            AndroidUtils.showAlert(msg + " Case Number", getContext());
+            AndroidUtils.showAlert(msg + " , Case Number", getContext());
         } else if (Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) {
-            AndroidUtils.showAlert(msg);
+            AndroidUtils.showAlert(msg,getContext());
             tv_matter_title.requestFocus();
         } else if (Objects.requireNonNull(tv_matter_num.getText()).toString().trim().isEmpty()) {
             AndroidUtils.showAlert(msg.replace("Title", "Case Number"), getContext());

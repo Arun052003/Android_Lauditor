@@ -302,7 +302,18 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                call_load_edit();
+                String msg = "Please check the Title";
+                if ((Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_matter_num.getText()).toString().isEmpty())) {
+                    AndroidUtils.showAlert(msg + " , Case Number", getContext());
+                } else if (Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) {
+                    AndroidUtils.showAlert(msg, getContext());
+                    tv_matter_title.requestFocus();
+                } else if (Objects.requireNonNull(tv_matter_num.getText()).toString().trim().isEmpty()) {
+                    AndroidUtils.showAlert(msg.replace("Title", "Case Number"), getContext());
+                    tv_matter_num.requestFocus();
+                } else {
+                    call_load_edit();
+                }
             }
         });
 
@@ -353,7 +364,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_status_active.setTextColor(Color.WHITE);
         tv_status_pending.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
         tv_status_pending.setTextColor(Color.BLACK);
-
     }
 
     private void loadPendingUI() {
@@ -563,14 +573,12 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             tv_advocate_name.setHint(R.string.name);
             tv_advocate_name.setTextSize(15);
-
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             tv_advocate_email.setHint(R.string.email);
             tv_advocate_email.setTextSize(15);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
             tv_advocate_phone.setHint(R.string.phone_number);
             tv_advocate_phone.setTextSize(15);
-
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
@@ -815,7 +823,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     String date_of_filling = outputFormat.format(date);
                     postdata.put("startdate", date_of_filling);
                 }
-
 //                    SimpleDateFormat inputFormat2 = new SimpleDateFormat("yyyy-MM-dd");
 //                    Date date2 = inputFormat2.parse(startdate);
 //                    SimpleDateFormat outputFormat2 = new SimpleDateFormat("dd-MM-yyyy");
@@ -831,7 +838,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             postdata.put("priority", CASE_PRIORITY);
             postdata.put("status", STATUS);
             postdata.put("title", tv_matter_title.getText().toString());
-
 //            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "/matter/legal/update/64ad2f54a1db7203e4fd6014", "Edit Document",postdata.toString());
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + Constants.MATTER_TYPE.toLowerCase(Locale.ROOT) + "/update/" + viewMatterModel1.getId(), "Edit Matter", postdata.toString());
         } catch (Exception e) {
@@ -891,13 +897,11 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 int selectedYear = finalMyCalendar.get(Calendar.YEAR);
                 int selectedMonth = finalMyCalendar.get(Calendar.MONTH);
                 int selectedDay = finalMyCalendar.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         v.getContext(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         selectedYear, selectedMonth, selectedDay);
-
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -920,13 +924,11 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     int selectedYear = finalMyCalendar.get(Calendar.YEAR);
                     int selectedMonth = finalMyCalendar.get(Calendar.MONTH);
                     int selectedDay = finalMyCalendar.get(Calendar.DAY_OF_MONTH);
-
                     DatePickerDialog dialog = new DatePickerDialog(
                             v.getContext(),
                             android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                             mDateSetListener,
                             selectedYear, selectedMonth, selectedDay);
-
                     Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.show();
                 }
@@ -948,13 +950,11 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 int selectedYear = finalMyCalendar.get(Calendar.YEAR);
                 int selectedMonth = finalMyCalendar.get(Calendar.MONTH);
                 int selectedDay = finalMyCalendar.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         v.getContext(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         selectedYear, selectedMonth, selectedDay);
-
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -981,5 +981,4 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         String formattedDate = sdf.format(finalMyCalendar.getTime());
         tv_end_date.setText(formattedDate);
     }
-
 }
