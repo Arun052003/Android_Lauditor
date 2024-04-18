@@ -379,7 +379,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 //        if (groupsList.size() != 0) {
         FLAG = "second_click";
         rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
-    
+
         groupsAdapter = new GroupsAdapter(groupsList);
         rv_group_update.setAdapter(groupsAdapter);
         rv_group_update.setHasFixedSize(true);
@@ -494,7 +494,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                     AppCompatButton btn_cancel_save = view_timeLine.findViewById(R.id.btn_cancel_save);
                     AppCompatButton btn_create = view_timeLine.findViewById(R.id.btn_create);
                     TextInputEditText tv_view_notes = view_timeLine.findViewById(R.id.tv_view_notes);
-                    //  LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
+                    LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
                     ImageView iv_view_timeLine = view_timeLine.findViewById(R.id.iv_view);
                     TextView normal_notes = view_timeLine.findViewById(R.id.normal_notes);
 
@@ -519,7 +519,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                     } else {
                         normal_notes.setText(historyList.get(i).getNotes());
                     }
-
 
 
                     iv_edit_notes.setTag(i);
@@ -614,7 +613,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 @Override
                 public void onClick(View v) {
                     //  nav_view_matter();
-                    dialog.dismiss();                }
+                    dialog.dismiss();
+                }
             });
 
             dialog.setCancelable(false);
@@ -838,8 +838,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     @Override
     public void Edit_Matter_Info(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("viewMatterModel",  viewMatterModel);
-        Fragment fragment = new matter_edit(viewMatterModel,this);
+        bundle.putParcelable("viewMatterModel", viewMatterModel);
+        Fragment fragment = new matter_edit(viewMatterModel, this);
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -926,7 +926,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         try {
             groupsArrayList.clear();
             Matter_id = viewMatterModel.getId();
-            for (int j = 0;j<Constants.groupsList_Access.size();j++){
+            for (int j = 0; j < Constants.groupsList_Access.size(); j++) {
                 GroupsModel fullGroupList = Constants.groupsList_Access.get(j);
                 ViewGroupModel viewgroypModel = new ViewGroupModel();
                 viewgroypModel.setGroup_id(fullGroupList.getGroup_id());
@@ -935,7 +935,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 viewgroypModel.setChecked(false);
                 for (int i = 0; i < viewMatterModel.getGroups().length(); i++) {
                     JSONObject jsonObject = viewMatterModel.getGroups().getJSONObject(i);
-                    if (jsonObject.getString("id").equalsIgnoreCase(viewgroypModel.getGroup_id())){
+                    if (jsonObject.getString("id").equalsIgnoreCase(viewgroypModel.getGroup_id())) {
                         viewgroypModel.setChecked(true);
                     }
                 }
@@ -1163,7 +1163,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 //.......
             } else {
                 String inputDate = viewMatterModel.getClosedate();
-                String new_start_date= "";
+                String new_start_date = "";
 //                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 //                Date date = inputFormat.parse(inputDate);
 //

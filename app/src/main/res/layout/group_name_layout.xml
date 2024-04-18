@@ -2,10 +2,10 @@
 <com.google.android.material.textfield.TextInputEditText xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tv_group_name"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_marginTop="@dimen/small_size"
     android:background="@drawable/rectangle_light_grey_bg"
     android:gravity="start"
-    android:padding="15dp"
-    android:textAlignment="viewStart"></com.google.android.material.textfield.TextInputEditText>
+    android:padding="@dimen/Fifteen_dp"
+    android:textAlignment="viewStart"/>

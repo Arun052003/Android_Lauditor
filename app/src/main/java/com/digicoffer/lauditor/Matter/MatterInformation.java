@@ -84,22 +84,17 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_matter_title.setHint(R.string.case_title);
         tv_matter_title.setTextSize(15);
         cv_add_opponent_advocate = view.findViewById(R.id.cv_add_opponent_advocate);
-
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
         tv_matter_num.setHint(R.string.case_number);
         tv_matter_num.setTextSize(15);
         btn_cancel_edit = view.findViewById(R.id.btn_cancel_edit);
-
-
         tv_case_type = view.findViewById(R.id.tv_case_type);
         tv_case_type.setHint(R.string.case_type);
         tv_case_type.setTextSize(15);
         description_name = view.findViewById(R.id.description_name);
         description_name.setText(R.string.description);
-
         Title = view.findViewById(R.id.Title_name);
         Title.setText(R.string.case_title);
-
         datefill = view.findViewById(R.id.datefill);
         datefill.setText(R.string.date_of_filing);
         start_date = view.findViewById(R.id.start_date);
@@ -132,7 +127,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_end_date.setHint("Close Data");
         tv_end_date.setTextSize(15);
         cv_client_details = view.findViewById(R.id.cv_client_details);
-
         tv_matter_description = view.findViewById(R.id.tv_matter_description);
         tv_matter_description.setHint(R.string.description);
         tv_matter_description.setTextSize(15);
@@ -228,7 +222,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 } else {
                     datePickerEndDate();
                 }
-
                 if (matterModel.getCourt() != null) {
                     tv_court.setText(matterModel.getCourt());
                 } else {
@@ -258,40 +251,31 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                                 advocateModel.setEmail(jsonObject.getString("email"));
                                 advocates_list.add(advocateModel);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                             }
 
                         }
                         loadOpponentsList();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
-
-
-//            for (int j=0;)
             }
-            if (CASE_PRIORITY == "High") {
+            if (Objects.equals(CASE_PRIORITY, "High")) {
                 loadHighPriorityUI();
-            } else if (CASE_PRIORITY == "Medium") {
+            } else if (Objects.equals(CASE_PRIORITY, "Medium")) {
                 loadMediumPriorityUI();
             } else {
                 loadLowPriorityUI();
             }
-
-            if (STATUS == "Active") {
+            if (Objects.equals(STATUS, "Active")) {
                 loadActiveUI();
             } else {
                 loadPendingUI();
             }
-
-
         }
-
-
         return view;
-
     }
 
 
@@ -319,14 +303,12 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 int selectedYear = myCalendar.get(Calendar.YEAR);
                 int selectedMonth = myCalendar.get(Calendar.MONTH);
                 int selectedDay = myCalendar.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         v.getContext(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         date,
                         selectedYear, selectedMonth, selectedDay);
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
@@ -349,7 +331,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 String myFormat = "dd-MM-yyyy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 tv_dof.setText(sdf.format(finalMyCalendar.getTime()));
-
             }
         };
         // Declare a global variable to store the selected date
@@ -363,15 +344,13 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 selectedYear[0] = myCalendar[0].get(Calendar.YEAR);
                 selectedMonth[0] = myCalendar[0].get(Calendar.MONTH);
                 selectedDay[0] = myCalendar[0].get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog;
                 dialog = new DatePickerDialog(
                         v.getContext(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         selectedYear[0], selectedMonth[0], selectedDay[0]);
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
@@ -407,8 +386,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                     finalMyCalendar.get(Calendar.YEAR),
                     finalMyCalendar.get(Calendar.MONTH),
                     finalMyCalendar.get(Calendar.DAY_OF_MONTH));
-
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         });
     }
@@ -456,18 +434,11 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         if ((Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_matter_num.getText()).toString().isEmpty())) {
             AndroidUtils.showAlert(msg + " , Case Number", getContext());
         } else if (Objects.requireNonNull(tv_matter_title.getText()).toString().trim().isEmpty()) {
-            AndroidUtils.showAlert(msg,getContext());
+            AndroidUtils.showAlert(msg, getContext());
             tv_matter_title.requestFocus();
         } else if (Objects.requireNonNull(tv_matter_num.getText()).toString().trim().isEmpty()) {
             AndroidUtils.showAlert(msg.replace("Title", "Case Number"), getContext());
             tv_matter_num.requestFocus();
-//            String matternum = tv_matter_num.getText().toString();
-//            if (!matternum.matches("[0-9]+")) {
-//                tv_matter_num.setError("Numeric number is Required");
-//                tv_matter_num.requestFocus();
-//            } else {
-//                submitMatter();
-//            }
         } else {
             submitMatter();
         }
@@ -478,17 +449,17 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 //            JSONArray client = new JSONArray();
 //            JSONArray members = new JSONArray();
         MatterModel matterModel = new MatterModel();
-        matterModel.setMatter_title(tv_matter_title.getText().toString());
+        matterModel.setMatter_title(Objects.requireNonNull(tv_matter_title.getText()).toString());
         tv_matter_title.clearFocus();
-        matterModel.setCase_number(tv_matter_num.getText().toString());
+        matterModel.setCase_number(Objects.requireNonNull(tv_matter_num.getText()).toString());
         tv_matter_num.clearFocus();
-        matterModel.setCase_type(tv_case_type.getText().toString());
-        matterModel.setDescription(tv_matter_description.getText().toString());
+        matterModel.setCase_type(Objects.requireNonNull(tv_case_type.getText()).toString());
+        matterModel.setDescription(Objects.requireNonNull(tv_matter_description.getText()).toString());
         matterModel.setDate_of_filing(tv_dof.getText().toString());
         matterModel.setStart_date(tv_start_date.getText().toString());
         matterModel.setEnd_date(tv_end_date.getText().toString());
-        matterModel.setCourt(tv_court.getText().toString());
-        matterModel.setJudge(tv_judge.getText().toString());
+        matterModel.setCourt(Objects.requireNonNull(tv_court.getText()).toString());
+        matterModel.setJudge(Objects.requireNonNull(tv_judge.getText()).toString());
         matterModel.setCase_priority(CASE_PRIORITY);
         matterModel.setStatus(STATUS);
         JSONArray jsonArray = new JSONArray();
@@ -500,7 +471,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 jsonObject.put("email", advocateModel.getEmail());
                 jsonObject.put("phone", advocateModel.getNumber());
                 jsonArray.put(jsonObject);
-
             }
 
         } catch (JSONException e) {
@@ -514,25 +484,23 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         }
         // matterModel_info = matterModel;
         cv_client_details.setVisibility(View.GONE);
-
         matter.loadGCT();
-
     }
-
 
     private void loadAdvocateUI() {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
-            tv_advocate_name.setHint("Name");
+            tv_advocate_name.setHint(R.string.name);
             tv_advocate_name.setTextSize(15);
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
-            tv_advocate_email.setHint("Email");
+            tv_advocate_email.setHint(R.string.email);
             tv_advocate_email.setTextSize(15);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
-            tv_advocate_phone.setHint("Phone Number");
+            tv_advocate_phone.setInputType(InputType.TYPE_CLASS_PHONE);
+            tv_advocate_phone.setHint(R.string.phone_number);
             tv_advocate_phone.setTextSize(15);
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
@@ -596,9 +564,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                     }
                 }
             });
-
-
-//            (s.toString().isEmpty()&&(s.length()>10))
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -711,11 +676,12 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     private void EditAdvocateUI(String advocate_name, String email, String number, int position, TextView tv_opponent_name, View view_advocate) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+            tv_advocate_phone.setInputType(InputType.TYPE_CLASS_PHONE);
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
@@ -825,7 +791,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_status_active.setTextColor(Color.WHITE);
         tv_status_pending.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
         tv_status_pending.setTextColor(Color.BLACK);
-
     }
 
     private void loadPendingUI() {
@@ -834,7 +799,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_status_active.setTextColor(Color.BLACK);
         tv_status_pending.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_round_background));
         tv_status_pending.setTextColor(Color.WHITE);
-
     }
 
     private void loadLowPriorityUI() {
@@ -845,7 +809,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_medium_priority.setTextColor(Color.BLACK);
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_round_background));
         tv_low_priority.setTextColor(Color.WHITE);
-
     }
 
     private void loadMediumPriorityUI() {
@@ -867,6 +830,4 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_low_priority.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_round_background));
         tv_low_priority.setTextColor(Color.BLACK);
     }
-
-
 }

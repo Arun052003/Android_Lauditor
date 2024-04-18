@@ -128,10 +128,10 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             bt_KPI = v.findViewById(R.id.bt_kpi);
             bt_MyDay = v.findViewById(R.id.bt_Myday);
             bt_MyDay.setBackgroundColor(getContext().getResources().getColor(R.color.grey_color_dark));
-            Date date_new = AndroidUtils.stringToDateTimeDefault(date, "MMM dd YYYY HH:mm:ss aa");
-            String time = AndroidUtils.getDateToString(date_new, "HH:mm");
-            String date = AndroidUtils.getDateToString(date_new, "MMM dd YYYY");
-            String am_pm = AndroidUtils.getDateToString(date_new, "aa");
+//            Date date_new = AndroidUtils.stringToDateTimeDefault(date, "MMM dd YYYY HH:mm:ss aa");
+//            String time = AndroidUtils.getDateToString(date_new, "HH:mm");
+//            String date = AndroidUtils.getDateToString(date_new, "MMM dd YYYY");
+//            String am_pm = AndroidUtils.getDateToString(date_new, "aa");
             tv_am_pm = v.findViewById(R.id.am_pm);
             tv_time = v.findViewById(R.id.time);
             tv_date_time = v.findViewById(R.id.tv_date);

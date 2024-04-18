@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
@@ -461,6 +462,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+            tv_advocate_phone.setInputType(InputType.TYPE_CLASS_PHONE);
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
             AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
             final AlertDialog dialog = builder.create();
@@ -568,7 +570,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private void loadAdvocateUI() {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
             tv_advocate_name.setHint(R.string.name);
@@ -577,6 +579,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             tv_advocate_email.setHint(R.string.email);
             tv_advocate_email.setTextSize(15);
             TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+            tv_advocate_phone.setInputType(InputType.TYPE_CLASS_PHONE);
             tv_advocate_phone.setHint(R.string.phone_number);
             tv_advocate_phone.setTextSize(15);
             AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
@@ -676,7 +679,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     }
                 }
             });
-
             dialog.setCancelable(false);
             dialog.setView(view);
             dialog.show();
