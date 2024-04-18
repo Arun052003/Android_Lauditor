@@ -44,8 +44,8 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         layoutParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
         holder.itemView.setLayoutParams(layoutParams);
-                ViewGroupModel groupModel = groupsList.get(position);
-                groupsList = list_item;
+        ViewGroupModel groupModel = groupsList.get(position);
+        groupsList = list_item;
         holder.cb_team_members.setChecked(groupsList.get(position).isChecked());
         holder.cb_team_members.setTag(position);
 

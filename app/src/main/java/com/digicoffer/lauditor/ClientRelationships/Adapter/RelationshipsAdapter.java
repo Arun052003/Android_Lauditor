@@ -1,5 +1,7 @@
 package com.digicoffer.lauditor.ClientRelationships.Adapter;
 
+import static java.security.AccessController.getContext;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -262,6 +265,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
         });
 //        holder.iv_groups_relationships.setOnClickListener((View.OnClickListener) this);
         String text = "More Details";
+
         SpannableString ss = new SpannableString(text);
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
@@ -271,6 +275,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
         };
         ss.setSpan(clickableSpan, 0, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.tv_more_details.setText(ss);
+        holder.tv_more_details.setTextColor(Color.BLUE);
         holder.tv_more_details.setMovementMethod(LinkMovementMethod.getInstance());
         FLAG = "first_click";
 
@@ -1024,13 +1029,17 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
         et_search_relationships.setHint("Search Groups");
         btn_send_request = view.findViewById(R.id.btn_send_request);
-        btn_send_request.setText("Send Request");
+        btn_send_request.setText("Update");
 
         btn_relationships_cancel = view.findViewById(R.id.btn_relationships_cancel);
         btn_relationships_cancel.setText("Cancel");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mcontext, LinearLayoutManager.VERTICAL, false);
         rv_relationship_groups.setLayoutManager(layoutManager);
         rv_relationship_groups.setHasFixedSize(true);
+
+        // Assuming chk_select_all is the CheckBox you want to pass to GroupsAdapter
+        CheckBox chk_select_all = view.findViewById(R.id.chk_select_all);
+
         GroupsAdapter groupsAdapter = new GroupsAdapter(groupsList);
         rv_relationship_groups.setAdapter(groupsAdapter);
         et_search_relationships.addTextChangedListener(new TextWatcher() {
@@ -1040,15 +1049,14 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 groupsAdapter.getFilter().filter(et_search_relationships.getText().toString());
             }
-
         });
+
         final AlertDialog dialog = dialogBuilder.create();
         ad_dialog = dialog;
         btn_relationships_cancel.setOnClickListener(new View.OnClickListener() {
@@ -1085,6 +1093,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
         dialog.show();
     }
 
+
     private void callUpdateGroupAcess(String id, ArrayList<ViewGroupModel> list_item) throws JSONException {
         JSONObject postData = new JSONObject();
         JSONArray acls = new JSONArray();
@@ -1120,6 +1129,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             tv_consumer = itemView.findViewById(R.id.tv_consumer);
 //            cv_documents = itemView.findViewById(R.id.cv_documents);
             tv_more_details = itemView.findViewById(R.id.tv_more_details);
+            tv_more_details.setTextColor(Color.BLUE);
 
             email = itemView.findViewById(R.id.email);
             email.setText("Email:");

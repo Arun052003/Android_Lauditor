@@ -68,6 +68,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     ArrayList<RelationshipsModel> relationshipsList = new ArrayList<>();
     String TAG = "";
     private NewModel mViewModel;
+
+    public static String FLAG = "";
     LinearLayout ll_email, ll_confirm_email;
 
     private ListView countryListView;
@@ -88,7 +90,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
     String entity_id = "";
     Spinner sp_country;
-    GroupsAdapter groupsAdapter;
+    Groupsadapter_relationship groupsAdapter;
     RecyclerView rv_relationship_groups,rv_relationships;
     SearchModel searchModel;
     private CheckBox chk_select_all;
@@ -121,7 +123,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         tv_individual_email.setText(email);
                         tv_individual_confirm_email.setText(email);
                         ll_groups.setVisibility(View.VISIBLE);
-                        ll_select_all.setVisibility(View.VISIBLE);
+                        ll_select_all.setVisibility(View.GONE);
                     } else {
                         tv_individual_email.setText("");
                         tv_individual_confirm_email.setText("");
@@ -165,8 +167,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
 
                     tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-                    ll_groups.setVisibility(View.VISIBLE);
-                    ll_select_all.setVisibility(View.VISIBLE);
+                    ll_groups.setVisibility(View.GONE);
+                    ll_select_all.setVisibility(View.GONE);
                     // clearIndividualData();
                     callSearchEntityWebservice(id);
                 } catch (JSONException e) {
@@ -401,7 +403,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         tv_entity_phone_number.setFocusable(false);
         ll_relationships = view.findViewById(R.id.ll_relationships);
         et_search_view_relationships = view.findViewById(R.id.et_search_view_relationships);
-        et_search_view_relationships.setHint("Search Relationships");
+        et_search_view_relationships.setHint("Search Relationship");
         tv_individual_confirm_email = view.findViewById(R.id.tv_individual_confirm_email);
         tv_individual_confirm_email.setHint("Confirm Email");
         tv_individual_confirm_email.setEnabled(false);
@@ -967,13 +969,15 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     }
 
     private void loadGroupsRecylerview() {
-
-//        if (groupsList.size() != 0) {
-
+        FLAG = "second_click";
         rv_relationship_groups.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        groupsAdapter = new GroupsAdapter(groupsList);
+
+        // Assuming chk_select_all is the CheckBox you want to pass to GroupsAdapter
+        groupsAdapter = new Groupsadapter_relationship(groupsList);
+
         rv_relationship_groups.setAdapter(groupsAdapter);
         rv_relationship_groups.setHasFixedSize(true);
+
         et_search_relationships.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -981,15 +985,14 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                groupsAdapter.getFilter().filter(s);
+                groupsAdapter.getFilter().filter(et_search_relationships.getText().toString());
             }
-
         });
+
         btn_relationships_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -999,6 +1002,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 callGroupsWebservice();
             }
         });
+
         btn_send_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1010,17 +1014,9 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     entityValidationClick();
                     viewRelationshipsData();
                     clearIndividualData();
-
-
-
-
-
                 }
             }
         });
-
-
-
 
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -1028,12 +1024,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 groupsAdapter.selectOrDeselectAll(isChecked);
             }
         });
-
-//        }
-//        else {
-////            cv_members_details.setVisibility(View.GONE);
-//        }
     }
+
 
     private void callEntityRequestWebservice() throws JSONException{
         Log.i("Tag","Country_Name:"+country_name);

@@ -34,11 +34,11 @@
                 android:layout_marginRight="1dp"
                 android:background="@drawable/button_left_green_background"
                 android:button="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/font"
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="@string/add_relationships"
+                android:text="Add Relationship"
                 android:textSize="@dimen/Fifteen_dp" />
 
 
@@ -51,7 +51,7 @@
                 android:textColor="@color/black"
                 android:background="@drawable/button_right_background"
                 android:button="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/font"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:padding="15dp"
@@ -135,7 +135,7 @@
                 android:textStyle="bold"
                 android:background="@drawable/button_left_green_background"
                 android:button="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/font"
                 android:gravity="center"
                 android:layout_marginRight="1dp"
 
@@ -154,7 +154,7 @@
                 android:textStyle="bold"
                 android:background="@drawable/button_right_background"
                 android:button="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/font"
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
@@ -213,6 +213,7 @@
                         android:layout_margin="5dp"
                         android:layout_gravity="bottom"
                         android:textAllCaps="false"
+                        android:fontFamily="@font/font"
                         android:backgroundTint="@color/Blue_text_color"
                         android:text="@string/search">
 
@@ -354,6 +355,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:layout_marginBottom="10dp"
 
 
                         >
@@ -515,7 +517,7 @@
                                 android:id="@+id/country"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
+
                                 android:text="@string/country"
                                 android:textColor="@color/Blue_text_color"
                                 android:textSize="@dimen/Fifteen_dp">
@@ -602,7 +604,7 @@
             android:layout_marginTop="21dp"
             android:background="@drawable/checkbox_background"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.914"

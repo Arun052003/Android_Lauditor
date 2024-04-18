@@ -42,8 +42,8 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@color/white"
-            android:buttonTint="@color/grey_color_dark"
+            android:background="@drawable/check_box"
+            android:button="@drawable/checkbox_tick"
             android:paddingEnd="20dp"
 
             />

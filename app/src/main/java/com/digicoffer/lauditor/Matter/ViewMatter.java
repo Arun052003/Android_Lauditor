@@ -229,6 +229,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         btn_create.setText("Update");
         ImageView close_details = view.findViewById(R.id.close_details);
         et_search_members = view.findViewById(R.id.et_search_members);
+        CheckBox chk_select_all = view.findViewById(R.id.chk_select_all);
 
 //        rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rv_group_update.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -378,6 +379,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 //        if (groupsList.size() != 0) {
         FLAG = "second_click";
         rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
+    
         groupsAdapter = new GroupsAdapter(groupsList);
         rv_group_update.setAdapter(groupsAdapter);
         rv_group_update.setHasFixedSize(true);

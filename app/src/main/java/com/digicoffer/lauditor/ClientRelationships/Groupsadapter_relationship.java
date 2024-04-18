@@ -1,0 +1,152 @@
+package com.digicoffer.lauditor.ClientRelationships;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.digicoffer.lauditor.Groups.Adapters.ViewGroupsAdpater;
+import com.digicoffer.lauditor.Groups.GroupModels.GroupModel;
+import com.digicoffer.lauditor.Groups.GroupModels.ViewGroupModel;
+import com.digicoffer.lauditor.Groups.Groups;
+import com.digicoffer.lauditor.Members.GroupsAdapter;
+import com.digicoffer.lauditor.R;
+import com.digicoffer.lauditor.common.AndroidUtils;
+
+import org.minidns.record.A;
+
+import java.util.ArrayList;
+
+public class Groupsadapter_relationship extends RecyclerView.Adapter<Groupsadapter_relationship.ViewHolder> implements Filterable {
+
+
+        ArrayList<ViewGroupModel> groupsList = new ArrayList<>();
+        ArrayList<ViewGroupModel> list_item = new ArrayList<>();
+
+        public Groupsadapter_relationship(ArrayList<ViewGroupModel> groupsList) {
+            this.groupsList = groupsList;
+            this.list_item = groupsList;
+        }
+
+        @NonNull
+        @Override
+        public Groupsadapter_relationship.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
+            return new Groupsadapter_relationship.ViewHolder(itemView);
+        }
+
+
+
+
+        public void onBindViewHolder(@NonNull Groupsadapter_relationship.ViewHolder holder, int position) {
+            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+            layoutParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
+            holder.itemView.setLayoutParams(layoutParams);
+            ViewGroupModel groupModel = groupsList.get(position);
+            groupsList = list_item;
+            holder.cb_team_members.setChecked(groupsList.get(position).isChecked());
+            holder.cb_team_members.setTag(position);
+
+//            holder.cb_team_members.isChecked() = itemsArrayList.get(position).isChecked();
+            holder.cb_team_members.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer pos = (Integer) holder.cb_team_members.getTag();
+                    if (groupsList.get(pos).isChecked()) {
+                        groupsList.get(pos).setChecked(false);
+//                        itemsArrayList.add(itemsArrayList.get(pos));
+                    } else {
+                        groupsList.get(pos).setChecked(true);
+//                        itemsArrayList.remove(itemsArrayList.get(pos));
+                    }
+
+                }
+            });
+//            holder.cb_team_members.setChecked(true);
+            if (groupModel.getName() != null) {
+                holder.tv_tm_name.setText(groupModel.getName());
+            }else{
+                holder.tv_tm_name.setText(groupModel.getGroup_name());
+            }
+            holder.select_tm_layout.setLayoutParams(layoutParams);
+        }
+        public void selectOrDeselectAll(boolean isChecked)
+        {
+            for(int i = 0; i<list_item.size(); i++)
+            {
+//            if (list_item.get(i).isIsenabled())
+//            if (list_item.get(i).isIsenabled()) {
+                list_item.get(i).setChecked(isChecked);
+//            }else {
+//                list_item.get(i).setChecked(false);
+//            }
+            }
+            notifyDataSetChanged();
+        }
+        public ArrayList<ViewGroupModel> getList_item() {
+            return groupsList;
+        }
+        @Override
+        public int getItemCount() {
+            return groupsList.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence charSequence) {
+                    String charString = charSequence.toString();
+                    if (charString.isEmpty()) {
+                        groupsList = list_item;
+                    } else {
+                        ArrayList<ViewGroupModel> filteredList = new ArrayList<>();
+                        for (ViewGroupModel row : list_item) {
+//                            if (row.isChecked()){
+//                                row.setChecked(false);
+//                            }else
+//                            {
+//                                row.setChecked(true  );
+//                            }
+                            // name match condition. this might differ depending on your requirement
+                            // here we are looking for name or phone number match
+                            if (AndroidUtils.isNull(row.getName()).toLowerCase().contains(charString.toLowerCase()) ) {
+                                filteredList.add(row);
+                            }
+                        }
+                        groupsList = filteredList;
+                    }
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.count = groupsList.size();
+                    filterResults.values = groupsList;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                    groupsList = (ArrayList<ViewGroupModel>) filterResults.values;
+                    notifyDataSetChanged();
+                }
+            };
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            CheckBox cb_team_members;
+            TextView tv_tm_name;
+
+            LinearLayout select_tm_layout;
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+                cb_team_members = itemView.findViewById(R.id.chk_selected);
+                tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
+                select_tm_layout = itemView.findViewById(R.id.select_tm_layout);
+            }
+        }
+    }
