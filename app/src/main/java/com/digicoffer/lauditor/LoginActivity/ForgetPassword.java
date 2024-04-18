@@ -49,6 +49,7 @@ public class ForgetPassword extends AppCompatActivity implements AsyncTaskComple
         // Initialize the submit button
         submitButton = findViewById(R.id.Submit);
         cancel = findViewById(R.id.Cancel);
+        cancel.setText("Back");
         submitButton.setEnabled(false); // Disable the button initially
 
         // Add a TextWatcher to the email TextInputEditText

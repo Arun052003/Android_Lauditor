@@ -8,12 +8,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -174,6 +176,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         ScrollView list_scroll_client;
         LinearLayout ll_select_groups, ll_select_grp;
         Button btn_group_cancel;
+        CheckBox   cb_documents;
         LinearLayout ll_client_name, upload_group_layout;
         boolean ischecked = true;
         private TextView custom_client;
@@ -247,8 +250,11 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             rv_display_upload_groups_docs = popupView.findViewById(R.id.rv_display_upload_groups_docs);
 
             btn_group_cancel = popupView.findViewById(R.id.btn_group_cancel);
+         btn_group_cancel.setVisibility(View.GONE);
             btn_cancel_save = popupView.findViewById(R.id.btn_cancel_save);
             btn_group_submit = popupView.findViewById(R.id.btn_group_submit);
+            btn_group_submit.setVisibility(View.GONE);
+            cb_documents =  popupView.findViewById(R.id.chk_selected);
             ll_select_groups = popupView.findViewById(R.id.ll_select_groups);
             ll_client_name = popupView.findViewById(R.id.ll_client_name);
             linearLayout2 = popupView.findViewById(R.id.linearLayout2);
@@ -463,66 +469,41 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         @SuppressLint("MissingInflatedId")
         private void GroupsPopup() {
             try {
-                for (int i = 0; i < groupsList.size(); i++) {
-                    for (int j = 0; j < selected_groups_list.size(); j++) {
-                        if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
-                            DocumentsModel documentsModel = groupsList.get(i);
-                            documentsModel.setChecked(true);
-//                        selected_groups_list.set(j,documentsModel);
-
-                        }
-                    }
-                }
                 selected_groups_list.clear();
 
-                //Upload Documents Group Selection
+                // Upload Documents Group Selection
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context_type, LinearLayoutManager.VERTICAL, false);
                 rv_display_upload_groups_docs.setLayoutManager(layoutManager);
                 rv_display_upload_groups_docs.setHasFixedSize(true);
 
-                GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance());
-                rv_display_upload_groups_docs.setAdapter(documentsAdapter);
-
-                btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+                GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance(), new GroupsListAdapter.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View view) {
-                        rv_display_upload_groups_docs.setVisibility(View.GONE);
-                        linearLayout2.setVisibility(View.GONE);
-                        ischecked_group = true;
-                    }
-                });
-
-                btn_group_submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-                            DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
-                            if (documentsModel.isGroupChecked()) {
-                                selected_groups_list.add(documentsModel);
-                            }
+                    public void onCheckedChanged(DocumentsModel documentsModel) {
+                        // Update selected groups list
+                        if (documentsModel.isGroupChecked()) {
+                            selected_groups_list.add(documentsModel);
+                        } else {
+                            selected_groups_list.remove(documentsModel);
                         }
+
+                        // Update TextView with selected groups
                         String[] value = new String[selected_groups_list.size()];
                         for (int i = 0; i < selected_groups_list.size(); i++) {
                             value[i] = selected_groups_list.get(i).getGroup_name();
-
                         }
-                        String str = String.join(",", value);
+                        String str = TextUtils.join(",", value);
                         tv_select_groups.setText(str);
-//                    dialog.dismiss();
-                        rv_display_upload_groups_docs.setVisibility(View.GONE);
-                        linearLayout2.setVisibility(View.GONE);
-                        ischecked_group = true;
                     }
                 });
 
-                //...View Documents Group Selection
-
+                rv_display_upload_groups_docs.setAdapter(documentsAdapter);
 
             } catch (Exception e) {
                 e.printStackTrace();
                 AndroidUtils.showAlert(e.getMessage(), context_type);
             }
         }
+
 
         private void initUI(ArrayList<ClientsModel> clientsList) {
             CommonSpinnerAdapter adapter = new CommonSpinnerAdapter((Activity) context_type, clientsList);

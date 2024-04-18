@@ -17,29 +17,31 @@ import com.digicoffer.lauditor.R;
 import java.util.ArrayList;
 
 public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Viewholder> {
-    ArrayList<DocumentsModel> sharedList = new ArrayList<>();
-    ArrayList<DocumentsModel> list_item = new ArrayList<>();
-    Documents documents1;
+    private ArrayList<DocumentsModel> sharedList = new ArrayList<>();
+    private ArrayList<DocumentsModel> list_item = new ArrayList<>();
+    private OnCheckedChangeListener listener;
 
-    public GroupsListAdapter(ArrayList<DocumentsModel> sharedList, Documents documents) {
-        this.documents1 = documents;
+    public GroupsListAdapter(ArrayList<DocumentsModel> sharedList, Documents documents, OnCheckedChangeListener listener) {
         this.sharedList = sharedList;
         this.list_item = sharedList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public GroupsListAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
-        return new GroupsListAdapter.Viewholder(itemView);
+        return new Viewholder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroupsListAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         DocumentsModel groupsModel = sharedList.get(position);
         holder.cb_documents.setChecked(sharedList.get(position).isGroupChecked());
         holder.cb_documents.setTag(position);
         holder.tv_tm_name.setText(groupsModel.getGroup_name());
+
+        // Setting click listener for the checkbox
         holder.cb_documents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +50,11 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
                     sharedList.get(pos).setGroupChecked(false);
                 } else {
                     sharedList.get(pos).setGroupChecked(true);
+                }
+
+                // Notifying the listener about the change
+                if (listener != null) {
+                    listener.onCheckedChanged(sharedList.get(pos));
                 }
             }
         });
@@ -60,16 +67,6 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
     @Override
     public int getItemCount() {
         return sharedList.size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
@@ -90,5 +87,10 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
             select_tm_layout.setLayoutParams(params);
             select_tm_layout.setBackgroundResource(com.applandeo.materialcalendarview.R.drawable.background_transparent);
         }
+    }
+
+    // Interface for checkbox change listener
+    public interface OnCheckedChangeListener {
+        void onCheckedChanged(DocumentsModel documentsModel);
     }
 }

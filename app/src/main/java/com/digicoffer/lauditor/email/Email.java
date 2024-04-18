@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
@@ -38,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Documents.Documents;
 import com.digicoffer.lauditor.Documents.DocumentsListAdpater.GroupsListAdapter;
-import com.digicoffer.lauditor.Documents.DocumentsListAdpater.View_documents_adapter;
 import com.digicoffer.lauditor.Documents.DocumentsListAdpater.view_document_emailadapter;
 import com.digicoffer.lauditor.Documents.models.ClientsModel;
 import com.digicoffer.lauditor.Documents.models.DocumentsModel;
@@ -266,8 +266,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 client_list_view = attachmentView.findViewById(R.id.client_list_view);
                 rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
                 btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
+                btn_group_cancel.setVisibility(View.GONE);
                 upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
                 btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
+                btn_group_submit.setVisibility(View.GONE);
                 tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
                 ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
                 grp_name = attachmentView.findViewById(R.id.grp_name);
@@ -806,80 +808,37 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     private void GroupsPopup() {
         try {
-            for (int i = 0; i < groupsList.size(); i++) {
-                for (int j = 0; j < selected_groups_list.size(); j++) {
-                    if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
-                        DocumentsModel documentsModel = groupsList.get(i);
-                        documentsModel.setChecked(true);
-//                        selected_groups_list.set(j,documentsModel);
-
-                    }
-                }
-            }
             selected_groups_list.clear();
 
-            //Upload Documents Group Selection
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            // Upload Documents Group Selection
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context_type, LinearLayoutManager.VERTICAL, false);
             rv_display_upload_groups_docs.setLayoutManager(layoutManager);
             rv_display_upload_groups_docs.setHasFixedSize(true);
 
-            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance());
-            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
-
-            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance(), new GroupsListAdapter.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    rv_display_upload_groups_docs.setVisibility(View.GONE);
-                    linearLayout2.setVisibility(View.GONE);
-                    ischecked_group = true;
-                }
-            });
-
-            btn_group_submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    ArrayList<String>
-                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
-                        if (documentsModel.isGroupChecked()) {
-                            selected_groups_list.add(documentsModel);
-                            linearLayout2.setVisibility(View.VISIBLE);
-                            rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
-//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                        }
+                public void onCheckedChanged(DocumentsModel documentsModel) {
+                    // Update selected groups list
+                    if (documentsModel.isGroupChecked()) {
+                        selected_groups_list.add(documentsModel);
+                        callfilter_client_webservices();
                     }
+
+                    // Update TextView with selected groups
                     String[] value = new String[selected_groups_list.size()];
                     for (int i = 0; i < selected_groups_list.size(); i++) {
-//                                value += "," + family_members.get(i);
-//                               value.add(family_members.get(i));
                         value[i] = selected_groups_list.get(i).getGroup_name();
-
                     }
-
-                    String[] value_id = new String[selected_groups_list.size()];
-                    for (int i = 0; i < selected_groups_list.size(); i++) {
-//                                value += "," + family_members.get(i);
-//                               value.add(family_members.get(i));
-                        value_id[i] = selected_groups_list.get(i).getGroup_id();
-                    }
-                    try {
-                        array_group = new JSONArray(value_id);
-                        callfilter_client_webservices();
-                        CATEGORY_TAG = "firm";
-                        btn_create.setAlpha(1.0f);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                    String str = String.join(",", value);
+                    String str = TextUtils.join(",", value);
                     tv_select_groups.setText(str);
-//                    dialog.dismiss();
-                    linearLayout2.setVisibility(View.GONE);
-                    rv_display_upload_groups_docs.setVisibility(View.GONE);
-                    ischecked_group = true;
                 }
             });
+
+            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            AndroidUtils.showAlert(e.getMessage(), context_type);
         }
     }
 

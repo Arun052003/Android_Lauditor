@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
         tv_sign_in = findViewById(R.id.tv_sign_in);
-        tv_sign_in.setText("Sign In");
+        tv_sign_in.setText("Sign-In");
         tv_sign_in.setTextSize(20);
         tv_sign_in.setTextColor(getColor(R.color.black));
 
