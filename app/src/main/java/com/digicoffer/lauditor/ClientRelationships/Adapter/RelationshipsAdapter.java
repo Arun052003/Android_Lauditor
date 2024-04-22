@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -232,7 +233,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.green_circular));
 //                notifyDataSetChanged();
             } else {
-                holder.tv_initiated.setText("Pending");
+                holder.tv_initiated.setText("Initiated");
                 holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.circular));
               holder.  tv_more_details.setVisibility(View.GONE);
 //                notifyDataSetChanged();
@@ -1129,7 +1130,8 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             tv_consumer = itemView.findViewById(R.id.tv_consumer);
 //            cv_documents = itemView.findViewById(R.id.cv_documents);
             tv_more_details = itemView.findViewById(R.id.tv_more_details);
-            tv_more_details.setTextColor(Color.BLUE);
+         tv_more_details.setTextColor(Color.BLUE);
+
 
             email = itemView.findViewById(R.id.email);
             email.setText("Email:");

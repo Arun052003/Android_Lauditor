@@ -152,7 +152,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                    AndroidUtils.showToast(e.getMessage(), getContext());
+                    AndroidUtils.showAlert(e.getMessage(), getContext());
                 }
                 break;
             case R.id.btn_search_entity:
@@ -165,10 +165,10 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     country_name_id.setAlpha(1.0f);
                     ll_contatc_phone.setAlpha(1.0f);
                     tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
-
+                    chk_select_all.setVisibility(View.GONE);
                     tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-                    ll_groups.setVisibility(View.GONE);
-                    ll_select_all.setVisibility(View.GONE);
+                    ll_groups.setVisibility(View.VISIBLE);
+                    ll_select_all.setVisibility(View.VISIBLE);
                     // clearIndividualData();
                     callSearchEntityWebservice(id);
                 } catch (JSONException e) {
@@ -471,6 +471,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         ll_select_all.setVisibility(View.GONE);
                         ll_groups.setVisibility(View.GONE);
                         relationshipsList.clear();
+                        total_card.clearFocus();
                         rv_relationships.removeAllViews();
                         mViewModel.setData("Add Relationship");
                         break;
@@ -711,9 +712,9 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     callGroupsWebservice();
                     if(error){
 
-                        AndroidUtils.showToast(result.getString("msg"),getContext());
+                        AndroidUtils.showAlert(result.getString("msg"),getContext());
                     }else {
-                        AndroidUtils.showToast(result.getString("msg"), getContext());
+                        AndroidUtils.showAlert(result.getString("msg"), getContext());
                         et_search_individual.setText("");
 
                         enableAlpha();
@@ -727,10 +728,10 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     boolean error = result.getBoolean("error");
                     callGroupsWebservice();
                     if (error){
-                        AndroidUtils.showToast(result.getString("msg"),getContext());
+                        AndroidUtils.showAlert(result.getString("msg"),getContext());
                     }
                     else{
-                        AndroidUtils.showToast(result.getString("msg"),getContext());
+                        AndroidUtils.showAlert(result.getString("msg"),getContext());
                         at_search_entity.setText("");
                         entity_id = "";
                         value = "";
@@ -1039,7 +1040,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 }
             }
             if (groups.length() == 0) {
-                AndroidUtils.showToast("Please select atleast one group", getContext());
+                AndroidUtils.showAlert("Please select atleast one group", getContext());
 
             }else{
 

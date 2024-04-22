@@ -15,7 +15,7 @@
     android:textFontWeight="700"
     android:padding="10dp"
     android:shadowRadius="10"
-    android:text="@string/create_members"
+    android:text="Create Member"
     android:textColor="@color/black"
 
     android:textSize="@dimen/Fifteen_dp"

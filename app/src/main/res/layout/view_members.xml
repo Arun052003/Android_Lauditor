@@ -57,7 +57,11 @@
 
                     <include
                         android:id="@+id/tv_litigation"
-                        layout="@layout/teammember" />
+                        layout="@layout/teammember"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        />
 
 
                     <Space
@@ -84,7 +88,8 @@
                         layout="@layout/teammember"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="9dp" />
+                        android:layout_marginBottom="9dp"
+                        android:textStyle ="bold"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -134,10 +139,13 @@
         android:layout_height="@dimen/action_list_height_tm"
         android:layout_below="@+id/action_cv"
         android:layout_alignParentEnd="true"
-        android:background="@color/design_default_color_on_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_cv" />
+    android:layout_alignParentRight="true"
+    android:background="@color/design_default_color_on_primary"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+        android:gravity = "right"
+    app:layout_constraintTop_toBottomOf="@+id/action_cv" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
