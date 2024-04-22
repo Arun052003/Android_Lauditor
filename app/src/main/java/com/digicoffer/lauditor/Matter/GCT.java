@@ -3,6 +3,7 @@ package com.digicoffer.lauditor.Matter;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -422,10 +423,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         e.fillInStackTrace();
                     }
                 }
-
+                Log.d("tm_list..", String.valueOf(selected_groups_list.size() + " ...C." + selected_clients_list.size()) + " ..g." + selected_tm_list.size());
                 if (matterModel.getMatter_title() != null) {
                     matter_title = (String) matterModel.getMatter_title();
-
                 }
                 if (matterModel.getCase_number() != null) {
                     case_number = matterModel.getCase_number();
@@ -469,10 +469,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
                     if (!selected_tm_list.isEmpty()) {
 //                    callTMWebservice();
-
                         loadSelectedTM();
                     }
-
                 } catch (Exception e) {
                     e.fillInStackTrace();
                 }
@@ -506,10 +504,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         if (selected_groups_list.isEmpty()) {
             AndroidUtils.showToast("Please select atealst one group", getContext());
         } else if (selected_clients_list.isEmpty()) {
-
             AndroidUtils.showAlert("Please check  the add client", getContext());
-
-
         } else {
             try {
                 JSONArray clients = new JSONArray();
@@ -530,7 +525,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         jsonObject.put("name", groupsModel.getGroup_name());
                         jsonObject.put("isChecked", groupsModel.isChecked());
                         group_acls.put(jsonObject);
-
                     } catch (Exception e) {
                         e.fillInStackTrace();
                     }
@@ -542,12 +536,10 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         jsonObject.put("id", groupsModel.getGroup_id());
                         jsonObject.put("name", groupsModel.getGroup_name());
                         new_groups_list.put(jsonObject);
-
                     } catch (JSONException e) {
                         e.fillInStackTrace();
                     }
                 }
-
                 for (int i = 0; i < selected_clients_list.size(); i++) {
                     try {
                         ClientsModel clientsModel = selected_clients_list.get(i);
@@ -559,7 +551,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     } catch (Exception e) {
                         e.fillInStackTrace();
                     }
-
                 }
                 for (int i = 0; i < clientsList.size(); i++) {
                     ClientsModel clientsModel = clientsList.get(i);
@@ -605,7 +596,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         jsonObject.put("phone", advocateModel.getNumber());
                         jsonArray.put(jsonObject);
                     }
-
                 } catch (JSONException e) {
                     e.fillInStackTrace();
                 }
@@ -649,37 +639,31 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 matterModel.setDocuments_list(new_documents_list);
                 matterArraylist.set(0, matterModel);
                 matter.loadDocuments();
-
             } catch (Exception e) {
                 e.fillInStackTrace();
             }
         }
-
     }
 
     private void TeamPopUp() {
         try {
             rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
-
             for (int i = 0; i < tmList.size(); i++) {
                 for (int j = 0; j < selected_tm_list.size(); j++) {
                     if (tmList.get(i).getTm_id().matches(selected_tm_list.get(j).getTm_id())) {
                         TeamModel teamModel = tmList.get(i);
                         teamModel.setChecked(true);
 //                        selected_groups_list.set(j,documentsModel);
-
                     }
                 }
             }
             selected_tm_list.clear();
-
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_tm_docs.setLayoutManager(layoutManager);
             rv_display_upload_tm_docs.setHasFixedSize(true);
             ADAPTER_TAG = "TM";
             GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
             rv_display_upload_tm_docs.setAdapter(documentsAdapter);
-
 
             btn_assigned_team_members.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -689,8 +673,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         TeamModel teamModel = documentsAdapter.getTmList().get(i);
                         if (teamModel.isChecked()) {
                             if (!selected_tm_list.contains(teamModel)) {
-
-
                                 selected_tm_list.add(teamModel);
                                 // ll_assigned_team_members.setVisibility(View.VISIBLE);
                                 //   ll_add_clients.setVisibility(View.VISIBLE);
@@ -707,7 +689,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     ischecked_tm = true;
                 }
             });
-
         } catch (Exception e) {
             e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -734,8 +715,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void callClientsWebservice() {
         try {
-
-
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONArray group_acls = new JSONArray();
             JSONObject postdata = new JSONObject();
@@ -747,12 +726,10 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             postdata.put("group_acls", group_acls);
             postdata.put("attachment_type", "clients");
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Clients", postdata.toString());
-
         } catch (JSONException e) {
             e.fillInStackTrace();
         }
     }
-
 
     @Override
     public void onAsyncTaskComplete(HttpResultDo httpResult) {

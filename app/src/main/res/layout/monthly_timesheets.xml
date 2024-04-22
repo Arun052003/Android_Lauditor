@@ -9,7 +9,7 @@
     android:background="@drawable/wave"
     app:cardCornerRadius="@dimen/left_space">
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -24,10 +24,48 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_size" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/left_space"
+            android:layout_marginTop="@dimen/left_space"
+            android:layout_marginEnd="@dimen/left_space"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/timeheets_month"
+                layout="@layout/group_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="start" />
+
+            <include
+                android:id="@+id/month_billable"
+                layout="@layout/group_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="start" />
+
+            <include
+                android:id="@+id/month_non_billable"
+                layout="@layout/group_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="start" />
+
+
+        </LinearLayout>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="@dimen/left_space"
+            android:layout_marginEnd="@dimen/left_space"
+            android:layout_marginBottom="@dimen/left_space"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -37,10 +75,6 @@
                 android:layout_weight="2"
                 android:gravity="start"
                 android:orientation="vertical">
-
-                <include
-                    android:id="@+id/timeheets_month"
-                    layout="@layout/group_layout" />
 
                 <include
                     android:id="@+id/week1"
@@ -77,10 +111,6 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/month_billable"
-                    layout="@layout/group_layout" />
-
-                <include
                     android:id="@+id/billable1"
                     layout="@layout/group_layout" />
 
@@ -114,10 +144,6 @@
                 android:layout_weight="2"
                 android:gravity="start"
                 android:orientation="vertical">
-
-                <include
-                    android:id="@+id/month_non_billable"
-                    layout="@layout/group_layout" />
 
                 <include
                     android:id="@+id/non_billable1"

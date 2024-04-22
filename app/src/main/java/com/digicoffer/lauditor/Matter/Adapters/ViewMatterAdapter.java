@@ -91,11 +91,13 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 
         try {
             JSONObject owner = viewMatterModel.getOwner();
-            String owner_name = owner.getString("name");
-            String owner_id = owner.getString("id");
+            if (!(viewMatterModel.getOwner().length() == 0)) {
+                String owner_name = owner.getString("name");
+                String owner_id = owner.getString("id");
+                holder.tv_owner_name.setText(owner_name);
+            } else holder.tv_owner_name.setText(" ");
             holder.tv_matter_title.setText(viewMatterModel.getTitle());
             holder.tv_case_number.setText(viewMatterModel.getCaseNumber());
-            holder.tv_owner_name.setText(owner_name);
 
             //Displaying the name of the client from the Clients array in ViewMatter Model....
             JSONArray client = viewMatterModel.getClients();
@@ -130,7 +132,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.circular));
             } else {
                 holder.tv_initiated.setText("Pending");
-                holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.red_circular));
+                holder.iv_initiated.setImageDrawable(context.getResources().getDrawable(R.drawable.circular));
 //               adapter.remove("");
             }
 
