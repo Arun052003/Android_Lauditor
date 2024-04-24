@@ -199,7 +199,7 @@ class EmailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             senderName = itemView.findViewById(R.id.sender_name);
             subject = itemView.findViewById(R.id.subject);
             gridView = itemView.findViewById(R.id.gridView);
-
+Constants.ISPRODUCTION = true;
 
             gridView.setNumColumns(2);
         }
