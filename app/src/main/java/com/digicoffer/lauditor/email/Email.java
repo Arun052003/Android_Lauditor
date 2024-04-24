@@ -68,6 +68,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private String URL = "";
 
     boolean ISCHECK_EMAIL = false;
+    int doc_count=0;
     boolean ischecked_group = true;
     boolean[] selectedLanguage;
     Button btn_group_cancel, btn_group_submit;
@@ -82,6 +83,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     boolean ischeck_label, ischeck_auth;
     String nextPageToken = "";
     LinearLayout ll_attach_grp;
+
     ArrayList<DocumentsModel> groupsList = new ArrayList<>();
     ImageView arrow_left;
     ImageView clear_search;
@@ -120,9 +122,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_layout, container, false);
-
-        //Only the base url is changed to production for email only.
-        Constants.ISPRODUCTION = true;
         closeDocuments = view.findViewById(R.id.compose);
         closeDocuments.setAlpha(0.3f);
 
@@ -212,17 +211,17 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     }
 
 
-    private void openComposePopup() {
+    private void openComposePopup( ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.compose, null);
-
+        ViewDocumentsModel viewDocumentsModel = new ViewDocumentsModel();
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
         ImageView cross_icon = view.findViewById(R.id.attachment);
         to_input = view.findViewById(R.id.to_input);
         AppCompatButton sends_button = view.findViewById(R.id.sends_button);
 
-//        yourGridView = view.findViewById(R.id. your_gridview_id);
+       yourGridView = view.findViewById(R.id. grid_View);
         builder.setView(view);
         AlertDialog dialog = builder.create();
 
@@ -242,6 +241,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
             }
         });
+        Griddocument adapter = new Griddocument(context_type, Constants.doc_id);
+        yourGridView.setAdapter(adapter);
+        view = inflater.inflate(R.layout.attachment_item, null);
+
 
         attachmentImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,11 +307,16 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 btn_create.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String doc_id = "";
-                        view_document(doc_id);
-
+                        try {
+                            String doc1_id;
+                            doc1_id = Constants.doc_id.getString(0);
+                            view_document(doc1_id);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
+
 
 
                 compose_firm_name.setOnClickListener(new View.OnClickListener() {
@@ -407,10 +415,13 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     public void view_document(String doc_id) {
         try {
+            doc_count++;
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
-            String url = "v3/document/" + doc_id;
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, url, "view_document", jsonObject.toString());
+            //https://api.staging.digicoffer.com/professional/v3/document/64ca0bd9fffd8f083fafaa22/view
+            String baseUrl = "https://api.staging.digicoffer.com/professional/v3/document/";
+            String url = baseUrl  + doc_id+ "/view";
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET,"v3/document/"+doc_id+"/view"  , "view_document", jsonObject.toString());
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
@@ -638,9 +649,24 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         e.printStackTrace();
                     }
                 } else if (httpResult.getRequestType().equals("view_document")) {
-                    String url = result.getString("url");
-                    Log.d("Value_token", url);
-
+                    JSONObject data = result.getJSONObject("data");
+                    String url=data.getString("url");
+                    Log.d("Doc_url",url);
+                    if(!(doc_count==Constants.doc_id.length())) {
+                        for (int i = 1; i < Constants.doc_id.length(); i++) {
+                            try {
+                                String doc1_id = Constants.doc_id.getString(i);
+                                view_document(doc1_id);
+                                Log.d("Const_doc", "count....."+doc_count+".....len.." + Constants.doc_id.length() + " .. " + doc1_id);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                    else {
+                        AndroidUtils.showAlert("Documents attached....");
+                        openComposePopup();
+                    }
                 } else if (httpResult.getRequestType().equals("sending_email")) {
                     String msg = result.getString("msg");
                     Log.d("msg_details", msg);

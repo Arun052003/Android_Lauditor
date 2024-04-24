@@ -1,9 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/compose_root_layout_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:layout_margin="10dp">
 
     <LinearLayout
@@ -15,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -138,10 +139,16 @@
         android:inputType="textMultiLine"
         android:maxLines="5" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_light_grey_bg"
+        android:orientation="vertical">
     <GridView
         android:id="@+id/grid_View"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginBottom="@dimen/small_size"
         android:layout_below="@id/message_inputss"
         android:nestedScrollingEnabled="true"
         android:numColumns="2" />
@@ -149,7 +156,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
         android:background="@drawable/rectangle_light_grey_bg">
 
     <!-- Attachment icon -->
@@ -178,5 +184,5 @@
         android:text="Send"
         android:textColor="@color/white" />
     </LinearLayout>
-
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
