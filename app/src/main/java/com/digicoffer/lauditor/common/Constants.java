@@ -26,7 +26,7 @@ public class Constants {
     public static String Matter_CreateOrViewDetails = "Create";
 
     public static ArrayList<GroupsModel> groupsList_Access = new ArrayList<>();
-    public static Boolean ISPRODUCTION = true;
+    public static Boolean ISPRODUCTION = false;
     public static boolean IS_STAGING = true;
     public static String MATTER_TYPE = "";
     public static String msg_id = "";
