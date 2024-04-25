@@ -470,7 +470,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.view_matter_details, null);
-
             ImageView close_details = view.findViewById(R.id.close_details);
             LinearLayout ll_timeline = view.findViewById(R.id.ll_timeLine);
             TextView tv_header_name = view.findViewById(R.id.header_name);
@@ -614,6 +613,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 public void onClick(View v) {
                     //  nav_view_matter();
                     dialog.dismiss();
+//                    matter.loadViewUI();
                 }
             });
 
@@ -909,7 +909,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         TimeLineId = viewMatterModel.getId();
         Header_name = viewMatterModel.getTitle();
         callTimeLineWebservice();
-        matter.View_Details(viewMatterModel, itemsArrayList);
+        matter.View_Details(viewMatterModel, this);
        /* Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
         Fragment fragment = new EditMatterTimeline();

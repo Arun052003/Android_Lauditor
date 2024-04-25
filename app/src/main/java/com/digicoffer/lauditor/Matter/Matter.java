@@ -46,6 +46,8 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     private TextView tv_create, tv_view;
     private NewModel mViewModel;
     AlertDialog progress_dialog;
+    ViewMatter chk_viewMatter;
+    ArrayList<ViewMatterModel> itemsArrayList = new ArrayList<>();
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view, ll_matter_type, ll_create_view;
 
@@ -103,6 +105,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Constants.create_matter = true;
                 Constants.Matter_CreateOrViewDetails = "Create";
                 loadCreateUI();
             }
@@ -119,6 +122,10 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         siv_matter_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!Constants.create_matter) {
+                    chk_viewMatter.openViewDetailsPopUp();
+                    Matter_Notes();
+                }
                 if (!matter_arraylist.isEmpty() && Constants.Matter_CreateOrViewDetails.equalsIgnoreCase("Create")) {
                     loadMatterInformation();
                 }
@@ -129,6 +136,8 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             public void onClick(View v) {
                 if (matter_arraylist.isEmpty()) {
                     AndroidUtils.showAlert("Please check the Matter information section", getContext());
+                } else if (!Constants.create_matter) {
+                    Matter_Gct();
                 } else {
                     loadGCT();
                 }
@@ -143,6 +152,8 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
                         MatterModel matterModel = matter_arraylist.get(i);
                         if (matterModel.getGroup_acls() != null) {
                             loadDocuments();
+                        } else if (!Constants.create_matter) {
+                            Matter_Doc();
                         } else {
                             AndroidUtils.showAlert("Please check Groups,clients,team member section", getContext());
                         }
@@ -251,6 +262,38 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ft.commit();
     }
 
+    void Matter_Notes() {
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_new_white_icon));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_groups.setClickable(true);
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        siv_documents.setClickable(true);
+    }
+
+    void Matter_Gct() {
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        Fragment childFragment = new GCT();
+        ft.replace(R.id.child_container, childFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    void Matter_Doc() {
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
+        siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
+        siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_document));
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        MatterDocuments matterInformation = new MatterDocuments();
+        ft.replace(R.id.child_container, matterInformation);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
     void loadMatterInformation() {
         siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
@@ -265,10 +308,12 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ft.commit();
     }
 
-    public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
+    public void View_Details(ViewMatterModel viewMatterModel, ViewMatter viewMatter) {
+        chk_viewMatter = viewMatter;
+        Constants.create_matter = false;
         ll_matter_type.setVisibility(View.GONE);
         ll_create_view.setVisibility(View.GONE);
-        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.single_document_icon_white));
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_new_white_icon));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_groups.setClickable(true);
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
@@ -286,6 +331,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.child_container, fragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
 
