@@ -123,18 +123,7 @@
                     app:cardElevation="8dp">
 
 
-                    <CheckBox
-                        android:id="@+id/checkBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/gill_sans"
-                        android:padding="8dp"
-                        android:textColor="@color/black"
-                        android:textColorHighlight="@color/white"
-                        android:textColorHint="@color/green_count_color"
-                        android:textColorLink="@color/white"
-                        app:buttonTint="@color/dark_grey"
-                        tools:ignore="TouchTargetSizeCheck" />
+                    <include layout="@layout/chk_box_layout"/>
                 </androidx.cardview.widget.CardView>
 
                 <Space

@@ -48,11 +48,12 @@ public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.Vi
                 Integer pos = (Integer) holder.cb_documents.getTag();
                 if (sharedList.get(pos).isGroupChecked()) {
                     sharedList.get(pos).setGroupChecked(false);
+
                 } else {
                     sharedList.get(pos).setGroupChecked(true);
                 }
 
-                // Notifying the listener about the change
+
                 if (listener != null) {
                     listener.onCheckedChanged(sharedList.get(pos));
                 }

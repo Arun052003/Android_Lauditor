@@ -265,19 +265,18 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             }
         });
 //        holder.iv_groups_relationships.setOnClickListener((View.OnClickListener) this);
-        String text = "More Details";
-
-        SpannableString ss = new SpannableString(text);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View view) {
-
-            }
-        };
-        ss.setSpan(clickableSpan, 0, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.tv_more_details.setText(ss);
-        holder.tv_more_details.setTextColor(Color.BLUE);
-        holder.tv_more_details.setMovementMethod(LinkMovementMethod.getInstance());
+//        String text = "More Details";
+//
+//        SpannableString ss = new SpannableString(text);
+//        ClickableSpan clickableSpan = new ClickableSpan() {
+//            @Override
+//            public void onClick(@NonNull View view) {
+//
+//            }
+//        };
+//        ss.setSpan(clickableSpan, 0, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        holder.tv_more_details.setText(ss);
+//        holder.tv_more_details.setMovementMethod(LinkMovementMethod.getInstance());
         FLAG = "first_click";
 
         holder.iv_delete_relationships.setOnClickListener(new View.OnClickListener() {
@@ -314,8 +313,6 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             @Override
             public void onClick(View view) {
                 holder.iv_share_docs.setBackgroundColor(mcontext.getResources().getColor(R.color.green_count_color));
-
-//
                 holder.rb_shared_with_us.setBackground(mcontext.getResources().getDrawable(R.drawable.button_left_background));
                 holder.rb_shared_with_us.setTextColor(Color.BLACK);
                 holder.rb_shared_by_us.setBackground(mcontext.getResources().getDrawable(R.drawable.button_right_background));
@@ -1130,7 +1127,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             tv_consumer = itemView.findViewById(R.id.tv_consumer);
 //            cv_documents = itemView.findViewById(R.id.cv_documents);
             tv_more_details = itemView.findViewById(R.id.tv_more_details);
-         tv_more_details.setTextColor(Color.BLUE);
+//         tv_more_details.setTextColor(Color.BLUE);
 
 
             email = itemView.findViewById(R.id.email);

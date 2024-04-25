@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        checkBox = findViewById(R.id.checkBox);
+        checkBox = findViewById(R.id.chk_select_all);
         tet_email = findViewById(R.id.et_login_email);
         tet_password = findViewById(R.id.et_login_password);
         tv_sign_in = findViewById(R.id.tv_sign_in);

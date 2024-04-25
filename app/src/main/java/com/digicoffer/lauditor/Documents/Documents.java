@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -90,7 +91,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class Documents extends Fragment implements BottomSheetUploadFile.OnPhotoSelectedListner, AsyncTaskCompleteListener, DocumentsListAdapter.EventListener, View_documents_adapter.Eventlistner {
+public class Documents extends Fragment implements BottomSheetUploadFile.OnPhotoSelectedListner, AsyncTaskCompleteListener, DocumentsListAdapter.EventListener, View_documents_adapter.Eventlistner, GroupsListAdapter.OnCheckedChangeListener {
     Button btn_browse, btn_group_cancel, btn_group_submit, btn_group_view_cancel, btn_group_view_submit;
 
     //Initialize a file count to Zero
@@ -255,7 +256,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             upload_group_layout = v.findViewById(R.id.upload_group_layout);
             rv_display_upload_groups_docs = v.findViewById(R.id.rv_display_upload_groups_docs);
             btn_group_cancel = v.findViewById(R.id.btn_group_cancel);
+            btn_group_cancel.setVisibility(View.GONE);
             btn_group_submit = v.findViewById(R.id.btn_group_submit);
+            btn_group_submit.setVisibility(View.GONE);
 
             view_group_layout = v.findViewById(R.id.view_group_layout);
             rv_display_view_groups_docs = v.findViewById(R.id.rv_display_view_groups_docs);
@@ -1731,6 +1734,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         try {
             if (view_docs_list.size() == 0) {
                 rv_display_view_docs.removeAllViews();
+
                 AndroidUtils.showToast("No documents to display", getContext());
             } else {
                 rv_display_view_docs.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -1802,113 +1806,112 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     if (groupsList.get(i).getGroup_id().matches(selected_groups_list.get(j).getGroup_id())) {
                         DocumentsModel documentsModel = groupsList.get(i);
                         documentsModel.setChecked(true);
-//                        selected_groups_list.set(j,documentsModel);
-
                     }
                 }
             }
-            selected_groups_list.clear();
 
-            //Upload Documents Group Selection
+            // Upload Documents Group Selection
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_groups_docs.setLayoutManager(layoutManager);
             rv_display_upload_groups_docs.setHasFixedSize(true);
 
-            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.this);
-            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
-
-            btn_group_cancel.setOnClickListener(new View.OnClickListener() {
+            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance(), new GroupsListAdapter.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    upload_group_layout.setVisibility(View.GONE);
-                    ischecked_group = true;
-                }
-            });
+                public void onCheckedChanged(DocumentsModel documentsModel) {
+                    if (documentsModel.isGroupChecked()) {
+                        selected_groups_list.add(documentsModel);
+                    } else {
+                        // Remove the unchecked item from selected_groups_list
+                        for (int i = 0; i < selected_groups_list.size(); i++) {
+                            if (selected_groups_list.get(i).getGroup_id().equals(documentsModel.getGroup_id())) {
+                                selected_groups_list.remove(i);
 
-            btn_group_submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
-                        if (documentsModel.isGroupChecked()) {
-                            selected_groups_list.add(documentsModel);
+                                break; // Exit loop after removing the item
+                            }
                         }
                     }
+
+                    // Update TextView with selected groups
                     String[] value = new String[selected_groups_list.size()];
                     for (int i = 0; i < selected_groups_list.size(); i++) {
                         value[i] = selected_groups_list.get(i).getGroup_name();
-
                     }
-                    String str = String.join(",", value);
+                    String str = TextUtils.join(",", value);
                     tv_select_groups.setText(str);
-//                    dialog.dismiss();
-                    upload_group_layout.setVisibility(View.GONE);
-                    ischecked_group = true;
                 }
             });
 
-            //...View Documents Group Selection
-            RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rv_display_view_groups_docs.setLayoutManager(layoutManager1);
-            rv_display_view_groups_docs.setHasFixedSize(true);
+            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
 
-            GroupsListAdapter documentsAdapter1 = new GroupsListAdapter(groupsList, Documents.this);
-            rv_display_view_groups_docs.setAdapter(documentsAdapter1);
+            // View Documents Group Selection
+            try {
+                RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                rv_display_view_groups_docs.setLayoutManager(layoutManager1);
+                rv_display_view_groups_docs.setHasFixedSize(true);
 
-            btn_group_view_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    view_group_layout.setVisibility(View.GONE);
-                    ischecked_group_view = true;
-                }
-            });
-            btn_group_view_submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    ArrayList<String>
-                    for (int i = 0; i < documentsAdapter.getList_item().size(); i++) {
-                        DocumentsModel documentsModel = documentsAdapter.getList_item().get(i);
+                GroupsListAdapter documentsAdapter1 = new GroupsListAdapter(groupsList, Documents.class.newInstance(), new GroupsListAdapter.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(DocumentsModel documentsModel) {
+                        // Update selected groups list
                         if (documentsModel.isGroupChecked()) {
                             selected_groups_list.add(documentsModel);
                             cv_view_documents.setVisibility(View.VISIBLE);
                             rv_display_view_docs.setVisibility(View.VISIBLE);
-//                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                        } else {
+                            // Remove the unchecked item from selected_groups_list
+                            for (int i = 0; i < selected_groups_list.size(); i++) {
+                                if (selected_groups_list.get(i).getGroup_id().equals(documentsModel.getGroup_id())) {
+                                    selected_groups_list.remove(i);
+
+                                    break; // Exit loop after removing the item
+                                }
+                            }
                         }
-                    }
-                    String[] value = new String[selected_groups_list.size()];
-                    for (int i = 0; i < selected_groups_list.size(); i++) {
-//                                value += "," + family_members.get(i);
-//                               value.add(family_members.get(i));
-                        value[i] = selected_groups_list.get(i).getGroup_name();
 
-                    }
 
-                    String[] value_id = new String[selected_groups_list.size()];
-                    for (int i = 0; i < selected_groups_list.size(); i++) {
-//                                value += "," + family_members.get(i);
-//                               value.add(family_members.get(i));
-                        value_id[i] = selected_groups_list.get(i).getGroup_id();
+
+                        // Update TextView with selected groups
+                        String[] value = new String[selected_groups_list.size()];
+                        String[] value_id = new String[selected_groups_list.size()];
+                        for (int i = 0; i < selected_groups_list.size(); i++) {
+                            value[i] = selected_groups_list.get(i).getGroup_name();
+                            value_id[i] = selected_groups_list.get(i).getGroup_id();
+                        }
+
+                        try {
+                            array_group = new JSONArray(value_id);
+                            callfilter_client_webservices();
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        String str = TextUtils.join(",", value);
+                        tv_select_groups_view.setText(str);
+                        if (tv_select_groups_view.getText().toString().isEmpty()) {
+
+                            rv_display_view_docs.setVisibility(View.GONE);
+                        }
+                        view_group_layout.setVisibility(View.GONE);
+                        ischecked_group_view = true;
                     }
-                    try {
-                        array_group = new JSONArray(value_id);
-                        callfilter_client_webservices();
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                    String str = String.join(",", value);
-                    tv_select_groups_view.setText(str);
-//                    dialog.dismiss();
-                    view_group_layout.setVisibility(View.GONE);
-                    ischecked_group_view = true;
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            AndroidUtils.showAlert(e.getMessage(), getContext());
+                });
+                rv_display_view_groups_docs.setAdapter(documentsAdapter1);
+            } catch (Exception e) {
+                e.printStackTrace();
+                AndroidUtils.showAlert(e.getMessage(), getContext());
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (java.lang.InstantiationException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void loadMatters(JSONArray matters) throws JSONException {
+
+
+
+
+            private void loadMatters(JSONArray matters) throws JSONException {
         //Adding a list first value as empty...
 //        matterlist.add(0, new MattersModel());
         for (int i = 0; i < matters.length(); i++) {
@@ -2553,5 +2556,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         } else {
             chk_select_all.setChecked(false);
         }
+    }
+
+    @Override
+    public void onCheckedChanged(DocumentsModel documentsModel) {
+
     }
 }

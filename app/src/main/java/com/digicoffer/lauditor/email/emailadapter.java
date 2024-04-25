@@ -281,8 +281,7 @@ Constants.ISPRODUCTION = true;
             btn_cancel_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    constraint_root.setVisibility(View.GONE);
-                    document_upload.setVisibility(View.GONE);
+                    dialog.dismiss();
 
                 }
             });
@@ -294,6 +293,8 @@ Constants.ISPRODUCTION = true;
                     ll_select_groups.setVisibility(View.GONE);
                     ll_client_name.setVisibility(View.VISIBLE);
                     ll_select_grp.setVisibility(View.GONE);
+                    custom_client .setText("");
+                    tv_select_groups.setText("");
                     // Set background color
                     client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
                     // Set text color
@@ -311,6 +312,8 @@ Constants.ISPRODUCTION = true;
                     ll_client_name.setVisibility(View.GONE);
                     ll_select_groups.setVisibility(View.VISIBLE);
                     ll_select_grp.setVisibility(View.VISIBLE);
+                    custom_client .setText("");
+                    tv_select_groups.setText("");
                     firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
                     // Set text color
                     firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));

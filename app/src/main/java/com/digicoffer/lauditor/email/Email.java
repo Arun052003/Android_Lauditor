@@ -66,6 +66,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private static final int AUTH_REQUEST_CODE = 1001;
 
     private String URL = "";
+    private static final int VIEW_TYPE_DOCUMENT= 0;
+    private static final int VIEW_TYPE_ATTACHMENT = 1;
 
     boolean ISCHECK_EMAIL = false;
     int doc_count=0;
@@ -211,6 +213,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     }
 
 
+
     private void openComposePopup( ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -221,9 +224,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         to_input = view.findViewById(R.id.to_input);
         AppCompatButton sends_button = view.findViewById(R.id.sends_button);
 
-       yourGridView = view.findViewById(R.id. grid_View);
+       yourGridView = view.findViewById(R.id. gridView);
         builder.setView(view);
         AlertDialog dialog = builder.create();
+
 
         dialog.show();
         to_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -243,7 +247,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         });
         Griddocument adapter = new Griddocument(context_type, Constants.doc_id);
         yourGridView.setAdapter(adapter);
-        view = inflater.inflate(R.layout.attachment_item, null);
 
 
         attachmentImageView.setOnClickListener(new View.OnClickListener() {
@@ -397,7 +400,23 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         });
 
 
+
     }
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view;
+        switch (viewType) {
+            case VIEW_TYPE_DOCUMENT:
+                view = inflater.inflate(R.layout.grid_view, parent, false);
+               openComposePopup();
+            case VIEW_TYPE_ATTACHMENT:
+                view = inflater.inflate(R.layout.attachment_item, parent, false);
+              openComposePopup();
+            default:
+                throw new IllegalArgumentException("Invalid view type");
+        }
+    }
+
 
     private void validateEmail(String email) {
         if (isValidEmail(email)) {

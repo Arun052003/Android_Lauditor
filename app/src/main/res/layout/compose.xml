@@ -139,50 +139,41 @@
         android:inputType="textMultiLine"
         android:maxLines="5" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_light_grey_bg"
-        android:orientation="vertical">
-    <GridView
-        android:id="@+id/grid_View"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginBottom="@dimen/small_size"
-        android:layout_below="@id/message_inputss"
-        android:nestedScrollingEnabled="true"
-        android:numColumns="2" />
+
+
+
+   <include layout= "@layout/grid_view"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="57dp"
         android:background="@drawable/rectangle_light_grey_bg">
 
-    <!-- Attachment icon -->
-    <ImageView
-        android:id="@+id/attachments"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/grid_View"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/attachment" />
+        <!-- Attachment icon -->
+        <ImageView
+            android:id="@+id/attachments"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gridView"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/attachment" />
 
-    <!-- Send Button with Corner Radius -->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sends_button"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/grid_View"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_toEndOf="@id/attachments"
-        android:alpha="0.5"
-        android:background="@drawable/rounder_button_blue"
-        android:padding="10dp"
-        android:text="Send"
-        android:textColor="@color/white" />
+        <!-- Send Button with Corner Radius -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sends_button"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/gridView"
+            android:layout_marginStart="175dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@id/attachments"
+            android:alpha="0.5"
+            android:background="@drawable/rounder_button_blue"
+            android:padding="10dp"
+            android:text="Send"
+            android:textColor="@color/white" />
     </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+

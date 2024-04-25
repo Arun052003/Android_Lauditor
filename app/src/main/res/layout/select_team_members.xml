@@ -44,6 +44,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/check_box"
             android:button="@drawable/checkbox_tick"
+            android:buttonTint="@color/green_color"
             android:paddingEnd="20dp"
 
             />

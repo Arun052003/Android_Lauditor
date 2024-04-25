@@ -37,7 +37,7 @@
 
         <include
             android:id="@+id/chk_selected_documents"
-            layout="@layout/check_select_all"
+            layout="@layout/chk_box_layout"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -54,7 +54,7 @@
             android:id="@+id/iv_cancel"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:src="@drawable/cancel" />
     </LinearLayout>
