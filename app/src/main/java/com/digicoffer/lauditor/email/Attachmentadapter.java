@@ -84,7 +84,6 @@ import java.util.List;
         return gridView;
     }
 
-    // ViewHolder pattern to improve ListView performance
     static class ViewHolder {
         ImageView attachmentImage;
         TextView attachmentFilename;

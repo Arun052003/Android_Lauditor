@@ -245,8 +245,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
             }
         });
-        Griddocument adapter = new Griddocument(context_type, Constants.doc_id);
-        yourGridView.setAdapter(adapter);
+
 
 
         attachmentImageView.setOnClickListener(new View.OnClickListener() {
@@ -314,6 +313,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                             String doc1_id;
                             doc1_id = Constants.doc_id.getString(0);
                             view_document(doc1_id);
+                            display_attach();
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -402,6 +402,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
 
     }
+    public void display_attach(){
+        Griddocument adapter = new Griddocument(context_type, Constants.doc_id);
+        yourGridView.setAdapter(adapter);
+    }
+
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;

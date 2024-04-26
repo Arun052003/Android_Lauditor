@@ -32,7 +32,7 @@
                 android:id="@+id/image_view"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-
+android:visibility="gone"
                 android:background="@drawable/ic_arrow_left">
 
             </ImageView>
@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Back"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="@dimen/Fifteen_dp">
 

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -96,6 +97,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     GroupsModel groupsModel;
     //private ArrayList<GroupsModel> groupsList;
     private Activity v;
+    ConstraintLayout    con_id;
     ArrayList<MatterModel> matterArraylist;
 
 
@@ -109,6 +111,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         et_search_matter.setHint("Type to Search");
         et_search_matter.setTextSize(15);
         cv_client_details = view.findViewById(R.id.cv_client_details);
+        con_id = view.findViewById(R.id.con_id);
         rv_group_update = view.findViewById(R.id.rv_group_update);
         matter = (Matter) getParentFragment();
         callMatterListWebservice();
@@ -910,6 +913,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         Header_name = viewMatterModel.getTitle();
         callTimeLineWebservice();
         matter.View_Details(viewMatterModel, this);
+        con_id.setVisibility(View.GONE);
        /* Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
         Fragment fragment = new EditMatterTimeline();
