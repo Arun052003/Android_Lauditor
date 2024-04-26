@@ -196,7 +196,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
         tv_message_name.setText("Message");
         tv_message.setHint("Message");
         at_attach_document = view.findViewById(R.id.at_attach_document);
-        cb_all_day = view.findViewById(R.id.cb_all_day);
+        cb_all_day = view.findViewById(R.id.chk_select_all);
         cb_all_day.setText("All Day");
         cb_all_day.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
         Time_duration = view.findViewById(R.id.Time_duration);
@@ -236,7 +236,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
         sp_entities.setVisibility(View.GONE);
 //       isAllDay = cb_all_day.isChecked();
         cv_meeting_details = view.findViewById(R.id.cv_meeting_details);
-        cb_add_to_timesheet = view.findViewById(R.id.cb_add_to_timesheet);
+        cb_add_to_timesheet = view.findViewById(R.id.chk_select_all);
         cb_add_to_timesheet.setText("Add To Timesheet");
         cb_add_to_timesheet.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
         loadcheckboxData();

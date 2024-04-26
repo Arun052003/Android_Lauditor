@@ -36,6 +36,7 @@ import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
 import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
+import com.digicoffer.lauditor.common.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -187,6 +188,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                finalMatter_title.setText(item);
 //            }
 //        });
+        if (!Constants.create_matter) {
+            load_existing_matter();
+        }
         at_add_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -741,6 +745,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 if (httpResult.getRequestType().equals("Groups")) {
                     JSONArray data = result.getJSONArray("data");
                     loadGroupsData(data);
+                } else if (httpResult.getRequestType().equals("chosen_member")) {
+                    String id = result.getString("id");
+                    AndroidUtils.showAlert("Error_value.." + id, getContext());
                 } else if (httpResult.getRequestType().equals("Clients")) {
                     JSONArray clients = result.getJSONArray("clients");
                     loadClients(clients);
@@ -1204,5 +1211,12 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             selected_tm.setVisibility(View.GONE);
             ll_save_buttons.setVisibility(View.GONE);
         }
+    }
+
+    private void load_existing_matter() {
+        progress_dialog = AndroidUtils.get_progress(getActivity());
+        JSONObject postdata = new JSONObject();
+//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/legal/" + Constants.Matter_id + "/members", "chosen_member", postdata.toString());
     }
 }

@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
+import com.digicoffer.lauditor.Matter.Models.TeamModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
@@ -47,6 +48,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     private NewModel mViewModel;
     AlertDialog progress_dialog;
     ViewMatter chk_viewMatter;
+    JSONArray jsonArray=new JSONArray();
     ArrayList<ViewMatterModel> itemsArrayList = new ArrayList<>();
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view, ll_matter_type, ll_create_view;
@@ -324,15 +326,12 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_view.setTextColor(Color.BLACK);
         matter_arraylist.add(0, viewMatterModel);
+        jsonArray=viewMatterModel.getGroupAcls();
+        AndroidUtils.showAlert(""+jsonArray,getContext());
+        Constants.Matter_id = "";
+        Constants.Matter_id = viewMatterModel.getId();
         Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
-        Fragment fragment = new EditMatterTimeline();
-        fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.child_container, fragment);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
     }
 
     private void callGroupsWebservice() {

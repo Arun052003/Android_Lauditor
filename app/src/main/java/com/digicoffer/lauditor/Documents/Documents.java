@@ -324,7 +324,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             chk_select_all = v.findViewById(R.id.chk_select_all);
             chk_select_all.getBackground().setAlpha(100);
             chk_select_all.setEnabled(false);
-            chk_select_all.setBackground(getContext().getResources().getDrawable(R.drawable.checkbox_background));
 //            upload_name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cancel_icon,0,0,0);
 
 //            tv_merge_pdf.setBackground(getContext().getResources().getDrawable(R.drawable.rectangular_light_grey_background));
@@ -1407,7 +1406,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //    }
 
     private void AddTag() {
-        chk_select_all.setBackground(getContext().getResources().getDrawable(R.drawable.checkbox_background));
         chk_select_all.setEnabled(true);
         btn_upload.setVisibility(View.GONE);
         btn_add_tags.setVisibility(View.VISIBLE);

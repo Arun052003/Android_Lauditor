@@ -173,8 +173,7 @@
                             android:layout_height="150dp"
                             android:fillViewport="true">
 
-                            <include layout="@layout/spinner_list"
-                                />
+                            <include layout="@layout/spinner_list" />
                         </ScrollView>
 
                         <!--                            <include-->
@@ -412,18 +411,7 @@
                             android:layout_marginTop="@dimen/twenty_dp"
                             android:layout_marginBottom="@dimen/twenty_dp" />
 
-                        <CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/chk_select_all"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end|center"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginTop="-5dp"
-                            android:background="@drawable/checkbox_background"
-                            android:buttonTint="@color/grey_color_dark"
-                            android:gravity="center"
-                            android:paddingEnd="10dp"
-                            android:text="@string/select_all" />
+                        <include layout="@layout/check_select_all"/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
 
