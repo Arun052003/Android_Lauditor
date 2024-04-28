@@ -61,6 +61,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     boolean[] selectedLanguage;
     boolean[] selectedClients;
     boolean[] selectedTM;
+    boolean is_error;
+    String attachment_type;
+    JSONArray client_list = new JSONArray();
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
@@ -208,7 +211,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 }
                 ischecked_group = !ischecked_group;
             }
-
         });
 
         at_add_clients.setOnClickListener(new View.OnClickListener() {
@@ -496,7 +498,15 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         if (v.getId() == R.id.btn_create) {
             cv_client_details.setVisibility(View.VISIBLE);
             cv_details.setVisibility(View.VISIBLE);
-            saveGCTinformation();
+            if (!Constants.create_matter) {
+                try {
+                    update_matter();
+                } catch (Exception e) {
+                    e.fillInStackTrace();
+                }
+            } else {
+                saveGCTinformation();
+            }
 //
 //                ll_add_clients.setVisibility(View.VISIBLE);
 //                ll_assign_team_members.setVisibility(View.VISIBLE);
@@ -747,7 +757,33 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     loadGroupsData(data);
                 } else if (httpResult.getRequestType().equals("chosen_member")) {
                     String id = result.getString("id");
-                    AndroidUtils.showAlert("Error_value.." + id, getContext());
+//                    AndroidUtils.showAlert("Error_value.." + id, getContext());
+                    JSONArray members = result.getJSONArray("members");
+                    JSONArray clients = result.getJSONArray("clients");
+                    display_existing_members(members, clients);
+                    try {
+                        load_existing_member_list();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (httpResult.getRequestType().equals("attachment_members")) {
+                    is_error = result.getBoolean("error");
+                    attachment_type = result.getString("attachment_type");
+                    JSONArray members = result.getJSONArray("members");
+                    loadMembers(members);
+//                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
+                    load_existing_clients_list();
+                } else if (httpResult.getRequestType().equals("attachment_clients")) {
+                    is_error = result.getBoolean("error");
+                    attachment_type = result.getString("attachment_type");
+                    JSONArray members = result.getJSONArray("clients");
+                    loadClients(members);
+//                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
+                } else if (httpResult.getRequestType().equals("matter_update")) {
+                    is_error = result.getBoolean("error");
+                    String msg = result.getString("msg");
+                    AndroidUtils.showToast("" + msg, getContext());
+                    matter.loadViewUI();
                 } else if (httpResult.getRequestType().equals("Clients")) {
                     JSONArray clients = result.getJSONArray("clients");
                     loadClients(clients);
@@ -814,8 +850,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     }
 
     private void ClientssPopUp() {
+        ll_add_clients.setVisibility(View.VISIBLE);
         try {
-
             for (int i = 0; i < clientsList.size(); i++) {
                 for (int j = 0; j < selected_clients_list.size(); j++) {
                     if (clientsList.get(i).getClient_id().matches(selected_clients_list.get(j).getClient_id())) {
@@ -1218,5 +1254,133 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         JSONObject postdata = new JSONObject();
 //        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/legal/" + Constants.Matter_id + "/members", "chosen_member", postdata.toString());
+    }
+
+    //    https://api.staging.digicoffer.com/professional/matter/attachments
+    private void load_existing_member_list() throws JSONException {
+        progress_dialog = AndroidUtils.get_progress(getActivity());
+        JSONObject postdata = new JSONObject();
+        postdata.put("attachment_type", "members");
+//   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"];
+        postdata.put("group_acls", Constants.ex_attachment);
+//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_members", postdata.toString());
+    }
+
+    private void load_existing_clients_list() throws JSONException {
+        progress_dialog = AndroidUtils.get_progress(getActivity());
+        JSONObject postdata = new JSONObject();
+        postdata.put("attachment_type", "clients");
+//   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"];
+        postdata.put("group_acls", Constants.ex_attachment);
+//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_clients", postdata.toString());
+    }
+
+    private void update_matter() throws JSONException {
+//        https://api.staging.digicoffer.com/professional/matter/legal/652f70e5fffd8f1bcd11bf36/members/update
+        progress_dialog = AndroidUtils.get_progress(getActivity());
+        JSONArray clients = new JSONArray();
+        JSONArray members = new JSONArray();
+        for (int i = 0; i < selected_tm_list.size(); i++) {
+            try {
+                TeamModel teamModel = selected_tm_list.get(i);
+                JSONObject team_object = new JSONObject();
+                team_object.put("id", teamModel.getTm_id());
+                team_object.put("name", teamModel.getTm_name());
+//                        team_object.put("")
+                members.put(team_object);
+            } catch (Exception e) {
+                e.fillInStackTrace();
+            }
+        }
+        for (int i = 0; i < selected_clients_list.size(); i++) {
+            try {
+                ClientsModel clientsModel = selected_clients_list.get(i);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", clientsModel.getClient_id());
+                jsonObject.put("type", clientsModel.getClient_type());
+                jsonObject.put("name", clientsModel.getClient_name());
+                clients.put(jsonObject);
+            } catch (Exception e) {
+                e.fillInStackTrace();
+            }
+        }
+        JSONObject postdata = new JSONObject();
+        postdata.put("clients", clients);
+        postdata.put("members", members);
+//   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"]
+//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/legal/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
+    }
+
+    private void display_existing_members(JSONArray members, JSONArray clients) {
+        try {
+            for (int p = 0; p < clients.length(); p++) {
+                ClientsModel clientsModel = new ClientsModel();
+                JSONObject jsonObject = clients.getJSONObject(p);
+                clientsModel.setClient_id(jsonObject.getString("id"));
+                clientsModel.setClient_name(jsonObject.getString("name"));
+                clientsModel.setClient_type(jsonObject.getString("type"));
+                selected_clients_list.add(clientsModel);
+            }
+        } catch (JSONException e) {
+            e.fillInStackTrace();
+        }
+        try {
+            for (int t = 0; t < members.length(); t++) {
+                TeamModel teamModel = new TeamModel();
+                JSONObject jsonObject = members.getJSONObject(t);
+                teamModel.setTm_id(jsonObject.getString("id"));
+                teamModel.setTm_name(jsonObject.getString("name"));
+                selected_tm_list.add(teamModel);
+            }
+        } catch (JSONException e) {
+            e.fillInStackTrace();
+        }
+        try {
+            updateDisplay();
+            if (!selected_clients_list.isEmpty()) {
+//                    callClientsWebservice();
+                loadSelectedClients();
+            }
+            if (!selected_tm_list.isEmpty()) {
+//                    callTMWebservice();
+                loadSelectedTM();
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+//        {
+//            "error": false,
+//                "id": "65264766fffd8f05faaf6152",
+//                "clients": [],
+//            "members": [],
+//            "corporate": [
+//            {
+//                "id": "64f18b78fffd8f4f4623ea3f",
+//                    "name": "Perficient Technologent",
+//                    "type": "corporate"
+//            }
+//    ]
+//        }
+    }
+
+    {
+//                        "error": false,
+//                            "attachment_type": "clients",
+//                            "clients": [
+//                        {
+//                            "id": "63ae641ea1db720425b4ab0d",
+//                                "name": "Soundarya Vembaiyan Stage",
+//                                "type": "consumer"
+//                        },
+//                        {
+//                            "id": "63e4b0a4a1db726736fa5a8a",
+//                                "name": "Soundarya StagContent Firm",
+//                                "type": "entity"
+//                        }
+//    ]
+//                    }
     }
 }

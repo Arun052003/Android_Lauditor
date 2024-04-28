@@ -48,7 +48,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     private NewModel mViewModel;
     AlertDialog progress_dialog;
     ViewMatter chk_viewMatter;
-    JSONArray jsonArray=new JSONArray();
+    JSONArray jsonArray = new JSONArray();
     ArrayList<ViewMatterModel> itemsArrayList = new ArrayList<>();
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view, ll_matter_type, ll_create_view;
@@ -326,8 +326,9 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
         tv_view.setTextColor(Color.BLACK);
         matter_arraylist.add(0, viewMatterModel);
-        jsonArray=viewMatterModel.getGroupAcls();
-        AndroidUtils.showAlert(""+jsonArray,getContext());
+        jsonArray.put(viewMatterModel.getGroupAcls());
+        Constants.ex_attachment = viewMatterModel.getGroupAcls();
+//        AndroidUtils.showAlert("" + Constants.ex_attachment, getContext());
         Constants.Matter_id = "";
         Constants.Matter_id = viewMatterModel.getId();
         Bundle bundle = new Bundle();

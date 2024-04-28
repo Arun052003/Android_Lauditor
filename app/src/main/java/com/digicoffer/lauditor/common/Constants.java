@@ -13,7 +13,8 @@ import java.util.Map;
 public class Constants {
     public static String base_URL = "http://10.0.2.2:8011/consumer/";
     public static String TOKEN = "";
-    public static JSONArray doc_id=new JSONArray();
+    public static JSONArray doc_id = new JSONArray();
+    public static JSONArray ex_attachment = new JSONArray();
     public static boolean Biometric_checked = false;
     public static boolean is_biometric = false;
     public static String NAME = "";
