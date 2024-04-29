@@ -97,7 +97,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     GroupsModel groupsModel;
     //private ArrayList<GroupsModel> groupsList;
     private Activity v;
-    ConstraintLayout    con_id;
+    ConstraintLayout con_id;
     ArrayList<MatterModel> matterArraylist;
 
 
@@ -911,6 +911,8 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         Constants.Matter_CreateOrViewDetails = "View Details";
         TimeLineId = viewMatterModel.getId();
         Header_name = viewMatterModel.getTitle();
+        Constants.Matter_title = "";
+        Constants.Matter_title = viewMatterModel.getTitle();
         callTimeLineWebservice();
         matter.View_Details(viewMatterModel, this);
         con_id.setVisibility(View.GONE);

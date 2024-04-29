@@ -157,4 +157,7 @@
     <string name="first">First</string>
     <string name="inbox_0">Inbox 0</string>
     <string name="more_details"><u>More Details</u></string>
+    <string name="document_s">Document(s)</string>
+    <string name="group_s_clients_amp_team_member_s"><![CDATA[Group(s),Clients & Team Member(s)]]></string>
+    <string name="matter_timeline">Matter Timeline</string>
 </resources>

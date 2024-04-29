@@ -44,11 +44,13 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     com.google.android.material.imageview.ShapeableImageView siv_matter_icon, siv_groups, siv_documents;
     private HorizontalScrollView scrollView;
     private TextView tv_legal_matter, tv_general_matter;
-    private TextView tv_create, tv_view;
+    private TextView tv_create;
+    private TextView tv_view;
     private NewModel mViewModel;
     AlertDialog progress_dialog;
     ViewMatter chk_viewMatter;
     JSONArray jsonArray = new JSONArray();
+    TextView matter_info_txt;
     ArrayList<ViewMatterModel> itemsArrayList = new ArrayList<>();
     public ArrayList<MatterModel> matter_arraylist;
     public LinearLayoutCompat create_matter_view, ll_matter_type, ll_create_view;
@@ -58,6 +60,12 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_matter, container, false);
         mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
+        matter_info_txt = view.findViewById(R.id.matter_info_txt);
+        matter_info_txt.setText(R.string.matter_information);
+        TextView matter_gct_txt = view.findViewById(R.id.matter_gct_txt);
+        matter_gct_txt.setText(R.string.group_s_clients_amp_team_member_s);
+        TextView matter_doc_txt = view.findViewById(R.id.matter_doc_txt);
+        matter_doc_txt.setText(R.string.document_s);
         mViewModel.setData("Matter");
         siv_matter_icon = view.findViewById(R.id.siv_matter_icon);
         create_matter_view = view.findViewById(R.id.create_matter_view);
@@ -81,7 +89,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
 
         //Call The Group List API
         callGroupsWebservice();
-
         if (Constants.MATTER_TYPE.equals("Legal"))
             loadLegalMatter();
         else if (Constants.MATTER_TYPE.equals("General")) {
@@ -175,6 +182,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
 
     //    public MatterModel matterModel
     void loadViewUI() {
+        Constants.Matter_CreateOrViewDetails = "ViewDetails";
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_create.setTextColor(Color.BLACK);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
@@ -324,6 +332,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         tv_create.setTextColor(Color.WHITE);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        matter_info_txt.setText(R.string.matter_timeline);
         tv_view.setTextColor(Color.BLACK);
         matter_arraylist.add(0, viewMatterModel);
         jsonArray.put(viewMatterModel.getGroupAcls());

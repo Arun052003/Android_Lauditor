@@ -31,21 +31,6 @@
                 android:layout_margin="@dimen/small_size"
                 android:orientation="vertical">
 
-                <!--                <com.google.android.material.textfield.TextInputEditText-->
-                <!--                    android:id="@+id/matter_title"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:background="@color/white"-->
-                <!--                    android:fontFamily="sans-serif-condensed-medium"-->
-                <!--                    android:gravity="start|center_vertical"-->
-                <!--                    android:padding="5dp"-->
-                <!--                    android:textSize="@dimen/twenty_dp"-->
-                <!--                    android:enabled="false"-->
-                <!--                    android:text="Matter Title"-->
-                <!--                    android:textAllCaps="false"-->
-                <!--                    android:textColor="@color/Blue_text_color">-->
-
-                <!--                </com.google.android.material.textfield.TextInputEditText>-->
                 <include
                     android:id="@+id/matter_title"
                     layout="@layout/group_layout" />

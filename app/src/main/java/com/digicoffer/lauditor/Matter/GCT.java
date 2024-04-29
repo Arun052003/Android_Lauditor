@@ -85,6 +85,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     JSONArray existing_documents;
     JSONArray existing_documents_list;
     String ADAPTER_TAG = "Groups";
+    String chosen_matter = "";
     Button btn_add_groups, btn_add_clients, btn_assigned_team_members, btn_create, btn_cancel_save;
     LinearLayout ll_selected_groups, ll_selected_clients, ll_assigned_team_members, selected_groups, selected_clients, selected_tm, ll_add_clients, ll_assign_team_members;
     AlertDialog progress_dialog;
@@ -149,7 +150,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //        String text = tv_matter_title.getText().toString();
 //        matter_title.setText(text);
         matter_title_tv = view.findViewById(R.id.matter_title);
-
+        matter_title_tv.setTextSize(20);
+        matter_title_tv.setVisibility(View.VISIBLE);
         at_add_clients.setOnClickListener(this);
         at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
         at_assigned_team_members.setOnClickListener(this);
@@ -192,6 +194,14 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //            }
 //        });
         if (!Constants.create_matter) {
+            matter_title_tv.setText(Constants.Matter_title);
+            ll_add_groups.setVisibility(View.GONE);
+            if (Constants.MATTER_TYPE.equals("Legal"))
+                chosen_matter = "legal";
+            else if (Constants.MATTER_TYPE.equals("General")) {
+                chosen_matter = "general";
+            } else
+                chosen_matter = "legal";
             load_existing_matter();
         }
         at_add_groups.setOnClickListener(new View.OnClickListener() {
@@ -283,205 +293,207 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         assert matter != null;
         matterArraylist = matter.getMatter_arraylist();
 //        detectListChanges();
-        if (!matterArraylist.isEmpty()) {
-            for (int i = 0; i < matterArraylist.size(); i++) {
-                MatterModel matterModel = matterArraylist.get(i);
-                matter_title_tv.setText("");
-                matter_title_tv.setText(matterModel.getMatter_title());
-                if (matterModel.getGroup_acls() != null) {
-                    exisiting_group_acls = matterModel.getGroup_acls();
-                    try {
-                        for (int g = 0; g < exisiting_group_acls.length(); g++) {
-                            GroupsModel groupsModel = new GroupsModel();
-                            JSONObject jsonObject = exisiting_group_acls.getJSONObject(g);
-                            groupsModel.setGroup_id(jsonObject.getString("id"));
-                            groupsModel.setGroup_name(jsonObject.getString("name"));
-                            groupsModel.setChecked(jsonObject.getBoolean("isChecked"));
-                            selected_groups_list.add(groupsModel);
-                        }
-                    } catch (JSONException e) {
-                        e.fillInStackTrace();
-                    }
-                }
-                if (matterModel.getClients() != null) {
-                    existing_clients = matterModel.getClients();
-                    try {
-                        for (int p = 0; p < existing_clients.length(); p++) {
-                            ClientsModel clientsModel = new ClientsModel();
-                            JSONObject jsonObject = existing_clients.getJSONObject(p);
-                            clientsModel.setClient_id(jsonObject.getString("id"));
-                            clientsModel.setClient_name(jsonObject.getString("name"));
-                            clientsModel.setClient_type(jsonObject.getString("type"));
-                            selected_clients_list.add(clientsModel);
-                        }
-                    } catch (JSONException e) {
-                        e.fillInStackTrace();
-                    }
-                }
-                if (matterModel.getMembers() != null) {
-                    existing_members = matterModel.getMembers();
-                    try {
-                        for (int t = 0; t < existing_members.length(); t++) {
-                            TeamModel teamModel = new TeamModel();
-                            JSONObject jsonObject = existing_members.getJSONObject(t);
-                            teamModel.setTm_id(jsonObject.getString("id"));
-                            teamModel.setTm_name(jsonObject.getString("name"));
-                            teamModel.setUser_id(jsonObject.getString("user_id"));
-                            selected_tm_list.add(teamModel);
-                        }
-                    } catch (JSONException e) {
-                        e.fillInStackTrace();
-                    }
-                }
-                if (matterModel.getGroups_list() != null) {
-                    existing_groups_list = matterModel.getGroups_list();
-                    try {
-                        for (int m = 0; m < existing_groups_list.length(); m++) {
-                            GroupsModel groupsModel = new GroupsModel();
-                            JSONObject jsonObject = existing_groups_list.getJSONObject(m);
-                            groupsModel.setGroup_id(jsonObject.getString("id"));
-                            groupsModel.setGroup_name(jsonObject.getString("name"));
-                            groupsList.add(groupsModel);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (matterModel.getClients_list() != null) {
-                    existing_clients_list = matterModel.getClients_list();
-                    try {
-                        for (int n = 0; n < existing_clients_list.length(); n++) {
-                            ClientsModel clientsModel = new ClientsModel();
-                            JSONObject jsonObject = existing_clients_list.getJSONObject(n);
-                            clientsModel.setClient_id(jsonObject.getString("id"));
-                            clientsModel.setClient_name(jsonObject.getString("name"));
-                            clientsModel.setClient_type(jsonObject.getString("type"));
-                            clientsList.add(clientsModel);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (matterModel.getMembers_list() != null) {
-                    existing_tm_list = matterModel.getMembers_list();
-                    try {
-
-                        for (int d = 0; d < existing_tm_list.length(); d++) {
-                            TeamModel teamModel = new TeamModel();
-                            JSONObject jsonObject = existing_tm_list.getJSONObject(d);
-                            teamModel.setTm_id(jsonObject.getString("id"));
-                            teamModel.setTm_name(jsonObject.getString("name"));
-                            teamModel.setUser_id(jsonObject.getString("user_id"));
-                            tmList.add(teamModel);
-                        }
-                    } catch (JSONException e) {
-                        e.fillInStackTrace();
-                    }
-                }
-                if (matterArraylist.get(i).getOpponent_advocate() != null) {
-                    existing_opponents = matterArraylist.get(i).getOpponent_advocate();
-                    try {
-                        for (int j = 0; j < existing_opponents.length(); j++) {
-                            try {
-                                JSONObject jsonObject = existing_opponents.getJSONObject(j);
-                                AdvocateModel advocateModel = new AdvocateModel();
-                                advocateModel.setAdvocate_name(jsonObject.getString("name"));
-                                advocateModel.setNumber(jsonObject.getString("phone"));
-                                advocateModel.setEmail(jsonObject.getString("email"));
-                                advocates_list.add(advocateModel);
-                            } catch (JSONException e) {
-                                e.fillInStackTrace();
+        if (Constants.create_matter) {
+            if (!matterArraylist.isEmpty()) {
+                for (int i = 0; i < matterArraylist.size(); i++) {
+                    MatterModel matterModel = matterArraylist.get(i);
+                    matter_title_tv.setText("");
+                    matter_title_tv.setText(matterModel.getMatter_title());
+                    if (matterModel.getGroup_acls() != null) {
+                        exisiting_group_acls = matterModel.getGroup_acls();
+                        try {
+                            for (int g = 0; g < exisiting_group_acls.length(); g++) {
+                                GroupsModel groupsModel = new GroupsModel();
+                                JSONObject jsonObject = exisiting_group_acls.getJSONObject(g);
+                                groupsModel.setGroup_id(jsonObject.getString("id"));
+                                groupsModel.setGroup_name(jsonObject.getString("name"));
+                                groupsModel.setChecked(jsonObject.getBoolean("isChecked"));
+                                selected_groups_list.add(groupsModel);
                             }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    if (matterModel.getClients() != null) {
+                        existing_clients = matterModel.getClients();
+                        try {
+                            for (int p = 0; p < existing_clients.length(); p++) {
+                                ClientsModel clientsModel = new ClientsModel();
+                                JSONObject jsonObject = existing_clients.getJSONObject(p);
+                                clientsModel.setClient_id(jsonObject.getString("id"));
+                                clientsModel.setClient_name(jsonObject.getString("name"));
+                                clientsModel.setClient_type(jsonObject.getString("type"));
+                                selected_clients_list.add(clientsModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    if (matterModel.getMembers() != null) {
+                        existing_members = matterModel.getMembers();
+                        try {
+                            for (int t = 0; t < existing_members.length(); t++) {
+                                TeamModel teamModel = new TeamModel();
+                                JSONObject jsonObject = existing_members.getJSONObject(t);
+                                teamModel.setTm_id(jsonObject.getString("id"));
+                                teamModel.setTm_name(jsonObject.getString("name"));
+                                teamModel.setUser_id(jsonObject.getString("user_id"));
+                                selected_tm_list.add(teamModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    if (matterModel.getGroups_list() != null) {
+                        existing_groups_list = matterModel.getGroups_list();
+                        try {
+                            for (int m = 0; m < existing_groups_list.length(); m++) {
+                                GroupsModel groupsModel = new GroupsModel();
+                                JSONObject jsonObject = existing_groups_list.getJSONObject(m);
+                                groupsModel.setGroup_id(jsonObject.getString("id"));
+                                groupsModel.setGroup_name(jsonObject.getString("name"));
+                                groupsList.add(groupsModel);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (matterModel.getClients_list() != null) {
+                        existing_clients_list = matterModel.getClients_list();
+                        try {
+                            for (int n = 0; n < existing_clients_list.length(); n++) {
+                                ClientsModel clientsModel = new ClientsModel();
+                                JSONObject jsonObject = existing_clients_list.getJSONObject(n);
+                                clientsModel.setClient_id(jsonObject.getString("id"));
+                                clientsModel.setClient_name(jsonObject.getString("name"));
+                                clientsModel.setClient_type(jsonObject.getString("type"));
+                                clientsList.add(clientsModel);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (matterModel.getMembers_list() != null) {
+                        existing_tm_list = matterModel.getMembers_list();
+                        try {
+
+                            for (int d = 0; d < existing_tm_list.length(); d++) {
+                                TeamModel teamModel = new TeamModel();
+                                JSONObject jsonObject = existing_tm_list.getJSONObject(d);
+                                teamModel.setTm_id(jsonObject.getString("id"));
+                                teamModel.setTm_name(jsonObject.getString("name"));
+                                teamModel.setUser_id(jsonObject.getString("user_id"));
+                                tmList.add(teamModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    if (matterArraylist.get(i).getOpponent_advocate() != null) {
+                        existing_opponents = matterArraylist.get(i).getOpponent_advocate();
+                        try {
+                            for (int j = 0; j < existing_opponents.length(); j++) {
+                                try {
+                                    JSONObject jsonObject = existing_opponents.getJSONObject(j);
+                                    AdvocateModel advocateModel = new AdvocateModel();
+                                    advocateModel.setAdvocate_name(jsonObject.getString("name"));
+                                    advocateModel.setNumber(jsonObject.getString("phone"));
+                                    advocateModel.setEmail(jsonObject.getString("email"));
+                                    advocates_list.add(advocateModel);
+                                } catch (JSONException e) {
+                                    e.fillInStackTrace();
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    if (matterModel.getDocuments() != null) {
+                        try {
+                            existing_documents = matterModel.getDocuments();
+                            for (int d = 0; d < existing_documents.length(); d++) {
+                                DocumentsModel documentsModel = new DocumentsModel();
+                                JSONObject jsonObject = existing_documents.getJSONObject(d);
+                                documentsModel.setDocid(jsonObject.getString("docid"));
+                                documentsModel.setName(jsonObject.getString("name"));
+                                documentsModel.setUser_id(jsonObject.getString("user_id"));
+                                documentsModel.setDoctype(jsonObject.getString("doctype"));
+                                selected_documents_list.add(documentsModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    if (matterModel.getDocuments_list() != null) {
+                        try {
+                            existing_documents_list = matterModel.getDocuments_list();
+                            for (int ed = 0; ed < existing_documents_list.length(); ed++) {
+                                DocumentsModel documentsModel = new DocumentsModel();
+                                JSONObject jsonObject = existing_documents_list.getJSONObject(ed);
+                                documentsModel.setDocid(jsonObject.getString("docid"));
+                                documentsModel.setName(jsonObject.getString("name"));
+                                documentsModel.setUser_id(jsonObject.getString("user_id"));
+                                documentsModel.setDoctype(jsonObject.getString("doctype"));
+                                documentsList.add(documentsModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    Log.d("tm_list..", String.valueOf(selected_groups_list.size() + " ...C." + selected_clients_list.size()) + " ..g." + selected_tm_list.size());
+                    if (matterModel.getMatter_title() != null) {
+                        matter_title = (String) matterModel.getMatter_title();
+                    }
+                    if (matterModel.getCase_number() != null) {
+                        case_number = matterModel.getCase_number();
+                    }
+                    if (matterModel.getCase_type() != null) {
+                        case_type = matterModel.getCase_type();
+                    }
+                    if (matterModel.getDescription() != null) {
+                        description = matterModel.getDescription();
+                    }
+                    if (matterModel.getDate_of_filing() != null) {
+                        dof = matterModel.getDate_of_filing();
+                    }
+                    if (matterModel.getStart_date() != null) {
+                        start_date = matterModel.getStart_date();
+                    }
+                    if (matterModel.getEnd_date() != null) {
+                        end_date = matterModel.getEnd_date();
+                    }
+                    if (matterModel.getCourt() != null) {
+                        court = matterModel.getCourt();
+                    }
+                    if (matterModel.getJudge() != null) {
+                        judge = matterModel.getJudge();
+                    }
+                    if (matterModel.getCase_priority() != null) {
+                        case_priority = matterModel.getCase_priority();
+                    }
+                    if (matterModel.getStatus() != null) {
+                        case_status = matterModel.getStatus();
+                    }
+                    try {
+                        updateDisplay();
+                        if (!selected_groups_list.isEmpty()) {
+//                    callGroupsWebservice();
+                            loadSelectedGroups();
+                        }
+                        if (!selected_clients_list.isEmpty()) {
+//                    callClientsWebservice();
+                            loadSelectedClients();
+                        }
+                        if (!selected_tm_list.isEmpty()) {
+//                    callTMWebservice();
+                            loadSelectedTM();
                         }
                     } catch (Exception e) {
                         e.fillInStackTrace();
                     }
                 }
-                if (matterModel.getDocuments() != null) {
-                    try {
-                        existing_documents = matterModel.getDocuments();
-                        for (int d = 0; d < existing_documents.length(); d++) {
-                            DocumentsModel documentsModel = new DocumentsModel();
-                            JSONObject jsonObject = existing_documents.getJSONObject(d);
-                            documentsModel.setDocid(jsonObject.getString("docid"));
-                            documentsModel.setName(jsonObject.getString("name"));
-                            documentsModel.setUser_id(jsonObject.getString("user_id"));
-                            documentsModel.setDoctype(jsonObject.getString("doctype"));
-                            selected_documents_list.add(documentsModel);
-                        }
-                    } catch (JSONException e) {
-                        e.fillInStackTrace();
-                    }
-                }
-                if (matterModel.getDocuments_list() != null) {
-                    try {
-                        existing_documents_list = matterModel.getDocuments_list();
-                        for (int ed = 0; ed < existing_documents_list.length(); ed++) {
-                            DocumentsModel documentsModel = new DocumentsModel();
-                            JSONObject jsonObject = existing_documents_list.getJSONObject(ed);
-                            documentsModel.setDocid(jsonObject.getString("docid"));
-                            documentsModel.setName(jsonObject.getString("name"));
-                            documentsModel.setUser_id(jsonObject.getString("user_id"));
-                            documentsModel.setDoctype(jsonObject.getString("doctype"));
-                            documentsList.add(documentsModel);
-                        }
-                    } catch (JSONException e) {
-                        e.fillInStackTrace();
-                    }
-                }
-                Log.d("tm_list..", String.valueOf(selected_groups_list.size() + " ...C." + selected_clients_list.size()) + " ..g." + selected_tm_list.size());
-                if (matterModel.getMatter_title() != null) {
-                    matter_title = (String) matterModel.getMatter_title();
-                }
-                if (matterModel.getCase_number() != null) {
-                    case_number = matterModel.getCase_number();
-                }
-                if (matterModel.getCase_type() != null) {
-                    case_type = matterModel.getCase_type();
-                }
-                if (matterModel.getDescription() != null) {
-                    description = matterModel.getDescription();
-                }
-                if (matterModel.getDate_of_filing() != null) {
-                    dof = matterModel.getDate_of_filing();
-                }
-                if (matterModel.getStart_date() != null) {
-                    start_date = matterModel.getStart_date();
-                }
-                if (matterModel.getEnd_date() != null) {
-                    end_date = matterModel.getEnd_date();
-                }
-                if (matterModel.getCourt() != null) {
-                    court = matterModel.getCourt();
-                }
-                if (matterModel.getJudge() != null) {
-                    judge = matterModel.getJudge();
-                }
-                if (matterModel.getCase_priority() != null) {
-                    case_priority = matterModel.getCase_priority();
-                }
-                if (matterModel.getStatus() != null) {
-                    case_status = matterModel.getStatus();
-                }
-                try {
-                    updateDisplay();
-                    if (!selected_groups_list.isEmpty()) {
-//                    callGroupsWebservice();
-                        loadSelectedGroups();
-                    }
-                    if (!selected_clients_list.isEmpty()) {
-//                    callClientsWebservice();
-                        loadSelectedClients();
-                    }
-                    if (!selected_tm_list.isEmpty()) {
-//                    callTMWebservice();
-                        loadSelectedTM();
-                    }
-                } catch (Exception e) {
-                    e.fillInStackTrace();
-                }
-            }
 
+            }
         }
 //        callGroupsWebservice();
         return view;
@@ -1253,7 +1265,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
 //        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
-        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/legal/" + Constants.Matter_id + "/members", "chosen_member", postdata.toString());
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members", "chosen_member", postdata.toString());
     }
 
     //    https://api.staging.digicoffer.com/professional/matter/attachments
@@ -1311,7 +1323,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         postdata.put("members", members);
 //   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"]
 //        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
-        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/legal/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
     }
 
     private void display_existing_members(JSONArray members, JSONArray clients) {

@@ -205,7 +205,16 @@
             app:layout_constraintVertical_bias="0.0">
 
             <!--include the select all check box -->
-            <include layout="@layout/check_select_all" />
+            <CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/chk_select_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:layout_margin="5dp"
+                android:text="@string/select_all"
+                android:buttonTint="@color/grey_color_dark"
+                android:background="@color/grey_text_color"
+                android:layout_gravity="center" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
