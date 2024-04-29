@@ -2,20 +2,17 @@ package com.digicoffer.lauditor.Documents.DocumentsListAdpater;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.Documents.models.ViewDocumentsModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.AndroidUtils;
@@ -104,16 +101,19 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
                         docs_list.add(documentModel);
                         if (documentModel != null) {
                             JSONArray docs = new JSONArray();
+                            JSONArray doc_name=new JSONArray();
                             for (int k = 0; k < docs_list.size(); k++) {
                                 ViewDocumentsModel documentsModel1 = docs_list.get(k);
                                 docs.put(documentsModel1.getId());
-                                String documentId=documentModel.getId();
-                                String documentName = documentModel.getName();
-
-                                Log.d("DocumentInfo", "ID: " + documentId + ", Name: " + documentName);
+                                doc_name.put(documentsModel1.getName());
+//                                String documentId=documentModel.getId();
+//                                String documentName = documentModel.getName();
+//
+//                                Log.d("DocumentInfo", "ID: " + documentId + ", Name: " + documentName);
                             }
                             try {
                                 Constants.doc_id=docs;
+                                Constants.model=doc_name;
                             }catch (Exception e)
                             {
                                 e.fillInStackTrace();

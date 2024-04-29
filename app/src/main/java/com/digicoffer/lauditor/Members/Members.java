@@ -1,19 +1,22 @@
 
 package com.digicoffer.lauditor.Members;
 
+import static android.view.View.GONE;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,10 +30,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.digicoffer.lauditor.Groups.Adapters.ViewGroupsAdpater;
 import com.digicoffer.lauditor.Groups.GroupModels.GroupModel;
 import com.digicoffer.lauditor.Groups.GroupModels.ViewGroupModel;
 import com.digicoffer.lauditor.NewModel;
@@ -113,6 +114,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         super.onViewCreated(v, savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
         tv_member_name = v.findViewById(R.id.tv_create_member_name);
+
         tv_member_name.setHint(R.string.name);
         tv_designation = v.findViewById(R.id.tv_designation);
         tv_designation.setHint(R.string.designation);
@@ -154,18 +156,135 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 if (FLAG != "second_click") {
                     cv_members_details.setVisibility(View.VISIBLE);
                     callGroupsWebservice();
-                    ll_save_buttons.setVisibility(View.GONE);
+                    ll_save_buttons.setVisibility(GONE);
 
                 } else {
                     FLAG = "first_click";
 //                    cv_members_details.setVisibility(View.VISIBLE);
 //                    callGroupsWebservice();
-                    cv_members_details.setVisibility(View.GONE);
+                    cv_members_details.setVisibility(GONE);
                     ll_save_buttons.setVisibility(View.VISIBLE);
                     groupsList.clear();
                 }
             }
         });
+        tv_member_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                // Set the height to 50dp if the text is empty
+                int minHeightInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                tv_member_name.getLayoutParams().height = minHeightInPixels;
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if(str.length() > 0 && str.contains(" ")) {
+//                    tv_member_name.setError("Space is not allowed");
+                    AndroidUtils.showAlert("Space is not allowed", getContext());
+                    tv_member_name.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+
+        });
+        tv_designation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                // Set the height to 50dp if the text is empty
+                int minHeightInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                tv_designation.getLayoutParams().height = minHeightInPixels;
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if(str.length() > 0 && str.contains(" ")) {
+//                    tv_member_name.setError("Space is not allowed");
+                    AndroidUtils.showAlert("Space is not allowed", getContext());
+                    tv_designation.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+
+        });
+        tv_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                // Set the height to 50dp if the text is empty
+                int minHeightInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                tv_email.getLayoutParams().height = minHeightInPixels;
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if(str.length() > 0 && str.contains(" ")) {
+//                    tv_member_name.setError("Space is not allowed");
+                    AndroidUtils.showAlert("Space is not allowed", getContext());
+                    tv_email.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+
+        });
+        tv_confirm_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                // Set the height to 50dp if the text is empty
+                int minHeightInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                tv_confirm_email.getLayoutParams().height = minHeightInPixels;
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if(str.length() > 0 && str.contains(" ")) {
+//                    tv_member_name.setError("Space is not allowed");
+                    AndroidUtils.showAlert("Space is not allowed", getContext());
+                    tv_confirm_email.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+
+        });
+
+
+
+
+
 
         rv_selected_member = v.findViewById(R.id.rv_selected_member);
         String data = "View Members";
@@ -182,13 +301,13 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 tv_create_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                 tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                 ll_confirm_email.setVisibility(View.VISIBLE);
-                ll_new_buttons.setVisibility(View.GONE);
+                ll_new_buttons.setVisibility(GONE);
                 TAG = "CM";
                 String data = "Create Members";
                 setViewModelData(data);
                 CreateMembersData();
-                et_search_teammember.setVisibility(View.GONE);
-                search_teammember.setVisibility(View.GONE);
+                et_search_teammember.setVisibility(GONE);
+                search_teammember.setVisibility(GONE);
                 tv_create_members.setTextColor(getContext().getResources().getColor(R.color.white));
                 tv_view_members.setTextColor(getContext().getResources().getColor(R.color.black));
 
@@ -330,14 +449,14 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
     private void CreateMembersData() {
         if (TAG == "UGA") {
-            cv_details.setVisibility(View.GONE);
-            ll_new_buttons.setVisibility(View.GONE);
-            ll_buttons.setVisibility(View.GONE);
+            cv_details.setVisibility(GONE);
+            ll_new_buttons.setVisibility(GONE);
+            ll_buttons.setVisibility(GONE);
             cv_members_details.setVisibility(View.VISIBLE);
             members_list.clear();
         } else {
             cv_details.setVisibility(View.VISIBLE);
-            cv_members_details.setVisibility(View.GONE);
+            cv_members_details.setVisibility(GONE);
             members_list.clear();
         }
         if (TAG == "CM" || TAG == "UGA") {
@@ -351,8 +470,8 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         ll_buttons.setVisibility(View.VISIBLE);
         tv_view_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
         tv_create_members.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
-        cv_details.setVisibility(View.GONE);
-        cv_members_details.setVisibility(View.GONE);
+        cv_details.setVisibility(GONE);
+        cv_members_details.setVisibility(GONE);
         callViewGroupsWebservice();
 
         et_search_members.setText("");
@@ -485,7 +604,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                     AndroidUtils.showToast(result.getString("msg"), getContext());
                     ViewMembersData();
                     //After Member is updated..
-                    ll_new_buttons.setVisibility(View.GONE);
+                    ll_new_buttons.setVisibility(GONE);
                     tv_assign_groups.setVisibility(View.VISIBLE);
                     ll_save_buttons.setVisibility(View.VISIBLE);
                 } else {
@@ -677,12 +796,12 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
         // TAG="UGA";
         CreateMembersData();
         cv_details.setVisibility(View.VISIBLE);
-        search_teammember.setVisibility(View.GONE);
-        ll_buttons.setVisibility(View.GONE);
-        ll_save_buttons.setVisibility(View.GONE);
-        tv_assign_groups.setVisibility(View.GONE);
+        search_teammember.setVisibility(GONE);
+        ll_buttons.setVisibility(GONE);
+        ll_save_buttons.setVisibility(GONE);
+        tv_assign_groups.setVisibility(GONE);
         ll_new_buttons.setVisibility(View.VISIBLE);
-        cv_members_details.setVisibility(View.GONE);
+        cv_members_details.setVisibility(GONE);
         ll_confirm_email.setVisibility(View.VISIBLE);
         tv_member_name.setText(membersModel.getName());
         tv_email.setText(membersModel.getEmail());
@@ -723,12 +842,12 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
     public void edit_member() {
 
         MembersModel membersModel = new MembersModel();
-        search_teammember.setVisibility(View.GONE);
-        ll_buttons.setVisibility(View.GONE);
-        ll_save_buttons.setVisibility(View.GONE);
-        tv_assign_groups.setVisibility(View.GONE);
+        search_teammember.setVisibility(GONE);
+        ll_buttons.setVisibility(GONE);
+        ll_save_buttons.setVisibility(GONE);
+        tv_assign_groups.setVisibility(GONE);
         ll_new_buttons.setVisibility(View.VISIBLE);
-        cv_members_details.setVisibility(View.GONE);
+        cv_members_details.setVisibility(GONE);
         ll_confirm_email.setVisibility(View.VISIBLE);
         tv_member_name.setText(membersModel.getName());
         tv_email.setText(membersModel.getEmail());
@@ -812,26 +931,52 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
 
     @Override
     public void DeleteMember(MembersModel membersModel) {
-        final android.app.AlertDialog.Builder dlgAlert = new android.app.AlertDialog.Builder(getContext());
-        dlgAlert.setMessage("Are you sure you want to  delete " + membersModel.getName());
-        dlgAlert.setTitle("Alert");
-        dlgAlert.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        String tag = "Delete";
-                        callCreateMemberWebservice("", "", "", "", "", tag, membersModel.getId());
-                    }
-                });
-        dlgAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                AndroidUtils.showToast(result.getString("msg"),getContext());
-                ViewMembersData();
-            }
-        });
-        dlgAlert.setCancelable(true);
-        dlgAlert.show();
+        try {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.delete_relationship, null);
+            TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
+            TextView header_name = view. findViewById(R.id.header_name);
+            header_name.setText("Confirmation");
+            header_name.setTextColor(Color.BLACK);
+            ImageView close_documents = view.findViewById(R.id.close_documents);
+            close_documents.setVisibility(GONE);
+            tv_confirmation.setText("Are you sure you want to delete " + membersModel.getName());
+
+            AppCompatButton bt_yes = view.findViewById(R.id.btn_yes);
+            AppCompatButton btn_no = view.findViewById(R.id.btn_No);
+            final AlertDialog dialog = dialogBuilder.create();
+
+            btn_no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    ViewMembersData();
+                }
+            });
+            close_documents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+
+                }
+            });
+            bt_yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    String tag = "Delete";
+                    callCreateMemberWebservice("", "", "", "", "", tag, membersModel.getId());
+                }
+            });
+
+            dialog.setView(view);
+            dialog.show();
+        } catch (Exception e) {
+            AndroidUtils.showToast(e.getMessage(), getContext());
+        }
     }
+
 
     private void unhide() {
         ll_buttons.setVisibility(View.VISIBLE);

@@ -70,6 +70,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private static final int VIEW_TYPE_ATTACHMENT = 1;
 
     boolean ISCHECK_EMAIL = false;
+    private String selectedDocumentName = "";
     int doc_count=0;
     boolean ischecked_group = true;
     boolean[] selectedLanguage;
@@ -91,6 +92,37 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     ImageView clear_search;
     TextView custom_client;
     private int currentPosition = 1;
+    JSONArray attachmentsArray = initializeAttachmentsArray();
+
+    private JSONArray initializeAttachmentsArray() {
+
+            JSONArray attachmentsArray = new JSONArray();
+
+            // Assuming you have some attachment data to add
+            try {
+                // Add some attachment data to the array
+                JSONObject attachment1 = new JSONObject();
+                attachment1.put("document_name", "Document 1");
+                attachment1.put("name", "attachment1.txt");
+                attachment1.put("size", "10 KB");
+                attachmentsArray.put(attachment1);
+
+                JSONObject attachment2 = new JSONObject();
+                attachment2.put("document_name", "Document 2");
+                attachment2.put("name", "attachment2.pdf");
+                attachment2.put("size", "100 KB");
+                attachmentsArray.put(attachment2);
+
+                // Add more attachments as needed
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return attachmentsArray;
+        }
+
+
+
     TextInputEditText et_Search;
     RecyclerView rv_documents_email;
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
@@ -249,76 +281,89 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
 
         attachmentImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
-                View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
-                TextView client_name = attachmentView.findViewById(R.id.client_name);
-                client_name.setText("Client Name");
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
+                                                       LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
+                                                       View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
+                                                       TextView client_name = attachmentView.findViewById(R.id.client_name);
+                                                       client_name.setText("Client Name");
 
-                custom_client = attachmentView.findViewById(R.id.custom_client);
-                TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
-                compose_client_name.setText("Client");
-                compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                                                       custom_client = attachmentView.findViewById(R.id.custom_client);
+                                                       TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
+                                                       compose_client_name.setText("Client");
+                                                       compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
-                compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                                                       compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
 
-                TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
-                compose_firm_name.setText("Firm");
-                rv_documents_email = attachmentView.findViewById(R.id.rv_documents_email);
-                ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
-                client_list_view = attachmentView.findViewById(R.id.client_list_view);
-                rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
-                btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
-                btn_group_cancel.setVisibility(View.GONE);
-                upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
-                btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
-                btn_group_submit.setVisibility(View.GONE);
-                tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
-                ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
-                grp_name = attachmentView.findViewById(R.id.grp_name);
-                grp_name.setText("Select Group");
-                et_Search_email_document = attachmentView.findViewById(R.id.et_Search_email_document);
-                LinearLayout ll_select_groups = attachmentView.findViewById(R.id.ll_select_groups);
-                LinearLayout ll_client_name = attachmentView.findViewById(R.id.ll_client_name);
-                linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
-                btn_create = attachmentView.findViewById(R.id.btn_create);
-                btn_create.setText("Attach");
-                btn_create.setAlpha(0.5f);
+                                                       TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
+                                                       compose_firm_name.setText("Firm");
+                                                       rv_documents_email = attachmentView.findViewById(R.id.rv_documents_email);
+                                                       ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
+                                                       client_list_view = attachmentView.findViewById(R.id.client_list_view);
+                                                       rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
+                                                       btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
+                                                       btn_group_cancel.setVisibility(View.GONE);
+                                                       upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
+                                                       btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
+                                                       btn_group_submit.setVisibility(View.GONE);
+                                                       tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
+                                                       ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
+                                                       grp_name = attachmentView.findViewById(R.id.grp_name);
+                                                       grp_name.setText("Select Group");
+                                                       et_Search_email_document = attachmentView.findViewById(R.id.et_Search_email_document);
+                                                       LinearLayout ll_select_groups = attachmentView.findViewById(R.id.ll_select_groups);
+                                                       LinearLayout ll_client_name = attachmentView.findViewById(R.id.ll_client_name);
+                                                       linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
+                                                       btn_create = attachmentView.findViewById(R.id.btn_create);
+                                                       btn_create.setText("Attach");
+                                                       btn_create.setAlpha(0.5f);
 
-                compose_client_name.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("SuspiciousIndentation")
-                    @Override
-                    public void onClick(View v) {
-                        ll_select_groups.setVisibility(View.GONE);
-                        ll_client_name.setVisibility(View.VISIBLE);
-                        custom_client.setText("");
-                        list_scroll_view.setVisibility(View.GONE);
-                        rv_documents_email.clearFocus();
-                        ll_attach_grp.setVisibility(View.GONE);
-                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                                                       compose_client_name.setOnClickListener(new View.OnClickListener() {
+                                                           @SuppressLint("SuspiciousIndentation")
+                                                           @Override
+                                                           public void onClick(View v) {
+                                                               ll_select_groups.setVisibility(View.GONE);
+                                                               ll_client_name.setVisibility(View.VISIBLE);
+                                                               custom_client.setText("");
+                                                               list_scroll_view.setVisibility(View.GONE);
+                                                               rv_documents_email.clearFocus();
+                                                               ll_attach_grp.setVisibility(View.GONE);
+                                                               compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
-                        compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                                                               compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                                                               compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
 
-                        compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+                                                               compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
 
-                    }
-                });
-                btn_create.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            String doc1_id;
-                            doc1_id = Constants.doc_id.getString(0);
-                            view_document(doc1_id);
-                            display_attach();
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
+                                                           }
+                                                       });
+                                                       btn_create.setOnClickListener(new View.OnClickListener() {
+                                                           @Override
+                                                           public void onClick(View v) {
+                                                               try {
+                                                                   String doc1_id = Constants.doc_id.getString(0);
+                                                                   view_document(doc1_id);
+
+
+                                                                   // Update the selected document name
+                                                                   selectedDocumentName = doc1_id;
+
+                                                                   // Create and set the adapter with the updated selec,ted document name
+                                                                   Griddocument griddocument = new Griddocument(getContext(), attachmentsArray, selectedDocumentName);
+                                                                   yourGridView.setAdapter(griddocument);
+                                                               } catch (JSONException e) {
+                                                                   throw new RuntimeException(e);
+                                                               }
+                                                           }
+                                                       });
+
+                                                       // Initialize and set the adapter
+
+
+
+
+
 
 
 
@@ -402,10 +447,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
 
     }
-    public void display_attach(){
-        Griddocument adapter = new Griddocument(context_type, Constants.doc_id);
-        yourGridView.setAdapter(adapter);
-    }
+
 
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -421,6 +463,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 throw new IllegalArgumentException("Invalid view type");
         }
     }
+
+
 
 
     private void validateEmail(String email) {
