@@ -33,6 +33,7 @@ public class Constants {
     public static String msg_id = "";
     public static String part_id = "";
     public static boolean create_matter = true;
+    public static JSONArray model=new JSONArray();
 
     //    public static String MyDay_KPI =
     public static String PROF_URL;
