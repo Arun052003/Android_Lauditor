@@ -70,6 +70,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private static final int VIEW_TYPE_ATTACHMENT = 1;
 
     boolean ISCHECK_EMAIL = false;
+    String toEmail = "";
+    String subject = "";
+    String body = "";
+    List<String> documentFilenames = new ArrayList<>();
+
     private String selectedDocumentName = "";
     int doc_count=0;
     boolean ischecked_group = true;
@@ -257,6 +262,9 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         AppCompatButton sends_button = view.findViewById(R.id.sends_button);
 
        yourGridView = view.findViewById(R.id. gridView);
+        Griddocument griddocument = new Griddocument(getContext(), attachmentsArray, selectedDocumentName);
+        yourGridView.setAdapter(griddocument);
+        sends_button.setAlpha(1.0f);
         builder.setView(view);
         AlertDialog dialog = builder.create();
 
@@ -267,14 +275,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     validateEmail(to_input.getText().toString());
+
                 }
             }
         });
         sends_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_email();
-
+                send_email(toEmail, subject, body, documentFilenames);
+                sends_button.setAlpha(1.0f);
             }
         });
 
@@ -346,12 +355,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                                                                    view_document(doc1_id);
 
 
-                                                                   // Update the selected document name
                                                                    selectedDocumentName = doc1_id;
 
-                                                                   // Create and set the adapter with the updated selec,ted document name
-                                                                   Griddocument griddocument = new Griddocument(getContext(), attachmentsArray, selectedDocumentName);
-                                                                   yourGridView.setAdapter(griddocument);
+
+
+
                                                                } catch (JSONException e) {
                                                                    throw new RuntimeException(e);
                                                                }
@@ -497,16 +505,40 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
-    public void send_email() {
+    public void send_email(String toEmail, String subject, String body, List<String> documentFilenames) {
         try {
+            // Show progress dialog if needed
             progress_dialog = AndroidUtils.get_progress(getActivity());
-            JSONObject jsonObject = new JSONObject();
 
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, Constants.EMAIL_BASE_URL + Constants.sending_email + Constants.TOKEN, "sending_email", jsonObject.toString());
+            // Construct JSON object with email details
+            JSONObject emailJson = new JSONObject();
+            emailJson.put("toEmail", toEmail);
+            emailJson.put("subject", subject);
+            emailJson.put("body", body);
+
+            // Construct JSONArray for documents
+            JSONArray documentsArray = new JSONArray();
+
+            // Add each document filename to the documentsArray
+            for (String filename : documentFilenames) {
+                JSONObject document = new JSONObject();
+                document.put("filename", filename);
+                // Add more properties if needed
+                documentsArray.put(document);
+            }
+
+            // Add the documentsArray to the emailJson
+            emailJson.put("documents", documentsArray);
+
+            // Make the API call to send email
+            String emailUrl = Constants.EMAIL_BASE_URL + Constants.sending_email + Constants.TOKEN;
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, emailUrl, "sending_email", emailJson.toString());
         } catch (Exception e) {
+            // Handle exceptions
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
+            e.printStackTrace();
         }
     }
 
