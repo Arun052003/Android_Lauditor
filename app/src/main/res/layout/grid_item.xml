@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,17 +19,20 @@
         android:layout_margin="@dimen/left_space"
         android:src="@drawable/attachment_icons" />
 
-
     <TextView
         android:id="@+id/attachmentFilename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/left_space" />
 
-
-
+    <ImageView
+        android:id="@+id/closeIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="@dimen/left_space"
+        android:src="@drawable/cancel_red_icon" />
 
 </LinearLayout>
-
-
+</androidx.cardview.widget.CardView>

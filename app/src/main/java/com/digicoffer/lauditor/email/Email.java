@@ -1,5 +1,6 @@
 package com.digicoffer.lauditor.email;
 
+import static android.view.View.GONE;
 import static com.digicoffer.lauditor.email.EmailAdapter.context_type;
 
 import android.annotation.SuppressLint;
@@ -80,7 +81,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     boolean ischecked_group = true;
     boolean[] selectedLanguage;
     Button btn_group_cancel, btn_group_submit;
-    AppCompatButton btn_create;
+    AppCompatButton btn_create,btn_cancel_save;
     LinearLayout upload_group_layout;
     TextInputEditText et_Search_email_document;
     TextView tv_select_groups;
@@ -144,7 +145,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     HttpURLConnection httpURLConnection = null;
     TextView inbox_textViews;
     AppCompatButton first_button, search_email, sends_button;
-    EditText to_input;
+    EditText to_input,message_input,message_inputss;
     ListView client_list_view;
     TextView grp_name;
     String client_id = "";
@@ -168,7 +169,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         ImageView arrow_left = view.findViewById(R.id.arrow_left);
         arrow_left.setAlpha(0.3f);
         clear_search = view.findViewById(R.id.clear_search);
-        clear_search.setVisibility(View.GONE);
+        clear_search.setVisibility(GONE);
         inbox_textViews = view.findViewById(R.id.inbox_textViews);
         first_button = view.findViewById(R.id.first_button);
         first_button.setAlpha(0.3f);
@@ -259,11 +260,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
         ImageView cross_icon = view.findViewById(R.id.attachment);
         to_input = view.findViewById(R.id.to_input);
+        message_input= view.findViewById(R.id.message_input);
+        message_inputss = view.findViewById(R.id.message_inputss);
         AppCompatButton sends_button = view.findViewById(R.id.sends_button);
 
        yourGridView = view.findViewById(R.id. gridView);
+        yourGridView.setVisibility(GONE);
         Griddocument griddocument = new Griddocument(getContext(), attachmentsArray, selectedDocumentName);
         yourGridView.setAdapter(griddocument);
+
         sends_button.setAlpha(1.0f);
         builder.setView(view);
         AlertDialog dialog = builder.create();
@@ -282,7 +287,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         sends_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_email(toEmail, subject, body, documentFilenames);
+                send_email();
                 sends_button.setAlpha(1.0f);
             }
         });
@@ -312,10 +317,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                                                        client_list_view = attachmentView.findViewById(R.id.client_list_view);
                                                        rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
                                                        btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
-                                                       btn_group_cancel.setVisibility(View.GONE);
+                                                       btn_group_cancel.setVisibility(GONE);
                                                        upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
                                                        btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
-                                                       btn_group_submit.setVisibility(View.GONE);
+                                                       btn_group_submit.setVisibility(GONE);
                                                        tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
                                                        ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
                                                        grp_name = attachmentView.findViewById(R.id.grp_name);
@@ -325,6 +330,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                                                        LinearLayout ll_client_name = attachmentView.findViewById(R.id.ll_client_name);
                                                        linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
                                                        btn_create = attachmentView.findViewById(R.id.btn_create);
+                                                       btn_cancel_save = attachmentView.findViewById(R.id.btn_cancel_save);
                                                        btn_create.setText("Attach");
                                                        btn_create.setAlpha(0.5f);
 
@@ -332,12 +338,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                                                            @SuppressLint("SuspiciousIndentation")
                                                            @Override
                                                            public void onClick(View v) {
-                                                               ll_select_groups.setVisibility(View.GONE);
+                                                               ll_select_groups.setVisibility(GONE);
                                                                ll_client_name.setVisibility(View.VISIBLE);
                                                                custom_client.setText("");
-                                                               list_scroll_view.setVisibility(View.GONE);
+                                                               list_scroll_view.setVisibility(GONE);
                                                                rv_documents_email.clearFocus();
-                                                               ll_attach_grp.setVisibility(View.GONE);
+                                                               ll_attach_grp.setVisibility(GONE);
                                                                compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
                                                                compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
@@ -365,6 +371,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                                                                }
                                                            }
                                                        });
+                                                       btn_cancel_save.setOnClickListener(new View.OnClickListener() {
+                                                           @Override
+                                                           public void onClick(View v) {
+                                                              openComposePopup();
+                                                           }
+                                                       });
 
                                                        // Initialize and set the adapter
 
@@ -380,7 +392,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     public void onClick(View v) {
 
                         CATEGORY_TAG = "firm";
-                        ll_client_name.setVisibility(View.GONE);
+                        ll_client_name.setVisibility(GONE);
                         ll_select_groups.setVisibility(View.VISIBLE);
                         view_docs_list.clear();
                         groupsList.clear();
@@ -390,7 +402,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         tv_select_groups.setText("");
                         rv_documents_email.clearFocus();
                         ll_attach_grp.setVisibility(View.VISIBLE);
-                        linearLayout2.setVisibility(View.GONE);
+                        linearLayout2.setVisibility(GONE);
 
                         compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
@@ -408,8 +420,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                             rv_display_upload_groups_docs.setVisibility(View.VISIBLE);
                             linearLayout2.setVisibility(View.VISIBLE);
                         } else {
-                            rv_display_upload_groups_docs.setVisibility(View.GONE);
-                            linearLayout2.setVisibility(View.GONE);
+                            rv_display_upload_groups_docs.setVisibility(GONE);
+                            linearLayout2.setVisibility(GONE);
                         }
                         ischecked_group = !ischecked_group;
                     }
@@ -423,11 +435,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     public void onClick(View v) {
                         clientsList.clear();
                         callClientWebservice();
-                        list_scroll_view.setVisibility(View.GONE);
+                        list_scroll_view.setVisibility(GONE);
                         if (ischecked)
                             list_scroll_view.setVisibility(View.VISIBLE);
                         else
-                            list_scroll_view.setVisibility(View.GONE);
+                            list_scroll_view.setVisibility(GONE);
 
                         ischecked = !ischecked;
 
@@ -457,20 +469,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     }
 
 
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view;
-        switch (viewType) {
-            case VIEW_TYPE_DOCUMENT:
-                view = inflater.inflate(R.layout.grid_view, parent, false);
-               openComposePopup();
-            case VIEW_TYPE_ATTACHMENT:
-                view = inflater.inflate(R.layout.attachment_item, parent, false);
-              openComposePopup();
-            default:
-                throw new IllegalArgumentException("Invalid view type");
-        }
-    }
+
 
 
 
@@ -505,39 +504,43 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
-    public void send_email(String toEmail, String subject, String body, List<String> documentFilenames) {
+    public void send_email() {
         try {
-            // Show progress dialog if needed
             progress_dialog = AndroidUtils.get_progress(getActivity());
 
-            // Construct JSON object with email details
             JSONObject emailJson = new JSONObject();
-            emailJson.put("toEmail", toEmail);
-            emailJson.put("subject", subject);
-            emailJson.put("body", body);
+            emailJson.put("toEmail", to_input.getText().toString());
+            emailJson.put("subject", message_input.getText().toString());
+            emailJson.put("body", message_inputss.getText().toString());
 
-            // Construct JSONArray for documents
+
             JSONArray documentsArray = new JSONArray();
 
-            // Add each document filename to the documentsArray
-            for (String filename : documentFilenames) {
-                JSONObject document = new JSONObject();
-                document.put("filename", filename);
-                // Add more properties if needed
-                documentsArray.put(document);
+            try {
+
+                for (int i = 0; i < Constants.model.length(); i++) {
+                    JSONObject documentObject = new JSONObject();
+                    documentObject.put("filename", Constants.model.getString(i));
+                    documentObject.put("path",URL);
+                    documentsArray.put(documentObject);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            // Add the documentsArray to the emailJson
+
             emailJson.put("documents", documentsArray);
 
-            // Make the API call to send email
-            String emailUrl = Constants.EMAIL_BASE_URL + Constants.sending_email + Constants.TOKEN;
+
+
+//https://mailapi.digicoffer.com/api/v1/gmail/sendmail/attach/documents/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIFNMRiBTVSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTQ0ODE3NDF9.NKYw2dEBdSt_CXey-tqcUyCrpEZTlTXsqVpnV9qzJaY
+           //https://dev.utils.mail.digicoffer.com/api/v1/gmail/sendmail/attach/documents/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIERMRiBTVSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTQ0ODExMDB9.8_2U9K_AqgJDh6SPK4mSFKU1RzEnOQJlPpKVcoP4wbM
+            String url = "https://mailapi.digicoffer.com/api/v1/gmail/sendmail/attach/documents/";
+           String emailUrl = url+ Constants.TOKEN;
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, emailUrl, "sending_email", emailJson.toString());
         } catch (Exception e) {
             // Handle exceptions
-            if (progress_dialog != null && progress_dialog.isShowing()) {
-                AndroidUtils.dismiss_dialog(progress_dialog);
-            }
+
             e.printStackTrace();
         }
     }
@@ -611,7 +614,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             if (view_docs_list.size() == 0) {
                 rv_documents_email.removeAllViews();
                 AndroidUtils.showToast("No documents to display", getContext());
-                rv_documents_email.setVisibility(View.GONE);
+                rv_documents_email.setVisibility(GONE);
             } else {
                 rv_documents_email.setVisibility(View.VISIBLE);
                 rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -751,6 +754,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 } else if (httpResult.getRequestType().equals("view_document")) {
                     JSONObject data = result.getJSONObject("data");
                     String url=data.getString("url");
+                    URL=url;
                     Log.d("Doc_url",url);
                     if(!(doc_count==Constants.doc_id.length())) {
                         for (int i = 1; i < Constants.doc_id.length(); i++) {
@@ -766,10 +770,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     else {
                         AndroidUtils.showAlert("Documents attached....");
                         openComposePopup();
+                        yourGridView.setVisibility(View.VISIBLE);
                     }
                 } else if (httpResult.getRequestType().equals("sending_email")) {
                     String msg = result.getString("msg");
-                    Log.d("msg_details", msg);
+                    Log.d("message", msg);
+                    AndroidUtils.showToast(msg, context_type);
 
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
@@ -1066,7 +1072,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
-                    clear_search.setVisibility(View.GONE);
+                    clear_search.setVisibility(GONE);
                     search_email.setAlpha(0.3f);
                 } else {
                     clear_search.setVisibility(View.VISIBLE);

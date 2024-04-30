@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.common.Constants;
 
@@ -50,51 +52,60 @@ class Griddocument extends BaseAdapter {
 
         if (gridView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            gridView = inflater.inflate(R.layout.attachment_item, parent, false);
-
+            gridView = inflater.inflate(R.layout.grid_item, parent, false);
 
             holder = new ViewHolder();
             holder.attachmentFilename = gridView.findViewById(R.id.attachmentFilename);
-
             holder.attachmentImage = gridView.findViewById(R.id.attachmentImage);
+            holder.closeIcon = gridView.findViewById(R.id.closeIcon);
+            holder.card_view = gridView.findViewById(R.id.card_view);
 
             gridView.setTag(holder);
         } else {
-
-            holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) gridView.getTag();
         }
 
 
-//        String name = selectedDocumentName;
         String name = "";
-
-        for (int i = 0; i < Constants.model.length(); i++) {
-            try {
-                name = Constants.model.getString(i);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            name = Constants.model.getString(position);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         holder.attachmentFilename.setText(name);
-        if (name.toLowerCase().endsWith(".pdf") ||
-                name.toLowerCase().endsWith(".ics")) {
 
+        // Set the appropriate image based on the file extension
+        if (name.toLowerCase().endsWith(".pdf") || name.toLowerCase().endsWith(".ics")) {
             holder.attachmentImage.setImageResource(R.drawable.pdf_icon2);
             holder.attachmentImage.setVisibility(View.VISIBLE);
         } else if (name.toLowerCase().endsWith(".png") ||
                 name.toLowerCase().endsWith(".jpg") ||
                 name.toLowerCase().endsWith(".jpeg")) {
-
             holder.attachmentImage.setImageResource(R.drawable.attachment_icons);
             holder.attachmentImage.setVisibility(View.VISIBLE);
         }
 
+        // Set onClickListener for close icon to remove the document
+        holder.closeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Remove the document from Constants.model at the current position
+                Constants.model.remove(position);
+                // Remove the document view from the grid
+//                gridView.setVisibility(View.GONE);
+                holder.card_view.setVisibility(View.GONE);
+
+            }
+        });
+
         return gridView;
     }
 
+
     static class ViewHolder {
         TextView attachmentFilename;
-        ImageView attachmentImage;
+        ImageView attachmentImage,closeIcon;
+        CardView card_view;
     }
 }
