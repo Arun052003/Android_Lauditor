@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timeline_c"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -13,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/twenty_dp"
+            android:background="@color/white"
             android:padding="@dimen/left_space"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +23,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/left_space"
                 android:background="@color/Blue_text_color">
 
                 <TextView
@@ -46,8 +47,9 @@
             android:id="@+id/ll_timeLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:background="@color/white"
             android:orientation="vertical"
+            android:padding="@dimen/small_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

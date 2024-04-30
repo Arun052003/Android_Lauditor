@@ -65,6 +65,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     LinearLayout linear_notes;
     RecyclerView rv_matter_list;
     CardView cv_client_details;
+    ViewMatterModel viewMatterModel1;
     RecyclerView rv_group_update;
     TextInputEditText et_search_matter;
     public static String FLAG = "";
@@ -93,7 +94,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     String Matter_Status = "";
     String Matter_Title = "";
     String Case_Number = "";
-    ViewGroupModel viewMatterModel;
     GroupsModel groupsModel;
     //private ArrayList<GroupsModel> groupsList;
     private Activity v;
@@ -470,166 +470,14 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
     public void openViewDetailsPopUp() {
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.view_matter_details, null);
-            ImageView close_details = view.findViewById(R.id.close_details);
-            LinearLayout ll_timeline = view.findViewById(R.id.ll_timeLine);
-            TextView tv_header_name = view.findViewById(R.id.header_name);
-            tv_header_name.setText(Header_name);
-            final AlertDialog dialog = builder.create();
-            ll_timeline.removeAllViews();
-            for (int i = 0; i < historyList.size(); i++) {
-                try {
-                    View view_timeLine = LayoutInflater.from(getContext()).inflate(R.layout.matter_timeline, null);
-                    TextView tv_timeline_title = view_timeLine.findViewById(R.id.tv_timeline_title);
-                    tv_timeline_title.setText("First text view");
-
-                    TextView tv_timeline_date = view_timeLine.findViewById(R.id.tv_timeline_date);
-                    tv_timeline_date.setText("Second text view");
-                    tv_timeline_date.setTextColor(Color.BLACK);
-
-                    LinearLayout ll_empty_notes = view_timeLine.findViewById(R.id.ll_empty_notes);
-                    LinearLayout ll_edit_notes = view_timeLine.findViewById(R.id.ll_edit_notes);
-                    TextInputEditText tv_edit_notes = view_timeLine.findViewById(R.id.tv_edit_notes);
-                    TextView word_count_text_view = view_timeLine.findViewById(R.id.word_count_text_view);
-                    AppCompatButton btn_cancel_save = view_timeLine.findViewById(R.id.btn_cancel_save);
-                    AppCompatButton btn_create = view_timeLine.findViewById(R.id.btn_create);
-                    TextInputEditText tv_view_notes = view_timeLine.findViewById(R.id.tv_view_notes);
-                    LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
-                    ImageView iv_view_timeLine = view_timeLine.findViewById(R.id.iv_view);
-                    TextView normal_notes = view_timeLine.findViewById(R.id.normal_notes);
-
-                    ll_empty_notes.setVisibility(View.VISIBLE);
-                    normal_notes.setVisibility(View.VISIBLE);
-//                int maxLength = 3;
-//                tv_edit_notes.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
-
-//                normal_notes.setPaintFlags(normal_notes.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    ImageView iv_edit_notes = view_timeLine.findViewById(R.id.iv_notes);
-                    boolean allday = historyList.get(i).isAllday();
-                    if (allday) {
-                        iv_edit_notes.setVisibility(View.GONE);
-                    } else {
-                        iv_edit_notes.setVisibility(View.VISIBLE);
-                    }
-                    if (historyList.get(i).getNotes().equals(null)) {
-                        normal_notes.setText("....");
-                    } else if (historyList.get(i).getNotes().equals("")) {
-                        normal_notes.setText("....");
-
-                    } else {
-                        normal_notes.setText(historyList.get(i).getNotes());
-                    }
-
-
-                    iv_edit_notes.setTag(i);
-                    iv_edit_notes.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                int position = 0;
-                                if (v.getTag() instanceof Integer) {
-                                    position = (Integer) v.getTag();
-                                    v = ll_timeline.getChildAt(position);
-                                    if (ll_edit_notes.getVisibility() == View.VISIBLE) {
-                                        ll_empty_notes.setVisibility(View.VISIBLE);
-                                        ll_edit_notes.setVisibility(View.GONE);
-                                        tv_view_notes.setVisibility(View.GONE);
-                                    } else {
-                                        ll_empty_notes.setVisibility(View.GONE);
-                                        ll_edit_notes.setVisibility(View.VISIBLE);
-                                        tv_view_notes.setVisibility(View.GONE);
-
-                                    }
-
-                                    HistoryModel historyModel = historyList.get(position);
-                                    tv_edit_notes.setText(historyModel.getNotes());
-                                    btn_cancel_save.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            ll_empty_notes.setVisibility(View.VISIBLE);
-                                            ll_edit_notes.setVisibility(View.GONE);
-                                            tv_view_notes.setVisibility(View.GONE);
-                                        }
-                                    });
-                                    btn_create.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            if (tv_edit_notes.getText().toString().equals("")) {
-                                                tv_edit_notes.setError("Please fill the notes");
-                                                tv_edit_notes.requestFocus();
-                                            } else {
-                                                dialog.dismiss();
-                                                callEditNotesWebservice(historyModel.getId(), tv_edit_notes.getText().toString().trim());
-                                            }
-                                        }
-                                    });
-
-                                }
-                            } catch (Exception e) {
-                                AndroidUtils.showAlert(e.getMessage(), getContext());
-                            }
-                        }
-                    });
-                    iv_view_timeLine.setTag(i);
-                    iv_view_timeLine.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-
-                                int position = 0;
-                                if (v.getTag() instanceof Integer) {
-                                    position = (Integer) v.getTag();
-                                    v = ll_timeline.getChildAt(position);
-
-                                    if (tv_view_notes.getVisibility() == View.VISIBLE) {
-                                        linear_notes.setVisibility(View.VISIBLE);
-                                        ll_empty_notes.setVisibility(View.VISIBLE);
-                                        ll_edit_notes.setVisibility(View.GONE);
-                                        tv_view_notes.setVisibility(View.GONE);
-                                    } else {
-                                        ll_empty_notes.setVisibility(View.GONE);
-                                        ll_edit_notes.setVisibility(View.GONE);
-                                        tv_view_notes.setVisibility(View.VISIBLE);
-
-                                    }
-
-                                    HistoryModel historyModel = historyList.get(position);
-                                    tv_view_notes.setText(historyModel.getNotes());
-                                }
-                            } catch (Exception e) {
-                                AndroidUtils.showAlert(e.getMessage(), getContext());
-                            }
-
-                        }
-                    });
-                    tv_timeline_title.setText(historyList.get(i).getTitle());
-                    tv_timeline_date.setText(historyList.get(i).getFrom_ts());
-                    ll_timeline.addView(view_timeLine);
-                } catch (Exception ex) {
-                    AndroidUtils.showAlert(ex.getMessage(), getContext());
-                }
-            }
-            close_details.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //  nav_view_matter();
-                    dialog.dismiss();
-//                    matter.loadViewUI();
-                }
-            });
-
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
-
+            matter.View_Details(viewMatterModel1, this, historyList, Header_name);
+            con_id.setVisibility(View.GONE);
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
         }
     }
 
-    private void callEditNotesWebservice(String id, String notes) {
+    void callEditNotesWebservice(String id, String notes) {
         progressDialog = AndroidUtils.get_progress(getActivity());
         try {
             JSONObject postdata = new JSONObject();
@@ -909,13 +757,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     @Override
     public void View_Details(ViewMatterModel viewMatterModel, ArrayList<ViewMatterModel> itemsArrayList) {
         Constants.Matter_CreateOrViewDetails = "View Details";
+        viewMatterModel1 = viewMatterModel;
         TimeLineId = viewMatterModel.getId();
         Header_name = viewMatterModel.getTitle();
         Constants.Matter_title = "";
         Constants.Matter_title = viewMatterModel.getTitle();
         callTimeLineWebservice();
-        matter.View_Details(viewMatterModel, this);
-        con_id.setVisibility(View.GONE);
        /* Bundle bundle = new Bundle();
         bundle.putParcelable("viewMatterModel", viewMatterModel);
         Fragment fragment = new EditMatterTimeline();

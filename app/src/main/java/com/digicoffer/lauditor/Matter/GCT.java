@@ -193,17 +193,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                finalMatter_title.setText(item);
 //            }
 //        });
-        if (!Constants.create_matter) {
-            matter_title_tv.setText(Constants.Matter_title);
-            ll_add_groups.setVisibility(View.GONE);
-            if (Constants.MATTER_TYPE.equals("Legal"))
-                chosen_matter = "legal";
-            else if (Constants.MATTER_TYPE.equals("General")) {
-                chosen_matter = "general";
-            } else
-                chosen_matter = "legal";
-            load_existing_matter();
-        }
         at_add_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -494,7 +483,27 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 }
 
             }
+        } else {
+            matter_title_tv.setText(Constants.Matter_title);
+            ll_add_groups.setVisibility(View.GONE);
+            if (Constants.MATTER_TYPE.equals("General")) {
+                chosen_matter = "general";
+            } else {
+                chosen_matter = "legal";
+            }
+            ll_add_clients.setVisibility(View.VISIBLE);
+            ll_assign_team_members.setVisibility(View.VISIBLE);
+            ll_save_buttons.setVisibility(View.VISIBLE);
+            load_existing_matter();
         }
+        btn_cancel_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Constants.create_matter) {
+                    matter.loadViewUI();
+                }
+            }
+        });
 //        callGroupsWebservice();
         return view;
     }
@@ -794,7 +803,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 } else if (httpResult.getRequestType().equals("matter_update")) {
                     is_error = result.getBoolean("error");
                     String msg = result.getString("msg");
-                    AndroidUtils.showToast("" + msg, getContext());
+                    AndroidUtils.showToast(msg, getContext());
                     matter.loadViewUI();
                 } else if (httpResult.getRequestType().equals("Clients")) {
                     JSONArray clients = result.getJSONArray("clients");
@@ -1351,7 +1360,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             e.fillInStackTrace();
         }
         try {
-            updateDisplay();
+//            updateDisplay();
             if (!selected_clients_list.isEmpty()) {
 //                    callClientsWebservice();
                 loadSelectedClients();
@@ -1378,7 +1387,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //        }
     }
 
-    {
+//    {
 //                        "error": false,
 //                            "attachment_type": "clients",
 //                            "clients": [
@@ -1394,5 +1403,5 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                        }
 //    ]
 //                    }
-    }
+//    }
 }

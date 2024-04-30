@@ -8,21 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
+import com.digicoffer.lauditor.Matter.Models.HistoryModel;
 import com.digicoffer.lauditor.Matter.Models.MatterModel;
-import com.digicoffer.lauditor.Matter.Models.TeamModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
@@ -31,7 +27,6 @@ import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,11 +84,10 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
 
         //Call The Group List API
         callGroupsWebservice();
-        if (Constants.MATTER_TYPE.equals("Legal"))
-            loadLegalMatter();
-        else if (Constants.MATTER_TYPE.equals("General")) {
+        if (Constants.MATTER_TYPE.equals("General"))
             loadGeneralMatter();
-        } else loadLegalMatter();
+        else
+            loadLegalMatter();
 
         tv_legal_matter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +176,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
 
     //    public MatterModel matterModel
     void loadViewUI() {
-        Constants.Matter_CreateOrViewDetails = "ViewDetails";
+        Constants.Matter_CreateOrViewDetails = "View Details";
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_create.setTextColor(Color.BLACK);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
@@ -192,6 +186,15 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ll_create_view.setVisibility(View.VISIBLE);
         viewMatter();
         mViewModel.setData("View Legal Matter");
+    }
+
+    void display_timeline(ArrayList<HistoryModel> historyList, ViewMatter viewMatter, String header_name) {
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        Fragment childFragment = new timeline(historyList, viewMatter, header_name, this);
+        ft.replace(R.id.child_container, childFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     private void viewMatter() {
@@ -318,7 +321,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         ft.commit();
     }
 
-    public void View_Details(ViewMatterModel viewMatterModel, ViewMatter viewMatter) {
+    public void View_Details(ViewMatterModel viewMatterModel, ViewMatter viewMatter, ArrayList<HistoryModel> historyList, String header_name) {
         chk_viewMatter = viewMatter;
         Constants.create_matter = false;
         ll_matter_type.setVisibility(View.GONE);
@@ -341,8 +344,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
 //        AndroidUtils.showAlert("" + Constants.ex_attachment, getContext());
         Constants.Matter_id = "";
         Constants.Matter_id = viewMatterModel.getId();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("viewMatterModel", viewMatterModel);
+        display_timeline(historyList, viewMatter, header_name);
     }
 
     private void callGroupsWebservice() {
