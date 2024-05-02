@@ -1,18 +1,12 @@
 package com.digicoffer.lauditor.ClientRelationships.Adapter;
 
-import static java.security.AccessController.getContext;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.text.Editable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,6 +56,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
     ArrayList<ProfileDo> citizenList = new ArrayList<>();
     int position = 0;
     AlertDialog progress_dialog;
+    AppCompatButton btn_send_request;
     Context mcontext;
     ArrayList<ViewGroupModel> updatedMembersList = new ArrayList<>();
     ArrayList<SharedDocumentsDo>shared_list = new ArrayList<>();
@@ -340,7 +334,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                             holder.rb_shared_with_us.setTextColor(Color.WHITE);
                             holder.rb_shared_by_us.setBackgroundDrawable(mcontext.getResources().getDrawable(R.drawable.button_right_background));
                             holder.rb_shared_by_us.setTextColor(Color.BLACK);
-                            unhideSharedDocumentsdata(holder, shared_tag, relationshipsModel);
+                           unhideSharedDocumentsdata(holder, shared_tag, relationshipsModel);
                         } catch (Resources.NotFoundException e) {
                             AndroidUtils.showToast(e.getMessage(),mcontext);
                         }
@@ -399,8 +393,8 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
     private void unhideSharedDocumentsdata(MyViewHolder holder, String shared_tag, RelationshipsModel relationshipsModel) {
         holder.cv_Profile.setVisibility(View.GONE);
-        holder.rg_shared_status.setVisibility(View.VISIBLE);
-//                        holder.ll_documents.setVisibility(View.VISIBLE);
+        holder.rg_shared_status.setVisibility(View.GONE);
+                        holder.ll_documents.setVisibility(View.VISIBLE);
         holder.nestedScrollView.setVisibility(View.GONE);
         holder.rg_document_type.setVisibility(View.GONE);
         holder.ll_documents.setVisibility(View.GONE);
@@ -1021,7 +1015,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
         RecyclerView rv_relationship_groups;
         TextInputEditText et_search_relationships;
         ImageView iv_close;
-        AppCompatButton btn_send_request, btn_relationships_cancel;
+     AppCompatButton btn_relationships_cancel;
         rv_relationship_groups = view.findViewById(R.id.rv_relationship_groups);
         et_search_relationships = view.findViewById(R.id.et_search_relationships);
 
@@ -1081,31 +1075,50 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             public void onClick(View view) {
                 et_search_relationships.setText("");
                 try {
-                    callUpdateGroupAcess(relationshipsModel_new.getId(), groupsAdapter.getList_item());
+                    // Call the method to update group access
+                    callUpdateGroupAccess(relationshipsModel_new.getId(), groupsAdapter.getList_item());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+
         dialog.setView(view);
         dialog.show();
     }
 
 
-    private void callUpdateGroupAcess(String id, ArrayList<ViewGroupModel> list_item) throws JSONException {
+    private void callUpdateGroupAccess(String id, ArrayList<ViewGroupModel> list_item) throws JSONException {
         JSONObject postData = new JSONObject();
         JSONArray acls = new JSONArray();
+
+        boolean groupSelected = false; // Flag to track if any group is selected
+
         if (list_item.size() != 0) {
             for (int i = 0; i < list_item.size(); i++) {
                 ViewGroupModel viewGroupModel = list_item.get(i);
                 if (viewGroupModel.isChecked()) {
                     acls.put(viewGroupModel.getId());
+                    groupSelected = true;
+                    btn_send_request.setAlpha(1.0f);// Set flag to true if at least one group is selected
                 }
             }
-            postData.put("acls", acls);
-            WebServiceHelper.callHttpWebService(this, mcontext, WebServiceHelper.RestMethodType.PUT, "v2/relationship/" + id + "/acls", "Update Group Access", postData.toString());
+
+            if (!groupSelected) {
+                btn_send_request.setAlpha(0.5f);
+                AndroidUtils.showToast("Please select atleast one group",mcontext);
+
+            } else {
+                postData.put("acls", acls);
+                btn_send_request.setAlpha(1.0f);
+                WebServiceHelper.callHttpWebService(this, mcontext, WebServiceHelper.RestMethodType.PUT, "v2/relationship/" + id + "/acls", "Update Group Access", postData.toString());
+            }
+        } else {
+            // Display toast if no groups are available
+            AndroidUtils.showToast("No groups avaiable",mcontext);
         }
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_relationship_name, tv_created_date, tv_consumer, tv_more_details, tv_initiated, tv_first_name, tv_email, tv_country, tv_contact_name, tv_mobile, tv_website, tv_billing_currency;

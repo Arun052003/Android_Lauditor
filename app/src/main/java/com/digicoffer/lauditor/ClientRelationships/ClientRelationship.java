@@ -1,7 +1,6 @@
 package com.digicoffer.lauditor.ClientRelationships;
 
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -40,7 +39,6 @@ import com.digicoffer.lauditor.ClientRelationships.Model.EntitySearchModel;
 import com.digicoffer.lauditor.ClientRelationships.Model.RelationshipsModel;
 import com.digicoffer.lauditor.ClientRelationships.Model.SearchModel;
 import com.digicoffer.lauditor.Groups.GroupModels.ViewGroupModel;
-import com.digicoffer.lauditor.Members.GroupsAdapter;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -57,7 +55,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ClientRelationship extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, RelationshipsAdapter.EventListener {
 
@@ -177,7 +174,6 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
         }
     }
-
 
 
     private boolean isValidEmail(String email) {
@@ -527,7 +523,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         enableAlpha();
                         callGroupsWebservice();
                         ll_email.setAlpha(0.4F);
-                        ll_confirm_email.setAlpha(0.4F);
+                  ll_confirm_email.setVisibility(View.GONE);
                         ll_entity_name.setAlpha(0.4F);
                         ll_contact_person.setAlpha(0.4F);
                         country_name_id.setAlpha(0.4F);
@@ -579,6 +575,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rb_individual_relationship.setTextColor(Color.BLACK);
                         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
                         rb_business_relationship.setTextColor(Color.WHITE);
+
                         mViewModel.setData("Entity");
                         viewRelationshipsData();
                         clearIndividualData();
@@ -1001,6 +998,20 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 groupsList.clear();
                 clearIndividualData();
                 callGroupsWebservice();
+                tv_response.setText("");
+                ll_email.setAlpha(0.4F);
+                ll_confirm_email.setAlpha(0.4F);
+                ll_last_name.setAlpha(0.4F);
+                ll_first_name.setAlpha(0.4F);
+                country_name_id.setAlpha(0.4F);
+                ll_email.setAlpha(0.4F);
+
+                ll_entity_name.setAlpha(0.4F);
+                ll_contact_person.setAlpha(0.4F);
+                country_name_id.setAlpha(0.4F);
+                ll_contatc_phone.setAlpha(0.4F);
+                ll_groups.setVisibility(View.GONE);
+
             }
         });
 
