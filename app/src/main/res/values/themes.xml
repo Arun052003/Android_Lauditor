@@ -13,4 +13,9 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="MyAlertDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/dialog_bg</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 </resources>

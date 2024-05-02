@@ -11,6 +11,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Constants {
+
+
+    //ID Name Model
+    public static class IdNameModel{
+        String id;
+
+        String name;
+
+        String url;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+    public static int tempPos = -1;
+    public static ArrayList<IdNameModel> composAttachDocAry = new ArrayList<>();
     public static String base_URL = "http://10.0.2.2:8011/consumer/";
     public static String TOKEN = "";
     public static JSONArray doc_id = new JSONArray();

@@ -100,6 +100,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     private int currentPosition = 1;
     JSONArray attachmentsArray = initializeAttachmentsArray();
 
+    AlertDialog composeDialog;
+
     private JSONArray initializeAttachmentsArray() {
 
             JSONArray attachmentsArray = new JSONArray();
@@ -145,7 +147,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     HttpURLConnection httpURLConnection = null;
     TextView inbox_textViews;
     AppCompatButton first_button, search_email, sends_button;
-    EditText to_input,message_input,message_inputss;
+    EditText to_input,subject_input,message_inputs;
     ListView client_list_view;
     TextView grp_name;
     String client_id = "";
@@ -154,7 +156,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     LinearLayout linearLayout2;
     JSONArray array_group = new JSONArray();
     GridView yourGridView;
-    ImageView closeDocuments;
+    ImageView composeDocuments;
 
 
     @SuppressLint("MissingInflatedId")
@@ -162,8 +164,8 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.email_layout, container, false);
-        closeDocuments = view.findViewById(R.id.compose);
-        closeDocuments.setAlpha(0.3f);
+        composeDocuments = view.findViewById(R.id.compose);
+        composeDocuments.setAlpha(0.3f);
 
         ImageView arrow_right = view.findViewById(R.id.arrow_right);
         ImageView arrow_left = view.findViewById(R.id.arrow_left);
@@ -180,9 +182,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         sends_button = view.findViewById(R.id.sends_button);
 
 
-        closeDocuments.setOnClickListener(new View.OnClickListener() {
+        composeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Constants.composAttachDocAry = new ArrayList<>();
                 openComposePopup();
             }
         });
@@ -252,141 +255,114 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
 
 
+    @SuppressLint("MissingInflatedId")
     private void openComposePopup( ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.compose, null);
         ViewDocumentsModel viewDocumentsModel = new ViewDocumentsModel();
         ImageView attachmentImageView = view.findViewById(R.id.attachments);
-        ImageView cross_icon = view.findViewById(R.id.attachment);
+        ImageView cross_icon = view.findViewById(R.id.close_comp_id);
         to_input = view.findViewById(R.id.to_input);
-        message_input= view.findViewById(R.id.message_input);
-        message_inputss = view.findViewById(R.id.message_inputss);
+        subject_input= view.findViewById(R.id.subject_input);
+        message_inputs = view.findViewById(R.id.message_inputss);
         AppCompatButton sends_button = view.findViewById(R.id.sends_button);
 
-       yourGridView = view.findViewById(R.id. gridView);
+       yourGridView = view.findViewById(R.id.compose_gridview);
         yourGridView.setVisibility(GONE);
-        Griddocument griddocument = new Griddocument(getContext(), attachmentsArray, selectedDocumentName);
-        yourGridView.setAdapter(griddocument);
 
         sends_button.setAlpha(1.0f);
+//        builder.getContext().getTheme().applyStyle(R.style.MyAlertDialog, true);
         builder.setView(view);
-        AlertDialog dialog = builder.create();
+        composeDialog = builder.create();
+//        composeDialog.getWindow().setLayout(500, 1000);
+//        composeDialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
+        composeDialog.show();
 
-
-        dialog.show();
         to_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     validateEmail(to_input.getText().toString());
-
                 }
             }
         });
+
         sends_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_email();
-                sends_button.setAlpha(1.0f);
+                if ((!to_input.getText().toString().isEmpty()) && (!subject_input.getText().toString().isEmpty()) && (!Constants.composAttachDocAry.isEmpty())) {
+                    send_email();
+                    sends_button.setAlpha(1.0f);
+                }
             }
         });
 
-
-
         attachmentImageView.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View v) {
-                                                       AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
-                                                       LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
-                                                       View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
-                                                       TextView client_name = attachmentView.findViewById(R.id.client_name);
-                                                       client_name.setText("Client Name");
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater attachmentInflater = getActivity().getLayoutInflater();
+                View attachmentView = attachmentInflater.inflate(R.layout.attach_document, null);
+                TextView client_name = attachmentView.findViewById(R.id.client_name);
+                client_name.setText("Client Name");
 
-                                                       custom_client = attachmentView.findViewById(R.id.custom_client);
-                                                       TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
-                                                       compose_client_name.setText("Client");
-                                                       compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                custom_client = attachmentView.findViewById(R.id.custom_client);
+                TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
+                compose_client_name.setText("Client");
+                compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
-                                                       compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
 
-                                                       TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
-                                                       compose_firm_name.setText("Firm");
-                                                       rv_documents_email = attachmentView.findViewById(R.id.rv_documents_email);
-                                                       ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
-                                                       client_list_view = attachmentView.findViewById(R.id.client_list_view);
-                                                       rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
-                                                       btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
-                                                       btn_group_cancel.setVisibility(GONE);
-                                                       upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
-                                                       btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
-                                                       btn_group_submit.setVisibility(GONE);
-                                                       tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
-                                                       ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
-                                                       grp_name = attachmentView.findViewById(R.id.grp_name);
-                                                       grp_name.setText("Select Group");
-                                                       et_Search_email_document = attachmentView.findViewById(R.id.et_Search_email_document);
-                                                       LinearLayout ll_select_groups = attachmentView.findViewById(R.id.ll_select_groups);
-                                                       LinearLayout ll_client_name = attachmentView.findViewById(R.id.ll_client_name);
-                                                       linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
-                                                       btn_create = attachmentView.findViewById(R.id.btn_create);
-                                                       btn_cancel_save = attachmentView.findViewById(R.id.btn_cancel_save);
-                                                       btn_create.setText("Attach");
-                                                       btn_create.setAlpha(0.5f);
+                TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
+                compose_firm_name.setText("Firm");
+                rv_documents_email = attachmentView.findViewById(R.id.rv_documents_email);
+                ScrollView list_scroll_view = attachmentView.findViewById(R.id.list_scroll_view);
+                client_list_view = attachmentView.findViewById(R.id.client_list_view);
+                rv_display_upload_groups_docs = attachmentView.findViewById(R.id.rv_display_upload_groups_docs);
+                btn_group_cancel = attachmentView.findViewById(R.id.btn_group_cancel);
+                btn_group_cancel.setVisibility(GONE);
+                upload_group_layout = attachmentView.findViewById(R.id.upload_group_layout);
+                btn_group_submit = attachmentView.findViewById(R.id.btn_group_submit);
+                btn_group_submit.setVisibility(GONE);
+                tv_select_groups = attachmentView.findViewById(R.id.tv_select_groups);
+                ll_attach_grp = attachmentView.findViewById(R.id.ll_attach_grp);
+                grp_name = attachmentView.findViewById(R.id.grp_name);
+                grp_name.setText("Select Group");
+                et_Search_email_document = attachmentView.findViewById(R.id.et_Search_email_document);
+                LinearLayout ll_select_groups = attachmentView.findViewById(R.id.ll_select_groups);
+                LinearLayout ll_client_name = attachmentView.findViewById(R.id.ll_client_name);
+                linearLayout2 = attachmentView.findViewById(R.id.linearLayout2);
+                btn_create = attachmentView.findViewById(R.id.btn_create);
+                btn_cancel_save = attachmentView.findViewById(R.id.btn_cancel_save);
+                btn_create.setText("Attach");
+                btn_create.setAlpha(0.5f);
 
-                                                       compose_client_name.setOnClickListener(new View.OnClickListener() {
-                                                           @SuppressLint("SuspiciousIndentation")
-                                                           @Override
-                                                           public void onClick(View v) {
-                                                               ll_select_groups.setVisibility(GONE);
-                                                               ll_client_name.setVisibility(View.VISIBLE);
-                                                               custom_client.setText("");
-                                                               list_scroll_view.setVisibility(GONE);
-                                                               rv_documents_email.clearFocus();
-                                                               ll_attach_grp.setVisibility(GONE);
-                                                               compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                attachmentDialogBuilder.setView(attachmentView);
+                AlertDialog attachmentDialog = attachmentDialogBuilder.create();
+                attachmentDialog.show();
 
-                                                               compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                                                               compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                compose_client_name.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("SuspiciousIndentation")
+                    @Override
+                    public void onClick(View v) {
+                        ll_select_groups.setVisibility(GONE);
+                        ll_client_name.setVisibility(View.VISIBLE);
+                        custom_client.setText("");
+                        list_scroll_view.setVisibility(GONE);
+                        rv_documents_email.clearFocus();
+                        ll_attach_grp.setVisibility(GONE);
+                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
-                                                               compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+                        compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
+                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
 
-                                                           }
-                                                       });
-                                                       btn_create.setOnClickListener(new View.OnClickListener() {
-                                                           @Override
-                                                           public void onClick(View v) {
-                                                               try {
-                                                                   String doc1_id = Constants.doc_id.getString(0);
-                                                                   view_document(doc1_id);
+                        compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
 
+                    }
+                });
 
-                                                                   selectedDocumentName = doc1_id;
-
-
-
-
-                                                               } catch (JSONException e) {
-                                                                   throw new RuntimeException(e);
-                                                               }
-                                                           }
-                                                       });
-                                                       btn_cancel_save.setOnClickListener(new View.OnClickListener() {
-                                                           @Override
-                                                           public void onClick(View v) {
-                                                              openComposePopup();
-                                                           }
-                                                       });
-
-                                                       // Initialize and set the adapter
-
-
-
-
-
-
-
-
+                // Initialize and set the adapter
                 compose_firm_name.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -445,26 +421,65 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
                     }
                 });
-                // Initialize custom_client here
 
-                attachmentDialogBuilder.setView(attachmentView);
-                AlertDialog attachmentDialog = attachmentDialogBuilder.create();
-                attachmentDialog.show();
+                btn_cancel_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        attachmentDialog.dismiss();
+                    }
+                });
 
+                btn_create.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        try {
+                        if (!Constants.composAttachDocAry.isEmpty()) {
+                            Log.e("SelectedDocument:", "" + Constants.composAttachDocAry.get((Constants.composAttachDocAry.size() - 1)).getName());
+                            attachmentDialog.dismiss();
+                            if (Constants.composAttachDocAry.size() > 4) {
+                                int high = Constants.composAttachDocAry.size() / 2;
+                                ViewGroup.LayoutParams layoutParams = yourGridView.getLayoutParams();
+                                layoutParams.height = layoutParams.height + (high * 40);
+                                yourGridView.setLayoutParams(layoutParams);
+                            }
+                            yourGridView.setVisibility(View.VISIBLE);
+                            Griddocument griddocument = new Griddocument(getContext(), Constants.composAttachDocAry, selectedDocumentName);
+                            yourGridView.setAdapter(griddocument);
+                        }
+                            /* String doc1_id = Constants.doc_id.getString(0);
+                            view_document(doc1_id);
+                            selectedDocumentName = doc1_id; */
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
+                    }
+                });
+
+                client_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        client_id = clientsList.get(position).getId();
+                        String client_name = clientsList.get(position).getName();
+                        Log.d("Client_value_name", client_name);
+                        custom_client.setText(client_name);
+                        CATEGORY_TAG = "client";
+                        callfilter_client_webservices();
+                        btn_create.setAlpha(1.0f);
+                        ischecked = true;
+                        list_scroll_view.setVisibility(GONE);
+                    }
+                });
 
             }
         });
-
 
         cross_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Dismiss the AlertDialog
-                dialog.dismiss();
+                composeDialog.dismiss();
             }
         });
-
-
 
     }
 
@@ -510,34 +525,31 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
             JSONObject emailJson = new JSONObject();
             emailJson.put("toEmail", to_input.getText().toString());
-            emailJson.put("subject", message_input.getText().toString());
-            emailJson.put("body", message_inputss.getText().toString());
+            emailJson.put("subject", subject_input.getText().toString());
+            emailJson.put("body", message_inputs.getText().toString());
 
 
             JSONArray documentsArray = new JSONArray();
 
             try {
 
-                for (int i = 0; i < Constants.model.length(); i++) {
+                for (int i = 0; i < Constants.composAttachDocAry.size(); i++) {
                     JSONObject documentObject = new JSONObject();
-                    documentObject.put("filename", Constants.model.getString(i));
-                    documentObject.put("path",URL);
+                    documentObject.put("filename", Constants.composAttachDocAry.get(i).getName());
+                    documentObject.put("path",Constants.composAttachDocAry.get(i).getUrl());
                     documentsArray.put(documentObject);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             emailJson.put("documents", documentsArray);
-
-
 
 //https://mailapi.digicoffer.com/api/v1/gmail/sendmail/attach/documents/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIFNMRiBTVSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTQ0ODE3NDF9.NKYw2dEBdSt_CXey-tqcUyCrpEZTlTXsqVpnV9qzJaY
            //https://dev.utils.mail.digicoffer.com/api/v1/gmail/sendmail/attach/documents/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJBQ0IxMEE2QjUzRjlEMjdEIiwiYWRtaW4iOmZhbHNlLCJwbGFuIjoibGF1ZGl0b3IiLCJyb2xlIjoiU1UiLCJuYW1lIjoiU291bmRhcnlhIERMRiBTVSIsInVzZXJfaWQiOiI2M2JmZDliN2ExZGI3MjBmMmQzOGQ0ZDIiLCJleHAiOjE3MTQ0ODExMDB9.8_2U9K_AqgJDh6SPK4mSFKU1RzEnOQJlPpKVcoP4wbM
-            String url = "https://mailapi.digicoffer.com/api/v1/gmail/sendmail/attach/documents/";
-           String emailUrl = url+ Constants.TOKEN;
-            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, emailUrl, "sending_email", emailJson.toString());
+            String url = Constants.EMAIL_UPLOAD_URL+"gmail/sendmail/attach/documents/";
+           String emailUrl = url + Constants.TOKEN;
+           WebServiceHelper.callEmailHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, emailUrl, "sending_email", emailJson.toString());
+//            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, emailUrl, "sending_email", emailJson.toString());
         } catch (Exception e) {
             // Handle exceptions
 
@@ -599,6 +611,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 viewDocumentsModel.setName(jsonObject.getString("name"));
 //                viewDocumentsModel.setOrigin(jsonObject.getString("origin"));
                 viewDocumentsModel.setUploaded_by(jsonObject.getString("uploaded_by"));
+                viewDocumentsModel.setIsChecked(false);
                 view_docs_list.add(viewDocumentsModel);
                 Log.d("VIEW_POSITION", view_docs_list.get(i).toString());
             }
@@ -618,7 +631,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             } else {
                 rv_documents_email.setVisibility(View.VISIBLE);
                 rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                view_document_emailadapter adapter = new view_document_emailadapter(view_docs_list, context_type);
+                view_document_emailadapter adapter = new view_document_emailadapter(view_docs_list, getContext(), getActivity());
                 rv_documents_email.setAdapter(adapter);
                 rv_documents_email.setHasFixedSize(true);
                 et_Search_email_document.addTextChangedListener(new TextWatcher() {
@@ -733,8 +746,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
                 } else if (httpResult.getRequestType().equals("Display clientDocuments")) {
                     JSONArray data = result.getJSONArray("data");
-
-
                     load_view_doc(data);
                     Log.d("TAG_VIEW_CLIENT", data.toString());
                 } else if (httpResult.getRequestType().equals("Display firmDocuments")) {
@@ -754,14 +765,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 } else if (httpResult.getRequestType().equals("view_document")) {
                     JSONObject data = result.getJSONObject("data");
                     String url=data.getString("url");
-                    URL=url;
+                    Constants.composAttachDocAry.get(Constants.tempPos).setUrl(url);
+//                    URL=url;
                     Log.d("Doc_url",url);
-                    if(!(doc_count==Constants.doc_id.length())) {
+                   /* if(!(doc_count==Constants.doc_id.length())) {
                         for (int i = 1; i < Constants.doc_id.length(); i++) {
                             try {
                                 String doc1_id = Constants.doc_id.getString(i);
                                 view_document(doc1_id);
-                                Log.d("Const_doc", "count....."+doc_count+".....len.." + Constants.doc_id.length() + " .. " + doc1_id);
+                                Log.e("Const_doc", "count....."+doc_count+".....len.." + Constants.doc_id.length() + " .. " + doc1_id);
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
@@ -771,12 +783,12 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         AndroidUtils.showAlert("Documents attached....");
                         openComposePopup();
                         yourGridView.setVisibility(View.VISIBLE);
-                    }
+                    } */
                 } else if (httpResult.getRequestType().equals("sending_email")) {
-                    String msg = result.getString("msg");
+                    String msg = result.getString("message");
                     Log.d("message", msg);
                     AndroidUtils.showToast(msg, context_type);
-
+                    composeDialog.dismiss();
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
                     Log.d("Value_token", url);
@@ -794,8 +806,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             if (httpResult.getRequestType().equals("Label") || (httpResult.getRequestType().equals("auth"))) {
                 emaiAPI();
             }
-
-
         }
     }
 
@@ -825,7 +835,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             emailModel.setThreadsUnread(data.getInt("threadsUnread"));
             Log.e("Email Inbox", String.valueOf(emailModel.getMessagesTotal()));
             inbox_textViews.setText("Indox " + String.valueOf(emailModel.getMessagesTotal()));
-            closeDocuments.setAlpha(1.0f);
+            composeDocuments.setAlpha(1.0f);
 
 //            }
         } catch (JSONException e) {
@@ -900,23 +910,9 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     private void initUI(ArrayList<ClientsModel> clientsList) {
 
-
         CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), clientsList);
         client_list_view.setAdapter(adapter);
 
-        client_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                client_id = clientsList.get(position).getId();
-                String client_name = clientsList.get(position).getName();
-                Log.d("Client_value_name", client_name);
-                custom_client.setText(client_name);
-                CATEGORY_TAG = "client";
-                callfilter_client_webservices();
-                btn_create.setAlpha(1.0f);
-                ischecked = true;
-            }
-        });
     }
 
     private void loadGroupsData(JSONArray data) {

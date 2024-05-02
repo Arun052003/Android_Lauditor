@@ -99,7 +99,7 @@ public class MultiPartHttpExecute extends AsyncTask<String, Integer, HttpResultD
                 String responseData = response.body().string();
                 Log.d("Response", responseData);
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
-                httpResult.setResponseContent(response.body().string());
+                httpResult.setResponseContent(responseData);
                 return httpResult;
             } else {
                 // Handle unsuccessful response
@@ -110,85 +110,9 @@ public class MultiPartHttpExecute extends AsyncTask<String, Integer, HttpResultD
                 httpResult.setResponseContent(responseData);
                 return httpResult;
             }
-           /* client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        // Handle successful response
-                        String responseData = response.body().string();
-                        Log.d("Response", responseData);
-                        httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
-                        httpResult.setResponseContent(response.body().string());
-                    } else {
-                        // Handle unsuccessful response
-                        Log.e("Response", "Error: " + response.code());
-                        Log.e("Response", "Error: " + response.body().string());
-                        httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
-                        httpResult.setResponseContent(response.body().string());
-                        return httpResult;
-                    }
-                }
-            }); */
         }
-        /*    int status_code = httpURLConnection.getResponseCode();
-            Log.i("status_code:", String.valueOf(status_code));
-//            AndroidUtils.showAlert(String.valueOf(status_code), activity.getApplicationContext());
-            httpResult.setStatus_code(status_code);
-            Log.e("SCode:", String.valueOf(status_code));
-            if (status_code == 200) {
-                InputStream in = httpURLConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(in);
-                BufferedReader r = new BufferedReader(inputStreamReader);
-                StringBuilder total = new StringBuilder();
-                for (String line; (line = r.readLine()) != null; ) {
-                    total.append(line).append('\n');
-                }
-                data = total.toString();
-                httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
-                httpResult.setResponseContent(data);
-            } else if (status_code == 401) {
-                httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
-                httpResult.setResponseContent("Session expired, Login again");
-            } else if (status_code == 404) {
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putBoolean("isLogin", false);
-                editor.commit();
-                Intent intent = new Intent(activity, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-
-            } else if (status_code == 400) {
-                try {
-//                    InputStream in = httpURLConnection.getErrorStream();
-////                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-////                    InputStream in = httpURLConnection.getInputStream();
-//                    InputStreamReader inputStreamReader = new InputStreamReader(in);
-//                    BufferedReader r = new BufferedReader(inputStreamReader);
-                    BufferedReader r = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
-                    StringBuilder total = new StringBuilder();
-                    for (String line; (line = r.readLine()) != null; ) {
-                        total.append(line).append('\n');
-                    }
-                    data = total.toString();
-                    httpResult.setResult(WebServiceHelper.ServiceCallStatus.Success);
-                    httpResult.setResponseContent(data);
-//                    JSONObject result = new JSONObject(httpResult.getResponseContent());
-//                    startActivity(new Intent(this, MainActivity.class));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);
-                httpResult.setResponseContent("Errr connection, Please try again");
-            }
-        }*/
         catch (Exception e) {
             AndroidUtils.logMsg("HttpExecuteTask.doInBackground(): Exception " + e.getMessage());
             httpResult = new HttpResultDo();
@@ -209,7 +133,7 @@ public class MultiPartHttpExecute extends AsyncTask<String, Integer, HttpResultD
         try {
             Log.e("Response_Msg",httpResult.getResponseContent());
             if (httpResult.getStatus_code() == 401 && !(requestType.equals("Label")) && !(requestType.equals("auth"))
-                    && !(requestType.equals("messages_rows"))  &&! (URL.contains(Constants.EMAIL_UPLOAD_URL)) && !(requestType.equals("Dashboard"))) {
+                    && !(requestType.equals("messages_rows"))  && !(URL.contains(Constants.EMAIL_UPLOAD_URL)) && !(requestType.equals("Dashboard"))) {
                 Intent in = new Intent(activity, LoginActivity.class);
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(in);

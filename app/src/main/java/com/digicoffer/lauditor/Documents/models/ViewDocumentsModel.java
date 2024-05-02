@@ -2,6 +2,7 @@ package com.digicoffer.lauditor.Documents.models;
 
 import android.util.Log;
 
+
 public class ViewDocumentsModel {
     String created;
     String description;
@@ -15,6 +16,12 @@ public class ViewDocumentsModel {
     String name;
     String origin;
     String uploaded_by;
+
+    Boolean isChecked = false;
+
+    public boolean getIsChecked(){ return isChecked; }
+
+    public void  setIsChecked(boolean isChecked){ this.isChecked = isChecked; }
 
     public String getContent_type() {
         return content_type;
@@ -112,3 +119,5 @@ public class ViewDocumentsModel {
         this.uploaded_by = uploaded_by;
     }
 }
+
+

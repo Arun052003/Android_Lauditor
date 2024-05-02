@@ -16,29 +16,30 @@ import com.digicoffer.lauditor.common.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 class Griddocument extends BaseAdapter {
     private Context mContext;
     private JSONArray mAttachments;
     private String selectedDocumentName;
 
-    public Griddocument(Context context, JSONArray attachmentsArray, String selectedDocumentName) {
+    public static ArrayList<Constants.IdNameModel> composAttachDocAry;
+
+    public Griddocument(Context context, ArrayList attachmentsArray, String selectedDocumentName) {
         mContext = context;
-        mAttachments = attachmentsArray;
+        composAttachDocAry = attachmentsArray;
+//        mAttachments = attachmentsArray;
         this.selectedDocumentName = selectedDocumentName;
     }
 
     @Override
     public int getCount() {
-        return mAttachments != null ? mAttachments.length() : 0;
+        return composAttachDocAry != null ? composAttachDocAry.size() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        try {
-            return mAttachments != null ? mAttachments.get(position) : null;
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+            return composAttachDocAry != null ? composAttachDocAry.get(position) : null;
     }
 
     @Override
@@ -67,12 +68,7 @@ class Griddocument extends BaseAdapter {
 
 
         String name = "";
-        try {
-            name = Constants.model.getString(position);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        name = composAttachDocAry.get(position).getName();
         holder.attachmentFilename.setText(name);
 
         // Set the appropriate image based on the file extension
