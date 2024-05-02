@@ -176,7 +176,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
 
     //    public MatterModel matterModel
     void loadViewUI() {
-        Constants.Matter_CreateOrViewDetails = "View Details";
         tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_create.setTextColor(Color.BLACK);
         tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
