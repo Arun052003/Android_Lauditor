@@ -80,9 +80,11 @@ import java.text.SimpleDateFormat;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 public class MatterDocuments extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, BottomSheetUploadFile.OnPhotoSelectedListner {
 
@@ -673,19 +675,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //            View view = LayoutInflater.from(getContext()).inflate(R.layout.displays_documents_list, null);
 //            TextView tv_docname = view.findViewById(R.id.tv_document_name);
 //            tv_docname.setText(docsList.get(i).getName());
-        String doc_type = "";
-        String docname = "";
-        String content_string = file_name.replace(".", "/");
-        String[] content_type = content_string.split("/");
-        if (content_type.length >= 2) {
-            doc_type = content_type[1];
-            docname = content_type[0];
-        }
-        DocumentsModel documentsModel = new DocumentsModel();
-        documentsModel.setName(docname);
-        documentsModel.setDescription(docname);
-        documentsModel.setFile(file);
-        documentsModel.setIsenabled(true);
+        DocumentsModel documentsModel = getDocumentsModel(file_name, file);
         upload_documents_list.add(documentsModel);
 //        MergedList.addAll(Collections);
 //        if (docsList.size() == 1) {
@@ -702,6 +692,24 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
 //            ll_documents.addView(view);
 //        }
+    }
+
+    @NonNull
+    private static DocumentsModel getDocumentsModel(String file_name, File file) {
+        String doc_type = "";
+        String docname = "";
+        String content_string = file_name.replace(".", "/");
+        String[] content_type = content_string.split("/");
+        if (content_type.length >= 2) {
+            doc_type = content_type[1];
+            docname = content_type[0];
+        }
+        DocumentsModel documentsModel = new DocumentsModel();
+        documentsModel.setName(docname);
+        documentsModel.setDescription(docname);
+        documentsModel.setFile(file);
+        documentsModel.setIsenabled(true);
+        return documentsModel;
     }
 
     public static File getFile(Context context, Uri uri) throws IOException {
@@ -773,6 +781,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = requireContext().getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
+            assert cursor != null;
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
@@ -1027,7 +1036,6 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                     }
                 }
             }
-            selected_documents_list.clear();
 
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_doc.setLayoutManager(layoutManager);
@@ -1040,15 +1048,25 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
+                    Set<DocumentsModel> selected_groups_set = new HashSet<DocumentsModel>();
                     for (int i = 0; i < documentsAdapter.getDocumentsList().size(); i++) {
                         DocumentsModel documentsModel = documentsAdapter.getDocumentsList().get(i);
                         if (documentsModel.isChecked()) {
-                            if (!selected_documents_list.contains(documentsModel)) {
-                                selected_documents_list.add(documentsModel);
-                            }
                             //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            selected_groups_set.add(documentsModel);
                         }
                     }
+                    selected_documents_list.clear();
+                    selected_documents_list.addAll(selected_groups_set);
+//                    for (int i = 0; i < documentsAdapter.getDocumentsList().size(); i++) {
+//                        DocumentsModel documentsModel = documentsAdapter.getDocumentsList().get(i);
+//                        if (documentsModel.isChecked()) {
+//                            if (!selected_documents_list.contains(documentsModel)) {
+//                                selected_documents_list.add(documentsModel);
+//                            }
+//                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+//                        }
+//                    }
                     upload_doc_layout.setVisibility(View.GONE);
                     rv_display_upload_doc.setVisibility(View.GONE);
                     loadSelectedDocuments();

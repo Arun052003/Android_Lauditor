@@ -133,10 +133,13 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         ll_add_clients.setVisibility(View.GONE);
         rv_display_upload_groups_docs = view.findViewById(R.id.rv_display_upload_groups_docs);
         rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_display_upload_groups_docs.setVisibility(View.GONE);
         rv_display_upload_client_docs = view.findViewById(R.id.rv_display_upload_client_docs);
         rv_display_upload_client_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_display_upload_client_docs.setVisibility(View.GONE);
         rv_display_upload_tm_docs = view.findViewById(R.id.rv_display_upload_tm_docs);
         rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+        rv_display_upload_tm_docs.setVisibility(View.GONE);
         ll_add_groups = view.findViewById(R.id.ll_add_groups);
         add_groups.setText(R.string.add_groups);
         add_clients = view.findViewById(R.id.add_clients);
@@ -682,7 +685,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void TeamPopUp() {
         try {
-            rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
+            ll_assigned_team_members.setVisibility(View.VISIBLE);
             for (int i = 0; i < tmList.size(); i++) {
                 for (int j = 0; j < selected_tm_list.size(); j++) {
                     if (tmList.get(i).getTm_id().matches(selected_tm_list.get(j).getTm_id())) {
@@ -692,7 +695,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
                 }
             }
-            selected_tm_list.clear();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_tm_docs.setLayoutManager(layoutManager);
             rv_display_upload_tm_docs.setHasFixedSize(true);
@@ -704,17 +706,30 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
+//                    for (int i = 0; i < documentsAdapter.getTmList().size(); i++) {
+//                        TeamModel teamModel = documentsAdapter.getTmList().get(i);
+//                        if (teamModel.isChecked()) {
+//                            if (!selected_tm_list.contains(teamModel)) {
+//                                selected_tm_list.add(teamModel);
+//                                // ll_assigned_team_members.setVisibility(View.VISIBLE);
+//                                //   ll_add_clients.setVisibility(View.VISIBLE);
+//                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+//                            }
+//                        }
+//                    }
+
+                    //..
+                    Set<TeamModel> selected_groups_set = new HashSet<TeamModel>();
                     for (int i = 0; i < documentsAdapter.getTmList().size(); i++) {
                         TeamModel teamModel = documentsAdapter.getTmList().get(i);
                         if (teamModel.isChecked()) {
-                            if (!selected_tm_list.contains(teamModel)) {
-                                selected_tm_list.add(teamModel);
-                                // ll_assigned_team_members.setVisibility(View.VISIBLE);
-                                //   ll_add_clients.setVisibility(View.VISIBLE);
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                            }
+                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            selected_groups_set.add(teamModel);
                         }
                     }
+                    selected_tm_list.clear();
+                    selected_tm_list.addAll(selected_groups_set);
+                    //..
                     if (selected_tm_list.isEmpty()) {
                         selected_tm.setVisibility(View.GONE);
                     } else {
@@ -827,16 +842,21 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 teamModel.setTm_name(jsonObject.getString("name"));
                 teamModel.setUser_id(jsonObject.getString("user_id"));
                 tmList.add(teamModel);
-                if (tmList.size() == 0) {
-                    ll_assign_team_members.setVisibility(View.GONE);
-                    rv_display_upload_tm_docs.setVisibility(View.GONE);
-                } else {
-                    ll_assign_team_members.setVisibility(View.VISIBLE);
-                    rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
-                }
-                selectedTM = new boolean[tmList.size()];
-
             }
+            if (tmList.isEmpty()) {
+                ll_assign_team_members.setVisibility(View.GONE);
+                rv_display_upload_tm_docs.setVisibility(View.GONE);
+            } else {
+                ll_assign_team_members.setVisibility(View.VISIBLE);
+                rv_display_upload_tm_docs.setVisibility(View.VISIBLE);
+            }
+
+            if (!Constants.create_matter) {
+//                AndroidUtils.showAlert("Test_member", getContext());
+                rv_display_upload_tm_docs.setVisibility(View.GONE);
+            }
+            selectedTM = new boolean[tmList.size()];
+
             TeamPopUp();
         } catch (Exception e) {
             e.fillInStackTrace();
@@ -852,17 +872,19 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 clientsModel.setClient_name(jsonObject.getString("name"));
                 clientsModel.setClient_type(jsonObject.getString("type"));
                 clientsList.add(clientsModel);
-                if (clientsList.size() == 0) {
-                    //ll_add_clients.setVisibility(View.GONE);
-                    rv_display_upload_client_docs.setVisibility(View.GONE);
-                } else {
-                    // ll_add_clients.setVisibility(View.VISIBLE);
-                    rv_display_upload_client_docs.setVisibility(View.VISIBLE);
-                }
+            }
+            if (clientsList.isEmpty()) {
+                //ll_add_clients.setVisibility(View.GONE);
+                rv_display_upload_client_docs.setVisibility(View.GONE);
+            } else {
+                // ll_add_clients.setVisibility(View.VISIBLE);
+                rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+            }
 
-                selectedClients = new boolean[clientsList.size()];
+            selectedClients = new boolean[clientsList.size()];
 
-
+            if (!Constants.create_matter) {
+                rv_display_upload_client_docs.setVisibility(View.GONE);
             }
             ClientssPopUp();
         } catch (Exception e) {
@@ -882,7 +904,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
                 }
             }
-            selected_clients_list.clear();
 
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_client_docs.setLayoutManager(layoutManager);
@@ -896,15 +917,17 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
+                    Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
                     for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
                         ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
                         if (clientsModel.isChecked()) {
-                            if (!selected_clients_list.contains(clientsModel)) {
-                                selected_clients_list.add(clientsModel);
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                            }
+                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            selected_groups_set.add(clientsModel);
                         }
                     }
+                    selected_clients_list.clear();
+                    selected_clients_list.addAll(selected_groups_set);
+
                     ll_assign_team_members.setVisibility(View.VISIBLE);
                     ll_save_buttons.setVisibility(View.VISIBLE);
                     rv_display_upload_client_docs.setVisibility(View.GONE);
@@ -1279,7 +1302,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     //    https://api.staging.digicoffer.com/professional/matter/attachments
     private void load_existing_member_list() throws JSONException {
-        progress_dialog = AndroidUtils.get_progress(getActivity());
+//        progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "members");
 //   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"];
@@ -1289,7 +1312,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     }
 
     private void load_existing_clients_list() throws JSONException {
-        progress_dialog = AndroidUtils.get_progress(getActivity());
+//        progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "clients");
 //   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"];
@@ -1336,6 +1359,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     }
 
     private void display_existing_members(JSONArray members, JSONArray clients) {
+        selected_clients_list.clear();
+        selected_tm_list.clear();
         try {
             for (int p = 0; p < clients.length(); p++) {
                 ClientsModel clientsModel = new ClientsModel();
