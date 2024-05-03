@@ -7,7 +7,7 @@
     android:layout_gravity="start"
     android:gravity= "start"
     android:textSize="@dimen/twenty_dp"
-    android:fontFamily="sans-serif-condensed-medium"
+    android:fontFamily="@font/gill_sans"
 
     android:text="Upload">
 

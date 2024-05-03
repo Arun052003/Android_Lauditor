@@ -53,7 +53,7 @@
         android:id="@+id/tv_bhours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/gill_sans"
         android:text="Pending Payment in the month of"
         android:textColor="@color/black"
         android:textSize="@dimen/Fifteen_dp"

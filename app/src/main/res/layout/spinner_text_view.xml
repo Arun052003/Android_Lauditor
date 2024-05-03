@@ -8,7 +8,7 @@
     android:layout_marginEnd="@dimen/left_space"
     android:layout_weight="1"
     android:background="@drawable/rectangle_light_grey_bg"
-    android:fontFamily="sans-serif-condensed-medium"
+    android:fontFamily="@font/gill_sans"
     android:gravity="center_vertical"
     android:padding="@dimen/Fifteen_dp"
     android:textColor="@color/black"

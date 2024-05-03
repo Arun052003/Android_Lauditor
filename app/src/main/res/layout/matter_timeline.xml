@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ellipsize="end"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:maxLines="1"
                 android:background="@drawable/rectangle_light_grey_bg"
                 android:text="lhjkfsdhjsdfhfcvmnjbxcvnbm,cxvxcvznj cvxnjbjbxcvjcxvbjk"
@@ -105,7 +105,7 @@
                     android:id="@+id/m_c_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text="@string/description"
                     android:textColor="@color/Blue_text_color"
                     android:textSize="@dimen/Fifteen_dp">
@@ -152,7 +152,7 @@
                     android:id="@+id/word_count_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:textColor="@color/Blue_text_color"
                     android:textSize="@dimen/Fifteen_dp">
 
@@ -193,7 +193,7 @@
             android:layout_weight="50"
             android:background="@drawable/rectangular_white_background"
             android:enabled="false"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:hint=""
             android:inputType="textMultiLine"
             android:padding="5dp"

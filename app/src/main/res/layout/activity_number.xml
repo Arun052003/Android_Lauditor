@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/button_left_background"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:padding="20dp"
             android:text="Legal Matter"
             android:textColor="@color/black"
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
 
             android:background="@drawable/button_right_background"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:padding="20dp"
             android:text="General Matter"
             android:textColor="@color/black"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/button_left_background"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:padding="20dp"
             android:text="Create"
             android:textColor="@color/black"
@@ -84,7 +84,7 @@
             android:layout_height="match_parent"
 
             android:background="@drawable/button_right_background"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:padding="20dp"
             android:text="View"
             android:textColor="@color/black"
@@ -120,7 +120,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@color/green_count_color"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:src="@mipmap/single_document_icon"
                 android:text="@string/create_group"
                 android:textColor="@color/black"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/siv_matter_icon"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:gravity="left"
                 android:text="Matter Information">
 
@@ -155,7 +155,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@color/green_count_color"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:src="@mipmap/groups_material_icon"
                 android:text="@string/create_group"
                 android:textColor="@color/black"
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/siv_groups"
                 android:layout_marginLeft="15dp"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:text="View">
 
@@ -190,7 +190,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@color/green_count_color"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:src="@mipmap/documents_copy"
                 android:text="@string/create_group"
                 android:textColor="@color/black"
@@ -203,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/siv_documents"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="@font/gill_sans"
                 android:gravity="left"
                 android:text="@string/documents">
 

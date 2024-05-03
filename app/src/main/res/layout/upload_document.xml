@@ -36,7 +36,7 @@
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:src="@mipmap/uploadwhiteupload1"
                     android:text="@string/create_group"
                     android:textColor="@color/black"
@@ -411,7 +411,18 @@
                             android:layout_marginTop="@dimen/twenty_dp"
                             android:layout_marginBottom="@dimen/twenty_dp" />
 
-                        <include layout="@layout/check_select_all"/>
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/left_space"
+                            android:background="@drawable/rectangle_light_grey_bg"
+                            android:gravity="center"
+                            android:padding="@dimen/left_space">
+
+                            <include layout="@layout/chk_box_layout" />
+
+                            <include layout="@layout/select_all_textview" />
+                        </LinearLayout>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
 
@@ -483,7 +494,7 @@
                         <!--                            android:layout_margin="@dimen/small_size"-->
                         <!--                            android:background="@drawable/rectangle_grey_background"-->
                         <!--                            android:drawableLeft="@drawable/person_image_email"-->
-                        <!--                            android:fontFamily="sans-serif-condensed-medium"-->
+                        <!--                            android:fontFamily="@font/gill_sans"-->
                         <!--                            android:padding="@dimen/small_size"-->
                         <!--                            android:textColor="@color/black"-->
                         <!--                            android:textSize="@dimen/Fifteen_dp"-->
@@ -568,7 +579,7 @@
                     android:layout_marginBottom="15dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_left_background"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="center"
                     android:padding="@dimen/small_size"
                     android:text="Client"
@@ -589,7 +600,7 @@
                     android:layout_toRightOf="@id/tv_client_view"
                     android:layout_weight="1"
                     android:background="@drawable/button_right_background"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="center"
                     android:padding="@dimen/small_size"
                     android:text="Firm"
@@ -607,7 +618,7 @@
                     android:layout_marginTop="@dimen/twenty_dp"
                     android:layout_marginEnd="@dimen/small_size"
                     android:background="@drawable/rectangular_light_grey_background"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="center"
                     android:padding="@dimen/small_size"
                     android:text="Merge PDF"

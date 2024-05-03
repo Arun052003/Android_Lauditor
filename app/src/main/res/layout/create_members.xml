@@ -67,7 +67,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:text="@string/name"
 
                         android:textColor="@color/Blue_text_color"
@@ -108,7 +108,7 @@
                         android:id="@+id/designation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:text="@string/designation"
                         android:textColor="@color/Blue_text_color"
                         android:textSize="@dimen/Fifteen_dp">
@@ -167,7 +167,7 @@
                                 android:layout_height="wrap_content"
 
                                 android:layout_marginBottom="10dp"
-                                android:fontFamily="sans-serif-condensed-medium"
+                                android:fontFamily="@font/gill_sans"
                                 android:text="@string/default_currency"
 
                                 android:textColor="@color/Blue_text_color"
@@ -213,7 +213,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-condensed-medium"
+                                android:fontFamily="@font/gill_sans"
                                 android:text="@string/default_rate"
                                 android:textColor="@color/Blue_text_color"
                                 android:textSize="@dimen/Fifteen_dp">
@@ -258,7 +258,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:text="@string/email"
                         android:textColor="@color/Blue_text_color"
                         android:textSize="@dimen/Fifteen_dp">
@@ -300,7 +300,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:text="@string/confirm_email"
                         android:textColor="@color/Blue_text_color"
                         android:textSize="@dimen/Fifteen_dp">
@@ -345,7 +345,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:text="Assign Group"
                         android:textColor="@color/black"
                         android:textSize="@dimen/Fifteen_dp">

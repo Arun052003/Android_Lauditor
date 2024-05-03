@@ -29,7 +29,7 @@
             android:gravity="start"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:text="Date"
             android:textSize="@dimen/Fifteen_dp"
             android:textColor="@color/cardview_dark_background"/>

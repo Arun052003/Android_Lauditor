@@ -35,7 +35,7 @@
                 <!--        android:layout_width="match_parent"-->
                 <!--        android:layout_height="wrap_content"-->
                 <!--        android:background="@drawable/rectangular_white_background"-->
-                <!--        android:fontFamily="sans-serif-condensed-medium"-->
+                <!--        android:fontFamily="@font/gill_sans"-->
                 <!--        android:gravity="start|center_vertical"-->
                 <!--        android:padding="5dp"-->
                 <!--        android:enabled="false"-->

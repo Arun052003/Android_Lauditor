@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:textSize="@dimen/Fifteen_dp"
             android:textColor="@color/black"
             android:text="@string/select_team_member">

@@ -8,7 +8,7 @@
     android:layout_weight="1"
     android:background="@drawable/button_left_green_background"
     android:button="@android:color/transparent"
-    android:fontFamily="sans-serif-condensed-medium"
+    android:fontFamily="@font/gill_sans"
     android:gravity="center"
     android:padding="15dp"
     android:singleLine="true"

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:enabled="false"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/gill_sans"
             android:gravity="start|center_vertical"
             android:padding="5dp"
             android:text="Document Upload"

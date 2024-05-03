@@ -53,7 +53,7 @@
         android:layout_marginLeft="5dp"
         android:textColor="@color/black"
         android:text="hello"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/gill_sans"
         android:layout_gravity="center"
         android:gravity="center">
 

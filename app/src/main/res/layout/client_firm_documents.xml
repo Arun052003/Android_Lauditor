@@ -3,61 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:layout_height="wrap_content">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/ll_documents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
         android:background="@drawable/rectangle_light_grey_bg"
+        android:gravity="end"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.029">
-        <TextView
-            android:id="@+id/tv_tm_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_title"
-            android:layout_margin="10dp"
 
-            android:layout_weight="1"
-            android:gravity="start"
-            android:layout_gravity="center"
-            android:padding="5dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="Date"
-            android:textSize="@dimen/Fifteen_dp"
-            android:textColor="@color/black"/>
+        <include layout="@layout/grp_name_layout" />
+
         <ImageButton
             android:id="@+id/iv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/dark_grey"
-            android:layout_marginTop="2dp"
             android:layout_margin="10dp"
-            android:visibility="gone"
-            android:src="@drawable/view_document">
+            android:layout_marginTop="2dp"
+            android:background="@color/dark_grey"
+            android:src="@drawable/view_document"
+            android:visibility="gone">
 
         </ImageButton>
-        <CheckBox
-            android:id="@+id/chk_selected"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:paddingEnd="20dp"
-            android:layout_margin="10dp"
 
-            android:buttonTint="@color/green_color"
-            android:background="@color/white"
-            android:layout_gravity="center"
-
-            />
+        <include layout="@layout/chk_box_layout"/>
 
 
     </LinearLayout>

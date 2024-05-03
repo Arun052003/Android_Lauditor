@@ -98,6 +98,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     //....
     TextView custom_spinner, custom_spinner2, custom_spinner3, custom_spinner4, custom_spinner_group, tv_select_groups_view;
     CardView cv_view_doc;
+    boolean isselect_all_checked = true;
 
     JSONArray array_group = new JSONArray();
     boolean is_clicked_add = true;
@@ -321,7 +322,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             select_documents = v.findViewById(R.id.select_documents);
             select_documents.setText(R.string.select_document);
 
-            chk_select_all = v.findViewById(R.id.chk_select_all);
+            chk_select_all = v.findViewById(R.id.chk_selected);
             chk_select_all.getBackground().setAlpha(100);
             chk_select_all.setEnabled(false);
 //            upload_name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cancel_icon,0,0,0);
@@ -1377,11 +1378,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         chk_select_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (chk_select_all.isChecked()) {
-                    adapter.selectOrDeselectAll(true);
-                } else {
-                    adapter.selectOrDeselectAll(false);
-                }
+                chk_select_all.setChecked(isselect_all_checked);
+                isselect_all_checked = !isselect_all_checked;
+                adapter.selectOrDeselectAll(chk_select_all.isChecked());
             }
         });
     }
@@ -1867,7 +1866,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                         }
 
 
-
                         // Update TextView with selected groups
                         String[] value = new String[selected_groups_list.size()];
                         String[] value_id = new String[selected_groups_list.size()];
@@ -1906,10 +1904,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
 
-
-
-
-            private void loadMatters(JSONArray matters) throws JSONException {
+    private void loadMatters(JSONArray matters) throws JSONException {
         //Adding a list first value as empty...
 //        matterlist.add(0, new MattersModel());
         for (int i = 0; i < matters.length(); i++) {

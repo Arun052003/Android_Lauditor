@@ -165,7 +165,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     ischecked = !ischecked;
                 }
             });
-
             holder.sp_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -213,7 +212,13 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             });
             holder.tv_tm_name.setText(viewGroupModel.getName());
         } else if (mTag == "DG") {
-            holder.rb_group_selected.setText(viewGroupModel.getName());
+//            holder.check_layout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    holder.rb_group_selected.setChecked(true);
+//                }
+//            });
+            holder.tv_gh_name.setText(viewGroupModel.getName());
             holder.rb_group_selected.setChecked(position == selectedPosition);
             holder.rb_group_selected.setTag(viewGroupModel.getId());
             holder.rb_group_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -228,7 +233,7 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                 }
             });
         } else {
-            holder.rb_group_selected.setText(viewGroupModel.getGroup_name());
+            holder.tv_gh_name.setText(viewGroupModel.getGroup_name());
             holder.rb_group_selected.setChecked(position == selectedPosition);
             holder.rb_group_selected.setTag(viewGroupModel.getGroup_id());
             holder.rb_group_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -258,9 +263,9 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_user_type, tv_owner_name, tv_date, tv_description, tv_tm_name, created_id;
         private ListView sp_action;
-        TextView custom_spinner;
+        TextView custom_spinner, tv_gh_name;
         CardView custom_spinner_cardview;
-        LinearLayout action_layout;
+        LinearLayout action_layout, check_layout;
         private CheckBox cb_team_members, rb_group;
         private RadioButton rb_group_head, rb_group_selected;
 
@@ -268,6 +273,8 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             super(itemView);
             tv_user_type = itemView.findViewById(R.id.tv_group_name);
             tv_owner_name = itemView.findViewById(R.id.tv_group_head);
+            tv_gh_name = itemView.findViewById(R.id.tv_gh_name);
+            check_layout = itemView.findViewById(R.id.check_layout);
             //tv_owner_name.setTextColor(Color.BLACK);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_date = itemView.findViewById(R.id.tv_date);
@@ -279,8 +286,6 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             custom_spinner_cardview = itemView.findViewById(R.id.custom_spinner_cardview);
             sp_action = itemView.findViewById(R.id.list_client);
             rb_group_selected = itemView.findViewById(R.id.rb_group_selected);
-            rb_group = itemView.findViewById(R.id.chk_selected);
-            rb_group_head = itemView.findViewById(R.id.rb_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
         }
     }

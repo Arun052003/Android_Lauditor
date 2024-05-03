@@ -1,5 +1,5 @@
-<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/chk_selected"
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rb_selected"
     android:layout_width="@dimen/twenty_five"
     android:layout_height="@dimen/twenty_five"
     android:layout_gravity="center"
@@ -7,4 +7,4 @@
     android:background="@drawable/check_box"
     android:button="@drawable/checkbox_tick"
     android:buttonTint="@color/green_color"
-    android:checked="false" />
+    android:checked="true" />

@@ -49,7 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
                         android:layout_marginRight="30dp"
@@ -71,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="@font/gill_sans"
                         android:gravity="center"
 
                         android:text="No Documents to Show"

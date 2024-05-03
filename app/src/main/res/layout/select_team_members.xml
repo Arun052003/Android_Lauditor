@@ -10,7 +10,7 @@
         android:id="@+id/select_tm_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/left_space"
         android:background="@drawable/rectangle_light_grey_bg"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,34 +20,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.029">
 
-        <TextView
-            android:id="@+id/tv_tm_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_title"
-            android:layout_gravity="center"
+        <include layout="@layout/grp_name_layout" />
 
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="start"
-            android:padding="5dp"
-            android:text="Date"
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="@dimen/Fifteen_dp" />
-
-        <CheckBox
-            android:id="@+id/chk_selected"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/check_box"
-            android:button="@drawable/checkbox_tick"
-            android:buttonTint="@color/green_color"
-            android:paddingEnd="20dp"
-
-            />
+        <include layout="@layout/chk_box_layout"/>
     </LinearLayout>
 
     <View

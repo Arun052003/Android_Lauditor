@@ -114,15 +114,20 @@
                         android:layout_marginEnd="5dp" />
                 </LinearLayout>
 
-                <include
-                    android:id="@+id/cb_add_to_timesheet"
-                    layout="@layout/check_select_all"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/left_space"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:background="@drawable/rectangle_light_grey_bg"
+                    android:gravity="center"
+                    android:padding="@dimen/left_space">
+
+                    <include layout="@layout/chk_box_layout"
+                        android:id="@+id/cb_add_to_timesheet"/>
+
+                    <include layout="@layout/select_all_textview"
+                        android:id="@+id/tv_add_to_timesheet"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_task"
@@ -264,7 +269,7 @@
                     <!--                            <TextView-->
                     <!--                                android:layout_width="wrap_content"-->
                     <!--                                android:layout_height="wrap_content"-->
-                    <!--                                android:fontFamily="sans-serif-condensed-medium"-->
+                    <!--                                android:fontFamily="@font/gill_sans"-->
                     <!--                                android:text="@string/event_start_time"-->
                     <!--                                android:textColor="@color/Blue_text_color"-->
                     <!--                                android:textSize="@dimen/Fifteen_dp">-->
@@ -320,7 +325,7 @@
                     <!--                            <TextView-->
                     <!--                                android:layout_width="wrap_content"-->
                     <!--                                android:layout_height="wrap_content"-->
-                    <!--                                android:fontFamily="sans-serif-condensed-medium"-->
+                    <!--                                android:fontFamily="@font/gill_sans"-->
                     <!--                                android:text="@string/event_end_time"-->
                     <!--                                android:textColor="@color/Blue_text_color"-->
                     <!--                                android:textSize="@dimen/Fifteen_dp">-->
@@ -385,14 +390,23 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <include
-                            android:id="@+id/cb_all_day"
-                            layout="@layout/check_select_all"
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/left_space"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:background="@drawable/rectangle_light_grey_bg"
+                            android:gravity="center"
+                            android:padding="@dimen/left_space">
+
+                            <include layout="@layout/chk_box_layout"
+                                android:id="@+id/cb_all_day"/>
+
+                            <include layout="@layout/select_all_textview"
+                                android:id="@+id/tv_cb_all_day"/>
+                        </LinearLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

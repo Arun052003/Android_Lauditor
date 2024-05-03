@@ -24,6 +24,7 @@ import com.digicoffer.lauditor.Webservice.ItemClickListener;
 import com.digicoffer.lauditor.common.AndroidUtils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder> implements Filterable {
 
@@ -55,7 +56,7 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (mTag == "TM") {
+        if (Objects.equals(mTag, "TM")) {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
             return new GroupAdapters.ViewHolder(itemView);
         } else {
@@ -94,7 +95,7 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
             });
             holder.tv_tm_name.setText(groupModel.getName());
         } else {
-            holder.rb_group_head.setText(groupModel.getName());
+            holder.rb_tv_name.setText(groupModel.getName());
             holder.rb_group_head.setChecked(position == selectedPosition);
             holder.rb_group_head.setTag(groupModel.getId());
             holder.rb_group_head.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -185,13 +186,14 @@ public class GroupAdapters extends RecyclerView.Adapter<GroupAdapters.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private CheckBox cb_team_members;
-        private TextView tv_tm_name, tv_gh_name;
+        private TextView tv_tm_name, rb_tv_name;
         private RadioButton rb_group_head;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cb_team_members = itemView.findViewById(R.id.chk_selected);
             tv_tm_name = itemView.findViewById(R.id.tv_tm_name);
+            rb_tv_name = itemView.findViewById(R.id.rb_tv_name);
 //            tv_gh_name = itemView.findViewById(R.id.tv_gh_name);
             rb_group_head = itemView.findViewById(R.id.rb_selected);
         }

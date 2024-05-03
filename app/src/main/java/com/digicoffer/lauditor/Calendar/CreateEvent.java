@@ -80,7 +80,8 @@ import java.util.concurrent.TimeUnit;
 public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener {
     private static String ADAPTER_TAG = "";
     private String Event_name = "";
-    private TextView error_msg, error_msg1;
+    boolean iscb_timesheet_checked = true;
+    private TextView chk_select_all_text, tv_cb_all_day;
     private TextInputEditText tv_numbers;
     private AlertDialog progressDialog;
     private String existing_task;
@@ -212,9 +213,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         tv_message_name.setText("Message");
         tv_message.setHint("Message");
         at_attach_document = view.findViewById(R.id.at_attach_document);
-        cb_all_day = view.findViewById(R.id.cb_all_day);
-        cb_all_day.setText("All Day");
-        cb_all_day.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+
         btn_cancel_event = view.findViewById(R.id.btn_cancel_event);
         Time_duration = view.findViewById(R.id.Time_duration);
         Time_duration.setText("Duration : ");
@@ -257,9 +256,15 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         cv_add_clients = view.findViewById(R.id.cv_add_clients);
         cv_add_clients.setVisibility(View.GONE);
 
+
+        chk_select_all_text = view.findViewById(R.id.tv_add_to_timesheet);
+        chk_select_all_text.setText(R.string.add_to_timesheet);
         cb_add_to_timesheet = view.findViewById(R.id.cb_add_to_timesheet);
-        cb_add_to_timesheet.setText("Add To Timesheet");
-        cb_add_to_timesheet.setBackground(getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+
+        tv_cb_all_day = view.findViewById(R.id.tv_cb_all_day);
+        tv_cb_all_day.setText(R.string.all_day);
+        cb_all_day = view.findViewById(R.id.cb_all_day);
+
         loadcheckboxData();
         ll_attach_document = view.findViewById(R.id.ll_attach_document);
         btn_attach_document = view.findViewById(R.id.btn_attach_document);
@@ -523,11 +528,9 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
         cb_add_to_timesheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cb_add_to_timesheet.isChecked()) {
-                    isAddTimesheet = true;
-                } else {
-                    isAddTimesheet = false;
-                }
+                cb_add_to_timesheet.setChecked(iscb_timesheet_checked);
+                iscb_timesheet_checked = !iscb_timesheet_checked;
+                isAddTimesheet = cb_add_to_timesheet.isChecked();
             }
         });
         //        cb_all_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

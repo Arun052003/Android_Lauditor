@@ -14,5 +14,6 @@
     <dimen name="forty_dp">40dp</dimen>
     <dimen name="Fifty_dp">50dp</dimen>
     <dimen name="module_btn_size">120dp</dimen>
+    <dimen name="twenty_five">25dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
 </resources>
