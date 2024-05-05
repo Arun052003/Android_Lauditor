@@ -39,7 +39,6 @@ import com.digicoffer.lauditor.ClientRelationships.Model.EntitySearchModel;
 import com.digicoffer.lauditor.ClientRelationships.Model.RelationshipsModel;
 import com.digicoffer.lauditor.ClientRelationships.Model.SearchModel;
 import com.digicoffer.lauditor.Groups.GroupModels.ViewGroupModel;
-import com.digicoffer.lauditor.Members.GroupsAdapter;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
 import com.digicoffer.lauditor.Webservice.AsyncTaskCompleteListener;
@@ -56,7 +55,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ClientRelationship extends Fragment implements AsyncTaskCompleteListener, View.OnClickListener, RelationshipsAdapter.EventListener {
 
@@ -67,6 +65,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     ArrayList<RelationshipsModel> relationshipsList = new ArrayList<>();
     String TAG = "";
     private NewModel mViewModel;
+
+    public static String FLAG = "";
     LinearLayout ll_email, ll_confirm_email;
 
     private ListView countryListView;
@@ -87,7 +87,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
     String entity_id = "";
     Spinner sp_country;
-    GroupsAdapter groupsAdapter;
+    Groupsadapter_relationship groupsAdapter;
     RecyclerView rv_relationship_groups,rv_relationships;
     SearchModel searchModel;
     private CheckBox chk_select_all;
@@ -120,7 +120,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         tv_individual_email.setText(email);
                         tv_individual_confirm_email.setText(email);
                         ll_groups.setVisibility(View.VISIBLE);
-                        ll_select_all.setVisibility(View.VISIBLE);
+                        ll_select_all.setVisibility(View.GONE);
                     } else {
                         tv_individual_email.setText("");
                         tv_individual_confirm_email.setText("");
@@ -142,10 +142,14 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 //                    ll_groups.setVisibility(View.VISIBLE);
 //                    ll_select_all.setVisibility(View.VISIBLE);
 //                tv_response.setText("");
+                    tv_individual_firstname.setText("");
+                    tv_individual_last_name.setText("");
+
                     callSearchIndividualWebservice();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    AndroidUtils.showToast(e.getMessage(), getContext());
+
+                    AndroidUtils.showAlert(e.getMessage(), getContext());
                 }
                 break;
             case R.id.btn_search_entity:
@@ -157,9 +161,12 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     ll_contact_person.setAlpha(1.0f);
                     country_name_id.setAlpha(1.0f);
                     ll_contatc_phone.setAlpha(1.0f);
+                    tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
+                    chk_select_all.setVisibility(View.GONE);
+                    tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
                     ll_groups.setVisibility(View.VISIBLE);
                     ll_select_all.setVisibility(View.VISIBLE);
-                    clearIndividualData();
+                    // clearIndividualData();
                     callSearchEntityWebservice(id);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -167,6 +174,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
         }
     }
+
+
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email.matches(emailRegex);
@@ -176,37 +185,50 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         JSONObject postdata = new JSONObject();
 
         if (entity_id.isEmpty()) {
-            tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
-            tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
-            //  disableAlpha();
-            tv_entity_name.setEnabled(true);
-            tv_entity_name.setFocusable(true);
-            tv_entity_name.setFocusableInTouchMode(true);
-            tv_entity_contact_person.setEnabled(true);
-            tv_entity_contact_person.setFocusable(true);
-            tv_entity_contact_person.setFocusableInTouchMode(true);
-            tv_individual_email.setEnabled(true);
-            tv_individual_email.setFocusable(true);
-            tv_individual_email.setFocusableInTouchMode(true);
-            tv_individual_confirm_email.setEnabled(true);
-            tv_individual_confirm_email.setFocusable(true);
-            tv_individual_confirm_email.setFocusableInTouchMode(true);
-            sp_country.setEnabled(true);
-            sp_country.setEnabled(true);
-            tv_entity_phone_number.setFocusable(true);
-            tv_entity_phone_number.setEnabled(true);
-            tv_entity_phone_number.setFocusableInTouchMode(true);
-            // enableIndividualData();
-            //  clearIndividualData();
-            // clearIndividualData();
+            // Check if tv_response is not null and context is not null
+            if (tv_response != null && getContext() != null) {
+                // Set the text of tv_response to the text from at_search_entity
+                tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
+                tv_response.setTextColor(getContext().getResources().getColor(R.color.Red));
+            }
+
+            // Enable other UI elements
+            if (tv_entity_name != null) {
+                tv_entity_name.setEnabled(true);
+                tv_entity_name.setFocusable(true);
+                tv_entity_name.setFocusableInTouchMode(true);
+            }
+            if (tv_entity_contact_person != null) {
+                tv_entity_contact_person.setEnabled(true);
+                tv_entity_contact_person.setFocusable(true);
+                tv_entity_contact_person.setFocusableInTouchMode(true);
+            }
+            if (tv_individual_email != null) {
+                tv_individual_email.setEnabled(true);
+                tv_individual_email.setFocusable(true);
+                tv_individual_email.setFocusableInTouchMode(true);
+            }
+            if (tv_individual_confirm_email != null) {
+                tv_individual_confirm_email.setEnabled(true);
+                tv_individual_confirm_email.setFocusable(true);
+                tv_individual_confirm_email.setFocusableInTouchMode(true);
+            }
+            if (sp_country != null) {
+                sp_country.setEnabled(true);
+                sp_country.setEnabled(true);
+            }
+            if (tv_entity_phone_number != null) {
+                tv_entity_phone_number.setFocusable(true);
+                tv_entity_phone_number.setEnabled(true);
+                tv_entity_phone_number.setFocusableInTouchMode(true);
+            }
         } else {
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v2/relationship/entity/" + entity_id, "Search Entity", postdata.toString());
         }
 
-
         entity_id = "";
-
     }
+
 
 
 
@@ -377,7 +399,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         tv_entity_phone_number.setFocusable(false);
         ll_relationships = view.findViewById(R.id.ll_relationships);
         et_search_view_relationships = view.findViewById(R.id.et_search_view_relationships);
-        et_search_view_relationships.setHint("Search Relationships");
+        et_search_view_relationships.setHint("Search Relationship");
         tv_individual_confirm_email = view.findViewById(R.id.tv_individual_confirm_email);
         tv_individual_confirm_email.setHint("Confirm Email");
         tv_individual_confirm_email.setEnabled(false);
@@ -406,9 +428,6 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
 
         rg_individual_entity.setVisibility(View.VISIBLE);
-        viewRelationshipsData();
-        callIndividualWebservice();
-        clearIndividualData();
         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
         rb_individual_relationship.setTextColor(Color.WHITE);
         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -416,6 +435,16 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
         Relationship_Type = "individuals";
         viewRelationshipsData();
         mViewModel.setData("View Relationships");
+//        viewRelationshipsData();
+//        callIndividualWebservice();
+//        clearIndividualData();
+//        rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+//        rb_individual_relationship.setTextColor(Color.WHITE);
+//        rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_background));
+//        rb_business_relationship.setTextColor(Color.BLACK);
+//        Relationship_Type = "individuals";
+//        viewRelationshipsData();
+//        mViewModel.setData("View Relationships");
 
 
         rg_add_relationships.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -428,7 +457,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rg_relationship.setVisibility(View.GONE);
                         rb_add_relationship.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
-
+                        rg_individual_entity.check(R.id.add_individiual);
                         rb_view_relationships.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
                         rb_add_relationship.setTextColor(getContext().getResources().getColor(R.color.white));
                         rb_view_relationships.setTextColor(getContext().getResources().getColor(R.color.black));
@@ -438,16 +467,12 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         ll_select_all.setVisibility(View.GONE);
                         ll_groups.setVisibility(View.GONE);
                         relationshipsList.clear();
+                        total_card.clearFocus();
                         rv_relationships.removeAllViews();
                         mViewModel.setData("Add Relationship");
-                        tv_response.setText("");
-                        tv_individual_email.setText("");
-                        tv_individual_confirm_email.setText("");
-                        tv_individual_firstname.setText("");
-                        tv_individual_last_name.setText("");
-                        tv_individual_last_name.setText("");
-                        et_search_individual.setText("");
                         break;
+
+
                     case R.id.view_relationship:
                         rb_individual_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                         rb_individual_relationship.setTextColor(Color.WHITE);
@@ -498,7 +523,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         enableAlpha();
                         callGroupsWebservice();
                         ll_email.setAlpha(0.4F);
-                        ll_confirm_email.setAlpha(0.4F);
+                  ll_confirm_email.setVisibility(View.GONE);
                         ll_entity_name.setAlpha(0.4F);
                         ll_contact_person.setAlpha(0.4F);
                         country_name_id.setAlpha(0.4F);
@@ -550,6 +575,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         rb_individual_relationship.setTextColor(Color.BLACK);
                         rb_business_relationship.setBackground(getContext().getResources().getDrawable(R.drawable.button_right_green_count));
                         rb_business_relationship.setTextColor(Color.WHITE);
+
                         mViewModel.setData("Entity");
                         viewRelationshipsData();
                         clearIndividualData();
@@ -699,10 +725,10 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     boolean error = result.getBoolean("error");
                     callGroupsWebservice();
                     if (error){
-                        AndroidUtils.showToast(result.getString("msg"),getContext());
+                        AndroidUtils.showAlert(result.getString("msg"),getContext());
                     }
                     else{
-                        AndroidUtils.showToast(result.getString("msg"),getContext());
+                        AndroidUtils.showAlert(result.getString("msg"),getContext());
                         at_search_entity.setText("");
                         entity_id = "";
                         value = "";
@@ -941,13 +967,15 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
     }
 
     private void loadGroupsRecylerview() {
-
-//        if (groupsList.size() != 0) {
-
+        FLAG = "second_click";
         rv_relationship_groups.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        groupsAdapter = new GroupsAdapter(groupsList);
+
+        // Assuming chk_select_all is the CheckBox you want to pass to GroupsAdapter
+        groupsAdapter = new Groupsadapter_relationship(groupsList);
+
         rv_relationship_groups.setAdapter(groupsAdapter);
         rv_relationship_groups.setHasFixedSize(true);
+
         et_search_relationships.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -955,15 +983,14 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                groupsAdapter.getFilter().filter(s);
+                groupsAdapter.getFilter().filter(et_search_relationships.getText().toString());
             }
-
         });
+
         btn_relationships_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -971,31 +998,37 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 groupsList.clear();
                 clearIndividualData();
                 callGroupsWebservice();
+                tv_response.setText("");
+                ll_email.setAlpha(0.4F);
+                ll_confirm_email.setAlpha(0.4F);
+                ll_last_name.setAlpha(0.4F);
+                ll_first_name.setAlpha(0.4F);
+                country_name_id.setAlpha(0.4F);
+                ll_email.setAlpha(0.4F);
+
+                ll_entity_name.setAlpha(0.4F);
+                ll_contact_person.setAlpha(0.4F);
+                country_name_id.setAlpha(0.4F);
+                ll_contatc_phone.setAlpha(0.4F);
+                ll_groups.setVisibility(View.GONE);
+
             }
         });
+
         btn_send_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (RELATIONSHIP_TAG.equals("INDIVIDUAL")) {
                     individualValidationClick();
                     viewRelationshipsData();
-                    callGroupsWebservice();
                 } else {
                     RELATIONSHIP_TAG = "ENTITY";
                     entityValidationClick();
                     viewRelationshipsData();
-                    callGroupsWebservice();
-
-
-
-
-
+                    clearIndividualData();
                 }
             }
         });
-
-
-
 
         chk_select_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -1003,12 +1036,8 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 groupsAdapter.selectOrDeselectAll(isChecked);
             }
         });
-
-//        }
-//        else {
-////            cv_members_details.setVisibility(View.GONE);
-//        }
     }
+
 
     private void callEntityRequestWebservice() throws JSONException{
         Log.i("Tag","Country_Name:"+country_name);
@@ -1022,7 +1051,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 }
             }
             if (groups.length() == 0) {
-                AndroidUtils.showToast("Please select atleast one group", getContext());
+                AndroidUtils.showAlert("Please select atleast one group", getContext());
 
             }else{
 
