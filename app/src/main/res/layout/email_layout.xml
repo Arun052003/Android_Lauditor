@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,173 +8,197 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_margin="@dimen/small_size"
-        android:background="@drawable/rectangle_grey_background"
-        android:nextFocusRight="@id/search_btn">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/search_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_Search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/left_space"
-                android:fontFamily="@font/gill_sans"
-                android:background="@drawable/rectangle_grey_background"
-                android:hint="@string/search"
-                android:imeOptions="actionDone"
-                android:inputType="textFilter"
-                android:padding="@dimen/small_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/search_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end">
-
-            <include
-                android:id="@+id/clear_search"
-                layout="@layout/clear_search" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/search_email"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_margin="@dimen/left_space"
-                android:background="@drawable/rounder_button_green"
-                android:gravity="center"
-                android:text="@string/search"
-                android:textColor="@color/white"
-                tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_transparent"
-        android:layout_gravity="start">
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/left_space"
-            android:layout_marginEnd="@dimen/left_space"
-            android:gravity="start"
-            android:orientation="horizontal"
-            tools:ignore="MissingConstraints">
-
-            <ImageView
-                android:id="@+id/compose"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/left_space"
-                android:src="@drawable/compose"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="4dp"
-                tools:layout_editor_absoluteY="125dp" />
+            android:layout_gravity="start"
+            android:layout_margin="@dimen/small_size"
+            android:background="@drawable/rectangle_grey_background"
+            android:nextFocusRight="@id/search_btn">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="start"
                 android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_Search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/inbox"
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:padding="8dp"
-                            android:src="@drawable/inbox"
-                            tools:ignore="MissingConstraints"
-                            tools:layout_editor_absoluteY="125dp" />
-
-                        <TextView
-                            android:id="@+id/inbox_textViews"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingStart="0dp"
-                            android:fontFamily="@font/gill_sans"
-                            android:paddingEnd="@dimen/left_space"
-                            android:text="@string/inbox_0"
-                            android:textColor="@color/blue"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/first_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:background="@drawable/rounder_button_green"
-                    android:padding="@dimen/left_space"
-                    android:text="@string/first"
-                    android:textColor="@color/white" />
+                    android:layout_margin="@dimen/left_space"
+                    android:background="@drawable/rectangle_grey_background"
+                    android:fontFamily="@font/gill_sans"
+                    android:hint="@string/search"
+                    android:imeOptions="actionDone"
+                    android:inputType="textFilter"
+                    android:padding="@dimen/small_size" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/search_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center">
-            <ImageView
-                android:id="@+id/arrow_left"
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center"
-                android:src="@drawable/left_arrow"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="4dp"
-                tools:layout_editor_absoluteY="125dp" />
-            <ImageView
-                android:id="@+id/arrow_right"
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center|end"
+                android:gravity="end">
+
+                <include
+                    android:id="@+id/clear_search"
+                    layout="@layout/clear_search" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/search_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/left_space"
+                    android:background="@drawable/rounder_button_green"
+                    android:gravity="center"
+                    android:text="@string/search"
+                    android:textColor="@color/white"
+                    tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@drawable/background_transparent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/left_space"
-                android:layout_marginEnd="@dimen/small_size"
-                android:src="@drawable/right_arrow"
-                tools:ignore="MissingConstraints" />
-        </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_marginEnd="@dimen/left_space"
+                android:gravity="start"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+                <ImageView
+                    android:id="@+id/compose"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/left_space"
+                    android:src="@drawable/compose"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="4dp"
+                    tools:layout_editor_absoluteY="125dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="4dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/inbox"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:padding="8dp"
+                                android:src="@drawable/inbox"
+                                tools:ignore="MissingConstraints"
+                                tools:layout_editor_absoluteY="125dp" />
+
+                            <TextView
+                                android:id="@+id/inbox_textViews"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/gill_sans"
+                                android:paddingStart="0dp"
+                                android:paddingEnd="@dimen/left_space"
+                                android:text="@string/inbox_0"
+                                android:textColor="@color/blue"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/first_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rounder_button_green"
+                        android:gravity="center"
+                        android:padding="@dimen/left_space"
+                        android:text="@string/first"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/arrow_left"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/left_arrow"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="4dp"
+                        tools:layout_editor_absoluteY="125dp" />
+
+                    <ImageView
+                        android:id="@+id/arrow_right"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center|end"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginEnd="@dimen/small_size"
+                        android:src="@drawable/right_arrow"
+                        tools:ignore="MissingConstraints" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/left_space"
+            android:background="@drawable/background_transparent"
+            android:orientation="vertical"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/overlay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/left_space"
-        android:orientation="vertical"
-        android:background="@drawable/background_transparent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/dialog_bg"
+        android:visibility="gone"
+        android:orientation="vertical"/>
 
-        />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

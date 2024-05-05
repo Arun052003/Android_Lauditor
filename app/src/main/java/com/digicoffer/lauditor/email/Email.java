@@ -158,6 +158,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
     GridView yourGridView;
     ImageView composeDocuments;
 
+    LinearLayout overlay;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -180,7 +181,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         search_email = view.findViewById(R.id.search_email);
         search_email.setAlpha(0.3f);
         sends_button = view.findViewById(R.id.sends_button);
-
+        overlay = view.findViewById(R.id.overlay);
 
         composeDocuments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,14 +268,15 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         subject_input= view.findViewById(R.id.subject_input);
         message_inputs = view.findViewById(R.id.message_inputss);
         AppCompatButton sends_button = view.findViewById(R.id.sends_button);
-
-       yourGridView = view.findViewById(R.id.compose_gridview);
+        overlay.setVisibility(View.VISIBLE);
+        yourGridView = view.findViewById(R.id.compose_gridview);
         yourGridView.setVisibility(GONE);
 
         sends_button.setAlpha(1.0f);
 //        builder.getContext().getTheme().applyStyle(R.style.MyAlertDialog, true);
         builder.setView(view);
         composeDialog = builder.create();
+        composeDialog.setCanceledOnTouchOutside(false);
 //        composeDialog.getWindow().setLayout(500, 1000);
 //        composeDialog.getWindow().setBackgroundDrawableResource(android.R.color.darker_gray);
         composeDialog.show();
@@ -349,7 +351,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         ll_select_groups.setVisibility(GONE);
                         ll_client_name.setVisibility(View.VISIBLE);
                         custom_client.setText("");
+                        clientsList.clear();
+                        groupsList.clear();
                         list_scroll_view.setVisibility(GONE);
+
                         rv_documents_email.clearFocus();
                         ll_attach_grp.setVisibility(GONE);
                         compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
@@ -372,6 +377,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         ll_select_groups.setVisibility(View.VISIBLE);
                         view_docs_list.clear();
                         groupsList.clear();
+                        clientsList.clear();
+                        list_scroll_view.setVisibility(GONE);
+
+                        rv_display_upload_groups_docs.setVisibility(GONE);
+                        linearLayout2.setVisibility(GONE);
 
                         ischecked_group = true;
                         selected_groups_list.clear();
@@ -478,6 +488,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             public void onClick(View v) {
                 // Dismiss the AlertDialog
                 composeDialog.dismiss();
+                overlay.setVisibility(GONE);
             }
         });
 
@@ -948,8 +959,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 public void onCheckedChanged(DocumentsModel documentsModel) {
                     // Update selected groups list
                     if (documentsModel.isGroupChecked()) {
-                        selected_groups_list.add(documentsModel);
-                        callfilter_client_webservices();
+                        if (!selected_groups_list.contains(documentsModel)) {
+                            selected_groups_list.add(documentsModel);
+                            view_docs_list.clear();
+                            callfilter_client_webservices();
+                        }
+                    }else{
+                        selected_groups_list.remove(documentsModel);
+                        view_docs_list.clear();
                     }
 
                     // Update TextView with selected groups
