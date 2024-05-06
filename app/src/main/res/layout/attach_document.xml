@@ -51,14 +51,14 @@
         android:id="@+id/ll_client_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible">
+
+        android:orientation="vertical">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints">
 
             <include
                 android:id="@+id/client_name"
@@ -67,57 +67,37 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_size"
                 android:layout_marginBottom="@dimen/small_size" />
-            <!--                            android:text="Client Name"-->
+            <!-- android:text="Client Name" -->
 
             <include
                 layout="@layout/astrick_layout"
                 android:layout_width="15dp"
                 android:layout_height="@dimen/small_size"
-                android:layout_marginTop="8dp" />
-
+                android:layout_marginTop="@dimen/small_size"
+                android:layout_marginRight="4dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <include
+            android:id="@+id/custom_client"
+            layout="@layout/spinner_text_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="55dp"
+            android:layout_margin="@dimen/small_size"
+            />
+
+        <ScrollView
+            android:id="@+id/list_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:fillViewport="true"
+            android:visibility="gone">
 
             <include
-                android:id="@+id/custom_client"
-                layout="@layout/spinner_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginLeft="@dimen/small_size"
-                android:layout_marginRight="@dimen/small_size" />
-
-            <!-- attach_document.xml -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/small_size"
-                android:layout_marginRight="@dimen/small_size"
-                android:orientation="vertical">
-
-                <!-- Your other views here -->
-
-                <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/list_scroll_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:fillViewport="true"
-                    android:visibility="gone">
-
-                    <include
-                        android:id="@+id/client_list_view"
-                        layout="@layout/spinner_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
-                </ScrollView>
-
-            </LinearLayout>
-
-        </LinearLayout>
+                android:id="@+id/client_list_view"
+                layout="@layout/spinner_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -180,6 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginStart="2dp"
+
             android:layout_marginEnd="@dimen/left_space"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/tv_select_groups" />
@@ -189,6 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@drawable/rectangle_light_grey_bg"
             android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/ll_select_groups">
 
