@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -162,6 +163,7 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
                                 }
                             }
                             Constants.composAttachDocAry.remove(pos);
+
                         }
                     }
                 }
@@ -239,6 +241,7 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
 
 
         CheckBox checkbox_id;
+        RelativeLayout rv_doc_details;
 
         ViewDocumentsModel viewDocumentsModel;
         TextView tv_document_display_name, tv_Expiration, tv_client_name_one, tv_image_name, tv_Expiration_date, tv_client_name, tv_doc_description, tv_created_date;
@@ -251,6 +254,7 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
             tv_client_name.setTextSize(15);
             checkbox_id = itemView.findViewById(R.id.checkbox_id);
             checkbox_id.setVisibility(View.VISIBLE);
+            rv_doc_details = itemView.findViewById(R.id.rv_doc_details);
 
             tv_doc_description = itemView.findViewById(R.id.tv_doc_description);
             tv_doc_description.setTextSize(15);

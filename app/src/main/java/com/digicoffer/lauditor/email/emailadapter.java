@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -234,12 +235,12 @@ Constants.ISPRODUCTION = true;
             group_name.setText("Select Group");
             TextView client_namee = popupView.findViewById(R.id.client_nameee);
             client_namee.setText("Client");
-            client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+            client_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_left_green_background));// Assuming "green" is the desired color resource
 
             client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
             TextView firm_namee = popupView.findViewById(R.id.firm_nameee);
             firm_namee.setText("Firm");
-            firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+            firm_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_right_background));// Assuming "green" is the desired color resource
 
             firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
             custom_client = popupView.findViewById(R.id.custom_client);
@@ -296,11 +297,11 @@ Constants.ISPRODUCTION = true;
                     custom_client .setText("");
                     tv_select_groups.setText("");
                     // Set background color
-                    client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
-                    // Set text color
+                    client_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_left_green_background));// Assuming "green" is the desired color resource
+
                     client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                    firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
-                    // Set text color
+                  firm_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_right_background));// Assuming "green" is the desired color resource
+
                     firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));// Assuming "black" is the desired color resource
 
                 }
@@ -314,12 +315,12 @@ Constants.ISPRODUCTION = true;
                     ll_select_grp.setVisibility(View.VISIBLE);
                     custom_client .setText("");
                     tv_select_groups.setText("");
-                    firm_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
-                    // Set text color
-                    firm_namee.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                    client_namee.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
-                    // Set text color
-                    client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
+                    firm_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_right_green_background));
+                   firm_namee.setTextColor(Color.WHITE);
+                    client_namee.setBackgroundDrawable(context_type.getResources().getDrawable(R.drawable.button_left_background));// Assuming "green" is the desired color resource
+// Assuming "green" is the desired color resource
+
+                  client_namee.setTextColor(ContextCompat.getColor(context_type, R.color.black));
 
                 }
             });

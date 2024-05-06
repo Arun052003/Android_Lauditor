@@ -6,6 +6,7 @@ import static com.digicoffer.lauditor.email.EmailAdapter.context_type;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -133,6 +134,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     TextInputEditText et_Search;
     RecyclerView rv_documents_email;
+    boolean     ischecked_group_view;
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
 
     public static AlertDialog progress_dialog;
@@ -232,14 +234,24 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     pre_next_position--;
                     List<MessageModel> previousPageMessages = totalMessageArray.get(pre_next_position);
                     updateRecyclerView(previousPageMessages);
-                } else {
 
-                    Toast.makeText(getContext(), "You are already on the first page", Toast.LENGTH_SHORT).show();
-                    first_button.setAlpha(0.3f);
-                    arrow_left.setAlpha(0.3f);
+                    // If going back to the first page, disable the first_button and left arrow
+                    if (pre_next_position == 0) {
+                        first_button.setAlpha(0.3f);
+                        arrow_left.setAlpha(0.3f);
+                        Toast.makeText(getContext(), "You are already on the first page", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Otherwise, enable them
+                        first_button.setAlpha(1.0f);
+                        arrow_left.setAlpha(1.0f);
+                    }
+                } else {
+//                    Toast.makeText(getContext(), "You are already on the first page", Toast.LENGTH_SHORT).show();
+                    // No need to set alpha here since it's already handled when pre_next_position is 0
                 }
             }
         });
+
 
 
 //        emaiAPI();
@@ -272,7 +284,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         yourGridView = view.findViewById(R.id.compose_gridview);
         yourGridView.setVisibility(GONE);
 
-        sends_button.setAlpha(1.0f);
+        sends_button.setAlpha(0.4f);
 //        builder.getContext().getTheme().applyStyle(R.style.MyAlertDialog, true);
         builder.setView(view);
         composeDialog = builder.create();
@@ -312,8 +324,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 custom_client = attachmentView.findViewById(R.id.custom_client);
                 TextView compose_client_name = attachmentView.findViewById(R.id.compose_client_name);
                 compose_client_name.setText("Client");
-                compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
 
+                compose_client_name.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));// Assuming "green" is the desired color resource
+
+                compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
                 compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
 
                 TextView compose_firm_name = attachmentView.findViewById(R.id.compose_firm_name);
@@ -357,10 +371,11 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
                         rv_documents_email.clearFocus();
                         ll_attach_grp.setVisibility(GONE);
-                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
+                      compose_client_name.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));// Assuming "green" is the desired color resource
 
                         compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+
+                        compose_firm_name.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));// Assuming "green" is the desired color resource
 
                         compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
 
@@ -390,10 +405,10 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         ll_attach_grp.setVisibility(View.VISIBLE);
                         linearLayout2.setVisibility(GONE);
 
-                        compose_firm_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.green_count_color)); // Assuming "green" is the desired color resource
-
-                        compose_firm_name.setTextColor(ContextCompat.getColor(context_type, R.color.white));
-                        compose_client_name.setBackgroundColor(ContextCompat.getColor(context_type, R.color.white)); // Assuming "green" is the desired color resource
+                        compose_firm_name.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+                        compose_firm_name.setTextColor(Color.WHITE);
+                        compose_client_name.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));// Assuming "green" is the desired color resource
+// Assuming "green" is the desired color resource
 
                         compose_client_name.setTextColor(ContextCompat.getColor(context_type, R.color.black));
                     }
@@ -622,7 +637,6 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 viewDocumentsModel.setName(jsonObject.getString("name"));
 //                viewDocumentsModel.setOrigin(jsonObject.getString("origin"));
                 viewDocumentsModel.setUploaded_by(jsonObject.getString("uploaded_by"));
-                viewDocumentsModel.setIsChecked(false);
                 view_docs_list.add(viewDocumentsModel);
                 Log.d("VIEW_POSITION", view_docs_list.get(i).toString());
             }
@@ -639,12 +653,19 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 rv_documents_email.removeAllViews();
                 AndroidUtils.showToast("No documents to display", getContext());
                 rv_documents_email.setVisibility(GONE);
-            } else {
+            }  if (tv_select_groups.getText().toString().isEmpty()) {
+                rv_documents_email.removeAllViews();
+                AndroidUtils.showToast("No documents to display", getContext());
+                rv_documents_email.setVisibility(GONE);
+            }else {
                 rv_documents_email.setVisibility(View.VISIBLE);
                 rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
                 view_document_emailadapter adapter = new view_document_emailadapter(view_docs_list, getContext(), getActivity());
                 rv_documents_email.setAdapter(adapter);
                 rv_documents_email.setHasFixedSize(true);
+                rv_documents_email.clearFocus();
+                btn_create.setAlpha(1.0f);
+
                 et_Search_email_document.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -798,7 +819,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 } else if (httpResult.getRequestType().equals("sending_email")) {
                     String msg = result.getString("message");
                     Log.d("message", msg);
-                    AndroidUtils.showToast(msg, context_type);
+                    AndroidUtils.showAlert(msg, context_type);
                     composeDialog.dismiss();
                 } else if (httpResult.getRequestType().equals("auth")) {
                     String url = result.getString("url");
@@ -947,43 +968,69 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
     private void GroupsPopup() {
         try {
-            selected_groups_list.clear();
-
-            // Upload Documents Group Selection
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context_type, LinearLayoutManager.VERTICAL, false);
-            rv_display_upload_groups_docs.setLayoutManager(layoutManager);
+            RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            rv_display_upload_groups_docs.setLayoutManager(layoutManager1);
             rv_display_upload_groups_docs.setHasFixedSize(true);
 
-            GroupsListAdapter documentsAdapter = new GroupsListAdapter(groupsList, Documents.class.newInstance(), new GroupsListAdapter.OnCheckedChangeListener() {
+            GroupsListAdapter documentsAdapter1 = new GroupsListAdapter(groupsList, Documents.class.newInstance(), new GroupsListAdapter.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(DocumentsModel documentsModel) {
                     // Update selected groups list
                     if (documentsModel.isGroupChecked()) {
-                        if (!selected_groups_list.contains(documentsModel)) {
-                            selected_groups_list.add(documentsModel);
-                            view_docs_list.clear();
-                            callfilter_client_webservices();
+                        selected_groups_list.add(documentsModel);
+//                        client_list_view.setVisibility(View.VISIBLE);
+                       rv_documents_email.setVisibility(View.VISIBLE);
+                    } else {
+                        // Remove the unchecked item from selected_groups_list
+                        for (int i = 0; i < selected_groups_list.size(); i++) {
+                            if (selected_groups_list.get(i).getGroup_id().equals(documentsModel.getGroup_id())) {
+                                selected_groups_list.remove(i);
+
+                                break;
+                            }
                         }
-                    }else{
-                        selected_groups_list.remove(documentsModel);
-                        view_docs_list.clear();
                     }
 
-                    // Update TextView with selected groups
+
+
                     String[] value = new String[selected_groups_list.size()];
+                    String[] value_id = new String[selected_groups_list.size()];
                     for (int i = 0; i < selected_groups_list.size(); i++) {
                         value[i] = selected_groups_list.get(i).getGroup_name();
+                        value_id[i] = selected_groups_list.get(i).getGroup_id();
                     }
+
+                    try {
+                        array_group = new JSONArray(value_id);
+                        callfilter_client_webservices();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
                     String str = TextUtils.join(",", value);
                     tv_select_groups.setText(str);
+                    if (tv_select_groups.getText().toString().isEmpty()) {
+
+                        ViewGroup.LayoutParams params = rv_documents_email.getLayoutParams();
+
+                        rv_documents_email.setLayoutParams(params);
+                        // Clear focus from the RecyclerView
+                        rv_documents_email.clearFocus();
+                    } else {
+
+
+                    }
+
+                    rv_documents_email.setVisibility(GONE);
+
+
+                   ischecked_group_view = true;
                 }
             });
-
-            rv_display_upload_groups_docs.setAdapter(documentsAdapter);
-
+            rv_display_upload_groups_docs.setAdapter(documentsAdapter1);
         } catch (Exception e) {
             e.printStackTrace();
-            AndroidUtils.showAlert(e.getMessage(), context_type);
+            AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
 
