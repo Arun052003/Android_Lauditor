@@ -298,6 +298,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     validateEmail(to_input.getText().toString());
+                    sends_button.setAlpha(1.0f);
                 }
             }
         });
@@ -307,7 +308,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             public void onClick(View v) {
                 if ((!to_input.getText().toString().isEmpty()) && (!subject_input.getText().toString().isEmpty()) && (!Constants.composAttachDocAry.isEmpty())) {
                     send_email();
-                    sends_button.setAlpha(1.0f);
+
                 }
             }
         });
@@ -368,6 +369,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                         clientsList.clear();
                         groupsList.clear();
                         list_scroll_view.setVisibility(GONE);
+                        view_docs_list.clear();
 
                         rv_documents_email.clearFocus();
                         ll_attach_grp.setVisibility(GONE);
@@ -653,11 +655,14 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                 rv_documents_email.removeAllViews();
                 AndroidUtils.showToast("No documents to display", getContext());
                 rv_documents_email.setVisibility(GONE);
-            }  if (tv_select_groups.getText().toString().isEmpty()) {
-                rv_documents_email.removeAllViews();
-                AndroidUtils.showToast("No documents to display", getContext());
-                rv_documents_email.setVisibility(GONE);
-            }else {
+
+            }
+//            if (tv_select_groups.getText().toString().isEmpty()) {
+//                rv_documents_email.removeAllViews();
+//                AndroidUtils.showToast("No documents to display", getContext());
+//                rv_documents_email.setVisibility(GONE);
+//            }
+            else {
                 rv_documents_email.setVisibility(View.VISIBLE);
                 rv_documents_email.setLayoutManager(new GridLayoutManager(getContext(), 1));
                 view_document_emailadapter adapter = new view_document_emailadapter(view_docs_list, getContext(), getActivity());
@@ -687,6 +692,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             throw new RuntimeException(e);
         }
     }
+
 
 
     private void loadRowDatas(JSONObject jsonObject) throws JSONException {
