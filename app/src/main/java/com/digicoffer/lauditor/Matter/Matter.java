@@ -212,7 +212,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             tv_create.setTextColor(Color.WHITE);
             tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
             tv_view.setTextColor(Color.BLACK);
-            Constants.Matter_CreateOrViewDetails = "Create";
             loadMatterInformation();
             mViewModel.setData("Create Legal Matter");
         }
@@ -275,7 +274,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     }
 
     void Matter_Notes() {
-        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_new_white_icon));
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_green));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_groups.setClickable(true);
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
@@ -283,7 +282,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     }
 
     void Matter_Gct() {
-        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.group_green_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -295,7 +294,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
     }
 
     void Matter_Doc() {
-        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_black_icon));
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_white));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_document));
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -325,17 +324,13 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         Constants.create_matter = false;
         ll_matter_type.setVisibility(View.GONE);
         ll_create_view.setVisibility(View.GONE);
-        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_new_white_icon));
+        siv_matter_icon.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.timeline_green));
         siv_groups.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.frame_white_background));
         siv_groups.setClickable(true);
         siv_documents.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.white_document));
         siv_documents.setClickable(true);
         create_matter_view.setVisibility(View.VISIBLE);
-        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-        tv_create.setTextColor(Color.WHITE);
-        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
-        matter_info_txt.setText(R.string.matter_timeline);
-        tv_view.setTextColor(Color.BLACK);
+        matter_info_txt.setText(R.string.time_line);
         matter_arraylist.add(0, viewMatterModel);
         jsonArray.put(viewMatterModel.getGroupAcls());
         Constants.ex_attachment = viewMatterModel.getGroupAcls();
