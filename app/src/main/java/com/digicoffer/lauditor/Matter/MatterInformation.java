@@ -493,6 +493,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
+            ImageView close_tags=view.findViewById(R.id.close_tags);
             tv_advocate_name.setHint(R.string.name);
             tv_advocate_name.setTextSize(15);
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
@@ -562,6 +563,12 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                         tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
                         tv_advocate_phone.requestFocus();
                     }
+                }
+            });
+            close_tags.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
                 }
             });
             btn_cancel_tag.setOnClickListener(new View.OnClickListener() {

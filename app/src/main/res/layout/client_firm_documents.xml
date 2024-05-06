@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/small_size"
     android:background="@color/white">
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:id="@+id/iv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:layout_marginTop="2dp"
             android:background="@color/dark_grey"
             android:src="@drawable/view_document"

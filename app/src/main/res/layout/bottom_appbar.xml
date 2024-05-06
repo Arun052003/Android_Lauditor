@@ -14,10 +14,10 @@
 
         android:backgroundTint="@color/Primary"
         android:fitsSystemWindows="true"
-        app:elevation="10dp"
+        app:elevation="@dimen/small_size"
         app:fabCradleMargin="100dp"
         app:fabCradleRoundedCornerRadius="100dp"
-        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleVerticalOffset="@dimen/small_size"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
                 app:iconTint="@color/Primary"
                 android:backgroundTint="@color/grey_text_color"
                 android:elevation="0dp"
-                app:fabCustomSize="10dp"
+                app:fabCustomSize="@dimen/small_size"
                 app:fabSize="auto"
                 />
 
@@ -79,7 +79,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="MENU"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="@dimen/left_space"
                 android:textColor="@color/Primary">
 
             </TextView>

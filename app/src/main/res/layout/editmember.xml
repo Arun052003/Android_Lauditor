@@ -6,10 +6,10 @@
     android:id="@+id/cv_details"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/small_size"
     android:elevation="@dimen/Fifty_dp"
-    android:padding="10dp"
-    app:cardCornerRadius="10dp"
+    android:padding="@dimen/small_size"
+    app:cardCornerRadius="@dimen/small_size"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.6"
@@ -20,7 +20,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/small_size"
         android:orientation="vertical">
 
         <LinearLayout
@@ -39,7 +39,7 @@
 
             <ImageView
                 android:layout_width="15dp"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
         </LinearLayout>
@@ -66,7 +66,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:orientation="horizontal">
 
             <TextView
@@ -80,7 +80,7 @@
 
             <ImageView
                 android:layout_width="15dp"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
         </LinearLayout>
@@ -105,13 +105,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_size"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -138,7 +138,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -158,7 +158,7 @@
 
                     <ImageView
                         android:layout_width="15dp"
-                        android:layout_height="10dp"
+                        android:layout_height="@dimen/small_size"
                         android:src="@drawable/asterisk_icon">
                     </ImageView>
                 </LinearLayout>
@@ -186,7 +186,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:orientation="horizontal">
 
             <TextView
@@ -200,7 +200,7 @@
 
             <ImageView
                 android:layout_width="15dp"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
         </LinearLayout>
@@ -226,7 +226,7 @@
             android:id="@+id/ll_confirm_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:orientation="horizontal">
 
             <TextView
@@ -240,7 +240,7 @@
 
             <ImageView
                 android:layout_width="15dp"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
         </LinearLayout>
@@ -266,7 +266,7 @@
             android:id="@+id/ll_save_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -274,11 +274,11 @@
                 android:id="@+id/btn_cancel_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:background="@drawable/cancel_button_background"
-                android:elevation="20dp"
+                android:elevation="@dimen/twenty_dp"
                 android:text="@string/cancel"
                 android:textAllCaps="false">
             </androidx.appcompat.widget.AppCompatButton>
@@ -288,8 +288,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:background="@drawable/save_button_background"
                 android:backgroundTint="@color/Blue_text_color"
@@ -306,7 +306,7 @@
             android:id="@+id/ll_edit_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -314,11 +314,11 @@
                 android:id="@+id/btn_cancel_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:background="@drawable/cancel_button_background"
-                android:elevation="20dp"
+                android:elevation="@dimen/twenty_dp"
                 android:text="@string/cancel"
                 android:textAllCaps="false">
             </androidx.appcompat.widget.AppCompatButton>
@@ -328,8 +328,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:background="@drawable/save_button_background"
                 android:backgroundTint="@color/Blue_text_color"

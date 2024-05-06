@@ -45,8 +45,8 @@
                     android:textStyle="bold" />
                 <!--                    <Button-->
                 <!--                        android:id="@+id/remove_noitification"-->
-                <!--                        android:layout_width="20dp"-->
-                <!--                        android:layout_height="20dp"-->
+                <!--                        android:layout_width="@dimen/twenty_dp"-->
+                <!--                        android:layout_height="@dimen/twenty_dp"-->
                 <!--android:visibility="gone"-->
                 <!--                        android:background="@drawable/delete_24dp">-->
 

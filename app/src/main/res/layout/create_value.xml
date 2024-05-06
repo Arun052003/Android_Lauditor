@@ -23,7 +23,7 @@
         android:layout_weight="1"
         android:background="@drawable/button_left_background"
         android:fontFamily="@font/gill_sans"
-        android:padding="10dp"
+        android:padding="@dimen/small_size"
         android:text="@string/create_group"
         android:textColor="@color/black"
         android:textSize="@dimen/Fifteen_dp">
@@ -37,7 +37,7 @@
         android:layout_weight="1"
         android:background="@drawable/button_right_background"
         android:fontFamily="@font/gill_sans"
-        android:padding="10dp"
+        android:padding="@dimen/small_size"
         android:text="@string/view_group"
         android:textColor="@color/black"
         android:textSize="@dimen/Fifteen_dp">

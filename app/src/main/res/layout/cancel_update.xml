@@ -8,8 +8,8 @@
         android:layout_width="100dp"
         android:layout_height="40dp"
 
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
         android:layout_weight="1"
         android:background="@drawable/save_button_background"
 

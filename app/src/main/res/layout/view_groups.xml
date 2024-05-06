@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/small_size">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/action_cv"
@@ -31,7 +31,7 @@
                     android:id="@+id/tv_group_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/left_space"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-condensed"
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="@dimen/left_space">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="@dimen/small_size" />
 
             </LinearLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -106,8 +106,8 @@
         </androidx.cardview.widget.CardView>
         <!--        <View-->
         <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="5dp"-->
-        <!--            android:padding="5dp"-->
+        <!--            android:layout_height="@dimen/left_space"-->
+        <!--            android:padding="@dimen/left_space"-->
         <!--            android:layout_below="@+id/prolificcalendarview"-->
         <!--            android:background="@color/white">-->
 
@@ -115,8 +115,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_margin="@dimen/left_space"
+            android:layout_marginTop="@dimen/left_space"
             android:layout_weight="1"
             android:orientation="vertical">
 

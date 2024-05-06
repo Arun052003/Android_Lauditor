@@ -23,10 +23,10 @@
             android:id="@+id/tv_notification_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:text="Notifications"
             android:textColor="@color/white"
             android:textSize="18dp"
@@ -39,13 +39,13 @@
             android:layout_height="wrap_content"
             android:background="@color/Blue_text_color"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="@dimen/left_space">
 
             <include
                 android:id="@+id/et_Search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:background="@android:color/transparent"
                 layout="@layout/searchelement_layout"
                 tools:layout_editor_absoluteX="16dp"
@@ -59,7 +59,7 @@
             android:layout_gravity="right"
             android:gravity="right"
             android:orientation="horizontal"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:background="@color/Blue_text_color">
 
             <TextView

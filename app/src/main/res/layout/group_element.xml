@@ -12,14 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:paddingBottom="30dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/search_tm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:hint="Search Group"
 
                 android:textColorHint="@color/black"
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/left_space"
                     android:layout_weight="1"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:drawableRight="@drawable/search_groups"
@@ -61,14 +61,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
 
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="vertical" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_buttons_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="horizontal"
 
                 >

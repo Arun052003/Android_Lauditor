@@ -30,7 +30,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:src="@drawable/cancel_icon"
-                    android:layout_margin="10dp" />
+                    android:layout_margin="@dimen/small_size" />
 
                 <include
                     android:id="@+id/header_name"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             app:layout_constraintBottom_toTopOf="@id/ll_tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:orientation="horizontal">
 
                 <include
@@ -66,7 +66,7 @@
                     layout="@layout/group_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginLeft="@dimen/left_space" />
 
                 <include layout="@layout/astrick_layout" />
 
@@ -81,7 +81,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:orientation="horizontal">
 
                 <include
@@ -89,7 +89,7 @@
                     layout="@layout/group_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginLeft="@dimen/left_space" />
 
                 <include layout="@layout/astrick_layout" />
 
@@ -123,10 +123,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginStart="@dimen/small_size"
+                    android:layout_marginTop="@dimen/small_size"
+                    android:layout_marginEnd="@dimen/small_size"
+                    android:layout_marginBottom="@dimen/small_size" />
             </RelativeLayout>
 
             <LinearLayout
@@ -141,9 +141,9 @@
                 android:id="@+id/ll_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:padding="@dimen/small_size"
 
                 >
 

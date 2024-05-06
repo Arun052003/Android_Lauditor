@@ -10,7 +10,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         android:background="@drawable/rectangular_blue_background"
 
         app:layout_constraintBottom_toBottomOf="parent">

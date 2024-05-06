@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/small_size">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/action_cv"
@@ -32,7 +32,7 @@
                     android:id="@+id/tv_member_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/left_space"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-condensed"
                     android:text="TextView"
@@ -44,7 +44,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -65,7 +65,7 @@
 
 
                     <Space
-                        android:layout_width="5dp"
+                        android:layout_width="@dimen/left_space"
                         android:layout_height="match_parent" />
                 </LinearLayout>
 
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
 
                 >
 
@@ -116,7 +116,7 @@
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="5dp"
+                    android:layout_width="@dimen/left_space"
                     android:layout_height="match_parent" />
 
                 <include
@@ -125,7 +125,7 @@
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="@dimen/small_size" />
 
             </LinearLayout>
 

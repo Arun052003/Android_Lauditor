@@ -5,7 +5,7 @@
     android:id="@+id/email"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="@dimen/left_space"
     android:fontFamily="@font/font"
     android:text="Email:"
     android:textColor="@color/Blue_text_color"

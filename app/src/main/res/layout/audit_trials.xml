@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             android:padding="16dp">
             <TextView
                 android:id="@+id/history_act"
@@ -32,7 +32,7 @@
                 android:enabled="false"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="start|center_vertical"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="History of Actions"
                 android:textAllCaps="false"
                 android:textColor="@color/Blue_text_color"
@@ -48,9 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/left_space"
+                android:layout_marginBottom="@dimen/left_space"
+                android:layout_marginLeft="@dimen/small_size"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Advanced Search"
                 android:padding="2dp"
@@ -94,9 +94,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             android:background="@color/Blue_text_color"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/left_space"
             android:layout_weight="1">
           <include layout="@layout/recyclerview"
               android:id="@+id/rv_audits"/>
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="3dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="@dimen/small_size"
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:orientation="horizontal" />

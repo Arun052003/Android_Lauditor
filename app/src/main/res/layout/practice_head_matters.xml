@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
-    android:padding="10dp"
+    android:layout_margin="@dimen/small_size"
+    android:padding="@dimen/small_size"
     android:background="@drawable/dashboard_screens_background"
     android:layout_height="wrap_content">
 
@@ -59,7 +59,7 @@
 
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="Closed"
                 android:textColor="@color/Blue_text_color"
                 android:textSize="@dimen/thirty_dp" />
@@ -72,7 +72,7 @@
 
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="Matters"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -84,7 +84,7 @@
                 android:layout_gravity="center"
 
                 android:fontFamily="sans-serif-condensed-light"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="128"
                 android:textColor="@color/green_count_color"
                 android:textSize="@dimen/Fifty_dp">
@@ -111,7 +111,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="Active"
                 android:textColor="@color/Blue_text_color"
                 android:textSize="@dimen/thirty_dp" />
@@ -122,7 +122,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="Matters"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -134,7 +134,7 @@
                 android:layout_gravity="center"
 
                 android:fontFamily="sans-serif-condensed-light"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="4"
                 android:textColor="@color/green_count_color"
                 android:textSize="@dimen/Fifty_dp">

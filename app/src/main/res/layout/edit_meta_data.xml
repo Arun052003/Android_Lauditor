@@ -19,10 +19,10 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:background="@drawable/cancel_icon"
             android:fontFamily="@font/gill_sans"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp"
             android:visibility="visible">
@@ -34,10 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:fontFamily="@font/gill_sans"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             android:text="Edit Meta Data"
             android:textColor="@color/white"
             android:textSize="@dimen/Fifteen_dp"
@@ -50,7 +50,7 @@
         android:id="@+id/ll_tag_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="@dimen/small_size"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/ll_tag"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_size"
             android:orientation="horizontal">
             <include layout="@layout/group_layout"
                 android:id="@+id/tv_document_name"
@@ -106,7 +106,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_size"
             android:orientation="horizontal">
 
             <include layout="@layout/group_layout"
@@ -139,7 +139,7 @@
                 layout="@layout/group_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:maxLength="300" />
 
 
@@ -148,7 +148,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_size"
             android:orientation="horizontal">
 
             <include layout="@layout/group_layout"
@@ -205,8 +205,8 @@
             android:id="@+id/ll_buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:padding="10dp"
+            android:layout_margin="@dimen/small_size"
+            android:padding="@dimen/small_size"
             android:orientation="horizontal"
 
             >

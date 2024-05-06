@@ -12,10 +12,10 @@
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/twenty_dp"
         android:padding="@dimen/small_size"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
+        app:cardElevation="@dimen/twenty_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:orientation="vertical">
 
             <!-- ImageView for Logo -->
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:background="@drawable/left_shadow"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp">
@@ -81,7 +81,7 @@
                         android:layout_gravity="center"
                         android:autoLink="none"
                         android:background="@android:color/transparent"
-                        android:drawablePadding="5dp"
+                        android:drawablePadding="@dimen/left_space"
                         android:fontFamily="@font/gill_sans"
 
 
@@ -137,7 +137,7 @@
                     android:layout_height="33dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/small_size"
                     android:text="Enable Biometric Authentication"
                     android:textColor="@color/black"
                     android:textSize="12sp"
@@ -157,8 +157,8 @@
                 android:clickable="true"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="left"
-                android:minHeight="10dp"
-                android:paddingRight="10dp"
+                android:minHeight="@dimen/small_size"
+                android:paddingRight="@dimen/small_size"
                 android:text="@string/underline"
                 android:textStyle="bold"
                 tools:ignore="TouchTargetSizeCheck" />

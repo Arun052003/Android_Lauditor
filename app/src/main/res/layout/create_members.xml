@@ -40,11 +40,11 @@
             android:id="@+id/cv_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
 
             android:elevation="@dimen/Fifty_dp"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
+            android:padding="@dimen/small_size"
+            app:cardCornerRadius="@dimen/small_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
@@ -55,7 +55,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -101,7 +101,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -144,14 +144,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/small_size"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="89dp"
-                        android:layout_margin="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_margin="@dimen/small_size"
+                        android:layout_marginTop="@dimen/small_size"
                         android:layout_weight="1"
                         android:orientation="vertical"
 
@@ -166,7 +166,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:layout_marginBottom="10dp"
+                                android:layout_marginBottom="@dimen/small_size"
                                 android:fontFamily="@font/gill_sans"
                                 android:text="@string/default_currency"
 
@@ -201,7 +201,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/small_size"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -252,7 +252,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -294,7 +294,7 @@
                     android:id="@+id/ll_confirm_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -335,7 +335,7 @@
                     android:id="@+id/tv_assign_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
                     android:background="@drawable/rectangle_light_grey_bg"
                     android:hint="@string/description"
                     android:padding="@dimen/Fifteen_dp"
@@ -357,7 +357,7 @@
                     android:id="@+id/ll_save_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
                     android:visibility="visible"
 
@@ -379,7 +379,7 @@
                     android:id="@+id/ll_edit_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
                     android:visibility="gone"
 
@@ -399,11 +399,11 @@
             android:id="@+id/cv_details_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:elevation="10dp"
-            android:padding="10dp"
+            android:layout_margin="@dimen/small_size"
+            android:elevation="@dimen/small_size"
+            android:padding="@dimen/small_size"
             android:visibility="gone"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="@dimen/small_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -416,14 +416,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:paddingBottom="30dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/search_tm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:hint="Search Group"
 
                     android:textColorHint="@color/black"
@@ -463,14 +463,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
 
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="vertical" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_buttons_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
 
                     >
@@ -508,7 +508,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
 
                 android:background="@drawable/rectangle_light_grey_bg"
                 android:hint="Search Team Member"

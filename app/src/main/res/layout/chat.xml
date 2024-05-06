@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/small_size"
         android:gravity="center"
         android:visibility="visible"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         android:paddingTop="@dimen/twenty_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
             android:layout_height="50dp"
             android:background="@drawable/button_left_background"
             android:fontFamily="@font/gill_sans"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/client"
@@ -42,7 +42,7 @@
             android:layout_height="50dp"
             android:background="@drawable/button_right_green_count"
             android:fontFamily="@font/gill_sans"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             android:text="@string/teams"
             android:layout_gravity="center"
             android:gravity="center"
@@ -66,8 +66,8 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
 <!--            android:imeOptions="actionDone"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:padding="5dp"-->
+<!--            android:layout_margin="@dimen/left_space"-->
+<!--            android:padding="@dimen/left_space"-->
 <!--            android:layout_gravity="center"-->
 <!--            android:inputType="textFilter"-->
 <!--            android:drawableRight="@drawable/search_groups"-->

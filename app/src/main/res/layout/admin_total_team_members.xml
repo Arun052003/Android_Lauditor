@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
-    android:padding="10dp"
+    android:layout_margin="@dimen/small_size"
+    android:padding="@dimen/small_size"
     android:background="@drawable/dashboard_screens_background"
     android:layout_height="wrap_content">
 
@@ -25,7 +25,7 @@
             android:id="@+id/imageView5"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             android:layout_gravity="top|center_horizontal"
             android:contentDescription="@string/todo"
             android:src="@drawable/no_of_groups_icon" />
@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="bottom"
-                android:padding="10dp"
+                android:padding="@dimen/small_size"
                 android:text="Total"
                 android:textColor="@color/black"
                 android:textSize="@dimen/twenty_dp" />
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/left_space"
                 >
                 <TextView
                     android:id="@+id/tv_bhours"

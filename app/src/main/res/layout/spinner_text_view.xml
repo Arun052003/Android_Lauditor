@@ -8,10 +8,12 @@
     android:layout_marginEnd="@dimen/left_space"
     android:layout_weight="1"
     android:background="@drawable/rectangle_light_grey_bg"
+    android:elevation="@dimen/left_space"
+    android:ellipsize="end"
     android:fontFamily="@font/gill_sans"
     android:gravity="center_vertical"
+    android:maxLines="2"
     android:padding="@dimen/Fifteen_dp"
     android:textColor="@color/black"
     android:textSize="@dimen/Fifteen_dp"
-    android:elevation="@dimen/left_space"
     app:drawableRightCompat="@drawable/down_arrow" />

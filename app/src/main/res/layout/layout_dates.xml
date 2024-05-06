@@ -8,11 +8,11 @@
     android:layout_gravity="top"
     android:drawableRight="@drawable/calendar_activity"
     android:enabled="true"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="@dimen/small_size"
     android:fontFamily="@font/gill_sans"
     android:gravity="top"
 
     android:maxLines="4"
-    android:padding="5dp"
+    android:padding="@dimen/left_space"
     android:textColor="@color/Blue_text_color"
     android:textSize="15sp" />

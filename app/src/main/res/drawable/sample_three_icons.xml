@@ -8,8 +8,8 @@
                 android:color="@color/Blue_text_color" />
             <solid android:color="@color/Blue_text_color" />
             <size
-                android:width="10dp"
-                android:height="10dp"/>
+                android:width="@dimen/small_size"
+                android:height="@dimen/small_size"/>
         </shape>
     </item>
 

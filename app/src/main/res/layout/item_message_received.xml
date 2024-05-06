@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="5dp"
+        android:padding="@dimen/small_size"
+        android:layout_margin="@dimen/left_space"
         android:background="@drawable/chat_recieve_background"
         >
 
@@ -68,9 +68,9 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_gravity="left"-->
 <!--            android:layout_marginLeft="4dp"-->
-<!--            android:layout_marginBottom="5dp"-->
-<!--            android:paddingLeft="10dp"-->
-<!--            android:paddingRight="10dp"-->
+<!--            android:layout_marginBottom="@dimen/left_space"-->
+<!--            android:paddingLeft="@dimen/small_size"-->
+<!--            android:paddingRight="@dimen/small_size"-->
 <!--            android:text=""-->
 <!--            android:gravity="left"-->
 

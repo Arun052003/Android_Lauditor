@@ -37,7 +37,7 @@
                 <!--        android:background="@drawable/rectangular_white_background"-->
                 <!--        android:fontFamily="@font/gill_sans"-->
                 <!--        android:gravity="start|center_vertical"-->
-                <!--        android:padding="5dp"-->
+                <!--        android:padding="@dimen/left_space"-->
                 <!--        android:enabled="false"-->
                 <!--        android:textSize="@dimen/twenty_dp"-->
                 <!--        android:text="@string/matter_title"-->
@@ -113,7 +113,7 @@
                         android:id="@+id/upload_doc_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="@dimen/left_space"
                         android:orientation="vertical" />
 
                     <include

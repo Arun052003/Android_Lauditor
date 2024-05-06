@@ -58,7 +58,7 @@
                         android:id="@+id/firm_name_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="@dimen/twenty_dp"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/gill_sans"
                         android:text="Select Firm Name"
@@ -71,10 +71,10 @@
                         layout="@layout/spinner_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="@dimen/small_size"
                         android:layout_marginTop="22dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="5dp" />
+                        android:layout_marginRight="@dimen/small_size"
+                        android:layout_marginBottom="@dimen/left_space" />
 
                     <include
                         android:id="@+id/sp_firm"
@@ -99,7 +99,7 @@
                     android:clickable="true"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="left"
-                    android:paddingRight="10dp"
+                    android:paddingRight="@dimen/small_size"
                     android:text="@string/underline"
                     android:textStyle="bold"
                     tools:ignore="TouchTargetSizeCheck" />

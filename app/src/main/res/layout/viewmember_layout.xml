@@ -12,11 +12,11 @@
     android:layout_weight="1"
     android:background="@drawable/button_right_background"
     android:fontFamily="@font/gill_sans"
-    android:padding="10dp"
+    android:padding="@dimen/small_size"
     android:shadowRadius="10"
     android:text="@string/view_members"
     android:textColor="@color/black"
     android:textSize="@dimen/Fifteen_dp"
      android:textFontWeight="700"
     android:translationZ="12dp"
-    app:cardCornerRadius="10dp"></TextView>
+    app:cardCornerRadius="@dimen/small_size"></TextView>

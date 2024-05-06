@@ -18,7 +18,7 @@
             android:enabled="false"
             android:fontFamily="@font/gill_sans"
             android:gravity="start|center_vertical"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:text="Document Upload"
             android:textAllCaps="false"
             android:textColor="@color/Blue_text_color"
@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:paddingStart="50dp"
-        android:paddingTop="20dp"
+        android:paddingTop="@dimen/twenty_dp"
         android:paddingEnd="50dp"
         tools:ignore="MissingConstraints">
 
@@ -68,15 +68,15 @@
                 layout="@layout/group_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:layout_marginBottom="@dimen/small_size" />
             <!-- android:text="Client Name" -->
 
             <include
                 layout="@layout/astrick_layout"
                 android:layout_width="15dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/small_size"
+                android:layout_marginTop="@dimen/small_size"
                 android:layout_marginRight="4dp" />
         </LinearLayout>
 
@@ -85,7 +85,7 @@
             layout="@layout/spinner_text_view"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
           />
 
         <ScrollView
@@ -115,15 +115,15 @@
             layout="@layout/group_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:layout_marginBottom="@dimen/small_size" />
         <!-- android:text="Client Name" -->
 
         <include
             layout="@layout/astrick_layout"
             android:layout_width="15dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/small_size"
+            android:layout_marginTop="@dimen/small_size"
             android:layout_marginRight="4dp" />
     </LinearLayout>
 

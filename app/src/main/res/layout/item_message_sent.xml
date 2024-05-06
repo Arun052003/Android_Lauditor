@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
 
         android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:padding="5dp"
+        android:layout_margin="@dimen/small_size"
+        android:padding="@dimen/left_space"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
 
@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="5dp"
+        android:padding="@dimen/small_size"
+        android:layout_margin="@dimen/left_space"
         android:background="@drawable/chat_sent_background"
         >
         <TextView
@@ -68,12 +68,12 @@
             android:id="@+id/text_message_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:paddingLeft="10dp"
+            android:layout_marginBottom="@dimen/left_space"
+            android:paddingLeft="@dimen/small_size"
             android:visibility="gone"
             android:gravity="right"
             android:layout_gravity="right"
-            android:paddingRight="10dp"
+            android:paddingRight="@dimen/small_size"
             android:text=""
             android:textColor="@color/white"
             android:textSize="10sp" />

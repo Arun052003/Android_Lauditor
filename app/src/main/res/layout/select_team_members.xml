@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="@dimen/left_space">
 
     <LinearLayout
         android:id="@+id/select_tm_layout"
@@ -29,9 +29,9 @@
         android:id="@+id/list_line"
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="@dimen/left_space"
+        android:layout_marginTop="@dimen/left_space"
+        android:layout_marginEnd="@dimen/left_space"
         android:alpha="0.7"
         android:background="@color/grey_color_dark"
         android:visibility="gone"

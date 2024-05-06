@@ -7,7 +7,7 @@
     android:layout_weight="1"
     android:fontFamily="@font/gill_sans"
     android:gravity="bottom"
-    android:padding="5dp"
+    android:padding="@dimen/left_space"
     android:text="Team Member"
     android:textColor="@color/black"
     android:textSize="@dimen/Twelve_dp" />

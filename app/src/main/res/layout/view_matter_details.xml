@@ -13,9 +13,11 @@
             android:id="@+id/ll_add_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/twenty_five"
             android:background="@color/white"
-            android:padding="@dimen/left_space"
+            android:padding="1dp"
+            android:layout_marginStart="@dimen/small_size"
+            android:layout_marginEnd="@dimen/small_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -49,6 +51,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
+            android:layout_marginStart="@dimen/small_size"
+            android:layout_marginEnd="@dimen/small_size"
             android:padding="@dimen/small_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +66,7 @@
             layout="@layout/cancel_icon"
             android:layout_width="@dimen/forty_dp"
             android:layout_height="@dimen/forty_dp"
-            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginBottom="@dimen/twenty_five"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

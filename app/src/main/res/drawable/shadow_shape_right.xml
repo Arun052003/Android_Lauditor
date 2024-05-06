@@ -1,7 +1,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners android:bottomLeftRadius="0dp" android:bottomRightRadius="10dp" android:radius="14dp" android:topLeftRadius="0dp" android:topRightRadius="10dp" />
+    <corners android:bottomLeftRadius="0dp" android:bottomRightRadius="@dimen/small_size" android:radius="14dp" android:topLeftRadius="0dp" android:topRightRadius="@dimen/small_size" />
     <gradient android:angle="45" android:centerColor="@color/green_count_color" android:endColor="@color/green_count_color" android:startColor="@color/green_count_color" android:type="linear" />
-    <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
+    <padding android:bottom="@dimen/small_size" android:left="@dimen/small_size" android:right="@dimen/small_size" android:top="@dimen/small_size" />
 
 </shape>

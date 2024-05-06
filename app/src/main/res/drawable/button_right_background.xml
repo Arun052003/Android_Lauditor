@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item>
         <shape android:shape="rectangle">
-            <corners android:bottomLeftRadius="0dp" android:bottomRightRadius="10dp" android:radius="14dp" android:topLeftRadius="0dp" android:topRightRadius="10dp" />
+            <corners android:bottomLeftRadius="0dp" android:bottomRightRadius="@dimen/small_size" android:radius="14dp" android:topLeftRadius="0dp" android:topRightRadius="@dimen/small_size" />
             <gradient android:angle="45" android:centerColor="@color/grey_text_color" android:endColor="@color/grey_text_color" android:startColor="@color/grey_text_color" android:type="linear" />
             <padding android:bottom="0dp" android:left="0dp" android:right="0dp" android:top="0dp" />
 

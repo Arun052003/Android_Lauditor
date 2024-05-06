@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
+    android:layout_margin="@dimen/left_space"
     android:orientation="vertical">
 
     <!-- First text view -->
@@ -18,7 +18,7 @@
         layout="@layout/group_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/small_size"
         android:textColor="@color/black"
         /><LinearLayout
     android:layout_width="match_parent"
@@ -69,7 +69,7 @@
             android:orientation="horizontal"
 
 
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:visibility="visible">
             <!-- First image view at start of parent -->
             <TextView
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="50"
             android:orientation="vertical"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:visibility="gone">
 
             <LinearLayout
@@ -114,7 +114,7 @@
 
                 <ImageView
                     android:layout_width="15dp"
-                    android:layout_height="10dp"
+                    android:layout_height="@dimen/small_size"
                     android:src="@drawable/asterisk_icon">
 
                 </ImageView>
@@ -196,7 +196,7 @@
             android:fontFamily="@font/gill_sans"
             android:hint=""
             android:inputType="textMultiLine"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:textColor="@color/black"
             android:visibility="gone" />
 
@@ -216,7 +216,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="@dimen/left_space">
 
             <ImageView
                 android:id="@+id/iv_notes"

@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/attachmentImage"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/twenty_dp"
+        android:layout_height="@dimen/twenty_dp"
         android:layout_margin="@dimen/left_space"
         android:src="@drawable/attachment_icons" />
 

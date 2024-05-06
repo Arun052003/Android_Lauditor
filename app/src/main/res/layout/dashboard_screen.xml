@@ -10,7 +10,7 @@
         android:id="@+id/ll_1"
         android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/small_size"
         android:background="@drawable/dashboard_screens_background"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:format12Hour="MMM dd yyyy"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             android:text="gdhjbdfbgjbdf"
             android:textSize="30dp">
 
@@ -46,7 +46,7 @@
                 android:format12Hour="hh:mm"
                 android:gravity="center"
                 android:text="bjnb"
-                android:textSize="25dp">
+                android:textSize="@dimen/twenty_five">
 
             </TextClock>
 
@@ -68,7 +68,7 @@
                 android:format12Hour="a"
                 android:gravity="center"
                 android:text="bjnb"
-                android:textSize="25dp">
+                android:textSize="@dimen/twenty_five">
 
             </TextClock>
 
@@ -83,7 +83,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/small_size"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_1"
@@ -115,7 +115,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/small_size"
 
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -142,7 +142,7 @@
         android:id="@+id/rv_myday"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/small_size"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

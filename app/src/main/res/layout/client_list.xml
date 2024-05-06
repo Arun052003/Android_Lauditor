@@ -9,8 +9,8 @@
     android:layout_height="wrap_content"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:layout_margin="5dp"
-    android:padding="5dp"
+    android:layout_margin="@dimen/left_space"
+    android:padding="@dimen/left_space"
     android:orientation="vertical"
     android:background="@drawable/rectangular_grey_background"
     app:layout_constraintTop_toTopOf="parent">
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textSize="@dimen/Fifteen_dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="@dimen/left_space"
         android:textColor="@color/black"
         android:text="hello"
         android:fontFamily="@font/gill_sans"
@@ -71,7 +71,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="3dp"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:visibility="gone"
             android:layout_gravity="right"
 

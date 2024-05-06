@@ -2,6 +2,6 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/astrick"
     android:layout_width="15dp"
-    android:layout_height="10dp"
+    android:layout_height="@dimen/small_size"
     android:layout_marginTop="2dp"
     android:src="@drawable/asterisk_icon"></ImageView>

@@ -48,7 +48,7 @@
             android:visibility="visible"
             app:backgroundTint="@color/white"
             app:elevation="0dp"
-            app:fabCustomSize="10dp"
+            app:fabCustomSize="@dimen/small_size"
             app:fabSize="auto"
             app:icon="@drawable/down_arrow"
             app:iconTint="@color/Primary" />
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/left_space"
             android:gravity="center"
             android:text="MENU"
             android:textColor="@color/Primary">

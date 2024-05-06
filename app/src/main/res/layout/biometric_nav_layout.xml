@@ -17,7 +17,7 @@
         android:layout_marginEnd="@dimen/twenty_dp"
         android:layout_marginBottom="@dimen/Fifty_dp"
         android:elevation="@dimen/twenty_dp"
-        android:padding="10dp"
+        android:padding="@dimen/small_size"
         android:visibility="visible"
         app:cardCornerRadius="@dimen/twenty_dp">
 

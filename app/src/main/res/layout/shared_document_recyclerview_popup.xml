@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="10dp"
+    android:elevation="@dimen/small_size"
     app:cardCornerRadius="24dp"
     tools:context=".MainActivity">
 
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:paddingBottom="30dp">
 
                 <LinearLayout
@@ -43,10 +43,10 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/small_size"
                         android:background="@drawable/cancel_white_icon"
                         android:fontFamily="@font/gill_sans"
-                        android:padding="10dp"
+                        android:padding="@dimen/small_size"
                         android:textColor="@color/black"
                         android:textSize="@dimen/Fifteen_dp"
                         android:visibility="visible">
@@ -58,10 +58,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/small_size"
                         android:fontFamily="@font/gill_sans"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/small_size"
                         android:text="Shared By Us"
                         android:textColor="@color/white"
                         android:textSize="@dimen/Fifteen_dp"
@@ -81,7 +81,7 @@
                     android:id="@+id/el_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
 
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none"
@@ -134,7 +134,7 @@
                     android:id="@+id/ll_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
 
                     >

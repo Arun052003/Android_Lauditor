@@ -3,7 +3,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="@dimen/left_space"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/rectangle_light_grey_bg"
-        android:padding="10dp"
+        android:padding="@dimen/small_size"
         >
 
         <include layout="@layout/uploadtext"
@@ -42,7 +42,7 @@
 
             android:layout_marginTop="30dp"
 
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/small_size"
             android:gravity="center"
             android:textSize="15sp" />
 
@@ -52,13 +52,13 @@
         android:id="@+id/rv_doc_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/left_space"
         android:layout_marginBottom="15dp"
         android:background="@drawable/rectangle_light_grey_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_display_name"
         app:layout_constraintVertical_bias="0.024">
@@ -81,10 +81,10 @@
             android:layout_gravity="center"
             android:background="@drawable/flower_image"
             android:visibility="invisible"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginStart="@dimen/left_space"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:layout_marginEnd="@dimen/left_space"
+            android:layout_marginBottom="@dimen/left_space" />
 
         <include
             android:id="@+id/tv_image_name"
@@ -129,12 +129,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_doc_image"
             android:layout_marginStart="3dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_size"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="3dp"
             android:background="@drawable/rectangular_button_green_count"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="@dimen/left_space">
 
             <include layout="@layout/createdocument"/>
 
@@ -181,8 +181,8 @@
             android:layout_height="40dp"
             android:src="@drawable/delete_icon"
             android:layout_alignParentEnd="true"
-            android:padding="5dp"
-            android:layout_marginRight="10dp"
+            android:padding="@dimen/left_space"
+            android:layout_marginRight="@dimen/small_size"
             android:layout_marginTop="3dp"
             android:layout_below="@id/rv_dates">
 

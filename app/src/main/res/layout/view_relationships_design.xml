@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/small_size"
     tools:context=".MainActivity">
     <androidx.constraintlayout.widget.ConstraintLayout   android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,10 +13,10 @@
             android:id="@+id/cv_relationships_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="@dimen/left_space"
             android:elevation="50dp"
-            android:layout_margin="5dp"
-            android:padding="5dp"
+            android:layout_margin="@dimen/left_space"
+            android:padding="@dimen/left_space"
             android:visibility="visible"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
 
                 >
 
@@ -37,10 +37,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginEnd="@dimen/left_space"
+                    android:layout_marginBottom="@dimen/left_space"
                     android:layout_toLeftOf="@id/cv_staus"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="start"
@@ -52,18 +52,18 @@
                 </TextView>
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_staus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/twenty_dp"
+                    android:layout_height="@dimen/twenty_dp"
                     app:cardCornerRadius="250dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/small_size"
                     android:layout_marginRight="40dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center">
 
                     <ImageView
                         android:id="@+id/iv_initiated"
-                        android:layout_width="20dp"
+                        android:layout_width="@dimen/twenty_dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
@@ -77,10 +77,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_relationship_name"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginEnd="@dimen/left_space"
+                    android:layout_marginBottom="@dimen/left_space"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
                     android:text="Created Dec 07,2022"
@@ -95,11 +95,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_relationship_name"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginEnd="@dimen/left_space"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:layout_marginBottom="@dimen/left_space"
                     android:layout_toRightOf="@+id/tv_created_date"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="end"
@@ -114,10 +114,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_created_date"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginEnd="@dimen/left_space"
+                    android:layout_marginBottom="@dimen/left_space"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
                     android:text="Consumer"
@@ -151,7 +151,7 @@
                     android:layout_below="@id/tv_initiated"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/small_size"
 
 
                     android:layout_toRightOf="@id/tv_consumer"
@@ -170,7 +170,7 @@
                         android:id="@+id/iv_groups_relationships"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:src="@drawable/three_grp_icon"
 
                         />
@@ -179,7 +179,7 @@
                         android:id="@+id/iv_clock_relationships"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:visibility="gone"
                         android:src="@drawable/time_icon_relationships"
 
@@ -189,7 +189,7 @@
                         android:id="@+id/iv_delete_relationships"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:visibility="gone"
                         android:src="@drawable/delete_icon_relationships"
 
@@ -216,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -271,7 +271,7 @@
                     android:singleLine="false"
                     android:visibility="gone"
                     android:text="Share Matter"
-                    android:textSize="10dp" />
+                    android:textSize="@dimen/small_size" />
 
 
 
@@ -288,7 +288,7 @@
                     android:layout_weight="1"
                     android:singleLine="true"
                     android:text="Chat"
-                    android:textSize="10dp" />
+                    android:textSize="@dimen/small_size" />
 
 
             </RadioGroup>
@@ -296,10 +296,10 @@
                 android:id="@+id/cv_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="5dp"
+                app:cardCornerRadius="@dimen/left_space"
                 android:elevation="50dp"
-                android:layout_margin="5dp"
-                android:padding="5dp"
+                android:layout_margin="@dimen/left_space"
+                android:padding="@dimen/left_space"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/profile"
                 app:layout_constraintStart_toStartOf="parent"
@@ -308,7 +308,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:orientation="vertical">
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -321,7 +321,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/first_name"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/left_space"
                             android:text=""
                             android:fontFamily="sans-serif-medium"
                             android:textColor="@color/Blue_text_color"
@@ -339,7 +339,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/email"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/left_space"
                             android:textColor="@color/Blue_text_color"
                             android:fontFamily="sans-serif-medium"
                             android:textSize="@dimen/Fifteen_dp"
@@ -357,7 +357,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/country"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/left_space"
                             android:textColor="@color/Blue_text_color"
                             android:fontFamily="sans-serif-medium"
                             android:textSize="@dimen/Fifteen_dp"
@@ -376,7 +376,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/contact_name"
                             android:textColor="@color/Blue_text_color"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="@dimen/left_space"
                             android:fontFamily="sans-serif-medium"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="">
@@ -386,7 +386,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginTop="@dimen/left_space">
 
                         <include
                             android:id="@+id/mobile"
@@ -452,7 +452,7 @@
                 android:id="@+id/el_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
 
                 android:textColorHint="@color/black"
                 app:boxBackgroundMode="none"
@@ -489,7 +489,7 @@
                     android:layout_margin="@dimen/Fifteen_dp"
 
                     android:visibility="gone"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="@dimen/twenty_dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     >
@@ -529,7 +529,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:visibility="gone"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:layout_toRightOf="@id/shared_status"
                     android:src="@mipmap/circle_upload_icon"
                     app:shapeAppearanceOverlay="@style/Circula" />
@@ -642,7 +642,7 @@
                     android:id="@+id/search_tm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
 
                     android:textColorHint="@color/black"
                     app:boxBackgroundMode="none"
@@ -668,11 +668,11 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="5dp"
+                        app:cardCornerRadius="@dimen/left_space"
                         android:elevation="50dp"
                         android:background="@color/dark_grey"
-                        android:layout_margin="5dp"
-                        android:padding="5dp"
+                        android:layout_margin="@dimen/left_space"
+                        android:padding="@dimen/left_space"
                         android:visibility="visible"
                         >
                         <ScrollView

@@ -15,14 +15,14 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="@dimen/small_size"
         android:elevation="@dimen/Fifty_dp"
-        android:padding="10dp"
+        android:padding="@dimen/small_size"
         android:visibility="visible"
         app:cardCornerRadius="4dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:orientation="vertical">
 
             <LinearLayout
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="3dp"
-                android:layout_marginEnd="5dp" />
+                android:layout_marginEnd="@dimen/left_space" />
 
 
             <LinearLayout
@@ -84,13 +84,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="3dp"
-                android:layout_marginEnd="5dp" />
+                android:layout_marginEnd="@dimen/left_space" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/search_matter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_margin="@dimen/left_space"
+                android:layout_marginTop="@dimen/left_space"
                 android:hint="Search Project"
                 android:textColorHint="@color/black"
                 android:visibility="gone"
@@ -223,6 +223,6 @@
         android:layout_marginBottom="@dimen/small_size"
         android:background="@drawable/background_transparent"
         android:orientation="vertical"
-        android:padding="5dp" />
+        android:padding="@dimen/left_space" />
 
 </RelativeLayout>

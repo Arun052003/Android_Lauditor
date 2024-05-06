@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/left_space"
         android:elevation="50dp"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         android:visibility="visible"
         app:cardCornerRadius="@dimen/small_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/gill_sans"
                         android:gravity="left"
-                        android:padding="5dp"
+                        android:padding="@dimen/left_space"
                         android:text="Meeting with Vijay"
                         android:textColor="@color/Blue_text_color"
                         android:textSize="@dimen/twenty_dp">
@@ -76,7 +76,7 @@
                         android:layout_weight="0"
                         android:background="@drawable/edit_documents_icon"
                         android:gravity="start"
-                        android:padding="10dp"
+                        android:padding="@dimen/small_size"
                         android:text=""
                         android:textColor="@color/cardview_dark_background"
                         android:textStyle="normal" />
@@ -87,12 +87,12 @@
                         android:layout_height="40dp"
                         android:layout_below="@+id/tv_title"
                         android:layout_gravity="end"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="@dimen/left_space"
 
                         android:layout_weight="0"
                         android:background="@drawable/delete_icon_relationships"
                         android:gravity="end"
-                        android:padding="10dp"
+                        android:padding="@dimen/small_size"
                         android:text=""
                         android:textColor="@color/cardview_dark_background"
                         android:textStyle="normal" />
@@ -109,7 +109,7 @@
                 android:layout_gravity="left"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:paddingTop="@dimen/twenty_dp"
 
                 >
@@ -315,7 +315,7 @@
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center_vertical"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:text="View More"
                     android:textAllCaps="false"
                     android:textColor="@color/green_count_color"

@@ -9,13 +9,13 @@
         android:id="@+id/ll_matter_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/small_size"
         android:orientation="horizontal"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         android:layout_gravity="center"
         android:paddingTop="@dimen/twenty_dp"
 
@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/button_left_background"
             android:fontFamily="@font/gill_sans"
-            android:padding="20dp"
+            android:padding="@dimen/twenty_dp"
             android:text="Legal Matter"
             android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp">
@@ -41,7 +41,7 @@
 
             android:background="@drawable/button_right_background"
             android:fontFamily="@font/gill_sans"
-            android:padding="20dp"
+            android:padding="@dimen/twenty_dp"
             android:text="General Matter"
             android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp">
@@ -54,10 +54,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/small_size"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         android:paddingTop="@dimen/twenty_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -71,7 +71,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/button_left_background"
             android:fontFamily="@font/gill_sans"
-            android:padding="20dp"
+            android:padding="@dimen/twenty_dp"
             android:text="Create"
             android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp">
@@ -85,7 +85,7 @@
 
             android:background="@drawable/button_right_background"
             android:fontFamily="@font/gill_sans"
-            android:padding="20dp"
+            android:padding="@dimen/twenty_dp"
             android:text="View"
             android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp">

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/small_size">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,14 +14,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:background="@color/Blue_text_color"
                 android:orientation="horizontal">
 
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:background="#00000000"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:src="@drawable/ic_arrow_left"
                     android:text="Close"
                     android:textColor="@color/cardview_dark_background"
@@ -58,7 +58,7 @@
                     android:gravity="center_vertical"
                     android:text="Events"
                     android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:textSize="@dimen/twenty_dp" />
 
                 <Button
                     android:id="@+id/save"
@@ -78,10 +78,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:paddingTop="@dimen/twenty_dp"
 
                 >
@@ -93,7 +93,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_left_green_round_background"
                     android:fontFamily="@font/gill_sans"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="Yes"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -107,7 +107,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/radiobutton_centre_background"
                     android:fontFamily="@font/gill_sans"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="No"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -121,7 +121,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_right_round_background"
                     android:fontFamily="@font/gill_sans"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="Maybe"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -131,7 +131,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:orientation="vertical">
 
                 <TextView
@@ -198,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:orientation="vertical">
 
                 <TextView
@@ -206,7 +206,7 @@
                     android:layout_height="wrap_content"
 
                     android:text="Notify"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText">
@@ -220,8 +220,8 @@
                     android:id="@+id/ll_notify"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:padding="@dimen/left_space"
                     android:background="@color/white"
                     android:orientation="vertical">
                     <ScrollView
@@ -240,7 +240,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:orientation="vertical">
 
                 <TextView
@@ -248,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Attachments"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText">
@@ -265,8 +265,8 @@
                     android:id="@+id/ll_attachments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:padding="@dimen/left_space"
                     android:background="@color/white"
                     android:orientation="vertical">
                     <ScrollView
@@ -284,7 +284,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:orientation="vertical">
 
                 <TextView
@@ -292,7 +292,7 @@
                     android:layout_height="wrap_content"
 
                     android:text="Team Members"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText">
@@ -306,8 +306,8 @@
                     android:id="@+id/ll_tm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:padding="@dimen/left_space"
                     android:background="@color/white"
                     android:orientation="vertical">
                     <ScrollView
@@ -325,14 +325,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Clients"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText">
@@ -345,8 +345,8 @@
                     android:id="@+id/ll_clients_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/left_space"
+                    android:padding="@dimen/left_space"
                     android:background="@color/white"
                     android:orientation="vertical">
                     <ScrollView

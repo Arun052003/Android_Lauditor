@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:paddingBottom="30dp">
 
                 <LinearLayout
@@ -41,7 +41,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/small_size"
                         android:src="@drawable/cancel_icon" />
 
                     <TextView
@@ -51,7 +51,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/gill_sans"
                         android:gravity="center_horizontal"
-                        android:padding="10dp"
+                        android:padding="@dimen/small_size"
                         android:layout_marginRight="30dp"
                         android:text="@string/select_groups"
                         android:textColor="@color/white"
@@ -92,7 +92,7 @@
                             android:id="@+id/rv_relationship_documents"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
+                            android:layout_margin="@dimen/left_space"
                             android:orientation="vertical"
                             android:scrollbars="vertical"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -103,7 +103,7 @@
                     android:id="@+id/ll_buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
 
                     >

@@ -9,7 +9,7 @@
         android:id="@+id/check_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/small_size"
         android:background="@drawable/cancel_button_background"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="@dimen/twenty_dp"
     android:id="@+id/sv_relationships"
     android:background="@color/Blue_text_color"
     tools:context=".MainActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         >
 
         <RadioGroup
@@ -167,9 +167,9 @@
             android:id="@+id/cv_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
+            android:layout_margin="@dimen/small_size"
+            android:padding="@dimen/small_size"
+            app:cardCornerRadius="@dimen/small_size"
             android:elevation="@dimen/Fifty_dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -182,7 +182,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="vertical">
                 <LinearLayout
                     android:id="@+id/ll_search_individual"
@@ -199,7 +199,7 @@
                         layout="@layout/search_relationship"
                         android:maxLines="1"
                         android:scrollHorizontally="true"
-                        android:textSize="20dp"
+                        android:textSize="@dimen/twenty_dp"
                         android:hint="Search"
                         android:background="@drawable/rectangle_grey_background"
                         android:inputType="textEmailAddress"
@@ -210,7 +210,7 @@
                         android:id="@+id/btn_search_individual"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:layout_gravity="bottom"
                         android:textAllCaps="false"
                         android:fontFamily="@font/font"
@@ -236,11 +236,11 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:layout_weight="1"
                         android:maxLines="1"
                         android:scrollHorizontally="true"
-                        android:textSize="20dp"
+                        android:textSize="@dimen/twenty_dp"
 
                         android:padding="15dp"
                         android:background="@drawable/rectangular_grey_background"
@@ -252,7 +252,7 @@
                         android:id="@+id/btn_search_entity"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:layout_gravity="bottom"
                         android:visibility="visible"
                         android:textAllCaps="false"
@@ -283,7 +283,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include
@@ -321,14 +321,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="@dimen/small_size"
 
 
                         >
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -362,11 +362,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="@dimen/small_size">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -401,11 +401,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="@dimen/small_size">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -437,11 +437,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="@dimen/small_size">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -475,12 +475,12 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         tools:ignore="ExtraText"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="@dimen/small_size">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -517,11 +517,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="@dimen/small_size">
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="@dimen/small_size"
                                 android:orientation="horizontal">
 
                                 <include
@@ -561,17 +561,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="@dimen/small_size">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/small_size"
                             android:orientation="horizontal">
 
                             <include
@@ -619,8 +619,8 @@
                 android:id="@+id/chk_select_all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="20dp"
-                android:layout_margin="10dp"
+                android:paddingEnd="@dimen/twenty_dp"
+                android:layout_margin="@dimen/small_size"
                 android:text="@string/select_all"
                 android:buttonTint="@color/green_color"
                 android:background="@color/grey_text_color"
@@ -662,7 +662,7 @@
                     layout="@layout/searchelement_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:background="@android:color/transparent"
 
                     tools:layout_editor_absoluteX="16dp"

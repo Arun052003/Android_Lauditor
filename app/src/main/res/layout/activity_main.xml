@@ -30,7 +30,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="130dp"
             app:headerLayout="@layout/header"
-            app:itemHorizontalPadding="5dp"
+            app:itemHorizontalPadding="@dimen/left_space"
             app:itemIconTint="@color/black"
             app:itemVerticalPadding="3dp"
             app:menu="@menu/nav_items" />
@@ -84,7 +84,7 @@
     <!--        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
     <!--        &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
     <!--        &lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
-    <!--        &lt;!&ndash;            android:layout_marginBottom="5dp"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_marginBottom="@dimen/left_space"&ndash;&gt;-->
     <!--        &lt;!&ndash;            android:gravity="center"&ndash;&gt;-->
     <!--        &lt;!&ndash;            android:text="MENU"&ndash;&gt;-->
     <!--        &lt;!&ndash;            android:textColor="@color/Primary">&ndash;&gt;-->

@@ -28,7 +28,7 @@
         <!--            android:layout_height="wrap_content"-->
         <!--            android:background="#00000000"-->
         <!--            android:gravity="center"-->
-        <!--            android:padding="10dp"-->
+        <!--            android:padding="@dimen/small_size"-->
         <!--            android:src="@drawable/ic_arrow_left"-->
         <!--            android:text="Close"-->
         <!--            android:textColor="@color/cardview_dark_background"-->

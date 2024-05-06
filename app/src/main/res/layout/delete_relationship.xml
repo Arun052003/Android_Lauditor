@@ -28,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/left_space"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="10dp">
+                app:cardCornerRadius="@dimen/left_space"
+                app:cardElevation="@dimen/small_size">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                         android:background="@drawable/rectangle_grey_background"
                         android:drawableLeft="@drawable/person_image_email"
                         android:fontFamily="@font/gill_sans"
-                        android:padding="10dp"
+                        android:padding="@dimen/small_size"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:visibility="gone" />

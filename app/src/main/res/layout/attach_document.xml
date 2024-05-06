@@ -19,7 +19,7 @@
         android:enabled="false"
         android:fontFamily="@font/gill_sans"
         android:gravity="start|center_vertical"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
         android:text="New Message"
         android:textAllCaps="false"
         android:textColor="@color/Blue_text_color"
@@ -65,14 +65,14 @@
                 layout="@layout/group_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:layout_marginBottom="@dimen/small_size" />
             <!--                            android:text="Client Name"-->
 
             <include
                 layout="@layout/astrick_layout"
                 android:layout_width="15dp"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/small_size"
                 android:layout_marginTop="8dp" />
 
         </LinearLayout>
@@ -87,16 +87,16 @@
                 layout="@layout/spinner_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginLeft="@dimen/small_size"
+                android:layout_marginRight="@dimen/small_size" />
 
             <!-- attach_document.xml -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="@dimen/small_size"
+                android:layout_marginRight="@dimen/small_size"
                 android:orientation="vertical">
 
                 <!-- Your other views here -->
@@ -133,14 +133,14 @@
             layout="@layout/group_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:layout_marginBottom="@dimen/small_size" />
         <!--                            android:text="Client Name"-->
 
         <include
             layout="@layout/astrick_layout"
             android:layout_width="15dp"
-            android:layout_height="10dp"
+            android:layout_height="@dimen/small_size"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>
@@ -161,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/small_size"
             android:layout_marginTop="@dimen/small_size"
             android:layout_marginEnd="4dp"
             android:background="@drawable/rectangle_light_grey_bg"
@@ -180,7 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginStart="2dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="@dimen/left_space"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/tv_select_groups" />
 
@@ -206,7 +206,7 @@
             android:id="@+id/et_Search_email_document"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:background="@drawable/rectangle_light_grey_bg"
             android:drawableEnd="@drawable/search_groups"
             android:imeOptions="actionDone"
@@ -230,7 +230,7 @@
             android:id="@+id/ll_buttons_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:orientation="horizontal">
 
             <include

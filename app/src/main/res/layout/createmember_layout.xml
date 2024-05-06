@@ -13,7 +13,7 @@
     android:background="@drawable/button_left_background"
     android:fontFamily="@font/gill_sans"
     android:textFontWeight="700"
-    android:padding="10dp"
+    android:padding="@dimen/small_size"
     android:shadowRadius="10"
     android:text="Create Member"
     android:textColor="@color/black"
@@ -21,4 +21,4 @@
     android:textSize="@dimen/Fifteen_dp"
 
     android:translationZ="12dp"
-    app:cardCornerRadius="10dp"></TextView>
+    app:cardCornerRadius="@dimen/small_size"></TextView>

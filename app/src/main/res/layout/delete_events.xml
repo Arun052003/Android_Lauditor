@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/small_size"
         android:background="@color/Blue_text_color"
         android:orientation="horizontal">
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/small_size"
             android:src="@drawable/ic_arrow_left"
             android:text="Close"
             android:textColor="@color/cardview_dark_background"
@@ -55,7 +55,7 @@
             android:gravity="center_vertical"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/twenty_dp" />
 
         <Button
             android:id="@+id/delete_event"
@@ -79,7 +79,7 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/small_size"
         android:id="@+id/radioGroup">
 
         <RadioButton
@@ -87,28 +87,28 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Delete only this event"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/small_size"
             android:checked="false"
-            android:textSize="20dp" />
+            android:textSize="@dimen/twenty_dp" />
 
         <RadioButton
             android:id="@+id/radio_delete_all"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Delete all events"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:checked="false"
 
-            android:textSize="20dp" />
+            android:textSize="@dimen/twenty_dp" />
         <RadioButton
             android:id="@+id/radio_delete_ts_fe"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Delete this and following events"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:checked="false"
 
-            android:textSize="20dp" />
+            android:textSize="@dimen/twenty_dp" />
     </RadioGroup>
 
 

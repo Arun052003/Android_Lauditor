@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
-    android:padding="10dp"
+    android:layout_margin="@dimen/small_size"
+    android:padding="@dimen/small_size"
     android:background="@drawable/dashboard_screens_background"
     android:layout_height="wrap_content">
     <ImageView
@@ -40,7 +40,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:gravity="start"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:text="Data Storage"
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/thirty_dp" />
@@ -53,7 +53,7 @@
             android:fontFamily="sans-serif-condensed"
             android:gravity="start"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:text="Balance Storage"
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/thirty_dp" />
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-condensed-light"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:textStyle="bold"
                 android:text="128"
                 android:textColor="@color/green_count_color"
@@ -108,7 +108,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="bottom"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="GB"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -124,7 +124,7 @@
             android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="@dimen/twenty_five"
             tools:ignore="MissingConstraints">
 
             <TextView
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-condensed-light"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:textStyle="bold"
                 android:text="4"
                 android:textColor="@color/green_count_color"
@@ -149,7 +149,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:text="GB"
                 android:textColor="@color/black"
                 android:textSize="@dimen/Fifteen_dp" />

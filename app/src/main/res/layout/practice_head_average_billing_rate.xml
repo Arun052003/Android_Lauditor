@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
-    android:padding="10dp"
+    android:layout_margin="@dimen/small_size"
+    android:padding="@dimen/small_size"
     android:background="@drawable/dashboard_screens_background"
     android:layout_height="wrap_content">
 
@@ -81,7 +81,7 @@
             android:id="@+id/tv_requested_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/left_space"
             android:layout_gravity="center"
             android:fontFamily="@font/gill_sans"
             android:text="Per Hour"

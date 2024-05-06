@@ -1,69 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timeline_c"
         android:layout_width="match_parent"
-
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/ll_add_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginStart="@dimen/small_size"
+            android:layout_marginTop="@dimen/twenty_five"
+            android:layout_marginEnd="@dimen/small_size"
+            android:background="@color/white"
+            android:padding="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/Blue_text_color"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/close_tags"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/cancel_icon"
-                    android:fontFamily="@font/gill_sans"
-                    android:padding="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp"
-                    android:visibility="visible">
-
-                </ImageView>
+                android:background="@color/Blue_text_color">
 
                 <TextView
                     android:id="@+id/header_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/small_size"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/small_size"
                     android:text="@string/add_opponent_advocate"
                     android:textColor="@color/white"
                     android:textSize="@dimen/Fifteen_dp"
-                    android:visibility="visible">
-
-                </TextView>
-            </LinearLayout>
+                    android:visibility="visible"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_tag_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_marginStart="@dimen/small_size"
+            android:layout_marginEnd="@dimen/small_size"
             android:orientation="vertical"
+            android:padding="@dimen/small_size"
             app:layout_constraintBottom_toTopOf="@id/ll_tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,13 +61,13 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/gill_sans"
                     android:text="@string/name"
                     android:textColor="@color/Blue_text_color"
@@ -90,7 +77,7 @@
 
                 <!--                <ImageView-->
                 <!--                    android:layout_width="15dp"-->
-                <!--                    android:layout_height="10dp"-->
+                <!--                    android:layout_height="@dimen/small_size"-->
                 <!--                    android:src="@drawable/asterisk_icon">-->
 
                 <!--                </ImageView>-->
@@ -98,29 +85,22 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                app:boxBackgroundMode="none">
 
-
-                app:boxBackgroundMode="none"
-
-
-                >
-
-                <include layout="@layout/group_name_layout"
+                <include
                     android:id="@+id/tv_advocate_name"
+                    layout="@layout/group_name_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
-            <LinearLayout
 
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:orientation="horizontal">
 
                 <TextView
@@ -129,41 +109,25 @@
                     android:fontFamily="@font/gill_sans"
                     android:text="@string/email"
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <!--                <ImageView-->
                 <!--                    android:layout_width="15dp"-->
-                <!--                    android:layout_height="10dp"-->
+                <!--                    android:layout_height="@dimen/small_size"-->
                 <!--                    android:src="@drawable/asterisk_icon">-->
 
                 <!--                </ImageView>-->
 
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <include
+                android:id="@+id/tv_advocate_email"
+                layout="@layout/group_name_layout" />
 
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="top"
-                android:layout_weight="1"
-
-                android:gravity="top"
-                app:boxBackgroundMode="none"
-
-                >
-
-                <include layout="@layout/group_name_layout"
-                    android:id="@+id/tv_advocate_email"/>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:orientation="horizontal">
 
                 <TextView
@@ -172,13 +136,10 @@
                     android:fontFamily="@font/gill_sans"
                     android:text="@string/phone_number"
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
-
+                    android:textSize="@dimen/Fifteen_dp" />
                 <!--                <ImageView-->
                 <!--                    android:layout_width="15dp"-->
-                <!--                    android:layout_height="10dp"-->
+                <!--                    android:layout_height="@dimen/small_size"-->
                 <!--                    android:src="@drawable/asterisk_icon">-->
 
                 <!--                </ImageView>-->
@@ -186,51 +147,53 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="top"
                 android:layout_weight="1"
-
                 android:gravity="top"
-                app:boxBackgroundMode="none"
+                app:boxBackgroundMode="none">
 
-                >
-
-                <include layout="@layout/group_name_layout"
-                    android:id="@+id/tv_advocate_phone"/>
-
-
+                <include
+                    android:id="@+id/tv_advocate_phone"
+                    layout="@layout/group_name_layout" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+        <include
+            android:id="@+id/close_tags"
+            layout="@layout/cancel_icon"
+            android:layout_width="@dimen/forty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginBottom="@dimen/twenty_five"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
             android:id="@+id/ll_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_size"
             android:orientation="vertical"
+            android:padding="@dimen/small_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_tag"
             app:layout_constraintVertical_bias="0.0">
 
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                >
+                <include
+                    android:id="@+id/btn_cancel_tag"
+                    layout="@layout/cancel_button" />
 
-                <include layout="@layout/cancel_button"
-                    android:id="@+id/btn_cancel_tag"/>
-                <include layout="@layout/submit_button"
-                    android:id="@+id/btn_save_tag"/>
-
+                <include
+                    android:id="@+id/btn_save_tag"
+                    layout="@layout/submit_button" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>

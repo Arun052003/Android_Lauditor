@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="3dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="@dimen/small_size"
     android:layout_weight="1"
     android:background="@drawable/rectangle_light_grey_bg"
     android:drawableRight="@drawable/calendar_activity"

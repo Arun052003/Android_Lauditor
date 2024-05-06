@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     app:layout_constraintHorizontal_bias="0"
     app:layout_constraintVertical_bias="0"
-    android:layout_marginLeft="10dp"
+    android:layout_marginLeft="@dimen/small_size"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -19,7 +19,7 @@
             android:id="@+id/page_number_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:textSize="10dp"
+            android:textSize="@dimen/small_size"
             android:text="20"
 
             android:textColor="@color/white"

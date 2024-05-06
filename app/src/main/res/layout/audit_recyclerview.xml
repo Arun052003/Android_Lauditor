@@ -20,21 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             >
         <!-- First Layer: Name and Timestamp (Horizontal) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             >
 
             <TextView
                 android:id="@+id/tv_category_name"
                 android:layout_width="261dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/left_space"
                 android:layout_weight="1"
                 android:fontFamily="@font/gill_sans"
                 android:text="John Doe"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
            >
         <!-- Second Layer: Short Content -->
         <TextView

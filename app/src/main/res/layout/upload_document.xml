@@ -50,8 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/upload_icon"
                     android:layout_marginLeft="@dimen/small_size"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginRight="@dimen/left_space" />
 
             </RelativeLayout>
 
@@ -85,8 +85,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_icon"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginTop="@dimen/left_space"
+                    android:layout_marginRight="@dimen/left_space" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -129,9 +129,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:elevation="50dp"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="@dimen/left_space">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -270,7 +270,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
                                 android:layout_marginStart="2dp"
-                                android:layout_marginEnd="5dp" />
+                                android:layout_marginEnd="@dimen/left_space" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -391,7 +391,7 @@
                         android:layout_gravity="center"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/small_size"
-                        android:paddingEnd="10dp">
+                        android:paddingEnd="@dimen/small_size">
 
                         <include
                             android:id="@+id/tv_add_tag"
@@ -472,7 +472,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="5dp"
+                        android:padding="@dimen/left_space"
                         android:paddingBottom="30dp">
 
 
@@ -561,7 +561,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="@dimen/left_space"
                 android:orientation="horizontal"
                 android:padding="15dp"
                 android:paddingStart="30dp"
@@ -637,9 +637,9 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 android:elevation="50dp"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="@dimen/left_space">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -791,7 +791,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
                                 android:layout_marginStart="2dp"
-                                android:layout_marginEnd="5dp" />
+                                android:layout_marginEnd="@dimen/left_space" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -908,9 +908,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:elevation="50dp"
-                android:padding="5dp"
+                android:padding="@dimen/left_space"
                 android:visibility="visible"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="@dimen/left_space">
 
 
                 <include

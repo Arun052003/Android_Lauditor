@@ -16,7 +16,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:paddingBottom="30dp"
                     >
 
@@ -30,7 +30,7 @@ android:background="@color/white"
                             android:id="@+id/close_groups"
                             android:layout_width="30dp"
                             android:visibility="gone"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
 
                             android:textColor="@color/black"
                             android:layout_gravity="center"
@@ -38,14 +38,14 @@ android:background="@color/white"
                             android:textSize="@dimen/Fifteen_dp"
                             android:layout_height="30dp"
                             android:background="@drawable/cancel_white_icon"
-                            android:layout_margin="10dp">
+                            android:layout_margin="@dimen/small_size">
 
                         </ImageView>
                         <TextView
                             android:id="@+id/header_name"
                             android:layout_width="match_parent"
                             android:visibility="visible"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
                             android:textColor="@color/Blue_text_color"
                             android:textSize="@dimen/Fifteen_dp"
                             android:fontFamily="@font/gill_sans"
@@ -53,7 +53,7 @@ android:background="@color/white"
                             android:layout_gravity="center"
                             android:gravity="start"
                             android:text="Update Group Access"
-                            android:layout_margin="10dp">
+                            android:layout_margin="@dimen/small_size">
 
                         </TextView>
                     </LinearLayout>
@@ -61,7 +61,7 @@ android:background="@color/white"
                         android:id="@+id/search_tm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/small_size"
 
                         android:textColorHint="@color/black"
                         app:boxBackgroundMode="none"
@@ -100,7 +100,7 @@ android:background="@color/white"
                         android:id="@+id/rv_relationship_groups"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="@dimen/left_space"
                         android:orientation="vertical"
                         android:scrollbars="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -110,7 +110,7 @@ android:background="@color/white"
                         android:id="@+id/ll_buttons"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
+                        android:layout_margin="@dimen/small_size"
                         android:orientation="horizontal"
 
                         >

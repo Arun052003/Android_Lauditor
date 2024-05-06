@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/small_size">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_relationships_details"
@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:elevation="50dp"
-        android:padding="5dp"
+        android:padding="@dimen/left_space"
 
         android:visibility="visible"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="@dimen/left_space"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp"
+            android:layout_marginBottom="@dimen/left_space"
+            android:padding="@dimen/left_space"
 
             >
 
@@ -40,24 +40,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginTop="@dimen/left_space"
+                android:layout_marginEnd="@dimen/left_space"
                 android:layout_toLeftOf="@id/cv_staus" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_staus"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/twenty_dp"
+                android:layout_height="@dimen/twenty_dp"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/small_size"
                 android:layout_marginRight="23dp"
                 app:cardCornerRadius="250dp">
 
                 <ImageView
                     android:id="@+id/iv_initiated"
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/twenty_dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
@@ -73,10 +73,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_matter_title"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginTop="@dimen/small_size"
+                android:layout_marginEnd="@dimen/left_space"
+                android:layout_marginBottom="@dimen/twenty_dp"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:text="@string/case_number"
@@ -90,10 +90,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_matter_title"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/twenty_dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="@dimen/small_size"
+                android:layout_marginBottom="@dimen/small_size"
                 android:layout_toLeftOf="@+id/tv_case_number"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="end"
@@ -108,11 +108,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_case_number"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/left_space"
                 android:layout_marginTop="-10dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="@dimen/left_space"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="@dimen/left_space">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -199,7 +199,7 @@
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/small_size"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone"
@@ -222,7 +222,7 @@
                 android:padding="15dp"
                 android:singleLine="false"
                 android:text="@string/profile"
-                android:textSize="10dp" />
+                android:textSize="@dimen/small_size" />
 
 
             <RadioButton
@@ -237,7 +237,7 @@
                 android:padding="15dp"
                 android:singleLine="false"
                 android:text="@string/share_document"
-                android:textSize="10dp" />
+                android:textSize="@dimen/small_size" />
 
 
             <RadioButton
@@ -252,7 +252,7 @@
                 android:padding="15dp"
                 android:singleLine="false"
                 android:text="Share Matter"
-                android:textSize="10dp" />
+                android:textSize="@dimen/small_size" />
 
 
             <RadioButton
@@ -268,7 +268,7 @@
                 android:padding="15dp"
                 android:singleLine="true"
                 android:text="Chat"
-                android:textSize="10dp" />
+                android:textSize="@dimen/small_size" />
 
 
         </RadioGroup>
@@ -278,11 +278,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/left_space"
             android:elevation="50dp"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:visibility="gone"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="@dimen/left_space"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile">
@@ -291,7 +291,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/small_size">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -317,7 +317,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/left_space"
                     android:fontFamily="sans-serif-medium"
                     android:text="Email:"
                     android:textColor="@color/black"
@@ -339,7 +339,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/left_space"
                     android:fontFamily="sans-serif-medium"
                     android:text="Country:"
                     android:textColor="@color/black"
@@ -361,7 +361,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/left_space"
                     android:fontFamily="sans-serif-medium"
                     android:text="Contact Name:"
                     android:textColor="@color/black"
@@ -383,7 +383,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/left_space"
                     android:fontFamily="sans-serif-medium"
                     android:text="Mobile:"
                     android:textColor="@color/black"
@@ -405,7 +405,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/left_space"
                     android:fontFamily="sans-serif-medium"
                     android:text="Website:"
                     android:textColor="@color/black"
@@ -427,7 +427,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/left_space"
                     android:fontFamily="sans-serif-medium"
                     android:text="Billing Currency:"
                     android:textColor="@color/black"
@@ -462,7 +462,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/Fifteen_dp"
 
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="@dimen/twenty_dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -501,7 +501,7 @@
                 android:id="@+id/iv_share_docs"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:layout_toRightOf="@id/shared_status"
                 android:src="@mipmap/share_icon_round"
                 android:visibility="gone"
@@ -615,7 +615,7 @@
                 android:id="@+id/search_tm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:hint="Search Documents"
                 android:textColorHint="@color/black"
                 app:boxBackgroundMode="none">
@@ -641,12 +641,12 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/left_space"
                     android:background="@color/dark_grey"
                     android:elevation="50dp"
-                    android:padding="5dp"
+                    android:padding="@dimen/left_space"
                     android:visibility="visible"
-                    app:cardCornerRadius="5dp">
+                    app:cardCornerRadius="@dimen/left_space">
 
                     <ScrollView
                         android:layout_width="match_parent"
@@ -660,7 +660,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:orientation="vertical"
-                            android:padding="10dp"
+                            android:padding="@dimen/small_size"
                             android:scrollbars="vertical"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

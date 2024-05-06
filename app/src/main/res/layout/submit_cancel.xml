@@ -8,7 +8,7 @@
     android:background="@android:color/transparent"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="@dimen/small_size">
 
 
     <!--Card view for buttons-->
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/small_size"
         app:cardCornerRadius="8dp">
 
         <!--Cancel button-->
@@ -28,7 +28,7 @@
             android:alpha="0.9"
             android:layout_gravity="center_horizontal"
             android:background="@color/grey_text_color"
-            android:elevation="10dp"
+            android:elevation="@dimen/small_size"
             android:fontFamily="@font/gill_sans"
             android:text="Cancel"
             android:textStyle="bold"
@@ -44,9 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/small_size"
         app:cardCornerRadius="8dp"
-        android:layout_marginLeft="20dp">
+        android:layout_marginLeft="@dimen/twenty_dp">
 
         <!--Submit button-->
         <androidx.appcompat.widget.AppCompatButton
@@ -63,7 +63,7 @@
             android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck"
             android:textAllCaps="false"
-            android:elevation="10dp"
+            android:elevation="@dimen/small_size"
             android:textColor="@color/white" />
     </androidx.cardview.widget.CardView>
 </LinearLayout>

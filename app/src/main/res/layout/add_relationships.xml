@@ -11,10 +11,10 @@
         android:id="@+id/cv_details_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        android:elevation="10dp"
+        android:layout_margin="@dimen/small_size"
+        android:padding="@dimen/small_size"
+        app:cardCornerRadius="@dimen/small_size"
+        android:elevation="@dimen/small_size"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp"
+            android:padding="@dimen/left_space"
             android:paddingBottom="30dp"
             >
             <TextView
@@ -44,7 +44,7 @@
                 android:id="@+id/search_tm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
 
 
                 android:textColorHint="@color/black"
@@ -75,14 +75,14 @@
                 android:id="@+id/group_head_name"
                 android:layout_width="match_parent"
                 android:visibility="gone"
-                android:padding="10dp"
+                android:padding="@dimen/small_size"
                 android:textColor="@color/black"
                 android:fontFamily="@font/gill_sans"
                 android:textSize="@dimen/Fifteen_dp"
                 android:drawableLeft="@drawable/person_image_email"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_grey_background"
-                android:layout_margin="10dp">
+                android:layout_margin="@dimen/small_size">
 
             </TextView>
 
@@ -93,7 +93,7 @@
                 android:id="@+id/ll_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/small_size"
                 android:orientation="horizontal"
 
                 >
