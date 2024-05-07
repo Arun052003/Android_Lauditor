@@ -1,6 +1,8 @@
 package com.digicoffer.lauditor.ClientRelationships;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -106,7 +108,6 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
             case R.id.btn_search_individual:
                 try {
-//                searchModelsList.clear();
                     total_card.setAlpha(1.0f);
                     ll_email.setAlpha(1.0f);
                     ll_confirm_email.setAlpha(1.0f);
@@ -116,7 +117,6 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
                     String email = et_search_individual.getText().toString().trim();
                     if(isValidEmail(email)) {
-
                         tv_individual_email.setText(email);
                         tv_individual_confirm_email.setText(email);
                         ll_groups.setVisibility(View.VISIBLE);
@@ -124,14 +124,31 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     } else {
                         tv_individual_email.setText("");
                         tv_individual_confirm_email.setText("");
+                        tv_response.setText("");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage("Please enter a valid email address")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // User clicked OK button
+                                        dialog.dismiss();
+                                      // Dismiss the dialog
+                                    }
+                                });
+                        // Create and show the AlertDialog
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+
+                        // Set email fields empty and adjust alpha values
+                        tv_individual_email.setText("");
+                        tv_individual_confirm_email.setText("");
                         ll_email.setAlpha(0.4F);
                         ll_confirm_email.setAlpha(0.4F);
                         ll_first_name.setAlpha(0.4F);
                         ll_last_name.setAlpha(0.4F);
                         country_name_id.setAlpha(0.4F);
+                        tv_response.setText("");
                         ll_groups.setVisibility(View.GONE);
                         ll_select_all.setVisibility(View.GONE);
-
                     }
 
 
@@ -156,10 +173,14 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                 try{
                     String id = "";
                     ll_email.setAlpha(1.0f);
+                    ll_email.setFocusable(true);
+                    tv_individual_email.setFocusable(true);
+                    tv_individual_email.setEnabled(true);
                     ll_confirm_email.setAlpha(1.0f);
                     ll_entity_name.setAlpha(1.0f);
                     ll_contact_person.setAlpha(1.0f);
                     country_name_id.setAlpha(1.0f);
+                    country_name_id.setFocusable(true);
                     ll_contatc_phone.setAlpha(1.0f);
                     tv_response.setText(at_search_entity.getText().toString() + "-not found.Please fill the below details to invite relationship");
                     chk_select_all.setVisibility(View.GONE);
@@ -467,7 +488,14 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         ll_select_all.setVisibility(View.GONE);
                         ll_groups.setVisibility(View.GONE);
                         relationshipsList.clear();
-                        total_card.clearFocus();
+                        total_card.setAlpha(0.4f);
+                        et_search_individual.setText("");
+                        tv_response.setText("");
+                        tv_individual_email.setText("");
+                        tv_individual_confirm_email.setText("");
+                        tv_individual_firstname.setText("");
+                        tv_individual_last_name.setText("");
+sp_country.clearFocus();
                         rv_relationships.removeAllViews();
                         mViewModel.setData("Add Relationship");
                         break;
@@ -497,6 +525,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                         ll_search_entity.setVisibility(View.GONE);
                         ll_first_name.setVisibility(View.VISIBLE);
                         ll_last_name.setVisibility(View.VISIBLE);
+                        ll_confirm_email.setVisibility(View.VISIBLE);
                         rb_individual.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
                         rb_entity.setTextColor(getContext().getResources().getColor(R.color.white));
                         rb_entity.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -1318,12 +1347,12 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
             tv_individual_email.requestFocus();
             AndroidUtils.showToast("Email is required", getContext());
             status = true;
-        } else if (tv_individual_confirm_email.getText().toString().equals("")) {
-            tv_individual_confirm_email.setError("Confirm email is required");
-            tv_individual_confirm_email.requestFocus();
-            AndroidUtils.showToast("Confirm email is required", getContext());
-            status = true;
-        } else if (!tv_individual_email.getText().toString().equals(tv_individual_confirm_email.getText().toString())) {
+//        } else if (tv_individual_confirm_email.getText().toString().equals("")) {
+//            tv_individual_confirm_email.setError("Confirm email is required");
+//            tv_individual_confirm_email.requestFocus();
+//            AndroidUtils.showToast("Confirm email is required", getContext());
+//            status = true;
+//        } else if (!tv_individual_email.getText().toString().equals(tv_individual_confirm_email.getText().toString())) {
             tv_individual_confirm_email.setError("Email and Confirm Email doesn't match");
             AndroidUtils.showToast("Email and Confirm Email doesn't match", getContext());
             status = true;

@@ -225,6 +225,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 holder.tv_initiated.setText("Accepted");
 
                 holder.iv_initiated.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.green_circular));
+                holder.  tv_more_details.setVisibility(View.VISIBLE);
 //                notifyDataSetChanged();
             } else {
                 holder.tv_initiated.setText("Initiated");
@@ -296,6 +297,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                         holder.rb_profile.setBackgroundDrawable(mcontext.getResources().getDrawable(R.drawable.button_left_background));
                         holder.rb_profile.setTextColor(Color.BLACK);
                         holder. et_search_relationships.setVisibility(View.VISIBLE);
+                        holder.rg_shared_status.setVisibility(View.VISIBLE);
 
                         unhideSharedDocumentsdata(holder,shared_tag,relationshipsModel);
 //                        holder.rb_shared_with_us.setChecked(true);
@@ -393,7 +395,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
     private void unhideSharedDocumentsdata(MyViewHolder holder, String shared_tag, RelationshipsModel relationshipsModel) {
         holder.cv_Profile.setVisibility(View.GONE);
-        holder.rg_shared_status.setVisibility(View.GONE);
+        holder.rg_shared_status.setVisibility(View.VISIBLE);
                         holder.ll_documents.setVisibility(View.VISIBLE);
         holder.nestedScrollView.setVisibility(View.GONE);
         holder.rg_document_type.setVisibility(View.GONE);
