@@ -1,5 +1,7 @@
 package com.digicoffer.lauditor.common;
 
+import android.app.AlertDialog;
+
 import com.digicoffer.lauditor.Chat.Model.ChildDO;
 import com.digicoffer.lauditor.Matter.Models.GroupsModel;
 
@@ -12,13 +14,12 @@ import java.util.Map;
 
 public class Constants {
 
+    public static String alert_name;
 
     //ID Name Model
-    public static class IdNameModel{
+    public static class IdNameModel {
         String id;
-
         String name;
-
         String url;
 
         public String getId() {
@@ -45,6 +46,7 @@ public class Constants {
             this.url = url;
         }
     }
+
     public static int tempPos = -1;
     public static ArrayList<IdNameModel> composAttachDocAry = new ArrayList<>();
     public static String base_URL = "http://10.0.2.2:8011/consumer/";

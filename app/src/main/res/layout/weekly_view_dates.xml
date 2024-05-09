@@ -8,7 +8,7 @@
     android:background="@drawable/background_transparent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/eight_dp">
 
     <TextView
         android:id="@+id/textDay"
@@ -20,8 +20,8 @@
 
     <View
         android:id="@+id/dot"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
+        android:layout_width="@dimen/eight_dp"
+        android:layout_height="@dimen/eight_dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
         android:background="@drawable/red_circular"

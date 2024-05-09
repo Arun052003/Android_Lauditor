@@ -15,9 +15,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/eight_dp"
         android:layout_marginTop="@dimen/small_size"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="@dimen/eight_dp">
 
         <!--Cancel button-->
 
@@ -43,9 +43,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="@dimen/eight_dp"
         android:layout_marginTop="@dimen/small_size"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/eight_dp"
         android:layout_marginLeft="@dimen/twenty_dp">
 
         <!--Submit button-->

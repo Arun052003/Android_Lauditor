@@ -7,5 +7,6 @@
     android:layout_marginTop="@dimen/small_size"
     android:background="@drawable/rectangle_light_grey_bg"
     android:gravity="start"
+    android:inputType="textVisiblePassword"
     android:padding="@dimen/Fifteen_dp"
-    android:textAlignment="viewStart"/>
+    android:textAlignment="viewStart" />

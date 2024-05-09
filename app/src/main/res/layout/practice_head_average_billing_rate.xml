@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="63dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/eight_dp"
             android:fontFamily="sans-serif-condensed-light"
             android:text="$200"
             android:textColor="@color/green_count_color"

@@ -5,5 +5,5 @@
     android:layout_width="@dimen/Fifty_dp"
     android:layout_height="@dimen/Fifty_dp"
     android:layout_gravity="center_horizontal"
-    android:padding="8dp"
+    android:padding="@dimen/eight_dp"
     android:src="@drawable/simple_icons" />

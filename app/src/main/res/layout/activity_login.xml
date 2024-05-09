@@ -52,8 +52,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/small_size"
                 android:background="@drawable/left_shadow"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+                app:cardCornerRadius="@dimen/eight_dp"
+                app:cardElevation="@dimen/eight_dp">
 
 
                 <!-- Email TextInputLayout -->
@@ -118,16 +118,16 @@
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_margin="@dimen/left_space"
                     android:background="@drawable/left_shadow"
-                    android:paddingBottom="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp">
+                    android:paddingBottom="@dimen/eight_dp"
+                    app:cardCornerRadius="@dimen/eight_dp"
+                    app:cardElevation="@dimen/eight_dp">
 
 
                     <include layout="@layout/chk_box_layout"/>
                 </androidx.cardview.widget.CardView>
 
                 <Space
-                    android:layout_width="8dp"
+                    android:layout_width="@dimen/eight_dp"
                     android:layout_height="1dp" />
 
 
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="33dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="@dimen/eight_dp"
                     android:paddingTop="@dimen/small_size"
                     android:text="Enable Biometric Authentication"
                     android:textColor="@color/black"

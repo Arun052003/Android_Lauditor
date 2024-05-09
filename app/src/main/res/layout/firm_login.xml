@@ -52,7 +52,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/small_size"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="@dimen/eight_dp">
 
                     <TextView
                         android:id="@+id/firm_name_id"

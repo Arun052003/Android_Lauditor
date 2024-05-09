@@ -3,6 +3,8 @@ package com.digicoffer.lauditor.Matter;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.digicoffer.lauditor.Matter.Models.HistoryModel;
@@ -38,7 +41,8 @@ public class timeline extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_matter_details, container, false);
-
+        ConstraintLayout timeline_c = view.findViewById(R.id.timeline_c);
+        timeline_c.setVisibility(View.VISIBLE);
         //..
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         ImageView close_details = view.findViewById(R.id.close_details);
@@ -47,11 +51,16 @@ public class timeline extends Fragment {
         tv_header_name.setText(header_name);
         final AlertDialog dialog = builder.create();
         ll_timeline.removeAllViews();
+//        if (historyList.size() <= 1) {
+//            timeline_c.setVisibility(View.GONE);
+//        } else timeline_c.setVisibility(View.VISIBLE);
         for (int i = 0; i < historyList.size(); i++) {
             try {
                 View view_timeLine = LayoutInflater.from(getContext()).inflate(R.layout.matter_timeline, null);
                 TextView tv_timeline_title = view_timeLine.findViewById(R.id.tv_timeline_title);
                 tv_timeline_title.setText(R.string.matter_timeline);
+                LinearLayout notes_layout = view_timeLine.findViewById(R.id.notes_layout);
+                notes_layout.setVisibility(View.VISIBLE);
 
                 TextView tv_timeline_date = view_timeLine.findViewById(R.id.tv_timeline_date);
                 tv_timeline_date.setText(R.string.date);
@@ -67,12 +76,15 @@ public class timeline extends Fragment {
                 LinearLayout linear_notes = view_timeLine.findViewById(R.id.linear_notes);
                 ImageView iv_view_timeLine = view_timeLine.findViewById(R.id.iv_view);
                 TextView normal_notes = view_timeLine.findViewById(R.id.normal_notes);
-
-                ll_empty_notes.setVisibility(View.VISIBLE);
-                normal_notes.setVisibility(View.VISIBLE);
 //                int maxLength = 3;
 //                tv_edit_notes.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
 
+                //Invisible the the Notes Radio button for the Date of filling..
+                if (i == 0) {
+                    notes_layout.setVisibility(View.GONE);
+                } else {
+                    notes_layout.setVisibility(View.VISIBLE);
+                }
 //                normal_notes.setPaintFlags(normal_notes.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 ImageView iv_edit_notes = view_timeLine.findViewById(R.id.iv_notes);
                 boolean allday = historyList.get(i).isAllday();
@@ -81,15 +93,20 @@ public class timeline extends Fragment {
                 } else {
                     iv_edit_notes.setVisibility(View.VISIBLE);
                 }
-                if (historyList.get(i).getNotes().equals(null)) {
-                    normal_notes.setText("....");
-                } else if (historyList.get(i).getNotes().equals("")) {
-                    normal_notes.setText("....");
-
+                //Checking the notes value and adding Dots to it.
+                if (!historyList.get(i).getNotes().isEmpty()) {
+                    String notes_text = historyList.get(i).getNotes() + "...";
+                    normal_notes.setText(notes_text);
                 } else {
-                    normal_notes.setText(historyList.get(i).getNotes());
+                    normal_notes.setText("...");
                 }
+                ll_empty_notes.setVisibility(View.VISIBLE);
+                normal_notes.setVisibility(View.VISIBLE);
 
+                //Adding the underline to notes text...
+                SpannableString spannableString = new SpannableString(normal_notes.getText().toString());
+                spannableString.setSpan(new UnderlineSpan(), 0, normal_notes.length(), 0);
+                normal_notes.setText(spannableString);
 
                 iv_edit_notes.setTag(i);
                 iv_edit_notes.setOnClickListener(new View.OnClickListener() {

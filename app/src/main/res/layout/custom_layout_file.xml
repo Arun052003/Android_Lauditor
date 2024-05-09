@@ -13,7 +13,7 @@
         android:layout_margin="@dimen/small_size"
         android:layout_weight="1"
         app:cardBackgroundColor="@color/blue"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/eight_dp"
         app:cardElevation="@dimen/small_size">
 
         <TextView

@@ -62,6 +62,10 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         TextView matter_doc_txt = view.findViewById(R.id.matter_doc_txt);
         matter_doc_txt.setText(R.string.document_s);
         mViewModel.setData("Matter");
+//        if(Constants.create_matter)
+//            Constants.alert_name="Info";
+//        else Constants.alert_name="";
+
         siv_matter_icon = view.findViewById(R.id.siv_matter_icon);
         create_matter_view = view.findViewById(R.id.create_matter_view);
         ll_matter_type = view.findViewById(R.id.ll_matter_type);
@@ -138,7 +142,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             @Override
             public void onClick(View v) {
                 if (matter_arraylist.isEmpty()) {
-                    AndroidUtils.showAlert("Please check the Matter information section", getContext());
+                    AndroidUtils.showAlert("Please check the Matter Information section", getContext());
                 } else if (!Constants.create_matter) {
                     Matter_Gct();
                 } else {
@@ -158,11 +162,11 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
                         } else if (!Constants.create_matter) {
                             Matter_Doc();
                         } else {
-                            AndroidUtils.showAlert("Please check Groups,clients,team member section", getContext());
+                            AndroidUtils.showAlert("Please check Group(S),clients & Team member(S) section", getContext());
                         }
                     }
                 } else {
-                    AndroidUtils.showAlert("Please check the Matter information section", getContext());
+                    AndroidUtils.showAlert("Please check the Matter Information section", getContext());
                 }
             }
         });

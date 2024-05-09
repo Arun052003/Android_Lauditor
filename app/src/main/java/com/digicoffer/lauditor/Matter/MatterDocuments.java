@@ -132,7 +132,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
     private AlertDialog progress_dialog;
     String filename;
-    TextView tv_matter_title_btn;
+    TextView matter_title_tv;
     File file;
 
     ViewMatterModel viewMatterModel1;
@@ -190,7 +190,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         btn_create = view.findViewById(R.id.btn_submit);
         btn_create.setText(R.string.submit);
-        tv_matter_title_btn = view.findViewById(R.id.matter_title);
+        matter_title_tv = view.findViewById(R.id.matter_title);
+        matter_title_tv.setTextSize(20);
         upload_doc_layout = view.findViewById(R.id.upload_doc_layout);
         rv_display_upload_doc = view.findViewById(R.id.rv_display_upload_doc);
         rv_display_upload_doc.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
@@ -243,8 +244,8 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
             if (!matterArraylist.isEmpty()) {
                 for (int i = 0; i < matterArraylist.size(); i++) {
                     MatterModel matterModel = matterArraylist.get(i);
-                    tv_matter_title_btn.setText("");
-                    tv_matter_title_btn.setText(matterModel.getMatter_title());
+                    matter_title_tv.setText("");
+                    matter_title_tv.setText(matterModel.getMatter_title());
                     if (matterModel.getClients_list() != null && matterModel.getClients() != null && matterModel.getGroups_list() != null && matterModel.getGroup_acls() != null) {
                         exisiting_group_acls = matterModel.getGroup_acls();
                         existing_clients = matterModel.getClients();
@@ -410,7 +411,9 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
             }
         } else {
-            chosen_document();
+            matter_title_tv.setText("");
+            matter_title_tv.setText(Constants.Matter_title);
+            existing_document();
         }
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -1580,7 +1583,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
         dialog.show();
     }
 
-    private void chosen_document() {
+    private void existing_document() {
         if (Constants.MATTER_TYPE.equals("Legal")) {
             matter_type = "legal";
         } else if (Constants.MATTER_TYPE.equals("General")) {

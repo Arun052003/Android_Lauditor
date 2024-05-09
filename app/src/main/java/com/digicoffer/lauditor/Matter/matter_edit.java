@@ -72,14 +72,16 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
 
     //Adding all the filed items in edit matter page
-    ViewMatterModel viewMatterModel1;
+    ViewMatterModel viewMatterModel1 = new ViewMatterModel();
     private AlertDialog progress_dialog;
+
 
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
     TextView tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;
     AppCompatButton tv_start_date, tv_end_date, tv_dof;
     TextView description_name, court, judge, Title, datefill, start_date, closedate, priority, status, addopponentadvocate, m_c_number, m_c_type;
     private String mParam2;
+    //    JSONArray member=new JSONArray();
     MatterInformation matterInformation;
     LinearLayoutCompat ll_save_buttons;
     private Calendar finalMyCalendar = Calendar.getInstance();
@@ -106,6 +108,12 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     String ad_name = "";
     String ad_email = "";
     String ad_phone = "";
+    JSONArray clients = new JSONArray();
+    JSONArray documents = new JSONArray();
+    JSONArray members = new JSONArray();
+    JSONArray groups = new JSONArray();
+    JSONArray group_acls = new JSONArray();
+    JSONArray advocates = new JSONArray();
 
     public matter_edit(ViewMatterModel viewMatterModel, ViewMatter viewMatter) {
         viewMatterModel1 = viewMatterModel;
@@ -185,7 +193,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         status = view.findViewById(R.id.status);
         status.setText(R.string.status);
         addopponentadvocate = view.findViewById(R.id.addopponentadvocate);
-        addopponentadvocate.setText(R.string.add_opponent_advocate);
+        addopponentadvocate.setText(R.string.opponent_advocate);
         ll_court = view.findViewById(R.id.ll_court);
         ll_judge = view.findViewById(R.id.ll_judge);
         ll_dof = view.findViewById(R.id.ll_dof);
@@ -217,8 +225,16 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_judge.setTextSize(15);
 //        tv_matter_title=view.findViewById(R.id.tv_matter_title);
         tv_matter_title.setText(viewMatterModel1.getTitle());
-        tv_matter_num.setText(viewMatterModel1.getCaseNumber());
-        tv_case_type.setText(viewMatterModel1.getCasetype());
+        if (Objects.equals(Constants.MATTER_TYPE, "Legal")) {
+            tv_matter_num.setText(viewMatterModel1.getCaseNumber());
+        } else {
+            tv_matter_num.setText(viewMatterModel1.getMatterNumber());
+        }
+        if (Objects.equals(Constants.MATTER_TYPE, "Legal")) {
+            tv_case_type.setText(viewMatterModel1.getCasetype());
+        } else {
+            tv_case_type.setText(viewMatterModel1.getMatterType());
+        }
         tv_matter_description.setText(viewMatterModel1.getDescription());
         tv_dof.setText(viewMatterModel1.getDate_of_filling());
         tv_court.setText(viewMatterModel1.getCourtName());
@@ -267,7 +283,35 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         } else {
             loadPendingUI();
         }
-
+        //Loading existing chosen elements list...
+        try {
+            groups = viewMatterModel1.getGroups();
+            group_acls = viewMatterModel1.getGroupAcls();
+            for (int i = 0; i < viewMatterModel1.getClients().length(); i++) {
+//                ViewMatterModel viewMatterModel1 = viewMatterModel.getClients().get(i);
+                JSONObject client_list = new JSONObject();
+                JSONObject jsonObject = viewMatterModel1.getClients().getJSONObject(i);
+                client_list.put("id", jsonObject.getString("id"));
+                client_list.put("type", jsonObject.getString("type"));
+                clients.put(client_list);
+            }
+            for (int i = 0; i < viewMatterModel1.getDocuments().length(); i++) {
+                JSONObject document_list = new JSONObject();
+                JSONObject jsonObject = viewMatterModel1.getDocuments().getJSONObject(i);
+                document_list.put("docid", jsonObject.getString("docid"));
+                document_list.put("doctype", jsonObject.getString("doctype"));
+                document_list.put("user_id", jsonObject.getString("user_id"));
+                documents.put(document_list);
+            }
+            for (int i = 0; i < viewMatterModel1.getMembers().length(); i++) {
+                JSONObject member_list = new JSONObject();
+                JSONObject jsonObject = viewMatterModel1.getMembers().getJSONObject(i);
+                member_list.put("id", jsonObject.getString("id"));
+                members.put(member_list);
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
         if (viewMatterModel1.getPriority().equals("High")) {
             loadHighPriorityUI();
         } else if (viewMatterModel1.getPriority().equals("Medium")) {
@@ -731,52 +775,23 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         try {
             JSONObject postdata = new JSONObject();
-            JSONArray clients = new JSONArray();
-            JSONArray documents = new JSONArray();
-            JSONArray members = new JSONArray();
-            JSONArray groups = new JSONArray();
-            JSONArray group_acls = new JSONArray();
-            JSONArray advocates = new JSONArray();
-            for (int i = 0; i < existing_clients.size(); i++) {
-//                ViewMatterModel viewMatterModel1 = viewMatterModel.getClients().get(i);
-                viewMatterModel1 = existing_clients.get(i);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", viewMatterModel1.getClient_id());
-                jsonObject.put("type", viewMatterModel1.getClient_type());
-                clients.put(jsonObject);
-            }
-            for (int i = 0; i < existing_documents.size(); i++) {
-                ViewMatterModel viewMatterModel1 = existing_documents.get(i);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("docid", viewMatterModel1.getDoc_id());
-                jsonObject.put("doctype", viewMatterModel1.getDoc_type());
-                jsonObject.put("user_id", viewMatterModel1.getUser_id());
-                documents.put(jsonObject);
-            }
-            for (int i = 0; i < existing_members.size(); i++) {
-                ViewMatterModel viewMatterModel1 = existing_members.get(i);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", viewMatterModel1.getMember_id());
-//                jsonObject.put("name",viewMatterModel1.getMember_name());
-                members.put(jsonObject);
-            }
-            for (int i = 0; i < advocates_list.size(); i++) {
-                JSONObject jsonObject = new JSONObject();
-                AdvocateModel advocateModel = advocates_list.get(i);
-                jsonObject.put("name", advocateModel.getAdvocate_name());
-                jsonObject.put("email", advocateModel.getEmail());
-                jsonObject.put("phone", advocateModel.getNumber());
-                advocates.put(jsonObject);
-            }
-            for (int i = 0; i < existing_groups.size(); i++) {
-                ViewMatterModel viewMatterModel1 = existing_groups.get(i);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", viewMatterModel1.getGroup_id());
-                jsonObject.put("name", viewMatterModel1.getGroup_name());
-                jsonObject.put("canDelete", viewMatterModel1.isCanDelete());
-                groups.put(jsonObject);
-                group_acls.put(viewMatterModel1.getGroup_id());
-            }
+//            for (int i = 0; i < viewMatterModel1.getOpponentAdvocates(); i++) {
+//                JSONObject jsonObject = new JSONObject();
+//                JSONObject jsonObject1 = advocates_list.get(i);
+//                jsonObject.put("name", jsonObject1.getString("name"));
+//                jsonObject.put("email", jsonObject1.getString("email"));
+//                jsonObject.put("phone", advocateModel.getNumber());
+//                advocates.put(jsonObject);
+//            }
+//            for (int i = 0; i < viewMatterModel1.getGroup_acls().length(); i++) {
+//                ViewMatterModel viewMatterModel1 = (ViewMatterModel) viewMatter1.viewMatterModel1.getGroup_acls().get(i);
+//                JSONObject jsonObject = new JSONObject();
+//                jsonObject.put("id", viewMatterModel1.getGroup_id());
+//                jsonObject.put("name", viewMatterModel1.getGroup_name());
+//                jsonObject.put("canDelete", viewMatterModel1.isCanDelete());
+//                groups.put(jsonObject);
+//                group_acls.put(viewMatterModel1.getGroup_id());
+//            }
             postdata.put("affidavit_filing_date", "");
             postdata.put("affidavit_isfiled", "");
             if (Constants.MATTER_TYPE.equals("Legal")) {

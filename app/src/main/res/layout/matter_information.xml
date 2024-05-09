@@ -143,6 +143,8 @@
 
                         <include
                             android:id="@+id/tv_matter_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             layout="@layout/group_name_layout" />
                     </com.google.android.material.textfield.TextInputLayout>
 

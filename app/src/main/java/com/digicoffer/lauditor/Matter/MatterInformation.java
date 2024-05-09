@@ -110,7 +110,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         status = view.findViewById(R.id.status);
         status.setText(R.string.status);
         addopponentadvocate = view.findViewById(R.id.addopponentadvocate);
-        addopponentadvocate.setText(R.string.add_opponent_advocate);
+        addopponentadvocate.setText(R.string.opponent_advocate);
         ll_court = view.findViewById(R.id.ll_court);
         ll_judge = view.findViewById(R.id.ll_judge);
         ll_dof = view.findViewById(R.id.ll_dof);
@@ -137,7 +137,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         tv_court.setHint(R.string.court);
         tv_court.setTextSize(15);
         tv_judge = view.findViewById(R.id.tv_judge);
-        tv_judge.setHint(R.string.judge);
+        tv_judge.setHint(R.string.judge_s);
         tv_judge.setTextSize(15);
         tv_high_priority = view.findViewById(R.id.tv_high_priority);
         tv_high_priority.setOnClickListener(this);
@@ -439,6 +439,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         } else if (Objects.requireNonNull(tv_matter_num.getText()).toString().trim().isEmpty()) {
             AndroidUtils.showAlert(msg.replace("Title", "Case Number"), getContext());
             tv_matter_num.requestFocus();
+        } else if (Objects.requireNonNull(tv_matter_description.getText()).toString().length() > 300) {
+            AndroidUtils.showAlert("Please check the description field size..", getContext());
         } else {
             submitMatter();
         }
@@ -493,7 +495,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
-            ImageView close_tags=view.findViewById(R.id.close_tags);
+            ImageView close_tags = view.findViewById(R.id.close_tags);
             tv_advocate_name.setHint(R.string.name);
             tv_advocate_name.setTextSize(15);
             TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);

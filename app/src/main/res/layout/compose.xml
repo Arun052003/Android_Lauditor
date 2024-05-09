@@ -34,8 +34,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
+                    android:paddingStart="@dimen/eight_dp"
+                    android:paddingEnd="@dimen/eight_dp"
                     android:text="New Message"
                     android:textColor="@color/black"
                     android:textSize="28sp" />
@@ -45,7 +45,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="end"
-                    android:padding="8dp"
+                    android:padding="@dimen/eight_dp"
                     android:src="@drawable/simple_icons"
                     tools:ignore="MissingConstraints" />
 
@@ -180,7 +180,7 @@
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/eight_dp"
                 android:src="@drawable/attachment" />
 
             <!-- Send Button with Corner Radius -->

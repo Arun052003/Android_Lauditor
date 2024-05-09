@@ -102,8 +102,8 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        app:cardCornerRadius="8dp"
+                        android:layout_margin="@dimen/eight_dp"
+                        app:cardCornerRadius="@dimen/eight_dp"
                         app:cardElevation="4dp">
 
                         <LinearLayout
@@ -116,7 +116,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:padding="8dp"
+                                android:padding="@dimen/eight_dp"
                                 android:src="@drawable/inbox"
                                 tools:ignore="MissingConstraints"
                                 tools:layout_editor_absoluteY="125dp" />

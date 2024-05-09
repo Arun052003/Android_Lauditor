@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.MyViewHolder> implements Filterable {
     ArrayList<ViewMatterModel> itemsArrayList;
@@ -55,9 +56,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
         this.itemsArrayList = itemsArrayList;
         this.list_item = itemsArrayList;
         this.context = context;
-
         this.eventListener = eventListener;
-
     }
 
     @NonNull
@@ -96,8 +95,13 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 String owner_id = owner.getString("id");
                 holder.tv_owner_name.setText(owner_name);
             } else holder.tv_owner_name.setText(" ");
+            //"matterNumber"
             holder.tv_matter_title.setText(viewMatterModel.getTitle());
-            holder.tv_case_number.setText(viewMatterModel.getCaseNumber());
+            if (Objects.equals(Constants.MATTER_TYPE, "Legal")) {
+                holder.tv_case_number.setText(viewMatterModel.getCaseNumber());
+            } else {
+                holder.tv_case_number.setText(viewMatterModel.getMatterNumber());
+            }
 
             //Displaying the name of the client from the Clients array in ViewMatter Model....
             JSONArray client = viewMatterModel.getClients();
@@ -107,12 +111,12 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                 holder.tv_client_name.setText(client_name);
                 Log.d("client_value_name", client_name);
             }
-            if (Constants.MATTER_TYPE == "Legal") {
+            if (Objects.equals(Constants.MATTER_TYPE, "Legal")) {
                 holder.tv_date_of_filling.setText(viewMatterModel.getDate_of_filling());
             } else {
                 String inputDate = viewMatterModel.getStartdate();
                 Log.d("Start_date_dof", inputDate);
-                if (inputDate.equals("")) {
+                if (inputDate.isEmpty()) {
                     holder.tv_date_of_filling.setText("");
                 } else {
                     SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-DD");
@@ -148,24 +152,24 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
                             actions_List.add(new ActionModel("View Details"));
                             actions_List.add(new ActionModel("Edit Matter Info"));
                             actions_List.add(new ActionModel("Update Group(s)"));
-                            actions_List.add(new ActionModel("Delete"));
+//                            actions_List.add(new ActionModel("Delete"));
                             actions_List.add(new ActionModel("Close Matter"));
-                        } else if (viewMatterModel.getStatus().equals("Closed")) {
-                            actions_List.clear();
-                            actions_List.add(new ActionModel("View Details"));
-                            actions_List.add(new ActionModel("Edit Matter Info"));
-                            actions_List.add(new ActionModel("Update Group(s)"));
-                            actions_List.add(new ActionModel("Delete"));
-                            actions_List.add(new ActionModel("Reopen Matter"));
                         } else {
                             actions_List.clear();
                             actions_List.add(new ActionModel("View Details"));
                             actions_List.add(new ActionModel("Edit Matter Info"));
                             actions_List.add(new ActionModel("Update Group(s)"));
-                            actions_List.add(new ActionModel("Delete"));
+//                            actions_List.add(new ActionModel("Delete"));
                             actions_List.add(new ActionModel("Reopen Matter"));
                         }
-
+//                         else (viewMatterModel.getStatus().equals("Closed")) {
+//                            actions_List.clear();
+//                            actions_List.add(new ActionModel("View Details"));
+//                            actions_List.add(new ActionModel("Edit Matter Info"));
+//                            actions_List.add(new ActionModel("Update Group(s)"));
+//                            actions_List.add(new ActionModel("Delete"));
+//                            actions_List.add(new ActionModel("Reopen Matter"));
+//                        }
                         final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) context, actions_List);
                         holder.sp_action.setAdapter(spinner_adapter);
                         holder.sp_action.setVisibility(View.VISIBLE);
@@ -181,17 +185,16 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             holder.sp_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int name = position;
-                    if (name == 0) {
+                    if (position == 0) {
                         eventListener.View_Details(viewMatterModel, itemsArrayList);
-                    } else if (name == 1) {
+                    } else if (position == 1) {
                         eventListener.Edit_Matter_Info(viewMatterModel, itemsArrayList);
                         Log.d("VIEW_MATTER..", "" + viewMatterModel);
-                    } else if (name == 2) {
+                    } else if (position == 2) {
                         eventListener.Update_Group(viewMatterModel);
-                    } else if (name == 3) {
+                    } else if (position == 3) {
                         eventListener.DeleteMatter(viewMatterModel, itemsArrayList);
-                    } else if (name == 4) {
+                    } else if (position == 4) {
                         eventListener.Close_Matter(viewMatterModel);
                     }
                     holder.sp_action.setVisibility(View.GONE);
@@ -240,7 +243,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 ////            notifyDataSetChanged();
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage(), context);
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
     }
@@ -306,28 +309,28 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_matter_title = itemView.findViewById(R.id.tv_matter_title);
-            tv_matter_title.setText("Matter Title");
+            tv_matter_title.setText(R.string.matter_title);
             tv_matter_title.setTextColor(Color.BLACK);
 
             tv_case_number = itemView.findViewById(R.id.tv_case_number);
-            tv_case_number.setText("Case Number");
+            tv_case_number.setText(R.string.case_number);
             action_layout = itemView.findViewById(R.id.action_layout);
             custom_spinner = itemView.findViewById(R.id.custom_spinner);
             custom_spinner_cardview = itemView.findViewById(R.id.custom_spinner_cardview);
 
             textView = itemView.findViewById(R.id.textView);
-            textView.setText("Client  : ");
+            textView.setText(R.string.client_);
             textView.setTextColor(Color.BLACK);
             textView.setTextSize(12);
 
             owner = itemView.findViewById(R.id.owner);
-            owner.setText("Owner : ");
+            owner.setText(R.string.owner);
             owner.setTextColor(Color.BLACK);
             owner.setTextSize(12);
 
 
             tv_date_of_filling = itemView.findViewById(R.id.tv_date_of_filling);
-            tv_date_of_filling.setText("Date of Filing");
+            tv_date_of_filling.setText(R.string.date_of_filing);
             tv_date_of_filling.setTextSize(12);
             tv_date_of_filling.setTextColor(Color.BLACK);
             tv_client_name = itemView.findViewById(R.id.tv_client_name);
@@ -337,14 +340,14 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             tv_client_name.setGravity(Gravity.START);
             tv_client_name.setForegroundGravity(Gravity.CENTER_VERTICAL);
             tv_owner_name = itemView.findViewById(R.id.tv_owner_name);
-            tv_owner_name.setText("owner name");
+            tv_owner_name.setText(R.string.owner_name);
             tv_owner_name.setTextSize(12);
             tv_owner_name.setTextColor(Color.BLACK);
             tv_initiated = itemView.findViewById(R.id.tv_initiated);
-            tv_initiated.setText("Pending");
+            tv_initiated.setText(R.string.pending);
             tv_initiated.setTextSize(20);
             filed = itemView.findViewById(R.id.filed);
-            filed.setText("Filed   : ");
+            filed.setText(R.string.filed);
             filed.setTextColor(Color.BLACK);
             filed.setTextSize(12);
 

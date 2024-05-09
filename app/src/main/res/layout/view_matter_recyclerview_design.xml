@@ -13,10 +13,8 @@
         android:layout_marginTop="0dp"
         android:elevation="50dp"
         android:padding="@dimen/left_space"
-
         android:visibility="visible"
         app:cardCornerRadius="@dimen/left_space"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,10 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="@dimen/left_space"
-            android:padding="@dimen/left_space"
-
-            >
-
+            android:padding="@dimen/left_space">
 
             <include
                 android:id="@+id/tv_matter_title"
@@ -43,7 +38,7 @@
                 android:layout_marginStart="@dimen/left_space"
                 android:layout_marginTop="@dimen/left_space"
                 android:layout_marginEnd="@dimen/left_space"
-                android:layout_toLeftOf="@id/cv_staus" />
+                android:layout_toStartOf="@id/cv_staus" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_staus"
@@ -52,7 +47,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/small_size"
-                android:layout_marginRight="23dp"
+                android:layout_marginEnd="23dp"
                 app:cardCornerRadius="250dp">
 
                 <ImageView
@@ -61,7 +56,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-
                     android:src="@drawable/circular" />
 
             </androidx.cardview.widget.CardView>
@@ -83,7 +77,6 @@
                 android:textColor="@color/Blue_text_color"
                 android:textSize="@dimen/Fifteen_dp" />
 
-
             <TextView
                 android:id="@+id/tv_initiated"
                 android:layout_width="wrap_content"
@@ -94,10 +87,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="@dimen/small_size"
                 android:layout_marginBottom="@dimen/small_size"
-                android:layout_toLeftOf="@+id/tv_case_number"
+                android:layout_toStartOf="@+id/tv_case_number"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="end"
-                android:text="Active"
+                android:text="@string/active"
                 android:textColor="@color/Blue_text_color"
                 android:textFontWeight="700"
                 android:textSize="@dimen/twenty_dp"
@@ -118,10 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-
-                    >
-
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -194,7 +184,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cv_relationships_details">
 
-
         <RadioGroup
             android:id="@+id/profile"
             android:layout_width="match_parent"
@@ -224,7 +213,6 @@
                 android:text="@string/profile"
                 android:textSize="@dimen/small_size" />
 
-
             <RadioButton
                 android:id="@+id/rb_share_button"
                 android:layout_width="match_parent"
@@ -239,7 +227,6 @@
                 android:text="@string/share_document"
                 android:textSize="@dimen/small_size" />
 
-
             <RadioButton
                 android:id="@+id/rb_share_matter"
                 android:layout_width="match_parent"
@@ -251,9 +238,8 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="false"
-                android:text="Share Matter"
+                android:text="@string/share_matter"
                 android:textSize="@dimen/small_size" />
-
 
             <RadioButton
                 android:id="@+id/add_entity"
@@ -267,9 +253,8 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="Chat"
+                android:text="@string/chat"
                 android:textSize="@dimen/small_size" />
-
 
         </RadioGroup>
 
@@ -296,30 +281,26 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text="@string/first_name"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:id="@+id/tv_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/left_space"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Email:"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="@string/email_"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
 
@@ -329,122 +310,100 @@
                     android:id="@+id/tv_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/left_space"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Country:"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="@string/country_"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp"></TextView>
 
                 <TextView
                     android:id="@+id/tv_country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/left_space"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Contact Name:"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="@string/contact_name"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:id="@+id/tv_contact_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/left_space"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Mobile:"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="@string/mobile"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:id="@+id/tv_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/left_space"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Website:"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="@string/website"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:id="@+id/tv_website"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/left_space"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Billing Currency:"
+                    android:fontFamily="@font/gill_sans"
+                    android:text="@string/billing_currency"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
 
                 <TextView
                     android:id="@+id/tv_billing_currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="@font/gill_sans"
                     android:text=""
                     android:textColor="@color/Blue_text_color"
-                    android:textSize="@dimen/Fifteen_dp">
-
-                </TextView>
+                    android:textSize="@dimen/Fifteen_dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -452,17 +411,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-
-            >
+            android:gravity="center">
 
             <RadioGroup
                 android:id="@+id/shared_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/Fifteen_dp"
-
-                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_marginEnd="@dimen/twenty_dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -477,9 +433,8 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:singleLine="true"
-                    android:text="Shared with Us"
+                    android:text="@string/shared_with_us"
                     android:textSize="@dimen/Fifteen_dp" />
-
 
                 <RadioButton
                     android:id="@+id/rb_shared_by_us"
@@ -491,10 +446,8 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:singleLine="true"
-                    android:text="Shared By Us"
+                    android:text="@string/shared_by_us"
                     android:textSize="@dimen/Fifteen_dp" />
-
-
             </RadioGroup>
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -502,7 +455,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="@dimen/small_size"
-                android:layout_toRightOf="@id/shared_status"
+                android:layout_toEndOf="@id/shared_status"
                 android:src="@mipmap/share_icon_round"
                 android:visibility="gone"
                 app:shapeAppearanceOverlay="@style/Circula" />
@@ -527,32 +480,27 @@
                 android:id="@+id/rb_already_shared"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:background="@drawable/button_left_green_background"
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="Already Shared"
+                android:text="@string/already_shared"
                 android:textSize="@dimen/Fifteen_dp" />
-
 
             <RadioButton
                 android:id="@+id/rb_choose_to_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:background="@drawable/button_right_background"
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="Choose to Share"
+                android:text="@string/choose_to_share"
                 android:textSize="@dimen/Fifteen_dp" />
-
-
         </RadioGroup>
 
         <RadioGroup
@@ -579,7 +527,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="Client Document"
+                android:text="@string/client_document"
                 android:textSize="@dimen/Fifteen_dp" />
 
 
@@ -587,17 +535,14 @@
                 android:id="@+id/rb_firm_document"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:background="@drawable/button_right_background"
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:padding="15dp"
                 android:singleLine="true"
-                android:text="Firm Document"
+                android:text="@string/firm_document"
                 android:textSize="@dimen/Fifteen_dp" />
-
-
         </RadioGroup>
 
         <LinearLayout
@@ -616,7 +561,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_size"
-                android:hint="Search Documents"
+                android:hint="@string/search_documents"
                 android:textColorHint="@color/black"
                 app:boxBackgroundMode="none">
 
@@ -627,7 +572,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:background="@drawable/rectangle_grey_background"
-                    android:drawableRight="@drawable/search_groups"
+                    android:drawableEnd="@drawable/search_groups"
                     android:gravity="start" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -638,12 +583,11 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/left_space"
                     android:background="@color/dark_grey"
-                    android:elevation="50dp"
+                    android:elevation="@dimen/Fifty_dp"
                     android:padding="@dimen/left_space"
                     android:visibility="visible"
                     app:cardCornerRadius="@dimen/left_space">
@@ -652,23 +596,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="400dp">
 
-
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_shared_documents"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
                             android:orientation="vertical"
                             android:padding="@dimen/small_size"
                             android:scrollbars="vertical"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-                        />
                     </ScrollView>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 
@@ -676,7 +614,7 @@
         android:id="@+id/list_client"
         layout="@layout/spinner_list"
         android:layout_width="@dimen/action_list_width"
-        android:layout_height="@dimen/action_list_height_gp"
+        android:layout_height="@dimen/action_list_height_tm"
         android:layout_below="@+id/cv_relationships_details"
         android:layout_alignParentEnd="true"
         android:background="@color/design_default_color_on_primary"

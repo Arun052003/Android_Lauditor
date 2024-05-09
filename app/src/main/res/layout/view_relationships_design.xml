@@ -323,7 +323,7 @@
                             android:layout_below="@id/first_name"
                             android:layout_marginTop="@dimen/left_space"
                             android:text=""
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textColor="@color/Blue_text_color"
                             android:textSize="@dimen/Fifteen_dp">
 
@@ -341,7 +341,7 @@
                             android:layout_below="@id/email"
                             android:layout_marginTop="@dimen/left_space"
                             android:textColor="@color/Blue_text_color"
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="">
 
@@ -359,7 +359,7 @@
                             android:layout_below="@id/country"
                             android:layout_marginTop="@dimen/left_space"
                             android:textColor="@color/Blue_text_color"
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="">
 
@@ -377,7 +377,7 @@
                             android:layout_below="@id/contact_name"
                             android:textColor="@color/Blue_text_color"
                             android:layout_marginTop="@dimen/left_space"
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="">
 
@@ -400,7 +400,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/mobile"
                             android:textColor="@color/Blue_text_color"
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="" />
                     </RelativeLayout>
@@ -417,7 +417,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/website"
                             android:textColor="@color/Blue_text_color"
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="">
 
@@ -436,7 +436,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/billing_currency"
                             android:textColor="@color/Blue_text_color"
-                            android:fontFamily="sans-serif-medium"
+                            android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
                             android:text="">
 

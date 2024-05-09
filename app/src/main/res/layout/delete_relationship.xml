@@ -58,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:padding="8dp"
+                            android:padding="@dimen/eight_dp"
                             android:src="@drawable/cancel_icon" />
 
                     </LinearLayout>
@@ -95,7 +95,7 @@
                         android:id="@+id/group_head_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/eight_dp"
                         android:background="@drawable/rectangle_grey_background"
                         android:drawableLeft="@drawable/person_image_email"
                         android:fontFamily="@font/gill_sans"

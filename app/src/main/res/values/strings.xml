@@ -88,9 +88,9 @@
     <string name="status">Status</string>
     <string name="active">Active</string>
     <string name="pending">Pending</string>
-    <string name="add_opponent_advocate">Add Opponent Advocate</string>
+    <string name="opponent_advocate">Opponent Advocate</string>
     <string name="add">Add</string>
-    <string name="add_groups">Add Groups</string>
+    <string name="assign_groups">Assign Group(s)</string>
     <string name="add_clients">Add Clients</string>
     <string name="assigned_team_members">Assigned Team Members</string>
     <string name="assign_team_members">Assign Team Members</string>
@@ -164,4 +164,25 @@
     <string name="search_group">Search Group</string>
     <string name="select_head_of_the_practice">Select Head of the Practice</string>
     <string name="time_line">Time Line</string>
+    <string name="add_opponent_advocate">Add Opponent Advocate</string>
+    <string name="owner_name">Owner name</string>
+    <string name="filed">"Filed   : "</string>
+    <string name="owner">"Owner : "</string>
+    <string name="client_">"Client  : "</string>
+    <string name="search_documents">Search Documents</string>
+    <string name="firm_document">Firm Document</string>
+    <string name="client_document">Client Document</string>
+    <string name="choose_to_share">Choose to Share</string>
+    <string name="already_shared">Already Shared</string>
+    <string name="shared_by_us">Shared By Us</string>
+    <string name="shared_with_us">Shared with Us</string>
+    <string name="billing_currency">Billing Currency:</string>
+    <string name="website">Website:</string>
+    <string name="mobile">Mobile:</string>
+    <string name="contact_name">Contact Name:</string>
+    <string name="country_">Country:</string>
+    <string name="email_">Email:</string>
+    <string name="share_matter">Share Matter</string>
+    <string name="chat">Chat</string>
+    <string name="notes">Notes</string>
 </resources>

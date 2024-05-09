@@ -81,8 +81,8 @@
             android:layout_height="wrap_content"
 
             android:textStyle="bold"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/eight_dp"
             android:textColor="@color/black"
             android:fontFamily="sans-serif-condensed-light"
             android:text="to"

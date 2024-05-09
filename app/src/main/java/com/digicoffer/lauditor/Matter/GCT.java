@@ -141,7 +141,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         rv_display_upload_tm_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
         rv_display_upload_tm_docs.setVisibility(View.GONE);
         ll_add_groups = view.findViewById(R.id.ll_add_groups);
-        add_groups.setText(R.string.add_groups);
+        add_groups.setText(R.string.assign_groups);
         add_clients = view.findViewById(R.id.add_clients);
         add_clients.setText(R.string.add_clients);
         cv_client_details = view.findViewById(R.id.cv_client_details);
@@ -1015,13 +1015,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         }
     }
 
-    private void updatedtmDisplay() {
-        if (!selected_tm_list.isEmpty()) {
-            selected_tm.setVisibility(View.VISIBLE);
-        } else {
-            selected_tm.setVisibility(View.GONE);
-        }
-    }
 
     private void loadSelectedClients() {
         selected_clients.setVisibility(View.VISIBLE);
@@ -1296,33 +1289,24 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     private void load_existing_matter() {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
-//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members", "chosen_member", postdata.toString());
     }
 
-    //    https://api.staging.digicoffer.com/professional/matter/attachments
     private void load_existing_member_list() throws JSONException {
-//        progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "members");
-//   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"];
         postdata.put("group_acls", Constants.ex_attachment);
-//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_members", postdata.toString());
     }
 
     private void load_existing_clients_list() throws JSONException {
-//        progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "clients");
-//   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"];
         postdata.put("group_acls", Constants.ex_attachment);
-//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_clients", postdata.toString());
     }
 
     private void update_matter() throws JSONException {
-//        https://api.staging.digicoffer.com/professional/matter/legal/652f70e5fffd8f1bcd11bf36/members/update
         progress_dialog = AndroidUtils.get_progress(getActivity());
         JSONArray clients = new JSONArray();
         JSONArray members = new JSONArray();
@@ -1332,7 +1316,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 JSONObject team_object = new JSONObject();
                 team_object.put("id", teamModel.getTm_id());
                 team_object.put("name", teamModel.getTm_name());
-//                        team_object.put("")
                 members.put(team_object);
             } catch (Exception e) {
                 e.fillInStackTrace();
@@ -1353,8 +1336,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         JSONObject postdata = new JSONObject();
         postdata.put("clients", clients);
         postdata.put("members", members);
-//   array=["661fa5eafffd8f20732f439d", "65ee94cffffd8f453d0b1c95", "65ee9307fffd8f453d0b1c8f"]
-//        https://api.staging.digicoffer.com/professional/matter/legal/65264766fffd8f05faaf6152/members
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
     }
 
@@ -1397,36 +1378,5 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         } catch (Exception e) {
             e.fillInStackTrace();
         }
-//        {
-//            "error": false,
-//                "id": "65264766fffd8f05faaf6152",
-//                "clients": [],
-//            "members": [],
-//            "corporate": [
-//            {
-//                "id": "64f18b78fffd8f4f4623ea3f",
-//                    "name": "Perficient Technologent",
-//                    "type": "corporate"
-//            }
-//    ]
-//        }
     }
-
-//    {
-//                        "error": false,
-//                            "attachment_type": "clients",
-//                            "clients": [
-//                        {
-//                            "id": "63ae641ea1db720425b4ab0d",
-//                                "name": "Soundarya Vembaiyan Stage",
-//                                "type": "consumer"
-//                        },
-//                        {
-//                            "id": "63e4b0a4a1db726736fa5a8a",
-//                                "name": "Soundarya StagContent Firm",
-//                                "type": "entity"
-//                        }
-//    ]
-//                    }
-//    }
 }

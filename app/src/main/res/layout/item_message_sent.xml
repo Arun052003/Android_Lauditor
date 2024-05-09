@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp">
+    android:paddingTop="@dimen/eight_dp">
 
     <LinearLayout
         android:id="@+id/ll_layout"
@@ -57,11 +57,11 @@
             android:id="@+id/text_message_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="@dimen/eight_dp"
             android:layout_gravity="right"
             android:gravity="right"
             android:maxWidth="240dp"
-            android:padding="8dp"
+            android:padding="@dimen/eight_dp"
             android:textColor="@color/white" />
 
         <TextView

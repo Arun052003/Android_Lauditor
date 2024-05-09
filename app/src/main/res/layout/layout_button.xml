@@ -22,7 +22,7 @@
         android:layout_marginEnd="@dimen/twenty_dp"
         android:layout_marginBottom="@dimen/left_space"
         android:background="@drawable/background_transparent"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/eight_dp"
         app:cardElevation="@dimen/left_space">
 
         <!--Cancel button-->
@@ -51,7 +51,7 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/left_space"
         android:background="@drawable/background_transparent"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/eight_dp"
         app:cardElevation="@dimen/left_space">
 
         <!--Submit button-->
