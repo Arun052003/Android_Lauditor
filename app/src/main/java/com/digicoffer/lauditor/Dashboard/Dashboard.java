@@ -123,7 +123,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             try {
 //            mainActivity = (MainActivity) getActivity();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             bt_KPI = v.findViewById(R.id.bt_kpi);
             bt_MyDay = v.findViewById(R.id.bt_Myday);
@@ -168,7 +168,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
 
 
         } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -230,7 +230,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -243,7 +243,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -256,7 +256,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -269,7 +269,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -282,7 +282,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -295,7 +295,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -308,7 +308,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -321,7 +321,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -334,7 +334,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -347,7 +347,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -360,7 +360,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -373,7 +373,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -388,7 +388,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -403,7 +403,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -416,7 +416,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -877,7 +877,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
 //            }
 //            System.out.println(formattedDate); // Output: Fri 11:30 AM
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             // Handle the exception
         }
 
@@ -910,7 +910,7 @@ public class Dashboard extends Fragment implements AsyncTaskCompleteListener {
             }
 //            System.out.println(formattedDate); // Output: Fri 11:30 AM
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             // Handle the exception
         }
 

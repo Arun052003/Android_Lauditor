@@ -566,7 +566,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
             }
         } catch (Exception e) {
             Log.e("TAG", "Error:" + e.getMessage());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -632,7 +632,7 @@ public class Members extends Fragment implements AsyncTaskCompleteListener, Memb
                 loadViewGroups(data);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

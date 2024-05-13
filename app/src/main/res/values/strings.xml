@@ -185,4 +185,6 @@
     <string name="share_matter">Share Matter</string>
     <string name="chat">Chat</string>
     <string name="notes">Notes</string>
+    <string name="update_group_s">Update Group(S)</string>
+    <string name="groups">Groups</string>
 </resources>

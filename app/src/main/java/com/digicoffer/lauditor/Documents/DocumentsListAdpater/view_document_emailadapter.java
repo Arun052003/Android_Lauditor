@@ -177,7 +177,7 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), cContext);
         }
     }
@@ -231,7 +231,7 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
                     System.out.println("Failed to obtain authentication URL");
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }

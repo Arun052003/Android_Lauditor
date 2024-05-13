@@ -5,8 +5,8 @@
     <dimen name="action_list_height_gp">183dp</dimen>
     <dimen name="one_fifty_dp">150dp</dimen>
     <dimen name="Login_header">40dp</dimen>
-    <dimen name="twenty_dp">20dp</dimen>
-    <dimen name="Fifteen_dp">15dp</dimen>
+    <dimen name="twenty_dp">20sp</dimen>
+    <dimen name="Fifteen_dp">15sp</dimen>
     <dimen name="Twelve_dp">12dp</dimen>
     <dimen name="left_space">4dp</dimen>
     <dimen name="eight_dp">8dp</dimen>

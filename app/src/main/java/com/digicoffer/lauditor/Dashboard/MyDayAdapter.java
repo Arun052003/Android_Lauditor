@@ -344,7 +344,7 @@ public class MyDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

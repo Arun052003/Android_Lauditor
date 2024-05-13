@@ -76,7 +76,7 @@ public class AdminKPIAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((ProductSubcriptionHolder) holder).setProductSubcriptiondata(meetingModel);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

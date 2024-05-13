@@ -183,7 +183,7 @@ public class TimeSheets extends Fragment {
                     }
                     loadFragment(tv_from_date_timesheet.getText().toString(), weekDateInfo);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         });

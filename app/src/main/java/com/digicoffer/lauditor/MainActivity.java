@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //                        openMenu();
 //                    } catch (Exception e) {
 //                        Log.e("Error", "Error" + e.getMessage());
-//                        e.printStackTrace();
+//                        e.fillInStackTrace();
 //                    }
 //                }
 //            });
@@ -474,12 +474,12 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 //
 //                    } catch (Exception e) {
 //                        Log.e("Error", "Error" + e.getMessage());
-//                        e.printStackTrace();
+//                        e.fillInStackTrace();
 //                    }
 //                }
 //            });
         } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -720,7 +720,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
                     throw new IOException("Error: " + responseCode);
                 }
             } catch (IOException | JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             return null;
         }
@@ -741,7 +741,7 @@ public class MainActivity extends AppCompatActivity implements MonthlyCalendar.E
 
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             } else {
                 // Handle null response

@@ -328,13 +328,13 @@ public class FileUtils {
                 bos.write(buf);
             } while (is.read(buf) != -1);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             try {
                 if (is != null) is.close();
                 if (bos != null) bos.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }

@@ -159,7 +159,7 @@ public class BottomSheetUploadFile extends BottomSheetDialogFragment implements 
                         try {
                             onPhotoSelectedListner.getImagepath(file, uri);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                         getDialog().dismiss();
                         // Handle the returned Uri
@@ -187,7 +187,7 @@ public class BottomSheetUploadFile extends BottomSheetDialogFragment implements 
             try {
                 onPhotoSelectedListner.getImagepath(file, selectedImage);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             getDialog().dismiss();
         } else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK){
@@ -237,7 +237,7 @@ public class BottomSheetUploadFile extends BottomSheetDialogFragment implements 
 //                            fos.write(pdfByte);
 //                        }
 //                    }  catch (IOException e) {
-//                        e.printStackTrace();
+//                        e.fillInStackTrace();
 //                    }
         }else{
             getDialog().dismiss();
@@ -255,7 +255,7 @@ public class BottomSheetUploadFile extends BottomSheetDialogFragment implements 
 //        }
         } catch (ClassCastException e) {
             Log.e(TAG,"onAttach: ClasscatchException" + e.getMessage());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         super.onAttach(context);
     }

@@ -114,7 +114,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 //                    filter = sdf.format(mCalendar.getTime());
 //                    callEventListwebservice(filter);
 //                } catch (Exception e) {
-//                    e.printStackTrace();
+//                    e.fillInStackTrace();
 //                }
 //            }
 //        });
@@ -235,7 +235,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             callEventListwebservice(filter);
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return;
         }
 
@@ -283,7 +283,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             callEventListwebservice(filter);
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return;
         }
 
@@ -306,7 +306,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             Log.d("Interface", "Interface Called");
             eventDetailsListener = (EventDetailsListener) getParentFragment();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 //        } else {
 //            throw new RuntimeException(context.toString()
@@ -330,7 +330,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             long timezoneoffset = (-1) * (hours);
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/events/" + timezoneoffset + "/" + "W" + start_date + "-" + end_date, "Events_List", postData.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -389,13 +389,13 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
 //                        }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -546,7 +546,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             rv_displayEvents.setAdapter(events_adapter);
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -578,7 +578,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.DELETE, "v3/event/" + id, "EVENT_DELETE", postData.toString());
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
 
@@ -618,7 +618,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             dialog.setView(dialogLayout);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -639,7 +639,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
             Date selectedDateObj = dateFormat.parse(selectedDate);
             cal.setTime(selectedDateObj);
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         events_list.clear();
@@ -652,7 +652,7 @@ public class WeeklyCalendar extends Fragment implements View.OnClickListener, As
         try {
             callEventListwebservice(filter);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
 
         }
     }

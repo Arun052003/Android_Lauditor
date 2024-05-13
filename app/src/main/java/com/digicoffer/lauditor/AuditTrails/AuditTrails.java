@@ -186,7 +186,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
 //                                // Use formattedDate as needed, for example:
 //                                tv_event_start_time.setText(formattedDate);
 //                            } catch (ParseException | java.text.ParseException e) {
-//                                e.printStackTrace();
+//                                e.fillInStackTrace();
 //                                // Handle parsing exception here
 //                            }
 //                        }
@@ -217,7 +217,7 @@ public class AuditTrails extends Fragment implements AsyncTaskCompleteListener, 
 //                                // Use formattedDate as needed, for example:
 //                                tv_event_end_time.setText(formattedDate);
 //                            } catch (ParseException | java.text.ParseException e) {
-//                                e.printStackTrace();
+//                                e.fillInStackTrace();
 //                                // Handle parsing exception here
 //                            }
 //                        }

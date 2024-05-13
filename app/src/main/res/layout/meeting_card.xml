@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/left_space"
-            android:fontFamily="sans-serif-condensed-light"
+            android:fontFamily="@font/gill_sans"
             android:textColor="@color/Blue_text_color"
             android:layout_gravity="center"
             android:gravity="bottom"
@@ -72,7 +72,7 @@
             android:textSize="@dimen/twenty_dp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:fontFamily="sans-serif-condensed-light"
+            android:fontFamily="@font/gill_sans"
             android:text="@string/_09_00_to_09_30"
             />
         <TextView
@@ -84,7 +84,7 @@
             android:layout_marginLeft="@dimen/eight_dp"
             android:layout_marginRight="@dimen/eight_dp"
             android:textColor="@color/black"
-            android:fontFamily="sans-serif-condensed-light"
+            android:fontFamily="@font/gill_sans"
             android:text="to"
             />
         <TextView
@@ -94,7 +94,7 @@
             android:textSize="@dimen/twenty_dp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:fontFamily="sans-serif-condensed-light"
+            android:fontFamily="@font/gill_sans"
             android:text="@string/_09_00_to_09_30"
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/twenty_dp"
         android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="@font/gill_sans"
         android:text="Subject"
         android:textStyle="bold"
         android:textSize="@dimen/Fifteen_dp"
@@ -130,7 +130,7 @@
         android:textStyle="bold"
         android:layout_marginLeft="@dimen/twenty_dp"
         android:textSize="@dimen/twenty_dp"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="@font/gill_sans"
         android:text="@string/meeting_with_tripathi"
         android:textColor="@color/Blue_text_color"
         app:layout_constraintEnd_toStartOf="@id/guideline7"

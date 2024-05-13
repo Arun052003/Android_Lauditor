@@ -503,7 +503,7 @@ public class MessagesList extends Fragment {
 
             } catch (IOException | SmackException | XMPPException e) {
                 Log.d("Chat Error", "Something went wrong while connecting ,make sure the credentials are right and try again");
-                e.printStackTrace();
+                e.fillInStackTrace();
                 //Stop the service all together.
                 chatConnectionService.stopSelf();
             }

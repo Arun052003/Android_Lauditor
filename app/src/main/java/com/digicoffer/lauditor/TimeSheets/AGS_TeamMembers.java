@@ -74,7 +74,7 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
                 callTeamMembersWebservice("month");
             else callTeamMembersWebservice("week");
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return view;
     }
@@ -129,7 +129,7 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
                         loadTm_month_Data(jsonArray);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -215,7 +215,7 @@ public class AGS_TeamMembers extends Fragment implements AsyncTaskCompleteListen
                 Log.d("Month_name.", month);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         MonthlyTSAdapter teamMembersTSAdapter = new MonthlyTSAdapter(monthlist, status, month);
         rv_time_sheets.setAdapter(teamMembersTSAdapter);

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/gill_sans"
             android:gravity="start"
             android:text="Average Billing rate"
             android:textColor="@color/Blue_text_color"
@@ -71,7 +71,7 @@
             android:layout_height="63dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/eight_dp"
-            android:fontFamily="sans-serif-condensed-light"
+            android:fontFamily="@font/gill_sans"
             android:text="$200"
             android:textColor="@color/green_count_color"
             android:textSize="@dimen/Fifty_dp">

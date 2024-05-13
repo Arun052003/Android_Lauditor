@@ -34,7 +34,7 @@
                     android:layout_margin="@dimen/left_space"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:fontFamily="sans-serif-condensed"
+                    android:fontFamily="@font/gill_sans"
                     android:maxLines="1"
                     android:text="TextView"
                     android:textColor="@color/black"

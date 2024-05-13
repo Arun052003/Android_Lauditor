@@ -61,7 +61,7 @@ public class EditMatterTimeline extends Fragment {
                 //AndroidUtils.showAlert(viewMatterModel.getTitle(),getContext());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
 

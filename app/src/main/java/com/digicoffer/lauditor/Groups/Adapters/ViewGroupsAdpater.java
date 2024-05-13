@@ -183,14 +183,14 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                         try {
                             eventListener.UGM(viewGroupModel);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     } else if (name == 4) {
                         group.page_name("Group Activity Log");
                         try {
                             eventListener.GAL(viewGroupModel);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
                     holder.sp_action.setVisibility(View.GONE);

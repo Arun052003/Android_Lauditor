@@ -51,7 +51,7 @@
                 android:layout_marginTop="@dimen/left_space"
                 android:layout_marginBottom="@dimen/left_space"
                 android:layout_marginLeft="@dimen/small_size"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/gill_sans"
                 android:text="Advanced Search"
                 android:padding="2dp"
                 android:textColor="@color/Blue_text_color" />

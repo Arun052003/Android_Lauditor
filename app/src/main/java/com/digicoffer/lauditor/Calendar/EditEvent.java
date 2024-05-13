@@ -447,7 +447,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -646,7 +646,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 dialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
 
@@ -704,7 +704,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                             at_attach_document.setText(str);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -756,7 +756,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             dialog.setView(dialogLayout);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -865,9 +865,9 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             postData.put("date", newDateString);
             postData.put("attachments", existing_attachments);
 //            } catch (ParseException e) {
-//                e.printStackTrace();
+//                e.fillInStackTrace();
 //            } catch (JSONException e) {
-//                e.printStackTrace();
+//                e.fillInStackTrace();
 //            }
             postData.put("invitees_internal", selected_team_member);
             postData.put("invitees_external", selected_clients_list);
@@ -901,7 +901,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
 
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/event/" + this.event_id + "/" + multiplied_offset, "CREATE_EVENT", postData.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -942,7 +942,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                         selectedValues.set(position, tv_numbers.getText().toString() + "- " + selected_hour_type.toLowerCase(Locale.ROOT));
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
 
@@ -1131,7 +1131,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 dialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
 
@@ -1189,7 +1189,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                             at_individual.setText(str);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -1211,7 +1211,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1316,7 +1316,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 dialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
 
@@ -1371,7 +1371,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                             at_assigned_team_members.setText(str);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -1434,7 +1434,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
 
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -1556,7 +1556,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 loadSelectedDocuments();
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
 
@@ -1575,7 +1575,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 loadSelectedTM();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         try {
@@ -1595,7 +1595,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 loadSelectedClients();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         try {
 
@@ -1614,7 +1614,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             }
             loadSelectedIndividual();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         try {
             for (int i = 0; i < existing_events_list.size(); i++) {
@@ -1627,7 +1627,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             }
 //    NotificationPopup();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 //        try {
 //            for (int i = 0; i < existing_events_list.size(); i++) {
@@ -1652,7 +1652,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
 //            }
 //            loadSelectedIndividual();
 //        } catch (Exception e) {
-//            e.printStackTrace();
+//            e.fillInStackTrace();
 //        }
 //
 //        loadSelectedClients();
@@ -1746,7 +1746,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1760,7 +1760,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1785,7 +1785,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
 
                     } catch (Exception e) {
                         AndroidUtils.showAlert(e.getMessage(), getContext());
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 } else if (httpResult.getRequestType().equals("TIMEZONES")) {
                     if (!result.getBoolean("error")) {
@@ -1883,7 +1883,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                     meetings.loadViewEvent(Calendar_type);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         } else {
             AndroidUtils.showAlert("Something went wrong", getContext());
@@ -1903,7 +1903,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             ft.addToBackStack(null);
             ft.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1985,7 +1985,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 dialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
 
@@ -2068,7 +2068,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -2204,7 +2204,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
                 try {
                     loadEntitiesSpinnerData();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
 //                loadProjectData(selected_project);
             }
@@ -2217,7 +2217,7 @@ public class EditEvent extends Fragment implements AsyncTaskCompleteListener, Vi
         try {
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 //        callClientsWebservice();
 //            callTeamMemberWebservice();

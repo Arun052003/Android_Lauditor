@@ -78,7 +78,7 @@ public class TeamMemberKPIAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((ActiveMatterHolder) holder).Mattersdata(meetingModel);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

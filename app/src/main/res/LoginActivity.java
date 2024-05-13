@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                         Login();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         });
@@ -315,7 +315,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 
             } catch (IOException | SmackException | XMPPException e) {
                 Log.d("Chat Error", "Something went wrong while connecting ,make sure the credentials are right and try again");
-                e.printStackTrace();
+                e.fillInStackTrace();
                 //Stop the service all together.
                 chatConnectionService.stopSelf();
             }

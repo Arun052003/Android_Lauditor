@@ -479,7 +479,7 @@
                         <!--                        <TextView-->
                         <!--                            android:layout_width="match_parent"-->
                         <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:fontFamily="sans-serif-condensed"-->
+                        <!--                            android:fontFamily="@font/gill_sans"-->
                         <!--                            android:text="Select Head of the Practice"-->
                         <!--                            android:textColor="@color/Blue_text_color"-->
                         <!--                            android:textSize="@dimen/twenty_dp"-->

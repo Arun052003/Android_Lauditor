@@ -20,6 +20,7 @@ import com.digicoffer.lauditor.R;
 import org.minidns.record.A;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder> {
     ArrayList<GroupsModel> sharedList = new ArrayList<>();
@@ -49,9 +50,8 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
 
     @Override
     public void onBindViewHolder(@NonNull GroupsAdapter.Viewholder holder, int position) {
-        if (TAG == "Groups") {
+        if (Objects.equals(TAG, "Groups")) {
             GroupsModel groupsModel = sharedList.get(position);
-
             holder.cb_documents.setChecked(sharedList.get(position).isChecked());
             holder.cb_documents.setTag(position);
             holder.tv_tm_name.setText(groupsModel.getGroup_name());
@@ -59,15 +59,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_documents.getTag();
-
-                    if (sharedList.get(pos).isChecked()) {
-                        sharedList.get(pos).setChecked(false);
-                    } else {
-                        sharedList.get(pos).setChecked(true);
-                    }
+                    sharedList.get(pos).setChecked(!sharedList.get(pos).isChecked());
                 }
             });
-        } else if (TAG == "Clients") {
+        } else if (Objects.equals(TAG, "Clients")) {
             ClientsModel clientsModel = clientsList.get(position);
             holder.cb_documents.setChecked(clientsList.get(position).isChecked());
             holder.cb_documents.setTag(position);
@@ -76,16 +71,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_documents.getTag();
-                    if (clientsList.get(pos).isChecked()) {
-                       clientsList.get(pos).setChecked(false);
-
-                    } else {
-                        clientsList.get(pos).setChecked(true);
-
-                    }
+                    clientsList.get(pos).setChecked(!clientsList.get(pos).isChecked());
                 }
             });
-        } else if (TAG == "TM") {
+        } else if (Objects.equals(TAG, "TM")) {
             TeamModel teamModel = tmList.get(position);
             holder.cb_documents.setChecked(tmList.get(position).isChecked());
             holder.cb_documents.setTag(position);
@@ -94,14 +83,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_documents.getTag();
-                    if (tmList.get(pos).isChecked()) {
-                        tmList.get(pos).setChecked(false);
-                    } else {
-                        tmList.get(pos).setChecked(true);
-                    }
+                    tmList.get(pos).setChecked(!tmList.get(pos).isChecked());
                 }
             });
-        }else if(TAG == "UGM"){
+        }else if(Objects.equals(TAG, "UGM")){
             ViewMatterModel viewMatterModel = groupsList.get(position);
             holder.cb_documents.setChecked(groupsList.get(position).isChecked());
             holder.cb_documents.setTag(position);
@@ -110,15 +95,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_documents.getTag();
-                    if (groupsList.get(pos).isChecked()) {
-                        groupsList.get(pos).setChecked(false);
-                    } else {
-                        groupsList.get(pos).setChecked(true);
-                    }
+                    groupsList.get(pos).setChecked(!groupsList.get(pos).isChecked());
                 }
             });
         }
-
     }
 
 
@@ -140,11 +120,11 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.Viewholder
 
     @Override
     public int getItemCount() {
-        if (TAG == "Groups") {
+        if (Objects.equals(TAG, "Groups")) {
             return sharedList.size();
-        } else if (TAG == "Clients") {
+        } else if (Objects.equals(TAG, "Clients")) {
             return clientsList.size();
-        } else if(TAG == "UGM"){
+        } else if(Objects.equals(TAG, "UGM")){
             return groupsList.size();
         }else  {
             return tmList.size();

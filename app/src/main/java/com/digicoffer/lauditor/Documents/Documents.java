@@ -620,7 +620,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return v;
     }
@@ -798,7 +798,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
 //                                            selected_documents_list.add(documentsModel);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                e.fillInStackTrace();
                             }
                         }
                         documentsModel.setTags(tags);
@@ -936,7 +936,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_edit_tag_document_name.setText(documentsModel.getTag_type() + " - " + documentsModel.getTag_name());
             dialog.dismiss();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1140,7 +1140,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1231,7 +1231,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //            if (progress_dialog != null && progress_dialog.isShowing()) {
 //                AndroidUtils.dismiss_dialog(progress_dialog);
 //            }
-//            e.printStackTrace();
+//            e.fillInStackTrace();
 //        }
 //    }
 
@@ -1456,7 +1456,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             createFileFromStream(ins, destinationFilename);
         } catch (Exception ex) {
             Log.e("Save File", ex.getMessage());
-            ex.printStackTrace();
+            ex.fillInStackTrace();
         }
         return destinationFilename;
     }
@@ -1471,7 +1471,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             os.flush();
         } catch (Exception ex) {
             Log.e("Save File", ex.getMessage());
-            ex.printStackTrace();
+            ex.fillInStackTrace();
         }
     }
 
@@ -1562,7 +1562,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     try {
                         loadClients(data);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 } else if (httpResult.getRequestType().equals("Legal Matter")) {
                     JSONArray matters = result.getJSONArray("matterList");
@@ -1612,7 +1612,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
                 AndroidUtils.showAlert(e.getMessage(), getContext());
             }
         } else {
@@ -1620,7 +1620,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 JSONObject result = new JSONObject(httpResult.getResponseContent());
                 AndroidUtils.showAlert(result.getString("msg"), getContext());
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -1694,7 +1694,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             }
             loadViewDocumentsRecyclerview();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1722,7 +1722,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             }
             loadViewDocumentsRecyclerview();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1772,7 +1772,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1790,7 +1790,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //            GroupsAlert();
             GroupsPopup();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1893,7 +1893,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 });
                 rv_display_view_groups_docs.setAdapter(documentsAdapter1);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
                 AndroidUtils.showAlert(e.getMessage(), getContext());
             }
         } catch (IllegalAccessException e) {
@@ -2123,7 +2123,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -2158,7 +2158,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 ll_existing_tags.addView(view_added_tags);
 //                Object value = documentsModel.getTags().get(key);
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -2538,7 +2538,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

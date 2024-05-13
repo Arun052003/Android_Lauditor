@@ -106,7 +106,7 @@ public class DateUtils {
             // Parse the string into a Date object
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             // Handle parsing error if needed
             return null;
         }

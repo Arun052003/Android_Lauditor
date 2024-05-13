@@ -229,7 +229,7 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
 ////                        }
 ////                        notifyDataSetChanged();
 //                    } catch (Exception e) {
-//                        e.printStackTrace();
+//                        e.fillInStackTrace();
 //                        AndroidUtils.showAlert(e.getMessage(), context);
 //                    }
 //                }

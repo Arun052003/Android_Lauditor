@@ -228,7 +228,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
 //            }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
 
@@ -270,7 +270,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                 }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -284,7 +284,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                     holder.timesheet_layout.setVisibility(View.GONE);
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -299,7 +299,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                 }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -314,7 +314,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                 }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -329,7 +329,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                 }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -344,7 +344,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                 }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }
@@ -359,7 +359,7 @@ public class TimeSheetsAdapter extends RecyclerView.Adapter<TimeSheetsAdapter.My
                 }
             } catch (Exception e) {
                 AndroidUtils.showAlert(e.getMessage(), context);
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
         }

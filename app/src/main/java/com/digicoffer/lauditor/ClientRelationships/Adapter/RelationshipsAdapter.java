@@ -255,7 +255,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 //                    holder.ll_documents.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     AndroidUtils.showToast(e.getMessage(), view.getContext());
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         });
@@ -536,7 +536,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 //
 //                    callUpdateGroupAcess(relationshipsModel_new.getId(), documentsAdapter.getList_item());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
             });
@@ -555,7 +555,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                     try {
                         callUnshareDocumentWebservice(shared_relationship_id, remove,et_message.getText().toString());
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
             });
@@ -564,7 +564,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             dialog.show();
         } catch (Exception e) {
             AndroidUtils.showAlert(e.getMessage(),mcontext);
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -687,7 +687,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             WebServiceHelper.callHttpWebService(this, mcontext, WebServiceHelper.RestMethodType.GET, "v3/groups", "Get Groups", postdata.toString());
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -802,7 +802,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -848,7 +848,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             // Open shared popup window
             openSharedPopupWindow(shared_list);
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             // Handle JSON exception
         }
     }
@@ -868,7 +868,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                 shared_list.add(sharedDocumentsDo);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             // Handle JSON exception
         }
     }
@@ -967,7 +967,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             mholder.tv_country.setText(tv_country_name);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showToast(e.getMessage(), mcontext);
         }
     }
@@ -1080,7 +1080,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
                     // Call the method to update group access
                     callUpdateGroupAccess(relationshipsModel_new.getId(), groupsAdapter.getList_item());
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         });

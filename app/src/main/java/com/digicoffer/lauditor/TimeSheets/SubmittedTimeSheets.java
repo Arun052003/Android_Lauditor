@@ -85,7 +85,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
                 String formattedDate = outputFormat.format(date1);
                 formattedDates.add(formattedDate);
             } catch (ParseException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
         for (String value : formattedDates) {
@@ -106,7 +106,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -124,7 +124,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -159,7 +159,7 @@ public class SubmittedTimeSheets extends Fragment implements AsyncTaskCompleteLi
                     loadTimesheetData(dates, result);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }

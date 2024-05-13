@@ -125,7 +125,7 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
             jsonArray.put(str_id);
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "notification/delete", "DELETE_NOTIFICATIONS", jsonArray.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             if (progress_dialog != null && progress_dialog.isShowing())
                 AndroidUtils.dismiss_dialog(progress_dialog);
         }
@@ -204,7 +204,7 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "notification/read", "READ_NOTIFICATIONS", notification_list.toString());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -223,7 +223,7 @@ public class Notifications extends Fragment implements AsyncTaskCompleteListener
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "notification/delete", "DELETE_NOTIFICATIONS", notification_list.toString());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

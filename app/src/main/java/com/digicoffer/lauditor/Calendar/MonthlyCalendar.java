@@ -158,7 +158,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             Log.d("Interface", "Interface Called");
             eventDetailsListener = (EventDetailsListener) getParentFragment();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 //        } else {
 //            throw new RuntimeException(context.toString()
@@ -182,7 +182,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             long timezoneoffset = (-1) * (hours);
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/events/" + timezoneoffset + "/" + "M" + event_creation_date, "Events_List", postData.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -228,11 +228,11 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 //                        }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -357,7 +357,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             rv_displayEvents.setAdapter(events_adapter);
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 //    private void load_event_details(JSONObject event_details, String event_id) {
@@ -401,7 +401,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 ////            }
 //
 //        } catch (JSONException e) {
-//            e.printStackTrace();
+//            e.fillInStackTrace();
 //        }
 //    }
 
@@ -431,7 +431,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 //                        callRSVPwebservice(rsvp, event_id);
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
 
 
@@ -450,7 +450,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 ////                        callRSVPwebservice(rsvp, event_id);
 //
 //                    } catch (JSONException e) {
-//                        e.printStackTrace();
+//                        e.fillInStackTrace();
 //                    }
 
                 }
@@ -468,7 +468,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
                         String rsvp = "maybe";
 //                        callRSVPwebservice(rsvp, event_id);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
 
                 }
@@ -494,7 +494,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
 //                    attchment_list.setText(att_obj.getString("name"));
 //                    ll_attched_list.addView(view);
 //                } catch (Exception e) {
-//                    e.printStackTrace();
+//                    e.fillInStackTrace();
 //                }
 //
 //            }
@@ -555,7 +555,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             dialog.setView(dialogLayout);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -611,7 +611,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             dialog.setView(dialogLayout);
             dialog.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -625,7 +625,7 @@ public class MonthlyCalendar extends Fragment implements AsyncTaskCompleteListen
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.DELETE, "v3/event/" + id, "EVENT_DELETE", postData.toString());
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
 

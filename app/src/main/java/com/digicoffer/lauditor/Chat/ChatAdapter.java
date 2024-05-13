@@ -78,7 +78,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         try {
             context.view_users(uid, name);
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -117,7 +117,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -151,7 +151,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             loadChildList();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -308,7 +308,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                     try {
                         context.view_users(clientRelationshipsDo.getGuid(), clientRelationshipsDo.getName());
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
             });

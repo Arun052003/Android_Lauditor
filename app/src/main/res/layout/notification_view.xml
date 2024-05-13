@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/left_space"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="start"
                     android:padding="2dp"
                     android:text="Message"

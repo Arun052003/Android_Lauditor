@@ -105,7 +105,7 @@ public class PracticeHeadKPIAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((CRholder) holder).CRdata(meetingModel);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

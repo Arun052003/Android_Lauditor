@@ -180,7 +180,7 @@ public class AndroidUtils {
                 result = sdf.parse(dateTime);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.fillInStackTrace();
         }
         return result;
     }

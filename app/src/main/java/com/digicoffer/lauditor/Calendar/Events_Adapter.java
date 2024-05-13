@@ -99,11 +99,11 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                         AndroidUtils.showToast(rsvp_msg, mcontext);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -178,7 +178,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                 context.onEvent(event_details_list);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -205,7 +205,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                 try {
                     tv_notifications.setText(events_do.getNotifications().get(j).toString());
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
                 my_view_holder.ll_notifications.addView(view);
             }
@@ -220,7 +220,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     my_view_holder.ll_documents.addView(view);
 //                    Log.d("View Details",att_obj.getString())
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
             try {
@@ -236,7 +236,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     Log.d("Team Members", (att_team_obj.getString("name")));
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             try {
                 for (int c = 0; c < events_do.getTm_name().length(); c++) {
@@ -251,7 +251,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
                     my_view_holder.ll_clients.addView(view);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -282,7 +282,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
 //            try {
 //                tv_notifications.setText(events_do.getNotifications().get(j).toString());
 //            } catch (JSONException e) {
-//                e.printStackTrace();
+//                e.fillInStackTrace();
 //            }
 //            holder.ll_notifications.addView(view);
 //        }
@@ -410,7 +410,7 @@ public class Events_Adapter extends RecyclerView.Adapter<Events_Adapter.MyViewHo
             WebServiceHelper.callHttpWebService(this, mcontext, WebServiceHelper.RestMethodType.PUT, "v3/event/response/" + id, "Event_rsvp", postdata.toString());
             Log.d("Event_rsvp", postdata.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

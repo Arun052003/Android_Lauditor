@@ -397,7 +397,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                             groupsList.add(groupsModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (viewMatterModel1.getClients_list() != null) {
@@ -412,7 +412,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                             clientsList.add(clientsModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 if (viewMatterModel1.getMembers_list() != null) {
@@ -428,7 +428,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                             tmList.add(teamModel);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
 
                     if (viewMatterModel1.getDocuments() != null) {
@@ -444,7 +444,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                                 selected_documents_list.add(documentsModel);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
                     if (viewMatterModel1.getDocuments_list() != null) {
@@ -460,7 +460,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                                 documentsList.add(documentsModel);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
 
@@ -482,7 +482,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                         }
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
 
@@ -565,7 +565,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                         group_acls.put(jsonObject);
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 for (int i = 0; i < groupsList.size(); i++) {
@@ -577,7 +577,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                         new_groups_list.put(jsonObject);
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
 
@@ -590,7 +590,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                         jsonObject.put("name", clientsModel.getClient_name());
                         clients.put(jsonObject);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
 
                 }
@@ -612,7 +612,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 //                        team_object.put("")
                         members.put(team_object);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 for (int i = 0; i < tmList.size(); i++) {
@@ -625,7 +625,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 //                        team_object.put("")
                         new_tm_list.put(team_object);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
                 JSONArray jsonArray = new JSONArray();
@@ -640,7 +640,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
                 for (int d = 0; d < selected_documents_list.size(); d++) {
                     DocumentsModel documentsModel = selected_documents_list.get(d);
@@ -673,7 +673,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 
 
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
 
@@ -735,7 +735,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -754,7 +754,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
             postdata.put("attachment_type", "members");
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Members", postdata.toString());
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -775,7 +775,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Clients", postdata.toString());
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -798,7 +798,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                     loadMembers(members);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -824,7 +824,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
             }
             TeamPopUp();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -851,7 +851,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
             }
             ClientssPopUp();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -935,7 +935,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -996,7 +996,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1045,7 +1045,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                             at_assigned_team_members.setText(str);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -1115,7 +1115,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 //                            ll_save_buttons.setVisibility(View.VISIBLE);
 //                        }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }
@@ -1142,7 +1142,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 //            GroupsAlert();
             GroupsPopup();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1217,7 +1217,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1320,7 +1320,7 @@ public class matter_ca  extends  Fragment implements AsyncTaskCompleteListener, 
                         }
                     }
                     catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
                     }
                 }

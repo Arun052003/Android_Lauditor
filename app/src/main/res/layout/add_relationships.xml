@@ -68,7 +68,7 @@
                 android:textSize="@dimen/twenty_dp"
                 android:textColor="@color/Blue_text_color"
                 android:visibility="gone"
-                android:fontFamily="sans-serif-condensed">
+                android:fontFamily="@font/gill_sans">
 
             </TextView>
             <TextView

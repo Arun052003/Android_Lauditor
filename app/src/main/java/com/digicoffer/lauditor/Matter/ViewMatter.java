@@ -57,6 +57,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -127,7 +128,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -155,7 +156,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                             loadMattersList(matters);
                         } catch (Exception e) {
                             AndroidUtils.showAlert(e.getMessage(), getContext());
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
                 } else if (httpResult.getRequestType().equals("TimeLine")) {
@@ -206,7 +207,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                     }
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -223,25 +224,28 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
     private void openViewGroupsPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.update_groups_popup, null);
         LinearLayout ll_groups = view.findViewById(R.id.ll_groups);
         rv_group_update = view.findViewById(R.id.rv_group_update);
         AppCompatButton btn_cancel_save = view.findViewById(R.id.btn_cancel_save);
         AppCompatButton btn_create = view.findViewById(R.id.btn_create);
-        btn_create.setText("Update");
+        btn_create.setText(R.string.update);
         ImageView close_details = view.findViewById(R.id.close_details);
         et_search_members = view.findViewById(R.id.et_search_members);
+        et_search_members.setHint(R.string.groups);
+        et_search_members.setCompoundDrawables(null, null, getContext().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent), null);
         CheckBox chk_select_all = view.findViewById(R.id.chk_select_all);
 
 //        rv_group_update.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        rv_group_update.setLayoutManager(new LinearLayoutManager(getContext()));
         groupsAdapter = new GroupsAdapter(groupsArrayList);
+        rv_group_update.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_group_update.setAdapter(groupsAdapter);
         rv_group_update.setHasFixedSize(true);
         et_search_members.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                groupsAdapter.getFilter().filter(s);
             }
 
             @Override
@@ -251,13 +255,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
             @Override
             public void afterTextChanged(Editable s) {
-                groupsAdapter.getFilter().filter(et_search_members.getText().toString());
             }
 
         });
 //        et_search_members.setText("group");
 //        et_search_members.setText("");
-        rv_group_update.refreshDrawableState();
+//        rv_group_update.refreshDrawableState();
 
         // RecyclerView rv_groups = view.findViewById(R.id.rv_groups);
         // RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -436,7 +439,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/legal/" + Matter_id + "/acls", "Update Groups", postdata.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -463,7 +466,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             }
         } catch (JSONException e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         openViewDetailsPopUp();
     }
@@ -575,7 +578,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             loadMatterRecyclerview();
         } catch (JSONException e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -635,7 +638,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             if (progressDialog != null || progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -748,7 +751,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             if (progressDialog != null && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
     }
@@ -796,7 +799,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             }
             openViewGroupsPopup();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 //        callgroupsWebservice();
 
@@ -810,7 +813,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 
         } catch (Exception e) {
             AndroidUtils.showAlert(e.getMessage(), getContext());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -873,7 +876,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
 //                    for (int )
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
         openCloseMatterPopup(viewMatterModel);
@@ -890,8 +893,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             if (viewMatterModel.getStatus().equals("Closed")) {
                 tv_confirmation.setText("Are you sure you want to ReOpen " + viewMatterModel.getTitle() + "?");
                 Matter_Status = "Active";
-
-
             } else {
                 tv_confirmation.setText("Are you sure you want to Close " + viewMatterModel.getTitle() + "?");
                 Matter_Status = "Closed";
@@ -914,18 +915,16 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                         dialog.dismiss();
                         callCloseMatterWebService(viewMatterModel, Matter_Status);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                         AndroidUtils.showToast(e.getMessage(), getContext());
                     }
                 }
             });
-
             dialog.setView(view);
             dialog.show();
         } catch (Exception e) {
             AndroidUtils.showToast(e.getMessage(), getContext());
         }
-
     }
 
     private void callCloseMatterWebService(ViewMatterModel viewMatterModel, String matter_Status) {
@@ -968,7 +967,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 jsonObject.put("email", advocateModel.getEmail());
                 jsonObject.put("phone", advocateModel.getNumber());
                 advocates.put(jsonObject);
-
             }
             for (int i = 0; i < existing_groups.size(); i++) {
                 ViewMatterModel viewMatterModel1 = existing_groups.get(i);
@@ -979,8 +977,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 groups.put(jsonObject);
                 group_acls.put(viewMatterModel1.getGroup_id());
             }
-
-
 //            for (int i=0;i<existing_groups.size())
             postdata.put("affidavit_filing_date", "");
             postdata.put("affidavit_isfiled", "");
@@ -989,8 +985,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 SimpleDateFormat inputFormat = new SimpleDateFormat("MMM dd, yyyy");
 
                 //Rectify the un Parseable date.......
-
-
                 if (viewMatterModel.getDate_of_filling().isEmpty()) {
 //                    Date date = inputFormat.parse(inputDate);
 //                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -1043,7 +1037,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             postdata.put("priority", viewMatterModel.getPriority());
             postdata.put("status", matter_Status);
             postdata.put("title", viewMatterModel.getTitle());
-
 //            AndroidUtils.showAlert(postdata.toString(),getContext());
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + Constants.MATTER_TYPE.toLowerCase(Locale.ROOT) + "/update/" + viewMatterModel.getId(), "Update Matter", postdata.toString());
             Log.d("Update_Matter", postdata.toString());
@@ -1052,7 +1045,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                 progressDialog.dismiss();
                 AndroidUtils.showToast(e.getMessage(), getContext());
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -1060,22 +1053,20 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
     public void ReopenMatter(ViewMatterModel viewMatterModel) {
 
     }
-
-    public void page_name(String action_list) {
-        if (action_list == "View Details") {
-
-        } else if (action_list == "Edit Matter Info") {
-
-        } else if (action_list == "Update Groups") {
-
-        } else if (action_list == "Delete") {
-
-        } else if (action_list == "Close Matter/Reopen Matter") {
-
-        } else {
-
-        }
-    }
-
-
+//
+//    public void page_name(String action_list) {
+//        if (Objects.equals(action_list, "View Details")) {
+//
+//        } else if (Objects.equals(action_list, "Edit Matter Info")) {
+//
+//        } else if (action_list == "Update Groups") {
+//
+//        } else if (action_list == "Delete") {
+//
+//        } else if (action_list == "Close Matter/Reopen Matter") {
+//
+//        } else {
+//
+//        }
+//    }
 }

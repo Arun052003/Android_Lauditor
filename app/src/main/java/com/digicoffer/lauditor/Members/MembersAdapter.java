@@ -147,7 +147,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
                     try {
                         eventListener.UpdateGroupAccess(membersModel);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 } else if (name == 1) {
                     eventListener.ResetPassword(membersModel);

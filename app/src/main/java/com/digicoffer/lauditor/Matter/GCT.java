@@ -153,6 +153,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //        String text = tv_matter_title.getText().toString();
 //        matter_title.setText(text);
         matter_title_tv = view.findViewById(R.id.matter_title);
+        matter_title_tv.setBackground(getContext().getDrawable(R.drawable.underline));
         matter_title_tv.setTextSize(20);
         matter_title_tv.setVisibility(View.VISIBLE);
         at_add_clients.setOnClickListener(this);
@@ -347,7 +348,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 groupsList.add(groupsModel);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
                     if (matterModel.getClients_list() != null) {
@@ -362,7 +363,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 clientsList.add(clientsModel);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     }
                     if (matterModel.getMembers_list() != null) {

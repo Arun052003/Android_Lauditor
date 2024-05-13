@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:padding="@dimen/left_space"
                 android:text="Total"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="@font/gill_sans"
                 android:padding="@dimen/left_space"
                 android:text="132"
                 android:textColor="@color/green_count_color"
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:padding="@dimen/left_space"
                 android:text="Active"
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="@font/gill_sans"
                 android:padding="@dimen/left_space"
                 android:text="32"
                 android:textColor="@color/green_count_color"

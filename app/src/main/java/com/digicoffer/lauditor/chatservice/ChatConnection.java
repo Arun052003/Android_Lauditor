@@ -190,7 +190,7 @@ public class ChatConnection implements ConnectionListener {
             mConnection.addSyncStanzaListener(new PresencePacketListener(mApplicationContext), new StanzaTypeFilter(Presence.class));
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         ReconnectionManager reconnectionManager = ReconnectionManager.getInstanceFor(mConnection);
@@ -265,7 +265,7 @@ public class ChatConnection implements ConnectionListener {
         try {
             jid = JidCreate.entityBareFrom(toJid + "@" + Constants.XMPP_DOMAIN);
         } catch (XmppStringprepException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         Chat chat = chatManager.chatWith(jid);
         try {
@@ -275,9 +275,9 @@ public class ChatConnection implements ConnectionListener {
             chat.send(message);
 
         } catch (SmackException.NotConnectedException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -563,7 +563,7 @@ public class ChatConnection implements ConnectionListener {
 //            return mamQuery;
 //
 //        } catch (Exception e) {
-//            e.printStackTrace();
+//            e.fillInStackTrace();
 //        }
 //        return null;
 //    }

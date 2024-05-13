@@ -83,7 +83,7 @@ public class DownloadFlie extends AsyncTask<String , String, HttpResultDo> {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 //            file.createNewFile();
 //            String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
@@ -140,7 +140,7 @@ public class DownloadFlie extends AsyncTask<String , String, HttpResultDo> {
 //             closing streams
                 output.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 //            input.close();
 //            MediaScannerConnection.scanFile(progressDialog.getContext(), new String[] { file.toString() }, null,
@@ -157,7 +157,7 @@ public class DownloadFlie extends AsyncTask<String , String, HttpResultDo> {
                 httpResult.setResponseContent(object.toString());
                 return httpResult;
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 //        } catch (Exception e) {
 //            Log.e("Error: ", e.getMessage());

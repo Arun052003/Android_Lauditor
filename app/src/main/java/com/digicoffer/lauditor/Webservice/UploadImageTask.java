@@ -175,13 +175,13 @@ public class UploadImageTask extends AsyncTask<String, String, HttpResultDo> {
             fileInputStream.read(bytesArray);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         } finally {
             if (fileInputStream != null) {
                 try {
                     fileInputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             }
 

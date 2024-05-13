@@ -188,7 +188,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                         else
                             callSaveTimeSheetWebservice();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 }
 
@@ -259,7 +259,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                 String formattedDate = outputFormat.format(date1);
                 formattedDates.add(formattedDate);
             } catch (ParseException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
         for (String value : formattedDates) {
@@ -327,7 +327,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                 String formattedDate = outputformat.format(date);
                 postdata.put("date", formattedDate);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             postdata.put("duration_hours", hoursString);
             if (Objects.equals(minutesString, "0")) {
@@ -350,7 +350,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             if (!progressDialog.equals(null) && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
     }
@@ -368,7 +368,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                 String formattedDate = outputformat.format(date);
                 postdata.put("date", formattedDate);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             postdata.put("duration_hours", hoursString);
             if (Objects.equals(minutesString, "0")) {
@@ -390,7 +390,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             if (!progressDialog.equals(null) && progressDialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progressDialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -455,7 +455,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -524,7 +524,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -597,7 +597,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                     AndroidUtils.dismiss_dialog(progressDialog);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -734,7 +734,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
                         } catch (NullPointerException e) {
 //                       selected_ma
 
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                         if (selected_matter_type != null) {
                             callTaskWebservice(selected_matter_type);
@@ -770,7 +770,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
         try {
             loadTimesheetsRecyclerview();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -793,7 +793,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             JSONObject jsonObject = new JSONObject();
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "v3/event/tasks/" + selected_matter_type, "Tasks", jsonObject.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -872,7 +872,7 @@ public class NonSubmittedTimesheets extends Fragment implements AsyncTaskComplet
             String formattedDate = outputformat.format(date);
             selected_date = formattedDate;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         tv_sp_task.setText(task_name);
         tv_sp_project.setText(matter_name);

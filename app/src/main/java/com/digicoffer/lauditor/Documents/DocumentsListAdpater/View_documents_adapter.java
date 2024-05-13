@@ -136,7 +136,7 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
 ////                Picasso.with(view.getContext()).load(url).placeholder(R.drawable.pdf_icons_48).centerCrop().fit().into(holder.iv_preview, getCallBack(holder.iv_preview));
 //        }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), cContext);
         }
     }

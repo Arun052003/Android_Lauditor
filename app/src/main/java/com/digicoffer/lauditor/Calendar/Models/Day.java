@@ -29,7 +29,7 @@ public class Day {
         try {
             calendar.setTime(dateFormat.parse(date));
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

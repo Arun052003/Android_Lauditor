@@ -92,7 +92,7 @@ public class Clients extends Fragment implements AsyncTaskCompleteListener, Chat
                     }
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -173,7 +173,7 @@ public class Clients extends Fragment implements AsyncTaskCompleteListener, Chat
             }
         } catch (Exception e) {
             Log.d("Error:", e.getMessage());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

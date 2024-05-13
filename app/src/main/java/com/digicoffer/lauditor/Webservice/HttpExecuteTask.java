@@ -162,7 +162,7 @@ public class HttpExecuteTask extends AsyncTask<String, Integer, HttpResultDo> {
 //                    JSONObject result = new JSONObject(httpResult.getResponseContent());
 //                    startActivity(new Intent(this, MainActivity.class));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             } else {
                 httpResult.setResult(WebServiceHelper.ServiceCallStatus.Failed);

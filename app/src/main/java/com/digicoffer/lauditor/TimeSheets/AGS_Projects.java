@@ -124,7 +124,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
         try {
             callProjectsWebService(isweek);
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return view;
     }
@@ -184,7 +184,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
 //                    loadtmProjects();
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -275,7 +275,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
                     });
 //                    AndroidUtils.showAlert(updated_projectList.toArray().toString(),getContext());
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
                 sp_ags_project.setVisibility(View.GONE);
                 ischecked_project = true;
@@ -326,7 +326,7 @@ public class AGS_Projects extends Fragment implements AsyncTaskCompleteListener 
 //                    });
 ////                    AndroidUtils.showAlert(updated_projectList.toArray().toString(),getContext());
 //                } catch (JSONException e) {
-//                    e.printStackTrace();
+//                    e.fillInStackTrace();
 //                }
 //            }
 //

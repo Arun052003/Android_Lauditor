@@ -401,14 +401,14 @@ Constants.ISPRODUCTION = true;
 
                 } catch (Exception e) {
                     Log.e("callUploadDocument", "Error occurred while constructing request or sending request: " + e.getMessage());
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
             } catch (Exception e) {
                 Log.e("callUploadDocument", "Error occurred while executing callUploadDocument: " + e.getMessage());
                 if (progress_dialog != null && progress_dialog.isShowing()) {
                     AndroidUtils.dismiss_dialog(progress_dialog);
                 }
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
 
@@ -465,7 +465,7 @@ Constants.ISPRODUCTION = true;
 //            GroupsAlert();
                 GroupsPopup();
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
                 AndroidUtils.showAlert(e.getMessage(), context_type);
             }
         }
@@ -503,7 +503,7 @@ Constants.ISPRODUCTION = true;
                 rv_display_upload_groups_docs.setAdapter(documentsAdapter);
 
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
                 AndroidUtils.showAlert(e.getMessage(), context_type);
             }
         }
@@ -546,7 +546,7 @@ Constants.ISPRODUCTION = true;
                         try {
                             loadClients(data);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            e.fillInStackTrace();
                         }
                     } else if ("Groups".equals(requestType)) {
                         JSONArray data = result.getJSONArray("data");

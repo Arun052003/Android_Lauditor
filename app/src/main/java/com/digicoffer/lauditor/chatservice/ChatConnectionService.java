@@ -76,7 +76,7 @@ public class ChatConnectionService extends Service {
 
         } catch (IOException | SmackException | XMPPException e) {
             Log.d(TAG, "Something went wrong while connecting ,make sure the credentials are right and try again");
-            e.printStackTrace();
+            e.fillInStackTrace();
             //Stop the service all together.
             stopSelf();
         }

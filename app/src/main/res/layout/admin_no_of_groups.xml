@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="top"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/gill_sans"
             android:text="Number of Groups"
             android:textColor="@color/Blue_text_color"
             android:textSize="@dimen/thirty_dp"

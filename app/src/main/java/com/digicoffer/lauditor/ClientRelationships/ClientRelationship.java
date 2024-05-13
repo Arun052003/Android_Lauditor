@@ -164,7 +164,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
 
                     callSearchIndividualWebservice();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
 
                     AndroidUtils.showAlert(e.getMessage(), getContext());
                 }
@@ -190,7 +190,7 @@ public class ClientRelationship extends Fragment implements AsyncTaskCompleteLis
                     // clearIndividualData();
                     callSearchEntityWebservice(id);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                 }
 
         }
@@ -787,7 +787,7 @@ sp_country.clearFocus();
                     loadRelationshipsData(relationships);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -1110,7 +1110,7 @@ sp_country.clearFocus();
             try {
                 callIndividualRequestWebservice();
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -1120,7 +1120,7 @@ sp_country.clearFocus();
             try {
                 callEntityRequestWebservice();
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }

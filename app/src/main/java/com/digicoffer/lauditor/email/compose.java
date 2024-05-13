@@ -34,7 +34,7 @@ class ComposeFragment extends Fragment {
                             .addToBackStack(null) // Adds the transaction to the back stack
                             .commit();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.fillInStackTrace();
                     // Handle the exception gracefully, for example, by showing an error message
                     Toast.makeText(getActivity(), "Failed to open compose fragment", Toast.LENGTH_SHORT).show();
                 }

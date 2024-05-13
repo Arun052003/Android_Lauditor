@@ -85,7 +85,7 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsA
                     }
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
     }
@@ -170,7 +170,7 @@ public class Teams extends Fragment implements AsyncTaskCompleteListener, TeamsA
             }
         } catch (Exception e) {
             Log.d("Error:", e.getMessage());
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

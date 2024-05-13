@@ -46,7 +46,7 @@ public class AutocompleteAdapter extends ArrayAdapter<TeamDo> {
             TextView name = (TextView) view.findViewById(R.id.tv_Name);
             name.setText(biz.getName());
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return view;
     }

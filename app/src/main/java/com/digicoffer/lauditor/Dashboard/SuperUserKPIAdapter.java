@@ -103,7 +103,7 @@ public class SuperUserKPIAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((Data_storageHolder) holder).setData_storageHolder(meetingModel);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 

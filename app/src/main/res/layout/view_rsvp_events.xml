@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="center_vertical"
                     android:text="Back"
                     android:background="@color/Blue_text_color"
@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="center_vertical"
                     android:text="Events"
                     android:textColor="@color/white"
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     android:gravity="center"
                     android:text="Edit"
                     android:textColor="@color/white"
@@ -141,7 +141,7 @@
                     android:padding="3dp"
                     android:text="Event Name"
                     android:textSize="18sp"
-                    android:fontFamily="sans-serif-black">
+                    android:fontFamily="@font/gill_sans">
 
                 </TextView>
                 <TextView
@@ -160,7 +160,7 @@
                     android:padding="3dp"
                     android:text=""
                     android:textSize="15sp"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     >
                 </TextView>
                 <TextView
@@ -178,7 +178,7 @@
                     android:padding="3dp"
                     android:text=""
                     android:textSize="12sp"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     >
                 </TextView>
                 <TextView
@@ -188,7 +188,7 @@
                     android:padding="3dp"
                     android:text=""
                     android:textSize="12sp"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="@font/gill_sans"
                     >
                 </TextView>
 

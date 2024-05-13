@@ -124,7 +124,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
                 // Add more attachments as needed
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
 
             return attachmentsArray;
@@ -568,7 +568,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     documentsArray.put(documentObject);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
             emailJson.put("documents", documentsArray);
 
@@ -581,7 +581,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
         } catch (Exception e) {
             // Handle exceptions
 
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -644,7 +644,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             }
             loadViewDocumentsRecyclerview();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -798,7 +798,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     try {
                         loadClients(data);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.fillInStackTrace();
                     }
                 } else if (httpResult.getRequestType().equals("view_document")) {
                     JSONObject data = result.getJSONObject("data");
@@ -838,7 +838,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
                     System.out.println("Failed to obtain authentication URL");
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         } else {
             if (httpResult.getRequestType().equals("Label") || (httpResult.getRequestType().equals("auth"))) {
@@ -877,7 +877,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 
 //            }
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -907,7 +907,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
     }
 
@@ -922,7 +922,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
 
             Log.e("API Error", "Failed to call API: " + e.getMessage());
         }
@@ -966,7 +966,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
 //            GroupsAlert();
             GroupsPopup();
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1035,7 +1035,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             });
             rv_display_upload_groups_docs.setAdapter(documentsAdapter1);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
     }
@@ -1051,7 +1051,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
 
             Log.e("API Error", "Failed to call API: " + e.getMessage());
         }
@@ -1071,7 +1071,7 @@ public class Email extends Fragment implements AsyncTaskCompleteListener {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
             }
-            e.printStackTrace();
+            e.fillInStackTrace();
 
         }
     }

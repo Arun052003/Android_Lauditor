@@ -57,7 +57,7 @@ public class WeeklyCalendarAdapter extends RecyclerView.Adapter<WeeklyCalendarAd
             String new_day = dayFormat.format(parsedDate); // "21"
             holder.textDay.setText(new_day);
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         Log.d("Event_list_size", "" + day.getEvents().size());
         //Set a background drawable to indicate that the day has events
