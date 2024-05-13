@@ -4,6 +4,7 @@
     android:id="@+id/linearLayoutCompat2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/rectangular_white_background"
     android:orientation="vertical"
     android:padding="@dimen/left_space"
     tools:context=".MainActivity">
@@ -39,7 +40,7 @@
             android:padding="@dimen/small_size"
             android:text="@string/update_group_s"
             android:textColor="@color/blue"
-            android:textFontWeight="490"
+            android:textFontWeight="500"
             android:textSize="@dimen/twenty_dp"
             android:visibility="visible" />
     </LinearLayout>

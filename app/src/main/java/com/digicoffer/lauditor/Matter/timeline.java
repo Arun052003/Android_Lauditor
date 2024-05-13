@@ -40,9 +40,7 @@ public class timeline extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.view_matter_details, container, false);
-        ConstraintLayout timeline_c = view.findViewById(R.id.timeline_c);
-        timeline_c.setVisibility(View.VISIBLE);
+        View view = inflater.inflate(R.layout.timeline_notes, container, false);
         //..
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         ImageView close_details = view.findViewById(R.id.close_details);

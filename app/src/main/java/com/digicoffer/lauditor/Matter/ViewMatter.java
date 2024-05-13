@@ -260,7 +260,7 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         });
 //        et_search_members.setText("group");
 //        et_search_members.setText("");
-//        rv_group_update.refreshDrawableState();
+        rv_group_update.refreshDrawableState();
 
         // RecyclerView rv_groups = view.findViewById(R.id.rv_groups);
         // RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
