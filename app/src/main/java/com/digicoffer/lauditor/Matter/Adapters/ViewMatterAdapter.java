@@ -328,7 +328,6 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             owner.setTextColor(Color.BLACK);
             owner.setTextSize(12);
 
-
             tv_date_of_filling = itemView.findViewById(R.id.tv_date_of_filling);
             tv_date_of_filling.setText(R.string.date_of_filing);
             tv_date_of_filling.setTextSize(12);
@@ -350,8 +349,6 @@ public class ViewMatterAdapter extends RecyclerView.Adapter<ViewMatterAdapter.My
             filed.setText(R.string.filed);
             filed.setTextColor(Color.BLACK);
             filed.setTextSize(12);
-
-
             iv_initiated = itemView.findViewById(R.id.iv_initiated);
             sp_action = itemView.findViewById(R.id.list_client);
         }

@@ -5,9 +5,12 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/small_size"
     android:fontFamily="@font/gill_sans"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/left_space"
+    android:paddingEnd="@dimen/left_space"
     android:text="@string/group_name"
     android:textColor="@color/Blue_text_color"
-    android:textSize="15sp"></TextView>
+    android:textSize="@dimen/Fifteen_dp" />
 
 
 

@@ -187,4 +187,9 @@
     <string name="notes">Notes</string>
     <string name="update_group_s">Update Group(S)</string>
     <string name="groups">Groups</string>
+    <string name="corporate_notes">Corporate Notes</string>
+    <string name="yes">Yes</string>
+    <string name="add_client">Add Client</string>
+    <string name="temp_clients">Temp Clients</string>
+    <string name="corporate_clients">Corporate Clients</string>
 </resources>

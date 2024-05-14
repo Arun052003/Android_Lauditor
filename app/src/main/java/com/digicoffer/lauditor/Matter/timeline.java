@@ -1,6 +1,7 @@
 package com.digicoffer.lauditor.Matter;
 
 import android.app.AlertDialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,6 +65,9 @@ public class timeline extends Fragment {
                 TextView tv_timeline_date = view_timeLine.findViewById(R.id.tv_timeline_date);
                 tv_timeline_date.setText(R.string.date);
                 tv_timeline_date.setTextColor(Color.BLACK);
+                RadioButton rb_corporate_notes = view_timeLine.findViewById(R.id.rb_corporate_notes);
+                rb_corporate_notes.setText(R.string.corporate_notes);
+                RadioButton rb_lauditor_notes = view_timeLine.findViewById(R.id.rb_lauditor_notes);
 
                 LinearLayout ll_empty_notes = view_timeLine.findViewById(R.id.ll_empty_notes);
                 LinearLayout ll_edit_notes = view_timeLine.findViewById(R.id.ll_edit_notes);
@@ -107,6 +112,37 @@ public class timeline extends Fragment {
                 normal_notes.setText(spannableString);
 
                 iv_edit_notes.setTag(i);
+                rb_lauditor_notes.setChecked(true);
+                rb_lauditor_notes.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.light_blue)));
+                rb_lauditor_notes.setTextColor(getResources().getColor(R.color.light_blue));
+
+                rb_corporate_notes.setChecked(false);
+                rb_corporate_notes.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+                rb_corporate_notes.setTextColor(getResources().getColor(R.color.black));
+                rb_corporate_notes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rb_lauditor_notes.setChecked(false);
+                        rb_lauditor_notes.setTextColor(getResources().getColor(R.color.black));
+                        rb_lauditor_notes.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+
+                        rb_corporate_notes.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.light_blue)));
+                        rb_corporate_notes.setTextColor(getResources().getColor(R.color.light_blue));
+                        linear_notes.setVisibility(View.GONE);
+                    }
+                });
+                rb_lauditor_notes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rb_corporate_notes.setChecked(false);
+                        rb_corporate_notes.setTextColor(getResources().getColor(R.color.black));
+                        rb_corporate_notes.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.black)));
+
+                        rb_lauditor_notes.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.light_blue)));
+                        rb_lauditor_notes.setTextColor(getResources().getColor(R.color.light_blue));
+                        linear_notes.setVisibility(View.VISIBLE);
+                    }
+                });
                 iv_edit_notes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

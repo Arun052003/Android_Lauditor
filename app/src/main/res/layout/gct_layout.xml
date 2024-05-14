@@ -33,9 +33,10 @@
 
                 <include
                     android:id="@+id/matter_title"
+                    layout="@layout/group_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/group_layout" />
+                    android:layout_height="@dimen/Fifty_dp"
+                    android:layout_margin="@dimen/left_space" />
 
                 <include
                     android:id="@+id/matter_date"
@@ -134,6 +135,39 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/clients_list_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="@dimen/small_size"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/left_space"
+                    android:paddingTop="@dimen/twenty_dp">
+
+                    <include
+                        android:id="@+id/tv_add_client"
+                        layout="@layout/rsvp_tv_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp" />
+
+                    <include
+                        android:id="@+id/tv_temp_client"
+                        layout="@layout/rsvp_tv_layout"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp" />
+
+                    <include
+                        android:id="@+id/tv_corp_client"
+                        layout="@layout/rsvp_tv_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <LinearLayout
                     android:id="@+id/ll_add_clients"

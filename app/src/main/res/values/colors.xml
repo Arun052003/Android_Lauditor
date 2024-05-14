@@ -39,6 +39,7 @@
     <color name="material_dynamic_neutral_variant1">#AABBCC</color>
     <color name="material_dynamic_neutral_variant0">#FF000000</color>
 
+    <color name="light_blue">#0066FF</color>
     <color name="light_grey">#EDEDF1</color>
     <color name="darkBlueColor">#000080</color>
     <color name="blue">#0B5A9A</color>

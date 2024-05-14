@@ -104,6 +104,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     ArrayList<TeamModel> tmList = new ArrayList<>();
     Matter matter;
     Matter mattermodel;
+    LinearLayoutCompat clients_list_layout;
+    TextView tv_add_client,tv_temp_client,tv_corp_client;
     RecyclerView rv_display_upload_groups_docs, rv_display_upload_client_docs, rv_display_upload_tm_docs;
 
 
@@ -116,6 +118,25 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         View view = inflater.inflate(R.layout.gct_layout, container, false);
         matter_date = view.findViewById(R.id.matter_date);
         at_add_groups = view.findViewById(R.id.at_add_groups);
+        clients_list_layout=view.findViewById(R.id.clients_list_layout);
+        clients_list_layout.setVisibility(View.GONE);
+
+        tv_add_client=view.findViewById(R.id.tv_add_client);
+        tv_add_client.setText(R.string.add_client);
+        tv_add_client.setTextColor(getResources().getColor(R.color.white));
+
+        tv_temp_client=view.findViewById(R.id.tv_temp_client);
+        tv_temp_client.setText(R.string.temp_clients);
+        tv_temp_client.setBackground(getContext().getDrawable(R.drawable.radiobutton_centre_background));
+
+        tv_corp_client=view.findViewById(R.id.tv_corp_client);
+        tv_corp_client.setText(R.string.corporate_clients);
+        tv_corp_client.setBackground(getContext().getDrawable(R.drawable.button_right_round_background));
+        //..
+//        tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_green_round_background));
+//        tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_green_background));
+//        tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_green_round_background));
+        //...
 //        at_add_groups.setHint(R.string.select_groups);
         tv_selected_clients = view.findViewById(R.id.tv_selected_clients);
         tv_selected_clients.setText(R.string.selected_clients);
@@ -197,6 +218,42 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                finalMatter_title.setText(item);
 //            }
 //        });
+        tv_add_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_add_client.setTextColor(getResources().getColor(R.color.white));
+                tv_temp_client.setTextColor(getResources().getColor(R.color.black));
+                tv_corp_client.setTextColor(getResources().getColor(R.color.black));
+
+                tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_green_round_background));
+                tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_background));
+                tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
+            }
+        });
+        tv_temp_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_add_client.setTextColor(getResources().getColor(R.color.black));
+                tv_temp_client.setTextColor(getResources().getColor(R.color.white));
+                tv_corp_client.setTextColor(getResources().getColor(R.color.black));
+
+                tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_round_background));
+                tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_green_background));
+                tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
+            }
+        });
+        tv_corp_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_add_client.setTextColor(getResources().getColor(R.color.black));
+                tv_temp_client.setTextColor(getResources().getColor(R.color.black));
+                tv_corp_client.setTextColor(getResources().getColor(R.color.white));
+
+                tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_round_background));
+                tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_background));
+                tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_green_round_background));
+            }
+        });
         at_add_groups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -496,6 +553,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 chosen_matter = "legal";
             }
             ll_add_clients.setVisibility(View.VISIBLE);
+            clients_list_layout.setVisibility(View.VISIBLE);
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
             load_existing_matter();
@@ -895,6 +953,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void ClientssPopUp() {
         ll_add_clients.setVisibility(View.VISIBLE);
+        clients_list_layout.setVisibility(View.VISIBLE);
         try {
             for (int i = 0; i < clientsList.size(); i++) {
                 for (int j = 0; j < selected_clients_list.size(); j++) {
@@ -1031,6 +1090,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         String str = String.join(",", value);
         at_add_clients.setText(str);
         ll_add_clients.setVisibility(View.VISIBLE);
+        clients_list_layout.setVisibility(View.VISIBLE);
         ll_assign_team_members.setVisibility(View.VISIBLE);
         ll_save_buttons.setVisibility(View.VISIBLE);
 
@@ -1270,6 +1330,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         // Update UI visibility based on the size of the selected groups list
         if (!selected_groups_list.isEmpty()) {
             ll_add_clients.setVisibility(View.VISIBLE);
+            clients_list_layout.setVisibility(View.VISIBLE);
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
         } else {

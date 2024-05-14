@@ -82,14 +82,12 @@
                 android:gravity="left"
                 android:orientation="horizontal"
                 android:padding="@dimen/left_space"
-                android:paddingTop="@dimen/twenty_dp"
-
-                >
+                android:paddingTop="@dimen/twenty_dp">
 
                 <TextView
                     android:id="@+id/tv_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/button_left_green_round_background"
                     android:fontFamily="@font/gill_sans"
@@ -97,13 +95,12 @@
                     android:text="Yes"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
-
                 </TextView>
 
                 <TextView
                     android:id="@+id/tv_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/radiobutton_centre_background"
                     android:fontFamily="@font/gill_sans"
@@ -116,8 +113,8 @@
 
                 <TextView
                     android:id="@+id/tv_maybe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/button_right_round_background"
                     android:fontFamily="@font/gill_sans"
