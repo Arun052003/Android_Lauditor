@@ -31,12 +31,19 @@
                 android:layout_margin="@dimen/small_size"
                 android:orientation="vertical">
 
-                <include
+                <TextView
                     android:id="@+id/matter_title"
-                    layout="@layout/group_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/Fifty_dp"
-                    android:layout_margin="@dimen/left_space" />
+                    android:layout_height="50dp"
+                    android:background="@drawable/underline"
+                    android:fontFamily="@font/gill_sans"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/small_size"
+                    android:paddingEnd="@dimen/left_space"
+                    android:text="@string/matter_title"
+                    android:textColor="@color/Blue_text_color"
+                    android:textFontWeight="1000"
+                    android:textSize="@dimen/twenty_dp" />
 
                 <include
                     android:id="@+id/matter_date"
@@ -157,10 +164,10 @@
                     <include
                         android:id="@+id/tv_temp_client"
                         layout="@layout/rsvp_tv_layout"
-                        android:layout_marginStart="1dp"
-                        android:layout_marginEnd="1dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp" />
+                        android:layout_height="40dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp" />
 
                     <include
                         android:id="@+id/tv_corp_client"
@@ -229,7 +236,191 @@
                         android:layout_gravity="end"
                         android:layout_margin="@dimen/left_space" />
                 </LinearLayout>
+                <!-- Temp Client layout-->
+                <LinearLayout
+                    android:id="@+id/temp_client_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginBottom="@dimen/small_size"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_temp_fname"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/astrick_layout" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/et_temp_fname"
+                        layout="@layout/group_name_layout" />
+
+                    <!--..............-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_temp_lname"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/astrick_layout" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/et_temp_lname"
+                        layout="@layout/group_name_layout" />
+                    <!--..............-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_temp_email"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/astrick_layout" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/et_temp_email"
+                        layout="@layout/group_name_layout" />
+                    <!--..............-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_temp_confirm_email"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/astrick_layout" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/et_temp_confirm_email"
+                        layout="@layout/group_name_layout" />
+                    <!--..............-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_temp_country"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <include layout="@layout/astrick_layout" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/et_temp_country"
+                        layout="@layout/spinner_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/left_space" />
+                    <include
+                        android:id="@+id/sp_country"
+                        layout="@layout/spinner_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="@dimen/left_space" />
+                    <!--..............-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_temp_phone"
+                            layout="@layout/group_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/et_temp_phone"
+                        layout="@layout/group_name_layout" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/individual_or_entity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/left_space"
+                        android:layout_marginTop="@dimen/small_size"
+                        android:layout_marginEnd="@dimen/left_space"
+                        android:layout_marginBottom="@dimen/small_size"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/left_space"
+                            android:layout_weight="2"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <include
+                                android:id="@+id/tv_temp_individual"
+                                layout="@layout/rsvp_tv_layout"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp" />
+
+                            <include
+                                android:id="@+id/tv_temp_entity"
+                                layout="@layout/rsvp_tv_layout"
+                                android:layout_width="80dp"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="1dp"
+                                android:layout_marginEnd="1dp" />
+                        </LinearLayout>
+
+                        <include
+                            android:id="@+id/btn_add_temp_client"
+                            layout="@layout/add_button"
+                            android:layout_width="80dp"
+                            android:layout_height="@dimen/forty_dp"
+                            android:layout_gravity="center_vertical" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </LinearLayout>
+                <!-- Temp Client layout-->
                 <LinearLayout
                     android:id="@+id/selected_clients"
                     android:layout_width="match_parent"
@@ -239,7 +430,6 @@
                     android:visibility="gone">
 
                     <LinearLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/small_size"
@@ -279,7 +469,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/left_space"
                         android:layout_marginTop="@dimen/small_size"
-                        android:layout_marginBottom="@dimen/small_size"
                         android:orientation="horizontal">
 
                         <include

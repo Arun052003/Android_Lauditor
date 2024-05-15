@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.digicoffer.lauditor.ClientRelationships.Model.CountriesDO;
 import com.digicoffer.lauditor.Matter.Adapters.GroupsAdapter;
 import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
 import com.digicoffer.lauditor.Matter.Models.ClientsModel;
@@ -37,6 +40,7 @@ import com.digicoffer.lauditor.Webservice.HttpResultDo;
 import com.digicoffer.lauditor.Webservice.WebServiceHelper;
 import com.digicoffer.lauditor.common.AndroidUtils;
 import com.digicoffer.lauditor.common.Constants;
+import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -63,10 +67,14 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     boolean[] selectedTM;
     boolean is_error;
     String attachment_type;
+    String country_name = "";
+    String client_type = "consumer";
+    String success_msg = "", temp_client_id = "", temp_name = "";
     JSONArray client_list = new JSONArray();
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
+    ArrayList<CountriesDO> countriesList = new ArrayList<>();
     TextView matter_title_tv, tv_name, tv_selected_clients, tv_selected_tm;
     ConstraintLayout cv_details;
     String matter_title, case_number, case_type, description, dof, start_date, end_date, court, judge, case_priority, case_status;
@@ -103,9 +111,13 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     ArrayList<ViewMatterModel> new_groupsList = new ArrayList<>();
     ArrayList<TeamModel> tmList = new ArrayList<>();
     Matter matter;
+    ListView sp_country;
     Matter mattermodel;
     LinearLayoutCompat clients_list_layout;
-    TextView tv_add_client,tv_temp_client,tv_corp_client;
+    LinearLayout temp_client_layout;
+    Button btn_add_temp_client;
+    TextView tv_add_client, tv_temp_client, tv_corp_client, tv_temp_fname, tv_temp_lname, tv_temp_email, tv_temp_confirm_email, tv_temp_country, et_temp_country, tv_temp_phone, tv_temp_individual, tv_temp_entity;
+    TextInputEditText et_temp_fname, et_temp_lname, et_temp_email, et_temp_confirm_email, et_temp_phone;
     RecyclerView rv_display_upload_groups_docs, rv_display_upload_client_docs, rv_display_upload_tm_docs;
 
 
@@ -118,18 +130,130 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         View view = inflater.inflate(R.layout.gct_layout, container, false);
         matter_date = view.findViewById(R.id.matter_date);
         at_add_groups = view.findViewById(R.id.at_add_groups);
-        clients_list_layout=view.findViewById(R.id.clients_list_layout);
+        clients_list_layout = view.findViewById(R.id.clients_list_layout);
         clients_list_layout.setVisibility(View.GONE);
+        temp_client_layout = view.findViewById(R.id.temp_client_layout);
+        temp_client_layout.setVisibility(View.GONE);
 
-        tv_add_client=view.findViewById(R.id.tv_add_client);
+        tv_temp_fname = view.findViewById(R.id.tv_temp_fname);
+        tv_temp_fname.setText(R.string.first_name);
+        //..
+        tv_temp_lname = view.findViewById(R.id.tv_temp_lname);
+        tv_temp_lname.setText(R.string.last_name);
+        //..
+        tv_temp_email = view.findViewById(R.id.tv_temp_email);
+        tv_temp_email.setText(R.string.email);
+        //..
+        tv_temp_confirm_email = view.findViewById(R.id.tv_temp_confirm_email);
+        tv_temp_confirm_email.setText(R.string.confirm_email);
+        //..
+        tv_temp_country = view.findViewById(R.id.tv_temp_country);
+        tv_temp_country.setText(R.string.country);
+        sp_country = view.findViewById(R.id.sp_country);
+        sp_country.setVisibility(View.GONE);
+        //..
+        et_temp_country = view.findViewById(R.id.et_temp_country);
+        et_temp_country.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call_country_list();
+            }
+        });
+        //..
+        tv_temp_phone = view.findViewById(R.id.tv_temp_phone);
+        tv_temp_phone.setText(R.string.phone);
+        //..
+        et_temp_fname = view.findViewById(R.id.et_temp_fname);
+        et_temp_fname.setHint(R.string.first_name);
+        //..
+        et_temp_lname = view.findViewById(R.id.et_temp_lname);
+        et_temp_lname.setHint(R.string.last_name);
+        //..
+        et_temp_email = view.findViewById(R.id.et_temp_email);
+        et_temp_email.setHint(R.string.email);
+        //..
+        et_temp_confirm_email = view.findViewById(R.id.et_temp_confirm_email);
+        et_temp_confirm_email.setHint(R.string.confirm_email);
+        //..
+        et_temp_phone = view.findViewById(R.id.et_temp_phone);
+        et_temp_phone.setHint(R.string.phone);
+        //..
+        tv_temp_individual = view.findViewById(R.id.tv_temp_individual);
+        tv_temp_individual.setText(R.string.individual);
+        tv_temp_individual.setTextColor(getResources().getColor(R.color.white));
+        //..
+        tv_temp_entity = view.findViewById(R.id.tv_temp_entity);
+        tv_temp_entity.setBackground(getContext().getDrawable(R.drawable.button_right_round_background));
+        tv_temp_entity.setText(R.string.entity);
+        //..
+        btn_add_temp_client = view.findViewById(R.id.btn_add_temp_client);
+        btn_add_temp_client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_temp_client();
+//                https://api.staging.digicoffer.com/professional/v3/relationship/temp-invite/consumer
+                //...
+//                {first_name: "jnjnjnjn", last_name: "jnj", email: "jn@gmail.com", country: "Denmark",…}
+//                country
+//                :
+//                "Denmark"
+//                email
+//                :
+//                "jn@gmail.com"
+//                first_name
+//                :
+//                "jnjnjnjn"
+//                group_acls
+//                :
+//["660e6f4afffd8f0416375cb2", "65e57bb5fffd8f03ee10378b", "658288c2fffd8f21929feee6",…]
+//                last_name
+//                :
+//                "jnj"
+                //..
+            }
+        });
+        sp_country.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                country_name = countriesList.get(position).getName();
+                et_temp_country.setText(country_name);
+                sp_country.setVisibility(View.GONE);
+            }
+        });
+        tv_temp_individual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_temp_individual.setTextColor(getResources().getColor(R.color.white));
+                tv_temp_entity.setTextColor(getResources().getColor(R.color.black));
+                client_type = "consumer";
+                tv_temp_individual.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_green_round_background));
+                tv_temp_entity.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
+                tv_temp_fname.setText(R.string.first_name);
+                tv_temp_lname.setText(R.string.last_name);
+            }
+        });
+        tv_temp_entity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_temp_individual.setTextColor(getResources().getColor(R.color.black));
+                tv_temp_entity.setTextColor(getResources().getColor(R.color.white));
+                client_type = "entity";
+                tv_temp_individual.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_round_background));
+                tv_temp_entity.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_green_round_background));
+                tv_temp_fname.setText(R.string.firm_name);
+                tv_temp_lname.setText(R.string.contact_person);
+            }
+        });
+
+        tv_add_client = view.findViewById(R.id.tv_add_client);
         tv_add_client.setText(R.string.add_client);
         tv_add_client.setTextColor(getResources().getColor(R.color.white));
 
-        tv_temp_client=view.findViewById(R.id.tv_temp_client);
+        tv_temp_client = view.findViewById(R.id.tv_temp_client);
         tv_temp_client.setText(R.string.temp_clients);
         tv_temp_client.setBackground(getContext().getDrawable(R.drawable.radiobutton_centre_background));
 
-        tv_corp_client=view.findViewById(R.id.tv_corp_client);
+        tv_corp_client = view.findViewById(R.id.tv_corp_client);
         tv_corp_client.setText(R.string.corporate_clients);
         tv_corp_client.setBackground(getContext().getDrawable(R.drawable.button_right_round_background));
         //..
@@ -174,8 +298,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //        String text = tv_matter_title.getText().toString();
 //        matter_title.setText(text);
         matter_title_tv = view.findViewById(R.id.matter_title);
-        matter_title_tv.setBackground(getContext().getDrawable(R.drawable.underline));
-        matter_title_tv.setTextSize(20);
         matter_title_tv.setVisibility(View.VISIBLE);
         at_add_clients.setOnClickListener(this);
         at_assigned_team_members = view.findViewById(R.id.at_assigned_team_members);
@@ -228,6 +350,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_green_round_background));
                 tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_background));
                 tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
+                temp_client_layout.setVisibility(View.GONE);
+                ll_add_clients.setVisibility(View.VISIBLE);
+                add_clients.setText(R.string.add_clients);
             }
         });
         tv_temp_client.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +365,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_round_background));
                 tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_green_background));
                 tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
+                temp_client_layout.setVisibility(View.VISIBLE);
+                ll_add_clients.setVisibility(View.GONE);
             }
         });
         tv_corp_client.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +379,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 tv_add_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_left_round_background));
                 tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_background));
                 tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_green_round_background));
+                temp_client_layout.setVisibility(View.GONE);
+                ll_add_clients.setVisibility(View.VISIBLE);
+                add_clients.setText(R.string.add_corporate_clients);
             }
         });
         at_add_groups.setOnClickListener(new View.OnClickListener() {
@@ -554,6 +684,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             }
             ll_add_clients.setVisibility(View.VISIBLE);
             clients_list_layout.setVisibility(View.VISIBLE);
+//            temp_client_layout.setVisibility(View.VISIBLE);
+
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
             load_existing_matter();
@@ -868,6 +1000,34 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     loadMembers(members);
 //                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                     load_existing_clients_list();
+                } else if (httpResult.getRequestType().equals("countries")) {
+                    is_error = result.getBoolean("error");
+                    JSONArray jsonArray = (new JSONObject(result.getString("data"))).getJSONArray("countries");
+                    CountriesDO countriesDO;
+                    countriesList.clear();
+                    for (int i = 1; i < jsonArray.length(); i++) {
+                        countriesDO = new CountriesDO();
+                        countriesDO.setName(String.valueOf(jsonArray.getJSONArray(i).get(1)));
+                        countriesDO.setValue(String.valueOf(jsonArray.getJSONArray(i).get(0)));
+                        countriesList.add(countriesDO);
+                    }
+                    load_countries();
+                } else if (httpResult.getRequestType().equals("temp_client")) {
+//                    "msg": "Temporary account created successfully.",
+//                            "createdId": "66449261fffd8f7678dad416",
+//                            "name": "others test 2 hhhh"
+                    success_msg = result.getString("msg");
+                    temp_client_id = result.getString("createdId");
+                    temp_name = result.getString("name");
+                    AndroidUtils.showAlert(temp_name + ".." + temp_client_id, getContext());
+
+                    ClientsModel clientsModel = new ClientsModel();
+                    clientsModel.setClient_id(temp_client_id);
+                    clientsModel.setClient_name(temp_name);
+                    clientsModel.setClient_type(client_type);
+                    selected_clients_list.add(clientsModel);
+                    loadSelectedClients();
+//                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                 } else if (httpResult.getRequestType().equals("attachment_clients")) {
                     is_error = result.getBoolean("error");
                     attachment_type = result.getString("attachment_type");
@@ -954,6 +1114,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     private void ClientssPopUp() {
         ll_add_clients.setVisibility(View.VISIBLE);
         clients_list_layout.setVisibility(View.VISIBLE);
+//        temp_client_layout.setVisibility(View.VISIBLE);
         try {
             for (int i = 0; i < clientsList.size(); i++) {
                 for (int j = 0; j < selected_clients_list.size(); j++) {
@@ -1091,6 +1252,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         at_add_clients.setText(str);
         ll_add_clients.setVisibility(View.VISIBLE);
         clients_list_layout.setVisibility(View.VISIBLE);
+//        temp_client_layout.setVisibility(View.VISIBLE);
+
         ll_assign_team_members.setVisibility(View.VISIBLE);
         ll_save_buttons.setVisibility(View.VISIBLE);
 
@@ -1158,6 +1321,16 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         }
     }
 
+    private void load_countries() {
+        sp_country.setVisibility(View.VISIBLE);
+        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), countriesList);
+        Log.i("ArrayList", "Info:" + countriesList);
+//        ArrayAdapter adaptador = new ArrayAdapter(User_Profile.this, android.R.layout.simple_spinner_item, sorted_countriesList);
+//        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+//        spinner.setAdapter(adaptador);
+        sp_country.setAdapter(adapter);
+    }
 
     private void loadGroupsData(JSONArray data) {
         try {
@@ -1331,6 +1504,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         if (!selected_groups_list.isEmpty()) {
             ll_add_clients.setVisibility(View.VISIBLE);
             clients_list_layout.setVisibility(View.VISIBLE);
+//            temp_client_layout.setVisibility(View.VISIBLE);
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
         } else {
@@ -1339,7 +1513,11 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             ll_selected_groups.removeAllViews();
             ll_selected_clients.removeAllViews();
             ll_assigned_team_members.removeAllViews();
+
             ll_add_clients.setVisibility(View.GONE);
+//            temp_client_layout.setVisibility(View.GONE);
+            clients_list_layout.setVisibility(View.GONE);
+
             ll_assign_team_members.setVisibility(View.GONE);
             selected_groups.setVisibility(View.GONE);
             selected_clients.setVisibility(View.GONE);
@@ -1437,6 +1615,32 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                    callTMWebservice();
                 loadSelectedTM();
             }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+    }
+
+    private void call_country_list() {
+        JSONObject postdata = new JSONObject();
+        WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.GET, "countries", "countries", postdata.toString());
+//        https://api.staging.digicoffer.com/professional/countries
+    }
+
+    private void add_temp_client() {
+        try {
+            JSONArray group_acls = new JSONArray();
+            for (int i = 0; i < selected_groups_list.size(); i++) {
+                GroupsModel groupsModel = selected_groups_list.get(i);
+                group_acls.put(groupsModel.getGroup_id());
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("first_name", Objects.requireNonNull(et_temp_fname.getText()).toString());
+            jsonObject.put("last_name", Objects.requireNonNull(et_temp_lname.getText()).toString());
+            jsonObject.put("email", Objects.requireNonNull(et_temp_email.getText()).toString());
+            jsonObject.put("country", et_temp_country.getText().toString());
+            jsonObject.put("group_acls", group_acls);
+            //        https://api.staging.digicoffer.com/professional/v3/relationship/temp-invite/consumer
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/relationship/temp-invite/" + client_type, "temp_client", jsonObject.toString());
         } catch (Exception e) {
             e.fillInStackTrace();
         }

@@ -192,4 +192,9 @@
     <string name="add_client">Add Client</string>
     <string name="temp_clients">Temp Clients</string>
     <string name="corporate_clients">Corporate Clients</string>
+    <string name="phone">Phone</string>
+    <string name="individual">Individual</string>
+    <string name="entity">Entity</string>
+    <string name="firm_name">Firm Name</string>
+    <string name="add_corporate_clients">Add Corporate Clients</string>
 </resources>

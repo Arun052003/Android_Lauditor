@@ -38,7 +38,7 @@
             android:text="@string/matter_title"
             android:textColor="@color/blue"
             android:textFontWeight="500"
-            android:textSize="17sp" />
+            android:textSize="@dimen/Fifteen_dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

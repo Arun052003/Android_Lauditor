@@ -39,7 +39,7 @@
                     android:text="@string/add_opponent_advocate"
                     android:textColor="@color/white"
                     android:textSize="@dimen/Fifteen_dp"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
             </RelativeLayout>
         </LinearLayout>
 
