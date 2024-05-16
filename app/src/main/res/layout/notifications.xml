@@ -84,8 +84,17 @@
                 android:src="@drawable/delete_white_icon"
                 android:contentDescription="@string/app_name" />
 
-            <include layout="@layout/chk_box_layout"
-                android:id="@+id/chk_select_all" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="@dimen/twenty_five"
+                android:layout_height="@dimen/twenty_five"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/small_size"
+                android:background="@drawable/check_box"
+                android:gravity="center_vertical">
+
+                <include layout="@layout/chk_box_layout"
+                    android:id="@+id/chk_select_all"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </LinearLayout>
 

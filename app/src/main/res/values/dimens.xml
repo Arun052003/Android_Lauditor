@@ -6,6 +6,8 @@
     <dimen name="one_fifty_dp">150dp</dimen>
     <dimen name="Login_header">40dp</dimen>
     <dimen name="twenty_dp">20sp</dimen>
+    <dimen name="seventeen_dp">17sp</dimen>
+    <dimen name="Thirteen_dp">13sp</dimen>
     <dimen name="Fifteen_dp">15sp</dimen>
     <dimen name="Twelve_dp">12dp</dimen>
     <dimen name="left_space">4dp</dimen>

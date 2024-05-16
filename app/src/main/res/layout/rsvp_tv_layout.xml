@@ -2,11 +2,13 @@
     android:id="@+id/tv_yes"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
     android:background="@drawable/button_left_green_round_background"
     android:fontFamily="@font/gill_sans"
     android:gravity="center_vertical"
-    android:padding="@dimen/small_size"
-    android:text="@string/yes"
+    android:paddingStart="@dimen/eight_dp"
+    android:paddingEnd="@dimen/left_space"
+    android:paddingTop="@dimen/left_space"
+    android:paddingBottom="@dimen/left_space"
+    android:text="@string/corporate_clients"
     android:textColor="@color/black"
-    android:textSize="@dimen/Fifteen_dp" />
+    android:textSize="@dimen/Thirteen_dp" />

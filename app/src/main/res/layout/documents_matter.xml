@@ -47,9 +47,7 @@
                 <!--    </androidx.appcompat.widget.AppCompatButton>-->
 
 
-                <include
-                    android:id="@+id/matter_title"
-                    layout="@layout/group_layout" />
+                <include layout="@layout/bold_title_layout" />
 
                 <include
                     android:id="@+id/matter_date"

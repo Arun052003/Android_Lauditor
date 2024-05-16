@@ -72,6 +72,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     String success_msg = "", temp_client_id = "", temp_name = "";
     JSONArray client_list = new JSONArray();
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
+    ArrayList<ClientsModel> corp_clients_list = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
     ArrayList<CountriesDO> countriesList = new ArrayList<>();
@@ -100,6 +101,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
     ArrayList<GroupsModel> updated_groups_list = new ArrayList<>();
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
+    ArrayList<ClientsModel> selected_corp_clients_list = new ArrayList<>();
+    ArrayList<ClientsModel> selected_temp_clients_list = new ArrayList<>();
     ArrayList<TeamModel> selected_tm_list = new ArrayList<>();
     ArrayList<GroupsModel> groupsList = new ArrayList<>();
     boolean ischecked_group = true;
@@ -191,25 +194,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             @Override
             public void onClick(View v) {
                 add_temp_client();
-//                https://api.staging.digicoffer.com/professional/v3/relationship/temp-invite/consumer
-                //...
-//                {first_name: "jnjnjnjn", last_name: "jnj", email: "jn@gmail.com", country: "Denmark",…}
-//                country
-//                :
-//                "Denmark"
-//                email
-//                :
-//                "jn@gmail.com"
-//                first_name
-//                :
-//                "jnjnjnjn"
-//                group_acls
-//                :
-//["660e6f4afffd8f0416375cb2", "65e57bb5fffd8f03ee10378b", "658288c2fffd8f21929feee6",…]
-//                last_name
-//                :
-//                "jnj"
-                //..
             }
         });
         sp_country.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -293,10 +277,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         tv_assigned_team_members = view.findViewById(R.id.tv_assigned_team_members);
         tv_assigned_team_members.setText(R.string.assign_team_members);
         at_add_clients = view.findViewById(R.id.at_add_clients);
-//        at_add_clients.setHint(R.string.select_clients);
-//        tv_matter_title = view.findViewById(R.id.tv_matter_title);
-//        String text = tv_matter_title.getText().toString();
-//        matter_title.setText(text);
         matter_title_tv = view.findViewById(R.id.matter_title);
         matter_title_tv.setVisibility(View.VISIBLE);
         at_add_clients.setOnClickListener(this);
@@ -353,6 +333,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 temp_client_layout.setVisibility(View.GONE);
                 ll_add_clients.setVisibility(View.VISIBLE);
                 add_clients.setText(R.string.add_clients);
+                client_type = "consumer";
             }
         });
         tv_temp_client.setOnClickListener(new View.OnClickListener() {
@@ -367,6 +348,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
                 temp_client_layout.setVisibility(View.VISIBLE);
                 ll_add_clients.setVisibility(View.GONE);
+                client_type = "consumer";
             }
         });
         tv_corp_client.setOnClickListener(new View.OnClickListener() {
@@ -382,6 +364,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 temp_client_layout.setVisibility(View.GONE);
                 ll_add_clients.setVisibility(View.VISIBLE);
                 add_clients.setText(R.string.add_corporate_clients);
+                client_type = "corporate";
             }
         });
         at_add_groups.setOnClickListener(new View.OnClickListener() {
@@ -672,8 +655,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         e.fillInStackTrace();
                     }
                 }
-
             }
+            clients_list_layout.setVisibility(View.GONE);
         } else {
             matter_title_tv.setText(Constants.Matter_title);
             ll_add_groups.setVisibility(View.GONE);
@@ -683,7 +666,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 chosen_matter = "legal";
             }
             ll_add_clients.setVisibility(View.VISIBLE);
-            clients_list_layout.setVisibility(View.VISIBLE);
+            if (Constants.create_matter)
+                clients_list_layout.setVisibility(View.VISIBLE);
 //            temp_client_layout.setVisibility(View.VISIBLE);
 
             ll_assign_team_members.setVisibility(View.VISIBLE);
@@ -1000,6 +984,12 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     loadMembers(members);
 //                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                     load_existing_clients_list();
+                } else if (httpResult.getRequestType().equals("attachment_corp_clients")) {
+                    is_error = result.getBoolean("error");
+                    attachment_type = result.getString("attachment_type");
+                    JSONArray corporate = result.getJSONArray("corporate");
+                    load_Corp_clients(corporate);
+//                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                 } else if (httpResult.getRequestType().equals("countries")) {
                     is_error = result.getBoolean("error");
                     JSONArray jsonArray = (new JSONObject(result.getString("data"))).getJSONArray("countries");
@@ -1016,17 +1006,31 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                    "msg": "Temporary account created successfully.",
 //                            "createdId": "66449261fffd8f7678dad416",
 //                            "name": "others test 2 hhhh"
-                    success_msg = result.getString("msg");
-                    temp_client_id = result.getString("createdId");
-                    temp_name = result.getString("name");
-                    AndroidUtils.showAlert(temp_name + ".." + temp_client_id, getContext());
+                    if (result.has("errors")) {
+                        JSONArray errors = result.getJSONArray("errors");
+                        String error_msg = "";
+                        for (int i = 0; i < errors.length(); i++) {
+                            JSONObject error = errors.getJSONObject(i);
+                            error_msg = error.getString("msg");
+                        }
+                        AndroidUtils.showAlert(error_msg, getContext());
+                    } else {
+                        success_msg = result.getString("msg");
+                        temp_client_id = result.getString("createdId");
+                        temp_name = result.getString("name");
+                        AndroidUtils.showAlert(temp_name + ".." + temp_client_id, getContext());
 
-                    ClientsModel clientsModel = new ClientsModel();
-                    clientsModel.setClient_id(temp_client_id);
-                    clientsModel.setClient_name(temp_name);
-                    clientsModel.setClient_type(client_type);
-                    selected_clients_list.add(clientsModel);
-                    loadSelectedClients();
+                        selected_temp_clients_list.clear();
+                        ClientsModel clientsModel = new ClientsModel();
+                        clientsModel.setClient_id(temp_client_id);
+                        clientsModel.setClient_name(temp_name);
+                        clientsModel.setClient_type(client_type);
+                        selected_temp_clients_list.add(clientsModel);
+                        if (!selected_clients_list.contains(selected_temp_clients_list)) {
+                            selected_clients_list.addAll(selected_temp_clients_list);
+                        }
+                        loadSelectedClients();
+                    }
 //                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                 } else if (httpResult.getRequestType().equals("attachment_clients")) {
                     is_error = result.getBoolean("error");
@@ -1049,6 +1053,23 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             } catch (JSONException e) {
                 e.fillInStackTrace();
             }
+        }
+    }
+
+    private void load_Corp_clients(JSONArray corp_clients) {
+        try {
+            for (int i = 0; i < corp_clients.length(); i++) {
+                JSONObject jsonObject = corp_clients.getJSONObject(i);
+                ClientsModel clientsModel = new ClientsModel();
+                clientsModel.setClient_id(jsonObject.getString("id"));
+                clientsModel.setClient_name(jsonObject.getString("name"));
+                clientsModel.setClient_type(jsonObject.getString("type"));
+                if (!corp_clients_list.contains(clientsModel)) {
+                    corp_clients_list.add(clientsModel);
+                }
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
         }
     }
 
@@ -1113,7 +1134,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void ClientssPopUp() {
         ll_add_clients.setVisibility(View.VISIBLE);
-        clients_list_layout.setVisibility(View.VISIBLE);
+        if (Constants.create_matter)
+            clients_list_layout.setVisibility(View.VISIBLE);
 //        temp_client_layout.setVisibility(View.VISIBLE);
         try {
             for (int i = 0; i < clientsList.size(); i++) {
@@ -1130,24 +1152,49 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             rv_display_upload_client_docs.setLayoutManager(layoutManager);
             rv_display_upload_client_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Clients";
-            GroupsAdapter documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
-            rv_display_upload_client_docs.setAdapter(documentsAdapter);
+            GroupsAdapter documentsAdapter;
+            if (client_type.equals("corporate")) {
+                documentsAdapter = new GroupsAdapter(groupsList, corp_clients_list, tmList, new_groupsList, ADAPTER_TAG);
+                rv_display_upload_client_docs.setAdapter(documentsAdapter);
+            } else {
+                documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
+                rv_display_upload_client_docs.setAdapter(documentsAdapter);
+            }
 
 
+            GroupsAdapter finalDocumentsAdapter = documentsAdapter;
             btn_add_clients.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
-                    Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
-                    for (int i = 0; i < documentsAdapter.getClientsList_item().size(); i++) {
-                        ClientsModel clientsModel = documentsAdapter.getClientsList_item().get(i);
-                        if (clientsModel.isChecked()) {
-                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                            selected_groups_set.add(clientsModel);
+                    if (client_type.equals("corporate")) {
+                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
+                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
+                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
+                            if (clientsModel.isChecked()) {
+                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                selected_groups_set.add(clientsModel);
+                            }
                         }
+                        selected_corp_clients_list.addAll(selected_groups_set);
+                    } else {
+                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
+                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
+                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
+                            if (clientsModel.isChecked()) {
+                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                                selected_groups_set.add(clientsModel);
+                            }
+                        }
+                        selected_clients_list.clear();
+                        selected_clients_list.addAll(selected_groups_set);
                     }
-                    selected_clients_list.clear();
-                    selected_clients_list.addAll(selected_groups_set);
+                    if (!selected_clients_list.contains(selected_corp_clients_list)) {
+                        selected_clients_list.addAll(selected_corp_clients_list);
+                    }
+                    if (!selected_clients_list.contains(selected_temp_clients_list)) {
+                        selected_clients_list.addAll(selected_temp_clients_list);
+                    }
 
                     ll_assign_team_members.setVisibility(View.VISIBLE);
                     ll_save_buttons.setVisibility(View.VISIBLE);
@@ -1251,7 +1298,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         String str = String.join(",", value);
         at_add_clients.setText(str);
         ll_add_clients.setVisibility(View.VISIBLE);
-        clients_list_layout.setVisibility(View.VISIBLE);
+        if (Constants.create_matter)
+            clients_list_layout.setVisibility(View.VISIBLE);
 //        temp_client_layout.setVisibility(View.VISIBLE);
 
         ll_assign_team_members.setVisibility(View.VISIBLE);
@@ -1398,6 +1446,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
                     ischecked_group = true;
                     btn_add_groups.setEnabled(false);
+                    call_corporate_clients();
                 }
             });
 
@@ -1503,7 +1552,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         // Update UI visibility based on the size of the selected groups list
         if (!selected_groups_list.isEmpty()) {
             ll_add_clients.setVisibility(View.VISIBLE);
-            clients_list_layout.setVisibility(View.VISIBLE);
+            if (Constants.create_matter)
+                clients_list_layout.setVisibility(View.VISIBLE);
 //            temp_client_layout.setVisibility(View.VISIBLE);
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
@@ -1634,13 +1684,40 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 group_acls.put(groupsModel.getGroup_id());
             }
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("first_name", Objects.requireNonNull(et_temp_fname.getText()).toString());
-            jsonObject.put("last_name", Objects.requireNonNull(et_temp_lname.getText()).toString());
-            jsonObject.put("email", Objects.requireNonNull(et_temp_email.getText()).toString());
-            jsonObject.put("country", et_temp_country.getText().toString());
-            jsonObject.put("group_acls", group_acls);
+            if (client_type.equals("entity")) {
+                jsonObject.put("fullname", Objects.requireNonNull(et_temp_fname.getText()).toString());
+                jsonObject.put("contact_person", Objects.requireNonNull(et_temp_lname.getText()).toString());
+                jsonObject.put("email", Objects.requireNonNull(et_temp_email.getText()).toString());
+                jsonObject.put("country", et_temp_country.getText().toString());
+                jsonObject.put("contact_phone", Objects.requireNonNull(et_temp_phone.getText()).toString());
+                jsonObject.put("group_acls", group_acls);
+            } else {
+                jsonObject.put("first_name", Objects.requireNonNull(et_temp_fname.getText()).toString());
+                jsonObject.put("last_name", Objects.requireNonNull(et_temp_lname.getText()).toString());
+                jsonObject.put("email", Objects.requireNonNull(et_temp_email.getText()).toString());
+                jsonObject.put("country", et_temp_country.getText().toString());
+//                jsonObject.put("contact_phone",Objects.requireNonNull(et_temp_phone.getText()).toString());
+                jsonObject.put("group_acls", group_acls);
+            }
             //        https://api.staging.digicoffer.com/professional/v3/relationship/temp-invite/consumer
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/relationship/temp-invite/" + client_type, "temp_client", jsonObject.toString());
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+    }
+
+    private void call_corporate_clients() {
+        try {
+            JSONArray group_acls = new JSONArray();
+            for (int i = 0; i < selected_groups_list.size(); i++) {
+                GroupsModel groupsModel = selected_groups_list.get(i);
+                group_acls.put(groupsModel.getGroup_id());
+            }
+            JSONObject postdata = new JSONObject();
+            postdata.put("attachment_type", "corporate");
+            postdata.put("group_acls", group_acls);
+            postdata.put("product", "lauditor");
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_corp_clients", postdata.toString());
         } catch (Exception e) {
             e.fillInStackTrace();
         }

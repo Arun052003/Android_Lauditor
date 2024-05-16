@@ -62,8 +62,18 @@
             </ImageButton>
 
 
-            <include layout="@layout/chk_box_layout"
-                android:id="@+id/chk_selected" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="@dimen/twenty_five"
+                android:layout_height="@dimen/twenty_five"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/small_size"
+                android:background="@drawable/check_box"
+                android:gravity="center_vertical">
+
+                <include
+                    android:id="@+id/chk_selected"
+                    layout="@layout/chk_box_layout" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

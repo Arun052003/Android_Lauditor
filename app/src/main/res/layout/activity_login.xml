@@ -112,18 +112,18 @@
 
                 <!-- CheckBox for Enable Biometric Authentication -->
                 <!-- CheckBox CardView -->
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/checkbox_cardview"
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_width="@dimen/twenty_five"
+                    android:layout_height="@dimen/twenty_five"
                     android:layout_margin="@dimen/left_space"
-                    android:background="@drawable/left_shadow"
+                    android:background="@drawable/check_box"
                     android:paddingBottom="@dimen/eight_dp"
                     app:cardCornerRadius="@dimen/eight_dp"
-                    app:cardElevation="@dimen/eight_dp">
+                    app:cardElevation="@dimen/left_space">
 
-
-                    <include layout="@layout/chk_box_layout"/>
+                   <include layout="@layout/chk_box_layout"/>
                 </androidx.cardview.widget.CardView>
 
                 <Space
