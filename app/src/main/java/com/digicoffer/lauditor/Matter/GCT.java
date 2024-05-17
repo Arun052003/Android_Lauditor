@@ -152,7 +152,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         //..
         tv_temp_country = view.findViewById(R.id.tv_temp_country);
         tv_temp_country.setText(R.string.country);
-        sp_country = view.findViewById(R.id.sp_country);
+        sp_country = view.findViewById(R.id.tv_sp_country);
         sp_country.setVisibility(View.GONE);
         //..
         et_temp_country = view.findViewById(R.id.et_temp_country);
@@ -193,7 +193,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         btn_add_temp_client.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_temp_client();
+                check_temp_values();
             }
         });
         sp_country.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -656,7 +656,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
                 }
             }
-            clients_list_layout.setVisibility(View.GONE);
+//            clients_list_layout.setVisibility(View.GONE);
         } else {
             matter_title_tv.setText(Constants.Matter_title);
             ll_add_groups.setVisibility(View.GONE);
@@ -666,8 +666,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 chosen_matter = "legal";
             }
             ll_add_clients.setVisibility(View.VISIBLE);
-            if (Constants.create_matter)
-                clients_list_layout.setVisibility(View.VISIBLE);
+            clients_list_layout.setVisibility(View.VISIBLE);
 //            temp_client_layout.setVisibility(View.VISIBLE);
 
             ll_assign_team_members.setVisibility(View.VISIBLE);
@@ -1058,6 +1057,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void load_Corp_clients(JSONArray corp_clients) {
         try {
+            corp_clients_list.clear();
             for (int i = 0; i < corp_clients.length(); i++) {
                 JSONObject jsonObject = corp_clients.getJSONObject(i);
                 ClientsModel clientsModel = new ClientsModel();
@@ -1134,8 +1134,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void ClientssPopUp() {
         ll_add_clients.setVisibility(View.VISIBLE);
-        if (Constants.create_matter)
-            clients_list_layout.setVisibility(View.VISIBLE);
+        clients_list_layout.setVisibility(View.VISIBLE);
 //        temp_client_layout.setVisibility(View.VISIBLE);
         try {
             for (int i = 0; i < clientsList.size(); i++) {
@@ -1298,8 +1297,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         String str = String.join(",", value);
         at_add_clients.setText(str);
         ll_add_clients.setVisibility(View.VISIBLE);
-        if (Constants.create_matter)
-            clients_list_layout.setVisibility(View.VISIBLE);
+        clients_list_layout.setVisibility(View.VISIBLE);
 //        temp_client_layout.setVisibility(View.VISIBLE);
 
         ll_assign_team_members.setVisibility(View.VISIBLE);
@@ -1463,7 +1461,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         int newSize = updated_groups_list.size();
         if (newSize > originalSize || newSize < originalSize) {
             clientsList.clear();
+            corp_clients_list.clear();
             tmList.clear();
+            selected_corp_clients_list.clear();
             selected_clients_list.clear();
             selected_tm_list.clear();
             ll_selected_clients.removeAllViews();
@@ -1552,13 +1552,13 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         // Update UI visibility based on the size of the selected groups list
         if (!selected_groups_list.isEmpty()) {
             ll_add_clients.setVisibility(View.VISIBLE);
-            if (Constants.create_matter)
-                clients_list_layout.setVisibility(View.VISIBLE);
+            clients_list_layout.setVisibility(View.VISIBLE);
 //            temp_client_layout.setVisibility(View.VISIBLE);
             ll_assign_team_members.setVisibility(View.VISIBLE);
             ll_save_buttons.setVisibility(View.VISIBLE);
         } else {
             clientsList.clear();
+            corp_clients_list.clear();
             tmList.clear();
             ll_selected_groups.removeAllViews();
             ll_selected_clients.removeAllViews();
@@ -1720,6 +1720,22 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_corp_clients", postdata.toString());
         } catch (Exception e) {
             e.fillInStackTrace();
+        }
+    }
+
+    private void check_temp_values() {
+        if (Objects.requireNonNull(Objects.requireNonNull(et_temp_fname.getText())).toString().trim().isEmpty()) {
+            AndroidUtils.showAlert("Please fill the First name", getContext());
+        } else if (Objects.requireNonNull(Objects.requireNonNull(et_temp_lname.getText())).toString().trim().isEmpty()) {
+            AndroidUtils.showAlert("Please fill the Last name", getContext());
+        } else if (Objects.requireNonNull(Objects.requireNonNull(et_temp_email.getText())).toString().trim().isEmpty()) {
+            AndroidUtils.showAlert("Please fill the Email", getContext());
+        } else if (et_temp_country.getText().toString().trim().isEmpty()) {
+            AndroidUtils.showAlert("Please fill the Country", getContext());
+        } else if ((Objects.requireNonNull(et_temp_confirm_email.getText()).toString().trim().isEmpty()) && (tv_temp_confirm_email.getText().toString().trim().equals(tv_temp_email.getText().toString().trim()))) {
+            AndroidUtils.showAlert("Please check the Confirm the email", getContext());
+        } else {
+            add_temp_client();
         }
     }
 }

@@ -36,7 +36,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     @Override
     public GroupsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_team_members, parent, false);
-        return new GroupsAdapter.ViewHolder(itemView);
+        return new ViewHolder(itemView);
     }
 
     @Override
@@ -94,38 +94,75 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     }
 
     public Filter getFilter() {
+        //.....
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString().toLowerCase().trim();
-                ArrayList<ViewGroupModel> filteredList = new ArrayList<>();
-
+                String charString = charSequence.toString();
                 if (charString.isEmpty()) {
-                    filteredList.addAll(list_item);
+                    groupsList = list_item;
                 } else {
+                    ArrayList<ViewGroupModel> filteredList = new ArrayList<>();
                     for (ViewGroupModel row : list_item) {
-                        if (row.getName().toLowerCase().contains(charString)) {
+//                            if (row.isChecked()){
+//                                row.setChecked(false);
+//                            }else
+//                            {
+//                                row.setChecked(true  );
+//                            }
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (AndroidUtils.isNull(row.getName()).toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
+                    groupsList = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredList;
+                filterResults.count = groupsList.size();
+                filterResults.values = groupsList;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                groupsList.clear();
-                groupsList.addAll((ArrayList<ViewGroupModel>) filterResults.values);
+                groupsList = (ArrayList<ViewGroupModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
+        //...
+//        return new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence charSequence) {
+//                String charString = charSequence.toString().toLowerCase().trim();
+//                ArrayList<ViewGroupModel> filteredList = new ArrayList<>();
+//
+//                if (charString.isEmpty()) {
+//                    filteredList.addAll(list_item);
+//                } else {
+//                    for (ViewGroupModel row : list_item) {
+//                        if (row.getName().toLowerCase().contains(charString)) {
+//                            filteredList.add(row);
+//                        }
+//                    }
+//                }
+//
+//                FilterResults filterResults = new FilterResults();
+//                filterResults.values = filteredList;
+//                return filterResults;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+//                groupsList.clear();
+//                groupsList.addAll((ArrayList<ViewGroupModel>) filterResults.values);
+//                notifyDataSetChanged();
+//            }
+//        };
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox cb_team_members;
         TextView tv_tm_name;
 

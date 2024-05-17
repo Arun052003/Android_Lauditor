@@ -333,7 +333,7 @@
                         android:layout_margin="@dimen/left_space" />
 
                     <include
-                        android:id="@+id/sp_country"
+                        android:id="@+id/tv_sp_country"
                         layout="@layout/spinner_list"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"

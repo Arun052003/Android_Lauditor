@@ -6,9 +6,9 @@
     android:fontFamily="@font/gill_sans"
     android:gravity="center_vertical"
     android:paddingStart="@dimen/eight_dp"
-    android:paddingEnd="@dimen/left_space"
     android:paddingTop="@dimen/left_space"
+    android:paddingEnd="@dimen/left_space"
     android:paddingBottom="@dimen/left_space"
-    android:text="@string/corporate_clients"
+    android:text="@string/yes"
     android:textColor="@color/black"
-    android:textSize="@dimen/Thirteen_dp" />
+    android:textSize="@dimen/Fifteen_dp" />

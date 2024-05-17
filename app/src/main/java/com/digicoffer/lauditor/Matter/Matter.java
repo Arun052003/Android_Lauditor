@@ -114,6 +114,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
             public void onClick(View v) {
                 Constants.create_matter = true;
                 Constants.Matter_CreateOrViewDetails = "Create";
+                matter_arraylist.clear();
                 loadCreateUI();
             }
         });
@@ -221,15 +222,6 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
-    private void loadgeneralUI() {
-        create_matter_view.setVisibility(View.VISIBLE);
-        tv_create.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-        tv_create.setTextColor(Color.WHITE);
-        tv_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
-        tv_view.setTextColor(Color.BLACK);
-        loadMatterInformation();
-        mViewModel.setData("Create  General Matter");
-    }
 
     void loadLegalMatter() {
         Constants.MATTER_TYPE = "Legal";
