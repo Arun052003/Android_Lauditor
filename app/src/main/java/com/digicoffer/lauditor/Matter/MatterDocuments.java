@@ -951,6 +951,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 postdata.put("priority", case_priority);
                 postdata.put("status", case_status);
                 postdata.put("clients", clients);
+
                 postdata.put("documents", documents);
                 postdata.put("group_acls", group_acls);
                 postdata.put("members", members);
@@ -1598,7 +1599,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 //        https://api.staging.digicoffer.com/professional/matter/attachments
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "documents");
-        postdata.put("group_acls", Constants.ex_attachment);
+        postdata.put("group_acls", Constants.ex_group_attachment);
         postdata.put("clients", Constants.ex_client);
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "Documents_List", postdata.toString());
     }

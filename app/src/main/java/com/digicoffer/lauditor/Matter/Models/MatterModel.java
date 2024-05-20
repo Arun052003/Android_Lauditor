@@ -10,6 +10,15 @@ public class MatterModel {
     String matter_title;
 
 
+    String corp_client_id;
+
+    public String getCorp_client_id() {
+        return corp_client_id;
+    }
+
+    public void setCorp_client_id(String corp_client_id) {
+        this.corp_client_id = corp_client_id;
+    }
 
     String case_number;
     String case_type;
@@ -115,10 +124,12 @@ public class MatterModel {
     public CharSequence getMatter_title() {
         return matter_title;
     }
-    public String tv_matter_title(){
+
+    public String tv_matter_title() {
         return tv_matter_title;
     }
-    public void settv_matter_title(AppCompatButton tv_matter_title){
+
+    public void settv_matter_title(AppCompatButton tv_matter_title) {
         this.tv_matter_title = String.valueOf(tv_matter_title);
     }
 

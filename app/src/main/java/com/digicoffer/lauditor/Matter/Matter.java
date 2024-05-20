@@ -329,7 +329,7 @@ public class Matter extends Fragment implements AsyncTaskCompleteListener {
         matter_info_txt.setText(R.string.time_line);
         matter_arraylist.add(0, viewMatterModel);
         jsonArray.put(viewMatterModel.getGroupAcls());
-        Constants.ex_attachment = viewMatterModel.getGroupAcls();
+        Constants.ex_group_attachment = viewMatterModel.getGroupAcls();
         Constants.ex_client = viewMatterModel.getClients();
 //        AndroidUtils.showAlert("" + Constants.ex_attachment, getContext());
         Constants.Matter_id = "";

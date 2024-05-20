@@ -3,7 +3,10 @@ package com.digicoffer.lauditor.Matter;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +63,7 @@ import java.util.Set;
 
 public class
 GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
-
+    String corp_client_id = "";
     TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members, add_groups, add_clients, tv_assigned_team_members;
     boolean[] selectedLanguage;
     boolean[] selectedClients;
@@ -320,6 +323,42 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                finalMatter_title.setText(item);
 //            }
 //        });
+        et_temp_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!isValidEmail(s.toString().trim())) {
+                    et_temp_email.setError("Please enter a valid email address");
+                }
+            }
+        });
+        et_temp_confirm_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().trim().equals(Objects.requireNonNull(et_temp_email.getText()).toString().trim())) {
+                    et_temp_confirm_email.setError("Email and Confirm email mismatch,Please check");
+                }
+            }
+        });
         tv_add_client.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -716,7 +755,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         if (selected_groups_list.isEmpty()) {
             AndroidUtils.showToast("Please select atealst one group", getContext());
         } else if (selected_clients_list.isEmpty()) {
-            AndroidUtils.showAlert("Please check  the add client", getContext());
+            AndroidUtils.showAlert("Please check the add client", getContext());
         } else {
             try {
                 JSONArray clients = new JSONArray();
@@ -829,6 +868,16 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     jsonObject.put("name", documentsModel.getName());
                     new_documents_list.put(jsonObject);
                 }
+                corp_client_id = "";
+                for (int i = 0; i < selected_corp_clients_list.size(); i++) {
+                    try {
+                        ClientsModel teamModel = selected_corp_clients_list.get(i);
+                        corp_client_id = teamModel.getClient_id();
+                    } catch (Exception e) {
+                        e.fillInStackTrace();
+                    }
+                }
+                matterModel.setCorp_client_id(corp_client_id);
                 matterModel.setMatter_title(matter_title);
                 matterModel.setCase_number(case_number);
                 matterModel.setCase_type(case_type);
@@ -943,7 +992,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             JSONArray group_acls = new JSONArray();
             JSONObject postdata = new JSONObject();
             for (int i = 0; i < selected_groups_list.size(); i++) {
-                JSONObject jsonObject = new JSONObject();
                 GroupsModel groupsModel = selected_groups_list.get(i);
                 group_acls.put(groupsModel.getGroup_id());
             }
@@ -1036,6 +1084,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     attachment_type = result.getString("attachment_type");
                     JSONArray members = result.getJSONArray("clients");
                     loadClients(members);
+                    call_corporate_clients();
 //                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                 } else if (httpResult.getRequestType().equals("matter_update")) {
                     is_error = result.getBoolean("error");
@@ -1585,19 +1634,20 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     private void load_existing_member_list() throws JSONException {
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "members");
-        postdata.put("group_acls", Constants.ex_attachment);
+        postdata.put("group_acls", Constants.ex_group_attachment);
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_members", postdata.toString());
     }
 
     private void load_existing_clients_list() throws JSONException {
         JSONObject postdata = new JSONObject();
         postdata.put("attachment_type", "clients");
-        postdata.put("group_acls", Constants.ex_attachment);
+        postdata.put("group_acls", Constants.ex_group_attachment);
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_clients", postdata.toString());
     }
 
     private void update_matter() throws JSONException {
         progress_dialog = AndroidUtils.get_progress(getActivity());
+        corp_client_id = "";
         JSONArray clients = new JSONArray();
         JSONArray members = new JSONArray();
         for (int i = 0; i < selected_tm_list.size(); i++) {
@@ -1607,6 +1657,14 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 team_object.put("id", teamModel.getTm_id());
                 team_object.put("name", teamModel.getTm_name());
                 members.put(team_object);
+            } catch (Exception e) {
+                e.fillInStackTrace();
+            }
+        }
+        for (int i = 0; i < selected_corp_clients_list.size(); i++) {
+            try {
+                ClientsModel teamModel = selected_corp_clients_list.get(i);
+                corp_client_id = teamModel.getClient_id();
             } catch (Exception e) {
                 e.fillInStackTrace();
             }
@@ -1626,6 +1684,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         JSONObject postdata = new JSONObject();
         postdata.put("clients", clients);
         postdata.put("members", members);
+        postdata.put("corporate", corp_client_id);
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
     }
 
@@ -1678,26 +1737,29 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void add_temp_client() {
         try {
-            JSONArray group_acls = new JSONArray();
-            for (int i = 0; i < selected_groups_list.size(); i++) {
-                GroupsModel groupsModel = selected_groups_list.get(i);
-                group_acls.put(groupsModel.getGroup_id());
-            }
             JSONObject jsonObject = new JSONObject();
+            if (!Constants.create_matter) {
+                jsonObject.put("group_acls", Constants.ex_group_attachment);
+            } else {
+                JSONArray group_acls = new JSONArray();
+                for (int i = 0; i < selected_groups_list.size(); i++) {
+                    GroupsModel groupsModel = selected_groups_list.get(i);
+                    group_acls.put(groupsModel.getGroup_id());
+                }
+                jsonObject.put("group_acls", group_acls);
+            }
             if (client_type.equals("entity")) {
                 jsonObject.put("fullname", Objects.requireNonNull(et_temp_fname.getText()).toString());
                 jsonObject.put("contact_person", Objects.requireNonNull(et_temp_lname.getText()).toString());
                 jsonObject.put("email", Objects.requireNonNull(et_temp_email.getText()).toString());
                 jsonObject.put("country", et_temp_country.getText().toString());
                 jsonObject.put("contact_phone", Objects.requireNonNull(et_temp_phone.getText()).toString());
-                jsonObject.put("group_acls", group_acls);
             } else {
                 jsonObject.put("first_name", Objects.requireNonNull(et_temp_fname.getText()).toString());
                 jsonObject.put("last_name", Objects.requireNonNull(et_temp_lname.getText()).toString());
                 jsonObject.put("email", Objects.requireNonNull(et_temp_email.getText()).toString());
                 jsonObject.put("country", et_temp_country.getText().toString());
 //                jsonObject.put("contact_phone",Objects.requireNonNull(et_temp_phone.getText()).toString());
-                jsonObject.put("group_acls", group_acls);
             }
             //        https://api.staging.digicoffer.com/professional/v3/relationship/temp-invite/consumer
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/relationship/temp-invite/" + client_type, "temp_client", jsonObject.toString());
@@ -1708,14 +1770,18 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
     private void call_corporate_clients() {
         try {
-            JSONArray group_acls = new JSONArray();
-            for (int i = 0; i < selected_groups_list.size(); i++) {
-                GroupsModel groupsModel = selected_groups_list.get(i);
-                group_acls.put(groupsModel.getGroup_id());
-            }
             JSONObject postdata = new JSONObject();
+            if (!Constants.create_matter) {
+                postdata.put("group_acls", Constants.ex_group_attachment);
+            } else {
+                JSONArray group_acls = new JSONArray();
+                for (int i = 0; i < selected_groups_list.size(); i++) {
+                    GroupsModel groupsModel = selected_groups_list.get(i);
+                    group_acls.put(groupsModel.getGroup_id());
+                }
+                postdata.put("group_acls", group_acls);
+            }
             postdata.put("attachment_type", "corporate");
-            postdata.put("group_acls", group_acls);
             postdata.put("product", "lauditor");
             WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/attachments", "attachment_corp_clients", postdata.toString());
         } catch (Exception e) {
@@ -1723,17 +1789,58 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         }
     }
 
+    public static boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void check_temp_values() {
-        if (Objects.requireNonNull(Objects.requireNonNull(et_temp_fname.getText())).toString().trim().isEmpty()) {
-            AndroidUtils.showAlert("Please fill the First name", getContext());
-        } else if (Objects.requireNonNull(Objects.requireNonNull(et_temp_lname.getText())).toString().trim().isEmpty()) {
-            AndroidUtils.showAlert("Please fill the Last name", getContext());
-        } else if (Objects.requireNonNull(Objects.requireNonNull(et_temp_email.getText())).toString().trim().isEmpty()) {
-            AndroidUtils.showAlert("Please fill the Email", getContext());
-        } else if (et_temp_country.getText().toString().trim().isEmpty()) {
-            AndroidUtils.showAlert("Please fill the Country", getContext());
-        } else if ((Objects.requireNonNull(et_temp_confirm_email.getText()).toString().trim().isEmpty()) && (tv_temp_confirm_email.getText().toString().trim().equals(tv_temp_email.getText().toString().trim()))) {
-            AndroidUtils.showAlert("Please check the Confirm the email", getContext());
+        String full_alert = "Please enter the First Name,Last Name,Email,Confirm Email,Country";
+        String alert = "Please enter the";
+//        First Name,Last Name,Email,Confirm Email,Country
+        boolean is_fname_empty = Objects.requireNonNull(et_temp_fname.getText()).toString().isEmpty();
+        boolean is_lname_empty = Objects.requireNonNull(et_temp_lname.getText()).toString().isEmpty();
+        boolean is_email_empty = Objects.requireNonNull(et_temp_email.getText()).toString().isEmpty();
+        boolean is_confirm_email_empty = Objects.requireNonNull(et_temp_confirm_email.getText()).toString().isEmpty();
+        boolean is_country_empty = Objects.requireNonNull(et_temp_country.getText()).toString().isEmpty();
+
+        if (is_fname_empty && is_lname_empty && is_email_empty && is_confirm_email_empty && is_country_empty) {
+            AndroidUtils.showAlert(full_alert, getContext());
+        } else if (is_fname_empty || is_lname_empty || is_email_empty || is_confirm_email_empty || is_country_empty) {
+            if (is_fname_empty) {
+                if (alert.length() >= 18)
+                    alert = alert.concat(",First Name");
+                else
+                    alert = alert.concat(" First Name");
+            }
+            if (is_lname_empty) {
+                if (alert.length() >= 18)
+                    alert = alert.concat(",Last Name");
+                else
+                    alert = alert.concat(" Last Name");
+            }
+            if (is_email_empty) {
+                if (alert.length() >= 18)
+                    alert = alert.concat(",Email");
+                else
+                    alert = alert.concat(" Email");
+            }
+            if (is_confirm_email_empty) {
+                if (alert.length() >= 18)
+                    alert = alert.concat(",Confirm Email");
+                else
+                    alert = alert.concat(" Confirm Email");
+            }
+            if (is_country_empty) {
+                if (alert.length() >= 18)
+                    alert = alert.concat(",Country");
+                else
+                    alert = alert.concat(" Country");
+            }
+            AndroidUtils.showAlert(alert, getContext());
+        } else if (!isValidEmail(et_temp_email.getText().toString().trim())) {
+            et_temp_email.setError("Please enter a valid email address");
+        } else if (!et_temp_confirm_email.getText().toString().trim().equals(Objects.requireNonNull(et_temp_email.getText()).toString().trim())) {
+            et_temp_confirm_email.setError("Email and Confirm email mismatch,Please check");
         } else {
             add_temp_client();
         }
