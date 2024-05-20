@@ -197,4 +197,5 @@
     <string name="entity">Entity</string>
     <string name="firm_name">Firm Name</string>
     <string name="add_corporate_clients">Add Corporate Clients</string>
+    <string name="selected_corporate_clients">Selected Corporate Clients</string>
 </resources>
