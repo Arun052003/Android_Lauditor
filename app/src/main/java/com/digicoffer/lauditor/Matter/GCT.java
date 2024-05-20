@@ -64,6 +64,8 @@ import java.util.Set;
 public class
 GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener {
     String corp_client_id = "";
+    ListView sp_corp_client;
+
     TextView matter_date, at_add_groups, at_add_clients, at_assigned_team_members, add_groups, add_clients, tv_assigned_team_members;
     boolean[] selectedLanguage;
     boolean[] selectedClients;
@@ -101,6 +103,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     Button btn_add_groups, btn_add_clients, btn_assigned_team_members, btn_create, btn_cancel_save;
     LinearLayout ll_selected_groups, ll_selected_clients, ll_assigned_team_members, selected_groups, selected_clients, selected_tm, ll_add_clients, ll_assign_team_members;
     AlertDialog progress_dialog;
+    boolean iscountry;
     ArrayList<GroupsModel> selected_groups_list = new ArrayList<>();
     ArrayList<GroupsModel> updated_groups_list = new ArrayList<>();
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
@@ -140,6 +143,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         clients_list_layout.setVisibility(View.GONE);
         temp_client_layout = view.findViewById(R.id.temp_client_layout);
         temp_client_layout.setVisibility(View.GONE);
+        sp_corp_client = view.findViewById(R.id.sp_corp_client);
 
         tv_temp_fname = view.findViewById(R.id.tv_temp_fname);
         tv_temp_fname.setText(R.string.first_name);
@@ -162,6 +166,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         et_temp_country.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AndroidUtils.display_listview(iscountry, sp_country);
                 call_country_list();
             }
         });
@@ -205,6 +210,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 country_name = countriesList.get(position).getName();
                 et_temp_country.setText(country_name);
                 sp_country.setVisibility(View.GONE);
+                iscountry = true;
             }
         });
         tv_temp_individual.setOnClickListener(new View.OnClickListener() {
@@ -372,6 +378,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 temp_client_layout.setVisibility(View.GONE);
                 ll_add_clients.setVisibility(View.VISIBLE);
                 add_clients.setText(R.string.add_clients);
+                btn_add_clients.setVisibility(View.VISIBLE);
                 client_type = "consumer";
             }
         });
@@ -386,6 +393,18 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 tv_temp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.radiobutton_centre_green_background));
                 tv_corp_client.setBackgroundDrawable(getContext().getDrawable(R.drawable.button_right_round_background));
                 temp_client_layout.setVisibility(View.VISIBLE);
+                et_temp_fname.setText(null);
+                et_temp_lname.setText(null);
+                et_temp_country.setText(null);
+                et_temp_email.setText(null);
+                et_temp_confirm_email.setText(null);
+
+                et_temp_fname.setError(null);
+                et_temp_lname.setError(null);
+                et_temp_country.setError(null);
+                et_temp_email.setError(null);
+                et_temp_confirm_email.setError(null);
+
                 ll_add_clients.setVisibility(View.GONE);
                 client_type = "consumer";
             }
@@ -403,6 +422,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 temp_client_layout.setVisibility(View.GONE);
                 ll_add_clients.setVisibility(View.VISIBLE);
                 add_clients.setText(R.string.add_corporate_clients);
+                btn_add_clients.setVisibility(View.GONE);
                 client_type = "corporate";
             }
         });
@@ -429,14 +449,22 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             @Override
             public void onClick(View view) {
                 if (ischecked_client) {
-                    if (clientsList.isEmpty()) {
-                        callClientsWebservice();
+                    if (client_type.equals("corporate")) {
+                        sp_corp_client.setVisibility(View.VISIBLE);
                     } else {
-                        rv_display_upload_client_docs.setVisibility(View.VISIBLE);
-                        ClientssPopUp();
+                        if (clientsList.isEmpty()) {
+                            callClientsWebservice();
+                        } else {
+                            rv_display_upload_client_docs.setVisibility(View.VISIBLE);
+                            ClientssPopUp();
+                        }
                     }
                 } else {
-                    rv_display_upload_client_docs.setVisibility(View.GONE);
+                    if (client_type.equals("corporate")) {
+                        sp_corp_client.setVisibility(View.GONE);
+                    } else {
+                        rv_display_upload_client_docs.setVisibility(View.GONE);
+                    }
                 }
                 //  callClientsWebservice();
                 ischecked_client = !ischecked_client;
@@ -484,6 +512,19 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
+            }
+        });
+        sp_corp_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selected_corp_clients_list.clear();
+                ClientsModel clientsModel = corp_clients_list.get(position);
+                clientsModel.setClient_id(clientsModel.getClient_id());
+                clientsModel.setClient_name(clientsModel.getClient_name());
+                clientsModel.setClient_type(clientsModel.getClient_type());
+                selected_corp_clients_list.add(clientsModel);
+                sp_corp_client.setVisibility(View.GONE);
+                loadSelectedClients();
             }
         });
         Date c = Calendar.getInstance().getTime();
@@ -1018,7 +1059,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                    AndroidUtils.showAlert("Error_value.." + id, getContext());
                     JSONArray members = result.getJSONArray("members");
                     JSONArray clients = result.getJSONArray("clients");
-                    display_existing_members(members, clients);
+                    JSONArray corp_clients = result.getJSONArray("corporate");
+                    load_Corp_clients(corp_clients);
+                    display_existing_members(members, clients, corp_clients);
                     try {
                         load_existing_member_list();
                     } catch (JSONException e) {
@@ -1117,6 +1160,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     corp_clients_list.add(clientsModel);
                 }
             }
+            corp_clients_popup();
         } catch (Exception e) {
             e.fillInStackTrace();
         }
@@ -1181,6 +1225,12 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         }
     }
 
+    private void corp_clients_popup() {
+        CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(GCT.this.getActivity(), this.corp_clients_list);
+        sp_corp_client.setAdapter(adapter);
+        Log.d("adapter_-", "" + adapter.getCount());
+    }
+
     private void ClientssPopUp() {
         ll_add_clients.setVisibility(View.VISIBLE);
         clients_list_layout.setVisibility(View.VISIBLE);
@@ -1195,49 +1245,52 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     }
                 }
             }
+//            for (int i = 0; i < corp_clients_list.size(); i++) {
+//                for (int j = 0; j < selected_corp_clients_list.size(); j++) {
+//                    if (corp_clients_list.get(i).getClient_id().matches(selected_corp_clients_list.get(j).getClient_id())) {
+//                        ClientsModel clientsModel = corp_clients_list.get(i);
+//                        clientsModel.setChecked(true);
+////                        selected_groups_list.set(j,documentsModel);
+//                    }
+//                }
+//            }
 
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             rv_display_upload_client_docs.setLayoutManager(layoutManager);
             rv_display_upload_client_docs.setHasFixedSize(true);
             ADAPTER_TAG = "Clients";
             GroupsAdapter documentsAdapter;
-            if (client_type.equals("corporate")) {
-                documentsAdapter = new GroupsAdapter(groupsList, corp_clients_list, tmList, new_groupsList, ADAPTER_TAG);
-                rv_display_upload_client_docs.setAdapter(documentsAdapter);
-            } else {
-                documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
-                rv_display_upload_client_docs.setAdapter(documentsAdapter);
-            }
-
+            documentsAdapter = new GroupsAdapter(groupsList, clientsList, tmList, new_groupsList, ADAPTER_TAG);
+            rv_display_upload_client_docs.setAdapter(documentsAdapter);
 
             GroupsAdapter finalDocumentsAdapter = documentsAdapter;
             btn_add_clients.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    ArrayList<String>
-                    if (client_type.equals("corporate")) {
-                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
-                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
-                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
-                            if (clientsModel.isChecked()) {
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                                selected_groups_set.add(clientsModel);
-                            }
-                        }
-                        selected_corp_clients_list.addAll(selected_groups_set);
-                    } else {
-                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
-                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
-                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
-                            if (clientsModel.isChecked()) {
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                                selected_groups_set.add(clientsModel);
-                            }
+//                    if (client_type.equals("corporate")) {
+//                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
+//                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
+//                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
+//                            if (clientsModel.isChecked()) {
+//                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+//                                selected_groups_set.add(clientsModel);
+//                            }
+//                        }
+//                        selected_corp_clients_list.addAll(selected_groups_set);
+//                    } else {
+                    Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
+                    for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
+                        ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
+                        if (clientsModel.isChecked()) {
+                            //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+                            selected_groups_set.add(clientsModel);
                         }
                         selected_clients_list.clear();
                         selected_clients_list.addAll(selected_groups_set);
                     }
-                    if (!selected_clients_list.contains(selected_corp_clients_list)) {
+                    if(selected_corp_clients_list.size()==1)
+                    {
                         selected_clients_list.addAll(selected_corp_clients_list);
                     }
                     if (!selected_clients_list.contains(selected_temp_clients_list)) {
@@ -1688,9 +1741,10 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
     }
 
-    private void display_existing_members(JSONArray members, JSONArray clients) {
+    private void display_existing_members(JSONArray members, JSONArray clients, JSONArray corp_clients) {
         selected_clients_list.clear();
         selected_tm_list.clear();
+        selected_corp_clients_list.clear();
         try {
             for (int p = 0; p < clients.length(); p++) {
                 ClientsModel clientsModel = new ClientsModel();
@@ -1699,6 +1753,18 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 clientsModel.setClient_name(jsonObject.getString("name"));
                 clientsModel.setClient_type(jsonObject.getString("type"));
                 selected_clients_list.add(clientsModel);
+            }
+        } catch (JSONException e) {
+            e.fillInStackTrace();
+        }
+        try {
+            for (int p = 0; p < corp_clients.length(); p++) {
+                ClientsModel clientsModel = new ClientsModel();
+                JSONObject jsonObject = corp_clients.getJSONObject(p);
+                clientsModel.setClient_id(jsonObject.getString("id"));
+                clientsModel.setClient_name(jsonObject.getString("name"));
+                clientsModel.setClient_type(jsonObject.getString("type"));
+                selected_corp_clients_list.add(clientsModel);
             }
         } catch (JSONException e) {
             e.fillInStackTrace();
@@ -1715,6 +1781,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             e.fillInStackTrace();
         }
         try {
+            if (!selected_corp_clients_list.isEmpty()) {
+                selected_clients_list.addAll(selected_corp_clients_list);
+            }
 //            updateDisplay();
             if (!selected_clients_list.isEmpty()) {
 //                    callClientsWebservice();

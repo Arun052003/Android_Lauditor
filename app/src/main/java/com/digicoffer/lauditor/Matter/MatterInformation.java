@@ -3,6 +3,7 @@ package com.digicoffer.lauditor.Matter;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 //
@@ -52,6 +55,12 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     AppCompatButton tv_start_date, tv_end_date, tv_dof;
     TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, Title, datefill, start_date, closedate, court, judge, priority, status, addopponentadvocate, name;
     Button btn_add_advocate, btn_cancel_edit;
+    int maxPageButtons;
+    private int currentPage = 1;
+    private Button previousPageButton;
+    private ColorStateList greenButtonTint, whiteButtonTint;
+    LinearLayout ll_page_navigaiton,pageNumberLayout;
+    HorizontalScrollView scrollView;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
 
 
@@ -64,7 +73,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     LinearLayout ll_add_advocate, ll_start_date, ll_end_date, ll_court, ll_judge, ll_dof;
     JSONArray existing_opponents;
     CardView cv_client_details, cv_add_opponent_advocate;
-    TextView tv_opponent_name;
+    TextView advocate_title,advocate_email,advocate_phone;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
 
@@ -72,6 +81,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     TextInputEditText tv_advocate_name, tv_advocate_email, tv_advocate_phone;
     AppCompatButton btn_cancel_tag, btn_save_tag;
     EditMatterTimeline editMatterTimeline;
+    ImageView iv_backward_button,iv_forward_button;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private static final String TAG = "MatterInformation";
     private Calendar finalMyCalendar = Calendar.getInstance();
@@ -87,10 +97,21 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         ll_opponent_advocate = view.findViewById(R.id.ll_opponent_advocate);
         ll_opponent_advocate.setVisibility(View.GONE);
         btn_save_tag = view.findViewById(R.id.btn_save_tag);
+        ll_page_navigaiton=view.findViewById(R.id.ll_page_navigaiton);
+        scrollView=view.findViewById(R.id.scrollView);
+        pageNumberLayout=view.findViewById(R.id.pageNumberLayout);
+        iv_backward_button=view.findViewById(R.id.iv_backward_button);
+        iv_forward_button=view.findViewById(R.id.iv_forward_button);
 //        btn_cancel_tag=view.findViewById(R.id.btn_cancel_tag);
         tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
         tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
         tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+        advocate_title = view.findViewById(R.id.advocate_title);
+        advocate_title.setText(R.string.name);
+        advocate_email = view.findViewById(R.id.advocate_email);
+        advocate_email.setText(R.string.email);
+        advocate_phone = view.findViewById(R.id.advocate_phone);
+        advocate_phone.setText(R.string.phone_number);
 
 
         tv_matter_title.setTextSize(15);
@@ -286,10 +307,106 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                 loadPendingUI();
             }
         }
+        iv_forward_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                maxPageButtons += 5;
+
+                setupPagination();
+
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+        iv_backward_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                maxPageButtons += 5;
+
+                setupPagination();
+
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
         return view;
     }
 
+private void setupPagination()
+{
+        // Maximum number of page buttons to display
+        pageNumberLayout.removeAllViews();
 
+        int totalPages = (int) Math.ceil((double) advocates_list.size());
+        if (totalPages == 0) {
+            ll_opponent_advocate.setVisibility(View.GONE);
+        }
+        if (maxPageButtons < 5) {
+            maxPageButtons = 5;
+        }
+        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
+        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
+//        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+//        int buttonWidth = screenWidth / maxPageButtons;
+        // Dynamically add page number buttons
+        for (int i = 1; i <= totalPages; i++) {
+            if (i >= maxPageButtons) {
+                // Display only maxPageButtons page numbers
+                break;
+            }
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
+            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
+            pageButton.setText(String.valueOf(i));
+            final int pageNumber = i;
+//            if (defaultButtonTint == null) {
+//                defaultButtonTint = pageButton.getBackgroundTintList();
+//            }
+            pageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    pageButton.setBackgroundColor(R.color.green_count_color);
+//                    currentPage = pageNumber;
+//                    loadPage(currentPage);
+                    int position=0;
+                    if (v.getTag() instanceof Integer) {
+                        position = (Integer) v.getTag();
+                        v = ll_add_advocate.getChildAt(position);
+//                        ll_add_advocate.addView(view);
+                        AdvocateModel advocateModel = advocates_list.get(pageNumber-1);
+                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_advocate_phone,v);
+//                        loadAdvocateUI();
+//                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
+                    }
+                    if (previousPageButton != null) {
+                        previousPageButton.setBackgroundTintList(whiteButtonTint);
+                    }
+
+                    // Set the background tint color of the clicked button to green
+                    pageButton.setBackgroundTintList(greenButtonTint);
+
+                    currentPage = pageNumber;
+
+                    // Update the previousPageButton reference
+                    previousPageButton = pageButton;
+                }
+            });
+
+            // Set the width of the page number button
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                    buttonWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            pageButton.setLayoutParams(params);
+
+            pageNumberLayout.addView(view_opponents);
+//            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+        }
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+//        loadPage(currentPage);
+}
     private void datePickerStartDate() {
         final Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -506,6 +623,9 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             tv_advocate_name.setText("");
             tv_advocate_email.setText("");
             tv_advocate_phone.setText("");
+            tv_advocate_name.setError(null);
+            tv_advocate_email.setError(null);
+            tv_advocate_phone.setError(null);
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -609,6 +729,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                         advocateModel.setNumber(tv_advocate_phone.getText().toString());
                         advocates_list.add(advocateModel);
                         ll_opponent_advocate.setVisibility(View.GONE);
+                        setupPagination();
                         loadOpponentsList();
                     }
                 }
@@ -691,6 +812,9 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             tv_advocate_name.setText("");
             tv_advocate_email.setText("");
             tv_advocate_phone.setText("");
+            tv_advocate_name.setError(null);
+            tv_advocate_email.setError(null);
+            tv_advocate_phone.setError(null);
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);

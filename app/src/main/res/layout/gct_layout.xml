@@ -211,6 +211,15 @@
                         android:layout_height="@dimen/one_fifty_dp"
                         android:layout_margin="@dimen/left_space"
                         android:visibility="gone" />
+                    <include
+                        android:id="@+id/sp_corp_client"
+                        layout="@layout/spinner_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="3dp"
+                        android:visibility="gone"
+                        android:layout_marginEnd="@dimen/left_space" />
+
 
 
                     <include
