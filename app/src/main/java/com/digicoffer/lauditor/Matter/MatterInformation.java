@@ -57,9 +57,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     Button btn_add_advocate, btn_cancel_edit;
     int maxPageButtons;
     private int currentPage = 1;
+    private int pageNumber;
     private Button previousPageButton;
     private ColorStateList greenButtonTint, whiteButtonTint;
-    LinearLayout ll_page_navigaiton,pageNumberLayout;
+    LinearLayout ll_page_navigaiton, pageNumberLayout;
     HorizontalScrollView scrollView;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
 
@@ -73,7 +74,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     LinearLayout ll_add_advocate, ll_start_date, ll_end_date, ll_court, ll_judge, ll_dof;
     JSONArray existing_opponents;
     CardView cv_client_details, cv_add_opponent_advocate;
-    TextView advocate_title,advocate_email,advocate_phone;
+    TextView advocate_title, advocate_email, advocate_phone;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
 
@@ -81,7 +82,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     TextInputEditText tv_advocate_name, tv_advocate_email, tv_advocate_phone;
     AppCompatButton btn_cancel_tag, btn_save_tag;
     EditMatterTimeline editMatterTimeline;
-    ImageView iv_backward_button,iv_forward_button;
+    ImageView iv_backward_button, iv_forward_button;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private static final String TAG = "MatterInformation";
     private Calendar finalMyCalendar = Calendar.getInstance();
@@ -97,11 +98,15 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         ll_opponent_advocate = view.findViewById(R.id.ll_opponent_advocate);
         ll_opponent_advocate.setVisibility(View.GONE);
         btn_save_tag = view.findViewById(R.id.btn_save_tag);
-        ll_page_navigaiton=view.findViewById(R.id.ll_page_navigaiton);
-        scrollView=view.findViewById(R.id.scrollView);
-        pageNumberLayout=view.findViewById(R.id.pageNumberLayout);
-        iv_backward_button=view.findViewById(R.id.iv_backward_button);
-        iv_forward_button=view.findViewById(R.id.iv_forward_button);
+        ll_page_navigaiton = view.findViewById(R.id.ll_page_navigaiton);
+        ll_page_navigaiton.setVisibility(View.GONE);
+        scrollView = view.findViewById(R.id.scrollView);
+        pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
+        iv_backward_button = view.findViewById(R.id.iv_backward_button);
+        iv_backward_button.setVisibility(View.VISIBLE);
+        iv_backward_button.setVisibility(View.VISIBLE);
+        iv_forward_button = view.findViewById(R.id.iv_forward_button);
+        iv_forward_button.setImageDrawable(getContext().getDrawable(R.drawable.baseline_arrow_forward_ios_24));
 //        btn_cancel_tag=view.findViewById(R.id.btn_cancel_tag);
         tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
         tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
@@ -311,103 +316,31 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         iv_forward_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                maxPageButtons += 5;
-
-                setupPagination();
-
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                if (currentPage < pageNumber - 1) {
+                    currentPage = currentPage + 1;
+                    AdvocateModel advocateModel = advocates_list.get(currentPage);
+                    EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                } else {
+                    AndroidUtils.showAlert("Index ended", getContext());
+                }
             }
         });
         iv_backward_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                maxPageButtons += 5;
-
-                setupPagination();
-
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                if (currentPage > 0) {
+                    currentPage = currentPage - 1;
+                    AdvocateModel advocateModel = advocates_list.get(currentPage);
+                    EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                } else {
+                    AndroidUtils.showAlert("Index ended", getContext());
+                }
             }
         });
         return view;
     }
 
-private void setupPagination()
-{
-        // Maximum number of page buttons to display
-        pageNumberLayout.removeAllViews();
-
-        int totalPages = (int) Math.ceil((double) advocates_list.size());
-        if (totalPages == 0) {
-            ll_opponent_advocate.setVisibility(View.GONE);
-        }
-        if (maxPageButtons < 5) {
-            maxPageButtons = 5;
-        }
-        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
-        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
-//        int screenWidth = getResources().getDisplayMetrics().widthPixels;
-//        int buttonWidth = screenWidth / maxPageButtons;
-        // Dynamically add page number buttons
-        for (int i = 1; i <= totalPages; i++) {
-            if (i >= maxPageButtons) {
-                // Display only maxPageButtons page numbers
-                break;
-            }
-            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
-            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
-            pageButton.setText(String.valueOf(i));
-            final int pageNumber = i;
-//            if (defaultButtonTint == null) {
-//                defaultButtonTint = pageButton.getBackgroundTintList();
-//            }
-            pageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    pageButton.setBackgroundColor(R.color.green_count_color);
-//                    currentPage = pageNumber;
-//                    loadPage(currentPage);
-                    int position=0;
-                    if (v.getTag() instanceof Integer) {
-                        position = (Integer) v.getTag();
-                        v = ll_page_navigaiton.getChildAt(position);
-//                        ll_add_advocate.addView(view);
-                        AdvocateModel advocateModel = advocates_list.get(pageNumber-1);
-                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_advocate_phone,v);
-//                        loadAdvocateUI();
-//                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
-                    }
-                    if (previousPageButton != null) {
-                        previousPageButton.setBackgroundTintList(whiteButtonTint);
-                    }
-
-                    // Set the background tint color of the clicked button to green
-                    pageButton.setBackgroundTintList(greenButtonTint);
-
-                    currentPage = pageNumber;
-
-                    // Update the previousPageButton reference
-                    previousPageButton = pageButton;
-                }
-            });
-
-            // Set the width of the page number button
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    buttonWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            pageButton.setLayoutParams(params);
-
-            pageNumberLayout.addView(view_opponents);
-//            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-        }
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });
-//        loadPage(currentPage);
-}
+    //        loadPage(currentPage);
     private void datePickerStartDate() {
         final Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -675,7 +608,7 @@ private void setupPagination()
                 @Override
                 public void afterTextChanged(Editable s) {
 
-                    }
+                }
             });
             tv_advocate_phone.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -732,6 +665,7 @@ private void setupPagination()
 //                        ll_opponent_advocate.setVisibility(View.GONE);
 //                        setupPagination();
                         loadOpponentsList();
+                        ll_page_navigaiton.setVisibility(View.VISIBLE);
                         tv_advocate_name.setText("");
                         tv_advocate_email.setText("");
                         tv_advocate_phone.setText("");
@@ -750,87 +684,72 @@ private void setupPagination()
         }
     }
 
-    private void loadEditedData(String adv_name, String adv_email, String adv_phone, int position, View view_advocate, TextView tv_opponent_name) {
+    private void loadEditedData(String adv_name, String adv_email, String adv_phone, int position, View view_advocate) {
         AdvocateModel advocateModel = new AdvocateModel();
         advocateModel.setAdvocate_name(adv_name);
         advocateModel.setEmail(adv_email);
         advocateModel.setNumber(adv_phone);
         advocates_list.set(position, advocateModel);
-        tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
+//        tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
 //        tv_opponent_name.setText(advocateModel.getAdvocate_name());
     }
 
     private void loadOpponentsList() {
-        ll_page_navigaiton.removeAllViews();
+        pageNumberLayout.removeAllViews();
+//        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
+//        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
         for (int i = 0; i < advocates_list.size(); i++) {
             //...
-            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
-            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
-            pageButton.setText(String.valueOf(i+1));
-            final int pageNumber = i+1;
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.weekly_view_dates, null);
+            TextView pageButton = view_opponents.findViewById(R.id.textDay);
+            pageButton.setText(String.valueOf(i + 1));
+            pageButton.setPadding(15,15,15,15);
+            pageNumber = i + 1;
+            currentPage = pageNumber;
+            if(currentPage==advocates_list.size())
+            {
+               pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+            }
+            else
+            {
+                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
 //            if (defaultButtonTint == null) {
 //                defaultButtonTint = pageButton.getBackgroundTintList();
 //            }
             //...
-            View view_opponents1 = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents1.findViewById(R.id.tv_opponent_name);
-//            tv_opponent_name.setText(advocates_list.get(i).getAdvocate_name());
-            ImageView iv_edit_opponent = view_opponents1.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents1.findViewById(R.id.iv_remove_opponent);
-            iv_remove_opponent.setTag(i);
-            iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        int position = 0;
-                        if (v.getTag() instanceof Integer) {
-                            position = (Integer) v.getTag();
-                            v = ll_add_advocate.getChildAt(position);
-                            ll_add_advocate.removeView(v);
-                            AdvocateModel advocateModel = advocates_list.get(position);
-                            advocateModel.setAdvocate_name("");
-                            advocateModel.setEmail("");
-                            advocateModel.setNumber("");
-                            advocates_list.set(position, advocateModel);
-                            advocates_list.remove(position);
-//                        add_tags_listing();
-//                                    ll_added_tags.removeAllViews();
-                        }
-                    } catch (Exception e) {
-                        e.fillInStackTrace();
-                        AndroidUtils.showAlert(e.getMessage(), getContext());
-                    }
-                }
-            });
-            iv_edit_opponent.setTag(i);
             pageButton.setTag(i);
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (previousPageButton != null) {
-                        previousPageButton.setBackgroundTintList(whiteButtonTint);
-                    }
-                    greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
-                    whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
                     // Set the background tint color of the clicked button to green
-                    pageButton.setBackgroundTintList(greenButtonTint);
                     int position = 0;
                     if (view.getTag() instanceof Integer) {
                         position = (Integer) view.getTag();
                         view = ll_page_navigaiton.getChildAt(position);
 //                        ll_add_advocate.addView(view);
+                        currentPage = position;
+                        pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                        if(currentPage==position)
+                        {
+                            pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+                        }
+                        else
+                        {
+                            pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+                        }
                         AdvocateModel advocateModel = advocates_list.get(position);
-                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_opponent_name, view);
+                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, view);
 //                        loadAdvocateUI();
 //                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
                     }
                 }
             });
-            ll_page_navigaiton.addView(view_opponents);
+            pageNumberLayout.addView(view_opponents);
         }
     }
 
-    private void EditAdvocateUI(String advocate_name, String email, String number, int position, TextView tv_opponent_name, View view_advocate) {
+    private void EditAdvocateUI(String advocate_name, String email, String number, int position, View view_advocate) {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
             tv_advocate_name.setText("");
@@ -936,7 +855,7 @@ private void setupPagination()
                     } else {
 //                        dialog.dismiss();
 //                        ll_opponent_advocate.setVisibility(View.GONE);
-                        loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
+                        loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate);
 //                        loadOpponentsList(advocates_list);
                         tv_advocate_name.setText("");
                         tv_advocate_email.setText("");
@@ -944,6 +863,7 @@ private void setupPagination()
                         tv_advocate_name.setError(null);
                         tv_advocate_email.setError(null);
                         tv_advocate_phone.setError(null);
+                        btn_add_advocate.performClick();
                     }
                 }
             });

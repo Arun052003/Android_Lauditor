@@ -88,7 +88,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     //    JSONArray member=new JSONArray();
     MatterInformation matterInformation;
     int maxPageButtons;
-    private final int currentPage = 1;
+    private int currentPage = 1;
+    private int pageNumber;
     private Button previousPageButton;
     private ColorStateList greenButtonTint, whiteButtonTint;
     LinearLayoutCompat ll_save_buttons;
@@ -179,6 +180,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
         iv_backward_button = view.findViewById(R.id.iv_backward_button);
         iv_forward_button = view.findViewById(R.id.iv_forward_button);
+        iv_forward_button.setImageDrawable(getContext().getDrawable(R.drawable.baseline_arrow_forward_ios_24));
 //        btn_cancel_tag=view.findViewById(R.id.btn_cancel_tag);
         tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
         tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
@@ -440,6 +442,30 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             }
         });
         // Inflate the layout for this fragment
+        iv_forward_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPage < pageNumber - 1) {
+                    currentPage = currentPage + 1;
+                    AdvocateModel advocateModel = advocates_list.get(currentPage);
+                    EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                } else {
+                    AndroidUtils.showAlert("Index ended", getContext());
+                }
+            }
+        });
+        iv_backward_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPage > 0) {
+                    currentPage = currentPage - 1;
+                    AdvocateModel advocateModel = advocates_list.get(currentPage);
+                    EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                } else {
+                    AndroidUtils.showAlert("Index ended", getContext());
+                }
+            }
+        });
 
         return view;
     }
@@ -492,57 +518,30 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     }
 
     private void loadOpponentsList() {
-        ll_page_navigaiton.removeAllViews();
+        pageNumberLayout.removeAllViews();
+//        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
+//        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
         for (int i = 0; i < advocates_list.size(); i++) {
             //...
-            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
-            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.weekly_view_dates, null);
+            TextView pageButton = view_opponents.findViewById(R.id.textDay);
             pageButton.setText(String.valueOf(i + 1));
-            final int pageNumber = i + 1;
+            pageButton.setPadding(15, 15, 15, 15);
+            pageNumber = i + 1;
+            currentPage = pageNumber;
+            if (currentPage == advocates_list.size()) {
+                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+            } else {
+                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
 //            if (defaultButtonTint == null) {
 //                defaultButtonTint = pageButton.getBackgroundTintList();
 //            }
             //...
-            View view_opponents1 = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents1.findViewById(R.id.tv_opponent_name);
-//            tv_opponent_name.setText(advocates_list.get(i).getAdvocate_name());
-            ImageView iv_edit_opponent = view_opponents1.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents1.findViewById(R.id.iv_remove_opponent);
-            iv_remove_opponent.setTag(i);
-            iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        int position = 0;
-                        if (v.getTag() instanceof Integer) {
-                            position = (Integer) v.getTag();
-                            v = ll_add_advocate.getChildAt(position);
-                            ll_add_advocate.removeView(v);
-                            AdvocateModel advocateModel = advocates_list.get(position);
-                            advocateModel.setAdvocate_name("");
-                            advocateModel.setEmail("");
-                            advocateModel.setNumber("");
-                            advocates_list.set(position, advocateModel);
-                            advocates_list.remove(position);
-//                        add_tags_listing();
-//                                    ll_added_tags.removeAllViews();
-                        }
-                    } catch (Exception e) {
-                        e.fillInStackTrace();
-                        AndroidUtils.showAlert(e.getMessage(), getContext());
-                    }
-                }
-            });
-            iv_edit_opponent.setTag(i);
             pageButton.setTag(i);
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (previousPageButton != null) {
-                        previousPageButton.setBackgroundTintList(whiteButtonTint);
-                    }
-                    greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
-                    whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
                     // Set the background tint color of the clicked button to green
                     pageButton.setBackgroundTintList(greenButtonTint);
                     int position = 0;
@@ -550,26 +549,32 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                         position = (Integer) view.getTag();
                         view = ll_page_navigaiton.getChildAt(position);
 //                        ll_add_advocate.addView(view);
+                        currentPage = position;
+                        pageButton.setBackground(getActivity().getDrawable(R.color.green_count_color));
                         AdvocateModel advocateModel = advocates_list.get(position);
-                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_opponent_name, view);
+                        EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, view);
 //                        loadAdvocateUI();
 //                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
                     }
                 }
             });
-            ll_page_navigaiton.addView(view_opponents);
+            pageNumberLayout.addView(view_opponents);
         }
     }
 
-    private void EditAdvocateUI(String advocate_name, String email, String number, int position, TextView tv_opponent_name, View view_advocate) {
+    private void add_new_advocate() {
+        tv_advocate_name.setText("");
+        tv_advocate_email.setText("");
+        tv_advocate_phone.setText("");
+        tv_advocate_name.setError(null);
+        tv_advocate_email.setError(null);
+        tv_advocate_phone.setError(null);
+    }
+
+    private void EditAdvocateUI(String advocate_name, String email, String number, int position, View view_advocate) {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
-            tv_advocate_name.setText("");
-            tv_advocate_email.setText("");
-            tv_advocate_phone.setText("");
-            tv_advocate_name.setError(null);
-            tv_advocate_email.setError(null);
-            tv_advocate_phone.setError(null);
+            add_new_advocate();
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -667,14 +672,9 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     } else {
 //                        dialog.dismiss();
 //                        ll_opponent_advocate.setVisibility(View.GONE);
-                        loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
+                        loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate);
 //                        loadOpponentsList(advocates_list);
-                        tv_advocate_name.setText("");
-                        tv_advocate_email.setText("");
-                        tv_advocate_phone.setText("");
-                        tv_advocate_name.setError(null);
-                        tv_advocate_email.setError(null);
-                        tv_advocate_phone.setError(null);
+                        add_new_advocate();
                         btn_add_advocate.performClick();
                     }
                 }
@@ -691,12 +691,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private void loadAdvocateUI() {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
-            tv_advocate_name.setText("");
-            tv_advocate_email.setText("");
-            tv_advocate_phone.setText("");
-            tv_advocate_name.setError(null);
-            tv_advocate_email.setError(null);
-            tv_advocate_phone.setError(null);
+            add_new_advocate();
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -802,12 +797,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 //                        ll_opponent_advocate.setVisibility(View.GONE);
 //                        setupPagination();
                         loadOpponentsList();
-                        tv_advocate_name.setText("");
-                        tv_advocate_email.setText("");
-                        tv_advocate_phone.setText("");
-                        tv_advocate_name.setError(null);
-                        tv_advocate_email.setError(null);
-                        tv_advocate_phone.setError(null);
+                        ll_page_navigaiton.setVisibility(View.VISIBLE);
+                        add_new_advocate();
                     }
                 }
             });
@@ -849,13 +840,13 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
-    private void loadEditedData(String adv_name, String adv_email, String adv_phone, int position, View view_advocate, TextView tv_opponent_name) {
+    private void loadEditedData(String adv_name, String adv_email, String adv_phone, int position, View view_advocate) {
         AdvocateModel advocateModel = new AdvocateModel();
         advocateModel.setAdvocate_name(adv_name);
         advocateModel.setEmail(adv_email);
         advocateModel.setNumber(adv_phone);
         advocates_list.set(position, advocateModel);
-        tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
+//        tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
 //        tv_opponent_name.setText(advocateModel.getAdvocate_name());
     }
 
@@ -984,11 +975,12 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             advocateModel.setNumber(ad_phone);
             advocates_list.add(advocateModel);
         }
-        if(!advocates_list.isEmpty()) {
+        if (!advocates_list.isEmpty()) {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
             loadOpponentsList();
-        }
-        else {
+            ll_page_navigaiton.setVisibility(View.VISIBLE);
+            add_new_advocate();
+        } else {
             ll_opponent_advocate.setVisibility(View.GONE);
         }
     }

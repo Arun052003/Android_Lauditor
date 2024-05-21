@@ -646,49 +646,38 @@
 
                     <LinearLayout
                         android:id="@+id/ll_page_navigaiton"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/Blue_text_color"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rectangle_light_grey_bg"
                         android:orientation="horizontal"
-                        android:visibility="visible"
-                        android:padding="@dimen/left_space">
+                        android:padding="@dimen/left_space"
+                        android:visibility="visible">
 
-                        <ImageView
+                        <include
                             android:id="@+id/iv_backward_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="start"
-                            android:layout_margin="3dp"
-                            android:layout_weight="0"
-                            android:src="@drawable/ic_arrow_left">
-
-                        </ImageView>
+                            layout="@layout/previous_week_img" />
 
                         <HorizontalScrollView
                             android:id="@id/scrollView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_weight="1">
 
                             <LinearLayout
                                 android:id="@+id/pageNumberLayout"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="end"
-                                android:layout_margin="3dp"
                                 android:layout_marginStart="@dimen/small_size"
                                 android:gravity="end"
                                 android:orientation="horizontal" />
                         </HorizontalScrollView>
 
-                        <ImageView
+                        <include
                             android:id="@+id/iv_forward_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="end"
-                            android:layout_margin="3dp"
-                            android:layout_weight="0"
-                            android:src="@drawable/ic_arrow_right"/>
+                            layout="@layout/previous_week_img" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -697,8 +686,8 @@
                     android:id="@+id/ll_add_advocate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/small_size"
                     android:layout_below="@id/ll_opponent_advocate"
+                    android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal">
 
                 </LinearLayout>
