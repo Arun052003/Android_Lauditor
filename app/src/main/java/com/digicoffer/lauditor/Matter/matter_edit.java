@@ -526,12 +526,14 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.weekly_view_dates, null);
             TextView pageButton = view_opponents.findViewById(R.id.textDay);
             pageButton.setText(String.valueOf(i + 1));
-            pageButton.setPadding(15, 15, 15, 15);
+            pageButton.setPadding(20, 15, 20, 15);
             pageNumber = i + 1;
             currentPage = pageNumber;
             if (currentPage == advocates_list.size()) {
+                pageButton.setTextColor(getActivity().getColor(R.color.white));
                 pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
             } else {
+                pageButton.setTextColor(getActivity().getColor(R.color.black));
                 pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
             }
 //            if (defaultButtonTint == null) {
