@@ -5,6 +5,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,12 +27,15 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.digicoffer.lauditor.Matter.Models.AdvocateModel;
+import com.digicoffer.lauditor.Matter.Models.MatterModel;
 import com.digicoffer.lauditor.Matter.Models.ViewMatterModel;
 import com.digicoffer.lauditor.NewModel;
 import com.digicoffer.lauditor.R;
@@ -83,6 +87,10 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private String mParam2;
     //    JSONArray member=new JSONArray();
     MatterInformation matterInformation;
+    int maxPageButtons;
+    private final int currentPage = 1;
+    private Button previousPageButton;
+    private ColorStateList greenButtonTint, whiteButtonTint;
     LinearLayoutCompat ll_save_buttons;
     private Calendar finalMyCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -114,6 +122,21 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     JSONArray groups = new JSONArray();
     JSONArray group_acls = new JSONArray();
     JSONArray advocates = new JSONArray();
+
+    LinearLayout ll_page_navigaiton, pageNumberLayout;
+    HorizontalScrollView scrollView;
+
+
+    private int selectedYear, selectedMonth, selectedDay;
+    ArrayList<MatterModel> matterArraylist;
+    //   MatterModel matterModel_info = new MatterModel();
+    TextView advocate_title, advocate_email, advocate_phone;
+
+    LinearLayout ll_opponent_advocate;
+    TextInputEditText tv_advocate_name, tv_advocate_email, tv_advocate_phone;
+    AppCompatButton btn_cancel_tag, btn_save_tag;
+    EditMatterTimeline editMatterTimeline;
+    ImageView iv_backward_button, iv_forward_button;
 
     public matter_edit(ViewMatterModel viewMatterModel, ViewMatter viewMatter) {
         viewMatterModel1 = viewMatterModel;
@@ -148,6 +171,24 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         tv_matter_title.setHint(R.string.case_title);
         tv_matter_title.setTextSize(15);
         tv_view_matter = view.findViewById(R.id.tv_view_matter);
+        ll_opponent_advocate = view.findViewById(R.id.ll_opponent_advocate);
+        ll_opponent_advocate.setVisibility(View.GONE);
+        btn_save_tag = view.findViewById(R.id.btn_save_tag);
+        ll_page_navigaiton = view.findViewById(R.id.ll_page_navigaiton);
+        scrollView = view.findViewById(R.id.scrollView);
+        pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
+        iv_backward_button = view.findViewById(R.id.iv_backward_button);
+        iv_forward_button = view.findViewById(R.id.iv_forward_button);
+//        btn_cancel_tag=view.findViewById(R.id.btn_cancel_tag);
+        tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
+        tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
+        tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+        advocate_title = view.findViewById(R.id.advocate_title);
+        advocate_title.setText(R.string.name);
+        advocate_email = view.findViewById(R.id.advocate_email);
+        advocate_email.setText(R.string.email);
+        advocate_phone = view.findViewById(R.id.advocate_phone);
+        advocate_phone.setText(R.string.phone_number);
 
         tv_matter_num = view.findViewById(R.id.tv_matter_num);
         tv_matter_num.setHint(R.string.case_number);
@@ -451,13 +492,22 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     }
 
     private void loadOpponentsList() {
-        ll_add_advocate.removeAllViews();
+        ll_page_navigaiton.removeAllViews();
         for (int i = 0; i < advocates_list.size(); i++) {
-            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-            tv_opponent_name.setText(advocates_list.get(i).getAdvocate_name());
-            ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+            //...
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
+            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
+            pageButton.setText(String.valueOf(i + 1));
+            final int pageNumber = i + 1;
+//            if (defaultButtonTint == null) {
+//                defaultButtonTint = pageButton.getBackgroundTintList();
+//            }
+            //...
+            View view_opponents1 = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
+            TextView tv_opponent_name = view_opponents1.findViewById(R.id.tv_opponent_name);
+//            tv_opponent_name.setText(advocates_list.get(i).getAdvocate_name());
+            ImageView iv_edit_opponent = view_opponents1.findViewById(R.id.iv_edit_opponent);
+            ImageView iv_remove_opponent = view_opponents1.findViewById(R.id.iv_remove_opponent);
             iv_remove_opponent.setTag(i);
             iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -474,6 +524,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                             advocateModel.setNumber("");
                             advocates_list.set(position, advocateModel);
                             advocates_list.remove(position);
+//                        add_tags_listing();
+//                                    ll_added_tags.removeAllViews();
                         }
                     } catch (Exception e) {
                         e.fillInStackTrace();
@@ -482,43 +534,53 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                 }
             });
             iv_edit_opponent.setTag(i);
-            iv_edit_opponent.setOnClickListener(new View.OnClickListener() {
+            pageButton.setTag(i);
+            pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (previousPageButton != null) {
+                        previousPageButton.setBackgroundTintList(whiteButtonTint);
+                    }
+                    greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
+                    whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
+                    // Set the background tint color of the clicked button to green
+                    pageButton.setBackgroundTintList(greenButtonTint);
                     int position = 0;
                     if (view.getTag() instanceof Integer) {
                         position = (Integer) view.getTag();
-                        view = ll_add_advocate.getChildAt(position);
+                        view = ll_page_navigaiton.getChildAt(position);
+//                        ll_add_advocate.addView(view);
                         AdvocateModel advocateModel = advocates_list.get(position);
                         EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_opponent_name, view);
+//                        loadAdvocateUI();
+//                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
                     }
                 }
             });
-            ll_add_advocate.addView(view_opponents);
+            ll_page_navigaiton.addView(view_opponents);
         }
     }
 
     private void EditAdvocateUI(String advocate_name, String email, String number, int position, TextView tv_opponent_name, View view_advocate) {
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = requireActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
-            TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
-            TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
-            TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
+            ll_opponent_advocate.setVisibility(View.VISIBLE);
+            tv_advocate_name.setText("");
+            tv_advocate_email.setText("");
+            tv_advocate_phone.setText("");
+            tv_advocate_name.setError(null);
+            tv_advocate_email.setError(null);
+            tv_advocate_phone.setError(null);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//            LayoutInflater inflater = requireActivity().getLayoutInflater();
+//            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
+//            TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
+//            TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
+//            TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
             tv_advocate_phone.setInputType(InputType.TYPE_CLASS_PHONE);
-            AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
-            AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
-            final AlertDialog dialog = builder.create();
-            tv_advocate_name.setText(advocate_name);
-            tv_advocate_email.setText(email);
-            tv_advocate_phone.setText(number);
-            btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+//            AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
+//            AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
+//            final AlertDialog dialog = builder.create();
+
             tv_advocate_name.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -576,14 +638,21 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     }
                 }
             });
+
+//            btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dialog.dismiss();
+//                }
+//            });
+
+            tv_advocate_name.setText(advocate_name);
+            tv_advocate_email.setText(email);
+            tv_advocate_phone.setText(number);
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty() && (Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().isEmpty()) && (Objects.requireNonNull(tv_advocate_phone.getText()).toString().trim().isEmpty())) {
-                        tv_advocate_name.setError("Please Enter the name.");
-                        tv_advocate_email.setError("Please enter the Email.");
-                        tv_advocate_phone.setError("Please enter a 10 digit valid mobile number.");
-                    } else if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
+                    if (Objects.requireNonNull(tv_advocate_name.getText()).toString().trim().isEmpty()) {
                         tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
                     } else if ((!(Objects.requireNonNull(tv_advocate_email.getText()).toString().matches(Patterns.EMAIL_ADDRESS.toString()))) || (tv_advocate_email.getText().toString().trim().isEmpty())) {
@@ -596,15 +665,23 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 //                        tv_advocate_phone.setError("Please enter a valid phone number");
 //                        tv_advocate_phone.requestFocus();
                     } else {
-                        dialog.dismiss();
+//                        dialog.dismiss();
+//                        ll_opponent_advocate.setVisibility(View.GONE);
                         loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
 //                        loadOpponentsList(advocates_list);
+                        tv_advocate_name.setText("");
+                        tv_advocate_email.setText("");
+                        tv_advocate_phone.setText("");
+                        tv_advocate_name.setError(null);
+                        tv_advocate_email.setError(null);
+                        tv_advocate_phone.setError(null);
+                        btn_add_advocate.performClick();
                     }
                 }
             });
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
+//            dialog.setCancelable(false);
+//            dialog.setView(view);
+//            dialog.show();
         } catch (Exception e) {
             e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -613,29 +690,25 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
     private void loadAdvocateUI() {
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflater = requireActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
-            TextInputEditText tv_advocate_name = view.findViewById(R.id.tv_advocate_name);
+            ll_opponent_advocate.setVisibility(View.VISIBLE);
+            tv_advocate_name.setText("");
+            tv_advocate_email.setText("");
+            tv_advocate_phone.setText("");
+            tv_advocate_name.setError(null);
+            tv_advocate_email.setError(null);
+            tv_advocate_phone.setError(null);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//            LayoutInflater inflater = requireActivity().getLayoutInflater();
+//            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
             tv_advocate_name.setHint(R.string.name);
             tv_advocate_name.setTextSize(15);
-            TextInputEditText tv_advocate_email = view.findViewById(R.id.tv_advocate_email);
             tv_advocate_email.setHint(R.string.email);
             tv_advocate_email.setTextSize(15);
-            TextInputEditText tv_advocate_phone = view.findViewById(R.id.tv_advocate_phone);
             tv_advocate_phone.setInputType(InputType.TYPE_CLASS_PHONE);
             tv_advocate_phone.setHint(R.string.phone_number);
             tv_advocate_phone.setTextSize(15);
-            AppCompatButton btn_cancel_tag = view.findViewById(R.id.btn_cancel_tag);
-            AppCompatButton btn_save_tag = view.findViewById(R.id.btn_save_tag);
-            final AlertDialog dialog = builder.create();
-            btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
+            loadHighPriorityUI();
+            loadActiveUI();
             tv_advocate_name.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -644,15 +717,15 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
                     if (s.toString().trim().isEmpty()) {
                         tv_advocate_name.setError("Please Enter the name.");
                         tv_advocate_name.requestFocus();
                     }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
                 }
             });
             tv_advocate_email.addTextChangedListener(new TextWatcher() {
@@ -663,15 +736,15 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
                     if (!(Objects.requireNonNull(tv_advocate_email.getText()).toString().trim().matches(Patterns.EMAIL_ADDRESS.toString()))) {
                         tv_advocate_email.setError("Please enter the Email.");
                         tv_advocate_email.requestFocus();
                     }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
                 }
             });
             tv_advocate_phone.addTextChangedListener(new TextWatcher() {
@@ -693,6 +766,14 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                     }
                 }
             });
+
+//            btn_cancel_tag.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dialog.dismiss();
+//                }
+//            });
+
             btn_save_tag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -718,14 +799,21 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
                         advocateModel.setEmail(tv_advocate_email.getText().toString());
                         advocateModel.setNumber(tv_advocate_phone.getText().toString());
                         advocates_list.add(advocateModel);
-                        dialog.dismiss();
+//                        ll_opponent_advocate.setVisibility(View.GONE);
+//                        setupPagination();
                         loadOpponentsList();
+                        tv_advocate_name.setText("");
+                        tv_advocate_email.setText("");
+                        tv_advocate_phone.setText("");
+                        tv_advocate_name.setError(null);
+                        tv_advocate_email.setError(null);
+                        tv_advocate_phone.setError(null);
                     }
                 }
             });
-            dialog.setCancelable(false);
-            dialog.setView(view);
-            dialog.show();
+//            dialog.setCancelable(false);
+//            dialog.setView(view);
+//            dialog.show();
         } catch (Exception e) {
             e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -768,21 +856,21 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         advocateModel.setNumber(adv_phone);
         advocates_list.set(position, advocateModel);
         tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
-        tv_opponent_name.setText(advocateModel.getAdvocate_name());
+//        tv_opponent_name.setText(advocateModel.getAdvocate_name());
     }
 
     private void call_load_edit() {
         progress_dialog = AndroidUtils.get_progress(getActivity());
         try {
             JSONObject postdata = new JSONObject();
-//            for (int i = 0; i < viewMatterModel1.getOpponentAdvocates(); i++) {
-//                JSONObject jsonObject = new JSONObject();
-//                JSONObject jsonObject1 = advocates_list.get(i);
-//                jsonObject.put("name", jsonObject1.getString("name"));
-//                jsonObject.put("email", jsonObject1.getString("email"));
-//                jsonObject.put("phone", advocateModel.getNumber());
-//                advocates.put(jsonObject);
-//            }
+            for (int i = 0; i < advocates_list.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                AdvocateModel advocateModel = advocates_list.get(i);
+                jsonObject.put("name", advocateModel.getAdvocate_name());
+                jsonObject.put("email", advocateModel.getEmail());
+                jsonObject.put("phone", advocateModel.getNumber());
+                advocates.put(jsonObject);
+            }
 //            for (int i = 0; i < viewMatterModel1.getGroup_acls().length(); i++) {
 //                ViewMatterModel viewMatterModel1 = (ViewMatterModel) viewMatter1.viewMatterModel1.getGroup_acls().get(i);
 //                JSONObject jsonObject = new JSONObject();
@@ -875,7 +963,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     }
 
     private void load_existing_advocates() {
-        ll_add_advocate.removeAllViews();
+//        ll_add_advocate.removeAllViews();
 
         //Displaying the name of the Advocates from the advocates array in ViewMatter Model....
         JSONArray advocates = viewMatterModel1.getOpponentAdvocates();
@@ -896,7 +984,13 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             advocateModel.setNumber(ad_phone);
             advocates_list.add(advocateModel);
         }
-        loadOpponentsList();
+        if(!advocates_list.isEmpty()) {
+            ll_opponent_advocate.setVisibility(View.VISIBLE);
+            loadOpponentsList();
+        }
+        else {
+            ll_opponent_advocate.setVisibility(View.GONE);
+        }
     }
 
     private void datePickerData() {

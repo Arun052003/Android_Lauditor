@@ -108,10 +108,12 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     LinearLayout upload_doc_layout;
     RecyclerView rv_display_upload_doc;
     ArrayList<ClientsModel> selected_clients_list = new ArrayList<>();
+    ArrayList<ClientsModel> selected_corp_clients_list = new ArrayList<>();
     ArrayList<DocumentsModel> tags_list = new ArrayList<>();
     BottomSheetUploadFile bottommSheetUploadDocument;
     AppCompatButton btn_cancel_save, btn_create;
     boolean[] selectedDocument;
+    String corp_client_id = "";
     private Bitmap mSelectedBitmap;
     ArrayList<MatterModel> matterArraylist;
     private File mSelectedUri;
@@ -121,6 +123,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
     ArrayList<DocumentsModel> upload_documents_list = new ArrayList<>();
     JSONArray exisiting_group_acls;
     JSONArray existing_documents;
+    JSONArray existing_corp_clients;
     JSONArray existing_documents_list;
     TextInputEditText et_search_matter;
     boolean ischecked_doc = true;
@@ -250,6 +253,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                         exisiting_group_acls = matterModel.getGroup_acls();
                         existing_clients = matterModel.getClients();
 //                existing_members = matterModel.getMembers();
+                        existing_corp_clients = matterModel.getCorp_clients_list();
                         existing_groups_list = matterModel.getGroups_list();
                         existing_clients_list = matterModel.getClients_list();
 
@@ -279,6 +283,14 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                                     documentsModel.setDoctype(jsonObject.getString("doctype"));
                                     selected_documents_list.add(documentsModel);
                                 }
+                            }
+                            for (int m = 0; m < existing_corp_clients.length(); m++) {
+                                ClientsModel clientsModel = new ClientsModel();
+                                JSONObject jsonObject = existing_corp_clients.getJSONObject(m);
+                                clientsModel.setClient_id(jsonObject.getString("id"));
+                                clientsModel.setClient_name(jsonObject.getString("name"));
+                                clientsModel.setClient_type(jsonObject.getString("type"));
+                                selected_corp_clients_list.add(clientsModel);
                             }
                             if (existing_documents_list != null) {
                                 for (int ed = 0; ed < existing_documents_list.length(); ed++) {
@@ -897,7 +909,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
 
     private void submitMatter() {
         try {
-
+            corp_client_id = selected_corp_clients_list.get(0).getClient_id();
             if (upload_documents_list.isEmpty()) {
                 String Matter_type = "legal";
                 JSONObject postdata = new JSONObject();
@@ -951,7 +963,7 @@ public class MatterDocuments extends Fragment implements AsyncTaskCompleteListen
                 postdata.put("priority", case_priority);
                 postdata.put("status", case_status);
                 postdata.put("clients", clients);
-
+                postdata.put("corporate", corp_client_id);
                 postdata.put("documents", documents);
                 postdata.put("group_acls", group_acls);
                 postdata.put("members", members);

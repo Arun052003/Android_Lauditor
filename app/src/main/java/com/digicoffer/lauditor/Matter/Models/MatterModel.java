@@ -34,6 +34,16 @@ public class MatterModel {
     JSONArray clients;
     JSONArray group_acls;
     JSONArray members;
+    JSONArray corp_clients_list;
+
+    public JSONArray getCorp_clients_list() {
+        return corp_clients_list;
+    }
+
+    public void setCorp_clients_list(JSONArray corp_clients_list) {
+        this.corp_clients_list = corp_clients_list;
+    }
+
     JSONArray groups_list;
     JSONArray clients_list;
     JSONArray members_list;

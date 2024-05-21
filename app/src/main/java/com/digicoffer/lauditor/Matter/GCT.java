@@ -90,6 +90,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     ConstraintLayout cv_details;
     String matter_title, case_number, case_type, description, dof, start_date, end_date, court, judge, case_priority, case_status;
     JSONArray existing_clients;
+    JSONArray existing_corp_clients;
 
     JSONArray existing_members;
     CardView cv_client_details;
@@ -617,8 +618,23 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             e.fillInStackTrace();
                         }
                     }
+                    if (matterModel.getCorp_clients_list() != null) {
+                        existing_corp_clients = matterModel.getCorp_clients_list();
+                        try {
+                            for (int p = 0; p < existing_corp_clients.length(); p++) {
+                                ClientsModel clientsModel = new ClientsModel();
+                                JSONObject jsonObject = existing_corp_clients.getJSONObject(p);
+                                clientsModel.setClient_id(jsonObject.getString("id"));
+                                clientsModel.setClient_name(jsonObject.getString("name"));
+                                clientsModel.setClient_type(jsonObject.getString("type"));
+                                selected_corp_clients_list.add(clientsModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
                     if (matterModel.getClients() != null) {
-                        existing_clients = matterModel.getClients();
+                        existing_clients = matterModel.getCorp_clients_list();
                         try {
                             for (int p = 0; p < existing_clients.length(); p++) {
                                 ClientsModel clientsModel = new ClientsModel();
@@ -777,6 +793,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     if (matterModel.getStatus() != null) {
                         case_status = matterModel.getStatus();
                     }
+                    if (matterModel.getCorp_client_id() != null) {
+                        corp_client_id = matterModel.getCorp_client_id();
+                    }
                     try {
                         updateDisplay();
                         if (!selected_groups_list.isEmpty()) {
@@ -790,6 +809,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         if (!selected_tm_list.isEmpty()) {
 //                    callTMWebservice();
                             loadSelectedTM();
+                        }
+                        if (!selected_corp_clients_list.isEmpty()) {
+                            loadSelectedCorp_Clients();
                         }
                     } catch (Exception e) {
                         e.fillInStackTrace();
@@ -860,6 +882,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         } else {
             try {
                 JSONArray clients = new JSONArray();
+                JSONArray corp_clients = new JSONArray();
                 JSONArray group_acls = new JSONArray();
                 JSONArray members = new JSONArray();
                 JSONArray new_groups_list = new JSONArray();
@@ -972,8 +995,20 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 corp_client_id = "";
                 for (int i = 0; i < selected_corp_clients_list.size(); i++) {
                     try {
-                        ClientsModel teamModel = selected_corp_clients_list.get(i);
-                        corp_client_id = teamModel.getClient_id();
+                        ClientsModel clientsModel = selected_corp_clients_list.get(i);
+                        corp_client_id = clientsModel.getClient_id();
+                    } catch (Exception e) {
+                        e.fillInStackTrace();
+                    }
+                }
+                for (int i = 0; i < selected_corp_clients_list.size(); i++) {
+                    try {
+                        ClientsModel clientsModel = selected_corp_clients_list.get(i);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("id", clientsModel.getClient_id());
+                        jsonObject.put("type", clientsModel.getClient_type());
+                        jsonObject.put("name", clientsModel.getClient_name());
+                        corp_clients.put(jsonObject);
                     } catch (Exception e) {
                         e.fillInStackTrace();
                     }
@@ -990,6 +1025,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 matterModel.setJudge(judge);
                 matterModel.setCase_priority(case_priority);
                 matterModel.setStatus(case_status);
+                matterModel.setCorp_clients_list(corp_clients);
                 matterModel.setClients(clients);
                 matterModel.setGroup_acls(group_acls);
                 matterModel.setMembers(members);
@@ -1120,7 +1156,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     JSONArray members = result.getJSONArray("members");
                     JSONArray clients = result.getJSONArray("clients");
                     JSONArray corp_clients = result.getJSONArray("corporate");
-                    load_Corp_clients(corp_clients);
                     display_existing_members(members, clients, corp_clients);
                     try {
                         load_existing_member_list();
@@ -1199,7 +1234,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                     attachment_type = result.getString("attachment_type");
                     JSONArray members = result.getJSONArray("clients");
                     loadClients(members);
-                    call_corporate_clients();
+//                    call_corporate_clients();
 //                    AndroidUtils.showAlert("Att_value.." + attachment_type, getContext());
                 } else if (httpResult.getRequestType().equals("matter_update")) {
                     is_error = result.getBoolean("error");
@@ -1240,9 +1275,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 
             selcted_corp_Clients = new boolean[corp_clients_list.size()];
 
-            if (!Constants.create_matter) {
-                sp_corp_client.setVisibility(View.GONE);
-            }
+//            if (!Constants.create_matter) {
+//                sp_corp_client.setVisibility(View.GONE);
+//            }
             corp_clients_popup();
         } catch (Exception e) {
             e.fillInStackTrace();
@@ -1970,6 +2005,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         progress_dialog = AndroidUtils.get_progress(getActivity());
         corp_client_id = "";
         JSONArray clients = new JSONArray();
+        JSONArray corp_clients = new JSONArray();
         JSONArray members = new JSONArray();
         for (int i = 0; i < selected_tm_list.size(); i++) {
             try {
@@ -1984,8 +2020,12 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         }
         for (int i = 0; i < selected_corp_clients_list.size(); i++) {
             try {
-                ClientsModel teamModel = selected_corp_clients_list.get(i);
-                corp_client_id = teamModel.getClient_id();
+                ClientsModel clientsModel = selected_corp_clients_list.get(i);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", clientsModel.getClient_id());
+                jsonObject.put("type", clientsModel.getClient_type());
+                jsonObject.put("name", clientsModel.getClient_name());
+                corp_clients.put(jsonObject);
             } catch (Exception e) {
                 e.fillInStackTrace();
             }
@@ -2005,7 +2045,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
         JSONObject postdata = new JSONObject();
         postdata.put("clients", clients);
         postdata.put("members", members);
-        postdata.put("corporate", corp_client_id);
+        postdata.put("corporate", corp_clients);
+        Log.d("Corp_list_clients", selected_corp_clients_list.get(0).getClient_name());
         WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "matter/" + chosen_matter + "/" + Constants.Matter_id + "/members/update", "matter_update", postdata.toString());
     }
 
@@ -2049,9 +2090,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             e.fillInStackTrace();
         }
         try {
-            if (!selected_corp_clients_list.isEmpty()) {
-                selected_clients_list.addAll(selected_corp_clients_list);
-            }
+//            if (!selected_corp_clients_list.isEmpty()) {
+//                selected_clients_list.addAll(selected_corp_clients_list);
+//            }
             if (!selected_corp_clients_list.isEmpty())
                 loadSelectedCorp_Clients();
 //            updateDisplay();
@@ -2063,6 +2104,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                    callTMWebservice();
                 loadSelectedTM();
             }
+            tv_add_client.performClick();
         } catch (Exception e) {
             e.fillInStackTrace();
         }
