@@ -82,6 +82,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
     JSONArray client_list = new JSONArray();
     ArrayList<ClientsModel> clientsList = new ArrayList<>();
     ArrayList<ClientsModel> corp_clients_list = new ArrayList<>();
+    ArrayList<String> corp_clients_name = new ArrayList<>();
     ArrayList<MatterModel> matterArraylist;
     JSONArray exisiting_group_acls;
     ArrayList<CountriesDO> countriesList = new ArrayList<>();
@@ -498,14 +499,10 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             @Override
             public void onClick(View view) {
                 if (ischecked_corp_client) {
-                    if (corp_clients_list.isEmpty()) {
-                        call_corporate_clients();
-                    } else {
-                        rv_display_upload_corp_client_docs.setVisibility(View.VISIBLE);
-                        corp_clients_popup();
-                    }
+                    sp_corp_client.setVisibility(View.VISIBLE);
+                    call_corporate_clients();
                 } else {
-                    rv_display_upload_corp_client_docs.setVisibility(View.GONE);
+                    sp_corp_client.setVisibility(View.GONE);
                 }
                 ischecked_corp_client = !ischecked_corp_client;
             }
@@ -579,19 +576,17 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 datePickerDialog.show();
             }
         });
-//        sp_corp_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selected_corp_clients_list.clear();
-//                ClientsModel clientsModel = corp_clients_list.get(position);
-//                clientsModel.setClient_id(clientsModel.getClient_id());
-//                clientsModel.setClient_name(clientsModel.getClient_name());
-//                clientsModel.setClient_type(clientsModel.getClient_type());
-//                selected_corp_clients_list.add(clientsModel);
-//                sp_corp_client.setVisibility(View.GONE);
-//                loadSelectedClients();
-//            }
-//        });
+        sp_corp_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selected_corp_clients_list.clear();
+                ClientsModel clientsModel = corp_clients_list.get(position);
+                clientsModel.setClient_id(clientsModel.getClient_id());
+                clientsModel.setClient_name(clientsModel.getClient_name());
+                clientsModel.setClient_type(clientsModel.getClient_type());
+                selected_corp_clients_list.add(clientsModel);
+            }
+        });
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -1233,22 +1228,20 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                 clientsModel.setClient_id(jsonObject.getString("id"));
                 clientsModel.setClient_name(jsonObject.getString("name"));
                 clientsModel.setClient_type(jsonObject.getString("type"));
-                if (!corp_clients_list.contains(clientsModel)) {
-                    corp_clients_list.add(clientsModel);
-                }
+                corp_clients_list.add(clientsModel);
             }
             if (corp_clients_list.isEmpty()) {
                 //ll_add_clients.setVisibility(View.GONE);
-                rv_display_upload_corp_client_docs.setVisibility(View.GONE);
+                sp_corp_client.setVisibility(View.GONE);
             } else {
                 // ll_add_clients.setVisibility(View.VISIBLE);
-                rv_display_upload_corp_client_docs.setVisibility(View.VISIBLE);
+                sp_corp_client.setVisibility(View.VISIBLE);
             }
 
             selcted_corp_Clients = new boolean[corp_clients_list.size()];
 
             if (!Constants.create_matter) {
-                rv_display_upload_corp_client_docs.setVisibility(View.GONE);
+                sp_corp_client.setVisibility(View.GONE);
             }
             corp_clients_popup();
         } catch (Exception e) {
@@ -1321,15 +1314,15 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             clients_list_layout.setVisibility(View.VISIBLE);
 //        temp_client_layout.setVisibility(View.VISIBLE);
             try {
-                for (int i = 0; i < corp_clients_list.size(); i++) {
-                    for (int j = 0; j < selected_corp_clients_list.size(); j++) {
-                        if (corp_clients_list.get(i).getClient_id().matches(selected_corp_clients_list.get(j).getClient_id())) {
-                            ClientsModel clientsModel = corp_clients_list.get(i);
-                            clientsModel.setChecked(true);
-//                        selected_groups_list.set(j,documentsModel);
-                        }
-                    }
-                }
+//                for (int i = 0; i < corp_clients_list.size(); i++) {
+//                    for (int j = 0; j < selected_corp_clients_list.size(); j++) {
+//                        if (corp_clients_list.get(i).getClient_id().matches(selected_corp_clients_list.get(j).getClient_id())) {
+//                            ClientsModel clientsModel = corp_clients_list.get(i);
+//                            clientsModel.setChecked(true);
+////                        selected_groups_list.set(j,documentsModel);
+//                        }
+//                    }
+//                }
 //            for (int i = 0; i < corp_clients_list.size(); i++) {
 //                for (int j = 0; j < selected_corp_clients_list.size(); j++) {
 //                    if (corp_clients_list.get(i).getClient_id().matches(selected_corp_clients_list.get(j).getClient_id())) {
@@ -1340,20 +1333,27 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                }
 //            }
 
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                rv_display_upload_corp_client_docs.setLayoutManager(layoutManager);
-                rv_display_upload_corp_client_docs.setHasFixedSize(true);
-                ADAPTER_TAG = "Clients";
-                GroupsAdapter documentsAdapter;
-//            if (client_type.equals("corporate")) {
+                corp_clients_name.clear();
+                for (int i = 0; i < corp_clients_list.size(); i++) {
+                    ClientsModel clientsModel = corp_clients_list.get(i);
+                    corp_clients_name.add(clientsModel.getClient_name());
+                }
+                CommonSpinnerAdapter adapter = new CommonSpinnerAdapter(getActivity(), corp_clients_name);
+                sp_corp_client.setAdapter(adapter);
+//                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//                rv_display_upload_corp_client_docs.setLayoutManager(layoutManager);
+//                rv_display_upload_corp_client_docs.setHasFixedSize(true);
+//                ADAPTER_TAG = "Clients";
+//                GroupsAdapter documentsAdapter;
+////            if (client_type.equals("corporate")) {
+////                documentsAdapter = new GroupsAdapter(groupsList, corp_clients_list, tmList, new_groupsList, ADAPTER_TAG);
+////                rv_display_upload_client_docs.setAdapter(documentsAdapter);
+////            } else {
 //                documentsAdapter = new GroupsAdapter(groupsList, corp_clients_list, tmList, new_groupsList, ADAPTER_TAG);
-//                rv_display_upload_client_docs.setAdapter(documentsAdapter);
-//            } else {
-                documentsAdapter = new GroupsAdapter(groupsList, corp_clients_list, tmList, new_groupsList, ADAPTER_TAG);
-                rv_display_upload_corp_client_docs.setAdapter(documentsAdapter);
-//            }
-
-                GroupsAdapter finalDocumentsAdapter = documentsAdapter;
+//                rv_display_upload_corp_client_docs.setAdapter(documentsAdapter);
+////            }
+//
+//                GroupsAdapter finalDocumentsAdapter = documentsAdapter;
                 btn_add_corp_clients.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1369,16 +1369,16 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
 //                        }
 //                        selected_corp_clients_list.addAll(selected_groups_set);
 //                    } else {
-                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
-                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
-                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
-                            if (clientsModel.isChecked()) {
-                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-                                selected_groups_set.add(clientsModel);
-                            }
-                            selected_corp_clients_list.clear();
-                            selected_corp_clients_list.addAll(selected_groups_set);
-                        }
+//                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
+//                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
+//                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
+//                            if (clientsModel.isChecked()) {
+//                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
+//                                selected_groups_set.add(clientsModel);
+//                            }
+//                            selected_corp_clients_list.clear();
+//                            selected_corp_clients_list.addAll(selected_groups_set);
+//                        }
 //                    }
 //                    if(selected_corp_clients_list.size()==1)
 //                    {
@@ -1394,6 +1394,7 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             ll_selected_corp_clients.setVisibility(View.VISIBLE);
                             loadSelectedCorp_Clients();
                         }
+                        sp_corp_client.setVisibility(View.GONE);
                         ischecked_corp_client = true;
 //                    loadSelectedGroups();
                     }

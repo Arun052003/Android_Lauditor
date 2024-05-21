@@ -583,8 +583,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_header"
-                    android:layout_marginStart="@dimen/small_size"
-                    android:layout_marginEnd="@dimen/small_size"
+                    android:layout_marginStart="@dimen/left_space"
+                    android:layout_marginEnd="@dimen/left_space"
                     android:orientation="vertical"
                     android:padding="@dimen/small_size">
 
@@ -650,7 +650,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/Blue_text_color"
                         android:orientation="horizontal"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:padding="@dimen/left_space">
 
                         <ImageView
@@ -699,7 +699,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/small_size"
                     android:layout_below="@id/ll_opponent_advocate"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                 </LinearLayout>
 

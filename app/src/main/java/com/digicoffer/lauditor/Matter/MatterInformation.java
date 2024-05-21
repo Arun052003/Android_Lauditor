@@ -188,6 +188,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         btn_create = view.findViewById(R.id.btn_create);
         btn_create.setOnClickListener(this);
         ll_add_advocate = view.findViewById(R.id.ll_add_advocate);
+        ll_add_advocate.setVisibility(View.GONE);
         matter = (Matter) getParentFragment();
         tv_start_date.setInputType(InputType.TYPE_NULL);
         tv_end_date.setInputType(InputType.TYPE_NULL);
@@ -370,7 +371,7 @@ private void setupPagination()
                     int position=0;
                     if (v.getTag() instanceof Integer) {
                         position = (Integer) v.getTag();
-                        v = ll_add_advocate.getChildAt(position);
+                        v = ll_page_navigaiton.getChildAt(position);
 //                        ll_add_advocate.addView(view);
                         AdvocateModel advocateModel = advocates_list.get(pageNumber-1);
                         EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_advocate_phone,v);
@@ -728,9 +729,15 @@ private void setupPagination()
                         advocateModel.setEmail(tv_advocate_email.getText().toString());
                         advocateModel.setNumber(tv_advocate_phone.getText().toString());
                         advocates_list.add(advocateModel);
-                        ll_opponent_advocate.setVisibility(View.GONE);
-                        setupPagination();
+//                        ll_opponent_advocate.setVisibility(View.GONE);
+//                        setupPagination();
                         loadOpponentsList();
+                        tv_advocate_name.setText("");
+                        tv_advocate_email.setText("");
+                        tv_advocate_phone.setText("");
+                        tv_advocate_name.setError(null);
+                        tv_advocate_email.setError(null);
+                        tv_advocate_phone.setError(null);
                     }
                 }
             });
@@ -750,17 +757,26 @@ private void setupPagination()
         advocateModel.setNumber(adv_phone);
         advocates_list.set(position, advocateModel);
         tv_opponent_name = view_advocate.findViewById(R.id.tv_opponent_name);
-        tv_opponent_name.setText(advocateModel.getAdvocate_name());
+//        tv_opponent_name.setText(advocateModel.getAdvocate_name());
     }
 
     private void loadOpponentsList() {
-        ll_add_advocate.removeAllViews();
+        ll_page_navigaiton.removeAllViews();
         for (int i = 0; i < advocates_list.size(); i++) {
-            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
-            TextView tv_opponent_name = view_opponents.findViewById(R.id.tv_opponent_name);
-            tv_opponent_name.setText(advocates_list.get(i).getAdvocate_name());
-            ImageView iv_edit_opponent = view_opponents.findViewById(R.id.iv_edit_opponent);
-            ImageView iv_remove_opponent = view_opponents.findViewById(R.id.iv_remove_opponent);
+            //...
+            View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.page_number_layout, null);
+            Button pageButton = view_opponents.findViewById(R.id.page_number_button);
+            pageButton.setText(String.valueOf(i+1));
+            final int pageNumber = i+1;
+//            if (defaultButtonTint == null) {
+//                defaultButtonTint = pageButton.getBackgroundTintList();
+//            }
+            //...
+            View view_opponents1 = LayoutInflater.from(getContext()).inflate(R.layout.edit_opponent_advocate, null);
+            TextView tv_opponent_name = view_opponents1.findViewById(R.id.tv_opponent_name);
+//            tv_opponent_name.setText(advocates_list.get(i).getAdvocate_name());
+            ImageView iv_edit_opponent = view_opponents1.findViewById(R.id.iv_edit_opponent);
+            ImageView iv_remove_opponent = view_opponents1.findViewById(R.id.iv_remove_opponent);
             iv_remove_opponent.setTag(i);
             iv_remove_opponent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -787,13 +803,21 @@ private void setupPagination()
                 }
             });
             iv_edit_opponent.setTag(i);
-            iv_edit_opponent.setOnClickListener(new View.OnClickListener() {
+            pageButton.setTag(i);
+            pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (previousPageButton != null) {
+                        previousPageButton.setBackgroundTintList(whiteButtonTint);
+                    }
+                    greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
+                    whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
+                    // Set the background tint color of the clicked button to green
+                    pageButton.setBackgroundTintList(greenButtonTint);
                     int position = 0;
                     if (view.getTag() instanceof Integer) {
                         position = (Integer) view.getTag();
-                        view = ll_add_advocate.getChildAt(position);
+                        view = ll_page_navigaiton.getChildAt(position);
 //                        ll_add_advocate.addView(view);
                         AdvocateModel advocateModel = advocates_list.get(position);
                         EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, tv_opponent_name, view);
@@ -802,7 +826,7 @@ private void setupPagination()
                     }
                 }
             });
-            ll_add_advocate.addView(view_opponents);
+            ll_page_navigaiton.addView(view_opponents);
         }
     }
 
@@ -911,9 +935,15 @@ private void setupPagination()
 //                        tv_advocate_phone.requestFocus();
                     } else {
 //                        dialog.dismiss();
-                        ll_opponent_advocate.setVisibility(View.GONE);
+//                        ll_opponent_advocate.setVisibility(View.GONE);
                         loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate, tv_opponent_name);
 //                        loadOpponentsList(advocates_list);
+                        tv_advocate_name.setText("");
+                        tv_advocate_email.setText("");
+                        tv_advocate_phone.setText("");
+                        tv_advocate_name.setError(null);
+                        tv_advocate_email.setError(null);
+                        tv_advocate_phone.setError(null);
                     }
                 }
             });
