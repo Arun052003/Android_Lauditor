@@ -56,7 +56,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="-55dp"
                 android:contentDescription="@string/tag"
-                android:src="@drawable/cancel_white_icon" />
+                android:src="@drawable/cancel_icon" />
 
             <ImageView
                 android:layout_width="@dimen/forty_dp"

@@ -512,24 +512,15 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             @Override
             public void onClick(View view) {
                 if (ischecked_client) {
-//                    if (client_type.equals("corporate")) {
-////                        sp_corp_client.setVisibility(View.VISIBLE);
-//                    } else {
                     if (clientsList.isEmpty()) {
                         callClientsWebservice();
                     } else {
                         rv_display_upload_client_docs.setVisibility(View.VISIBLE);
                         ClientssPopUp();
                     }
-//                    }
                 } else {
-//                    if (client_type.equals("corporate")) {
-////                        sp_corp_client.setVisibility(View.GONE);
-//                    } else {
                     rv_display_upload_client_docs.setVisibility(View.GONE);
-//                    }
                 }
-                //  callClientsWebservice();
                 ischecked_client = !ischecked_client;
             }
         });
@@ -618,23 +609,8 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                             e.fillInStackTrace();
                         }
                     }
-                    if (matterModel.getCorp_clients_list() != null) {
-                        existing_corp_clients = matterModel.getCorp_clients_list();
-                        try {
-                            for (int p = 0; p < existing_corp_clients.length(); p++) {
-                                ClientsModel clientsModel = new ClientsModel();
-                                JSONObject jsonObject = existing_corp_clients.getJSONObject(p);
-                                clientsModel.setClient_id(jsonObject.getString("id"));
-                                clientsModel.setClient_name(jsonObject.getString("name"));
-                                clientsModel.setClient_type(jsonObject.getString("type"));
-                                selected_corp_clients_list.add(clientsModel);
-                            }
-                        } catch (JSONException e) {
-                            e.fillInStackTrace();
-                        }
-                    }
                     if (matterModel.getClients() != null) {
-                        existing_clients = matterModel.getCorp_clients_list();
+                        existing_clients = matterModel.getClients();
                         try {
                             for (int p = 0; p < existing_clients.length(); p++) {
                                 ClientsModel clientsModel = new ClientsModel();
@@ -658,6 +634,22 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                                 teamModel.setTm_name(jsonObject.getString("name"));
                                 teamModel.setUser_id(jsonObject.getString("user_id"));
                                 selected_tm_list.add(teamModel);
+                            }
+                        } catch (JSONException e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                    //Selected Corporate Clients list
+                    if (matterModel.getCorp_clients_list() != null) {
+                        existing_corp_clients = matterModel.getCorp_clients_list();
+                        try {
+                            for (int p = 0; p < existing_corp_clients.length(); p++) {
+                                ClientsModel clientsModel = new ClientsModel();
+                                JSONObject jsonObject = existing_corp_clients.getJSONObject(p);
+                                clientsModel.setClient_id(jsonObject.getString("id"));
+                                clientsModel.setClient_name(jsonObject.getString("name"));
+                                clientsModel.setClient_type(jsonObject.getString("type"));
+                                selected_corp_clients_list.add(clientsModel);
                             }
                         } catch (JSONException e) {
                             e.fillInStackTrace();
@@ -1482,18 +1474,6 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
             btn_add_clients.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    ArrayList<String>
-//                    if (client_type.equals("corporate")) {
-//                        Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
-//                        for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
-//                            ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
-//                            if (clientsModel.isChecked()) {
-//                                //                           jsonArray.put(selected_documents_list.get(i).getGroup_name());
-//                                selected_groups_set.add(clientsModel);
-//                            }
-//                        }
-//                        selected_corp_clients_list.addAll(selected_groups_set);
-//                    } else {
                     Set<ClientsModel> selected_groups_set = new HashSet<ClientsModel>();
                     for (int i = 0; i < finalDocumentsAdapter.getClientsList_item().size(); i++) {
                         ClientsModel clientsModel = finalDocumentsAdapter.getClientsList_item().get(i);
@@ -1504,15 +1484,9 @@ GCT extends Fragment implements View.OnClickListener, AsyncTaskCompleteListener 
                         selected_clients_list.clear();
                         selected_clients_list.addAll(selected_groups_set);
                     }
-//                    }
-//                    if(selected_corp_clients_list.size()==1)
-//                    {
-//                        selected_clients_list.addAll(selected_corp_clients_list);
-//                    }
                     if (!selected_clients_list.contains(selected_temp_clients_list)) {
                         selected_clients_list.addAll(selected_temp_clients_list);
                     }
-
                     ll_assign_team_members.setVisibility(View.VISIBLE);
                     ll_save_buttons.setVisibility(View.VISIBLE);
                     rv_display_upload_client_docs.setVisibility(View.GONE);

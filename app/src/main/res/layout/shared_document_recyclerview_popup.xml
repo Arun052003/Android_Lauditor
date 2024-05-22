@@ -59,7 +59,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/small_size"
-                        android:background="@drawable/cancel_white_icon"
+                        android:background="@drawable/cancel_icon"
                         android:fontFamily="@font/gill_sans"
                         android:padding="@dimen/small_size"
                         android:textColor="@color/black"

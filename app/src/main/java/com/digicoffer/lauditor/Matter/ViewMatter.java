@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -870,10 +871,6 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
                         viewMatterModel1.setUser_id(doc_obj.getString("user_id"));
                         existing_documents.add(viewMatterModel1);
                     }
-//                    for (int t=0;t<matterList.get(i).getTimesheets().length();t++){
-////                        JSONObject
-//                    }
-//                    for (int )
                 }
             } catch (JSONException e) {
                 e.fillInStackTrace();
@@ -887,17 +884,20 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
         try {
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.delete_relationship, null);
+            ImageView close_documents = view.findViewById(R.id.close_documents);
             TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
+            String reopen_msg = "Are you sure you want to ReOpen " + viewMatterModel.getTitle() + "?";
+            String close_msg = "Are you sure you want to Close " + viewMatterModel.getTitle() + "?";
+
             if (viewMatterModel.getStatus().equals("Closed")) {
-                tv_confirmation.setText("Are you sure you want to ReOpen " + viewMatterModel.getTitle() + "?");
+                tv_confirmation.setText(reopen_msg);
                 Matter_Status = "Active";
             } else {
-                tv_confirmation.setText("Are you sure you want to Close " + viewMatterModel.getTitle() + "?");
+                tv_confirmation.setText(close_msg);
                 Matter_Status = "Closed";
             }
-
             AppCompatButton bt_yes = view.findViewById(R.id.btn_yes);
             AppCompatButton btn_no = view.findViewById(R.id.btn_No);
             final AlertDialog dialog = dialogBuilder.create();
@@ -905,6 +905,12 @@ public class ViewMatter extends Fragment implements AsyncTaskCompleteListener, V
             btn_no.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            close_documents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     dialog.dismiss();
                 }
             });

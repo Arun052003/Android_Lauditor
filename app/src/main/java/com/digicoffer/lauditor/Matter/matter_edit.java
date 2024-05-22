@@ -56,6 +56,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -65,7 +66,6 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -73,7 +73,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-
 
     //Adding all the filed items in edit matter page
     ViewMatterModel viewMatterModel1 = new ViewMatterModel();
@@ -85,32 +84,18 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     AppCompatButton tv_start_date, tv_end_date, tv_dof;
     TextView description_name, court, judge, Title, datefill, start_date, closedate, priority, status, addopponentadvocate, m_c_number, m_c_type;
     private String mParam2;
-    //    JSONArray member=new JSONArray();
-    MatterInformation matterInformation;
-    int maxPageButtons;
+    private List<TextView> pagebuttons = new ArrayList<>();
     private int currentPage = 1;
     private int pageNumber;
-    private Button previousPageButton;
-    private ColorStateList greenButtonTint, whiteButtonTint;
-    LinearLayoutCompat ll_save_buttons;
     private Calendar finalMyCalendar = Calendar.getInstance();
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-    ArrayList<ViewMatterModel> existing_clients = new ArrayList<>();
-    ArrayList<ViewMatterModel> existing_documents = new ArrayList<>();
-    ArrayList<ViewMatterModel> existing_members = new ArrayList<>();
-    ArrayList<ViewMatterModel> existing_advocates = new ArrayList<>();
-    ArrayList<ViewMatterModel> existing_groups = new ArrayList<>();
     ConstraintLayout edit_matter_info;
     CardView cv_client_details;
     String CASE_PRIORITY = "High";
     String STATUS = "Active";
-    String DATE_ROLE = "";
     ShapeableImageView edit_matter_page_icon;
     TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, tv_view_matter, edit_matter_page_txt;
     AppCompatButton btn_cancel_save, btn_create, btn_add_advocate;
     LinearLayout ll_start_date, ll_end_date, ll_court, ll_judge, ll_dof;
-    Matter matter;
-    //    private NewModel mViewModel;
     LinearLayoutCompat ll_header;
     LinearLayout ll_add_advocate;
     ViewMatter viewMatter1;
@@ -123,20 +108,13 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     JSONArray groups = new JSONArray();
     JSONArray group_acls = new JSONArray();
     JSONArray advocates = new JSONArray();
-
     LinearLayout ll_page_navigaiton, pageNumberLayout;
     HorizontalScrollView scrollView;
-
-
-    private int selectedYear, selectedMonth, selectedDay;
-    ArrayList<MatterModel> matterArraylist;
-    //   MatterModel matterModel_info = new MatterModel();
     TextView advocate_title, advocate_email, advocate_phone;
 
     LinearLayout ll_opponent_advocate;
     TextInputEditText tv_advocate_name, tv_advocate_email, tv_advocate_phone;
     AppCompatButton btn_cancel_tag, btn_save_tag;
-    EditMatterTimeline editMatterTimeline;
     ImageView iv_backward_button, iv_forward_button;
 
     public matter_edit(ViewMatterModel viewMatterModel, ViewMatter viewMatter) {
@@ -176,7 +154,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         ll_opponent_advocate.setVisibility(View.GONE);
         btn_save_tag = view.findViewById(R.id.btn_save_tag);
         ll_page_navigaiton = view.findViewById(R.id.ll_page_navigaiton);
-        scrollView = view.findViewById(R.id.scrollView);
+        scrollView = view.findViewById(R.id.PageScrollView);
         pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
         iv_backward_button = view.findViewById(R.id.iv_backward_button);
         iv_forward_button = view.findViewById(R.id.iv_forward_button);
@@ -446,9 +424,10 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             @Override
             public void onClick(View v) {
                 if (currentPage < pageNumber - 1) {
-                    currentPage = currentPage + 1;
+                    currentPage++;
                     AdvocateModel advocateModel = advocates_list.get(currentPage);
                     EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                    UpdatePageButton(currentPage);
                 } else {
                     AndroidUtils.showAlert("Index ended", getContext());
                 }
@@ -458,9 +437,10 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             @Override
             public void onClick(View v) {
                 if (currentPage > 0) {
-                    currentPage = currentPage - 1;
+                    currentPage--;
                     AdvocateModel advocateModel = advocates_list.get(currentPage);
                     EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                    UpdatePageButton(currentPage);
                 } else {
                     AndroidUtils.showAlert("Index ended", getContext());
                 }
@@ -519,8 +499,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 
     private void loadOpponentsList() {
         pageNumberLayout.removeAllViews();
-//        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
-//        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
+        pagebuttons.clear();
         for (int i = 0; i < advocates_list.size(); i++) {
             //...
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.weekly_view_dates, null);
@@ -528,39 +507,41 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             pageButton.setText(String.valueOf(i + 1));
             pageButton.setPadding(20, 15, 20, 15);
             pageNumber = i + 1;
+
             currentPage = pageNumber;
-            if (currentPage == advocates_list.size()) {
-                pageButton.setTextColor(getActivity().getColor(R.color.white));
-                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
-            } else {
-                pageButton.setTextColor(getActivity().getColor(R.color.black));
-                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
-            }
-//            if (defaultButtonTint == null) {
-//                defaultButtonTint = pageButton.getBackgroundTintList();
-//            }
-            //...
             pageButton.setTag(i);
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // Set the background tint color of the clicked button to green
-                    pageButton.setBackgroundTintList(greenButtonTint);
                     int position = 0;
                     if (view.getTag() instanceof Integer) {
                         position = (Integer) view.getTag();
                         view = ll_page_navigaiton.getChildAt(position);
 //                        ll_add_advocate.addView(view);
                         currentPage = position;
-                        pageButton.setBackground(getActivity().getDrawable(R.color.green_count_color));
                         AdvocateModel advocateModel = advocates_list.get(position);
                         EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, view);
-//                        loadAdvocateUI();
-//                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
+                        UpdatePageButton(currentPage);
                     }
                 }
             });
+            pagebuttons.add(pageButton);
             pageNumberLayout.addView(view_opponents);
+        }
+        UpdatePageButton(currentPage);
+    }
+
+    private void UpdatePageButton(int currentPage) {
+        for (int i = 0; i < pagebuttons.size(); i++) {
+            TextView pageButton = pagebuttons.get(i);
+            if (i == currentPage) {
+                pageButton.setTextColor(getActivity().getColor(R.color.white));
+                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+            } else {
+                pageButton.setTextColor(getActivity().getColor(R.color.black));
+                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
         }
     }
 

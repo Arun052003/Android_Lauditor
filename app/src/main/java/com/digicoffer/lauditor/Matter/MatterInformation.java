@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -29,6 +30,7 @@ import androidx.fragment.app.Fragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -53,21 +55,17 @@ import java.util.Objects;
 public class MatterInformation extends Fragment implements View.OnClickListener {
     TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;
     AppCompatButton tv_start_date, tv_end_date, tv_dof;
+
+    private List<TextView> pagebuttons = new ArrayList<>();
     TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, Title, datefill, start_date, closedate, court, judge, priority, status, addopponentadvocate, name;
     Button btn_add_advocate, btn_cancel_edit;
-    int maxPageButtons;
     private int currentPage = 1;
     private int pageNumber;
-    private Button previousPageButton;
-    private ColorStateList greenButtonTint, whiteButtonTint;
     LinearLayout ll_page_navigaiton, pageNumberLayout;
     HorizontalScrollView scrollView;
     ArrayList<AdvocateModel> advocates_list = new ArrayList<>();
 
-
-    private int selectedYear, selectedMonth, selectedDay;
     ArrayList<MatterModel> matterArraylist;
-    //   MatterModel matterModel_info = new MatterModel();
     Matter matter;
     TextView m_c_number, m_c_type, description_name;
     AppCompatButton btn_cancel_save, btn_create;
@@ -100,7 +98,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
         btn_save_tag = view.findViewById(R.id.btn_save_tag);
         ll_page_navigaiton = view.findViewById(R.id.ll_page_navigaiton);
         ll_page_navigaiton.setVisibility(View.GONE);
-        scrollView = view.findViewById(R.id.scrollView);
+        scrollView = view.findViewById(R.id.PageScrollView);
         pageNumberLayout = view.findViewById(R.id.pageNumberLayout);
         iv_backward_button = view.findViewById(R.id.iv_backward_button);
         iv_backward_button.setVisibility(View.VISIBLE);
@@ -317,9 +315,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 if (currentPage < pageNumber - 1) {
-                    currentPage = currentPage + 1;
+                    currentPage++;
                     AdvocateModel advocateModel = advocates_list.get(currentPage);
                     EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                    UpdatePageButton(currentPage);
                 } else {
                     AndroidUtils.showAlert("Index ended", getContext());
                 }
@@ -329,9 +328,10 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 if (currentPage > 0) {
-                    currentPage = currentPage - 1;
+                    currentPage--;
                     AdvocateModel advocateModel = advocates_list.get(currentPage);
                     EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
+                    UpdatePageButton(currentPage);
                 } else {
                     AndroidUtils.showAlert("Index ended", getContext());
                 }
@@ -696,8 +696,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
     private void loadOpponentsList() {
         pageNumberLayout.removeAllViews();
-//        greenButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.green_count_color));
-//        whiteButtonTint = ColorStateList.valueOf(getResources().getColor(R.color.Blue_text_color));
+        pagebuttons.clear();
         for (int i = 0; i < advocates_list.size(); i++) {
             //...
             View view_opponents = LayoutInflater.from(getContext()).inflate(R.layout.weekly_view_dates, null);
@@ -705,18 +704,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             pageButton.setText(String.valueOf(i + 1));
             pageButton.setPadding(20, 15, 20, 15);
             pageNumber = i + 1;
+
             currentPage = pageNumber;
-            if (currentPage == advocates_list.size()) {
-                pageButton.setTextColor(getActivity().getColor(R.color.white));
-                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
-            } else {
-                pageButton.setTextColor(getActivity().getColor(R.color.black));
-                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
-            }
-//            if (defaultButtonTint == null) {
-//                defaultButtonTint = pageButton.getBackgroundTintList();
-//            }
-            //...
             pageButton.setTag(i);
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -728,20 +717,28 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                         view = ll_page_navigaiton.getChildAt(position);
 //                        ll_add_advocate.addView(view);
                         currentPage = position;
-                        pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
-                        if (currentPage == position) {
-                            pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
-                        } else {
-                            pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
-                        }
                         AdvocateModel advocateModel = advocates_list.get(position);
                         EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), position, view);
-//                        loadAdvocateUI();
-//                        edit_tags(documentsModel1.getTag_type(), documentsModel1.getTag_name(), position, view, tv_tag_document_name);
+                        UpdatePageButton(currentPage);
                     }
                 }
             });
+            pagebuttons.add(pageButton);
             pageNumberLayout.addView(view_opponents);
+        }
+        UpdatePageButton(currentPage);
+    }
+
+    private void UpdatePageButton(int currentPage) {
+        for (int i = 0; i < pagebuttons.size(); i++) {
+            TextView pageButton = pagebuttons.get(i);
+            if (i == currentPage) {
+                pageButton.setTextColor(getActivity().getColor(R.color.white));
+                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+            } else {
+                pageButton.setTextColor(getActivity().getColor(R.color.black));
+                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
         }
     }
 
