@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -150,7 +151,7 @@ public class CreateEvent extends Fragment implements AsyncTaskCompleteListener, 
     ListView sp_project, sp_matter_name, sp_task, sp_time_zone, sp_repetetion, sp_entities, sp_minutes;
     boolean ischecked_project = true, ischecked_matter = true, ischecked_task = true, ischecked_time = true, ischecked_repetetion = true, is_notify = true, is_entities = true, is_clicked_team = true, is_clicked_clients = true, is_clicked_individuals = true, is_clicked_documents = true;
     AppCompatButton tv_event_creation_date, tv_event_start_time, tv_event_end_time;
-    NestedScrollView scrollView;
+    ScrollView scrollView;
     private String selected_project;
     private String selected_task;
     private String entity_id;

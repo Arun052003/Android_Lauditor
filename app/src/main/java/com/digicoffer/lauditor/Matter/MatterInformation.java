@@ -55,11 +55,11 @@ import java.util.Objects;
 public class MatterInformation extends Fragment implements View.OnClickListener {
     TextInputEditText tv_matter_title, tv_matter_num, tv_case_type, tv_matter_description, tv_court, tv_judge;
     AppCompatButton tv_start_date, tv_end_date, tv_dof;
-
     private List<TextView> pagebuttons = new ArrayList<>();
     TextView tv_high_priority, tv_medium_priority, tv_low_priority, tv_status_active, tv_status_pending, Title, datefill, start_date, closedate, court, judge, priority, status, addopponentadvocate, name;
     Button btn_add_advocate, btn_cancel_edit;
     private int currentPage = 1;
+    private int end_index;
     private int pageNumber;
     LinearLayout ll_page_navigaiton, pageNumberLayout;
     HorizontalScrollView scrollView;
@@ -292,6 +292,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 
                         }
                         loadOpponentsList();
+                        loadActiveUI();
                     } catch (Exception e) {
                         e.fillInStackTrace();
                         AndroidUtils.showAlert(e.getMessage(), getContext());
@@ -554,12 +555,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     private void loadAdvocateUI() {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
-            tv_advocate_name.setText("");
-            tv_advocate_email.setText("");
-            tv_advocate_phone.setText("");
-            tv_advocate_name.setError(null);
-            tv_advocate_email.setError(null);
-            tv_advocate_phone.setError(null);
+            RefreshAdvocateView();
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -666,12 +662,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 //                        setupPagination();
                         loadOpponentsList();
                         ll_page_navigaiton.setVisibility(View.VISIBLE);
-                        tv_advocate_name.setText("");
-                        tv_advocate_email.setText("");
-                        tv_advocate_phone.setText("");
-                        tv_advocate_name.setError(null);
-                        tv_advocate_email.setError(null);
-                        tv_advocate_phone.setError(null);
+                        RefreshAdvocateView();
                     }
                 }
             });
@@ -704,8 +695,15 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             pageButton.setText(String.valueOf(i + 1));
             pageButton.setPadding(20, 15, 20, 15);
             pageNumber = i + 1;
-
+            if (pageNumber == advocates_list.size()) {
+                pageButton.setTextColor(getActivity().getColor(R.color.white));
+                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+            } else {
+                pageButton.setTextColor(getActivity().getColor(R.color.black));
+                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
             currentPage = pageNumber;
+
             pageButton.setTag(i);
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -726,7 +724,6 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             pagebuttons.add(pageButton);
             pageNumberLayout.addView(view_opponents);
         }
-        UpdatePageButton(currentPage);
     }
 
     private void UpdatePageButton(int currentPage) {
@@ -745,12 +742,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
     private void EditAdvocateUI(String advocate_name, String email, String number, int position, View view_advocate) {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
-            tv_advocate_name.setText("");
-            tv_advocate_email.setText("");
-            tv_advocate_phone.setText("");
-            tv_advocate_name.setError(null);
-            tv_advocate_email.setError(null);
-            tv_advocate_phone.setError(null);
+            RefreshAdvocateView();
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -850,13 +842,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
 //                        ll_opponent_advocate.setVisibility(View.GONE);
                         loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate);
 //                        loadOpponentsList(advocates_list);
-                        tv_advocate_name.setText("");
-                        tv_advocate_email.setText("");
-                        tv_advocate_phone.setText("");
-                        tv_advocate_name.setError(null);
-                        tv_advocate_email.setError(null);
-                        tv_advocate_phone.setError(null);
-                        btn_add_advocate.performClick();
+                        RefreshAdvocateView();
+                        loadAdvocateUI();
                     }
                 }
             });
@@ -867,6 +854,15 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
             e.fillInStackTrace();
             AndroidUtils.showAlert(e.getMessage(), getContext());
         }
+    }
+
+    private void RefreshAdvocateView() {
+        tv_advocate_name.setText("");
+        tv_advocate_email.setText("");
+        tv_advocate_phone.setText("");
+        tv_advocate_name.setError(null);
+        tv_advocate_email.setError(null);
+        tv_advocate_phone.setError(null);
     }
 
     private void loadActiveUI() {

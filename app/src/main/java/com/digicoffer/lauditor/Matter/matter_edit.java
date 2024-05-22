@@ -507,8 +507,15 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             pageButton.setText(String.valueOf(i + 1));
             pageButton.setPadding(20, 15, 20, 15);
             pageNumber = i + 1;
-
+            if (pageNumber == advocates_list.size()) {
+                pageButton.setTextColor(getActivity().getColor(R.color.white));
+                pageButton.setBackground(getActivity().getDrawable(R.drawable.rectangular_button_green_count));
+            } else {
+                pageButton.setTextColor(getActivity().getColor(R.color.black));
+                pageButton.setBackground(getActivity().getDrawable(com.applandeo.materialcalendarview.R.drawable.background_transparent));
+            }
             currentPage = pageNumber;
+
             pageButton.setTag(i);
             pageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -529,7 +536,6 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             pagebuttons.add(pageButton);
             pageNumberLayout.addView(view_opponents);
         }
-        UpdatePageButton(currentPage);
     }
 
     private void UpdatePageButton(int currentPage) {
@@ -545,7 +551,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
         }
     }
 
-    private void add_new_advocate() {
+    private void RefreshAdvocateView() {
         tv_advocate_name.setText("");
         tv_advocate_email.setText("");
         tv_advocate_phone.setText("");
@@ -557,7 +563,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private void EditAdvocateUI(String advocate_name, String email, String number, int position, View view_advocate) {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
-            add_new_advocate();
+            RefreshAdvocateView();
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -657,7 +663,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 //                        ll_opponent_advocate.setVisibility(View.GONE);
                         loadEditedData(tv_advocate_name.getText().toString(), tv_advocate_email.getText().toString(), tv_advocate_phone.getText().toString(), position, view_advocate);
 //                        loadOpponentsList(advocates_list);
-                        add_new_advocate();
+                        RefreshAdvocateView();
                         btn_add_advocate.performClick();
                     }
                 }
@@ -674,7 +680,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
     private void loadAdvocateUI() {
         try {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
-            add_new_advocate();
+            RefreshAdvocateView();
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 //            LayoutInflater inflater = requireActivity().getLayoutInflater();
 //            View view = inflater.inflate(R.layout.add_opponent_advocate, null);
@@ -781,7 +787,7 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
 //                        setupPagination();
                         loadOpponentsList();
                         ll_page_navigaiton.setVisibility(View.VISIBLE);
-                        add_new_advocate();
+                        RefreshAdvocateView();
                     }
                 }
             });
@@ -962,7 +968,8 @@ public class matter_edit extends Fragment implements AsyncTaskCompleteListener {
             ll_opponent_advocate.setVisibility(View.VISIBLE);
             loadOpponentsList();
             ll_page_navigaiton.setVisibility(View.VISIBLE);
-            add_new_advocate();
+            RefreshAdvocateView();
+            loadAdvocateUI();
         } else {
             ll_opponent_advocate.setVisibility(View.GONE);
         }

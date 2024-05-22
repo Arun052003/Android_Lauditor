@@ -87,7 +87,7 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_marginLeft="-25dp"
-                        android:background="@drawable/cancel_red_icon"></ImageView>
+                        android:background="@drawable/cancel_red_icon"/>
                 </LinearLayout>
 
                 <include

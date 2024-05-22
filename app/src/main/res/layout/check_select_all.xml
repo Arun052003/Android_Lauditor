@@ -5,7 +5,7 @@
     android:layout_margin="@dimen/left_space"
     android:background="@drawable/rectangle_light_grey_bg"
     android:gravity="center"
-    android:padding="@dimen/left_space">
+    android:padding="@dimen/small_size">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="@dimen/twenty_five"
