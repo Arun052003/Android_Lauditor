@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="50dp"
+        android:paddingStart="@dimen/Fifty_dp"
         android:paddingTop="@dimen/twenty_dp"
-        android:paddingEnd="50dp"
+        android:paddingEnd="@dimen/Fifty_dp"
         tools:ignore="MissingConstraints">
 
 
@@ -74,7 +74,7 @@
 
             <include
                 layout="@layout/astrick_layout"
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:layout_marginTop="@dimen/small_size"
                 android:layout_marginRight="4dp" />
@@ -121,7 +121,7 @@
 
         <include
             layout="@layout/astrick_layout"
-            android:layout_width="15dp"
+            android:layout_width="@dimen/Fifteen_dp"
             android:layout_height="@dimen/small_size"
             android:layout_marginTop="@dimen/small_size"
             android:layout_marginRight="4dp" />
@@ -146,10 +146,10 @@
                 android:background="@drawable/rectangle_light_grey_bg"
                 android:drawableRight="@drawable/down_arrow"
                 android:fontFamily="@font/gill_sans"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:text="Select Groups"
                 android:textColor="@android:color/black"
-                android:textSize="15dp" />
+                android:textSize="@dimen/Fifteen_dp" />
 
             <include
                 android:id="@+id/rv_display_upload_groups_docs"

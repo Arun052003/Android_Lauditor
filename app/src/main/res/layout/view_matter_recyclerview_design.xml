@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:elevation="50dp"
+        android:elevation="@dimen/Fifty_dp"
         android:padding="@dimen/left_space"
         android:visibility="visible"
         app:cardCornerRadius="@dimen/left_space"
@@ -25,7 +25,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/Fifteen_dp"
             android:layout_marginBottom="@dimen/left_space"
             android:padding="@dimen/left_space">
 
@@ -84,7 +84,7 @@
                 android:layout_below="@id/tv_matter_title"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/twenty_dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/Fifteen_dp"
                 android:layout_marginEnd="@dimen/small_size"
                 android:layout_marginBottom="@dimen/small_size"
                 android:layout_toStartOf="@+id/tv_case_number"
@@ -207,7 +207,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="false"
                 android:text="@string/profile"
                 android:textSize="@dimen/small_size" />
@@ -221,7 +221,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="false"
                 android:text="@string/share_document"
                 android:textSize="@dimen/small_size" />
@@ -235,7 +235,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="false"
                 android:text="@string/share_matter"
                 android:textSize="@dimen/small_size" />
@@ -250,7 +250,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="@string/chat"
                 android:textSize="@dimen/small_size" />
@@ -263,7 +263,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="@dimen/left_space"
-            android:elevation="50dp"
+            android:elevation="@dimen/Fifty_dp"
             android:padding="@dimen/left_space"
             android:visibility="gone"
             app:cardCornerRadius="@dimen/left_space"
@@ -430,7 +430,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:singleLine="true"
                     android:text="@string/shared_with_us"
                     android:textSize="@dimen/Fifteen_dp" />
@@ -443,7 +443,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:singleLine="true"
                     android:text="@string/shared_by_us"
                     android:textSize="@dimen/Fifteen_dp" />
@@ -451,8 +451,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_share_docs"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_margin="@dimen/small_size"
                 android:layout_toEndOf="@id/shared_status"
                 android:src="@mipmap/share_icon_round"
@@ -483,7 +483,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="@string/already_shared"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -496,7 +496,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="@string/choose_to_share"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -524,7 +524,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="@string/client_document"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -538,7 +538,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="@string/firm_document"
                 android:textSize="@dimen/Fifteen_dp" />

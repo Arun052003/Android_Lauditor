@@ -17,8 +17,8 @@
     app:layout_constraintBottom_toBottomOf="parent">
         <Button
             android:id="@+id/page_number_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/Fifty_dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:textSize="@dimen/small_size"
             android:text="20"
 

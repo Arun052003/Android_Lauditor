@@ -145,13 +145,13 @@
                         android:id="@+id/tv_add_client"
                         layout="@layout/rsvp_tv_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp" />
+                        android:layout_height="@dimen/Fifty_dp" />
 
                     <include
                         android:id="@+id/tv_temp_client"
                         layout="@layout/rsvp_tv_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="@dimen/Fifty_dp"
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp" />
 
@@ -159,7 +159,7 @@
                         android:id="@+id/tv_corp_client"
                         layout="@layout/rsvp_tv_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp" />
+                        android:layout_height="@dimen/Fifty_dp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <LinearLayout

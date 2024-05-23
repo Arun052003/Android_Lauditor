@@ -111,13 +111,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        tet_email.setText("soundarya.v@digicoffer.com");
 //        tet_email.setText("rajendra.sai@digicoffer.com");
 //        tet_email.setText("soundaryavembaiyan@yahoo.com");
-//        tet_email.setText("akhila.bs@lauditor.com");
+        tet_email.setText("akhila.bs@lauditor.com");
 
 //        tet_email.setText("ragifi5243@jalunaki.com"); -- Only Dev2
 //        tet_email.setText("vengadeshwaran82@gmail.com");
 //        -- Only Staging
-//        tet_password.setText("Test@123");
-//        Login();
+        tet_password.setText("Test@123");
+        Login();
 
         // Initialize the button state  // Initially disabled
         checkFieldsNotEmpty();

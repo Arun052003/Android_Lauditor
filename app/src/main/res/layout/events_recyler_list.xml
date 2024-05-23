@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/left_space"
-        android:elevation="50dp"
+        android:elevation="@dimen/Fifty_dp"
         android:padding="@dimen/left_space"
         android:visibility="visible"
         app:cardCornerRadius="@dimen/small_size"
@@ -122,7 +122,7 @@
 
                     android:background="@drawable/button_left_green_round_background"
                     android:fontFamily="@font/gill_sans"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:text="Yes"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -136,7 +136,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/radiobutton_centre_background"
                     android:fontFamily="@font/gill_sans"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:text="No"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">
@@ -150,7 +150,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_right_round_background"
                     android:fontFamily="@font/gill_sans"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:text="Maybe"
                     android:textColor="@color/black"
                     android:textSize="@dimen/Fifteen_dp">

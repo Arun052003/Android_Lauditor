@@ -36,7 +36,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="Add Relationship"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -54,7 +54,7 @@
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="@string/view_relationships"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -89,7 +89,7 @@
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="Individual"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -105,7 +105,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:textStyle="bold"
                 android:text="Entity"
@@ -139,7 +139,7 @@
                 android:gravity="center"
                 android:layout_marginRight="1dp"
 
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:textColor="@color/white"
                 android:singleLine="true"
                 android:text="Individual"
@@ -156,7 +156,7 @@
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="@dimen/Fifteen_dp"
                 android:singleLine="true"
                 android:text="Business"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -241,7 +241,7 @@
                         android:scrollHorizontally="true"
                         android:textSize="20dp"
 
-                        android:padding="15dp"
+                        android:padding="@dimen/Fifteen_dp"
                         android:background="@drawable/rectangular_grey_background"
                         />
 
@@ -531,7 +531,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tl_individual_country"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="@dimen/Fifty_dp"
                             android:background="@drawable/rectangle_light_grey_bg"
                             app:boxBackgroundMode="none"
                             android:textColorHint="@color/black">
@@ -540,7 +540,7 @@
                             <Spinner
                                 android:id="@+id/sp_country"
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="@dimen/Fifty_dp"
 
                                 android:spinnerMode="dropdown"
                                 />

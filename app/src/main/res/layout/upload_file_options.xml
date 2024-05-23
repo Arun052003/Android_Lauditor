@@ -57,7 +57,7 @@
                 <!--                    android:padding="@dimen/left_space"-->
                 <!--                    android:text="@string/careplan"-->
                 <!--                    android:textColor="@color/textcolor_san_heavy"-->
-                <!--                    android:textSize="15dp" />-->
+                <!--                    android:textSize="@dimen/Fifteen_dp" />-->
 
 
             </androidx.cardview.widget.CardView>
@@ -103,7 +103,7 @@
             <!--                    android:padding="@dimen/left_space"-->
             <!--                    android:text="@string/careplan"-->
             <!--                    android:textColor="@color/textcolor_san_heavy"-->
-            <!--                    android:textSize="15dp" />-->
+            <!--                    android:textSize="@dimen/Fifteen_dp" />-->
 
 
         </androidx.cardview.widget.CardView>
@@ -150,7 +150,7 @@
             <!--                    android:padding="@dimen/left_space"-->
             <!--                    android:text="@string/careplan"-->
             <!--                    android:textColor="@color/textcolor_san_heavy"-->
-            <!--                    android:textSize="15dp" />-->
+            <!--                    android:textSize="@dimen/Fifteen_dp" />-->
 
 
         </androidx.cardview.widget.CardView>
@@ -213,7 +213,7 @@
                 <!--                    android:padding="@dimen/left_space"-->
                 <!--                    android:text="@string/careplan"-->
                 <!--                    android:textColor="@color/textcolor_san_heavy"-->
-                <!--                    android:textSize="15dp" />-->
+                <!--                    android:textSize="@dimen/Fifteen_dp" />-->
 
 
             </androidx.cardview.widget.CardView>

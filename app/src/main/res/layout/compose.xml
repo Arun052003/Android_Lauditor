@@ -42,8 +42,8 @@
 
                 <ImageView
                     android:id="@+id/close_comp_id"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/Fifty_dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_gravity="end"
                     android:padding="@dimen/eight_dp"
                     android:src="@drawable/simple_icons"
@@ -170,7 +170,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:layout_gravity="start"
             android:background="@drawable/rectangle_light_grey_bg">
 

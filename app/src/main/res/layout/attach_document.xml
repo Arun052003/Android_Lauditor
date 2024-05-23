@@ -14,7 +14,7 @@
         android:id="@+id/matter_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="@dimen/Fifteen_dp"
         android:background="@color/white"
         android:enabled="false"
         android:fontFamily="@font/gill_sans"
@@ -71,7 +71,7 @@
 
             <include
                 layout="@layout/astrick_layout"
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:layout_marginTop="@dimen/small_size"
                 android:layout_marginRight="4dp" />
@@ -119,7 +119,7 @@
 
         <include
             layout="@layout/astrick_layout"
-            android:layout_width="15dp"
+            android:layout_width="@dimen/Fifteen_dp"
             android:layout_height="@dimen/small_size"
             android:layout_marginTop="@dimen/eight_dp" />
 
@@ -147,10 +147,10 @@
             android:background="@drawable/rectangle_light_grey_bg"
             android:drawableRight="@drawable/down_arrow"
             android:fontFamily="@font/gill_sans"
-            android:padding="15dp"
+            android:padding="@dimen/Fifteen_dp"
             android:text="Select Groups"
             android:textColor="@color/black"
-            android:textSize="15dp"
+            android:textSize="@dimen/Fifteen_dp"
  />
 
         <!-- RecyclerView for displaying groups -->
@@ -190,7 +190,7 @@
             android:drawableEnd="@drawable/search_groups"
             android:imeOptions="actionDone"
             android:inputType="textFilter"
-            android:padding="15dp"
+            android:padding="@dimen/Fifteen_dp"
 
             android:hint="Search"
             tools:ignore="SpeakableTextPresentCheck" />

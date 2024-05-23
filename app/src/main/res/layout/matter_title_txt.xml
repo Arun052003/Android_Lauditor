@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/matter_info"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="@dimen/Fifty_dp"
     android:fontFamily="@font/gill_sans"
     android:gravity="center"
     android:text="@string/matter_information"

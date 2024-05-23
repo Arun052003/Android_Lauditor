@@ -72,7 +72,7 @@
                 android:padding="2dp"
                 android:text="Read"
                 android:textColor="@android:color/white"
-                android:textSize="15dp" />
+                android:textSize="@dimen/Fifteen_dp" />
 
             <ImageView
                 android:id="@+id/btn_delete_all"

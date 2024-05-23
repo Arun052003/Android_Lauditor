@@ -41,7 +41,7 @@
             android:id="@+id/mandatory_end_date"
             layout="@layout/astrick_layout"
             android:layout_width="@dimen/small_size"
-            android:layout_height="15dp"
+            android:layout_height="@dimen/Fifteen_dp"
             android:layout_toEndOf="@id/to_date" />
     </RelativeLayout>
 

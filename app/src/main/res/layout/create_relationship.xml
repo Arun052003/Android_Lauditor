@@ -10,7 +10,7 @@
     android:button="@android:color/transparent"
     android:fontFamily="@font/gill_sans"
     android:gravity="center"
-    android:padding="15dp"
+    android:padding="@dimen/Fifteen_dp"
     android:singleLine="true"
     android:text="@string/add_relationships"
     android:textSize="@dimen/Fifteen_dp" />

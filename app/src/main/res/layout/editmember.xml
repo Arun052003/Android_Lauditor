@@ -38,7 +38,7 @@
             </TextView>
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
@@ -79,7 +79,7 @@
             </TextView>
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
@@ -157,7 +157,7 @@
                     </TextView>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="@dimen/Fifteen_dp"
                         android:layout_height="@dimen/small_size"
                         android:src="@drawable/asterisk_icon">
                     </ImageView>
@@ -199,7 +199,7 @@
             </TextView>
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>
@@ -239,7 +239,7 @@
             </TextView>
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
             </ImageView>

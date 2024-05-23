@@ -25,6 +25,7 @@
             layout="@layout/grp_name_layout" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/chk_box_layout"
             android:layout_width="@dimen/twenty_five"
             android:layout_height="@dimen/twenty_five"
             android:layout_gravity="center"

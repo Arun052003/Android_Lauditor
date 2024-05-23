@@ -31,7 +31,7 @@
             </TextView>
 
             <ImageView
-                android:layout_width="15dp"
+                android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:src="@drawable/asterisk_icon">
 
@@ -42,7 +42,7 @@
         <RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:layout_marginRight="3dp"
             android:gravity="center"
             android:layout_margin="@dimen/small_size"
@@ -54,7 +54,7 @@
             <Spinner
                 android:id="@+id/sp_project"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/Fifty_dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"

@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/header_name"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:layout_gravity="bottom"
             android:layout_marginStart="@dimen/small_size"
             android:layout_marginEnd="@dimen/left_space"

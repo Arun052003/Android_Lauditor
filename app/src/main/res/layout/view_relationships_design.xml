@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/left_space"
-            android:elevation="50dp"
+            android:elevation="@dimen/Fifty_dp"
             android:layout_margin="@dimen/left_space"
             android:padding="@dimen/left_space"
             android:visibility="visible"
@@ -168,8 +168,8 @@
 
                     <ImageView
                         android:id="@+id/iv_groups_relationships"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/Fifty_dp"
+                        android:layout_height="@dimen/Fifty_dp"
                         android:layout_margin="@dimen/left_space"
                         android:src="@drawable/three_grp_icon"
 
@@ -234,11 +234,11 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:layout_weight="1"
                     android:singleLine="false"
                     android:text="@string/profile"
-                    android:textSize="15dp" />
+                    android:textSize="@dimen/Fifteen_dp" />
 
 
 
@@ -250,11 +250,11 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:layout_weight="1"
                     android:singleLine="false"
                     android:text="@string/share_document"
-                    android:textSize="15dp" />
+                    android:textSize="@dimen/Fifteen_dp" />
 
 
 
@@ -266,7 +266,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:layout_weight="1"
                     android:singleLine="false"
                     android:visibility="gone"
@@ -284,7 +284,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:layout_weight="1"
                     android:singleLine="true"
                     android:text="Chat"
@@ -297,7 +297,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="@dimen/left_space"
-                android:elevation="50dp"
+                android:elevation="@dimen/Fifty_dp"
                 android:layout_margin="@dimen/left_space"
                 android:padding="@dimen/left_space"
                 android:visibility="visible"
@@ -502,7 +502,7 @@
                         android:button="@android:color/transparent"
                         android:fontFamily="@font/gill_sans"
                         android:gravity="center"
-                        android:padding="15dp"
+                        android:padding="@dimen/Fifteen_dp"
                         android:singleLine="true"
                         android:text="Shared with Us"
                         android:textSize="@dimen/Fifteen_dp" />
@@ -516,7 +516,7 @@
                         android:button="@android:color/transparent"
                         android:fontFamily="@font/gill_sans"
                         android:gravity="center"
-                        android:padding="15dp"
+                        android:padding="@dimen/Fifteen_dp"
                         android:singleLine="true"
                         android:text="Shared By Us"
                         android:textSize="@dimen/Fifteen_dp" />
@@ -526,8 +526,8 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_share_docs"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:visibility="gone"
                     android:layout_margin="@dimen/small_size"
                     android:layout_toRightOf="@id/shared_status"
@@ -558,7 +558,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:singleLine="true"
                     android:text="Already Shared"
                     android:textSize="@dimen/Fifteen_dp" />
@@ -573,7 +573,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:singleLine="true"
                     android:text="Choose to Share"
                     android:textSize="@dimen/Fifteen_dp" />
@@ -603,7 +603,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:singleLine="true"
                     android:text="Client Document"
                     android:textSize="@dimen/Fifteen_dp" />
@@ -618,7 +618,7 @@
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/Fifteen_dp"
                     android:singleLine="true"
                     android:text="Firm Document"
                     android:textSize="@dimen/Fifteen_dp" />
@@ -669,7 +669,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="@dimen/left_space"
-                        android:elevation="50dp"
+                        android:elevation="@dimen/Fifty_dp"
                         android:background="@color/dark_grey"
                         android:layout_margin="@dimen/left_space"
                         android:padding="@dimen/left_space"

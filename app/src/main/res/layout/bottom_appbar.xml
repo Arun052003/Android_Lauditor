@@ -31,7 +31,7 @@
             android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_gravity="center|bottom"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/Fifty_dp"
             android:background="@drawable/menu_desing"
             android:backgroundTint="@color/dashboard_background_shadow_color"
             android:backgroundTintMode="screen"
@@ -55,7 +55,7 @@
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:id="@+id/fb_menu"
-                android:layout_width="50dp"
+                android:layout_width="@dimen/Fifty_dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:clickable="true"
@@ -104,7 +104,7 @@
             android:visibility="visible"
             app:backgroundTint="@color/grey_text_color"
             android:elevation="0dp"
-            app:fabCustomSize="60dp"
+            app:fabCustomSize="@dimen/sixty_dp"
             app:fabSize="auto" />
         <TextView
             android:id="@+id/tv_relationships"
@@ -114,7 +114,7 @@
             android:gravity="center"
             android:layout_gravity="bottom|center"
             android:text="Relationships"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="@dimen/Fifteen_dp"
             android:textColor="@color/grey_text_color"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fb_documents"
@@ -125,7 +125,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom|center"
             app:elevation="0dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginRight="@dimen/sixty_dp"
             android:layout_marginBottom="55dp"
             android:background="@color/white"
             android:backgroundTint="@color/grey_text_color"
@@ -133,7 +133,7 @@
             android:visibility="visible"
             app:backgroundTint="@color/grey_text_color"
             android:elevation="0dp"
-            app:fabCustomSize="60dp"
+            app:fabCustomSize="@dimen/sixty_dp"
             app:fabSize="auto" />
         <TextView
             android:id="@+id/tv_documents"
@@ -163,7 +163,7 @@
 
             app:backgroundTint="@color/grey_text_color"
             android:elevation="0dp"
-            app:fabCustomSize="60dp"
+            app:fabCustomSize="@dimen/sixty_dp"
             app:fabSize="auto" />
         <TextView
             android:id="@+id/tv_timesheet"
@@ -184,7 +184,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom|center"
             app:elevation="0dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="@dimen/sixty_dp"
             android:layout_marginBottom="55dp"
             android:background="@color/white"
             android:backgroundTint="@color/grey_text_color"
@@ -192,7 +192,7 @@
             android:visibility="visible"
             app:backgroundTint="@color/grey_text_color"
             android:elevation="0dp"
-            app:fabCustomSize="60dp"
+            app:fabCustomSize="@dimen/sixty_dp"
             app:fabSize="auto" />
         <TextView
             android:id="@+id/tv_matter"
@@ -220,7 +220,7 @@
             android:visibility="visible"
             app:backgroundTint="@color/grey_text_color"
             android:elevation="0dp"
-            app:fabCustomSize="60dp"
+            app:fabCustomSize="@dimen/sixty_dp"
             app:fabSize="auto" />
         <TextView
             android:id="@+id/tv_more"
@@ -230,7 +230,7 @@
             android:gravity="center"
             android:layout_gravity="bottom|center"
             android:text="More"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="@dimen/Fifteen_dp"
             android:textColor="@color/grey_text_color"/>
     </com.google.android.material.bottomappbar.BottomAppBar>
 </androidx.constraintlayout.widget.ConstraintLayout>

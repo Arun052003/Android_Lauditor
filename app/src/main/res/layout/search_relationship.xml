@@ -10,4 +10,4 @@
 
     android:imeOptions="actionDone"
     android:inputType="textFilter"
-    android:padding="15dp" />
+    android:padding="@dimen/Fifteen_dp" />

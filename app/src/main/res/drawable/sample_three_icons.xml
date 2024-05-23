@@ -21,7 +21,7 @@
 
         <shape android:shape="oval">
             <stroke android:color="@android:color/transparent"
-                android:width="15dp"/>
+                android:width="@dimen/Fifteen_dp"/>
             <solid android:color="#000"/>
             <size
                 android:width="3dp"

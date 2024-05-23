@@ -30,6 +30,7 @@
     <string name="select_document">"Select Document(s)"</string>
     <string name="sub_categories">Sub Categories</string>
     <string name="browse">"BROWSE"</string>
+    <string name="browse_small">"Browse"</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
@@ -144,6 +145,7 @@
     <string name="dial_in_number">Dial-In Number</string>
     <string name="repetition">Repetition</string>
     <string name="event_type">Event Type</string>
+    <string name="select_documents">"Select Document(s)"</string>
     <string name="duration">"Duration : "</string>
     <string name="all_day">All Day</string>
     <string name="message">Message</string>
@@ -200,4 +202,10 @@
     <string name="selected_corporate_clients">Selected Corporate Clients</string>
     <string name="alert">Alert !</string>
     <string name="no">No</string>
+    <string name="matter">Matter</string>
+    <string name="firm">firm</string>
+    <string name="edit_meta">Edit Meta</string>
+    <string name="enable_download">Enable Download</string>
+    <string name="disable_download">Disable Download</string>
+    <string name="merge_pdf">Merge PDF</string>
 </resources>

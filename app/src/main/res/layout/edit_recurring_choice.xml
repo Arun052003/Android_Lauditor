@@ -57,7 +57,7 @@
         <!--            android:textAllCaps="false"-->
         <!--            android:text="Update"-->
         <!--            android:textColor="@color/white"-->
-        <!--            android:textSize="15dp"-->
+        <!--            android:textSize="@dimen/Fifteen_dp"-->
         <!--            android:textStyle="normal" />-->
 
 

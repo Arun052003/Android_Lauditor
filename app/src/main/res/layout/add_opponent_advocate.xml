@@ -76,7 +76,7 @@
                 </TextView>
 
                 <!--                <ImageView-->
-                <!--                    android:layout_width="15dp"-->
+                <!--                    android:layout_width="@dimen/Fifteen_dp"-->
                 <!--                    android:layout_height="@dimen/small_size"-->
                 <!--                    android:src="@drawable/asterisk_icon">-->
 
@@ -112,7 +112,7 @@
                     android:textSize="@dimen/Fifteen_dp" />
 
                 <!--                <ImageView-->
-                <!--                    android:layout_width="15dp"-->
+                <!--                    android:layout_width="@dimen/Fifteen_dp"-->
                 <!--                    android:layout_height="@dimen/small_size"-->
                 <!--                    android:src="@drawable/asterisk_icon">-->
 
@@ -138,7 +138,7 @@
                     android:textColor="@color/Blue_text_color"
                     android:textSize="@dimen/Fifteen_dp" />
                 <!--                <ImageView-->
-                <!--                    android:layout_width="15dp"-->
+                <!--                    android:layout_width="@dimen/Fifteen_dp"-->
                 <!--                    android:layout_height="@dimen/small_size"-->
                 <!--                    android:src="@drawable/asterisk_icon">-->
 

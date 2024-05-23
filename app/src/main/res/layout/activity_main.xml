@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/Fifty_dp"
             android:layout_marginRight="130dp"
             app:headerLayout="@layout/header"
             app:itemHorizontalPadding="@dimen/left_space"
@@ -125,7 +125,7 @@
     <!--                            android:gravity="center"-->
     <!--                            android:layout_gravity="bottom|center"-->
     <!--                            android:text="Relationships"-->
-    <!--                            android:layout_marginBottom="15dp"-->
+    <!--                            android:layout_marginBottom="@dimen/Fifteen_dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/fb_documents"-->
@@ -275,7 +275,7 @@
     <!--                            android:gravity="center"-->
     <!--                            android:layout_gravity="bottom|center"-->
     <!--                            android:text="More"-->
-    <!--                            android:layout_marginBottom="15dp"-->
+    <!--                            android:layout_marginBottom="@dimen/Fifteen_dp"-->
     <!--                            android:textColor="@color/grey_text_color"/>-->
 
     <!--        </com.google.android.material.bottomnavigation.BottomNavigationView>-->

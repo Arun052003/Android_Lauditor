@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digicoffer.lauditor.Documents.Documents;
@@ -156,11 +157,13 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         private CheckBox cb_documents_list;
         private TextView tv_document_name;
+        private LinearLayoutCompat chk_box_layout;
         private ImageView iv_cancel, iv_edit_meta;
         private Button btn_view_tags;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            chk_box_layout = itemView.findViewById(R.id.chk_box_layout);
             cb_documents_list = itemView.findViewById(R.id.chk_selected_documents);
             tv_document_name = itemView.findViewById(R.id.tv_document_name);
             iv_edit_meta = itemView.findViewById(R.id.iv_edit_meta);
@@ -170,14 +173,17 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             iv_cancel = itemView.findViewById(R.id.iv_cancel);
             iv_cancel.setImageResource(R.drawable.cancel);
             if (tag == "add_tag") {
+                chk_box_layout.setVisibility(View.VISIBLE);
                 cb_documents_list.setVisibility(View.VISIBLE);
                 iv_edit_meta.setVisibility(View.GONE);
                 btn_view_tags.setVisibility(View.GONE);
             } else if (tag == "edit_meta") {
                 iv_edit_meta.setVisibility(View.VISIBLE);
                 cb_documents_list.setVisibility(View.GONE);
+                chk_box_layout.setVisibility(View.GONE);
                 btn_view_tags.setVisibility(View.GONE);
             } else {
+                chk_box_layout.setVisibility(View.GONE);
                 iv_edit_meta.setVisibility(View.GONE);
                 cb_documents_list.setVisibility(View.GONE);
             }

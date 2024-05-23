@@ -97,9 +97,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="50dp"
+        android:paddingStart="@dimen/Fifty_dp"
         android:paddingTop="@dimen/twenty_dp"
-        android:paddingEnd="50dp"
+        android:paddingEnd="@dimen/Fifty_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +116,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/siv_matter_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_weight="1"
                 android:background="@color/green_count_color"
                 android:fontFamily="@font/gill_sans"
@@ -151,8 +151,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/siv_groups"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_weight="1"
                 android:background="@color/green_count_color"
                 android:fontFamily="@font/gill_sans"
@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/siv_groups"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="@dimen/Fifteen_dp"
                 android:fontFamily="@font/gill_sans"
                 android:gravity="center"
                 android:text="View">
@@ -186,8 +186,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/siv_documents"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_weight="1"
                 android:background="@color/green_count_color"
                 android:fontFamily="@font/gill_sans"

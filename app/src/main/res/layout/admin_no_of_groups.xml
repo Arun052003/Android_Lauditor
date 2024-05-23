@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/Fifty_dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:layout_margin="@dimen/left_space"
             android:layout_gravity="top|center_horizontal"
             android:contentDescription="@string/todo"

@@ -21,7 +21,7 @@
         android:visibility="visible"
         app:backgroundTint="@color/grey_text_color"
         app:elevation="0dp"
-        app:fabCustomSize="60dp"
+        app:fabCustomSize="@dimen/sixty_dp"
         app:fabSize="auto"
         tools:layout_editor_absoluteX="175dp"
         tools:layout_editor_absoluteY="592dp" />

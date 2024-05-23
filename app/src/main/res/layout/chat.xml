@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/tv_create_event"
             android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:background="@drawable/button_left_background"
             android:fontFamily="@font/gill_sans"
             android:padding="@dimen/small_size"
@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/tv_view_calendar"
             android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/Fifty_dp"
             android:background="@drawable/button_right_green_count"
             android:fontFamily="@font/gill_sans"
             android:padding="@dimen/small_size"

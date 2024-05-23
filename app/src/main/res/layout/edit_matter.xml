@@ -30,8 +30,8 @@
 
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/Fifty_dp"
+                android:layout_height="@dimen/Fifty_dp"
 android:visibility="gone"
                 android:background="@drawable/ic_arrow_left">
 
@@ -67,8 +67,8 @@ android:visibility="gone"
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/siv_timeline"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/Fifty_dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_marginLeft="@dimen/twenty_five"
                     android:layout_weight="1"
                     android:background="@color/green_count_color"
@@ -83,7 +83,7 @@ android:visibility="gone"
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_below="@+id/siv_timeline"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
@@ -105,8 +105,8 @@ android:visibility="gone"
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/siv_groups"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/Fifty_dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_marginLeft="45dp"
                     android:layout_weight="1"
                     android:background="@color/green_count_color"
@@ -121,7 +121,7 @@ android:visibility="gone"
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_below="@+id/siv_groups"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
@@ -143,8 +143,8 @@ android:visibility="gone"
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/siv_documents"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/Fifty_dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_marginLeft="@dimen/twenty_five"
                     android:layout_weight="1"
                     android:background="@color/green_count_color"
@@ -159,7 +159,7 @@ android:visibility="gone"
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/Fifty_dp"
                     android:layout_below="@+id/siv_documents"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="center"
