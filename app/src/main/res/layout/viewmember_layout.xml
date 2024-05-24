@@ -5,9 +5,9 @@
     android:id="@+id/tv_view_members"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="0dp"
+    android:layout_marginStart="0dp"
     android:layout_marginTop="@dimen/Fifteen_dp"
-    android:layout_marginRight="@dimen/Fifteen_dp"
+    android:layout_marginEnd="@dimen/Fifteen_dp"
     android:layout_marginBottom="@dimen/Fifteen_dp"
     android:layout_weight="1"
     android:background="@drawable/button_right_background"
@@ -16,7 +16,7 @@
     android:shadowRadius="10"
     android:text="@string/view_members"
     android:textColor="@color/black"
+    android:textFontWeight="700"
     android:textSize="@dimen/Fifteen_dp"
-     android:textFontWeight="700"
-    android:translationZ="12dp"
-    app:cardCornerRadius="@dimen/small_size"></TextView>
+    android:translationZ="@dimen/Twelve_dp"
+    app:cardCornerRadius="@dimen/small_size" />

@@ -1,5 +1,7 @@
 package com.digicoffer.lauditor.Documents.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,6 +10,16 @@ import java.io.File;
 public class DocumentsModel {
     String name;
     String id;
+
+    public String getExpiration_date() {
+        return expiration_date;
+    }
+
+    public void setExpiration_date(String expiration_date) {
+        this.expiration_date = expiration_date;
+    }
+
+    String expiration_date;
     String group_id;
     String group_name;
     private boolean isSelected;
