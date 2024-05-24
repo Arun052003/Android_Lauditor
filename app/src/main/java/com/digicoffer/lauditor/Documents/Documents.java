@@ -90,15 +90,18 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class Documents extends Fragment implements BottomSheetUploadFile.OnPhotoSelectedListner, AsyncTaskCompleteListener, DocumentsListAdapter.EventListener, View_documents_adapter.Eventlistner, GroupsListAdapter.OnCheckedChangeListener {
     Button btn_browse, btn_group_cancel, btn_group_submit, btn_group_view_cancel, btn_group_view_submit;
 
     //Initialize a file count to Zero
+    String exp_date = "";
     //....
     TextView custom_spinner, custom_spinner2, custom_spinner3, custom_spinner4, custom_spinner_group, tv_select_groups_view;
     CardView cv_view_doc;
+    LinearLayout chk_box_layout;
     boolean isselect_all_checked = true;
 
     JSONArray array_group = new JSONArray();
@@ -180,7 +183,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.upload_document, container, false);
         try {
             mViewModel = new ViewModelProvider(requireActivity()).get(NewModel.class);
@@ -326,6 +328,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             select_documents = v.findViewById(R.id.select_documents);
             select_documents.setText(R.string.select_document);
 
+            chk_box_layout = v.findViewById(R.id.chk_box_layout);
+            chk_box_layout.setAlpha(0.5F);
             chk_select_all = v.findViewById(R.id.chk_select_all);
             chk_select_all.getBackground().setAlpha(50);
             chk_select_all.setEnabled(false);
@@ -1018,16 +1022,16 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void callUploadDocumentWebservice() {
         try {
-            if (UPLOAD_TAG == "Client" && clientsList.size() == 0) {
+            if (Objects.equals(UPLOAD_TAG, "Client") && clientsList.isEmpty()) {
                 AndroidUtils.showToast("Please Select a Client to Upload Documents", getContext());
-            } else if (UPLOAD_TAG == "Firm" && selected_groups_list.size() == 0) {
+            } else if (Objects.equals(UPLOAD_TAG, "Firm") && selected_groups_list.isEmpty()) {
                 AndroidUtils.showToast("Please Select One Group to Upload Documents", getContext());
             } else {
-                if (docsList.size() == 0) {
+                if (docsList.isEmpty()) {
                     AndroidUtils.showToast("Please Select Atleast one document", getContext());
                 } else {
                     progress_dialog = AndroidUtils.get_progress(getActivity());
-                    if (UPLOAD_TAG == "Client") {
+                    if (Objects.equals(UPLOAD_TAG, "Client")) {
                         for (int i = 0; i < docsList.size(); i++) {
                             JSONObject jsonObject = new JSONObject();
                             JSONArray clients = new JSONArray();
@@ -1054,13 +1058,14 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                                 }
                             }
                             //When the matter is chosen by the user.....
-                            if (!matter_id.equals("")) {
+                            if (!matter_id.isEmpty()) {
                                 JSONArray matter = new JSONArray();
                                 matter.put(matter_id);
                                 jsonObject.put("matters", matter);
                             }
                             jsonObject.put("name", docsList.get(i).getName());
                             jsonObject.put("description", docsList.get(i).getDescription());
+                            jsonObject.put("expiration_date", docsList.get(i).getExpiration_date());
                             jsonObject.put("filename", docname);
                             jsonObject.put("category", "client");
                             jsonObject.put("clients", clients);
@@ -1409,6 +1414,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //    }
 
     private void AddTag() {
+        chk_box_layout.setAlpha(1F);
         chk_select_all.setEnabled(true);
         btn_upload.setVisibility(View.GONE);
         btn_add_tags.setVisibility(View.VISIBLE);
@@ -1422,6 +1428,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     //Hide when
     private void Hide_Add_EditMeta() {
+        chk_box_layout.setAlpha(0.5F);
         chk_select_all.setEnabled(false);
         btn_add_tags.setVisibility(View.GONE);
         btn_upload.setVisibility(View.VISIBLE);
@@ -1434,6 +1441,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void EditMeta() {
+        chk_box_layout.setAlpha(0.5F);
         chk_select_all.setEnabled(false);
         btn_upload.setVisibility(View.VISIBLE);
         btn_add_tags.setVisibility(View.GONE);
@@ -1975,28 +1983,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 rv_display_view_docs.setVisibility(View.VISIBLE);
             }
         });
-
-//        sp_matter_view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            boolean userSelect = false;
-//
-//            public boolean onTouch(View v, MotionEvent event) {
-//                userSelect = true;
-//                return false;
-//            }
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                matter_id = matterlist.get(position).getId();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
-
     }
 
     private void initUI(ArrayList<ClientsModel> clientsList) {
@@ -2004,7 +1990,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         list_client.setAdapter(adapter);
         list_client_view.setAdapter(adapter);
 //        tv_search_client.setAdapter(adapter);
-
 
         list_client.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -2045,64 +2030,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 ischecked2 = true;
             }
         });
-
-
-//        sp_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//
-//
-////              matter_name = Documents.this.clientsList.get(position).getName();
-//                client_id = clientsList.get(pos).getId();
-//                ll_matter.setVisibility(View.VISIBLE);
-//                matterlist.clear();
-//                callLegalMatter();
-//            }
-//
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
-
-        //   tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        //    @Override
-        //    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                matter_name = Documents.this.clientsList.get(position).getName();
-        //    client_id = clientsList.get(position).getId();
-        //   matterlist.clear();
-        //  callLegalMatters();
-        //  }
-
-
-        //   @Override
-        //   public void onNothingSelected(AdapterView<?> parent) {
-
-        //   }
-        //    });
-        //
-        //        tv_search_client.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-////                matter_name = Documents.this.clientsList.get(position).getName();
-//                client_id = clientsList.get(position).getId();
-//                matterlist.clear();
-//                callLegalMatters();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//
-//    }
-
-
     }
 
 
@@ -2142,7 +2069,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     @Override
     public void ViewTags(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view_edit_tags = inflater.inflate(R.layout.edit_existing_tags, null);
         LinearLayout ll_existing_tags = view_edit_tags.findViewById(R.id.ll_view_tags);
         ImageView iv_close_existing_tags = view_edit_tags.findViewById(R.id.close_exisiting_tags);
@@ -2160,18 +2087,17 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 iv_remove_tag.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
 //                        documentsModel.getTags().remove()
                     }
                 });
 
-                tv_tag_name.setText(key + " - " + documentsModel.getTags().get(key));
+                String tag_msg = key + " - " + documentsModel.getTags().get(key);
+                tv_tag_name.setText(tag_msg);
                 ll_existing_tags.addView(view_added_tags);
 //                Object value = documentsModel.getTags().get(key);
             } catch (JSONException e) {
                 e.fillInStackTrace();
             }
-
         }
         AlertDialog dialog = dialogBuilder.create();
         iv_close_existing_tags.setOnClickListener(new View.OnClickListener() {
@@ -2194,22 +2120,22 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         AppCompatButton btn_close_edit_docs = view_edit_documents.findViewById(R.id.btn_cancel_edit_docs);
         TextInputEditText tv_doc_name = view_edit_documents.findViewById(R.id.edit_doc_name);
         TextView tv_document_name = view_edit_documents.findViewById(R.id.tv_document_name);
-        tv_document_name.setText("Document Name");
+        tv_document_name.setText(R.string.document_name);
 
 
         TextInputEditText tv_description = view_edit_documents.findViewById(R.id.edit_description);
         TextView description = view_edit_documents.findViewById(R.id.description);
-        description.setText("Description");
+        description.setText(R.string.description);
 
         AppCompatButton tv_exp_date = view_edit_documents.findViewById(R.id.tv_expiration_date);
         TextView expiration_date_id = view_edit_documents.findViewById(R.id.expiration_date_id);
-        expiration_date_id.setText("Expiration Date");
+        expiration_date_id.setText(R.string.expiration_date);
 
 
         tv_doc_name.setText(documentsModel.getName());
         tv_description.setText(documentsModel.getDescription());
         //Expiration date field.....
-//        tv_exp_date.setText(documentsModel.get);
+        tv_exp_date.setText(documentsModel.getExpiration_date());
         Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -2229,16 +2155,16 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tv_exp_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
-        Date c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-        tv_exp_date.setText(formattedDate);
+//        Date c = Calendar.getInstance().getTime();
+//        System.out.println("Current time => " + c);
+//        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//        String formattedDate = df.format(c);
+//        tv_exp_date.setText("");
 
         AppCompatButton btn_save_tag = view_edit_documents.findViewById(R.id.btn_save_tag);
         final AlertDialog dialog = dialogBuilder.create();
@@ -2261,8 +2187,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
                     if (documentsModel.getName().matches(itemsArrayList.get(i).getName())) {
                         DocumentsModel documentsModel1 = itemsArrayList.get(i);
-                        documentsModel1.setName(tv_doc_name.getText().toString());
-                        documentsModel1.setDescription(tv_description.getText().toString());
+                        documentsModel1.setName(Objects.requireNonNull(tv_doc_name.getText()).toString());
+                        documentsModel1.setDescription(Objects.requireNonNull(tv_description.getText()).toString());
+                        documentsModel1.setExpiration_date(tv_exp_date.getText().toString());
                         itemsArrayList.set(i, documentsModel1);
                         dialog.dismiss();
                         String tag = "edit_meta";
@@ -2300,15 +2227,15 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         AppCompatButton btn_close_edit_docs = view_edit_documents.findViewById(R.id.btn_cancel_edit_docs);
         TextInputEditText tv_doc_name = view_edit_documents.findViewById(R.id.edit_doc_name);
         TextView tv_document_name = view_edit_documents.findViewById(R.id.tv_document_name);
-        tv_document_name.setText("Document Name");
+        tv_document_name.setText(R.string.document_name);
 
 
         TextInputEditText tv_description = view_edit_documents.findViewById(R.id.edit_description);
         TextView description = view_edit_documents.findViewById(R.id.description);
-        description.setText("Description");
+        description.setText(R.string.description);
         AppCompatButton tv_exp_date = view_edit_documents.findViewById(R.id.tv_expiration_date);
         TextView expiration_date_id = view_edit_documents.findViewById(R.id.expiration_date_id);
-        expiration_date_id.setText("Expiration Date");
+        expiration_date_id.setText(R.string.expiration_date);
 
 //        TextInputEditText tv_expiration_date = view_edit_documents.findViewById(R.id.tv_expiration_date);
         Calendar myCalendar = Calendar.getInstance();
@@ -2330,7 +2257,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tv_exp_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
@@ -2350,7 +2277,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
         tv_doc_name.setText(viewDocumentsModel.getName());
         tv_description.setText(viewDocumentsModel.getDescription());
-
+        tv_exp_date.setText(viewDocumentsModel.getExpiration_date());
         AppCompatButton btn_save_tag = view_edit_documents.findViewById(R.id.btn_save_tag);
         final AlertDialog dialog = dialogBuilder.create();
         iv_cancel_edit_doc.setOnClickListener(new View.OnClickListener() {
@@ -2369,7 +2296,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                callUpdateDocumentWebservice(tv_doc_name.getText().toString(), tv_description.getText().toString(), tv_exp_date.getText().toString(), viewDocumentsModel.getId());
+                callUpdateDocumentWebservice(Objects.requireNonNull(tv_doc_name.getText()).toString(), tv_description.getText().toString(), tv_exp_date.getText().toString(), viewDocumentsModel.getId());
             }
         });
         dialog.setCancelable(false);
@@ -2396,10 +2323,11 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     public void delete_document(ViewDocumentsModel viewDocumentsModel) {
         try {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.delete_relationship, null);
             TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
-            tv_confirmation.setText("Are you sure you want to delete " + viewDocumentsModel.getName() + "?");
+            String delete_msg = "Are you sure you want to delete " + viewDocumentsModel.getName() + "?";
+            tv_confirmation.setText(delete_msg);
             AppCompatButton bt_yes = view.findViewById(R.id.btn_yes);
             AppCompatButton btn_no = view.findViewById(R.id.btn_No);
             final AlertDialog dialog = dialogBuilder.create();
@@ -2449,18 +2377,18 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             progress_dialog = AndroidUtils.get_progress(getActivity());
             JSONObject jsonObject = new JSONObject();
 //            JSONArray groups1 = new JSONArray();
-            if (CATEGORY_TAG == "client") {
+            if (Objects.equals(CATEGORY_TAG, "client")) {
                 jsonObject.put("category", "client");
                 jsonObject.put("clients", client_id);
                 jsonObject.put("showPdfDocs", false);
                 jsonObject.put("groups", null);
                 //When the matter is chosen by the user.....
-                if (!matter_id.equals("")) {
+                if (!matter_id.isEmpty()) {
                     jsonObject.put("matters", matter_id);
                 }
                 WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "Display clientDocuments", jsonObject.toString());
                 Log.d("Group_doc_view1", jsonObject.toString());
-            } else if (CATEGORY_TAG == "firm") {
+            } else if (Objects.equals(CATEGORY_TAG, "firm")) {
                 jsonObject.put("category", "firm");
                 jsonObject.put("clients", "");
                 jsonObject.put("matters", "");
@@ -2495,12 +2423,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     private void callclientfirmWebServices() {
         try {
-
-
-            if (selected_groups_list.size() == 0) {
+            if (selected_groups_list.isEmpty()) {
                 AndroidUtils.showToast("Please select atleast one group", getContext());
             } else {
-                if (VIEW_TAG == "Firm")
+                if (Objects.equals(VIEW_TAG, "Firm"))
 
                     for (int i = 0; i < docsList.size(); i++) {
                         currentpoistion++;
@@ -2527,26 +2453,21 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             docname = content_type[0];
                         }
 
-
                         jsonObject.put("category", "firm");
                         jsonObject.put("matters", "");
                         jsonObject.put("groups", groups);
                         jsonObject.put("showPdfDocs", false);
-
 
                         if (doc_type.equalsIgnoreCase("apng") || doc_type.equalsIgnoreCase("avif") || doc_type.equalsIgnoreCase("gif") || doc_type.equalsIgnoreCase("jpeg") || doc_type.equalsIgnoreCase("png") || doc_type.equalsIgnoreCase("svg") || doc_type.equalsIgnoreCase("webp") || doc_type.equalsIgnoreCase("jpg")) {
                             jsonObject.put("content_type", "image/" + doc_type);
                         } else {
                             jsonObject.put("content_type", "application/" + doc_type);
                         }
-
 //            AndroidUtils.showAlert(jsonObject.toString(),getContext());
 //                        WebServiceHelper.callHttpViewWebService(this, getContext(), WebServiceHelper.RestMethodType.PUT, "v3/document/filter", "View Document", new_file, jsonObject.toString());
                         rv_display_view_docs.setVisibility(View.VISIBLE);
                     }
             }
-
-
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing()) {
                 AndroidUtils.dismiss_dialog(progress_dialog);
@@ -2557,11 +2478,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     //checking the check box whether all the list items are checked....
     public void check_select_all(boolean check_status) {
-        if (check_status) {
-            chk_select_all.setChecked(true);
-        } else {
-            chk_select_all.setChecked(false);
-        }
+        chk_select_all.setChecked(check_status);
     }
 
     @Override
