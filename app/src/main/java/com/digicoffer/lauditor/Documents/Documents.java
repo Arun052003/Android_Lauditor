@@ -82,6 +82,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,6 +92,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 
 public class Documents extends Fragment implements BottomSheetUploadFile.OnPhotoSelectedListner, AsyncTaskCompleteListener, DocumentsListAdapter.EventListener, View_documents_adapter.Eventlistner, GroupsListAdapter.OnCheckedChangeListener {
@@ -207,17 +209,17 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //            list_scroll_group=v.findViewById(R.id.list_scroll_group);
 
             list_client = v.findViewById(R.id.list_client);
-            list_scroll = v.findViewById(R.id.list_scroll);
+//            list_scroll = v.findViewById(R.id.list_scroll);
             custom_spinner2 = v.findViewById(R.id.custom_spinner2);
             list_matter = v.findViewById(R.id.list_matter);
-            list_scroll2 = v.findViewById(R.id.list_scroll2);
+//            list_scroll2 = v.findViewById(R.id.list_scroll2);
 
             custom_spinner3 = v.findViewById(R.id.custom_spinner3);
             custom_spinner4 = v.findViewById(R.id.custom_spinner4);
             list_client_view = v.findViewById(R.id.list_client_view);
             list_matter_view = v.findViewById(R.id.list_matter_view);
-            list_scroll3 = v.findViewById(R.id.list_scroll3);
-            list_scroll4 = v.findViewById(R.id.list_scroll4);
+//            list_scroll3 = v.findViewById(R.id.list_scroll3);
+//            list_scroll4 = v.findViewById(R.id.list_scroll4);
 
 
             // tv_search_client_view.setHint("Search");
@@ -273,6 +275,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             view_group_layout = v.findViewById(R.id.view_group_layout);
             rv_display_view_groups_docs = v.findViewById(R.id.rv_display_view_groups_docs);
+            rv_display_view_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
             btn_group_view_cancel = v.findViewById(R.id.btn_group_view_cancel);
             btn_group_view_submit = v.findViewById(R.id.btn_group_view_submit);
 
@@ -356,7 +359,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             ll_client_name = v.findViewById(R.id.ll_client_name);
             btn_add_tags = v.findViewById(R.id.btn_add_tag);
             category_name = v.findViewById(R.id.tv_category_name);
-            category_name.setHint("Sub Categories");
+            category_name.setHint(R.string.sub_categories);
             tv_enable_download = v.findViewById(R.id.tv_enable_download);
 
             tv_disable_download = v.findViewById(R.id.tv_disable_download);
@@ -371,8 +374,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             //..
             custom_spinner.setText("");
             custom_spinner2.setText("");
-            list_scroll2.setVisibility(View.GONE);
-            list_scroll.setVisibility(View.GONE);
+            list_matter.setVisibility(View.GONE);
+            list_client.setVisibility(View.GONE);
             ll_matter.setVisibility(View.GONE);
             //...
 
@@ -380,8 +383,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             custom_spinner3.setText("");
             custom_spinner4.setText("");
-            list_scroll4.setVisibility(View.GONE);
-            list_scroll3.setVisibility(View.GONE);
+            list_matter_view.setVisibility(View.GONE);
+            list_client_view.setVisibility(View.GONE);
             ll_matter_view.setVisibility(View.GONE);
             //...
 
@@ -393,9 +396,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     clientsList.clear();
                     callClientWebservice();
                     if (ischecked)
-                        list_scroll.setVisibility(View.VISIBLE);
+                        list_client.setVisibility(View.VISIBLE);
                     else
-                        list_scroll.setVisibility(View.GONE);
+                        list_client.setVisibility(View.GONE);
                     ischecked = !ischecked;
                 }
             });
@@ -403,9 +406,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 @Override
                 public void onClick(View v) {
                     if (ischecked_matter)
-                        list_scroll2.setVisibility(View.VISIBLE);
+                        list_matter.setVisibility(View.VISIBLE);
                     else
-                        list_scroll2.setVisibility(View.GONE);
+                        list_matter.setVisibility(View.GONE);
                     ischecked_matter = !ischecked_matter;
                 }
             });
@@ -415,9 +418,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     clientsList.clear();
                     callClientWebservice();
                     if (ischecked2)
-                        list_scroll3.setVisibility(View.VISIBLE);
+                        list_client_view.setVisibility(View.VISIBLE);
                     else
-                        list_scroll3.setVisibility(View.GONE);
+                        list_client_view.setVisibility(View.GONE);
                     ischecked2 = !ischecked2;
                 }
             });
@@ -425,9 +428,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 @Override
                 public void onClick(View v) {
                     if (ischecked_matter2)
-                        list_scroll4.setVisibility(View.VISIBLE);
+                        list_matter_view.setVisibility(View.VISIBLE);
                     else
-                        list_scroll4.setVisibility(View.GONE);
+                        list_matter_view.setVisibility(View.GONE);
                     ischecked_matter2 = !ischecked_matter2;
                 }
             });
@@ -461,10 +464,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_select_groups.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    callGroupsWebservice();
                     if (ischecked_group) {
-                        rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
-                        upload_group_layout.setVisibility(View.VISIBLE);
+                        if (groupsList.isEmpty()) {
+                            callGroupsWebservice();
+                        } else {
+                            GroupsPopup();
+                        }
                     } else {
                         upload_group_layout.setVisibility(View.GONE);
                     }
@@ -476,9 +481,12 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_select_groups_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callGroupsWebservice();
                     if (ischecked_group_view) {
-                        rv_display_view_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
+                        if (groupsList.isEmpty()) {
+                            callGroupsWebservice();
+                        } else {
+                            GroupsPopup();
+                        }
                         view_group_layout.setVisibility(View.VISIBLE);
                     } else {
                         view_group_layout.setVisibility(View.GONE);
@@ -673,8 +681,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //        sp_documnet_type_view.setText("Select Groups");
         custom_spinner3.setText("");
         custom_spinner4.setText("");
-        list_scroll4.setVisibility(View.GONE);
-        list_scroll3.setVisibility(View.GONE);
+        list_matter_view.setVisibility(View.GONE);
+        list_client_view.setVisibility(View.GONE);
         ll_matter_view.setVisibility(View.GONE);
 
         tv_firm_view.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
@@ -721,8 +729,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         //..
         custom_spinner.setText("");
         custom_spinner2.setText("");
-        list_scroll2.setVisibility(View.GONE);
-        list_scroll.setVisibility(View.GONE);
+        list_matter.setVisibility(View.GONE);
+        list_client.setVisibility(View.GONE);
         ll_matter.setVisibility(View.GONE);
         //...
         mViewModel.setData("Document Upload");
@@ -964,8 +972,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         //..
         custom_spinner.setText("");
         custom_spinner2.setText("");
-        list_scroll2.setVisibility(View.GONE);
-        list_scroll.setVisibility(View.GONE);
+        list_matter.setVisibility(View.GONE);
+        list_client.setVisibility(View.GONE);
         ll_matter.setVisibility(View.GONE);
         //...
         tv_client.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
@@ -1309,7 +1317,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             c.moveToFirst();
             String[] content_type = file.getName().split(".");
             String file_name = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-
             //Displaying the files count.....
             Hide_Add_EditMeta();
             count_file++;
@@ -1429,7 +1436,10 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     //Hide when
     private void Hide_Add_EditMeta() {
         chk_box_layout.setAlpha(0.5F);
+        is_clicked_edit = true;
+        is_clicked_add = true;
         chk_select_all.setEnabled(false);
+        chk_select_all.setChecked(false);
         btn_add_tags.setVisibility(View.GONE);
         btn_upload.setVisibility(View.VISIBLE);
         tv_edit_meta.setTextColor(getContext().getResources().getColor(R.color.black));
@@ -1443,6 +1453,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     private void EditMeta() {
         chk_box_layout.setAlpha(0.5F);
         chk_select_all.setEnabled(false);
+        chk_select_all.setChecked(false);
         btn_upload.setVisibility(View.VISIBLE);
         btn_add_tags.setVisibility(View.GONE);
         tv_edit_meta.setTextColor(getContext().getResources().getColor(R.color.white));
@@ -1582,7 +1593,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 } else if (httpResult.getRequestType().equals("Upload Document")) {
                     boolean isError = result.getBoolean("error");
                     String msg = result.getString("msg");
-                    AndroidUtils.showToast(msg, getContext());
+                    AndroidUtils.showAlert(msg, getContext());
                     if (!isError) {
                         rv_documents.removeAllViews();
                         view_document();
@@ -1797,6 +1808,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     private void loadGroupsData(JSONArray data) {
+        groupsList.clear();
         try {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject jsonObject = data.getJSONObject(i);
@@ -1816,6 +1828,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     @SuppressLint("MissingInflatedId")
     private void GroupsPopup() {
+        upload_group_layout.setVisibility(View.VISIBLE);
         try {
             for (int i = 0; i < groupsList.size(); i++) {
                 for (int j = 0; j < selected_groups_list.size(); j++) {
@@ -1961,7 +1974,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 String matter_name = matterlist.get(position).getTitle();
                 Log.d("Matter_value_name", matter_name);
                 custom_spinner2.setText(matter_name);
-                list_scroll2.setVisibility(View.GONE);
+                list_matter.setVisibility(View.GONE);
                 ischecked_matter = true;
             }
         });
@@ -1974,7 +1987,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 String matter_name = matterlist.get(position).getTitle();
                 Log.d("Matter_value_name", matter_name);
                 custom_spinner4.setText(matter_name);
-                list_scroll4.setVisibility(View.GONE);
+                list_matter_view.setVisibility(View.GONE);
                 ischecked_matter2 = true;
                 //The matter list should not call.
                 ismatter_chosen = false;
@@ -2004,7 +2017,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 matterlist.clear();
                 callLegalMatter();
                 Log.d("Matter_list_number", "" + matterlist.size());
-                list_scroll.setVisibility(View.GONE);
+                list_client.setVisibility(View.GONE);
                 ischecked = true;
             }
         });
@@ -2026,7 +2039,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 callfilter_client_webservices();
                 cv_view_documents.setVisibility(View.VISIBLE);
                 rv_display_view_docs.setVisibility(View.VISIBLE);
-                list_scroll3.setVisibility(View.GONE);
+                list_client_view.setVisibility(View.GONE);
                 ischecked2 = true;
             }
         });
@@ -2147,9 +2160,34 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             }
 
             private void updateLabel() {
-                String myFormat = "dd-MM-yyyy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                tv_exp_date.setText(sdf.format(myCalendar.getTime()));
+                try {
+                    String myFormat = "dd-MM-yyyy";
+                    SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                    tv_exp_date.setText(sdf.format(myCalendar.getTime()));
+//                    SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)", Locale.US);
+//
+//                    // Set the timezone to India Standard Time
+//                    sdf1.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+//
+//                    // Format the current date
+//                    exp_date = sdf1.format(myCalendar.getTime());
+//                    Log.d("orginal_date", sdf1.format(myCalendar.getTime()));
+
+//                    String originalDateString = myCalendar.getTime().toString();
+//
+//                    SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+//                    SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+//                    Date originalDate = originalFormat.parse(originalDateString);
+
+//                    desiredFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//                    assert originalDate != null;
+//                    String newDateString = desiredFormat.format(originalDate);
+//                    exp_date = newDateString;
+////                postData.put("date", newDateString);
+//                    tv_exp_date.setText(newDateString);
+                } catch (Exception e) {
+                    e.fillInStackTrace();
+                }
             }
         };
         tv_exp_date.setOnClickListener(new View.OnClickListener() {
@@ -2194,7 +2232,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                         dialog.dismiss();
                         String tag = "edit_meta";
                         loadRecyclerview(tag, "");
-
                     }
                 }
             }
@@ -2326,7 +2363,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             LayoutInflater inflater = requireActivity().getLayoutInflater();
             View view = inflater.inflate(R.layout.delete_relationship, null);
             TextInputEditText tv_confirmation = view.findViewById(R.id.et_confirmation);
-            String delete_msg = "Are you sure you want to delete " + viewDocumentsModel.getName() + "?";
+            String delete_msg = "Are you sure you want to delete " + viewDocumentsModel.getName() + " Document ?";
             tv_confirmation.setText(delete_msg);
             AppCompatButton bt_yes = view.findViewById(R.id.btn_yes);
             AppCompatButton btn_no = view.findViewById(R.id.btn_No);

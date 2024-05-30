@@ -163,16 +163,16 @@
                         </LinearLayout>
 
 
-                        <include layout="@layout/spinner_text_view" />
+                        <include layout="@layout/spinner_text_view"
+                            android:id="@+id/custom_spinner"/>
 
-                        <ScrollView
-                            android:id="@+id/list_scroll"
+                        <include
+                            android:id="@+id/list_client"
+                            layout="@layout/spinner_list"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:fillViewport="true">
-
-                            <include layout="@layout/spinner_list" />
-                        </ScrollView>
+                            android:layout_marginStart="@dimen/left_space"
+                            android:layout_marginEnd="@dimen/left_space" />
 
                         <!--                            <include-->
                         <!--                                android:id="@+id/at_search_client"-->
@@ -202,16 +202,13 @@
                             android:id="@+id/custom_spinner2"
                             layout="@layout/spinner_text_view" />
 
-                        <ScrollView
-                            android:id="@+id/list_scroll2"
+                        <include
+                            android:id="@+id/list_matter"
+                            layout="@layout/spinner_list"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:fillViewport="true">
-
-                            <include
-                                android:id="@+id/list_matter"
-                                layout="@layout/spinner_list" />
-                        </ScrollView>
+                            android:layout_marginStart="@dimen/left_space"
+                            android:layout_marginEnd="@dimen/left_space" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -563,7 +560,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_gravity="center_vertical"
                     android:gravity="end">
 
                     <include
@@ -571,8 +568,7 @@
                         layout="@layout/createmember_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="@dimen/small_size" />
+                        android:layout_margin="@dimen/Twelve_dp" />
                 </LinearLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -618,34 +614,29 @@
                             <include layout="@layout/astrick_layout" />
                         </LinearLayout>
 
-                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        <LinearLayout
                             android:id="@+id/client_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="3dp"
+                            android:layout_marginEnd="3dp"
                             android:layout_weight=".28"
                             android:background="@drawable/background_transparent"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <include
                                 android:id="@+id/custom_spinner3"
                                 layout="@layout/spinner_text_view" />
 
-                            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                                android:id="@+id/list_scroll3"
+                            <include
+                                android:id="@+id/list_client_view"
+                                layout="@layout/spinner_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:layout_below="@id/custom_spinner3"
-                                android:fillViewport="true">
+                                android:layout_marginStart="@dimen/left_space"
+                                android:layout_marginEnd="@dimen/left_space" />
 
-                                <include
-                                    android:id="@+id/list_client_view"
-                                    layout="@layout/spinner_list" />
-                            </ScrollView>
-
-                        </RelativeLayout>
+                        </LinearLayout>
 
 
                     </LinearLayout>
@@ -655,7 +646,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@id/ll_client_name_view"
-                        android:layout_weight="1"
                         android:orientation="vertical">
 
 
@@ -672,17 +662,13 @@
                             android:id="@+id/custom_spinner4"
                             layout="@layout/spinner_text_view" />
 
-                        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/list_scroll4"
+                        <include
+                            android:id="@+id/list_matter_view"
+                            layout="@layout/spinner_list"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:layout_below="@id/custom_spinner4"
-                            android:fillViewport="true">
-
-                            <include
-                                android:id="@+id/list_matter_view"
-                                layout="@layout/spinner_list" />
-                        </ScrollView>
+                            android:layout_marginStart="@dimen/left_space"
+                            android:layout_marginEnd="@dimen/left_space" />
                     </LinearLayout>
 
                     <LinearLayout
