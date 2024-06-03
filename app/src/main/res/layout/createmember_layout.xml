@@ -12,7 +12,7 @@
     android:layout_weight="1"
     android:background="@drawable/button_left_background"
     android:fontFamily="@font/gill_sans"
-    android:textFontWeight="700"
+    android:textFontWeight="500"
     android:padding="@dimen/small_size"
     android:shadowRadius="10"
     android:text="@string/create_members"

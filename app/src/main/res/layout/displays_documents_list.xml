@@ -48,6 +48,23 @@
             android:src="@drawable/edit_documents_icon" />
 
         <ImageView
+            android:id="@+id/lock_close"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/lock_close"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/lock_open"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/lock_open"
+            android:visibility="visible" />
+
+
+        <ImageView
             android:id="@+id/iv_cancel"
             android:layout_width="@dimen/forty_dp"
             android:layout_height="@dimen/forty_dp"

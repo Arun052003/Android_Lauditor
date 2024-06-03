@@ -163,8 +163,9 @@
                         </LinearLayout>
 
 
-                        <include layout="@layout/spinner_text_view"
-                            android:id="@+id/custom_spinner"/>
+                        <include
+                            android:id="@+id/custom_spinner"
+                            layout="@layout/spinner_text_view" />
 
                         <include
                             android:id="@+id/list_client"
@@ -265,7 +266,7 @@
                                 layout="@layout/recyclerview"
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:layout_marginStart="2dp"
+                                android:layout_marginStart="@dimen/left_space"
                                 android:layout_marginEnd="@dimen/left_space" />
 
                             <LinearLayout
@@ -409,7 +410,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_download"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/small_size"
                     android:orientation="horizontal"
@@ -421,13 +422,41 @@
                     app:layout_constraintTop_toBottomOf="@id/rl_buttons"
                     app:layout_constraintVertical_bias="0.0">
 
-                    <include
-                        android:id="@+id/tv_enable_download"
-                        layout="@layout/createmember_layout" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:orientation="horizontal">
 
-                    <include
-                        android:id="@+id/tv_disable_download"
-                        layout="@layout/viewmember_layout" />
+                        <include
+                            android:id="@+id/tv_enable_download"
+                            layout="@layout/createmember_layout" />
+
+                        <include
+                            android:id="@+id/tv_disable_download"
+                            layout="@layout/viewmember_layout" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="-20dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/tv_enable_encryption"
+                            layout="@layout/createmember_layout" />
+
+                        <include
+                            android:id="@+id/tv_disable_encryption"
+                            layout="@layout/viewmember_layout" />
+                    </LinearLayout>
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.cardview.widget.CardView
@@ -488,7 +517,7 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_documents"
                                 android:layout_width="match_parent"
-                                android:layout_height="300dp"
+                                android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/small_size"
                                 android:orientation="vertical" />
                         </ScrollView>
@@ -576,10 +605,7 @@
                 android:id="@+id/cv_view_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/Fifteen_dp"
-                android:layout_marginTop="-3dp"
-                android:layout_marginRight="@dimen/Fifteen_dp"
-                android:layout_marginBottom="@dimen/Fifteen_dp"
+                android:layout_margin="@dimen/Fifteen_dp"
                 android:elevation="@dimen/Fifty_dp"
                 android:padding="@dimen/left_space"
                 android:visibility="visible"
@@ -702,14 +728,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginStart="3dp"
-                            android:layout_marginEnd="4dp"
+                            android:layout_marginStart="@dimen/left_space"
+                            android:layout_marginEnd="@dimen/left_space"
                             android:background="@drawable/rectangle_light_grey_bg"
                             android:drawableRight="@drawable/down_arrow"
                             android:enabled="true"
                             android:fontFamily="@font/gill_sans"
                             android:padding="@dimen/Fifteen_dp"
-                            android:text="Select Groups"
+                            android:text="@string/select_groups"
                             android:textColor="@color/black"
                             android:textSize="@dimen/Fifteen_dp" />
 
@@ -724,7 +750,7 @@
                                 layout="@layout/recyclerview"
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
-                                android:layout_marginStart="2dp"
+                                android:layout_marginStart="@dimen/left_space"
                                 android:layout_marginEnd="@dimen/left_space" />
 
                             <LinearLayout
@@ -750,7 +776,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@id/ll_document_type_view"
-                        android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
 
@@ -845,7 +870,6 @@
                 android:padding="@dimen/left_space"
                 android:visibility="visible"
                 app:cardCornerRadius="@dimen/left_space">
-
 
                 <include
                     android:id="@+id/rv_display_view_docs"

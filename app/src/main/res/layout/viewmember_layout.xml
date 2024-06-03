@@ -16,7 +16,7 @@
     android:shadowRadius="10"
     android:text="@string/view_members"
     android:textColor="@color/black"
-    android:textFontWeight="700"
+    android:textFontWeight="500"
     android:textSize="@dimen/Fifteen_dp"
     android:translationZ="@dimen/Twelve_dp"
     app:cardCornerRadius="@dimen/small_size" />

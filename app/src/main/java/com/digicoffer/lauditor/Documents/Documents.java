@@ -1,5 +1,10 @@
 package com.digicoffer.lauditor.Documents;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
+import static android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,6 +42,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -91,6 +99,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -144,6 +153,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     ArrayList<DocumentsModel> selected_documents_list = new ArrayList<>();
     LinearLayout ll_documents;
     boolean DOWNLOAD_TAG = false;
+    boolean ENCRYPTION_TAG = false;
     String CATEGORY_TAG = "";
     CheckBox chk_select_all;
     String filename;
@@ -163,7 +173,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     TextView header_name_edit, tag_type_edit, tag_edit;
     TextInputEditText tv_edit_tag_type, tv_edit_tag_name;
     Button btn_upload, btn_add_tags, btn_cancel;
-    TextView tv_add_tag, tv_client, tv_firm, tv_enable_download, tv_disable_download, tv_edit_meta, tv_name, tv_client_view, tv_firm_view, tv_name_view, matter_name, category_name_id, select_doc_type, tv_document_name, description;
+    TextView tv_add_tag, tv_client, tv_firm, tv_enable_download, tv_disable_download, tv_enable_encryption, tv_disable_encryption, tv_edit_meta, tv_name, tv_client_view, tv_firm_view, tv_name_view, matter_name, category_name_id, select_doc_type, tv_document_name, description;
     //    AutoCompleteTextView ;
     File file;
     String value = "";
@@ -268,6 +278,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             upload_group_layout = v.findViewById(R.id.upload_group_layout);
             rv_display_upload_groups_docs = v.findViewById(R.id.rv_display_upload_groups_docs);
+            rv_display_upload_groups_docs.setBackground(getContext().getDrawable(R.drawable.rectangle_light_grey_bg));
             btn_group_cancel = v.findViewById(R.id.btn_group_cancel);
             btn_group_cancel.setVisibility(View.GONE);
             btn_group_submit = v.findViewById(R.id.btn_group_submit);
@@ -299,8 +310,16 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             tv_category.setHint(R.string.sub_categories);
             tv_enable_download = v.findViewById(R.id.tv_enable_download);
             tv_enable_download.setText(R.string.enable_download);
+            tv_enable_download.setTextSize(13);
             tv_disable_download = v.findViewById(R.id.tv_disable_download);
             tv_disable_download.setText(R.string.disable_download);
+            tv_disable_download.setTextSize(13);
+            tv_enable_encryption = v.findViewById(R.id.tv_enable_encryption);
+            tv_enable_encryption.setText(R.string.enable_encryption);
+            tv_enable_encryption.setTextSize(13);
+            tv_disable_encryption = v.findViewById(R.id.tv_disable_encryption);
+            tv_disable_encryption.setText(R.string.disable_encryption);
+            tv_disable_encryption.setTextSize(13);
             tv_select_groups = v.findViewById(R.id.tv_select_groups);
             tv_select_group_name = v.findViewById(R.id.tv_select_group_name);
             tv_select_group_name.setText(R.string.select_groups);
@@ -336,21 +355,13 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             chk_select_all = v.findViewById(R.id.chk_select_all);
             chk_select_all.getBackground().setAlpha(50);
             chk_select_all.setEnabled(false);
-//            upload_name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cancel_icon,0,0,0);
-
-//            tv_merge_pdf.setBackground(getContext().getResources().getDrawable(R.drawable.rectangular_light_grey_background));
-//            tv_select_document_type=v.findViewById(R.id.tv_select_document_type);
-//            tv_select_document_type.setText(R.string.select_document_type);
             rv_display_view_docs = v.findViewById(R.id.rv_display_view_docs);
             rv_documents = v.findViewById(R.id.rv_documents);
-
 
             //Enable the upload documents as the default view...
             siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.green_count_color));
             siv_upload_document.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.green_background_icon));
 
-
-//            view_document();
             ll_matter_view = v.findViewById(R.id.ll_matter_view);
             ll_document_type_view = v.findViewById(R.id.ll_document_type_view);
             ll_client_name_view = v.findViewById(R.id.ll_client_name_view);
@@ -360,12 +371,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             btn_add_tags = v.findViewById(R.id.btn_add_tag);
             category_name = v.findViewById(R.id.tv_category_name);
             category_name.setHint(R.string.sub_categories);
-            tv_enable_download = v.findViewById(R.id.tv_enable_download);
 
-            tv_disable_download = v.findViewById(R.id.tv_disable_download);
             ll_hide_document_details = v.findViewById(R.id.ll_hide_doc_details);
             ll_hide_document_details.setVisibility(View.GONE);
-//            rv_documents = v.findViewById(R.id.rv_documents);
 
             //Make View Documents as Default View.....
             ll_upload_docs.setVisibility(View.GONE);
@@ -507,6 +515,19 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     hideDisableDownloadBackground();
                 }
             });
+            tv_enable_encryption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EnableEncryptionBackground();
+                }
+            });
+            tv_disable_encryption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DisableEncryptionBackground();
+                }
+            });
+
             tv_client.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1264,31 +1285,36 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
+    // Define ActivityResultLauncher
+    ActivityResultLauncher<String[]> requestPermissions = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> results) {
+                    // Handle permission requests results
+                    // See the permission example in the Android platform samples:
+                    // https://github.com/android/platform-samples
+                }
+            });
+
     public boolean checkPermissionREAD_EXTERNAL_STORAGE(
             final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        (Activity) context,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    AndroidUtils.showDialog("External storage", context,
-                            Manifest.permission.READ_EXTERNAL_STORAGE);
-
+                    READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    requestPermissions.launch(new String[]{READ_MEDIA_IMAGES, READ_MEDIA_VIDEO, READ_MEDIA_VISUAL_USER_SELECTED});
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    requestPermissions.launch(new String[]{READ_MEDIA_IMAGES, READ_MEDIA_VIDEO});
                 } else {
-                    ActivityCompat
-                            .requestPermissions(
-                                    (Activity) context,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                    123);
+                    requestPermissions.launch(new String[]{READ_EXTERNAL_STORAGE});
                 }
+                BottomSheetUploadfile();
                 return false;
             } else {
                 BottomSheetUploadfile();
                 return true;
             }
-
         } else {
             return true;
         }
@@ -1320,18 +1346,28 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             //Displaying the files count.....
             Hide_Add_EditMeta();
             count_file++;
-            tv_selected_file.setText(count_file + " files");
+            if (count_file > 0) {
+                tv_selected_file.setText(count_file + " files");
+            }
+            if (count_file == 0) {
+                tv_selected_file.setText("");
+                tv_selected_file.setHint(R.string.select_documents);
+            }
 
             load_documents(docsList, file_name, file);
         } else {
             file = getFile(getContext(), ImageURI);
             Log.i("FILE", "Info:" + file.toString());
             String file_name = file.getName();
-
-            //Displaying the files count.....
-            Hide_Add_EditMeta();
             count_file++;
-            tv_selected_file.setText(count_file + " files");
+            //Displaying the files count.....
+            if (count_file > 0) {
+                tv_selected_file.setText(count_file + " files");
+            }
+            if (count_file == 0) {
+                tv_selected_file.setText("");
+                tv_selected_file.setHint(R.string.select_documents);
+            }
 //            DocumentsModel documentsModel = new DocumentsModel();
 //            documentsModel.setName(file.getName());
 //            docsList.add(documentsModel);
@@ -1344,9 +1380,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     public void remove_file(boolean ischecked) {
         if (ischecked) {
             count_file--;
-            tv_selected_file.setText(count_file + " files");
-        } else {
-            tv_selected_file.setText(filename);
+            if (count_file >= 0) {
+                tv_selected_file.setText(count_file + " files");
+            }
         }
     }
 
@@ -1369,16 +1405,20 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         documentsModel.setFile(file);
         documentsModel.setIsenabled(true);
         docsList.add(documentsModel);
-        if (docsList.size() == 1) {
+        if (!docsList.isEmpty()) {
             ll_hide_document_details.setVisibility(View.VISIBLE);
             hideDisableDownloadBackground();
-        } else if (docsList.size() < 1) {
+            ENCRYPTION_TAG = false;
+            tv_enable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+            tv_enable_encryption.setTextColor(getContext().getColor(R.color.black));
+            tv_disable_encryption.setTextColor(getContext().getColor(R.color.white));
+            tv_disable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        } else if (docsList.isEmpty()) {
             ll_hide_document_details.setVisibility(View.GONE);
 //            hideDisableDownloadBackground();
         }
         String tag = "view_tags";
         loadRecyclerview(tag, subtag);
-
 //            ll_documents.addView(view);
 //        }
     }
@@ -1401,13 +1441,40 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         });
     }
 
+    private void DisableEncryptionBackground() {
+        ENCRYPTION_TAG = false;
+        tv_enable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
+        tv_enable_encryption.setTextColor(getContext().getColor(R.color.black));
+        tv_disable_encryption.setTextColor(getContext().getColor(R.color.white));
+        tv_disable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+        String tag = "dis_encrption";
+        loadRecyclerview(tag, subtag);
+    }
+
+    private void EnableEncryptionBackground() {
+        ENCRYPTION_TAG = true;
+        tv_enable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
+        tv_enable_encryption.setTextColor(getContext().getColor(R.color.white));
+        tv_disable_encryption.setTextColor(getContext().getColor(R.color.black));
+        tv_disable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        String tag = "en_encrption";
+        loadRecyclerview(tag, subtag);
+    }
+
     private void hideDisableDownloadBackground() {
         DOWNLOAD_TAG = false;
         tv_enable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_background));
         tv_enable_download.setTextColor(getContext().getColor(R.color.black));
         tv_disable_download.setTextColor(getContext().getColor(R.color.white));
         tv_disable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+    }
 
+    private void hideEnableDownloadBackground() {
+        DOWNLOAD_TAG = true;
+        tv_disable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+        tv_enable_download.setTextColor(getContext().getColor(R.color.white));
+        tv_disable_download.setTextColor(getContext().getColor(R.color.black));
+        tv_enable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
     }
 
 //    private void Hide_AddTag() {
@@ -1464,14 +1531,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         loadRecyclerview(tag, subtag);
     }
 
-    private void hideEnableDownloadBackground() {
-        DOWNLOAD_TAG = true;
-        tv_disable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
-        tv_enable_download.setTextColor(getContext().getColor(R.color.white));
-        tv_disable_download.setTextColor(getContext().getColor(R.color.black));
-        tv_enable_download.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_left_green_background));
-
-    }
 
     public static File getFile(Context context, Uri uri) throws IOException {
         File destinationFilename = new File(context.getFilesDir().getPath() + File.separatorChar + queryName(context, uri));
@@ -2135,7 +2194,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         TextView tv_document_name = view_edit_documents.findViewById(R.id.tv_document_name);
         tv_document_name.setText(R.string.document_name);
 
-
         TextInputEditText tv_description = view_edit_documents.findViewById(R.id.edit_description);
         TextView description = view_edit_documents.findViewById(R.id.description);
         description.setText(R.string.description);
@@ -2143,7 +2201,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         AppCompatButton tv_exp_date = view_edit_documents.findViewById(R.id.tv_expiration_date);
         TextView expiration_date_id = view_edit_documents.findViewById(R.id.expiration_date_id);
         expiration_date_id.setText(R.string.expiration_date);
-
 
         tv_doc_name.setText(documentsModel.getName());
         tv_description.setText(documentsModel.getDescription());
@@ -2256,17 +2313,20 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     }
 
     @Override
+    public void encryption(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList, String tag) {
+
+    }
+
+    @Override
     public void edit_document(ViewDocumentsModel viewDocumentsModel) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view_edit_documents = inflater.inflate(R.layout.edit_meta_data, null);
         ImageView iv_cancel_edit_doc = view_edit_documents.findViewById(R.id.close_edit_docs);
         AppCompatButton btn_close_edit_docs = view_edit_documents.findViewById(R.id.btn_cancel_edit_docs);
         TextInputEditText tv_doc_name = view_edit_documents.findViewById(R.id.edit_doc_name);
         TextView tv_document_name = view_edit_documents.findViewById(R.id.tv_document_name);
         tv_document_name.setText(R.string.document_name);
-
-
         TextInputEditText tv_description = view_edit_documents.findViewById(R.id.edit_description);
         TextView description = view_edit_documents.findViewById(R.id.description);
         description.setText(R.string.description);

@@ -18,6 +18,7 @@ import com.digicoffer.lauditor.Documents.models.DocumentsModel;
 import com.digicoffer.lauditor.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdapter.ViewHolder> {
     ArrayList<DocumentsModel> itemsArrayList;
@@ -45,6 +46,8 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
         void EditDocuments(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList);
 
         void RemoveDocument(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList, String tag);
+
+        void encryption(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList, String tag);
     }
 
     @NonNull
@@ -96,6 +99,26 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             @Override
             public void onClick(View view) {
                 eventListener.ViewTags(documentsModel, itemsArrayList);
+            }
+        });
+        holder.iv_edit_meta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eventListener.EditDocuments(documentsModel, itemsArrayList);
+            }
+        });
+        holder.lock_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.lock_close.setVisibility(View.VISIBLE);
+                holder.lock_open.setVisibility(View.GONE);
+            }
+        });
+        holder.lock_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.lock_open.setVisibility(View.VISIBLE);
+                holder.lock_close.setVisibility(View.GONE);
             }
         });
         holder.iv_edit_meta.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +181,7 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
         private CheckBox cb_documents_list;
         private TextView tv_document_name;
         private LinearLayoutCompat chk_box_layout;
-        private ImageView iv_cancel, iv_edit_meta;
+        private ImageView iv_cancel, iv_edit_meta, lock_close, lock_open;
         private Button btn_view_tags;
 
         public ViewHolder(@NonNull View itemView) {
@@ -167,25 +190,47 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             cb_documents_list = itemView.findViewById(R.id.chk_selected_documents);
             tv_document_name = itemView.findViewById(R.id.tv_document_name);
             iv_edit_meta = itemView.findViewById(R.id.iv_edit_meta);
+            lock_close = itemView.findViewById(R.id.lock_close);
+            lock_open = itemView.findViewById(R.id.lock_open);
             iv_edit_meta.setImageResource(R.drawable.edit_documents_icon);
             btn_view_tags = itemView.findViewById(R.id.btn_view_tags);
-            btn_view_tags.setText("View Tags");
+            btn_view_tags.setText(R.string.view_tags);
             iv_cancel = itemView.findViewById(R.id.iv_cancel);
             iv_cancel.setImageResource(R.drawable.cancel);
-            if (tag == "add_tag") {
+            if (Objects.equals(tag, "add_tag")) {
                 chk_box_layout.setVisibility(View.VISIBLE);
                 cb_documents_list.setVisibility(View.VISIBLE);
                 iv_edit_meta.setVisibility(View.GONE);
                 btn_view_tags.setVisibility(View.GONE);
-            } else if (tag == "edit_meta") {
+                lock_open.setVisibility(View.VISIBLE);
+                lock_close.setVisibility(View.GONE);
+            } else if (Objects.equals(tag, "edit_meta")) {
                 iv_edit_meta.setVisibility(View.VISIBLE);
                 cb_documents_list.setVisibility(View.GONE);
                 chk_box_layout.setVisibility(View.GONE);
                 btn_view_tags.setVisibility(View.GONE);
+                lock_open.setVisibility(View.VISIBLE);
+                lock_close.setVisibility(View.GONE);
+            } else if (Objects.equals(tag, "en_encrption")) {
+                iv_edit_meta.setVisibility(View.GONE);
+                cb_documents_list.setVisibility(View.GONE);
+                chk_box_layout.setVisibility(View.GONE);
+                btn_view_tags.setVisibility(View.GONE);
+                lock_open.setVisibility(View.GONE);
+                lock_close.setVisibility(View.VISIBLE);
+            } else if (Objects.equals(tag, "dis_encrption")) {
+                iv_edit_meta.setVisibility(View.GONE);
+                cb_documents_list.setVisibility(View.GONE);
+                chk_box_layout.setVisibility(View.GONE);
+                btn_view_tags.setVisibility(View.GONE);
+                lock_open.setVisibility(View.VISIBLE);
+                lock_close.setVisibility(View.GONE);
             } else {
                 chk_box_layout.setVisibility(View.GONE);
                 iv_edit_meta.setVisibility(View.GONE);
                 cb_documents_list.setVisibility(View.GONE);
+                lock_open.setVisibility(View.VISIBLE);
+                lock_close.setVisibility(View.GONE);
             }
         }
     }

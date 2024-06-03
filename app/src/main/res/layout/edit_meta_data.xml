@@ -1,49 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_add_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Blue_text_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/close_edit_docs"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/small_size"
-            android:background="@drawable/cancel_icon"
-            android:fontFamily="@font/gill_sans"
-            android:padding="@dimen/small_size"
-            android:textColor="@color/black"
-            android:textSize="@dimen/Fifteen_dp"
-            android:visibility="visible">
-
-        </ImageView>
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/header_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/small_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/left_space"
+            android:layout_marginTop="@dimen/small_size"
+            android:layout_marginEnd="@dimen/left_space"
+            android:layout_marginBottom="@dimen/left_space"
+            android:background="@color/green_count_color"
             android:fontFamily="@font/gill_sans"
             android:gravity="center"
-            android:padding="@dimen/small_size"
-            android:text="Edit Meta Data"
+            android:padding="@dimen/Fifteen_dp"
+            android:text="@string/edit_meta_data"
             android:textColor="@color/white"
             android:textSize="@dimen/Fifteen_dp"
             android:visibility="visible">
 
         </TextView>
+
+        <ImageView
+            android:id="@+id/close_edit_docs"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="-30dp"
+            android:layout_marginTop="-5dp"
+            android:background="@drawable/cancel_icon" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,15 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/small_size"
-        app:layout_constraintBottom_toTopOf="@id/ll_tag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_add_tag"
-        app:layout_constraintVertical_bias="0.0">
+        android:padding="@dimen/small_size">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_size"
@@ -71,12 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
             <include layout="@layout/icon" />
 
         </LinearLayout>
-
-        \
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tv_edit_doc_name"
@@ -84,11 +68,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-
             android:gravity="top"
             android:textColorHint="@color/black"
             app:boxBackgroundMode="outline"
-
 
             app:counterEnabled="true"
             app:counterMaxLength="300"
@@ -101,7 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_weight="1"
-
                 android:maxLength="80" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +123,6 @@
                 android:layout_marginTop="@dimen/small_size"
                 android:maxLength="300" />
 
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -154,14 +134,11 @@
 
             <include
                 android:id="@+id/expiration_date_id"
-
                 layout="@layout/group_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
         </LinearLayout>
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/tv_expiration_date"
@@ -180,7 +157,6 @@
             android:textColor="@color/black"
             android:textSize="@dimen/Fifteen_dp" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -193,7 +169,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_tag"
         app:layout_constraintVertical_bias="0.0">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -208,10 +183,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/small_size"
             android:orientation="horizontal"
-            android:padding="@dimen/small_size"
-
-            >
-
+            android:padding="@dimen/small_size">
 
             <include
                 android:id="@+id/btn_cancel_edit_docs"
@@ -221,7 +193,6 @@
                 android:id="@+id/btn_save_tag"
                 layout="@layout/submit_button" />
 
-
         </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

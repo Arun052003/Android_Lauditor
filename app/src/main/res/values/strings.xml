@@ -208,4 +208,8 @@
     <string name="enable_download">Enable Download</string>
     <string name="disable_download">Disable Download</string>
     <string name="merge_pdf">Merge PDF</string>
+    <string name="enable_encryption">Enable Encryption</string>
+    <string name="disable_encryption">Disable Encryption</string>
+    <string name="view_tags">View Tags</string>
+    <string name="created_">Created :</string>
 </resources>
