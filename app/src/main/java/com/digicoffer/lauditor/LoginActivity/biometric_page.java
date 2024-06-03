@@ -73,13 +73,16 @@ public class biometric_page extends AppCompatActivity {
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate()) {
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                AndroidUtils.showToast("Device can't have the fingerprint", this);
+//                AndroidUtils.showToast("Device can't have the fingerprint", this);
+                Log.d("Fingerprint_1", "Device can't have the fingerprint");
                 break;
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                AndroidUtils.showToast("Device fingerprint not Working", this);
+//                AndroidUtils.showToast("Device fingerprint not Working", this);
+                Log.d("Fingerprint_2", "Device fingerprint not Working");
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                AndroidUtils.showToast("Finger Print is not Added", this);
+//                AndroidUtils.showToast("Finger Print is not Added", this);
+                Log.d("Fingerprint_3", "Finger Print is not Added");
                 break;
         }
 //        Executor executor = ContextCompat.getMainExecutor(this);
@@ -88,7 +91,8 @@ public class biometric_page extends AppCompatActivity {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                AndroidUtils.showToast("Mobile Password Verified successfully", getApplicationContext());
+//                AndroidUtils.showToast("Mobile Password Verified successfully", getApplicationContext());
+                Log.d("Fingerprint_success", "Mobile Password Verified successfully");
                 // Get the SharedPreferences object
                 SharedPreferences sharedPreferences = getSharedPreferences("BIO", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();

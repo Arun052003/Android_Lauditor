@@ -111,13 +111,13 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        tet_email.setText("soundarya.v@digicoffer.com");
 //        tet_email.setText("rajendra.sai@digicoffer.com");
 //        tet_email.setText("soundaryavembaiyan@yahoo.com");
-        tet_email.setText("akhila.bs@lauditor.com");
+//        tet_email.setText("akhila.bs@lauditor.com");
 
 //        tet_email.setText("ragifi5243@jalunaki.com"); -- Only Dev2
 //        tet_email.setText("vengadeshwaran82@gmail.com");
 //        -- Only Staging
-        tet_password.setText("Test@123");
-        Login();
+//        tet_password.setText("Test@123");
+//        Login();
 
         // Initialize the button state  // Initially disabled
         checkFieldsNotEmpty();
@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 try {
                     isAllFieldsChecked = Validate();
                     if (isAllFieldsChecked) {
-                        Login();
+                        Login(Objects.requireNonNull(tet_email.getText()).toString(), Objects.requireNonNull(tet_password.getText()).toString());
                     }
                 } catch (Exception e) {
                     e.fillInStackTrace();
@@ -250,12 +250,12 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 }
                 Constants.TOKEN = Token1;
                 checkBox.setChecked(true);
-                tet_email.setText(email);
-                tet_password.setText(password);
+                tet_email.setText("");
+                tet_password.setText("");
                 if (Constants.Valid_Token)
                     Dashboard();
                 else {
-                    Login();
+                    Login(email, password);
                 }
             } else {
                 startActivity(new Intent(this, biometric_page.class));
@@ -281,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
         WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.GET, Constants.Dashboard, "Dashboard", jsonObject.toString());
     }
 
-    private void Login() {
+    private void Login(String email, String password) {
         try {
             Constants.check_url();
             Constants.PROBIZ_TYPE = "PROFESSIONAL";
@@ -289,8 +289,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
             JSONObject postData = new JSONObject();
 
             progress_dialog = AndroidUtils.get_progress(LoginActivity.this);
-            postData.put("email", Objects.requireNonNull(tet_email.getText()).toString());
-            postData.put("password", Objects.requireNonNull(tet_password.getText()).toString());
+            postData.put("email", Objects.requireNonNull(email));
+            postData.put("password", Objects.requireNonNull(password));
             WebServiceHelper.callHttpWebService(LoginActivity.this, LoginActivity.this, WebServiceHelper.RestMethodType.POST, "login", "LOGIN", postData.toString());
         } catch (Exception e) {
             if (progress_dialog != null && progress_dialog.isShowing())

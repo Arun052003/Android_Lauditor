@@ -321,7 +321,8 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                     EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
                     UpdatePageButton(currentPage);
                 } else {
-                    AndroidUtils.showAlert("Index ended", getContext());
+//                    AndroidUtils.showAlert("Index ended", getContext());
+                    Log.d("page_index_f", "Index ended");
                 }
             }
         });
@@ -334,7 +335,7 @@ public class MatterInformation extends Fragment implements View.OnClickListener 
                     EditAdvocateUI(advocateModel.getAdvocate_name(), advocateModel.getEmail(), advocateModel.getNumber(), currentPage, view);
                     UpdatePageButton(currentPage);
                 } else {
-                    AndroidUtils.showAlert("Index ended", getContext());
+                    Log.d("page_index_p", "Index ended");
                 }
             }
         });
