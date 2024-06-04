@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/left_space"
-                android:paddingBottom="30dp">
+                android:paddingBottom="@dimen/thirty_dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -38,8 +38,8 @@
 
                     <ImageView
                         android:id="@+id/close_groups"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/small_size"
                         android:src="@drawable/cancel_icon" />
@@ -52,7 +52,7 @@
                         android:fontFamily="@font/gill_sans"
                         android:gravity="center_horizontal"
                         android:padding="@dimen/small_size"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="@dimen/thirty_dp"
                         android:text="@string/select_groups"
                         android:textColor="@color/white"
                         android:textSize="@dimen/Fifteen_dp"

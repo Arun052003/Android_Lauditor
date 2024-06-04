@@ -26,7 +26,7 @@
             android:format12Hour="MMM dd yyyy"
             android:padding="@dimen/small_size"
             android:text="gdhjbdfbgjbdf"
-            android:textSize="30dp">
+            android:textSize="@dimen/thirty_dp">
 
         </TextClock>
 

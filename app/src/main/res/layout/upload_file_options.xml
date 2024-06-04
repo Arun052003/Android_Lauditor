@@ -31,7 +31,7 @@
                 android:layout_gravity="center"
 
                 app:cardCornerRadius="0dp"
-                app:cardElevation="4dp">
+                app:cardElevation="@dimen/left_space">
 
                 <Button
                     android:id="@+id/bt_camera"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="@dimen/left_space"
             app:cardElevation="@dimen/small_size"
             app:cardPreventCornerOverlap="true">
 
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="@dimen/left_space"
             app:cardElevation="@dimen/small_size"
             app:cardPreventCornerOverlap="true">
 
@@ -188,7 +188,7 @@
 
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="0dp"
-                app:cardElevation="4dp">
+                app:cardElevation="@dimen/left_space">
 
                 <Button
                     android:id="@+id/bt_cancel"

@@ -26,8 +26,8 @@
 
                 <ImageView
                     android:id="@+id/close_tags"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="center"
                     android:src="@drawable/cancel_icon"
                     android:layout_margin="@dimen/small_size" />

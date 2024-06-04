@@ -8,14 +8,14 @@
     android:layout_weight="1"
     app:cardBackgroundColor="@color/blue"
     app:cardCornerRadius="@dimen/eight_dp"
-    app:cardElevation="4dp">
+    app:cardElevation="@dimen/left_space">
 
     <LinearLayout
         android:id="@+id/action_layout"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="@dimen/left_space">
 
         <TextView
             android:id="@+id/textView2"

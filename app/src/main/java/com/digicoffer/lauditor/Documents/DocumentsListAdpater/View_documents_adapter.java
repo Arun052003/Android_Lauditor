@@ -170,11 +170,11 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
             tv_doc_description = itemView.findViewById(R.id.tv_doc_description);
             tv_doc_description.setTextSize(15);
             tv_created_date = itemView.findViewById(R.id.tv_created_date);
-            tv_created_date.setText("Date");
+            tv_created_date.setText(R.string.date);
             tv_Expiration = itemView.findViewById(R.id.tv_Expiration);
-            tv_Expiration.setText("Expiration:");
+            tv_Expiration.setText(R.string.expiration_);
             tv_Expiration_date = itemView.findViewById(R.id.tv_Expiration_date);
-            tv_Expiration_date.setText("Expiration");
+            tv_Expiration_date.setText(R.string.expiration);
             iv_view_document = itemView.findViewById(R.id.iv_edit_view);
         }
     }

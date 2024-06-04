@@ -76,9 +76,9 @@
 
             <ImageView
                 android:id="@+id/btn_delete_all"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/left_space"
                 android:layout_weight="1"
                 android:padding="2dp"
                 android:src="@drawable/delete_white_icon"

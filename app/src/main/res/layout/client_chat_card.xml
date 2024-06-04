@@ -54,7 +54,7 @@
         android:layout_width="@dimen/Fifty_dp"
         android:layout_height="@dimen/Fifty_dp"
         android:layout_gravity="center"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/left_space"
         android:contentDescription="@string/todo"
         android:background="@drawable/digilogo"
 

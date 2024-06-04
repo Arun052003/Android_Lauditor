@@ -7,14 +7,14 @@
     android:layout_margin="@dimen/left_space"
     android:layout_marginBottom="@dimen/left_space"
     android:background="@drawable/round_shadow"
-    android:elevation="4dp">
+    android:elevation="@dimen/left_space">
 
     <androidx.appcompat.widget.LinearLayoutCompat
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:elevation="4dp"
+        android:elevation="@dimen/left_space"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -31,7 +31,8 @@
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/small_size"
             android:background="@drawable/check_box"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:visibility="gone">
 
             <include
                 android:id="@+id/chk_selected_documents"
@@ -45,7 +46,8 @@
             android:layout_height="@dimen/thirty_dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/left_space"
-            android:src="@drawable/edit_documents_icon" />
+            android:src="@drawable/edit_documents_icon"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/lock_close"

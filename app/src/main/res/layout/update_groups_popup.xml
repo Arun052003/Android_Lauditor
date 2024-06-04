@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/close_details"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/small_size"
             android:background="@drawable/cancel_icon"

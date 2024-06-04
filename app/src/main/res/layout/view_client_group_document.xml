@@ -19,9 +19,6 @@
         app:layout_constraintTop_toBottomOf="@id/rv_display_name"
         app:layout_constraintVertical_bias="0.024">
 
-
-
-
         <ImageView
             android:id="@+id/iv_doc_image"
             android:layout_width="80dp"
@@ -55,33 +52,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/gill_sans"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="5dp" />
 
                 <include
                     android:id="@+id/tv_client_name"
                     layout="@layout/uploadtext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_image_name"
-                    android:fontFamily="@font/gill_sans"
-                    android:textSize="12sp" />
+                    android:layout_height="wrap_content" />
 
                 <include
                     android:id="@+id/tv_doc_description"
                     layout="@layout/uploadtext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_client_name"
-                    android:fontFamily="@font/gill_sans"
-                    android:textSize="12sp" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <CheckBox
                 android:id="@+id/checkbox_id"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -111,17 +100,14 @@
                 layout="@layout/createdocument"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_created"
-                android:text="Date" />
+                android:layout_toEndOf="@id/tv_created" />
 
             <include
                 android:id="@+id/tv_Expiration"
                 layout="@layout/createdocument"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_created"
-                android:text="Expiration:"
-                android:textColor="@color/white" />
+                android:layout_below="@+id/tv_created" />
 
             <include
                 android:id="@+id/tv_Expiration_date"
@@ -129,12 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_created_date"
-                android:layout_toRightOf="@id/tv_Expiration"
-                android:text="Expiration" />
+                android:layout_toEndOf="@id/tv_Expiration" />
         </RelativeLayout>
-
-
     </RelativeLayout>
-
-
 </RelativeLayout>

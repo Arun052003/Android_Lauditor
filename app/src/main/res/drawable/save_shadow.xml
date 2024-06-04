@@ -19,12 +19,12 @@
         </shape>
     </item>
     <!-- Dark Black Shadow on the right side -->
-    <item android:left="30dp">
+    <item android:left="@dimen/thirty_dp">
         <shape android:shape="rectangle">
             <solid android:color="#FF000000" /> <!-- Dark Black Color -->
             <corners android:radius="@dimen/small_size" />
         </shape>
-        <padding android:right="30dp" />
+        <padding android:right="@dimen/thirty_dp" />
     </item>
 </layer-list>
 

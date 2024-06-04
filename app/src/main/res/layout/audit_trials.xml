@@ -16,7 +16,7 @@
         app:layout_constraintVertical_bias="0"
         android:layout_margin="16dp"
         app:cardCornerRadius="@dimen/eight_dp"
-        app:cardElevation="4dp">
+        app:cardElevation="@dimen/left_space">
 
         <LinearLayout
             android:layout_width="match_parent"

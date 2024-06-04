@@ -202,15 +202,11 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
                 cb_documents_list.setVisibility(View.VISIBLE);
                 iv_edit_meta.setVisibility(View.GONE);
                 btn_view_tags.setVisibility(View.GONE);
-                lock_open.setVisibility(View.VISIBLE);
-                lock_close.setVisibility(View.GONE);
             } else if (Objects.equals(tag, "edit_meta")) {
                 iv_edit_meta.setVisibility(View.VISIBLE);
                 cb_documents_list.setVisibility(View.GONE);
                 chk_box_layout.setVisibility(View.GONE);
                 btn_view_tags.setVisibility(View.GONE);
-                lock_open.setVisibility(View.VISIBLE);
-                lock_close.setVisibility(View.GONE);
             } else if (Objects.equals(tag, "en_encrption")) {
                 btn_view_tags.setVisibility(View.GONE);
                 lock_open.setVisibility(View.GONE);

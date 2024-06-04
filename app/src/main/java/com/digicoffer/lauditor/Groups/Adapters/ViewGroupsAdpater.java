@@ -33,6 +33,7 @@ import com.digicoffer.lauditor.common_adapters.CommonSpinnerAdapter;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.ViewHolder> implements Filterable {
     ArrayList<ViewGroupModel> itemsArrayList;
@@ -131,25 +132,30 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
         Log.i("Tag", "tagname" + mTag);
         ViewGroupModel viewGroupModel = itemsArrayList.get(position);
         itemsArrayList = list_item;
-        if (mTag == "VG") {
+        if (Objects.equals(mTag, "VG")) {
             holder.sp_action.setVisibility(View.GONE);
             holder.tv_user_type.setText(viewGroupModel.getName());
             holder.tv_owner_name.setText(viewGroupModel.getOwner_name());
             holder.tv_date.setText(viewGroupModel.getCreated());
             holder.tv_description.setText(viewGroupModel.getDescription());
             //Modifying a text and its color in a design
-            holder.created_id.setText("Created :");
+            holder.created_id.setText(R.string.created_);
             holder.tv_owner_name.setTextColor(Color.BLACK);
             holder.tv_date.setTextColor(Color.BLACK);
-            actions_List.clear();
-
+            if (viewGroupModel.getDescription().equals("Group created by system.")) {
+                actions_List.clear();
+                actions_List.add(new ActionModel("Add|Remove"));
+                actions_List.add(new ActionModel("Group Activity Log"));
+            } else {
+                actions_List.clear();
 ////        actions_List.add(new ActionModel("Add|Remove"));
 //            actions_List.add(new ActionModel("Choose Actions"));
-            actions_List.add(new ActionModel("Edit Group"));
-            actions_List.add(new ActionModel("Delete"));
-            actions_List.add(new ActionModel("Change Group Head"));
-            actions_List.add(new ActionModel("Update Group Members"));
-            actions_List.add(new ActionModel("Group Activity Log"));
+                actions_List.add(new ActionModel("Edit Group"));
+                actions_List.add(new ActionModel("Delete"));
+                actions_List.add(new ActionModel("Update Group Members"));
+                actions_List.add(new ActionModel("Change Practice Head"));
+                actions_List.add(new ActionModel("Group Activity Log"));
+            }
             final CommonSpinnerAdapter spinner_adapter = new CommonSpinnerAdapter((Activity) mcontext, actions_List);
             holder.sp_action.setAdapter(spinner_adapter);
 
@@ -168,24 +174,23 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
             holder.sp_action.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int name = position;
-                    if (name == 0) {
+                    if (position == 0) {
                         group.page_name("Edit Group");
                         eventListener.EditGroup(viewGroupModel);
-                    } else if (name == 1) {
+                    } else if (position == 1) {
                         group.page_name("Delete Group");
                         eventListener.DeleteGroup(viewGroupModel, itemsArrayList);
-                    } else if (name == 2) {
-                        group.page_name("Change Group Head");
-                        eventListener.CGH(viewGroupModel, itemsArrayList);
-                    } else if (name == 3) {
+                    } else if (position == 2) {
                         group.page_name("Update Group Members");
                         try {
                             eventListener.UGM(viewGroupModel);
                         } catch (Exception e) {
                             e.fillInStackTrace();
                         }
-                    } else if (name == 4) {
+                    } else if (position == 3) {
+                        group.page_name("Change Group Head");
+                        eventListener.CGH(viewGroupModel, itemsArrayList);
+                    } else if (position == 4) {
                         group.page_name("Group Activity Log");
                         try {
                             eventListener.GAL(viewGroupModel);
@@ -196,22 +201,18 @@ public class ViewGroupsAdpater extends RecyclerView.Adapter<ViewGroupsAdpater.Vi
                     holder.sp_action.setVisibility(View.GONE);
                 }
             });
-        } else if (mTag == "UGM") {
+        } else if (Objects.equals(mTag, "UGM")) {
             holder.cb_team_members.setChecked(itemsArrayList.get(position).isChecked());
             holder.cb_team_members.setTag(position);
             holder.cb_team_members.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Integer pos = (Integer) holder.cb_team_members.getTag();
-                    if (itemsArrayList.get(pos).isChecked()) {
-                        itemsArrayList.get(pos).setChecked(false);
-                    } else {
-                        itemsArrayList.get(pos).setChecked(true);
-                    }
+                    itemsArrayList.get(pos).setChecked(!itemsArrayList.get(pos).isChecked());
                 }
             });
             holder.tv_tm_name.setText(viewGroupModel.getName());
-        } else if (mTag == "DG") {
+        } else if (Objects.equals(mTag, "DG")) {
 //            holder.check_layout.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {

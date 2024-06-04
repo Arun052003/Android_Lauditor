@@ -238,32 +238,27 @@ public class view_document_emailadapter extends RecyclerView.Adapter<view_docume
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         CheckBox checkbox_id;
         RelativeLayout rv_doc_details;
-
         ViewDocumentsModel viewDocumentsModel;
         TextView tv_document_display_name, tv_Expiration, tv_client_name_one, tv_image_name, tv_Expiration_date, tv_client_name, tv_doc_description, tv_created_date;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tv_image_name = itemView.findViewById(R.id.tv_image_name);
             tv_client_name = itemView.findViewById(R.id.tv_client_name);
             tv_client_name.setTextSize(15);
             checkbox_id = itemView.findViewById(R.id.checkbox_id);
             checkbox_id.setVisibility(View.VISIBLE);
             rv_doc_details = itemView.findViewById(R.id.rv_doc_details);
-
             tv_doc_description = itemView.findViewById(R.id.tv_doc_description);
             tv_doc_description.setTextSize(15);
             tv_created_date = itemView.findViewById(R.id.tv_created_date);
-            tv_created_date.setText("Date");
+            tv_created_date.setText(R.string.date);
             tv_Expiration = itemView.findViewById(R.id.tv_Expiration);
-            tv_Expiration.setText("Expiration:");
+            tv_Expiration.setText(R.string.expiration_);
             tv_Expiration_date = itemView.findViewById(R.id.tv_Expiration_date);
-            tv_Expiration_date.setText("Expiration");
+            tv_Expiration_date.setText(R.string.expiration);
 
         }
     }

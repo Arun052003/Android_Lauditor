@@ -139,7 +139,7 @@
                         android:id="@+id/btn_cancel_save"
                         layout="@layout/cancel_button"
                         android:layout_width="70dp"
-                        android:layout_height="30dp" />
+                        android:layout_height="@dimen/thirty_dp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -150,7 +150,7 @@
                         android:id="@+id/btn_create"
                         layout="@layout/submit_button"
                         android:layout_width="70dp"
-                        android:layout_height="30dp" />
+                        android:layout_height="@dimen/thirty_dp" />
                 </LinearLayout>
             </LinearLayout>
 

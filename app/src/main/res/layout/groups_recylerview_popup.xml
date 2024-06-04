@@ -17,7 +17,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="@dimen/left_space"
-                    android:paddingBottom="30dp"
+                    android:paddingBottom="@dimen/thirty_dp"
                     >
 
                     <LinearLayout
@@ -28,7 +28,7 @@ android:background="@color/white"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/close_groups"
-                            android:layout_width="30dp"
+                            android:layout_width="@dimen/thirty_dp"
                             android:visibility="gone"
                             android:padding="@dimen/small_size"
 
@@ -36,7 +36,7 @@ android:background="@color/white"
                             android:layout_gravity="center"
                             android:fontFamily="@font/gill_sans"
                             android:textSize="@dimen/Fifteen_dp"
-                            android:layout_height="30dp"
+                            android:layout_height="@dimen/thirty_dp"
                             android:background="@drawable/cancel_icon"
                             android:layout_margin="@dimen/small_size">
 

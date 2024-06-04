@@ -86,7 +86,7 @@
                 <EditText
                     android:id="@+id/to_input"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/thirty_dp"
                     android:layout_marginStart="@dimen/left_space"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
@@ -124,7 +124,7 @@
                 <EditText
                     android:id="@+id/subject_input"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/thirty_dp"
                     android:layout_marginStart="@dimen/left_space"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
@@ -177,7 +177,7 @@
             <!-- Attachment icon -->
             <ImageView
                 android:id="@+id/attachments"
-                android:layout_width="30dp"
+                android:layout_width="@dimen/thirty_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/eight_dp"

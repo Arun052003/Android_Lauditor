@@ -77,7 +77,7 @@
                 android:layout_width="@dimen/Fifteen_dp"
                 android:layout_height="@dimen/small_size"
                 android:layout_marginTop="@dimen/small_size"
-                android:layout_marginRight="4dp" />
+                android:layout_marginRight="@dimen/left_space" />
         </LinearLayout>
 
         <include
@@ -124,7 +124,7 @@
             android:layout_width="@dimen/Fifteen_dp"
             android:layout_height="@dimen/small_size"
             android:layout_marginTop="@dimen/small_size"
-            android:layout_marginRight="4dp" />
+            android:layout_marginRight="@dimen/left_space" />
     </LinearLayout>
 
 
@@ -142,7 +142,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="@dimen/small_size"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/left_space"
                 android:background="@drawable/rectangle_light_grey_bg"
                 android:drawableRight="@drawable/down_arrow"
                 android:fontFamily="@font/gill_sans"
@@ -182,7 +182,7 @@
         android:id="@+id/ll_buttons_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/thirty_dp"
 
         android:orientation="horizontal">
 

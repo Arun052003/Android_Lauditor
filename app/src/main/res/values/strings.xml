@@ -212,4 +212,5 @@
     <string name="disable_encryption">Disable Encryption</string>
     <string name="view_tags">View Tags</string>
     <string name="created_">Created :</string>
+    <string name="expiration_">Expiration:</string>
 </resources>

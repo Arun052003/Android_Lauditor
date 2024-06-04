@@ -22,7 +22,7 @@
             android:elevation="@dimen/Fifty_dp"
             android:padding="@dimen/small_size"
             android:visibility="visible"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="@dimen/left_space"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

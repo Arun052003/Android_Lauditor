@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0"
         app:cardCornerRadius="@dimen/eight_dp"
-        app:cardElevation="4dp">
+        app:cardElevation="@dimen/left_space">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

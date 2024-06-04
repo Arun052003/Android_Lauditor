@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/left_space"
-                android:paddingBottom="30dp">
+                android:paddingBottom="@dimen/thirty_dp">
 
                 <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"

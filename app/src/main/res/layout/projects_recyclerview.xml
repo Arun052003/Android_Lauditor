@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/small_size"
     android:background="@drawable/round_shadow"
-    android:elevation="4dp"
+    android:elevation="@dimen/left_space"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat

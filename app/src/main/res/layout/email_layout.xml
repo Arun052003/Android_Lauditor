@@ -83,13 +83,13 @@
 
                 <ImageView
                     android:id="@+id/compose"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/left_space"
                     android:src="@drawable/compose"
                     tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="4dp"
+                    tools:layout_editor_absoluteX="@dimen/left_space"
                     tools:layout_editor_absoluteY="125dp" />
 
                 <LinearLayout
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/eight_dp"
                         app:cardCornerRadius="@dimen/eight_dp"
-                        app:cardElevation="4dp">
+                        app:cardElevation="@dimen/left_space">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/left_arrow"
                         tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteX="4dp"
+                        tools:layout_editor_absoluteX="@dimen/left_space"
                         tools:layout_editor_absoluteY="125dp" />
 
                     <ImageView

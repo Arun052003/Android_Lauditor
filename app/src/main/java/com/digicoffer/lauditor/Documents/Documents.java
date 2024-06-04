@@ -85,10 +85,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -109,6 +112,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
     //Initialize a file count to Zero
     String exp_date = "";
+    byte[] filedata;
     //....
     TextView custom_spinner, custom_spinner2, custom_spinner3, custom_spinner4, custom_spinner_group, tv_select_groups_view;
     CardView cv_view_doc;
@@ -1098,6 +1102,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             jsonObject.put("filename", docname);
                             jsonObject.put("category", "client");
                             jsonObject.put("clients", clients);
+                            jsonObject.put("file", "(binary)");
+                            jsonObject.put("custom_encrypt", ENCRYPTION_TAG);
                             jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
                             if (docsList.get(i).getTags() == null) {
                                 jsonObject.put("tags", "");
@@ -1327,6 +1333,19 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         bottommSheetUploadDocument.setTargetFragment(Documents.this, 1);
     }
 
+    public static String convertfiletostring(File file) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        FileInputStream fis = new FileInputStream(file);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            stringBuilder.append(line).append("\n");
+        }
+        bufferedReader.close();
+        return stringBuilder.toString();
+    }
+
+
     @SuppressLint("Range")
     @Override
     public void getImagepath(File imagepath, Uri ImageURI) throws IOException {
@@ -1345,6 +1364,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             String file_name = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
             //Displaying the files count.....
             Hide_Add_EditMeta();
+            is_clicked_edit = true;
+            is_clicked_add = true;
             count_file++;
             if (count_file > 0) {
                 tv_selected_file.setText(count_file + " files");
@@ -1356,10 +1377,13 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 
             load_documents(docsList, file_name, file);
         } else {
-            file = getFile(getContext(), ImageURI);
+            file = getFile(requireContext(), ImageURI);
             Log.i("FILE", "Info:" + file.toString());
             String file_name = file.getName();
             count_file++;
+            Hide_Add_EditMeta();
+            is_clicked_edit = true;
+            is_clicked_add = true;
             //Displaying the files count.....
             if (count_file > 0) {
                 tv_selected_file.setText(count_file + " files");
@@ -1380,13 +1404,31 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     public void remove_file(boolean ischecked) {
         if (ischecked) {
             count_file--;
-            if (count_file >= 0) {
-                tv_selected_file.setText(count_file + " files");
+            if (count_file < 0) {
+                count_file = 0;
+            }
+            tv_selected_file.setText(count_file + " files");
+            if (count_file == 0) {
+                ll_hide_document_details.setVisibility(View.GONE);
             }
         }
     }
 
     private void load_documents(ArrayList<DocumentsModel> docsList, String file_name, File file) {
+//
+//        try {
+//             filedata= convertfiletostring(file).getBytes();
+//            Log.d("File_data1", Arrays.toString(filedata));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        try {
+//            String filedata= convertfiletostring(file);
+//            Log.d("File_data2", filedata);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
 //        for (int i = 0; i < docsList.size(); i++) {
 //            View view = LayoutInflater.from(getContext()).inflate(R.layout.displays_documents_list, null);
 //            TextView tv_docname = view.findViewById(R.id.tv_document_name);
@@ -1428,6 +1470,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         //passing the context to list adatper class..
         adapter = new DocumentsListAdapter(docsList, tag, subtag, this, Documents.this);
         rv_documents.setAdapter(adapter);
+        if (docsList.isEmpty())
+            rv_documents.removeAllViews();
         rv_documents.setHasFixedSize(true);
 
         //checking the check box whether all the list items are checked....
@@ -1503,8 +1547,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     //Hide when
     private void Hide_Add_EditMeta() {
         chk_box_layout.setAlpha(0.5F);
-        is_clicked_edit = true;
-        is_clicked_add = true;
         chk_select_all.setEnabled(false);
         chk_select_all.setChecked(false);
         btn_add_tags.setVisibility(View.GONE);
