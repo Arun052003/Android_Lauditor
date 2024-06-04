@@ -1102,8 +1102,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             jsonObject.put("filename", docname);
                             jsonObject.put("category", "client");
                             jsonObject.put("clients", clients);
-                            jsonObject.put("file", "(binary)");
-                            jsonObject.put("custom_encrypt", ENCRYPTION_TAG);
+//                            jsonObject.put("file", "(binary)");
+//                            jsonObject.put("custom_encrypt", ENCRYPTION_TAG);
                             jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
                             if (docsList.get(i).getTags() == null) {
                                 jsonObject.put("tags", "");
