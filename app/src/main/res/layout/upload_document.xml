@@ -664,7 +664,6 @@
 
                         </LinearLayout>
 
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -674,7 +673,6 @@
                         android:layout_below="@id/ll_client_name_view"
                         android:orientation="vertical">
 
-
                         <include
                             android:id="@+id/matter_name"
                             layout="@layout/group_layout"
@@ -682,7 +680,6 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/small_size"
                             android:layout_marginBottom="@dimen/small_size" />
-
 
                         <include
                             android:id="@+id/custom_spinner4"
@@ -731,13 +728,13 @@
                             android:layout_marginStart="@dimen/left_space"
                             android:layout_marginEnd="@dimen/left_space"
                             android:background="@drawable/rectangle_light_grey_bg"
-                            android:drawableRight="@drawable/down_arrow"
                             android:enabled="true"
                             android:fontFamily="@font/gill_sans"
                             android:padding="@dimen/Fifteen_dp"
                             android:text="@string/select_groups"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/Fifteen_dp" />
+                            android:textSize="@dimen/Fifteen_dp"
+                            app:drawableRightCompat="@drawable/down_arrow" />
 
                         <LinearLayout
                             android:id="@+id/view_group_layout"
@@ -801,19 +798,17 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ll_categories_layout"
                         android:layout_marginTop="@dimen/small_size"
-                        android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
 
 
                         <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="3dp"
                             android:background="@drawable/rectangle_light_grey_bg"
-                            android:hint="Search "
+                            android:hint="@string/search"
                             android:textColorHint="@color/black">
 
                             <include
@@ -831,19 +826,16 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ll_search_client_view"
                         android:layout_marginTop="@dimen/small_size"
-                        android:layout_weight="1"
                         android:orientation="vertical"
                         android:visibility="visible">
 
-
                         <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="3dp"
+                            android:layout_margin="@dimen/left_space"
                             android:background="@drawable/rectangle_light_grey_bg"
-                            android:hint="Search "
+                            android:hint="@string/search"
                             android:textColorHint="@color/black">
 
                             <include
@@ -851,31 +843,15 @@
                                 layout="@layout/search_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="3dp" />
+                                android:layout_margin="@dimen/left_space" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
-
-
                 </RelativeLayout>
-
-
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_view_documents"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/Fifteen_dp"
-                android:elevation="@dimen/Fifty_dp"
-                android:padding="@dimen/left_space"
-                android:visibility="visible"
-                app:cardCornerRadius="@dimen/left_space">
-
-                <include
-                    android:id="@+id/rv_display_view_docs"
-                    layout="@layout/recyclerview" />
-
-            </androidx.cardview.widget.CardView>
+            <include
+                android:id="@+id/rv_display_view_docs"
+                layout="@layout/recyclerview" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

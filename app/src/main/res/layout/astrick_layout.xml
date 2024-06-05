@@ -3,5 +3,5 @@
     android:id="@+id/astrick"
     android:layout_width="@dimen/Fifteen_dp"
     android:layout_height="@dimen/small_size"
-    android:layout_marginTop="2dp"
+    android:layout_marginTop="@dimen/two_dp"
     android:src="@drawable/asterisk_icon"></ImageView>

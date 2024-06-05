@@ -66,10 +66,10 @@
                 android:id="@+id/ib_read"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="@dimen/two_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="2dp"
+                android:padding="@dimen/two_dp"
                 android:text="Read"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/Fifteen_dp" />
@@ -80,7 +80,7 @@
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/left_space"
                 android:layout_weight="1"
-                android:padding="2dp"
+                android:padding="@dimen/two_dp"
                 android:src="@drawable/delete_white_icon"
                 android:contentDescription="@string/app_name" />
 

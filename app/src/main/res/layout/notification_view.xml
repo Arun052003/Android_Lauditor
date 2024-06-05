@@ -29,7 +29,7 @@
                     android:layout_margin="@dimen/left_space"
                     android:fontFamily="@font/gill_sans"
                     android:gravity="start"
-                    android:padding="2dp"
+                    android:padding="@dimen/two_dp"
                     android:text="Message"
                     android:textColor="@color/Blue_text_color"
                     android:textStyle="bold" />
@@ -44,7 +44,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
 
-                    android:padding="2dp"
+                    android:padding="@dimen/two_dp"
                     android:text="Date"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="12sp" />

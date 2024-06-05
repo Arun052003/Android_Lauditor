@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/gill_sans"
             android:gravity="center"
-            android:padding="2dp"
+            android:padding="@dimen/two_dp"
             android:text="Action"
             android:textColor="@color/white"
             android:textSize="14sp" />

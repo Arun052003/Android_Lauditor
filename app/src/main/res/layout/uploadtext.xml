@@ -6,6 +6,8 @@
     android:layout_gravity="start"
     android:fontFamily="@font/gill_sans"
     android:gravity="start"
+    android:maxLines="3"
+    android:ellipsize="end"
     android:text="@string/upload"
     android:textColor="@color/black"
-    android:textSize="@dimen/twenty_dp" />
+    android:textSize="@dimen/eighteen_sp" />

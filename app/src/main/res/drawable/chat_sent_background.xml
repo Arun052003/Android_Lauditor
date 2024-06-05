@@ -5,7 +5,7 @@
             <corners android:bottomLeftRadius="44dp" android:bottomRightRadius="0dp" android:radius="44dp" android:topLeftRadius="44dp" android:topRightRadius="44dp" />
             <gradient android:angle="90" android:centerColor="#0F4165" android:endColor="#093A5E" android:startColor="#145280" android:type="radial" />
             <padding android:bottom="0dp" android:left="0dp" android:right="0dp" android:top="0dp" />
-            <stroke android:width="2dp" android:color="@color/dark_grey" />
+            <stroke android:width="@dimen/two_dp" android:color="@color/dark_grey" />
         </shape>
     </item>
 </selector>

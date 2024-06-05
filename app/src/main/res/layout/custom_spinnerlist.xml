@@ -11,7 +11,7 @@
         android:id="@+id/custom_client"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_margin="6dp"/>
+        android:layout_margin="@dimen/six_dp"/>
 
     <ScrollView
         android:id="@+id/list_scroll_view"

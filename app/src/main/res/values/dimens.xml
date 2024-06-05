@@ -11,13 +11,16 @@
     <dimen name="Fifteen_dp">15sp</dimen>
     <dimen name="Twelve_dp">12dp</dimen>
     <dimen name="left_space">4dp</dimen>
+    <dimen name="two_dp">2dp</dimen>
     <dimen name="eight_dp">8dp</dimen>
     <dimen name="small_size">10dp</dimen>
     <dimen name="thirty_dp">30dp</dimen>
     <dimen name="forty_dp">40dp</dimen>
     <dimen name="sixty_dp">60dp</dimen>
+    <dimen name="six_dp">6dp</dimen>
     <dimen name="Fifty_dp">50dp</dimen>
     <dimen name="module_btn_size">120dp</dimen>
     <dimen name="twenty_five">25dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="eighteen_sp">18sp</dimen>
 </resources>

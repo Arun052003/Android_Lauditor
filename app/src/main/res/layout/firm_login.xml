@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/small_size"
-                    app:cardCornerRadius="6dp"
+                    app:cardCornerRadius="@dimen/six_dp"
                     app:cardElevation="@dimen/eight_dp">
 
                     <TextView

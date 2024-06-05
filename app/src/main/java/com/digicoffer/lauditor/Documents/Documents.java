@@ -113,6 +113,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     //Initialize a file count to Zero
     String exp_date = "";
     byte[] filedata;
+    String ReceivedFileName = "";
     //....
     TextView custom_spinner, custom_spinner2, custom_spinner3, custom_spinner4, custom_spinner_group, tv_select_groups_view;
     CardView cv_view_doc;
@@ -212,8 +213,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
 //            sp_client = v.findViewById(R.id.at_search_client);
 //            sp_client.isShown();
 //            tv_search_client = v.findViewById(R.id.tv_search_client);
-            cv_view_documents = v.findViewById(R.id.cv_view_documents);
-            cv_view_documents.setVisibility(View.GONE);
             tv_search_client_view = v.findViewById(R.id.tv_search_client_view);
 
             custom_spinner = v.findViewById(R.id.custom_spinner);
@@ -606,7 +605,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     view_docs_list.clear();
                     DOCUMENT_TYPE_TAG = "client";
                     CATEGORY_TAG = "client";
-//                    cv_view_documents.setVisibility(View.VISIBLE);
                     rv_display_view_docs.setVisibility(View.VISIBLE);
 //                    callViewDocumentWebservice();
                 }
@@ -623,7 +621,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     rv_display_view_docs.removeAllViews();
                     DOCUMENT_TYPE_TAG = "firm";
                     rv_display_view_docs.removeAllViews();
-                    cv_view_documents.setVisibility(View.GONE);
 //                    callViewDocumentWebservice();
 //                    callclientfirmWebServices();
                 }
@@ -1116,6 +1113,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             } else {
                                 jsonObject.put("content_type", "application/" + doc_type);
                             }
+                            Log.d("Content_type", doc_type);
                             WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
 
 //            AndroidUtils.showAlert(jsonObject.toString(),getContext());
@@ -1172,6 +1170,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             } else {
                                 jsonObject.put("content_type", "application/" + doc_type);
                             }
+                            Log.d("Content_type", "image/" + doc_type);
 
 //            AndroidUtils.showAlert(jsonObject.toString(),getContext());
                             WebServiceHelper.callHttpUploadWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/upload", "Upload Document", new_file, jsonObject.toString());
@@ -1771,7 +1770,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         } else {
             pdfView.setVisibility(View.GONE);
             iv_image.setVisibility(View.VISIBLE);
-            Glide.with(getContext())
+            Glide.with(requireContext())
                     .load(url)
                     .placeholder(R.drawable.progress_animation)
                     .centerCrop()
@@ -1790,6 +1789,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         dialog.show();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void loadWeb(WebView webView, ImageView imageView, String pdfUrl) {
         imageView.setVisibility(View.GONE);
         webView.setVisibility(View.VISIBLE);
@@ -1985,20 +1985,16 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                         // Update selected groups list
                         if (documentsModel.isGroupChecked()) {
                             selected_groups_list.add(documentsModel);
-                            cv_view_documents.setVisibility(View.VISIBLE);
                             rv_display_view_docs.setVisibility(View.VISIBLE);
                         } else {
                             // Remove the unchecked item from selected_groups_list
                             for (int i = 0; i < selected_groups_list.size(); i++) {
                                 if (selected_groups_list.get(i).getGroup_id().equals(documentsModel.getGroup_id())) {
                                     selected_groups_list.remove(i);
-
                                     break; // Exit loop after removing the item
                                 }
                             }
                         }
-
-
                         // Update TextView with selected groups
                         String[] value = new String[selected_groups_list.size()];
                         String[] value_id = new String[selected_groups_list.size()];
@@ -2029,9 +2025,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 e.fillInStackTrace();
                 AndroidUtils.showAlert(e.getMessage(), getContext());
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (java.lang.InstantiationException e) {
+        } catch (IllegalAccessException | java.lang.InstantiationException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2048,7 +2042,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             mattersModel.setType(jsonObject.getString("type"));
             matterlist.add(mattersModel);
         }
-        if (matterlist.size() == 0) {
+        if (matterlist.isEmpty()) {
             ll_matter_view.setVisibility(View.GONE);
             ll_matter.setVisibility(View.GONE);
         } else {
@@ -2093,7 +2087,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 //The matter list should not call.
                 ismatter_chosen = false;
                 callfilter_client_webservices();
-                cv_view_documents.setVisibility(View.VISIBLE);
                 rv_display_view_docs.setVisibility(View.VISIBLE);
             }
         });
@@ -2138,7 +2131,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 matter_id = "";
                 ismatter_chosen = true;
                 callfilter_client_webservices();
-                cv_view_documents.setVisibility(View.VISIBLE);
                 rv_display_view_docs.setVisibility(View.VISIBLE);
                 list_client_view.setVisibility(View.GONE);
                 ischecked2 = true;
@@ -2492,9 +2484,34 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
+    public static String replaceLastDotWithSlash(String input) {
+        int lastIndex = input.lastIndexOf('.');
+        if (lastIndex == -1) {
+            // No slash found in the string
+            return input;
+        }
+        // Replace the last slash with a dot
+        return input.substring(0, lastIndex) + '/' + input.substring(lastIndex + 1);
+    }
+
     @Override
     public void Display_Document(ViewDocumentsModel viewDocumentsModel) {
+//        String content_string = viewDocumentsModel.getFilename().replace(".", "/");
+        String content_type = replaceLastDotWithSlash(viewDocumentsModel.getFilename());
+        String[] content_type1 = content_type.split("/");
+        if (content_type1.length >= 2) {
+            ReceivedFileName = content_type1[1];
+        }
+        if (ReceivedFileName.equalsIgnoreCase("apng") || ReceivedFileName.equalsIgnoreCase("avif") || ReceivedFileName.equalsIgnoreCase("gif") || ReceivedFileName.equalsIgnoreCase("jpeg") || ReceivedFileName.equalsIgnoreCase("png") || ReceivedFileName.equalsIgnoreCase("svg") || ReceivedFileName.equalsIgnoreCase("webp") || ReceivedFileName.equalsIgnoreCase("jpg")) {
+            viewDocumentsModel.setContent_type("image/" + ReceivedFileName);
+        } else {
+            viewDocumentsModel.setContent_type("application/" + ReceivedFileName);
+        }
+//        CONTENT_TYPE = "";
         CONTENT_TYPE = viewDocumentsModel.getContent_type();
+//        if (CONTENT_TYPE.isEmpty()) {
+//            CONTENT_TYPE = "image/png";
+//        }
         Log.d("IMage_name_content", CONTENT_TYPE);
         callDisplayDocumentWebservice(viewDocumentsModel.getId());
     }

@@ -1,159 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_view_documents"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/left_space"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:id="@+id/rv_display_name"
+    android:layout_margin="@dimen/left_space"
+    android:background="@drawable/background_transparent"
+    android:elevation="@dimen/Fifty_dp"
+    android:padding="@dimen/left_space"
+    android:visibility="visible"
+    app:cardCornerRadius="@dimen/left_space">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/rectangle_light_grey_bg"
-        android:padding="@dimen/small_size">
-
-        <include layout="@layout/uploadtext"
-            android:id="@+id/tv_document_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include
-            android:id="@+id/tv_client_name_one"
-            layout="@layout/uploadtext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_document_display_name"
-            android:layout_marginBottom="@dimen/small_size" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rv_doc_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/left_space"
-        android:layout_marginBottom="@dimen/Fifteen_dp"
-        android:background="@drawable/rectangle_light_grey_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        android:padding="@dimen/left_space"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_display_name"
-        app:layout_constraintVertical_bias="0.024">
-        <ImageView
-            android:id="@+id/iv_edit_view"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:src="@drawable/eye_icon_plain"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="110dp"
-            android:padding="3dp"
-            android:layout_below="@id/rv_dates">
-        </ImageView>
-        <ImageView
-            android:id="@+id/iv_doc_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:background="@drawable/flower_image"
-            android:visibility="invisible"
-            android:layout_marginStart="@dimen/left_space"
-            android:layout_marginTop="@dimen/twenty_dp"
-            android:layout_marginEnd="@dimen/left_space"
-            android:layout_marginBottom="@dimen/left_space" />
-
-        <include
-            android:id="@+id/tv_image_name"
-            layout="@layout/uploadtext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/left_space"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:fontFamily="@font/gill_sans"
-            android:gravity="start"
-            android:textStyle="bold" />
-
-        <include layout="@layout/uploadtext"
-            android:id="@+id/tv_client_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_image_name"
-            android:layout_marginStart="@dimen/left_space" />
-        <include layout="@layout/uploadtext"
-            android:id="@+id/tv_doc_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gill_sans"
-            android:layout_below="@id/tv_client_name"
-            android:layout_marginStart="@dimen/left_space"
-            android:textSize="@dimen/Twelve_dp"/>
-
+        android:padding="@dimen/eight_dp">
 
         <RelativeLayout
-            android:id="@+id/rv_dates"
+            android:id="@+id/rv_display_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_doc_description"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="@dimen/small_size"
-            android:layout_marginEnd="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@drawable/rectangular_button_green_count"
-            android:orientation="vertical"
-            android:padding="@dimen/left_space">
+            android:background="@drawable/rectangle_light_grey_bg"
+            android:padding="@dimen/small_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <include layout="@layout/createdocument"/>
+            <include
+                android:id="@+id/tv_document_display_name"
+                layout="@layout/uploadtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-            <include layout="@layout/createdocument"
-                android:id="@+id/tv_created_date"
+            <include
+                android:id="@+id/tv_client_name_one"
+                layout="@layout/uploadtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/tv_created" />
-
-            <include layout="@layout/createdocument"
-                android:id="@+id/tv_Expiration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_created" />
-
-            <include layout="@layout/createdocument"
-                android:id="@+id/tv_Expiration_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_created_date"
-                android:layout_toEndOf="@id/tv_Expiration"/>
+                android:layout_below="@id/tv_document_display_name"
+                android:layout_marginBottom="@dimen/small_size" />
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_edit_document"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:src="@drawable/edit_icon"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/sixty_dp"
-            android:padding="3dp"
-            android:layout_below="@id/rv_dates">
-
-        </ImageView>
-        <ImageView
-            android:id="@+id/uv_delete_document"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/delete_icon"
-            android:layout_alignParentEnd="true"
-            android:padding="@dimen/left_space"
-            android:layout_marginEnd="@dimen/small_size"
-            android:layout_marginTop="3dp"
-            android:layout_below="@id/rv_dates">
-
-        </ImageView>
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rv_doc_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/left_space"
+            android:background="@drawable/rectangle_light_grey_bg"
+            android:padding="@dimen/eight_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_display_name"
+            app:layout_constraintVertical_bias="0.024">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/iv_doc_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginEnd="@dimen/left_space"
+                android:layout_marginBottom="@dimen/left_space"
+                android:background="@drawable/flower_image"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/tv_image_name"
+                layout="@layout/uploadtext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/left_space"
+                android:layout_marginTop="@dimen/two_dp"
+                android:layout_marginEnd="@dimen/two_dp"
+                android:layout_marginBottom="@dimen/two_dp"
+                android:fontFamily="@font/gill_sans"
+                android:gravity="start"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/tv_client_name"
+                layout="@layout/uploadtext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_image_name"
+                android:layout_marginStart="@dimen/left_space" />
+
+            <include
+                android:id="@+id/tv_doc_description"
+                layout="@layout/uploadtext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_client_name"
+                android:layout_marginStart="@dimen/left_space" />
+
+
+            <RelativeLayout
+                android:id="@+id/rv_dates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_doc_description"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="@dimen/small_size"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/rectangular_button_green_count"
+                android:orientation="vertical"
+                android:padding="@dimen/eight_dp">
+
+                <include layout="@layout/createdocument" />
+
+                <include
+                    android:id="@+id/tv_created_date"
+                    layout="@layout/createdocument"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/tv_created" />
+
+                <include
+                    android:id="@+id/tv_Expiration"
+                    layout="@layout/createdocument"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_created" />
+
+                <include
+                    android:id="@+id/tv_Expiration_date"
+                    layout="@layout/createdocument"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_created_date"
+                    android:layout_toEndOf="@id/tv_Expiration" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_dates"
+                android:gravity="end">
+
+                <ImageView
+                    android:id="@+id/lock_close"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/lock_close"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/lock_open"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/lock_open"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/iv_edit_document"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/edit_icon" />
+
+                <ImageView
+                    android:id="@+id/uv_delete_document"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="@dimen/small_size"
+                    android:padding="@dimen/six_dp"
+                    android:src="@drawable/delete_icon" />
+
+                <ImageView
+                    android:id="@+id/iv_edit_view"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:padding="@dimen/left_space"
+                    android:src="@drawable/eye_icon_plain"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

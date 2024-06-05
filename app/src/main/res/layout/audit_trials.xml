@@ -53,7 +53,7 @@
                 android:layout_marginLeft="@dimen/small_size"
                 android:fontFamily="@font/gill_sans"
                 android:text="Advanced Search"
-                android:padding="2dp"
+                android:padding="@dimen/two_dp"
                 android:textColor="@color/Blue_text_color" />
 
 
