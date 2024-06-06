@@ -77,6 +77,10 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
         void delete_document(ViewDocumentsModel viewDocumentsModel);
 
         void Display_Document(ViewDocumentsModel viewDocumentsModel);
+
+        void encryption(ViewDocumentsModel viewDocumentsModel);
+
+        void decryption(ViewDocumentsModel viewDocumentsModel);
     }
 
     @NonNull
@@ -96,7 +100,7 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
             holder.tv_document_display_name.setText(viewDocumentsModel.getName());
             holder.tv_image_name.setText(viewDocumentsModel.getName());
             is_encrypted = viewDocumentsModel.isIs_encrypted();
-            if (is_encrypted) {
+            if (is_encrypted || viewDocumentsModel.isAdded_encryption()) {
                 holder.lock_close.setVisibility(View.VISIBLE);
                 holder.lock_open.setVisibility(View.GONE);
             } else {
@@ -108,6 +112,18 @@ public class View_documents_adapter extends RecyclerView.Adapter<View_documents_
             holder.tv_Expiration_date.setText(viewDocumentsModel.getExpiration_date());
             holder.tv_client_name.setPaintFlags(holder.tv_client_name.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             holder.tv_doc_description.setPaintFlags(holder.tv_doc_description.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            holder.lock_open.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    eventlistner.encryption(viewDocumentsModel);
+                }
+            });
+            holder.lock_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    eventlistner.decryption(viewDocumentsModel);
+                }
+            });
             holder.iv_edit_document.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

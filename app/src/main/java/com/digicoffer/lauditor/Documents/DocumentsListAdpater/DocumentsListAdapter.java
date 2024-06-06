@@ -47,7 +47,6 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
 
         void RemoveDocument(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList, String tag);
 
-        void encryption(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList, String tag);
     }
 
     @NonNull
@@ -77,6 +76,13 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             holder.cb_documents_list.setEnabled(true);
         } else {
             holder.cb_documents_list.setEnabled(false);
+        }
+        if (itemsArrayList.get(position).getIsencrypted()) {
+            holder.lock_open.setVisibility(View.GONE);
+            holder.lock_close.setVisibility(View.VISIBLE);
+        } else {
+            holder.lock_close.setVisibility(View.GONE);
+            holder.lock_open.setVisibility(View.VISIBLE);
         }
         holder.cb_documents_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +118,8 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             public void onClick(View view) {
                 holder.lock_close.setVisibility(View.VISIBLE);
                 holder.lock_open.setVisibility(View.GONE);
+                documentsModel.setIsencrypted(true);
+                Check_AllEncrypted();
             }
         });
         holder.lock_close.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +127,8 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             public void onClick(View view) {
                 holder.lock_open.setVisibility(View.VISIBLE);
                 holder.lock_close.setVisibility(View.GONE);
+                documentsModel.setIsencrypted(false);
+                Check_AllEncrypted();
             }
         });
         holder.iv_edit_meta.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +147,7 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
                 documents.remove_file(isfiledeleted);
             }
         });
+
 //            holder.cb_team_members.setChecked(true);
 //        holder.tv_tm_name.setText(groupModel.getName());
     }
@@ -152,6 +163,13 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
         }
         return isChecked;
     }
+    public boolean EncryptorDecryptAll(boolean isChecked) {
+        for (int i = 0; i < list_item.size(); i++) {
+            list_item.get(i).setIsencrypted(isChecked);
+            notifyDataSetChanged();
+        }
+        return isChecked;
+    }
 
     public void check_allselected() {
         for (int i = 0; i < itemsArrayList.size(); i++) {
@@ -163,6 +181,20 @@ public class DocumentsListAdapter extends RecyclerView.Adapter<DocumentsListAdap
             }
         }
         documents.check_select_all(select_checked);
+
+        notifyDataSetChanged();
+    }
+
+    public void Check_AllEncrypted() {
+        for (int i = 0; i < itemsArrayList.size(); i++) {
+            if (!itemsArrayList.get(i).getIsencrypted()) {
+                select_checked = false;
+                break;
+            } else {
+                select_checked = true;
+            }
+        }
+        documents.check_encrypted(select_checked);
 
         notifyDataSetChanged();
     }

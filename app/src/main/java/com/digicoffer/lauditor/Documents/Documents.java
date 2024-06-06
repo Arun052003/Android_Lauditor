@@ -671,6 +671,8 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         siv_upload_document.setBackground(getContext().getResources().getDrawable(R.color.white));
         ll_client_name_view.setVisibility(View.VISIBLE);
         ll_view_docs.setVisibility(View.VISIBLE);
+        rv_display_view_docs.setVisibility(View.GONE);
+        rv_display_view_docs.removeAllViews();
         view_group_layout.setVisibility(View.GONE);
         ll_upload_docs.setVisibility(View.GONE);
         ll_matter_view.setVisibility(View.GONE);
@@ -1100,7 +1102,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             jsonObject.put("category", "client");
                             jsonObject.put("clients", clients);
 //                            jsonObject.put("file", "(binary)");
-//                            jsonObject.put("custom_encrypt", ENCRYPTION_TAG);
+                            jsonObject.put("custom_encrypt", docsList.get(i).getIsencrypted());
                             jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
                             if (docsList.get(i).getTags() == null) {
                                 jsonObject.put("tags", "");
@@ -1157,6 +1159,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                             jsonObject.put("filename", docname);
                             jsonObject.put("category", "firm");
                             jsonObject.put("clients", "");
+                            jsonObject.put("custom_encrypt", docsList.get(i).getIsencrypted());
                             jsonObject.put("groups", groups);
                             jsonObject.put("downloadDisabled", DOWNLOAD_TAG);
                             if (docsList.get(i).getTags() == null) {
@@ -1490,6 +1493,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tv_enable_encryption.setTextColor(getContext().getColor(R.color.black));
         tv_disable_encryption.setTextColor(getContext().getColor(R.color.white));
         tv_disable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_green_background));
+//        adapter.EncryptorDecryptAll(ENCRYPTION_TAG);
         String tag = "dis_encrption";
         loadRecyclerview(tag, subtag);
     }
@@ -1500,6 +1504,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         tv_enable_encryption.setTextColor(getContext().getColor(R.color.white));
         tv_disable_encryption.setTextColor(getContext().getColor(R.color.black));
         tv_disable_encryption.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.button_right_background));
+//        adapter.EncryptorDecryptAll(ENCRYPTION_TAG);
         String tag = "en_encrption";
         loadRecyclerview(tag, subtag);
     }
@@ -1641,6 +1646,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContext().getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
+            assert cursor != null;
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
@@ -1725,15 +1731,23 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 } else if (httpResult.getRequestType().equals("Update Documents")) {
                     String msg = result.getString("msg");
                     AndroidUtils.showToast(msg, getContext());
-                    view_docs_list.clear();
                     rv_display_view_docs.removeAllViews();
-                    callViewDocumentWebservice();
+                    callfilter_client_webservices();
                 } else if (httpResult.getRequestType().equals("Delete Documents")) {
                     String msg = result.getString("msg");
                     AndroidUtils.showToast(msg, getContext());
-                    view_docs_list.clear();
                     rv_display_view_docs.removeAllViews();
-                    callViewDocumentWebservice();
+                    callfilter_client_webservices();
+                } else if (httpResult.getRequestType().equals("Decrypt Documents")) {
+                    String msg = result.getString("msg");
+                    AndroidUtils.showToast(msg, getContext());
+                    rv_display_view_docs.removeAllViews();
+                    callfilter_client_webservices();
+                } else if (httpResult.getRequestType().equals("Encrypt Documents")) {
+                    String msg = result.getString("msg");
+                    AndroidUtils.showToast(msg, getContext());
+                    rv_display_view_docs.removeAllViews();
+                    callfilter_client_webservices();
                 } else if (httpResult.getRequestType().equals("Display Documents")) {
                     JSONObject jsonObject = result.getJSONObject("data");
                     String url = jsonObject.getString("url");
@@ -1764,10 +1778,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         ImageView iv_close_edit_docs = view.findViewById(R.id.close_edit_docs);
 
         List<String> list = new ArrayList<>(Arrays.asList(CONTENT_TYPE.split("/")));
-
-        if (list.get(1).equalsIgnoreCase("pdf")) {
-            loadWeb(pdfView, iv_image, url);
-        } else {
+        if (list.get(1).equalsIgnoreCase("apng") || list.get(1).equalsIgnoreCase("avif") || list.get(1).equalsIgnoreCase("gif") || list.get(1).equalsIgnoreCase("jpeg") || list.get(1).equalsIgnoreCase("png") || list.get(1).equalsIgnoreCase("svg") || list.get(1).equalsIgnoreCase("webp") || list.get(1).equalsIgnoreCase("jpg")) {
             pdfView.setVisibility(View.GONE);
             iv_image.setVisibility(View.VISIBLE);
             Glide.with(requireContext())
@@ -1775,8 +1786,9 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                     .placeholder(R.drawable.progress_animation)
                     .centerCrop()
                     .into(iv_image);
+        } else {
+            loadWeb(pdfView, iv_image, url);
         }
-
         final AlertDialog dialog = dialogBuilder.create();
         iv_close_edit_docs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1816,6 +1828,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 viewDocumentsModel.setId(jsonObject.getString("id"));
                 viewDocumentsModel.setIs_disabled(jsonObject.getBoolean("is_disabled"));
                 viewDocumentsModel.setIs_encrypted(jsonObject.getBoolean("is_encrypted"));
+                viewDocumentsModel.setAdded_encryption(jsonObject.getBoolean("added_encryption"));
                 viewDocumentsModel.setIs_password(jsonObject.getBoolean("is_password"));
                 viewDocumentsModel.setName(jsonObject.getString("name"));
 //                viewDocumentsModel.setOrigin(jsonObject.getString("origin"));
@@ -1844,6 +1857,7 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
                 viewDocumentsModel.setId(jsonObject.getString("id"));
                 viewDocumentsModel.setIs_disabled(jsonObject.getBoolean("is_disabled"));
                 viewDocumentsModel.setIs_encrypted(jsonObject.getBoolean("is_encrypted"));
+                viewDocumentsModel.setAdded_encryption(jsonObject.getBoolean("added_encryption"));
                 viewDocumentsModel.setIs_password(jsonObject.getBoolean("is_password"));
                 viewDocumentsModel.setName(jsonObject.getString("name"));
                 viewDocumentsModel.setOrigin(jsonObject.getString("origin"));
@@ -2346,10 +2360,6 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         }
     }
 
-    @Override
-    public void encryption(DocumentsModel documentsModel, ArrayList<DocumentsModel> itemsArrayList, String tag) {
-
-    }
 
     @Override
     public void edit_document(ViewDocumentsModel viewDocumentsModel) {
@@ -2516,6 +2526,33 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
         callDisplayDocumentWebservice(viewDocumentsModel.getId());
     }
 
+    @Override
+    public void encryption(ViewDocumentsModel viewDocumentsModel) {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/encrypt/" + viewDocumentsModel.getId(), "Encrypt Documents", jsonObject.toString());
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+        }
+    }
+
+    @Override
+    public void decryption(ViewDocumentsModel viewDocumentsModel) {
+        try {
+            progress_dialog = AndroidUtils.get_progress(getActivity());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("get_file", false);
+            WebServiceHelper.callHttpWebService(this, getContext(), WebServiceHelper.RestMethodType.POST, "v3/document/decrypt/" + viewDocumentsModel.getId(), "Decrypt Documents", jsonObject.toString());
+        } catch (Exception e) {
+            if (progress_dialog != null && progress_dialog.isShowing()) {
+                AndroidUtils.dismiss_dialog(progress_dialog);
+            }
+        }
+    }
+
     private void callDisplayDocumentWebservice(String id) {
         try {
             progress_dialog = AndroidUtils.get_progress(getActivity());
@@ -2635,6 +2672,14 @@ public class Documents extends Fragment implements BottomSheetUploadFile.OnPhoto
     //checking the check box whether all the list items are checked....
     public void check_select_all(boolean check_status) {
         chk_select_all.setChecked(check_status);
+    }
+
+    public void check_encrypted(boolean check_encrypt) {
+        if (check_encrypt) {
+            EnableEncryptionBackground();
+        } else {
+            DisableEncryptionBackground();
+        }
     }
 
     @Override

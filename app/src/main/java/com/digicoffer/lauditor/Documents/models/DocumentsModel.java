@@ -10,14 +10,7 @@ import java.io.File;
 public class DocumentsModel {
     String name;
     String id;
-
-    public String getExpiration_date() {
-        return expiration_date;
-    }
-
-    public void setExpiration_date(String expiration_date) {
-        this.expiration_date = expiration_date;
-    }
+    boolean isencrypted = false;
 
     String expiration_date;
     String group_id;
@@ -62,7 +55,23 @@ public class DocumentsModel {
     public String getGroup_id() {
         return group_id;
     }
-    public String group_id(){
+    public Boolean getIsencrypted() {
+        return isencrypted;
+    }
+
+    public void setIsencrypted(Boolean isencrypted) {
+        this.isencrypted = isencrypted;
+    }
+
+    public String getExpiration_date() {
+        return expiration_date;
+    }
+
+    public void setExpiration_date(String expiration_date) {
+        this.expiration_date = expiration_date;
+    }
+
+    public String group_id() {
         return group_id;
     }
 

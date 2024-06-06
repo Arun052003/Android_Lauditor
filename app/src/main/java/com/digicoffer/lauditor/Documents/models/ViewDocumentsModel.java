@@ -6,6 +6,16 @@ import android.util.Log;
 public class ViewDocumentsModel {
     String created;
     String description;
+    boolean  added_encryption;
+
+    public boolean isAdded_encryption() {
+        return added_encryption;
+    }
+
+    public void setAdded_encryption(boolean added_encryption) {
+        this.added_encryption = added_encryption;
+    }
+
     String expiration_date;
     String filename;
     String content_type;

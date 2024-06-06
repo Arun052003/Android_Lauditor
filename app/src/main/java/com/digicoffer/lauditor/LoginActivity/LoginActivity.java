@@ -111,13 +111,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
 //        tet_email.setText("soundarya.v@digicoffer.com");
 //        tet_email.setText("rajendra.sai@digicoffer.com");
 //        tet_email.setText("soundaryavembaiyan@yahoo.com");
-//        tet_email.setText("akhila.bs@lauditor.com");
 
-//        tet_email.setText("ragifi5243@jalunaki.com"); -- Only Dev2
-//        tet_email.setText("vengadeshwaran82@gmail.com");
-//        -- Only Staging
-//        tet_password.setText("Test@123");
-//        Login();
+//
+////        tet_email.setText("ragifi5243@jalunaki.com"); -- Only Dev2
+////        tet_email.setText("vengadeshwaran82@gmail.com");
+////        -- Only Staging
+        tet_email.setText("akhila.bs@lauditor.com");
+        tet_password.setText("Test@123");
+        Login(Objects.requireNonNull(tet_email.getText()).toString(), Objects.requireNonNull(tet_password.getText()).toString());
 
         // Initialize the button state  // Initially disabled
         checkFieldsNotEmpty();
@@ -255,7 +256,8 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskComplet
                 if (Constants.Valid_Token)
                     Dashboard();
                 else {
-                    Login(email, password);
+                    if (!(email.isEmpty()) && (!password.isEmpty()))
+                        Login(email, password);
                 }
             } else {
                 startActivity(new Intent(this, biometric_page.class));
